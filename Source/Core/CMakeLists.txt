@@ -13,7 +13,8 @@ add_library(Core STATIC ${CORE_SOURCES})
 # Include Directories
 target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-
+# Linking library
+target_link_libraries(Core PUBLIC OpenGL::GL)
 
 # Organize files in filters by folder
 foreach(source_file IN LISTS CORE_SOURCES)
