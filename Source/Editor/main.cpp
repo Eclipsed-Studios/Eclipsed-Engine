@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include <AssetManagement/AssetEngine.h>
-#include <ECS/ComponentManager.h>
+// #include <AssetManagement/AssetEngine.h>
+// #include <ECS/ComponentManager.h>
 #include <FMod/fmod.h>
 #include <FMod/fmod.hpp>
 
-#include <filesystem>
+ #include <filesystem>
 
 
 int main()
@@ -29,7 +29,7 @@ int main()
 	FMOD::Sound* sound;
 	FMOD::Channel* channel = nullptr;
 
-	std::string filePath = "F:/Projects/Template/Bin/T.mp3";
+	std::string filePath = ASSET_PATH"Sounds/T.mp3";
 
 	result = mySystem->createSound(filePath.c_str(), FMOD_DEFAULT, nullptr, &sound);
 	result = mySystem->playSound(sound, nullptr, false, &channel);

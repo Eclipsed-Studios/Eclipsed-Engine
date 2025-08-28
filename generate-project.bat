@@ -1,7 +1,5 @@
 cmake -G "Visual Studio 17 2022" -T host=x64 -S . -B build
 
-copy "Tools\DLLs\*.dll" "Bin\"
-
 attrib +h /s /d "build\*"
 attrib +h "build"
 
