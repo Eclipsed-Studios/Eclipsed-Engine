@@ -23,3 +23,4 @@ foreach(source_file IN LISTS GRAPHICSENGINE_SOURCES)
     source_group("${source_group}" FILES "${source_file}")
 endforeach()
 
+set_target_properties(GraphicsEngine PROPERTIES FOLDER "Engines")
