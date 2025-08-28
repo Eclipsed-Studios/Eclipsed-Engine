@@ -7,10 +7,13 @@ project(Template LANGUAGES CXX)
 
 add_subdirectory(Source/Externals/DiscordSDK)
 add_subdirectory(Source/Externals/fmod)
+add_subdirectory(Source/Externals/rapidjson)
+add_subdirectory(Source/Externals/ImGui)
 
 
-add_subdirectory(Source/GraphicsEngine)
-add_subdirectory(Source/Core)
+add_subdirectory(Source/Engines/GraphicsEngine)
+add_subdirectory(Source/Engines/CoreEngine)
+
 add_subdirectory(Source/Editor)
 add_subdirectory(Source/Game)
 
