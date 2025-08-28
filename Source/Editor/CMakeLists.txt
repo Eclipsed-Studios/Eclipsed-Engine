@@ -12,6 +12,8 @@ file(GLOB_RECURSE EDITOR_SOURCES
 
 add_executable(Editor ${EDITOR_SOURCES})
 
+target_compile_definitions(Editor PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
+
 set_target_properties(Editor PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/Bin"

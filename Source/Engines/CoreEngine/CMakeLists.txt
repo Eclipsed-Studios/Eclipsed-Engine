@@ -8,6 +8,8 @@ file(GLOB_RECURSE COREENGINE_SOURCES
 
 add_library(CoreEngine STATIC ${COREENGINE_SOURCES})
 
+target_compile_definitions(CoreEngine PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
+
 target_include_directories(CoreEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 foreach(source_file IN LISTS COREENGINE_SOURCES)
