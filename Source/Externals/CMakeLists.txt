@@ -19,3 +19,5 @@ target_link_libraries(Externals PUBLIC
     debug "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmodL_vc.lib"
     debug "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmodstudioL_vc.lib"
 )
+
+set_target_properties(Externals PROPERTIES FOLDER "Externals")

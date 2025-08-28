@@ -1,15 +1,4 @@
-# cmake_minimum_required(VERSION 3.19.2)
-
-# file(GLOB_RECURSE CORE_SOURCES
-#     "*.cpp"
-#     "*.h"
-#     "*.hpp"
-# )
-
-# add_library(Core STATIC ${CORE_SOURCES})
-# target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-
+find_package(OpenGL REQUIRED)
 
 cmake_minimum_required(VERSION 3.19.2)
 
@@ -20,13 +9,15 @@ file(GLOB_RECURSE CORE_SOURCES
 )
 
 add_library(Core STATIC ${CORE_SOURCES})
+
+# Include Directories
 target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-
 target_include_directories(Externals PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-# If Core depends on Externals, link it
+# Linking library
 target_link_libraries(Core PUBLIC Externals)
+
+
 
 
 # Organize files in filters by folder
