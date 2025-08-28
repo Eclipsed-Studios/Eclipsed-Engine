@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 project(Template LANGUAGES CXX)
 
+add_compile_definitions(ENGINE_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/GameSettings.json\")
+
 add_compile_definitions(ENGINE_NAMESPACE=TEMPLATE)
 
 add_subdirectory(Source/Externals/DiscordSDK)

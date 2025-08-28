@@ -15,6 +15,8 @@ target_compile_definitions(GraphicsEngine PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DI
 # Include Directories
 target_include_directories(GraphicsEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+target_link_libraries(GraphicsEngine PRIVATE glad OpenGL::GL)
+
 # Organize files in filters by folder
 foreach(source_file IN LISTS GRAPHICSENGINE_SOURCES)
     file(RELATIVE_PATH source_path "${CMAKE_CURRENT_SOURCE_DIR}" "${source_file}")

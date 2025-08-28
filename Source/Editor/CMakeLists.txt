@@ -1,8 +1,10 @@
+find_package(OpenGL REQUIRED)
+
 cmake_minimum_required(VERSION 3.19.2)
 
-file(READ "${CMAKE_SOURCE_DIR}/Settings/GameName.txt" GAME_NAME_FILE)
-string(REGEX MATCH "\\[name\\][ \t\r\n]*\"([^\"]+)\"" _match "${GAME_NAME_FILE}")
-set(GAME_NAME "${CMAKE_MATCH_1}")
+file(READ "${CMAKE_SOURCE_DIR}/Settings/GameSettings.json" GAME_NAME_FILE)
+string(JSON GameJSONName GET "${GAME_NAME_FILE}" GameName)
+set(GAME_NAME "${GameJSONName}")
 
 file(GLOB_RECURSE EDITOR_SOURCES
     "*.cpp"
@@ -11,6 +13,9 @@ file(GLOB_RECURSE EDITOR_SOURCES
 )
 
 add_executable(Editor ${EDITOR_SOURCES})
+
+target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
+target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 
 target_compile_definitions(Editor PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 
@@ -21,6 +26,7 @@ set_target_properties(Editor PROPERTIES
     OUTPUT_NAME "${GAME_NAME}"
 )
 
-
 target_link_libraries(Editor PRIVATE CoreEngine)
 target_link_libraries(Editor PRIVATE FMOD)
+target_link_libraries(Editor PRIVATE OpenGL::GL)
+target_link_libraries(Editor PRIVATE Opengl)
