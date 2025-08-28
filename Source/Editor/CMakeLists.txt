@@ -21,3 +21,4 @@ set_target_properties(Editor PROPERTIES
 
 
 target_link_libraries(Editor PRIVATE Core)
+target_link_libraries(Editor PRIVATE FMOD)

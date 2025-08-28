@@ -29,7 +29,7 @@ int main()
 	FMOD::Sound* sound;
 	FMOD::Channel* channel = nullptr;
 
-	std::string filePath = "F:/Projects/Cmake/Bin/T.mp3";
+	std::string filePath = "F:/Projects/Template/Bin/T.mp3";
 
 	result = mySystem->createSound(filePath.c_str(), FMOD_DEFAULT, nullptr, &sound);
 	result = mySystem->playSound(sound, nullptr, false, &channel);

@@ -12,11 +12,6 @@ add_library(Core STATIC ${CORE_SOURCES})
 
 # Include Directories
 target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(Externals PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-# Linking library
-target_link_libraries(Core PUBLIC Externals)
-
 
 
 

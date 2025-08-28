@@ -3,9 +3,12 @@ cmake_minimum_required(VERSION "3.19.2")
 set(CMAKE_CXX_STANDARD 20)
 
 
-project(Zengine LANGUAGES CXX)
+project(Template LANGUAGES CXX)
 
-add_subdirectory(Source/Externals)
+add_subdirectory(Source/Externals/DiscordSDK)
+add_subdirectory(Source/Externals/fmod)
+
+
 add_subdirectory(Source/Core)
 add_subdirectory(Source/Editor)
 add_subdirectory(Source/Game)
