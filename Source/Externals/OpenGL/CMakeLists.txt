@@ -1,23 +1,17 @@
 cmake_minimum_required(VERSION 3.19.2)
 
-file(GLOB_RECURSE EXTERNAL_SOURCES
+file(GLOB_RECURSE OPENGL_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
 )
 
-add_library(Externals STATIC ${EXTERNAL_SOURCES})
-target_include_directories(Externals PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
- 
-target_link_libraries(Externals PUBLIC
-    "${CMAKE_SOURCE_DIR}/Tools/Libs/discord_sdk/discord_game_sdk.dll.lib"
-    
-    "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fsbank_vc.lib"
-    optimized "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmod_vc.lib"
-    optimized "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmodstudio_vc.lib"
+add_library(OpenGL INTERFACE)
+target_include_directories(OpenGL INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-    debug "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmodL_vc.lib"
-    debug "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmodstudioL_vc.lib"
+target_link_libraries(FMOD INTERFACE
+    "${CMAKE_SOURCE_DIR}/Tools/Libs/GLFW/glfw3.lib"
+    "${CMAKE_SOURCE_DIR}/Tools/Libs/GLFW/glfw3_mt.lib"
 )
 
-set_target_properties(Externals PROPERTIES FOLDER "Externals")
+set_target_properties(OpenGL PROPERTIES FOLDER "Externals")
