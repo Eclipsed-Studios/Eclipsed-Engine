@@ -2,19 +2,19 @@ cmake -G "Visual Studio 17 2022" -T host=x64 -S . -B build
 
 copy "Tools\DLLs\*.dll" "Bin\"
 
-@REM attrib +h /s /d "build\*"
-@REM attrib +h "build"
+attrib +h /s /d "build\*"
+attrib +h "build"
 
-@REM set "root=."
+set "root=."
 
-@REM @echo off
+@echo off
 
-@REM for /r "%root%" %%f in (CMakeLists.txt) do 
-@REM (
-@REM     if exist "%%f" 
-@REM     (
-@REM         attrib +h "%%f"
-@REM         echo Hidden: %%f
-@REM     ) 
-@REM     else ()
-@REM )
+for /r "%root%" %%f in (CMakeLists.txt) do 
+(
+    if exist "%%f" 
+    (
+        attrib +h "%%f"
+        echo Hidden: %%f
+    ) 
+    else ()
+)
