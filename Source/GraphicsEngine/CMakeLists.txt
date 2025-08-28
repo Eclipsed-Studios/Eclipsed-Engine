@@ -1,20 +1,20 @@
+find_package(OpenGL REQUIRED)
+
 cmake_minimum_required(VERSION 3.19.2)
 
-file(GLOB_RECURSE CORE_SOURCES
+file(GLOB_RECURSE GRAPHICSENGINE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
 )
 
-add_library(Core STATIC ${CORE_SOURCES})
+add_library(GraphicsEngine STATIC ${GRAPHICSENGINE_SOURCES})
 
 # Include Directories
-target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-
+target_include_directories(GraphicsEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Organize files in filters by folder
-foreach(source_file IN LISTS CORE_SOURCES)
+foreach(source_file IN LISTS GRAPHICSENGINE_SOURCES)
     file(RELATIVE_PATH source_path "${CMAKE_CURRENT_SOURCE_DIR}" "${source_file}")
     get_filename_component(source_group "${source_path}" PATH)
     if(source_group STREQUAL "")

@@ -9,6 +9,7 @@ add_subdirectory(Source/Externals/DiscordSDK)
 add_subdirectory(Source/Externals/fmod)
 
 
+add_subdirectory(Source/GraphicsEngine)
 add_subdirectory(Source/Core)
 add_subdirectory(Source/Editor)
 add_subdirectory(Source/Game)
