@@ -1,5 +1,7 @@
 #pragma once
 
+// TODO: Move this to a component once ECS is complete.
+
 namespace ENGINE_NAMESPACE
 {
     class Sprite
