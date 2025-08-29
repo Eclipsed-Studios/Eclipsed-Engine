@@ -8,6 +8,9 @@
 
 #include <stdio.h>
 
+#include <vector>
+#include <iostream>
+
 struct SpriteVertex
 {
     float posX;
@@ -20,9 +23,15 @@ struct SpriteVertex
 
 // 4 vertices
 static SpriteVertex vertices[]{
-    {0, 1, 1, 0, 0},
+    {0, 0, 1, 0, 0},
     {1, 0, 0, 1, 0},
-    {0, 0, 0, 0, 1}};
+    {0, 1, 0, 0, 1},
+    {1, 1, 1, 1, 0}};
+
+// 6 indices
+static unsigned indices[]{
+    0, 1, 2,
+    2, 1, 3};
 
 void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
 {
@@ -92,45 +101,89 @@ namespace ENGINE_NAMESPACE
             {
                 static const char *vertex_shader_text =
                     "#version 410 core\n"
-                    "in vec2 position;"
-                    "in vec3 color;"
-                    "void main() {"
-                    "  gl_Position = vec4( position, 0.0, 1.0 );"
+                    "layout (location = 0) in vec2 aPos;\n"
+                    "layout (location = 1) in vec3 aColor;\n"
+                    "out vec3 color;\n"
+                    "void main() {\n"
+                    "   color = aColor;\n"
+                    "   gl_Position = vec4( aPos, 0.0, 1.0 );\n"
                     "}";
 
                 static const char *fragment_shader_text =
                     "#version 410 core\n"
+                    "in vec3 color;"
                     "out vec4 frag_colour;"
                     "void main() {"
-                    "  frag_colour = vec4( 0.5, 0.0, 0.5, 1.0 );"
+                    "  frag_colour = vec4(color, 1.0 );"
                     "}";
 
                 glGenBuffers(1, &vertexBuffer);
+                glGenBuffers(1, &indexBuffer);
+
                 glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
                 glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
                 glGenVertexArrays(1, &indexVertexBuffer);
                 glBindVertexArray(indexVertexBuffer);
 
-                glBindBuffer(GL_ARRAY_BUFFER, (GLuint)indexVertexBuffer);
-                glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(SpriteVertex), (void *)0);
-                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(SpriteVertex), (void *)(sizeof(float) * 2));
-                
-                glEnableVertexAttribArray(0);
-                glEnableVertexAttribArray(1);
+                glBindBuffer(GL_ARRAY_BUFFER, (GLuint)vertexBuffer);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)indexBuffer);
+
+                {
+                    // glVertexAttribPointer(shader layout index, total number of floats/ints/bools etc, GL_[your type], GL_FALSE, vertex stride, offset from last layout position)
+
+                    glEnableVertexAttribArray(0);
+                    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(SpriteVertex), (void *)0);
+                    glEnableVertexAttribArray(1);
+                    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(SpriteVertex), (void *)(sizeof(float) * 2));
+                }
 
                 vertexShader = glCreateShader(GL_VERTEX_SHADER);
                 glShaderSource(vertexShader, 1, &vertex_shader_text, NULL);
                 glCompileShader(vertexShader);
 
+                GLint success;
+
+                glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+                if (!success)
+                {
+                    GLint logLength = 0;
+                    glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &logLength);
+
+                    std::vector<char> log(logLength);
+                    glGetShaderInfoLog(vertexShader, logLength, nullptr, log.data());
+
+                    std::cerr << "Vertex shader compilation failed:\n" << log.data() << std::endl;
+                    throw("Vertex shader compilation failed");
+                }
+
                 fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
                 glShaderSource(fragmentShader, 1, &fragment_shader_text, NULL);
                 glCompileShader(fragmentShader);
+
+                glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+                if (!success)
+                {
+                    GLint logLength = 0;
+                    glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &logLength);
+
+                    std::vector<char> log(logLength);
+                    glGetShaderInfoLog(fragmentShader, logLength, nullptr, log.data());
+
+                    std::cerr << "Pixel/Fragment shader compilation failed:\n" << log.data() << std::endl;
+                    throw("Pixel/Fragment shader compilation failed");
+                }
 
                 program = glCreateProgram();
                 glAttachShader(program, vertexShader);
                 glAttachShader(program, fragmentShader);
                 glLinkProgram(program);
+
+                glBindBuffer(GL_ARRAY_BUFFER, 0);
+                glBindVertexArray(0);
             }
         }
 
@@ -157,7 +210,7 @@ namespace ENGINE_NAMESPACE
         glUseProgram(program);
         glBindVertexArray(indexVertexBuffer);
         // glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, (const GLfloat *)matrix);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
 
     void Editor::End()

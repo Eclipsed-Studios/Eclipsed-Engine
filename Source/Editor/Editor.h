@@ -21,6 +21,7 @@ namespace ENGINE_NAMESPACE
     private:
         GLFWwindow* myWindow;
 
+        unsigned indexBuffer = 0;
         unsigned vertexBuffer = 0;
         unsigned vertexShader = 0;
         unsigned fragmentShader = 0;
