@@ -1,0 +1,23 @@
+#include "ResourceList.h"
+
+namespace ENGINE_NAMESPACE
+{
+	template<typename T>
+	inline T* ResourceList<T>::Get(const size_t& aId)
+	{
+		return &myIdToResource[aId];
+	}
+
+	template<typename T>
+	inline T* ResourceList<T>::Add(const size_t& aId)
+	{
+		myIdToResource.emplace(aId, T());
+		return &myIdToResource[aId];
+	}
+
+	template<typename T>
+	inline bool ResourceList<T>::Exists(const size_t& aId)
+	{
+		return myIdToResource.find(aId) != myIdToResource.end();
+	}
+}

@@ -8,8 +8,9 @@
 
 #include <stdio.h>
 
-#include "../Engines/GraphicsEngine/Sprite.h"
-#include "../Engines/GraphicsEngine/OpenGL/Shader.h"
+#include "Sprite.h"
+#include "AssetManagement/Resources/Shaders/Shader.h"
+#include "AssetManagement/Resources.h"
 
 void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
 {
@@ -78,7 +79,7 @@ namespace ENGINE_NAMESPACE
         mySprite->Init();
 
         myShader = new Shader();
-        myShader->Init();
+        myShader->Create(ASSET_PATH"Shaders/DefaultSpritePixelShader.glsl", ASSET_PATH"Shaders/DefaultSpriteVertexShader.glsl");
 
         return ErrorCode::SUCCESS;
     }

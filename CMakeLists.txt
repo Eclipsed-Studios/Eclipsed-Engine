@@ -26,6 +26,13 @@ add_subdirectory(Source/Game)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Editor) 
 
+set_target_properties(Editor PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
+)
+
+set_target_properties(Game PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
+)
 
 make_directory("${CMAKE_SOURCE_DIR}/Bin")
 file(GLOB DLLs "${CMAKE_SOURCE_DIR}/Tools/DLLs/*")

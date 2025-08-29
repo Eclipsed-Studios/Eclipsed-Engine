@@ -13,6 +13,10 @@ target_compile_definitions(CoreEngine PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/A
 
 target_include_directories(CoreEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+target_include_directories(CoreEngine PUBLIC ${GRAPHICSENGINE_SOURCES})
+
+target_link_libraries(CoreEngine PRIVATE GraphicsEngine)
+
 foreach(source_file IN LISTS COREENGINE_SOURCES)
     file(RELATIVE_PATH source_path "${CMAKE_CURRENT_SOURCE_DIR}" "${source_file}")
     get_filename_component(source_group "${source_path}" PATH)
