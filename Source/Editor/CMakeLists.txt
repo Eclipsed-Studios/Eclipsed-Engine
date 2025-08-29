@@ -26,6 +26,7 @@ set_target_properties(Editor PROPERTIES
     OUTPUT_NAME "${GAME_NAME}"
 )
 
+target_link_libraries(Editor PRIVATE GraphicsEngine)
 target_link_libraries(Editor PRIVATE CoreEngine)
 target_link_libraries(Editor PRIVATE FMOD)
 target_link_libraries(Editor PRIVATE OpenGL::GL)

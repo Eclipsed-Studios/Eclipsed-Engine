@@ -6,6 +6,9 @@ struct GLFWwindow;
 
 namespace ENGINE_NAMESPACE
 {
+    class Sprite;
+    class Shader;
+
     class Editor
     {
     public:
@@ -19,15 +22,10 @@ namespace ENGINE_NAMESPACE
         void End();
 
     private:
-        GLFWwindow* myWindow;
+        GLFWwindow *myWindow;
 
-        unsigned indexBuffer = 0;
-        unsigned vertexBuffer = 0;
-        unsigned vertexShader = 0;
-        unsigned fragmentShader = 0;
-        unsigned program = 0;
-
-        unsigned indexVertexBuffer = 0;
+        Sprite *mySprite;
+        Shader *myShader;
     };
 
 }

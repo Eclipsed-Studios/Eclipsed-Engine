@@ -2,9 +2,9 @@
 
 #include "rapidjson/rapidjson/rapidjson.h"
 #include "rapidjson/rapidjson/document.h"
-
-#include "fstream"
 #include "rapidjson/rapidjson/filereadstream.h"
+
+#include <fstream>
 
 struct GLFWwindow;
 

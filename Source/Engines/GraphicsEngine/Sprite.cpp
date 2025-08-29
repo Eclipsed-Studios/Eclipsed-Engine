@@ -1,0 +1,47 @@
+#include "Sprite.h"
+
+#include "glad/glad.h"
+
+namespace ENGINE_NAMESPACE
+{
+    void Sprite::Init()
+    {
+        glGenBuffers(1, &myVTXbuffer);
+        glGenBuffers(1, &myIDXbuffer);
+
+        glBindBuffer(GL_ARRAY_BUFFER, myVTXbuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, myIDXbuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+        glGenVertexArrays(1, &mySpriteBuffer);
+        glBindVertexArray(mySpriteBuffer);
+
+        glBindBuffer(GL_ARRAY_BUFFER, (GLuint)myVTXbuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)myIDXbuffer);
+
+        {
+            // glVertexAttribPointer(shader layout index, total number of floats/ints/bools etc, GL_[your type], GL_FALSE, vertex stride, offset from last layout position start)
+            // Matrix4x4 would be index 0, 1, 2 and 3 set as in setting 4 float4's
+
+            size_t offset = 0;
+
+            // Position
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Sprite::Vertex), (void*)offset);
+            offset += 2 * sizeof(float);
+
+            // Color
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Sprite::Vertex), (void*)offset);
+            offset += 3 * sizeof(float);
+        }
+    }
+
+    void Sprite::Render()
+    {
+        glBindVertexArray(mySpriteBuffer);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
+}
