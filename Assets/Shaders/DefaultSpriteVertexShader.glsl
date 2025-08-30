@@ -25,13 +25,13 @@ void main()
    
    mat2 rotationMatrix=mat2(cos(transform.rotation),-sin(transform.rotation),sin(transform.rotation),cos(transform.rotation));
    
-   vec2 position_WS=VertexPosition*rotationMatrix;
-   vec2 position_WSPixelScale=position_WS*resolutionMultiplier;
-   vec2 position_WSRealScale=position_WSPixelScale*transform.pixelSize;
+   vec2 position_WS = VertexPosition * rotationMatrix;
+   vec2 position_WSPixelScale = position_WS * resolutionMultiplier;
+   vec2 position_WSRealScale = position_WSPixelScale * transform.pixelSize;
    
-   vec2 position = vec2(transform.position.x * resolutionRatio, transform.position.y);
+   vec2 position = transform.position * resolutionMultiplier;
    
-   vec2 positionNDC=position_WSRealScale+position;
+   vec2 positionNDC = position_WSRealScale+position;
    
    gl_Position=vec4(positionNDC,0,1.);
 }

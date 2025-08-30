@@ -19,17 +19,9 @@ namespace ENGINE_NAMESPACE
         {
             Transform2D *transform = ComponentManager::GetComponent<Transform2D>(gameObject);
 
-            auto position = transform->GetPosition();
-            Math::Vector2f pos = {xVelocity * Time::GetDeltaTime(), yVelocity * Time::GetDeltaTime()};
-            transform->SetPosition(position + pos);
-
-            // if (pos.x)
-            // {
-            //     pos.x >= 1820;
-            // }
+            transform->SetRotation(transform->GetRotation() - 1.f * Time::GetDeltaTime());
+            float totalTime = Time::GetTotalTime();
+            transform->SetPosition(cos(totalTime * 3.f) * 400.f, sin(totalTime * 3.f) * 400.f);
         }
-
-        float xVelocity = 0.1f;
-        float yVelocity = 0.1f;
     };
 }
