@@ -6,9 +6,6 @@ struct GLFWwindow;
 
 namespace ENGINE_NAMESPACE::Editor
 {
-    class Sprite;
-    class Shader;
-
     class EditorContext
     {
     public:
