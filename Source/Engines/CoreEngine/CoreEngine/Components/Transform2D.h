@@ -13,17 +13,17 @@ namespace ENGINE_NAMESPACE
         ~Transform2D() = default;
 
         const Math::Vector2f &GetPosition() { return position; }
-        const Math::Vector2f &GetScale() { return scale; }
         const float GetRotation() { return rotation; }
+        const Math::Vector2f &GetScale() { return scale; }
 
         void SetPosition(const Math::Vector2f &aPosition) { position = aPosition; }
-        void SetScale(const Math::Vector2f &aScale) { scale = aScale; }
         void SetRotation(float aRotation) { rotation = aRotation; }
+        void SetScale(const Math::Vector2f &aScale) { scale = aScale; }
 
     private:
         Math::Vector2f position;
-        Math::Vector2f scale;
         float rotation;
+        Math::Vector2f scale;
     };
 
 }

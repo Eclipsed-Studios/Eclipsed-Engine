@@ -13,6 +13,7 @@
 #include "AssetManagement/Resources.h"
 
 #include "CoreEngine/Components/SpriteRendrer2D.h"
+#include "CoreEngine/Components/Transform2D.h"
 
 #include "ImGui/ImGui_Impl.h"
 
@@ -79,8 +80,9 @@ namespace ENGINE_NAMESPACE::Editor
         }
 
 
-        // Pls move engine :)
+        // Pls move, engine :)
         componentManager.AddComponent<SpriteRendrer2D>(1);
+        componentManager.AddComponent<Transform2D>(1);
 
         componentManager.AwakeComponents();
         componentManager.StartComponents();
@@ -94,6 +96,7 @@ namespace ENGINE_NAMESPACE::Editor
 
     void EditorContext::Begin()
     {
+        glfwMakeContextCurrent(myWindow);
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
 

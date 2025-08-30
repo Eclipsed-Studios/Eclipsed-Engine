@@ -27,14 +27,13 @@ namespace ENGINE_NAMESPACE
 
             size_t offset = 0;
             // Position
-            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Sprite::Vertex), (void*)offset);
-            offset += 2 * sizeof(float);
-            
-            // TexCoord
-            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Sprite::Vertex), (void*)offset);
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Sprite::Vertex), (void *)offset);
             offset += 2 * sizeof(float);
 
-            
+            // TexCoord
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Sprite::Vertex), (void *)offset);
+            offset += 2 * sizeof(float);
+
             glEnableVertexAttribArray(1);
             glEnableVertexAttribArray(0);
         }
