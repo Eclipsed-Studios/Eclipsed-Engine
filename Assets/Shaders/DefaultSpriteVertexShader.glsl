@@ -3,6 +3,7 @@
 struct Transform 
 {
    vec2 position;
+   vec2 pixelSize;
    float rotation;
 };
 
@@ -14,6 +15,7 @@ layout (location = 1) in vec2 TexCoord;
 out vec2 outTexCoord;
 
 // Uniforms
+uniform vec2 resolutionMultiplier;
 uniform Transform transform;
 
 void main()
@@ -23,9 +25,10 @@ void main()
    mat2 rotationMatrix = mat2(cos(transform.rotation), -sin(transform.rotation), sin(transform.rotation), cos(transform.rotation));
 
    vec2 position_WS = VertexPosition * rotationMatrix;
-   vec2 position_WSScale = position_WS * vec2(0.5625, 1);
+   vec2 position_WSPixelScale = position_WS * resolutionMultiplier;
+   vec2 position_WSRealScale = position_WSPixelScale * transform.pixelSize;
    
-   vec2 positionNDC = position_WSScale + transform.position;
+   vec2 positionNDC = position_WSRealScale + transform.position;
 
    gl_Position = vec4(positionNDC, 0, 1.0 );
 }

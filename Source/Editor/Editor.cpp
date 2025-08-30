@@ -12,11 +12,12 @@
 #include "AssetManagement/Resources/Shaders/Shader.h"
 #include "AssetManagement/Resources.h"
 
+#include "../Engines/CoreEngine/Components/SpriteRendrer2D.h"
+
 void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
-
-    TemporarySettingsSingleton::Get().SetResolution(width, height);
+    ENGINE_NAMESPACE::TemporarySettingsSingleton::Get().SetResolution(width, height);
 }
 
 void error_callback(int error, const char *description)
@@ -37,15 +38,15 @@ namespace ENGINE_NAMESPACE
             iResult = glfwInit();
             if (!iResult)
                 return ErrorCode::GLFW_FAILED_TO_INITILIZE;
-
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
         }
 
         // Window creation
         {
-            float x = TemporarySettingsSingleton::Get().GetResultionX();
-            float y = TemporarySettingsSingleton::Get().GetResultionY();
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
+            float x = TemporarySettingsSingleton::Get().GetResolutionX();
+            float y = TemporarySettingsSingleton::Get().GetResolutionY();
             const char *gameTitle = TemporarySettingsSingleton::Get().GetGameTitle();
 
             myWindow = glfwCreateWindow(x, y, gameTitle, nullptr, nullptr);
@@ -75,11 +76,10 @@ namespace ENGINE_NAMESPACE
             glfwSwapInterval(TemporarySettingsSingleton::Get().GetNumRenderBuffers());
         }
 
-        mySprite = new Sprite();
-        mySprite->Init();
+        componentManager.AddComponent<SpriteRendrer2D>(1);
 
-        myShader = new Shader();
-        myShader->Create(ASSET_PATH"Shaders/DefaultSpritePixelShader.glsl", ASSET_PATH"Shaders/DefaultSpriteVertexShader.glsl");
+        componentManager.AwakeComponents();
+        componentManager.StartComponents();
 
         return ErrorCode::SUCCESS;
     }
@@ -88,16 +88,18 @@ namespace ENGINE_NAMESPACE
     {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
+
+        componentManager.EarlyUpdateComponents();
     }
 
     void Editor::Update()
     {
+        componentManager.UpdateComponents();
     }
 
     void Editor::Render()
     {
-        myShader->Use();
-        mySprite->Render();
+        componentManager.LateUpdateComponents();
     }
 
     void Editor::End()

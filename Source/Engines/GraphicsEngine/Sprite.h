@@ -33,10 +33,10 @@ namespace ENGINE_NAMESPACE
 #pragma region hard_coded_verts_indecies
         // 4 vertices
         static inline Vertex vertices[]{
-            {-0.5f, -0.5f, 0, 0},
-            {0.5f, -0.5f, 1, 0},
-            {-0.5f, 0.5f, 0, 1},
-            {0.5f, 0.5f, 1, 1}};
+            {-1.f, -1.f, 0, 0},
+            {1.f, -1.f, 1, 0},
+            {-1.f, 1.f, 0, 1},
+            {1.f, 1.f, 1, 1}};
 
         // 6 indices
         static inline unsigned indices[]{

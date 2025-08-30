@@ -8,74 +8,85 @@
 
 struct GLFWwindow;
 
-class TemporarySettingsSingleton
+namespace ENGINE_NAMESPACE
 {
-public:
-enum class WindowSizeType;
-
-    void Init(const std::string &settingsPath)
+    class TemporarySettingsSingleton
     {
-        FILE *fileP = fopen(settingsPath.c_str(), "rb");
-        char readBuffer[2048];
-        rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
+    public:
+        enum class WindowSizeType;
 
-        rapidjson::Document doc;
-        doc.ParseStream(fileReadStream);
-        fclose(fileP);
+        void Init(const std::string &settingsPath)
+        {
+            FILE *fileP = fopen(settingsPath.c_str(), "rb");
+            char readBuffer[2048];
+            rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
 
-        myGameName = doc["GameName"].GetString();
-        myGameTitle = doc["GameTitle"].GetString();
+            rapidjson::Document doc;
+            doc.ParseStream(fileReadStream);
+            fclose(fileP);
 
-        auto& gameSettings = doc["InGameSettings"];
+            myGameName = doc["GameName"].GetString();
+            myGameTitle = doc["GameTitle"].GetString();
 
-        resX = gameSettings["Resolution"]["X"].GetInt();
-        resY = gameSettings["Resolution"]["Y"].GetInt();
+            auto &gameSettings = doc["InGameSettings"];
 
-        myWindowSizeType = static_cast<WindowSizeType>(gameSettings["Fullscreen"].GetInt());
-        myNumberOfRenderBuffer = gameSettings["NumberOfRenderBuffer"].GetInt();
-    }
+            float resolutionX = gameSettings["Resolution"]["X"].GetInt();
+            float resolutionY = gameSettings["Resolution"]["Y"].GetInt();
 
-    TemporarySettingsSingleton() = default;
-    ~TemporarySettingsSingleton() = default;
+            SetResolution(resolutionX, resolutionY);
 
-    static TemporarySettingsSingleton &Get()
-    {
-        static TemporarySettingsSingleton instance;
-        return instance;
-    }
+            myWindowSizeType = static_cast<WindowSizeType>(gameSettings["Fullscreen"].GetInt());
+            myNumberOfRenderBuffer = gameSettings["NumberOfRenderBuffer"].GetInt();
+        }
 
-    const char *GetGameName() { return myGameName.c_str(); };
-    const char *GetGameTitle() { return myGameTitle.c_str(); };
+        TemporarySettingsSingleton() = default;
+        ~TemporarySettingsSingleton() = default;
 
-    // Change to vector2i
-    int GetResultionX() { return resX; };
-    int GetResultionY() { return resY; };
+        static TemporarySettingsSingleton &Get()
+        {
+            static TemporarySettingsSingleton instance;
+            return instance;
+        }
 
-    void SetResolution(int anX, int anY)
-    {
-        resX = anX;
-        resY = anY;
-    }
+        const char *GetGameName() { return myGameName.c_str(); };
+        const char *GetGameTitle() { return myGameTitle.c_str(); };
 
-    WindowSizeType GetWindowSizeType() { return myWindowSizeType; };
-    int GetNumRenderBuffers() { return myNumberOfRenderBuffer; };
-    
-    GLFWwindow* myWindow;
+        // Change to vector2i
+        int GetResolutionX() { return resX; };
+        int GetResolutionY() { return resY; };
 
-private:
-    std::string myGameName;
-    std::string myGameTitle;
+        void SetResolution(int anX, int anY)
+        {
+            resX = anX;
+            resY = anY;
 
-    // Change to vector2i
-    int resX;
-    int resY;
+            OneDivResolutionX = 1 / resX;
+            OneDivResolutionY = 1 / resY;
+        }
 
-    enum class WindowSizeType
-    {
-        WINDOWED = 0,
-        WINDOWEDFULLSCEEN = 1,
-        FULLSCREEN = 2
-    } myWindowSizeType;
+        WindowSizeType GetWindowSizeType() { return myWindowSizeType; };
+        int GetNumRenderBuffers() { return myNumberOfRenderBuffer; };
 
-    int myNumberOfRenderBuffer;
-};
+        GLFWwindow *myWindow;
+
+    private:
+        std::string myGameName;
+        std::string myGameTitle;
+
+        // Change to vector2i
+        int resX;
+        int resY;
+
+        float OneDivResolutionX;
+        float OneDivResolutionY;
+
+        enum class WindowSizeType
+        {
+            WINDOWED = 0,
+            WINDOWEDFULLSCEEN = 1,
+            FULLSCREEN = 2
+        } myWindowSizeType;
+
+        int myNumberOfRenderBuffer;
+    };
+}

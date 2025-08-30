@@ -12,8 +12,13 @@ namespace ENGINE_NAMESPACE
         Shader() = default;
         ~Shader() = default;
 
-        void Create(const char* aPixelShaderPath, const char* aVertexShaderPath);
+        void Create(const char *aPixelShaderPath, const char *aVertexShaderPath);
         void Use();
+
+        unsigned GetProgramID() { return myProgramID; }
+
+        ResourcePointer<PixelShader> GetPixelShader() { return myPixelShader; }
+        ResourcePointer<VertexShader> GetVertexShader() { return myVertexShader; }
 
     private:
         unsigned myProgramID = 0;

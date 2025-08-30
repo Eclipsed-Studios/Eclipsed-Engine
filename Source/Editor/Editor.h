@@ -2,6 +2,8 @@
 
 #include "ErrorCodes.h"
 
+#include "../Engines/CoreEngine/ECS/ComponentManager.h"
+
 struct GLFWwindow;
 
 namespace ENGINE_NAMESPACE
@@ -24,8 +26,7 @@ namespace ENGINE_NAMESPACE
     private:
         GLFWwindow *myWindow;
 
-        Sprite *mySprite;
-        Shader *myShader;
+        ComponentManager componentManager;
     };
 
 }
