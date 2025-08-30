@@ -2,11 +2,34 @@
 
 #include <AssetManagement/Resources/Texture.h>
 
+#include <glad/glad.h>
+
+
+
 namespace ENGINE_NAMESPACE
 {
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, Texture& outResource)
 	{
-		
+		unsigned char* data = Load_Texture_STB(aPath, outResource);
+
+		glGenTextures(1, &outResource.textureID);
+		glBindTexture(GL_TEXTURE_2D, outResource.textureID);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, TextureWrapMode::Repeat);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, TextureWrapMode::Repeat);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, SamplingType::Bilinear);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, SamplingType::Bilinear);
+
+		int rgbTypeOffset = 3 - outResource.channels;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - rgbTypeOffset, outResource.width, 
+			outResource.height, 0, GL_RGB - rgbTypeOffset, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		FreeData_STB(data);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }

@@ -20,6 +20,11 @@ namespace ENGINE_NAMESPACE
 		template <typename T>
 		bool IsExtensionSupported(const char* anExtension);
 
+
+		// MOve to helper class
+		unsigned char* Load_Texture_STB(const char* aPath, Texture& outResource);
+		void FreeData_STB(unsigned char* someData);
+
 	private:
 		const std::unordered_map<std::type_index, std::vector<const char*>> supportedFileTypes =
 		{
