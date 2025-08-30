@@ -6,14 +6,16 @@ target_include_directories(FMOD INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+target_link_directories(FMOD INTERFACE "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod")
+
 target_link_libraries(FMOD INTERFACE
-    "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fsbank_vc.lib"
+    "fsbank_vc"
 
-    optimized "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmod_vc.lib"
-    optimized "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmodstudio_vc.lib"
+    optimized "fmod_vc"
+    optimized "fmodstudio_vc"
 
-    debug "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmodL_vc.lib"
-    debug "${CMAKE_SOURCE_DIR}/Tools/Libs/fmod/fmodstudioL_vc.lib"
+    debug "fmodL_vc"
+    debug "fmodstudioL_vc"
 )
 
 set_target_properties(FMOD PROPERTIES FOLDER "Externals")

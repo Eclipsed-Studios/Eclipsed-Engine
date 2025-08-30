@@ -13,12 +13,12 @@ namespace ENGINE_NAMESPACE
 	
 	bool Input::GetKeyDown(char aKey)
 	{
-		return myReleasedThisFrame[aKey];
+		return myPressedThisFrame[aKey];
 	}
 
 	bool Input::GetKeyUp(char aKey)
 	{
-		return myPressedThisFrame[aKey];
+		return myReleasedThisFrame[aKey];
 	}
 
 	void Input::Update()

@@ -11,10 +11,14 @@
 
 #include "Timer.h"
 #include "Input/Input.h"
+#include "Input/Keycodes.h"
 
 #include "DebugLogger.h"
-
 #include "IntegrationManager.h"
+
+#include "PhysicsEngine.h"
+
+#include "box2d/box2d.h"
 
 namespace ENGINE_NAMESPACE
 {
@@ -24,8 +28,8 @@ namespace ENGINE_NAMESPACE
 		ComponentManager::AddComponent<Transform2D>(1);
 		ComponentManager::AddComponent<RotateObjectContin>(1);
 
-		Material* matrial = new Material();
-		matrial->SetTexture(ASSET_PATH"noah1.png");
+		Material *matrial = new Material();
+		matrial->SetTexture(ASSET_PATH "noah1.png");
 		rend->SetMaterial(matrial);
 		ComponentManager::AddComponent<Transform2D>(2);
 	}
@@ -45,9 +49,9 @@ namespace ENGINE_NAMESPACE
 
 		Utilities::MainSingleton::Init();
 
-		Testing_Start();
+		Utilities::MainSingleton::RegisterInstance<PhysicsEngine>().Init();
 
-		auto rend = ComponentManager::GetComponent<SpriteRendrer2D>(2);
+		Testing_Start();
 
 		ComponentManager::AwakeComponents();
 		ComponentManager::StartComponents();
@@ -59,6 +63,13 @@ namespace ENGINE_NAMESPACE
 
 		Time::Update();
 		Input::Update();
+
+		PhysicsEngine &physEngine = Utilities::MainSingleton::GetInstance<PhysicsEngine>();
+		physEngine.Update();
+
+		if (Input::GetKeyDown(keycode::SPACE))
+		{
+		}
 
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();

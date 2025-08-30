@@ -23,6 +23,7 @@ add_subdirectory(Source/PlatformIntegration)
 
 add_subdirectory(Source/Engines/GraphicsEngine)
 add_subdirectory(Source/Engines/CoreEngine)
+add_subdirectory(Source/Engines/PhysicsEngine)
 
 add_subdirectory(Source/Editor)
 add_subdirectory(Source/Game)
@@ -52,3 +53,4 @@ target_link_libraries(CoreEngine PRIVATE Utilities)
 target_link_libraries(GraphicsEngine PRIVATE Utilities)
 target_link_libraries(Editor PRIVATE Utilities)
 target_link_libraries(Game PRIVATE Utilities)
+target_link_libraries(PhysicsEngine PRIVATE Utilities)

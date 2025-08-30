@@ -21,6 +21,14 @@ add_executable(Editor ${EDITOR_SOURCES})
 
 target_include_directories(Editor PUBLIC ${OPENGL_SOURCES})
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
+
+target_link_directories(Editor PUBLIC "${CMAKE_SOURCE_DIR}/Tools/Libs/box2d")
+
+target_link_libraries(Editor PUBLIC debug box2d-d)
+target_link_libraries(Editor PUBLIC optimized box2d)
+
+
+
 target_include_directories(ImGui PUBLIC ${IMGUI_SOURCES}/ImGui)
 
 target_include_directories(ImGui PUBLIC ${PLATFORMINTEGRATION_SOURCES})
