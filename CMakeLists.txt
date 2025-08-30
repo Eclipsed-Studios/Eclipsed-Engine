@@ -16,6 +16,7 @@ add_subdirectory(Source/Externals/ImGui)
 add_subdirectory(Source/Externals/OpenGL)
 add_subdirectory(Source/Externals/SDL3)
 
+add_subdirectory(Source/Utilities)
 
 add_subdirectory(Source/Engines/GraphicsEngine)
 add_subdirectory(Source/Engines/CoreEngine)
@@ -37,3 +38,14 @@ set_target_properties(Game PROPERTIES
 make_directory("${CMAKE_SOURCE_DIR}/Bin")
 file(GLOB DLLs "${CMAKE_SOURCE_DIR}/Tools/DLLs/*")
 file(COPY ${DLLs} DESTINATION "${CMAKE_SOURCE_DIR}/Bin")
+
+
+
+
+
+include_directories("${CMAKE_SOURCE_DIR}/Source/Utilities")
+
+target_link_libraries(CoreEngine PRIVATE Utilities)
+target_link_libraries(GraphicsEngine PRIVATE Utilities)
+target_link_libraries(Editor PRIVATE Utilities)
+target_link_libraries(Game PRIVATE Utilities)

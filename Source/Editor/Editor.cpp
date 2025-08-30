@@ -14,13 +14,7 @@
 
 #include "CoreEngine/Components/SpriteRendrer2D.h"
 
-
-#define GLFW_EXPOSE_NATIVE_WIN32
-
-#include "ImGui/ImGui/imgui.h"
-#include "ImGui/ImGui/imgui_impl_glfw.h"
-#include "ImGui/ImGui/imgui_impl_opengl3.h"
-
+#include "ImGui/ImGui_Impl.h"
 
 void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
 {
@@ -33,9 +27,9 @@ void error_callback(int error, const char *description)
     fprintf(stderr, "Error: %s\n", description);
 }
 
-namespace ENGINE_NAMESPACE
+namespace ENGINE_NAMESPACE::Editor
 {
-    ErrorCode Editor::Init()
+    ErrorCode EditorContext::Init()
     {
         glfwSetErrorCallback(error_callback);
 
@@ -92,26 +86,13 @@ namespace ENGINE_NAMESPACE
         componentManager.StartComponents();
 
 
-        {
-            IMGUI_CHECKVERSION();
-            ImGui::CreateContext();
-            ImGui::StyleColorsDark();
 
-            ImGuiIO& io = ImGui::GetIO();
-            io.IniFilename = NULL;
-
-            //ImGui::LoadIniSettingsFromDisk(IMGUISETTINGSDIR);
-
-            // Setup Platform/Renderer bindings
-            ImGui_ImplGlfw_InitForOpenGL(myWindow, true);
-            ImGui_ImplOpenGL3_Init("#version 460");
-        }
 
 
         return ErrorCode::SUCCESS;
     }
 
-    void Editor::Begin()
+    void EditorContext::Begin()
     {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
@@ -119,7 +100,7 @@ namespace ENGINE_NAMESPACE
         componentManager.EarlyUpdateComponents();
     }
 
-    void Editor::Update()
+    void EditorContext::Update()
     {
         ImGui::Begin("HEJSAN");
         ImGui::End();
@@ -128,12 +109,12 @@ namespace ENGINE_NAMESPACE
         componentManager.UpdateComponents();
     }
 
-    void Editor::Render()
+    void EditorContext::Render()
     {
         componentManager.LateUpdateComponents();
     }
 
-    void Editor::End()
+    void EditorContext::End()
     {
         glfwSwapBuffers(myWindow);
     }

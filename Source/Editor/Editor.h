@@ -4,20 +4,18 @@
 
 #include "CoreEngine/ECS/ComponentManager.h"
 
-
-
 struct GLFWwindow;
 
-namespace ENGINE_NAMESPACE
+namespace ENGINE_NAMESPACE::Editor
 {
     class Sprite;
     class Shader;
 
-    class Editor
+    class EditorContext
     {
     public:
-        Editor(/* args */) = default;
-        ~Editor() = default;
+        EditorContext(/* args */) = default;
+        ~EditorContext() = default;
 
         ErrorCode Init();
         void Begin();
