@@ -30,7 +30,7 @@ namespace ENGINE_NAMESPACE::Editor
         void UpdateMainMenuBar();
 
     private:
-        GLFWwindow *myWindow;
+        GLFWwindow* myWindow;
 
         WindowManager myWindowManager;
     };

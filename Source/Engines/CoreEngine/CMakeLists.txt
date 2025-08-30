@@ -19,6 +19,7 @@ target_include_directories(CoreEngine PUBLIC ${GRAPHICSENGINE_SOURCES})
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/stbi_image/)
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
 
+target_include_directories(CoreEngine PUBLIC ${SDL3_SOURCES})
 target_include_directories(CoreEngine PUBLIC ${PLATFORMINTEGRATION_SOURCES})
 
 target_link_libraries(CoreEngine PRIVATE GraphicsEngine)
@@ -37,3 +38,4 @@ set_target_properties(CoreEngine PROPERTIES FOLDER "Engines")
 
 
 target_link_libraries(CoreEngine PRIVATE PlatformIntegration)
+target_link_libraries(CoreEngine PRIVATE SDL3)

@@ -10,6 +10,7 @@
 #include <Components/TestingComponents/RotateObjectContin.h>
 
 #include "Timer.h"
+#include "Input/Input.h"
 
 #include "DebugLogger.h"
 
@@ -31,12 +32,16 @@ namespace ENGINE_NAMESPACE
 
 	void Testing_Update()
 	{
-		
+		if (Input::GetKey('A'))
+		{
+			Editor::DebugLogger::Log("HEJSAN");
+		}
 	}
 
 	void Engine::Init()
 	{
 		Time::Init();
+		Input::Init();
 
 		Utilities::MainSingleton::Init();
 
@@ -51,7 +56,9 @@ namespace ENGINE_NAMESPACE
 	void Engine::Update()
 	{
 		PlatformIntegration::IntegrationManager::Update();
+
 		Time::Update();
+		Input::Update();
 
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();

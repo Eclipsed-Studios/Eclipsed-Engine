@@ -14,6 +14,8 @@
 
 #include "DiscordIntegration.h"
 
+#include "MainSingleton.h"
+
 void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -53,6 +55,9 @@ namespace ENGINE_NAMESPACE::Editor
             const char *gameTitle = TemporarySettingsSingleton::Get().GetGameTitle();
 
             myWindow = glfwCreateWindow(x, y, gameTitle, nullptr, nullptr);
+            Utilities::MainSingleton::RegisterInstance<GLFWwindow*>() = myWindow;
+            
+
             if (!myWindow)
                 return ErrorCode::GLFW_WINDOW_FAILED_TO_CREATE;
 

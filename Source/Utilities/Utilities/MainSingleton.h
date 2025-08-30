@@ -18,6 +18,9 @@ namespace ENGINE_NAMESPACE::Utilities
 		template<typename T>
 		static T& GetInstance();
 
+		template<typename T>
+		static T* GetInstancePtr();
+
 		static const bool& IsSetup();
 
 		template <typename T>
@@ -34,9 +37,21 @@ namespace ENGINE_NAMESPACE::Utilities
 	template<typename T>
 	inline T& MainSingleton::GetInstance()
 	{
-		auto it = mySingletons.find(typeid(T).name());
+		auto it = mySingletons.find(typeid(T));
 		if (it != mySingletons.end()) {
 			return *(static_cast<T*>(it->second));
+		}
+
+		assert("Singleton not registered.");
+		throw std::runtime_error("Singleton not registered.");
+	}
+
+	template<typename T>
+	inline T* MainSingleton::GetInstancePtr()
+	{
+		auto it = mySingletons.find(typeid(T));
+		if (it != mySingletons.end()) {
+			return (T*)it->second;
 		}
 
 		assert("Singleton not registered.");
