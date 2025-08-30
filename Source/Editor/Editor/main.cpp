@@ -9,9 +9,7 @@
 
 #include "TemporarySettingsSingleton.h"
 
-#ifdef WIN32
 #include <windows.h>
-#endif
 
 using namespace ENGINE_NAMESPACE;
 
@@ -47,10 +45,8 @@ ErrorCode CheckErrorCodes(ErrorCode aErrorCode)
 
 int main()
 {
-#ifdef WIN32
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_HIDE);
-#endif
 
 	TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
 
