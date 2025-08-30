@@ -17,6 +17,8 @@ add_executable(Editor ${EDITOR_SOURCES})
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 
+target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
+
 target_compile_definitions(Editor PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 
 set_target_properties(Editor PROPERTIES

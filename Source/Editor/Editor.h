@@ -2,7 +2,7 @@
 
 #include "ErrorCodes.h"
 
-#include "../Engines/CoreEngine/ECS/ComponentManager.h"
+#include "CoreEngine/ECS/ComponentManager.h"
 
 struct GLFWwindow;
 

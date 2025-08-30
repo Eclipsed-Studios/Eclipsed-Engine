@@ -12,7 +12,7 @@
 #include "AssetManagement/Resources/Shaders/Shader.h"
 #include "AssetManagement/Resources.h"
 
-#include "../Engines/CoreEngine/Components/SpriteRendrer2D.h"
+#include "CoreEngine/Components/SpriteRendrer2D.h"
 
 void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
 {
