@@ -14,6 +14,14 @@
 
 #include "CoreEngine/Components/SpriteRendrer2D.h"
 
+
+#define GLFW_EXPOSE_NATIVE_WIN32
+
+#include "ImGui/ImGui/imgui.h"
+#include "ImGui/ImGui/imgui_impl_glfw.h"
+#include "ImGui/ImGui/imgui_impl_opengl3.h"
+
+
 void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -76,10 +84,29 @@ namespace ENGINE_NAMESPACE
             glfwSwapInterval(TemporarySettingsSingleton::Get().GetNumRenderBuffers());
         }
 
+
+        // Pls move engine :)
         componentManager.AddComponent<SpriteRendrer2D>(1);
 
         componentManager.AwakeComponents();
         componentManager.StartComponents();
+
+
+        {
+            IMGUI_CHECKVERSION();
+            ImGui::CreateContext();
+            ImGui::StyleColorsDark();
+
+            ImGuiIO& io = ImGui::GetIO();
+            io.IniFilename = NULL;
+
+            //ImGui::LoadIniSettingsFromDisk(IMGUISETTINGSDIR);
+
+            // Setup Platform/Renderer bindings
+            ImGui_ImplGlfw_InitForOpenGL(myWindow, true);
+            ImGui_ImplOpenGL3_Init("#version 460");
+        }
+
 
         return ErrorCode::SUCCESS;
     }
@@ -94,6 +121,10 @@ namespace ENGINE_NAMESPACE
 
     void Editor::Update()
     {
+        ImGui::Begin("HEJSAN");
+        ImGui::End();
+
+
         componentManager.UpdateComponents();
     }
 

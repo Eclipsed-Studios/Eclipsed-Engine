@@ -2,7 +2,7 @@
 
 #include "Component.h"
 
-#include <Vector/Vector2.h>
+#include <Math/Vector/Vector2.h>
 
 namespace ENGINE_NAMESPACE
 {
@@ -17,7 +17,7 @@ namespace ENGINE_NAMESPACE
         const float GetRotation() { return rotation; }
 
         void SetPosition(const Math::Vector2f &aPosition) { position = aPosition; }
-        void SetScale(const Math::Vector2f &aScale) { position = aPosition; }
+        void SetScale(const Math::Vector2f &aScale) { scale = aScale; }
         void SetRotation(float aRotation) { rotation = aRotation; }
 
     private:

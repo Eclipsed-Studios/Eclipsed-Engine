@@ -6,7 +6,11 @@ file(GLOB_RECURSE IMGUI_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
 )
 
+
+
 add_library(ImGui STATIC ${IMGUI_SOURCES})
 target_include_directories(ImGui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_include_directories(ImGui PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
  
 set_target_properties(ImGui PROPERTIES FOLDER "Externals")

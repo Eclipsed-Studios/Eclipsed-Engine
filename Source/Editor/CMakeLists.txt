@@ -14,8 +14,11 @@ file(GLOB_RECURSE EDITOR_SOURCES
 
 add_executable(Editor ${EDITOR_SOURCES})
 
-target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
+target_include_directories(Editor PUBLIC ${OPENGL_SOURCES}/Source/Externals/OpenGL)
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
+target_include_directories(ImGui PUBLIC ${IMGUI_SOURCES}/ImGui)
+
+
 
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
 
@@ -33,3 +36,4 @@ target_link_libraries(Editor PRIVATE CoreEngine)
 target_link_libraries(Editor PRIVATE FMOD)
 target_link_libraries(Editor PRIVATE OpenGL::GL)
 target_link_libraries(Editor PRIVATE Opengl)
+target_link_libraries(Editor PRIVATE ImGui)
