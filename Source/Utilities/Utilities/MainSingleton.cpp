@@ -1,8 +1,8 @@
 #include "MainSingleton.h"
 
-namespace Zultools
+namespace ENGINE_NAMESPACE::Utilities
 {
-	std::unordered_map<std::string, void*> MainSingleton::mySingletons;
+	std::unordered_map<std::type_index, void*> MainSingleton::mySingletons;
 	bool MainSingleton::myIsInitialized = false;
 
 	void MainSingleton::Init()

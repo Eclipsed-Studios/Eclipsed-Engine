@@ -9,33 +9,33 @@
 
 namespace ENGINE_NAMESPACE
 {
-    typedef unsigned GameObject;
+	typedef unsigned GameObject;
 
-    class ComponentManager
-    {
-    public:
-        ComponentManager() = default;
-        ~ComponentManager() = default;
+	class ComponentManager
+	{
+	public:
+		ComponentManager() = default;
+		~ComponentManager() = default;
 
-        void AwakeComponents();
-        void StartComponents();
+		static void AwakeComponents();
+		static void StartComponents();
 
-        void EarlyUpdateComponents();
-        void UpdateComponents();
-        void LateUpdateComponents();
+		static void EarlyUpdateComponents();
+		static void UpdateComponents();
+		static void LateUpdateComponents();
 
-        template <typename T>
-        T *GetComponent(GameObject aGOID);
+		template <typename T>
+		static T* GetComponent(GameObject aGOID);
 
-        template <typename T>
-        T *AddComponent(GameObject aGOID);
+		template <typename T>
+		static T* AddComponent(GameObject aGOID);
 
-    private:
-        std::vector<Component *> myComponents;
+	private:
+		static inline std::vector<Component*> myComponents;
 
-        // Gameobject to components
-        std::unordered_map<GameObject, std::unordered_map<std::type_index, unsigned>> myEntityIDToVectorOfComponentIDs;
-    };
+		// Gameobject to components
+		static inline  std::unordered_map<GameObject, std::unordered_map<std::type_index, unsigned>> myEntityIDToVectorOfComponentIDs;
+	};
 }
-    
+
 #include "ComponentManager.inl"

@@ -8,12 +8,7 @@
 
 #include <stdio.h>
 
-#include "Sprite.h"
-#include "AssetManagement/Resources/Shaders/Shader.h"
-#include "AssetManagement/Resources.h"
-
-#include "CoreEngine/Components/SpriteRendrer2D.h"
-#include "CoreEngine/Components/Transform2D.h"
+#include "Engine.h"
 
 #include "ImGui/ImGui_Impl.h"
 
@@ -79,14 +74,7 @@ namespace ENGINE_NAMESPACE::Editor
             glfwSwapInterval(TemporarySettingsSingleton::Get().GetNumRenderBuffers());
         }
 
-
-        // Pls move, engine :)
-        componentManager.AddComponent<SpriteRendrer2D>(1);
-        componentManager.AddComponent<Transform2D>(1);
-
-        componentManager.AwakeComponents();
-        componentManager.StartComponents();
-
+        Engine::Init();
 
         ImGui_Impl::ImplementImGui(myWindow);
 
@@ -99,26 +87,17 @@ namespace ENGINE_NAMESPACE::Editor
         glfwMakeContextCurrent(myWindow);
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
-
-        componentManager.EarlyUpdateComponents();
     }
 
     void EditorContext::Update()
     {
         ImGui_Impl::NewFrame();
 
-        // TODO: FUCKING REMOVE THIS SHIIIT
-        ImGui::Begin("HEJSAN");
-        ImGui::End();
-
-
-        componentManager.UpdateComponents();
+        Engine::Update();
     }
 
     void EditorContext::Render()
     {
-        componentManager.LateUpdateComponents();
-
         ImGui_Impl::Render();
     }
 

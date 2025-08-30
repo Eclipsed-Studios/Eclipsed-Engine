@@ -2,8 +2,6 @@
 
 #include "ErrorCodes.h"
 
-#include "CoreEngine/ECS/ComponentManager.h"
-
 struct GLFWwindow;
 
 namespace ENGINE_NAMESPACE::Editor
@@ -25,8 +23,6 @@ namespace ENGINE_NAMESPACE::Editor
 
     private:
         GLFWwindow *myWindow;
-
-        ComponentManager componentManager;
     };
 
 }

@@ -2,11 +2,12 @@
 
 #include <unordered_map>
 #include <typeinfo>
+#include <typeindex>
 #include <assert.h>
 #include <string>
 #include <stdexcept>
 
-namespace Zultools
+namespace ENGINE_NAMESPACE::Utilities
 {
 	class MainSingleton
 	{
@@ -26,7 +27,7 @@ namespace Zultools
 		static bool Exists();
 
 	private:
-		static std::unordered_map<std::string, void*> mySingletons;
+		static std::unordered_map<std::type_index, void*> mySingletons;
 		static bool myIsInitialized;
 	};
 
@@ -45,14 +46,14 @@ namespace Zultools
 	template<typename T>
 	inline T& MainSingleton::RegisterInstance()
 	{
-		mySingletons[typeid(T).name()] = static_cast<void*>(new T);
-		return *(static_cast<T*>(mySingletons[typeid(T).name()]));
+		mySingletons[typeid(T)] = static_cast<void*>(new T);
+		return *(static_cast<T*>(mySingletons[typeid(T)]));
 	}
 
 	template<typename T>
 	inline bool MainSingleton::Exists()
 	{
-		auto it = mySingletons.find(typeid(T).name());
+		auto it = mySingletons.find(typeid(T));
 		if (it != mySingletons.end()) {
 			return true;
 		}
