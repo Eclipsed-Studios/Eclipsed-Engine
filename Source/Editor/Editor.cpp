@@ -86,7 +86,7 @@ namespace ENGINE_NAMESPACE::Editor
         componentManager.StartComponents();
 
 
-
+        ImGui_Impl::ImplementImGui(myWindow);
 
 
         return ErrorCode::SUCCESS;
@@ -102,6 +102,9 @@ namespace ENGINE_NAMESPACE::Editor
 
     void EditorContext::Update()
     {
+        ImGui_Impl::NewFrame();
+
+        // TODO: FUCKING REMOVE THIS SHIIIT
         ImGui::Begin("HEJSAN");
         ImGui::End();
 
@@ -112,6 +115,8 @@ namespace ENGINE_NAMESPACE::Editor
     void EditorContext::Render()
     {
         componentManager.LateUpdateComponents();
+
+        ImGui_Impl::Render();
     }
 
     void EditorContext::End()

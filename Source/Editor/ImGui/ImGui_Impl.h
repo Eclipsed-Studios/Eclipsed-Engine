@@ -6,7 +6,7 @@
 #include "ImGui/ImGui/imgui_impl_glfw.h"
 #include "ImGui/ImGui/imgui_impl_opengl3.h"
 
-namespace ENGINE_NAMESPACE::EditorContext
+namespace ENGINE_NAMESPACE::Editor
 {
 	namespace ImGui_Impl
 	{
@@ -17,13 +17,39 @@ namespace ENGINE_NAMESPACE::EditorContext
             ImGui::StyleColorsDark();
 
             ImGuiIO& io = ImGui::GetIO();
-            io.IniFilename = NULL;
+            io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+            io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+            io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+            io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-            //ImGui::LoadIniSettingsFromDisk(IMGUISETTINGSDIR);
+            ImGuiStyle& style = ImGui::GetStyle();
+            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+            {
+                style.WindowRounding = 0.0f;
+                style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+            }
 
-            // Setup Platform/Renderer bindings
             ImGui_ImplGlfw_InitForOpenGL(aWindow, true);
             ImGui_ImplOpenGL3_Init("#version 460");
+        }
+
+        inline void NewFrame()
+        {
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+
+            ImGui::NewFrame();
+
+            ImGui::DockSpaceOverViewport(1, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
+        }
+
+        inline void Render()
+        {
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
         }
 	}
 }

@@ -45,7 +45,7 @@ int main()
 {
 	TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
 
-	Editor editor;
+	Editor::EditorContext editor;
 
 	ErrorCode result = editor.Init();
 
