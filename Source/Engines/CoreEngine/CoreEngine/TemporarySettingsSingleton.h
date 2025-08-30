@@ -50,7 +50,11 @@ namespace ENGINE_NAMESPACE
             return instance;
         }
 
-        void SetWindowTitle(const char* aWindowTitle) {glfwSetWindowTitle(myWindow, aWindowTitle); myCreatedGameTitle = aWindowTitle;}
+        void SetWindowTitle(const char *aWindowTitle)
+        {
+            glfwSetWindowTitle(myWindow, aWindowTitle);
+            myCreatedGameTitle = aWindowTitle;
+        }
 
         const char *GetGameName() { return myGameName.c_str(); };
         const char *GetGameTitle() { return myGameTitle.c_str(); };
@@ -59,18 +63,18 @@ namespace ENGINE_NAMESPACE
         int GetResolutionX() { return resX; };
         int GetResolutionY() { return resY; };
 
-        float GetResolutionRatio()
-        {
-            return resolutionRatio;
-        }
+        float GetOneDivResolutionX() { return OneDivResolutionX; };
+        float GetOneDivResolutionY() { return OneDivResolutionY; };
+
+        float GetResolutionRatio() { return resolutionRatio; }
 
         void SetResolution(int anX, int anY)
         {
             resX = anX;
             resY = anY;
 
-            OneDivResolutionX = 1 / resX;
-            OneDivResolutionY = 1 / resY;
+            OneDivResolutionX = 1.f / static_cast<float>(resX);
+            OneDivResolutionY = 1.f / static_cast<float>(resY);
 
             resolutionRatio = static_cast<float>(resY) / static_cast<float>(resX);
         }

@@ -6,20 +6,29 @@
 
 #include "../GraphicsEngine/Sprite.h"
 
+#include "AssetManagement/Resources.h"
+
 namespace ENGINE_NAMESPACE
 {
     class Material
     {
     public:
-        Material() = default;
+        Material();
 
-        void SetTexture(const char* aPath);
+        void SetTexture(const char *aPath);
         void Use();
 
         Shader *myShader;
 
-        // Texture should be here not unsigned
-        unsigned myTextureID;
+        ResourcePointer<Texture> myTexture;
+
+        struct Color
+        {
+            float myR = 1;
+            float myG = 1;
+            float myB = 0;
+            float myA = 1;
+        } color;
     };
 
     class Sprite;
@@ -38,9 +47,11 @@ namespace ENGINE_NAMESPACE
 
         void LateUpdate() override;
 
+        void SetMaterial(Material* aMaterial);
+
     private:
         Sprite *mySprite;
-        Material myMaterial;
+        Material *myMaterial;
 
         Transform2D *myTransform;
     };

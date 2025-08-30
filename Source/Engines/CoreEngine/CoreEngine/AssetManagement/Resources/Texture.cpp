@@ -6,4 +6,9 @@ namespace ENGINE_NAMESPACE
 	{
 
 	}
+
+	unsigned Texture::GetTextureID()
+	{
+		return textureID;
+	}
 }

@@ -13,31 +13,47 @@
 #include "glad/glad.h"
 #include "TemporarySettingsSingleton.h"
 
+#include "AssetManagement/Resources/Texture.h"
+
 namespace ENGINE_NAMESPACE
 {
-    void Material::SetTexture()
+    Material::Material()
     {
+        myShader = new Shader();
+        myShader->Create(ASSET_PATH "Shaders/DefaultSpritePixelShader.glsl", ASSET_PATH "Shaders/DefaultSpriteVertexShader.glsl");
+    }
+
+    void Material::SetTexture(const char *aPath)
+    {
+        myTexture = Resources::Get<Texture>(aPath);
+
         unsigned shaderID = myShader->GetProgramID();
 
         GLint diffuseIndex = glGetUniformLocation(shaderID, "material.albedo");
-        glUniform1i(shaderID, 0)
+        glUniform1i(diffuseIndex, 0);
     }
 
     void Material::Use()
     {
-        glUseProgram(myShader->GetProgramID());
+        myShader->Use();
 
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, myTextureID);
+        glBindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
+
+        unsigned shaderID = myShader->GetProgramID();
+        GLint albedoColorIndex = glGetUniformLocation(shaderID, "material.color");
+        glUniform4f(albedoColorIndex, color.myR, color.myG, color.myB, color.myA);
+    }
+
+    void SpriteRendrer2D::SetMaterial(Material *aMaterial)
+    {
+        myMaterial = aMaterial;
     }
 
     void SpriteRendrer2D::Awake()
     {
         mySprite = new Sprite();
         mySprite->Init();
-
-        myShader = new Shader();
-        myShader->Create(ASSET_PATH "Shaders/DefaultSpritePixelShader.glsl", ASSET_PATH "Shaders/DefaultSpriteVertexShader.glsl");
     }
 
     void SpriteRendrer2D::Start()
@@ -51,22 +67,26 @@ namespace ENGINE_NAMESPACE
         float rotation = myTransform->GetRotation();
         Math::Vector2f scale = myTransform->GetScale();
 
-        GLint positionIndex = glGetUniformLocation(myShader->GetProgramID(), "transform.position");
+        GLint positionIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "transform.position");
         glUniform2f(positionIndex, position.x, position.y);
-        GLint rotationIndex = glGetUniformLocation(myShader->GetProgramID(), "transform.rotation");
+        GLint rotationIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "transform.rotation");
         glUniform1f(rotationIndex, rotation);
-        GLint scaleIndex = glGetUniformLocation(myShader->GetProgramID(), "transform.pixelSize");
+        GLint scaleIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "transform.pixelSize");
         glUniform2f(scaleIndex, 100.f * scale.x, 100.f * scale.y);
 
         auto &settings = TemporarySettingsSingleton::Get();
 
-        float resX = settings.GetResolutionX();
-        float resY = settings.GetResolutionY();
+        float resX = settings.GetOneDivResolutionX();
+        float resY = settings.GetOneDivResolutionY();
+        
+        unsigned resolutionIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "resolutionMultiplier");
+        glUniform2f(resolutionIndex, resX, resY);
+        
+        float resolutionRatio = settings.GetResolutionRatio();
+        unsigned resolutionRatioIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "resolutionRatio");
+        glUniform1f(resolutionRatioIndex, resolutionRatio);
 
-        unsigned resolutionIndex = glGetUniformLocation(myShader->GetProgramID(), "resolutionMultiplier");
-        glUniform2f(resolutionIndex, 1.f / resX, 1.f / resY);
-
-        myShader->Use();
+        myMaterial->Use();
         mySprite->Render();
     }
 }

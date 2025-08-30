@@ -5,11 +5,14 @@ namespace ENGINE_NAMESPACE
     template <typename T>
     inline T *ComponentManager::GetComponent(GameObject aGOID)
     {
-        assert(myEntityIDToVectorOfComponentIDs.find(aGOID) != myEntityIDToVectorOfComponentIDs.end());
+        if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
+            return nullptr;
 
         auto &typeID = typeid(T);
         auto &entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
-        assert(entityIDComponents.find(typeID) != entityIDComponents.end());
+
+        if (entityIDComponents.find(typeID) == entityIDComponents.end())
+            return nullptr;
 
         int componentIndex = entityIDComponents.at(typeID);
         Component *component = myComponents.at(componentIndex);

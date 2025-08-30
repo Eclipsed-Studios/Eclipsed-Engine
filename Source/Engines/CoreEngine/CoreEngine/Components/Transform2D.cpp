@@ -23,9 +23,7 @@ namespace ENGINE_NAMESPACE
     }
     void Transform2D::SetPosition(float aX, float aY)
     {
-        float resolutionRatio = TemporarySettingsSingleton::Get().GetResolutionRatio();
-
-        position.x = aX * resolutionRatio;
+        position.x = aX;
         position.y = aY;
     }
     void Transform2D::SetRotation(float aRotation)

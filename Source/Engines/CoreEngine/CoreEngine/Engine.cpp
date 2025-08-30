@@ -19,16 +19,19 @@ namespace ENGINE_NAMESPACE
 {
 	void Testing_Start()
 	{
-		ComponentManager::AddComponent<SpriteRendrer2D>(1);
+		auto rend = ComponentManager::AddComponent<SpriteRendrer2D>(1);
 		ComponentManager::AddComponent<Transform2D>(1);
 		ComponentManager::AddComponent<RotateObjectContin>(1);
 
-		ComponentManager::AddComponent<SpriteRendrer2D>(2);
+		Material* matrial = new Material();
+		matrial->SetTexture(ASSET_PATH"noah1.png");
+		rend->SetMaterial(matrial);
 		ComponentManager::AddComponent<Transform2D>(2);
 	}
 
 	void Testing_Update()
 	{
+		
 	}
 
 	void Engine::Init()
@@ -38,6 +41,8 @@ namespace ENGINE_NAMESPACE
 		Utilities::MainSingleton::Init();
 
 		Testing_Start();
+
+		auto rend = ComponentManager::GetComponent<SpriteRendrer2D>(2);
 
 		ComponentManager::AwakeComponents();
 		ComponentManager::StartComponents();

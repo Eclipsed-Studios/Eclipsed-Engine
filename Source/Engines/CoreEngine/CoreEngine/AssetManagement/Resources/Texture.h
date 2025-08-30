@@ -25,6 +25,7 @@ namespace ENGINE_NAMESPACE
 	public:
 		void Bind();
 
+		unsigned GetTextureID();
 
 	private:
 		int width, height;
