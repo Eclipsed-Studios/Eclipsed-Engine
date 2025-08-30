@@ -6,6 +6,8 @@
 
 #include <fstream>
 
+#include "GLFW/glfw3.h"
+
 struct GLFWwindow;
 
 namespace ENGINE_NAMESPACE
@@ -48,12 +50,19 @@ namespace ENGINE_NAMESPACE
             return instance;
         }
 
+        void SetWindowTitle(const char* aWindowTitle) {glfwSetWindowTitle(myWindow, aWindowTitle); myCreatedGameTitle = aWindowTitle;}
+
         const char *GetGameName() { return myGameName.c_str(); };
         const char *GetGameTitle() { return myGameTitle.c_str(); };
 
         // Change to vector2i
         int GetResolutionX() { return resX; };
         int GetResolutionY() { return resY; };
+
+        float GetResolutionRatio()
+        {
+            return resolutionRatio;
+        }
 
         void SetResolution(int anX, int anY)
         {
@@ -62,6 +71,8 @@ namespace ENGINE_NAMESPACE
 
             OneDivResolutionX = 1 / resX;
             OneDivResolutionY = 1 / resY;
+
+            resolutionRatio = static_cast<float>(resY) / static_cast<float>(resX);
         }
 
         WindowSizeType GetWindowSizeType() { return myWindowSizeType; };
@@ -71,7 +82,11 @@ namespace ENGINE_NAMESPACE
 
     private:
         std::string myGameName;
+
         std::string myGameTitle;
+        std::string myCreatedGameTitle;
+
+        float resolutionRatio = 1;
 
         // Change to vector2i
         int resX;

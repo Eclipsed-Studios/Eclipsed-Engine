@@ -22,6 +22,7 @@ namespace ENGINE_NAMESPACE
     {
         Component *component = new T();
         component->SetComponentID();
+        component->gameObject = aGOID;
 
         myComponents.emplace_back(component);
         size_t componentCount = myComponents.size() - 1;
