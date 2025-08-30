@@ -16,9 +16,9 @@ namespace ENGINE_NAMESPACE
         const Math::Vector2f &GetScale() { return scale; }
         const float GetRotation() { return rotation; }
 
-        void GetPosition() { return position; }
-        void GetScale() { return scale; }
-        void GetRotation() { return rotation; }
+        void SetPosition(const Math::Vector2f &aPosition) { position = aPosition; }
+        void SetScale(const Math::Vector2f &aScale) { position = aPosition; }
+        void SetRotation(float aRotation) { rotation = aRotation; }
 
     private:
         Math::Vector2f position;
