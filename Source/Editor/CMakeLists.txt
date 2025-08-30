@@ -23,6 +23,8 @@ target_include_directories(Editor PUBLIC ${OPENGL_SOURCES})
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 target_include_directories(ImGui PUBLIC ${IMGUI_SOURCES}/ImGui)
 
+target_include_directories(ImGui PUBLIC ${PLATFORMINTEGRATION_SOURCES})
+
 
 
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
@@ -55,3 +57,4 @@ target_link_libraries(Editor PRIVATE FMOD)
 target_link_libraries(Editor PRIVATE OpenGL::GL)
 target_link_libraries(Editor PRIVATE Opengl)
 target_link_libraries(Editor PRIVATE ImGui)
+target_link_libraries(Editor PRIVATE PlatformIntegration)

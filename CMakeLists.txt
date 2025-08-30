@@ -18,6 +18,8 @@ add_subdirectory(Source/Externals/SDL3)
 
 add_subdirectory(Source/Utilities)
 
+add_subdirectory(Source/PlatformIntegration)
+
 add_subdirectory(Source/Engines/GraphicsEngine)
 add_subdirectory(Source/Engines/CoreEngine)
 

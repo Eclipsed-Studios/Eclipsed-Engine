@@ -8,6 +8,8 @@
 
 #include "DebugLogger.h"
 
+#include "IntegrationManager.h"
+
 namespace ENGINE_NAMESPACE
 {
 	void Testing_Start()
@@ -32,6 +34,8 @@ namespace ENGINE_NAMESPACE
 
 	void Engine::Update()
 	{
+		PlatformIntegration::IntegrationManager::Update();
+
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();
 		ComponentManager::LateUpdateComponents();

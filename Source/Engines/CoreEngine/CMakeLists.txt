@@ -18,6 +18,8 @@ target_include_directories(CoreEngine PUBLIC ${GRAPHICSENGINE_SOURCES})
 
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
 
+target_include_directories(CoreEngine PUBLIC ${PLATFORMINTEGRATION_SOURCES})
+
 target_link_libraries(CoreEngine PRIVATE GraphicsEngine)
 
 foreach(source_file IN LISTS COREENGINE_SOURCES)
@@ -31,3 +33,6 @@ foreach(source_file IN LISTS COREENGINE_SOURCES)
 endforeach()
 
 set_target_properties(CoreEngine PROPERTIES FOLDER "Engines")
+
+
+target_link_libraries(CoreEngine PRIVATE PlatformIntegration)

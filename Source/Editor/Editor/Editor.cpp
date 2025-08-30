@@ -12,6 +12,8 @@
 
 #include "ImGui/ImGui_Impl.h"
 
+#include "DiscordIntegration.h"
+
 void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -27,6 +29,9 @@ namespace ENGINE_NAMESPACE::Editor
 {
     ErrorCode EditorContext::Init()
     {
+        PlatformIntegration::Discord::SetupWithID(1401121853829025922);
+        PlatformIntegration::Discord::SetLargeImage("noah1");
+
         glfwSetErrorCallback(error_callback);
 
         int iResult;
