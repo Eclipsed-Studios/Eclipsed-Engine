@@ -1,10 +1,15 @@
 #include "Engine.h"
 
-#include <MainSingleton.h>
-#include <ECS/ComponentManager.h>
-#include <Components/SpriteRendrer2D.h>
+#include <ImGui/ImGui/imgui.h>
 
-#include "ImGui/ImGui/imgui.h"
+#include <ECS/ComponentManager.h>
+#include <MainSingleton.h>
+
+#include <Components/SpriteRendrer2D.h>
+#include <Components/Transform2D.h>
+#include <Components/TestingComponents/RotateObjectContin.h>
+
+#include "Timer.h"
 
 #include "DebugLogger.h"
 
@@ -15,6 +20,8 @@ namespace ENGINE_NAMESPACE
 	void Testing_Start()
 	{
 		ComponentManager::AddComponent<SpriteRendrer2D>(1);
+		ComponentManager::AddComponent<Transform2D>(1);
+		ComponentManager::AddComponent<RotateObjectContin>(1);
 	}
 
 	void Testing_Update()
@@ -24,6 +31,8 @@ namespace ENGINE_NAMESPACE
 
 	void Engine::Init()
 	{
+		Time::Init();
+
 		Utilities::MainSingleton::Init();
 
 		Testing_Start();
@@ -35,6 +44,7 @@ namespace ENGINE_NAMESPACE
 	void Engine::Update()
 	{
 		PlatformIntegration::IntegrationManager::Update();
+		Time::Update();
 
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();

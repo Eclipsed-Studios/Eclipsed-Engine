@@ -7,6 +7,8 @@
 #include "AssetManagement/Resources/Shaders/Shader.h"
 #include "Sprite.h"
 
+#include "../ECS/ComponentManager.h"
+
 // Temporary dont use setuniforms
 #include "glad/glad.h"
 #include "TemporarySettingsSingleton.h"
@@ -24,21 +26,21 @@ namespace ENGINE_NAMESPACE
 
     void SpriteRendrer2D::Start()
     {
-        // Set transform pointer
+        myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
     }
 
     void SpriteRendrer2D::LateUpdate()
     {
-        // Math::Vector2f position = myTransform->GetPosition();
-        // float rotation = myTransform->GetRotation();
-        // Math::Vector2f scale = myTransform->GetScale();
+        Math::Vector2f position = myTransform->GetPosition();
+        float rotation = myTransform->GetRotation();
+        Math::Vector2f scale = myTransform->GetScale();
 
-        // GLint positionIndex = glGetUniformLocation(myShader->GetProgramID(), "transform.position");
-        // glUniform2f(positionIndex, position.x, position.y);
-        // GLint rotationIndex = glGetUniformLocation(myShader->GetProgramID(), "transform.rotation");
-        // glUniform1f(rotationIndex, rotation);
+        GLint positionIndex = glGetUniformLocation(myShader->GetProgramID(), "transform.position");
+        glUniform2f(positionIndex, position.x, position.y);
+        GLint rotationIndex = glGetUniformLocation(myShader->GetProgramID(), "transform.rotation");
+        glUniform1f(rotationIndex, rotation);
         GLint scaleIndex = glGetUniformLocation(myShader->GetProgramID(), "transform.pixelSize");
-        glUniform2f(scaleIndex, 100.f, 100.f);
+        glUniform2f(scaleIndex, 100.f * scale.x, 100.f * scale.y);
 
         auto &settings = TemporarySettingsSingleton::Get();
 

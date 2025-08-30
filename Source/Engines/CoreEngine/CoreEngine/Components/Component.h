@@ -19,10 +19,10 @@ namespace ENGINE_NAMESPACE
         virtual void Update() {}
         virtual void LateUpdate() {}
 
+        GameObject gameObject;
+
     private:
         static inline unsigned nextComponentID = 0;
         unsigned myComponentID = 0;
-
-        GameObject gameObject;
     };
 }

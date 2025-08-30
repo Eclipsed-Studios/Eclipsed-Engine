@@ -12,18 +12,19 @@ namespace ENGINE_NAMESPACE
         Transform2D() = default;
         ~Transform2D() = default;
 
-        const Math::Vector2f &GetPosition() { return position; }
-        const float GetRotation() { return rotation; }
-        const Math::Vector2f &GetScale() { return scale; }
+        const Math::Vector2f &GetPosition();
+        const float GetRotation();
+        const Math::Vector2f &GetScale();
 
-        void SetPosition(const Math::Vector2f &aPosition) { position = aPosition; }
-        void SetRotation(float aRotation) { rotation = aRotation; }
-        void SetScale(const Math::Vector2f &aScale) { scale = aScale; }
+        void SetPosition(const Math::Vector2f &aPosition);
+        void SetPosition(float aX, float aY);
+        void SetRotation(float aRotation);
+        void SetScale(const Math::Vector2f &aScale);
 
     private:
-        Math::Vector2f position;
-        float rotation;
-        Math::Vector2f scale;
+        Math::Vector2f position = {0, 0};
+        float rotation = 0;
+        Math::Vector2f scale = {1, 1};
     };
 
 }

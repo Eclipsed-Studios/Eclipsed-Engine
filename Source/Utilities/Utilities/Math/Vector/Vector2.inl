@@ -15,6 +15,12 @@ namespace ENGINE_NAMESPACE::Math
 	{
 		// TODO: ERROR CHECK IF ITS NOT A NUMBER 
 	}
+	
+	template<typename T>
+	inline Vector2<T>::Vector2(const std::initializer_list<T> initList)
+	{
+		std::memcpy(data, initList.begin(), sizeof(T) * 2);
+	}
 
 	template<typename T>
 	inline T Vector2<T>::Dot(const Vector2& anotherVec) const
