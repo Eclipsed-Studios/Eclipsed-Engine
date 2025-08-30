@@ -11,6 +11,8 @@ namespace ENGINE_NAMESPACE
     class Sprite;
     class Shader;
 
+    class Transform2D;
+
     class SpriteRendrer2D : public Component
     {
     public:
@@ -18,10 +20,14 @@ namespace ENGINE_NAMESPACE
         ~SpriteRendrer2D() = default;
 
         void Awake() override;
+        void Start() override;
+
         void LateUpdate() override;
 
     private:
         Sprite* mySprite;
         Shader* myShader;
+
+        Transform2D* myTransform;
     };
 }
