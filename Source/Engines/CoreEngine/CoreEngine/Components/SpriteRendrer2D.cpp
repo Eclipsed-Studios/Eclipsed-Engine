@@ -15,6 +15,22 @@
 
 namespace ENGINE_NAMESPACE
 {
+    void Material::SetTexture()
+    {
+        unsigned shaderID = myShader->GetProgramID();
+
+        GLint diffuseIndex = glGetUniformLocation(shaderID, "material.albedo");
+        glUniform1i(shaderID, 0)
+    }
+
+    void Material::Use()
+    {
+        glUseProgram(myShader->GetProgramID());
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, myTextureID);
+    }
+
     void SpriteRendrer2D::Awake()
     {
         mySprite = new Sprite();

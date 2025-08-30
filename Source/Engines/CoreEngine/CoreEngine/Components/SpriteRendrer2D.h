@@ -8,6 +8,20 @@
 
 namespace ENGINE_NAMESPACE
 {
+    class Material
+    {
+    public:
+        Material() = default;
+
+        void SetTexture(const char* aPath);
+        void Use();
+
+        Shader *myShader;
+
+        // Texture should be here not unsigned
+        unsigned myTextureID;
+    };
+
     class Sprite;
     class Shader;
 
@@ -25,9 +39,9 @@ namespace ENGINE_NAMESPACE
         void LateUpdate() override;
 
     private:
-        Sprite* mySprite;
-        Shader* myShader;
+        Sprite *mySprite;
+        Material myMaterial;
 
-        Transform2D* myTransform;
+        Transform2D *myTransform;
     };
 }

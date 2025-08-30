@@ -21,7 +21,7 @@ namespace ENGINE_NAMESPACE
 
             transform->SetRotation(transform->GetRotation() - 1.f * Time::GetDeltaTime());
             float totalTime = Time::GetTotalTime();
-            transform->SetPosition(cos(totalTime) * 0.33f, sin(totalTime) * 0.33f);
+            transform->SetPosition(cos(totalTime * 3.f) * 0.33f, sin(totalTime * 3.f) * 0.33f);
         }
     };
 }

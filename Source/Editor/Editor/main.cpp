@@ -3,13 +3,14 @@
 #include "Editor.h"
 #include "ErrorCodes.h"
 
+#define LEAN_AND_MEAN
+#include <windows.h>
+
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
 
 #include "TemporarySettingsSingleton.h"
-
-#include <windows.h>
 
 using namespace ENGINE_NAMESPACE;
 

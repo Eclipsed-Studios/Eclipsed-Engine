@@ -22,11 +22,13 @@ namespace ENGINE_NAMESPACE
 		ComponentManager::AddComponent<SpriteRendrer2D>(1);
 		ComponentManager::AddComponent<Transform2D>(1);
 		ComponentManager::AddComponent<RotateObjectContin>(1);
+
+		ComponentManager::AddComponent<SpriteRendrer2D>(2);
+		ComponentManager::AddComponent<Transform2D>(2);
 	}
 
 	void Testing_Update()
 	{
-		
 	}
 
 	void Engine::Init()
