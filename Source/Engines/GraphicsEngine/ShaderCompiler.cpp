@@ -8,7 +8,7 @@
 #include "rapidjson/rapidjson/filereadstream.h"
 
 #include <fstream>
-
+#include <filesystem>
 
 namespace ENGINE_NAMESPACE
 {
@@ -50,13 +50,13 @@ namespace ENGINE_NAMESPACE
 
     void ShaderCompiler::CompileShaderFromFile(const char *aShaderPath, unsigned &aShaderID, ShaderType aShaderType)
     {
-        FILE *fileP = fopen(aShaderPath, "rb");
-        char readBuffer[2048];
-        rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
+        const int fileSize = std::filesystem::file_size(std::filesystem::path(aShaderPath));
 
-        rapidjson::Document doc;
-        doc.ParseStream(fileReadStream);
+        FILE *fileP = fopen(aShaderPath, "rb");
+        char readBuffer[65555];
+        fread(readBuffer, 1, fileSize, fileP);
         fclose(fileP);
+        readBuffer[fileSize] = '\0';
 
         CompileShaderFromMemory(readBuffer, aShaderID, aShaderType);
     }

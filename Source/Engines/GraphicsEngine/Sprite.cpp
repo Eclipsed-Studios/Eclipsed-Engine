@@ -26,16 +26,17 @@ namespace ENGINE_NAMESPACE
             // Matrix4x4 would be index 0, 1, 2 and 3 set as in setting 4 float4's
 
             size_t offset = 0;
-
             // Position
-            glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Sprite::Vertex), (void*)offset);
             offset += 2 * sizeof(float);
+            
+            // TexCoord
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Sprite::Vertex), (void*)offset);
+            offset += 2 * sizeof(float);
 
-            // Color
+            
             glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Sprite::Vertex), (void*)offset);
-            offset += 3 * sizeof(float);
+            glEnableVertexAttribArray(0);
         }
     }
 
