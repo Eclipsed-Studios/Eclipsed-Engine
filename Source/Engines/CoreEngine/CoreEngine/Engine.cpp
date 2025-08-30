@@ -6,18 +6,18 @@
 
 #include "ImGui/ImGui/imgui.h"
 
+#include "DebugLogger.h"
+
 namespace ENGINE_NAMESPACE
 {
 	void Testing_Start()
 	{
 		ComponentManager::AddComponent<SpriteRendrer2D>(1);
-
 	}
 
 	void Testing_Update()
 	{
-		ImGui::Begin("HEJSAN");
-		ImGui::End();
+		
 	}
 
 	void Engine::Init()

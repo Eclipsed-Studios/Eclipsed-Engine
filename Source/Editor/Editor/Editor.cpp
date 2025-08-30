@@ -93,6 +93,7 @@ namespace ENGINE_NAMESPACE::Editor
     {
         ImGui_Impl::NewFrame();
 
+        myWindowManager.Update();
         Engine::Update();
     }
 

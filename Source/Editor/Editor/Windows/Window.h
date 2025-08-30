@@ -1,25 +1,29 @@
 #pragma once
 #include <string>
 
-class AbstractWindow {
-	friend class Editor;
+namespace ENGINE_NAMESPACE::Editor
+{
+	class AbstractWindow
+	{
+		friend class WindowManager;
 
-public:
-	virtual void Open() = 0;
-	virtual void Update() = 0;
-	virtual void Close() = 0;
+	public:
+		virtual void Open() = 0;
+		virtual void Update() = 0;
+		virtual void Close() = 0;
 
-public:
-	const int& GetID();
-	const int& GetID() const;
+	public:
+		const int& GetID();
+		const int& GetID() const;
 
-	const std::string& GetWindowName();
-	const std::string& GetWindowName() const;
+		const std::string& GetWindowName();
+		const std::string& GetWindowName() const;
 
-protected:
-	std::string myWindowName;
-	int myID;
-	bool myIsOpen = true;
+	protected:
+		std::string myWindowName;
+		int myID;
+		bool myIsOpen = true;
 
-	bool myWasLastOpen = true;
-};
+		bool myWasLastOpen = true;
+	};
+}

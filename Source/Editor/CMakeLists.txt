@@ -26,6 +26,7 @@ target_include_directories(ImGui PUBLIC ${IMGUI_SOURCES}/ImGui)
 
 
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
+target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
 
 target_compile_definitions(Editor PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 
