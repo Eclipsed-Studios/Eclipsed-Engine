@@ -73,7 +73,6 @@ namespace ENGINE_NAMESPACE
     {
         b2Polygon polygon = b2MakeBox(aHalfExtents.x, aHalfExtents.y);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
-shapeDef.userData
 
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
@@ -90,7 +89,7 @@ shapeDef.userData
     {
         b2World_Step(myWorld, Time::GetDeltaTime(), substepCount);
     }
-    void PhysicsEngine::RayCast()
+    void PhysicsEngine::RayCast(const Ray& aRay, HitResults& aHitResults)
     {
         
     }

@@ -23,6 +23,8 @@
 
 #include "Input/InputMapper.h"
 
+//#include "DebugLogger.h"
+
 namespace ENGINE_NAMESPACE
 {
 	void Testing_Start()
@@ -57,9 +59,7 @@ namespace ENGINE_NAMESPACE
 
 	void Testing_Update()
 	{
-		Editor::DebugLogger::LogWarning(std::to_string(InputMapper::ReadValue("sides")));
-
-		float directionMove = Input::GetKey('D') - Input::GetKey('A');
+		float directionMove = InputMapper::ReadValue("Sides");
 
 		if (directionMove)
 		{
@@ -73,7 +73,7 @@ namespace ENGINE_NAMESPACE
 			}
 		}
 
-		if (Input::GetKeyDown(Keycode::SPACE))
+		if (InputMapper::ReadValue("Jump"))
 		{
 			RigidBody2D *rb = GetComp(RigidBody2D, 1);
 			if (rb)
@@ -82,6 +82,15 @@ namespace ENGINE_NAMESPACE
 				rb->SetVelocity({velX, 4.f});
 			}
 		}
+
+		// if (InputMapper::ReadValue("Dash"))
+		// {
+		// 	RigidBody2D *rb = GetComp(RigidBody2D, 1);
+		// 	if (rb)
+		// 	{
+		// 		rb->AddForce({100.f * directionMove, 0});
+		// 	}
+		// }
 
 		if (Input::GetKeyDown(Keycode::R))
 		{

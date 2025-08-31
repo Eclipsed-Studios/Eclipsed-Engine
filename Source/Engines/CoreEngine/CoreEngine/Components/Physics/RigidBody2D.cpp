@@ -19,7 +19,7 @@ namespace ENGINE_NAMESPACE
         myRigidBodySettings.BodyType = DynamicBody;
 
         myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
-        mySavedDataForUserData = RigidBodyUserData(gameObject, myComponentID);
+        mySavedDataForUserData = RigidBodyUserData(gameObject);
 
         const Math::Vector2f &startPosition = myTransform->GetPosition();
         PhysicsEngine::CreateRigidBody(&myBody, myRigidBodySettings, mySavedDataForUserData, startPosition);

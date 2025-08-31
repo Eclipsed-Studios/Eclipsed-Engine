@@ -34,7 +34,7 @@ namespace ENGINE_NAMESPACE
 		RENAME_KEY_NEXT_TO_PLUS = 61,
 		RENAME_KEY_NEXT_TO_N1 = 96,
 		RENAME_KEY_NEXT_TO_L_SHIFT = 162,
-		RENAME_KEY_NEXT_TO_Å = 93,
+		RENAME_KEY_NEXT_TO_AA = 93,
 
 		BACKSPACE = 259,
 
@@ -109,9 +109,9 @@ namespace ENGINE_NAMESPACE
 		X = 88,
 		Y = 89,
 		Z = 90,
-		Å = 91,
-		Ä = 39,
-		Ö = 59,
+		AA = 91,
+		AAA = 39,
+		OO = 59,
 
 		COMMA = 44,
 		DOT = 46,

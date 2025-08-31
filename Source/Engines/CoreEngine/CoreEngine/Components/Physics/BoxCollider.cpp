@@ -17,7 +17,7 @@ namespace ENGINE_NAMESPACE
         RigidBody2D *rigidBody = ComponentManager::GetComponent<RigidBody2D>(gameObject);
 
         if (!rigidBody)
-            PhysicsEngine::CreateRigidBody(&myBodyRef, RigidBodySettings(), RigidBodyUserData(gameObject, 0), ComponentManager::GetComponent<Transform2D>(gameObject)->GetPosition());
+            PhysicsEngine::CreateRigidBody(&myBodyRef, RigidBodySettings(), RigidBodyUserData(gameObject), ComponentManager::GetComponent<Transform2D>(gameObject)->GetPosition());
         else
             myBodyRef = rigidBody->myBody;
 

@@ -1,17 +1,25 @@
 {
-    "inputActions": [
-        {
-            "name": "jump",
-            "type": 1,
-            "buttonType": 0,
-            "button": 32
-        },
-        {
-            "name": "sides",
-            "type": 0,
-            "buttonType": 0,
-            "positiveButton": 68,
-            "negativeButton": 65
-        }
-    ]
+  "/": "buttonType: 0 = Repeat, 1 = Down, 2 = Up",
+  "//": "type: 0 = Axis, 1 = Single",
+  "inputActions": [
+    {
+      "name": "Dash",
+      "type": 1,
+      "buttonType": 1,
+      "button": 340
+    },
+    {
+      "name": "Jump",
+      "type": 1,
+      "buttonType": 1,
+      "button": 32
+    },
+    {
+      "name": "Sides",
+      "type": 0,
+      "buttonType": 0,
+      "positiveButton": 68,
+      "negativeButton": 65
+    }
+  ]
 }
