@@ -56,7 +56,7 @@ namespace ENGINE_NAMESPACE
 
 	void Testing_Update()
 	{
-		float directionMove = Input::GetKey(keycode::D) - Input::GetKey(keycode::A);
+		float directionMove = Input::GetKey(Keycode::D) - Input::GetKey(Keycode::A);
 
 		if (directionMove)
 		{
@@ -70,18 +70,18 @@ namespace ENGINE_NAMESPACE
 			}
 		}
 
-		if (Input::GetKeyDown(keycode::SPACE))
+		if (Input::GetKeyDown(Keycode::SPACE))
 		{
 			RigidBody2D *rb = GetComp(RigidBody2D, 1);
 			if (rb)
 				rb->AddForce({0, 300.f});
 		}
 
-		if (Input::GetKeyDown(keycode::R))
+		if (Input::GetKeyDown(Keycode::R))
 		{
 			ComponentManager::RemoveComponent<BoxCollider2D>(1);
 		}
-		if (Input::GetKeyDown(keycode::U))
+		if (Input::GetKeyDown(Keycode::U))
 		{
 			BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(1);
 			boxCollider->SetHalfExtents(Math::Vector2f(50.f, 50.f));

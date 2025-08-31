@@ -3,43 +3,37 @@
 #include "GLFW/glfw3.h"
 
 #include "MainSingleton.h"
+#include "DebugLogger.h"
 
 namespace ENGINE_NAMESPACE
 {
-	bool Input::GetKey(char aKey)
-	{
-		return myCurrentKeys[aKey];
-	}
-	
-	bool Input::GetKeyDown(char aKey)
-	{
-		return myPressedThisFrame[aKey];
-	}
-
-	bool Input::GetKeyUp(char aKey)
-	{
-		return myReleasedThisFrame[aKey];
-	}
-
 	void Input::Update()
 	{
-		myPressedThisFrame = myCurrentKeys & ~myLastKeys;
-		myReleasedThisFrame = ~myCurrentKeys & myLastKeys;
+		// Mouse delta
+		mouseScrollDelta = Math::Vector2i(0, 0);
+		normalizedMouseScrollDelta = Math::Vector2i(0, 0);
 
-		myLastKeys = myCurrentKeys;
+		// Mouse pos 
+		mouseDeltaPos = currentPos - lastPos;
+		lastPos = currentPos;
+
+		// Buttons (keyboard and mouse buttons)
+		pressedThisFrame = currentKeys & ~lastKeys;
+		releasedThisFrame = ~currentKeys & lastKeys;
+
+		lastKeys = currentKeys;
 	}
 
-	void Input::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-	{
-		if (key < 0 || key >= MAX_KEYS) return;
-
-		if (action == GLFW_PRESS) myCurrentKeys[key] = true;
-		else if (action == GLFW_RELEASE) myCurrentKeys[key] = false;
-	}
 
 	void Input::Init()
 	{
-		glfwSetKeyCallback(Utilities::MainSingleton::GetInstance<GLFWwindow*>(), KeyCallback);
-		//glfwSetMouseCall
+		GLFWwindow* window = Utilities::MainSingleton::GetInstance<GLFWwindow*>();
+
+		glfwSetKeyCallback(window, OnKey_Callback);
+		glfwSetCursorPosCallback(window, OnMousePos_Callback);
+		glfwSetCursorEnterCallback(window, OnMouseEnter_Callback);
+		glfwSetMouseButtonCallback(window, OnMouseButton_Callback);
+		glfwSetWindowFocusCallback(window, OnWindowFocus_Callback);
+		glfwSetScrollCallback(window, OnMouseScroll_Callback);
 	}
 }
