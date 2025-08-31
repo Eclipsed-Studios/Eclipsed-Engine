@@ -62,6 +62,8 @@ namespace ENGINE_NAMESPACE
         bodyDefine.type = static_cast<b2BodyType>(aBodySettings.BodyType);
         bodyDefine.position = b2Vec2(aStartPosition.x, aStartPosition.y);
 
+        bodyDefine.linearDamping = 5.f;
+
         // bodyDefine.userData = reinterpret_cast(&aData);
 
         *aBody = b2CreateBody(myWorld, &bodyDefine);
@@ -70,8 +72,9 @@ namespace ENGINE_NAMESPACE
     void PhysicsEngine::CreateBoxCollider(b2ShapeId *aShape, const b2BodyId &aBodyID, const Math::Vector2f &aHalfExtents)
     {
         b2Polygon polygon = b2MakeBox(aHalfExtents.x, aHalfExtents.y);
-        b2ShapeDef groundShapeDef = b2DefaultShapeDef();
-        *aShape = b2CreatePolygonShape(aBodyID, &groundShapeDef, &polygon);
+        b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+        *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
 
     void PhysicsEngine::Init()

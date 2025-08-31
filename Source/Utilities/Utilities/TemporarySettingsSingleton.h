@@ -6,9 +6,7 @@
 
 #include <fstream>
 
-#include "GLFW/glfw3.h"
-
-struct GLFWwindow;
+#include "MainSingleton.h"
 
 namespace ENGINE_NAMESPACE
 {
@@ -50,11 +48,7 @@ namespace ENGINE_NAMESPACE
             return instance;
         }
 
-        void SetWindowTitle(const char *aWindowTitle)
-        {
-            glfwSetWindowTitle(myWindow, aWindowTitle);
-            myCreatedGameTitle = aWindowTitle;
-        }
+        void SetWindowTitle(const char *aWindowTitle);
 
         const char *GetGameName() { return myGameName.c_str(); };
         const char *GetGameTitle() { return myGameTitle.c_str(); };
@@ -81,8 +75,6 @@ namespace ENGINE_NAMESPACE
 
         WindowSizeType GetWindowSizeType() { return myWindowSizeType; };
         int GetNumRenderBuffers() { return myNumberOfRenderBuffer; };
-
-        GLFWwindow *myWindow;
 
     private:
         std::string myGameName;

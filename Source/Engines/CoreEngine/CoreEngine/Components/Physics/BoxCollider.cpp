@@ -3,9 +3,12 @@
 #include "../Engines/PhysicsEngine/PhysicsEngine.h"
 
 #include "RigidBody2D.h"
+
 #include "Components/Transform2D.h"
 
 #include "ECS/ComponentManager.h"
+
+#include "TemporarySettingsSingleton.h"
 
 namespace ENGINE_NAMESPACE
 {
@@ -23,6 +26,21 @@ namespace ENGINE_NAMESPACE
 
     void BoxCollider2D::SetHalfExtents(const Math::Vector2f &aHalfExtents)
     {
-        myHalfExtents = aHalfExtents * 0.5f;
+        auto &temporary = TemporarySettingsSingleton::Get();
+
+        float oneDivX = temporary.GetOneDivResolutionX();
+        float oneDivY = temporary.GetOneDivResolutionY();
+
+        Transform2D *transform = ComponentManager::GetComponent<Transform2D>(gameObject);
+
+        Math::Vector2f halfExtent = Math::Vector2f(aHalfExtents.x * oneDivY, aHalfExtents.y * oneDivY);
+
+        halfExtent.x *= 2.f;
+        halfExtent.y *= 2.f;
+
+        // halfExtent.x *= transform->GetScale().x * oneDivX;
+        // halfExtent.y *= transform->GetScale().y * oneDivY;
+
+        myHalfExtents = halfExtent;
     }
 }

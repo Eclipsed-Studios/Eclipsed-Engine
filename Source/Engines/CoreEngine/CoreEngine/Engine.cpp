@@ -1,5 +1,7 @@
 #include "Engine.h"
 
+#include "OpenGL/OpenGLGraphicsAPI.h"
+
 #include <ImGui/ImGui/imgui.h>
 
 #include <ECS/ComponentManager.h>
@@ -35,12 +37,12 @@ namespace ENGINE_NAMESPACE
 			int go = 1;
 			SpriteRendrer2D *rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
 			Transform2D *transform = ComponentManager::AddComponent<Transform2D>(go);
-			transform->SetScale(100.f, 100.f);
+			transform->SetScale(30.f, 30.f);
 			RigidBody2D *rb = ComponentManager::AddComponent<RigidBody2D>(go);
 			rb->SetRotationLocked(true);
 
 			BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
-			boxCollider->SetHalfExtents(Math::Vector2f(50.f, 50.f));
+			boxCollider->SetHalfExtents(Math::Vector2f(15.f, 15.f));
 			rend->SetMaterial(matrial);
 		}
 
@@ -48,10 +50,10 @@ namespace ENGINE_NAMESPACE
 			int go = 2;
 			SpriteRendrer2D *rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
 			Transform2D *transform = ComponentManager::AddComponent<Transform2D>(go);
-			transform->SetPosition(0, -700.f * 0.25f);
-			transform->SetScale(1000.f, 20.f);
+			transform->SetPosition(0, -1.f);
+			transform->SetScale(1000.f, 10.f);
 			BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
-			boxCollider->SetHalfExtents(Math::Vector2f(500.f, 10.f));
+			boxCollider->SetHalfExtents(Math::Vector2f(500.f, 5.f));
 			rend->SetMaterial(matrial);
 		}
 	}
@@ -66,7 +68,7 @@ namespace ENGINE_NAMESPACE
 
 			if (rb)
 			{
-				float moveSpeed = 40000;
+				float moveSpeed = 150;
 				float velY = rb->GetVelocity().Y;
 				rb->SetVelocity({directionMove * moveSpeed * Time::GetDeltaTime(), velY});
 			}
@@ -78,7 +80,7 @@ namespace ENGINE_NAMESPACE
 			if (rb)
 			{
 				float velX = rb->GetVelocity().x;
-				rb->SetVelocity({velX, 3000000.f * Time::GetDeltaTime()});
+				rb->SetVelocity({velX, 4.f});
 			}
 		}
 
@@ -86,24 +88,25 @@ namespace ENGINE_NAMESPACE
 		{
 			ComponentManager::RemoveComponent<BoxCollider2D>(1);
 		}
-		if (Input::GetKeyDown(Keycode::U))
-		{
-			BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(1);
-			boxCollider->SetHalfExtents(Math::Vector2f(50.f, 50.f));
+		// if (Input::GetKeyDown(Keycode::U))
+		// {
+		// 	BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(1);
+		// 	boxCollider->SetHalfExtents(Math::Vector2f(50.f, 50.f));
 
-			boxCollider->Start();
-			boxCollider->Awake();
-		}
+		// 	boxCollider->Start();
+		// 	boxCollider->Awake();
+		// }
 	}
 
 	void Engine::Init()
 	{
+		GraphicsEngine::Get().Init();
+		
 		Time::Init();
 		Input::Init();
 		ComponentManager::Init();
 
 		Utilities::MainSingleton::Init();
-
 		PhysicsEngine::Init();
 
 		Testing_Start();
@@ -129,6 +132,8 @@ namespace ENGINE_NAMESPACE
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();
 		ComponentManager::LateUpdateComponents();
+
+		GraphicsEngine::Get().Update();
 
 		Testing_Update();
 	}

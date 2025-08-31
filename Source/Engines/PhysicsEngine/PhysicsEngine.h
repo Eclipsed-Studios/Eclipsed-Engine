@@ -39,7 +39,7 @@ namespace ENGINE_NAMESPACE
 
     private:
         static inline b2WorldId myWorld;
-        const static inline Math::Vector2f myGravity = {0.f, -1000.f};
+        const static inline Math::Vector2f myGravity = {0.f, -25.f};
 
         const static inline int substepCount = 8;
     };

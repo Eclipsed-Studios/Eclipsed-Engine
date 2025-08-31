@@ -1,6 +1,6 @@
 #include "Transform2D.h"
 
-#include "../TemporarySettingsSingleton.h"
+#include "TemporarySettingsSingleton.h"
 
 namespace ENGINE_NAMESPACE
 {
