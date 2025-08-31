@@ -16,14 +16,14 @@ namespace ENGINE_NAMESPACE
 
 	bool Input::GetKey(Keycode aKey)
 	{
-		return pressedThisFrame[(int)aKey];
+		return currentKeys[(int)aKey];
 	}
 
 
 
 	bool Input::GetKeyDown(int aKey)
 	{
-		return currentKeys[aKey];
+		return pressedThisFrame[aKey];
 	}
 
 	bool Input::GetKeyDown(char aKey)
@@ -62,14 +62,14 @@ namespace ENGINE_NAMESPACE
 
 	bool Input::GetMouse(MouseButton aKey)
 	{
-		return pressedThisFrame[(int)aKey];
+		return currentKeys[(int)aKey];
 	}
 
 
 
 	bool Input::GetMouseDown(int aKey)
 	{
-		return currentKeys[aKey];
+		return pressedThisFrame[aKey];
 	}
 
 	bool Input::GetMouseDown(MouseButton aKey)
