@@ -10,6 +10,8 @@
 #define GetComp(Type, GOID)\
 ComponentManager::GetComponent<##Type>(GOID)
 
+#define MAX_COMPONENT_MEMORY_BYTES 100'000
+
 namespace ENGINE_NAMESPACE
 {
 	typedef unsigned GameObject;
@@ -19,6 +21,8 @@ namespace ENGINE_NAMESPACE
 	public:
 		ComponentManager() = default;
 		~ComponentManager() = default;
+
+		static void Init();
 
 		static void AwakeComponents();
 		static void StartComponents();
@@ -37,6 +41,9 @@ namespace ENGINE_NAMESPACE
 		static void RemoveComponent(GameObject aGOID);
 
 	private:
+		static inline size_t myComponentMemoryTracker = 0;
+		static inline char* myComponentData;
+
 		static inline std::vector<Component*> myComponents;
 
 		// Gameobject to components

@@ -2,6 +2,11 @@
 
 namespace ENGINE_NAMESPACE
 {
+    void ComponentManager::Init()
+    {
+        myComponentData = static_cast<char*>(malloc(MAX_COMPONENT_MEMORY_BYTES));
+    }
+
     void ComponentManager::AwakeComponents()
     {
         for (auto &component : myComponents)

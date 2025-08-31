@@ -10,6 +10,6 @@
     "/": "0 = windowed, 1 = WindowedFullscreen, 2 = Fullscreen",
     "Fullscreen": 0,
     "//": "Higher than 0 is vsync on and even higher changes how many buffers should it renders too",
-    "NumberOfRenderBuffer": 1
+    "NumberOfRenderBuffer": 0
   }
 }

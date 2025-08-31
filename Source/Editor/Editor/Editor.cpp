@@ -81,7 +81,7 @@ namespace ENGINE_NAMESPACE::Editor
 
         // Extra GLFW settings
         {
-            glfwSwapInterval(TemporarySettingsSingleton::Get().GetNumRenderBuffers());
+            glfwSwapInterval(0);
         }
 
         Engine::Init();

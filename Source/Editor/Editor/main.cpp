@@ -12,6 +12,8 @@
 
 #include "TemporarySettingsSingleton.h"
 
+#include <chrono>
+
 using namespace ENGINE_NAMESPACE;
 
 ErrorCode CheckErrorCodes(ErrorCode aErrorCode)
@@ -58,7 +60,13 @@ int main()
 	if (result != ErrorCode::SUCCESS)
 		return static_cast<int>(CheckErrorCodes(result));
 
-	while (!glfwWindowShouldClose(TemporarySettingsSingleton::Get().myWindow))
+	using clock = std::chrono::high_resolution_clock;
+	constexpr int framesToRun = 1000; // number of frames for benchmark
+
+	auto start = clock::now();
+
+	//for (int i = 0; i < framesToRun; ++i)
+	 while (!glfwWindowShouldClose(TemporarySettingsSingleton::Get().myWindow))
 	{
 		editor.Begin();
 		editor.Update();
@@ -66,5 +74,16 @@ int main()
 		editor.End();
 	}
 
-	std::cout << "Window closed succesfully" << std::endl;
+	auto end = clock::now();
+	std::chrono::duration<double> elapsed = end - start;
+
+	double totalSeconds = elapsed.count();
+	double avgPerFrame = totalSeconds / framesToRun;
+
+	std::cout << "Ran " << framesToRun << " frames in "
+			  << totalSeconds << "s\n";
+	std::cout << "Average per frame: "
+			  << avgPerFrame * 1000.0 << " ms\n";
+
+	// std::cout << "Window closed succesfully" << std::endl;
 }

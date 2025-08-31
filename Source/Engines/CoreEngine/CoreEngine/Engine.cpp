@@ -22,6 +22,8 @@
 
 #include "box2d/box2d.h"
 
+#include <iostream>
+
 namespace ENGINE_NAMESPACE
 {
 	void Testing_Start()
@@ -56,7 +58,7 @@ namespace ENGINE_NAMESPACE
 
 	void Testing_Update()
 	{
-		float directionMove = Input::GetKey(Keycode::D) - Input::GetKey(Keycode::A);
+		float directionMove = Input::GetKey('D') - Input::GetKey('A');
 
 		if (directionMove)
 		{
@@ -95,6 +97,7 @@ namespace ENGINE_NAMESPACE
 	{
 		Time::Init();
 		Input::Init();
+		ComponentManager::Init();
 
 		Utilities::MainSingleton::Init();
 
@@ -115,6 +118,8 @@ namespace ENGINE_NAMESPACE
 		Input::Update();
 
 		PhysicsEngine::Update();
+		
+        std::cout << 1 / Time::GetDeltaTime() << std::endl;
 
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();

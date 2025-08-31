@@ -23,7 +23,11 @@ namespace ENGINE_NAMESPACE
     template <typename T>
     inline T *ComponentManager::AddComponent(GameObject aGOID)
     {
-        Component *component = new T();
+        char *base = static_cast<char *>(myComponentData);
+        char* ptrToComponent = base + myComponentMemoryTracker;
+        myComponentMemoryTracker += sizeof(T);
+
+        T* component = new(ptrToComponent)T();
         component->SetComponentID();
         component->gameObject = aGOID;
 
@@ -34,7 +38,22 @@ namespace ENGINE_NAMESPACE
         myEntityIDToVectorOfComponentIDs[aGOID][typeID] = componentIndex;
         myComponents.back()->myComponentIndex = componentIndex;
 
-        return static_cast<T *>(component);
+        return component;
+
+        /*
+            T *component = new T();
+            component->SetComponentID();
+            component->gameObject = aGOID;
+
+            myComponents.emplace_back(component);
+            size_t componentIndex = myComponents.size() - 1;
+
+            auto &typeID = typeid(T);
+            myEntityIDToVectorOfComponentIDs[aGOID][typeID] = componentIndex;
+            myComponents.back()->myComponentIndex = componentIndex;
+
+            return component;
+        */
     }
 
     template <typename T>
