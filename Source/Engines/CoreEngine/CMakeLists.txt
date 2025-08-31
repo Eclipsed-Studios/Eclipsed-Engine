@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 3.19.2)
 
+include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
+
 set(COREENGINE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/CoreEngine")
+
+# file(GLOB_RECURSE UNITY_COREENGINE_SOURCES 
+# "${CMAKE_SOURCE_DIR}/Source/Editor/Editor/Main.cpp" 
+# "${COREENGINE_ROOT}/*.cpp")
+
+# AddUnityTargetLIB(CoreEngine ${UNITY_COREENGINE_SOURCES})
+
+
 
 file(GLOB_RECURSE COREENGINE_SOURCES
     "${COREENGINE_ROOT}/*.cpp"
@@ -11,6 +21,8 @@ file(GLOB_RECURSE COREENGINE_SOURCES
 
 add_library(CoreEngine STATIC ${COREENGINE_SOURCES})
 
+
+
 target_compile_definitions(CoreEngine PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 
 target_include_directories(CoreEngine PUBLIC ${COREENGINE_ROOT})
@@ -18,6 +30,8 @@ target_include_directories(CoreEngine PUBLIC ${GRAPHICSENGINE_SOURCES})
 
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/stbi_image/)
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
+
+target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/)
 
 target_include_directories(CoreEngine PUBLIC ${SDL3_SOURCES})
 target_include_directories(CoreEngine PUBLIC ${PLATFORMINTEGRATION_SOURCES})

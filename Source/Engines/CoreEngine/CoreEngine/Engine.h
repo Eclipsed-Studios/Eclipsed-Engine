@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Components/SpriteRendrer2D.h"
-
 namespace ENGINE_NAMESPACE
 {
 	class Engine
@@ -12,6 +10,9 @@ namespace ENGINE_NAMESPACE
 
 	public:
 		static void Init();
+		
+		static bool Begin();
 		static void Update();
+		static void End();
 	};
 }

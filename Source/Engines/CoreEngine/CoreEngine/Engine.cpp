@@ -7,7 +7,7 @@
 #include <ECS/ComponentManager.h>
 #include <MainSingleton.h>
 
-#include <Components/SpriteRendrer2D.h>
+#include <Components/Rendering/SpriteRendrer2D.h>
 #include <Components/Transform2D.h>
 #include <Components/Physics/RigidBody2D.h>
 #include <Components/Physics/BoxCollider2D.h>
@@ -17,16 +17,11 @@
 #include "Input/Input.h"
 #include "Input/Keycodes.h"
 
-#include "DebugLogger.h"
 #include "IntegrationManager.h"
 
 #include "PhysicsEngine.h"
 
-#include "box2d/box2d.h"
-
-#include <iostream>
 #include "Input/InputMapper.h"
-
 
 namespace ENGINE_NAMESPACE
 {
@@ -105,7 +100,7 @@ namespace ENGINE_NAMESPACE
 	void Engine::Init()
 	{
 		GraphicsEngine::Get().Init();
-		
+
 		Time::Init();
 		Input::Init();
 		ComponentManager::Init();
@@ -119,6 +114,12 @@ namespace ENGINE_NAMESPACE
 		ComponentManager::StartComponents();
 	}
 
+	bool Engine::Begin()
+	{
+		GraphicsEngine::Get().Begin();
+		int shouldCloseWindow = GraphicsEngine::Get().ShouldWindowClose();
+		return !shouldCloseWindow;
+	}
 	void Engine::Update()
 	{
 		PlatformIntegration::IntegrationManager::Update();
@@ -128,17 +129,16 @@ namespace ENGINE_NAMESPACE
 
 		PhysicsEngine::Update();
 
-		std::stringstream stream;
-		stream << 1 / Time::GetDeltaTime();
-
-		Editor::DebugLogger::Log(stream.str());
-
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();
 		ComponentManager::LateUpdateComponents();
 
-		GraphicsEngine::Get().Update();
+		GraphicsEngine::Get().Render();
 
 		Testing_Update();
+	}
+	void Engine::End()
+	{
+		GraphicsEngine::Get().End();
 	}
 }

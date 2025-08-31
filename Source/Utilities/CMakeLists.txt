@@ -12,6 +12,7 @@ file(GLOB_RECURSE UTILITIES_SOURCES
 add_library(Utilities STATIC ${UTILITIES_SOURCES})
 
 target_include_directories(Utilities PUBLIC "${UTILITIES_ROOT}")
+target_include_directories(Utilities PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 
 foreach(source_file IN LISTS UTILITIES_SOURCES)
     file(RELATIVE_PATH source_path "${UTILITIES_ROOT}" "${source_file}")

@@ -15,36 +15,6 @@
 
 using namespace ENGINE_NAMESPACE;
 
-ErrorCode CheckErrorCodes(ErrorCode aErrorCode)
-{
-	switch (aErrorCode)
-	{
-	case ErrorCode::GLFW_FAILED_TO_INITILIZE:
-	{
-		std::cout << "GLFW failed to initilize" << std::endl;
-		glfwTerminate();
-		return ErrorCode::FAILED;
-	}
-	break;
-	case ErrorCode::GLFW_WINDOW_FAILED_TO_CREATE:
-	{
-		std::cout << "GLFW window was not able to be created" << std::endl;
-		glfwTerminate();
-		return ErrorCode::FAILED;
-	}
-	break;
-	case ErrorCode::GLAD_FAILED_TO_INITILIZE:
-	{
-		std::cout << "GLAD failed to initilize" << std::endl;
-		glfwTerminate();
-		return ErrorCode::FAILED;
-	}
-	break;
-	}
-
-	return ErrorCode::SUCCESS;
-}
-
 #define performanceTest 0
 
 int main()
@@ -59,7 +29,7 @@ int main()
 	ErrorCode result = editor.Init();
 
 	if (result != ErrorCode::SUCCESS)
-		return static_cast<int>(CheckErrorCodes(result));
+		return 1;
 
 #if performanceTest
 
@@ -69,10 +39,9 @@ int main()
 
 	for (int i = 0; i < framesToRun; ++i)
 #else
-	while (!glfwWindowShouldClose(Utilities::MainSingleton::GetInstance<GLFWwindow*>()))
+	while (editor.Begin())
 #endif
 	{
-		editor.Begin();
 		editor.Update();
 		editor.Render();
 		editor.End();

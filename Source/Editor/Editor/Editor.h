@@ -1,11 +1,9 @@
 #pragma once
 
-#include "ErrorCodes.h"
-
-#include "Windows/Window.h"
-
-#include <unordered_map>
+//#include "Windows/Window.h"
 #include "WindowManager.h"
+
+#include "ErrorCodes.h"
 
 struct GLFWwindow;
 
@@ -18,7 +16,7 @@ namespace ENGINE_NAMESPACE::Editor
         ~EditorContext() = default;
 
         ErrorCode Init();
-        void Begin();
+        bool Begin();
         void Update();
         void Render();
         void End();

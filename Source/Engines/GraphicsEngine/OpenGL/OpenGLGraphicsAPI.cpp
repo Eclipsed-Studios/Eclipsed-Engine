@@ -9,6 +9,8 @@
 #include "TemporarySettingsSingleton.h"
 #include "MainSingleton.h"
 
+#include <iostream>
+
 namespace ENGINE_NAMESPACE
 {
     void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
@@ -79,11 +81,55 @@ namespace ENGINE_NAMESPACE
     ErrorCode GraphicsEngine::Init()
     {
         ErrorCode errorCode = InitOpenGL();
-
         return errorCode;
     }
 
-    void GraphicsEngine::Update()
+    void GraphicsEngine::Begin()
     {
+        glfwMakeContextCurrent(myWindow);
+        glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+    void GraphicsEngine::Render()
+    {
+    }
+    void GraphicsEngine::End()
+    {
+        glfwSwapBuffers(myWindow);
+    }
+
+    int GraphicsEngine::ShouldWindowClose()
+    {
+        return glfwWindowShouldClose(Utilities::MainSingleton::GetInstance<GLFWwindow*>());
+    }
+
+    ErrorCode GraphicsEngine::CheckErrorCodes(ErrorCode aErrorCode)
+    {
+        switch (aErrorCode)
+        {
+        case ErrorCode::GLFW_FAILED_TO_INITILIZE:
+        {
+            std::cout << "GLFW failed to initilize" << std::endl;
+            glfwTerminate();
+            return ErrorCode::FAILED;
+        }
+        break;
+        case ErrorCode::GLFW_WINDOW_FAILED_TO_CREATE:
+        {
+            std::cout << "GLFW window was not able to be created" << std::endl;
+            glfwTerminate();
+            return ErrorCode::FAILED;
+        }
+        break;
+        case ErrorCode::GLAD_FAILED_TO_INITILIZE:
+        {
+            std::cout << "GLAD failed to initilize" << std::endl;
+            glfwTerminate();
+            return ErrorCode::FAILED;
+        }
+        break;
+        }
+
+        return ErrorCode::SUCCESS;
     }
 }

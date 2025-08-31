@@ -1,9 +1,5 @@
 #include "Editor.h"
 
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
-
-#include "TemporarySettingsSingleton.h"
 #include "MainSingleton.h"
 
 #include "Engine.h"
@@ -26,17 +22,15 @@ namespace ENGINE_NAMESPACE::Editor
         return ErrorCode::SUCCESS;
     }
 
-    void EditorContext::Begin()
+    bool EditorContext::Begin()
     {
-        glfwMakeContextCurrent(myWindow);
-        glfwPollEvents();
-        glClear(GL_COLOR_BUFFER_BIT);
+        bool beginRet = Engine::Begin();
+        ImGui_Impl::NewFrame();
+        return beginRet;
     }
 
     void EditorContext::Update()
     {
-        ImGui_Impl::NewFrame();
-
         myWindowManager.Update();
         Engine::Update();
     }
@@ -48,6 +42,6 @@ namespace ENGINE_NAMESPACE::Editor
 
     void EditorContext::End()
     {
-        glfwSwapBuffers(myWindow);
+        Engine::End();
     }
 }

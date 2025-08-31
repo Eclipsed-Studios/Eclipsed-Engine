@@ -1,23 +1,51 @@
 #pragma once
 
-enum Box2DBodyType
+namespace ENGINE_NAMESPACE
 {
-    StaticBody = 0,
-    KinematicBody = 1,
-    DynamicBody = 2
-};
+    class Collider2D;
 
-struct RigidBodySettings
-{
-    Box2DBodyType BodyType = StaticBody;
+    enum Box2DBodyType
+    {
+        StaticBody = 0,
+        KinematicBody = 1,
+        DynamicBody = 2
+    };
 
-    bool LockRotation = false;
-    bool LockXPos = false;
-    bool LockYPos = false;
-};
+    struct RigidBodySettings
+    {
+        Box2DBodyType BodyType = StaticBody;
 
-struct RigidBodyUserData
-{
-    unsigned gameobject = 0;
-    unsigned componentIndexID = 0;
-};
+        bool LockRotation = false;
+        bool LockXPos = false;
+        bool LockYPos = false;
+    };
+
+    struct RigidBodyUserData
+    {
+        unsigned gameobject = 0;
+    };
+
+    struct ColliderUserData
+    {
+        unsigned gameobject = 0;
+    };
+
+    struct HitResult
+    {
+        ColliderUserData data;
+    };
+
+    struct HitResults
+    {
+        std::vector<HitResult> results;
+        Math::Vector2f position;
+    };
+
+    struct Ray
+    {
+        Math::Vector2f position;
+        Math::Vector2f direction;
+    };
+    
+
+}

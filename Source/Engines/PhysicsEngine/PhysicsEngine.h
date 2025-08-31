@@ -28,6 +28,8 @@ namespace ENGINE_NAMESPACE
         };
 
     public:
+        static void RayCast(const Ray& aRay, HitResults& aHitResults);
+
         static void CreateRigidBody(b2BodyId *aBody, const RigidBodySettings &aBodySettings, const RigidBodyUserData &, const Math::Vector2f &aStartPosition = {0.f, 0.f});
         static void CreateBoxCollider(b2ShapeId *aShape, const b2BodyId &aBodyID, const Math::Vector2f &aHalfExtents);
 

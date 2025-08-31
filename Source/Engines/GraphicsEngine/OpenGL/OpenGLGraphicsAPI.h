@@ -19,7 +19,13 @@ namespace ENGINE_NAMESPACE
         }
 
         ErrorCode Init();
-        void Update();
+        void Begin();
+        void Render();
+        void End();
+
+        int ShouldWindowClose();
+        
+        ErrorCode CheckErrorCodes(ErrorCode aErrorCode);
 
     private:
         GLFWwindow *myWindow;

@@ -1,13 +1,13 @@
 #include "SpriteRendrer2D.h"
 
-#include "Transform2D.h"
+#include "Components/Transform2D.h"
 
 #include "Math/Vector/Vector2.h"
 
 #include "AssetManagement/Resources/Shaders/Shader.h"
 #include "Sprite.h"
 
-#include "../ECS/ComponentManager.h"
+#include "ECS/ComponentManager.h"
 
 // Temporary dont use setuniforms
 #include "glad/glad.h"
