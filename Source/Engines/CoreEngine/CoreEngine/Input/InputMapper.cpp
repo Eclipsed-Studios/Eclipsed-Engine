@@ -15,7 +15,6 @@
 #include "rapidjson/rapidjson/document.h"
 #include "rapidjson/rapidjson/writer.h"
 #include "rapidjson/rapidjson/stringbuffer.h"
-#include "rapidjson/rapidjson/prettywriter.h"
 #include "rapidjson/rapidjson/filewritestream.h"
 
 #include "defines.h"
@@ -109,7 +108,7 @@ namespace ENGINE_NAMESPACE
 		d.AddMember("inputActions", inputList, allocator);
 
 		StringBuffer buffer;
-		PrettyWriter<StringBuffer> writer(buffer);
+		Writer<StringBuffer> writer(buffer);
 		d.Accept(writer);
 
 		std::ofstream ofs(ASSET_PATH"inputmap.json");
