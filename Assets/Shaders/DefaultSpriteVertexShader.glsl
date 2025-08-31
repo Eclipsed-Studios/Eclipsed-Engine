@@ -29,7 +29,7 @@ void main()
    vec2 position_WSPixelScale = position_WS * resolutionMultiplier;
    vec2 position_WSRealScale = position_WSPixelScale * transform.pixelSize;
    
-   vec2 position = transform.position * resolutionMultiplier;
+   vec2 position = transform.position * resolutionMultiplier * 4;
    
    vec2 positionNDC = position_WSRealScale+position;
    

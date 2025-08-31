@@ -18,8 +18,11 @@ namespace ENGINE_NAMESPACE
 
         void SetPosition(const Math::Vector2f &aPosition);
         void SetPosition(float aX, float aY);
+        
         void SetRotation(float aRotation);
+
         void SetScale(const Math::Vector2f &aScale);
+        void SetScale(float aX, float aY);
 
     private:
         Math::Vector2f position = {0, 0};

@@ -26,12 +26,19 @@ namespace ENGINE_NAMESPACE
         position.x = aX;
         position.y = aY;
     }
+
     void Transform2D::SetRotation(float aRotation)
     {
         rotation = aRotation;
     }
+
     void Transform2D::SetScale(const Math::Vector2f &aScale)
     {
-        scale = aScale;
+        SetScale(aScale.x, aScale.y);
+    }
+    void Transform2D::SetScale(float aX, float aY)
+    {
+        scale.x = aX;
+        scale.y = aY;
     }
 }

@@ -61,6 +61,7 @@ endforeach()
 
 target_link_libraries(Editor PRIVATE GraphicsEngine)
 target_link_libraries(Editor PRIVATE CoreEngine)
+target_link_libraries(Editor PRIVATE PhysicsEngine)
 target_link_libraries(Editor PRIVATE FMOD)
 target_link_libraries(Editor PRIVATE OpenGL::GL)
 target_link_libraries(Editor PRIVATE Opengl)

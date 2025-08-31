@@ -17,11 +17,9 @@ namespace ENGINE_NAMESPACE
 
         void Update() override
         {
-            // Transform2D *transform = ComponentManager::GetComponent<Transform2D>(gameObject);
+            Transform2D *transform = ComponentManager::GetComponent<Transform2D>(gameObject);
 
-            // transform->SetRotation(transform->GetRotation() - 1.f * Time::GetDeltaTime());
-            // float totalTime = Time::GetTotalTime();
-            // transform->SetPosition(cos(totalTime * 3.f) * 400.f, sin(totalTime * 3.f) * 400.f);
+            transform->SetPosition({0, 0});
         }
     };
 }

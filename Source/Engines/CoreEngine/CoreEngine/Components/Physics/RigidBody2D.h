@@ -4,19 +4,24 @@
 
 #include "../Component.h"
 
-struct b2BodyId;
+#include "box2d/id.h"
+
+#include "../PhysicsEngine/PhysicsEngineSettings.h"
 
 namespace ENGINE_NAMESPACE
 {
     class Transform2D;
-    
     class RigidBody2D : public Component
     {
     public:
-        RigidBody2D() = default;
-        ~RigidBody2D() = default;
+        friend class Collider2D;
+        friend class BoxCollider2D;
 
-        void Awake();
+        RigidBody2D() = default;
+        ~RigidBody2D() override;
+
+        void Awake() override;
+        void EarlyUpdate() override;
 
         void AddForce(const Math::Vector2f &aVelocity);
 
@@ -26,14 +31,32 @@ namespace ENGINE_NAMESPACE
         void SetAngularVelocity(float aAngularVelocity);
         const float GetAngularVelocity();
 
-        void EarlyUpdate() override;
+        void SetBodyType(Box2DBodyType aBodytype);
+        void GetBodyType();
+
+        void SetRotationLocked(bool aValue);
+        bool GetRotationLocked();
+
+        void SetXPosLocked(bool aValue);
+        bool GetXPosLocked();
+
+        void SetYPosLocked(bool aValue);
+        bool GetYPosLocked();
 
     private:
+        bool bodyHasBeenCreated = false;
+
         Math::Vector2f myVelocity = {0.f, 0.f};
         float myAngularVelocity = 0.f;
 
-        b2BodyId *myBodyID;
-
         Transform2D *myTransform;
+
+        RigidBodySettings myRigidBodySettings;
+
+        b2BodyId myBody;
+
+    private:
+        // Internals
+        RigidBodyUserData mySavedDataForUserData;
     };
 }

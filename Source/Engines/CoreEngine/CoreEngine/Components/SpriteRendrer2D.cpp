@@ -72,7 +72,7 @@ namespace ENGINE_NAMESPACE
         GLint rotationIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "transform.rotation");
         glUniform1f(rotationIndex, rotation);
         GLint scaleIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "transform.pixelSize");
-        glUniform2f(scaleIndex, 100.f * scale.x, 100.f * scale.y);
+        glUniform2f(scaleIndex, scale.x, scale.y);
 
         auto &settings = TemporarySettingsSingleton::Get();
 

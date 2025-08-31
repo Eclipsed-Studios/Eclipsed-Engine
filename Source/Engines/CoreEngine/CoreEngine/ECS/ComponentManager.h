@@ -7,6 +7,9 @@
 #include <typeindex>
 #include <assert.h>
 
+#define GetComp(Type, GOID)\
+ComponentManager::GetComponent<##Type>(GOID)
+
 namespace ENGINE_NAMESPACE
 {
 	typedef unsigned GameObject;
@@ -29,6 +32,9 @@ namespace ENGINE_NAMESPACE
 
 		template <typename T>
 		static T* AddComponent(GameObject aGOID);
+
+		template <typename T>
+		static void RemoveComponent(GameObject aGOID);
 
 	private:
 		static inline std::vector<Component*> myComponents;

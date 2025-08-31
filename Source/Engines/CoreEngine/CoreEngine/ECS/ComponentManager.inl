@@ -28,11 +28,48 @@ namespace ENGINE_NAMESPACE
         component->gameObject = aGOID;
 
         myComponents.emplace_back(component);
-        size_t componentCount = myComponents.size() - 1;
+        size_t componentIndex = myComponents.size() - 1;
 
         auto &typeID = typeid(T);
-        myEntityIDToVectorOfComponentIDs[aGOID][typeID] = componentCount;
+        myEntityIDToVectorOfComponentIDs[aGOID][typeID] = componentIndex;
+        myComponents.back()->myComponentIndex = componentIndex;
 
         return static_cast<T *>(component);
+    }
+
+    template <typename T>
+    inline void ComponentManager::RemoveComponent(GameObject aGOID)
+    {
+        if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
+            return;
+
+        auto &typeID = typeid(T);
+        auto &entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
+
+        if (entityIDComponents.find(typeID) == entityIDComponents.end())
+            return;
+
+        int componentIndex = entityIDComponents.at(typeID);
+        Component *component = myComponents.at(componentIndex);
+        delete component;
+        entityIDComponents.erase(typeID);
+
+        if (componentIndex == myComponents.size() - 1)
+        {
+            myComponents.pop_back();
+            return;
+        }
+
+        int backComponenetIndex = myComponents.back()->myComponentIndex;
+        GameObject backGameObject = myComponents.back()->gameObject;
+
+        auto &backEntityIDComponents = myEntityIDToVectorOfComponentIDs.at(backGameObject);
+
+        myComponents.at(componentIndex) = myComponents.back();
+        myComponents.pop_back();
+
+        for (auto &entity : backEntityIDComponents)
+            if (backComponenetIndex == entity.second)
+                backEntityIDComponents.at(entity.first) = componentIndex;
     }
 }
