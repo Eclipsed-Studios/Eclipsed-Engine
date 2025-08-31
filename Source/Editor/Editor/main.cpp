@@ -66,7 +66,7 @@ int main()
 	auto start = clock::now();
 
 	//for (int i = 0; i < framesToRun; ++i)
-	 while (!glfwWindowShouldClose(TemporarySettingsSingleton::Get().myWindow))
+	while (!glfwWindowShouldClose(TemporarySettingsSingleton::Get().myWindow))
 	{
 		editor.Begin();
 		editor.Update();

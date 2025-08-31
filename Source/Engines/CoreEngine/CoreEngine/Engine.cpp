@@ -76,7 +76,10 @@ namespace ENGINE_NAMESPACE
 		{
 			RigidBody2D *rb = GetComp(RigidBody2D, 1);
 			if (rb)
-				rb->AddForce({0, 300.f});
+			{
+				float velX = rb->GetVelocity().x;
+				rb->SetVelocity({velX, 3000000.f * Time::GetDeltaTime()});
+			}
 		}
 
 		if (Input::GetKeyDown(Keycode::R))
@@ -102,12 +105,11 @@ namespace ENGINE_NAMESPACE
 		Utilities::MainSingleton::Init();
 
 		PhysicsEngine::Init();
-		
+
 		Testing_Start();
-		
+
 		ComponentManager::AwakeComponents();
 		ComponentManager::StartComponents();
-		
 	}
 
 	void Engine::Update()
@@ -118,8 +120,11 @@ namespace ENGINE_NAMESPACE
 		Input::Update();
 
 		PhysicsEngine::Update();
-		
-        std::cout << 1 / Time::GetDeltaTime() << std::endl;
+
+		std::stringstream stream;
+		stream << 1 / Time::GetDeltaTime();
+
+		Editor::DebugLogger::Log(stream.str());
 
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();

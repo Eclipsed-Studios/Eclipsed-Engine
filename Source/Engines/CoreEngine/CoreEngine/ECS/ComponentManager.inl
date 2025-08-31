@@ -38,22 +38,7 @@ namespace ENGINE_NAMESPACE
         myEntityIDToVectorOfComponentIDs[aGOID][typeID] = componentIndex;
         myComponents.back()->myComponentIndex = componentIndex;
 
-        return component;
-
-        /*
-            T *component = new T();
-            component->SetComponentID();
-            component->gameObject = aGOID;
-
-            myComponents.emplace_back(component);
-            size_t componentIndex = myComponents.size() - 1;
-
-            auto &typeID = typeid(T);
-            myEntityIDToVectorOfComponentIDs[aGOID][typeID] = componentIndex;
-            myComponents.back()->myComponentIndex = componentIndex;
-
-            return component;
-        */
+        return component;        
     }
 
     template <typename T>
@@ -69,10 +54,10 @@ namespace ENGINE_NAMESPACE
             return;
 
         int componentIndex = entityIDComponents.at(typeID);
-        Component *component = myComponents.at(componentIndex);
-        delete component;
+        T *component = static_cast<T*>(myComponents.at(componentIndex));
+        component->~T();
         entityIDComponents.erase(typeID);
-
+        
         if (componentIndex == myComponents.size() - 1)
         {
             myComponents.pop_back();
