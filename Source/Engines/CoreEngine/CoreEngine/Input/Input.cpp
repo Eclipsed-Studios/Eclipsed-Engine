@@ -3,7 +3,8 @@
 #include "GLFW/glfw3.h"
 
 #include "MainSingleton.h"
-#include "DebugLogger.h"
+
+#include "InputMapper.h"
 
 namespace ENGINE_NAMESPACE
 {
@@ -22,11 +23,15 @@ namespace ENGINE_NAMESPACE
 		releasedThisFrame = ~currentKeys & lastKeys;
 
 		lastKeys = currentKeys;
+
+		InputMapper::Update();
 	}
 
 
 	void Input::Init()
 	{
+		InputMapper::Load();
+
 		GLFWwindow* window = Utilities::MainSingleton::GetInstance<GLFWwindow*>();
 
 		glfwSetKeyCallback(window, OnKey_Callback);

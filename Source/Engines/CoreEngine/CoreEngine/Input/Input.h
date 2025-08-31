@@ -9,7 +9,6 @@ struct GLFWwindow;
 namespace ENGINE_NAMESPACE
 {
 #define MAX_KEYS 512
-#define MAX_MOUSE_KEYS 8
 
 	class Input
 	{

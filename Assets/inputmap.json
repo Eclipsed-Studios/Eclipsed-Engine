@@ -1,0 +1,17 @@
+{
+    "inputActions": [
+        {
+            "name": "jump",
+            "type": 1,
+            "buttonType": 0,
+            "button": 32
+        },
+        {
+            "name": "sides",
+            "type": 0,
+            "buttonType": 0,
+            "positiveButton": 68,
+            "negativeButton": 65
+        }
+    ]
+}

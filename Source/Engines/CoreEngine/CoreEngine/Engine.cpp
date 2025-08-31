@@ -25,6 +25,8 @@
 #include "box2d/box2d.h"
 
 #include <iostream>
+#include "Input/InputMapper.h"
+
 
 namespace ENGINE_NAMESPACE
 {
@@ -60,6 +62,8 @@ namespace ENGINE_NAMESPACE
 
 	void Testing_Update()
 	{
+		Editor::DebugLogger::LogWarning(std::to_string(InputMapper::ReadValue("sides")));
+
 		float directionMove = Input::GetKey('D') - Input::GetKey('A');
 
 		if (directionMove)
