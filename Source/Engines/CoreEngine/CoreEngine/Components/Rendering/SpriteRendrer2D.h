@@ -26,7 +26,7 @@ namespace ENGINE_NAMESPACE
         {
             float myR = 1;
             float myG = 1;
-            float myB = 0;
+            float myB = 1;
             float myA = 1;
         } color;
     };

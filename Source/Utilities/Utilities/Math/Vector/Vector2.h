@@ -9,52 +9,52 @@ namespace ENGINE_NAMESPACE::Math
 	{
 	public:
 		Vector2();
-		Vector2(const T &aX, const T &aY);
+		Vector2(const T& aX, const T& aY);
 		Vector2(const std::initializer_list<T> initList);
 		~Vector2() = default;
 
 	public:
-		Vector2 operator+(const Vector2 &anotherVec);
-		Vector2 &operator+=(const Vector2 &anotherVec);
+		const Vector2 operator+(const Vector2& anotherVec) const;
+		const Vector2& operator+=(const Vector2& anotherVec);
 
-		Vector2 operator-(const Vector2 &anotherVec);
-		Vector2 &operator-=(const Vector2 &anotherVec);
+		const Vector2 operator-(const Vector2& anotherVec) const;
+		const Vector2& operator-=(const Vector2& anotherVec);
 
-		Vector2 operator*(const Vector2 &anotherVec);
-		Vector2 &operator*=(const Vector2 &anotherVec);
+		const Vector2 operator*(const Vector2& anotherVec) const;
+		const Vector2& operator*=(const Vector2& anotherVec);
 
-		Vector2 operator=(const Vector2 &anotherVec);
-		Vector2 operator==(const Vector2 &anotherVec);
+		Vector2 operator=(const Vector2& anotherVec);
+		Vector2 operator==(const Vector2& anotherVec);
 
-		friend Vector2 operator*(const Vector2 &aVec, const T &aScalar)
+		friend Vector2 operator*(const Vector2& aVec, const T& aScalar)
 		{
 			return Vector2(aVec.x * aScalar, aVec.y * aScalar);
 		}
 
-		friend Vector2 operator*(const T &aScalar, const Vector2 &aVec)
+		friend Vector2 operator*(const T& aScalar, const Vector2& aVec)
 		{
 			return Vector2(aVec.x * aScalar, aVec.y * aScalar);
 		}
 
-		friend Vector2 operator/(const Vector2 &aVec, const T &aScalar)
+		friend Vector2 operator/(const Vector2& aVec, const T& aScalar)
 		{
 			return Vector2(aVec.x / aScalar, aVec.y / aScalar);
 		}
 
-		friend Vector2 operator/(const T &aScalar, const Vector2 &aVec)
+		friend Vector2 operator/(const T& aScalar, const Vector2& aVec)
 		{
 			return Vector2(aScalar / aVec.x, aScalar / aVec.y);
 		}
 
 	public:
-		T Dot(const Vector2 &anotherVec) const;
-		static T Dot(const Vector2 &aVec0, const Vector2 &aVec1);
+		T Dot(const Vector2& anotherVec) const;
+		static T Dot(const Vector2& aVec0, const Vector2& aVec1);
 
-		T Distance(const Vector2 &anotherVec) const;
-		static T Distance(const Vector2 &aVec0, const Vector2 &aVec1);
+		T Distance(const Vector2& anotherVec) const;
+		static T Distance(const Vector2& aVec0, const Vector2& aVec1);
 
-		T DistanceSqrd(const Vector2 &anotherVec) const;
-		static T DistanceSqrd(const Vector2 &aVec0, const Vector2 &aVec1);
+		T DistanceSqrd(const Vector2& anotherVec) const;
+		static T DistanceSqrd(const Vector2& aVec0, const Vector2& aVec1);
 
 		T Length() const;
 		T LengthSqrd() const;
@@ -64,15 +64,15 @@ namespace ENGINE_NAMESPACE::Math
 		void Normalize();
 
 		Vector2<T> Perpendicular() const;
-		static Vector2<T> Perpendicular(const Vector2 &aVec);
+		static Vector2<T> Perpendicular(const Vector2& aVec);
 
-		T AngleBetween(const Vector2 &anotherVec) const;
-		static T AngleBetween(const Vector2 &aVec0, const Vector2 &aVec1);
+		T AngleBetween(const Vector2& anotherVec) const;
+		static T AngleBetween(const Vector2& aVec0, const Vector2& aVec1);
 
 	public:
 		union
 		{
-			struct{ T x, y; };
+			struct { T x, y; };
 			struct { T X, Y; };
 			struct { T myX, myY; };
 

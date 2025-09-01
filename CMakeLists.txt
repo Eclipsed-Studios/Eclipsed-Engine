@@ -45,8 +45,6 @@ file(COPY ${DLLs} DESTINATION "${CMAKE_SOURCE_DIR}/Bin")
 
 
 
-
-
 include_directories("${CMAKE_SOURCE_DIR}/Source/Utilities")
 
 target_link_libraries(CoreEngine PRIVATE Utilities)

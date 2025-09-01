@@ -3,6 +3,7 @@
 #include "Components/Component.h"
 
 #include "box2d/id.h"
+#include "PhysicsEngineSettings.h"
 
 struct b2Polygon;
 namespace ENGINE_NAMESPACE
@@ -13,7 +14,11 @@ namespace ENGINE_NAMESPACE
         Collider2D() = default;
         ~Collider2D() override;
 
+        Layer myLayer = Layer::Default;
+
     protected:
+        UserData myUserData;
+
         b2ShapeId myInternalCollider;
 
         // Internals

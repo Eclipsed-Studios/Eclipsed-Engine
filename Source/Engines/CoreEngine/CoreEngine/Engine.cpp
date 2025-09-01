@@ -23,7 +23,9 @@
 
 #include "Input/InputMapper.h"
 
-//#include "DebugLogger.h"
+#include <iostream>
+
+// #include "DebugLogger.h"
 
 namespace ENGINE_NAMESPACE
 {
@@ -42,6 +44,8 @@ namespace ENGINE_NAMESPACE
 
 			BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
 			boxCollider->SetHalfExtents(Math::Vector2f(15.f, 15.f));
+			boxCollider->myLayer = Layer::Player;
+
 			rend->SetMaterial(matrial);
 		}
 
@@ -53,6 +57,8 @@ namespace ENGINE_NAMESPACE
 			transform->SetScale(1000.f, 10.f);
 			BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
 			boxCollider->SetHalfExtents(Math::Vector2f(500.f, 5.f));
+			boxCollider->myLayer = Layer::Ground;
+
 			rend->SetMaterial(matrial);
 		}
 	}
@@ -75,11 +81,17 @@ namespace ENGINE_NAMESPACE
 
 		if (InputMapper::ReadValue("Jump"))
 		{
-			RigidBody2D *rb = GetComp(RigidBody2D, 1);
-			if (rb)
+			Transform2D *transform = GetComp(Transform2D, 1);
+			
+			HitResults hit;
+			if (PhysicsEngine::OverlapSphere(transform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.1f, hit, Layer::Ground))
 			{
-				float velX = rb->GetVelocity().x;
-				rb->SetVelocity({velX, 4.f});
+				RigidBody2D *rb = GetComp(RigidBody2D, 1);
+				if (rb)
+				{
+					float velX = rb->GetVelocity().x;
+					rb->SetVelocity({velX, 4.f});
+				}
 			}
 		}
 

@@ -19,10 +19,9 @@ namespace ENGINE_NAMESPACE
         myRigidBodySettings.BodyType = DynamicBody;
 
         myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
-        mySavedDataForUserData = RigidBodyUserData(gameObject);
 
-        const Math::Vector2f &startPosition = myTransform->GetPosition();
-        PhysicsEngine::CreateRigidBody(&myBody, myRigidBodySettings, mySavedDataForUserData, startPosition);
+        const Math::Vector2f& startPosition = myTransform->GetPosition();
+        PhysicsEngine::CreateRigidBody(&myBody, myRigidBodySettings, startPosition);
         bodyHasBeenCreated = true;
     }
 
@@ -37,18 +36,18 @@ namespace ENGINE_NAMESPACE
         myTransform->SetRotation(rotation);
     }
 
-    void RigidBody2D::SetVelocity(const Math::Vector2f &aVelocity)
+    void RigidBody2D::SetVelocity(const Math::Vector2f& aVelocity)
     {
         myVelocity = aVelocity;
         PhysHelper::SetLinearVelocity(myBody, myVelocity);
     }
 
-    void RigidBody2D::AddForce(const Math::Vector2f &aVelocity)
+    void RigidBody2D::AddForce(const Math::Vector2f& aVelocity)
     {
         SetVelocity(myVelocity + aVelocity);
     }
 
-    const Math::Vector2f &RigidBody2D::GetVelocity()
+    const Math::Vector2f& RigidBody2D::GetVelocity()
     {
         return myVelocity;
     }

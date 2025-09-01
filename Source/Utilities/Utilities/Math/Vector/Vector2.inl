@@ -123,13 +123,13 @@ namespace ENGINE_NAMESPACE::Math
 #pragma region ===== OPERATORS =====
 
 	template <typename T>
-	inline Vector2<T> Vector2<T>::operator+(const Vector2 &anotherVec)
+	inline const Vector2<T> Vector2<T>::operator+(const Vector2 &anotherVec) const
 	{
 		return Vector2(x + anotherVec.x, y + anotherVec.y);
 	}
 
 	template <typename T>
-	inline Vector2<T> &Vector2<T>::operator+=(const Vector2 &anotherVec)
+	inline const Vector2<T> &Vector2<T>::operator+=(const Vector2 &anotherVec)
 	{
 		x += anotherVec.x;
 		y += anotherVec.y;
@@ -137,13 +137,13 @@ namespace ENGINE_NAMESPACE::Math
 	}
 
 	template <typename T>
-	inline Vector2<T> Vector2<T>::operator-(const Vector2 &anotherVec)
+	inline const Vector2<T> Vector2<T>::operator-(const Vector2 &anotherVec) const
 	{
 		return Vector2(x - anotherVec.x, y - anotherVec.y);
 	}
 
 	template <typename T>
-	inline Vector2<T> &Vector2<T>::operator-=(const Vector2 &anotherVec)
+	inline const Vector2<T> &Vector2<T>::operator-=(const Vector2 &anotherVec)
 	{
 		x -= anotherVec.x;
 		y -= anotherVec.y;
@@ -151,13 +151,13 @@ namespace ENGINE_NAMESPACE::Math
 	}
 
 	template <typename T>
-	inline Vector2<T> Vector2<T>::operator*(const Vector2 &anotherVec)
+	inline const Vector2<T> Vector2<T>::operator*(const Vector2 &anotherVec) const
 	{
 		return Vector2(x * anotherVec.x, y * anotherVec.y);
 	}
 
 	template <typename T>
-	inline Vector2<T> &Vector2<T>::operator*=(const Vector2 &anotherVec)
+	inline const Vector2<T> &Vector2<T>::operator*=(const Vector2 &anotherVec)
 	{
 		x *= anotherVec.x;
 		y *= anotherVec.y;

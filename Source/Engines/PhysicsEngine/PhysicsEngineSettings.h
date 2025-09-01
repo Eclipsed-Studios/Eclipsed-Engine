@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "Math/Vector/Vector2.h"
 
 namespace ENGINE_NAMESPACE
 {
@@ -22,7 +23,7 @@ namespace ENGINE_NAMESPACE
         bool LockYPos = false;
     };
 
-    struct RigidBodyUserData
+    struct UserData
     {
         unsigned gameobject = 0;
     };
@@ -34,13 +35,15 @@ namespace ENGINE_NAMESPACE
 
     struct HitResult
     {
-        ColliderUserData data;
+        Math::Vector2f point;
+        Math::Vector2f normal;
+        float fraction;
+        unsigned gameobject;
     };
 
     struct HitResults
     {
         std::vector<HitResult> results;
-        Math::Vector2f position;
     };
 
     struct Ray
@@ -48,6 +51,24 @@ namespace ENGINE_NAMESPACE
         Math::Vector2f position;
         Math::Vector2f direction;
     };
-    
+
+    enum class Layer : uint32_t
+    {
+        Default = 1 << 1,
+        Player = 1 << 2,
+        Enemy = 1 << 3,
+        Projectile = 1 << 4,
+        Ground = 1 << 5,
+        Trigger = 1 << 6,
+        IgnoreRaycast = 1 << 7,
+        UI = 1 << 8,
+
+        All = (1 << 8) - 1
+    };
+
+    inline Layer operator|(Layer a, Layer b)
+    {
+        return static_cast<Layer>(static_cast<unsigned>(a) | static_cast<unsigned>(b));
+    }
 
 }

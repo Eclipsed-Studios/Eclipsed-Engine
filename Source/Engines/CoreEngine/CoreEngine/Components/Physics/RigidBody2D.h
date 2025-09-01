@@ -23,10 +23,10 @@ namespace ENGINE_NAMESPACE
         void Awake() override;
         void EarlyUpdate() override;
 
-        void AddForce(const Math::Vector2f &aVelocity);
+        void AddForce(const Math::Vector2f& aVelocity);
 
-        void SetVelocity(const Math::Vector2f &aVelocity);
-        const Math::Vector2f &GetVelocity();
+        void SetVelocity(const Math::Vector2f& aVelocity);
+        const Math::Vector2f& GetVelocity();
 
         void SetAngularVelocity(float aAngularVelocity);
         const float GetAngularVelocity();
@@ -46,10 +46,10 @@ namespace ENGINE_NAMESPACE
     private:
         bool bodyHasBeenCreated = false;
 
-        Math::Vector2f myVelocity = {0.f, 0.f};
+        Math::Vector2f myVelocity = { 0.f, 0.f };
         float myAngularVelocity = 0.f;
 
-        Transform2D *myTransform;
+        Transform2D* myTransform;
 
         RigidBodySettings myRigidBodySettings;
 
@@ -57,6 +57,6 @@ namespace ENGINE_NAMESPACE
 
     private:
         // Internals
-        RigidBodyUserData mySavedDataForUserData;
+        UserData mySavedDataForUserData;
     };
 }
