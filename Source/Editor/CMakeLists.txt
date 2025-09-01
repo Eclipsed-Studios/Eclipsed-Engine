@@ -57,17 +57,6 @@ foreach(source_file IN LISTS EDITOR_SOURCES)
     endif()
 endforeach()
 
-# set(ENIGMA_PATH "${CMAKE_SOURCE_DIR}/Tools/External/enigmavb")
-# set(ENIGMA_EXE "${ENIGMA_PATH}/enigmavbconsole.exe")
-# set(EVB_PROJECT "${ENIGMA_PATH}/Packager.evb")
-
-# add_custom_command(TARGET Editor POST_BUILD
-#     COMMAND "${ENIGMA_EXE}" "${EVB_PROJECT}"
-#     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-#     COMMENT "Running Enigma Virtual Box to package MyGame..."
-# )
-
-
 
 target_link_libraries(Editor PRIVATE GraphicsEngine)
 target_link_libraries(Editor PRIVATE CoreEngine)
