@@ -22,16 +22,8 @@ add_executable(Editor ${EDITOR_SOURCES})
 target_include_directories(Editor PUBLIC ${OPENGL_SOURCES})
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 
-target_link_directories(Editor PUBLIC "${CMAKE_SOURCE_DIR}/Tools/Libs/box2d")
-
-target_link_libraries(Editor PUBLIC debug box2d-d)
-target_link_libraries(Editor PUBLIC optimized box2d)
-
-
-
-target_include_directories(ImGui PUBLIC ${IMGUI_SOURCES}/ImGui)
-
-target_include_directories(ImGui PUBLIC ${PLATFORMINTEGRATION_SOURCES})
+# target_include_directories(ImGui PUBLIC ${IMGUI_SOURCES}/ImGui)
+# target_include_directories(ImGui PUBLIC ${PLATFORMINTEGRATION_SOURCES})
 
 
 
@@ -44,7 +36,7 @@ set_target_properties(Editor PROPERTIES
 RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
 RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/Bin"
 RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/Bin"
-OUTPUT_NAME "${GAME_NAME}"
+OUTPUT_NAME "${GAME_NAME}-Editor"
 )
 
 foreach(source_file IN LISTS EDITOR_SOURCES)

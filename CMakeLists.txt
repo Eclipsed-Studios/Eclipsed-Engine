@@ -25,8 +25,10 @@ add_subdirectory(Source/Engines/GraphicsEngine)
 add_subdirectory(Source/Engines/CoreEngine)
 add_subdirectory(Source/Engines/PhysicsEngine)
 
-add_subdirectory(Source/Editor)
 add_subdirectory(Source/Game)
+
+add_subdirectory(Source/Editor)
+add_subdirectory(Source/Launcher)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Editor) 
@@ -35,7 +37,7 @@ set_target_properties(Editor PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
 )
 
-set_target_properties(Game PROPERTIES
+set_target_properties(Launcher PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
 )
 
@@ -50,5 +52,6 @@ include_directories("${CMAKE_SOURCE_DIR}/Source/Utilities")
 target_link_libraries(CoreEngine PRIVATE Utilities)
 target_link_libraries(GraphicsEngine PRIVATE Utilities)
 target_link_libraries(Editor PRIVATE Utilities)
-target_link_libraries(Game PRIVATE Utilities)
+target_link_libraries(Launcher PRIVATE Utilities)
 target_link_libraries(PhysicsEngine PRIVATE Utilities)
+target_link_libraries(Game PRIVATE Utilities)

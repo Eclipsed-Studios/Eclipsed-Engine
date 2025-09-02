@@ -29,21 +29,15 @@ target_include_directories(CoreEngine PUBLIC ${COREENGINE_ROOT})
 target_include_directories(CoreEngine PUBLIC ${GRAPHICSENGINE_SOURCES})
 
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/stbi_image/)
-target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
-
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/)
+target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/)
 
 target_include_directories(CoreEngine PUBLIC ${SDL3_SOURCES})
 target_include_directories(CoreEngine PUBLIC ${PLATFORMINTEGRATION_SOURCES})
 
-target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/)
-
-target_link_directories(CoreEngine PUBLIC "${CMAKE_SOURCE_DIR}/Tools/Libs/box2d")
-target_link_libraries(CoreEngine PUBLIC debug box2d-d)
-target_link_libraries(CoreEngine PUBLIC optimized box2d)
-
 target_link_libraries(CoreEngine PUBLIC GraphicsEngine)
 target_link_libraries(CoreEngine PUBLIC PhysicsEngine)
+target_link_libraries(CoreEngine PUBLIC Game)
 
 foreach(source_file IN LISTS COREENGINE_SOURCES)
     file(RELATIVE_PATH source_path "${COREENGINE_ROOT}" "${source_file}")

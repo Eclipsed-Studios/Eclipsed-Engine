@@ -27,3 +27,4 @@ endforeach()
 target_include_directories(PlatformIntegration PUBLIC ${DiscordSDK_SOURCES})
 target_link_libraries(PlatformIntegration PRIVATE DiscordSDK)
 
+set_target_properties(PlatformIntegration PROPERTIES FOLDER "Utilils")

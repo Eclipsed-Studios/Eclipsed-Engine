@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game.h"
+
 namespace ENGINE_NAMESPACE
 {
 	class Engine
@@ -14,5 +16,7 @@ namespace ENGINE_NAMESPACE
 		static bool Begin();
 		static void Update();
 		static void End();
+
+		static inline Game game;
 	};
 }
