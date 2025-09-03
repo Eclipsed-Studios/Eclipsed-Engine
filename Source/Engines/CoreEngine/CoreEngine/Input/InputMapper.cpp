@@ -21,70 +21,7 @@
 
 namespace ENGINE_NAMESPACE
 {
-	void InputAction::Update()
-	{
-		auto getKey = [this](Keycode key) {
-			switch (buttonType)
-			{
-			case InputActionButtonType::Repeated: return Input::GetKey(key);
-			case InputActionButtonType::Down: return Input::GetKeyDown(key);
-			case InputActionButtonType::Up: return Input::GetKeyUp(key);
-			}
 
-			return false;
-			};
-
-
-		if (type == InputActionType::Axis)
-		{
-			value = getKey(positiveButton) - getKey(negativeButton);
-		}
-		else if (type == InputActionType::Single)
-		{
-			value = getKey(button);
-		}
-	}
-
-
-
-	rapidjson::Value InputAction::Save(rapidjson::Document::AllocatorType& anAllocator)
-	{
-		using namespace rapidjson;
-
-		Value action(kObjectType);
-		action.AddMember(stringify(name), Value(name.c_str(), anAllocator).Move(), anAllocator);
-		action.AddMember(stringify(type), (int)type, anAllocator);
-		action.AddMember(stringify(buttonType), (int)buttonType, anAllocator);
-
-		if (type == InputActionType::Single)
-		{
-			action.AddMember(stringify(button), (int)button, anAllocator);
-		}
-		else
-		{
-			action.AddMember(stringify(positiveButton), (int)positiveButton, anAllocator);
-			action.AddMember(stringify(negativeButton), (int)negativeButton, anAllocator);
-		}
-
-		return action;
-	}
-
-	void InputAction::Load(const rapidjson::Value& aValue)
-	{
-		name = aValue[stringify(name)].GetString();
-		type = (InputActionType)aValue[stringify(type)].GetInt();
-		buttonType = (InputActionButtonType)aValue[stringify(buttonType)].GetInt();
-
-		if (type == InputActionType::Axis)
-		{
-			positiveButton = (Keycode)aValue[stringify(positiveButton)].GetInt();
-			negativeButton = (Keycode)aValue[stringify(negativeButton)].GetInt();
-		}
-		else
-		{
-			button = (Keycode)aValue[stringify(button)].GetInt();
-		}
-	}
 
 
 

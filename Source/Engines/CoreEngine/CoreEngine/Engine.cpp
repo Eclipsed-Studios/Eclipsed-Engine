@@ -8,7 +8,7 @@
 #include "Timer.h"
 #include "Input/Input.h"
 
-#include "IntegrationManager.h"
+#include "PlatformIntegration/IntegrationManager.h"
 
 #include "PhysicsEngine.h"
 

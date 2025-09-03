@@ -3,49 +3,14 @@
 #include "Keycodes.h"
 
 #include <string>
+#include <unordered_map>
 #include <vector>
-#include <functional>
 #include "rapidjson/rapidjson/document.h"
+
+#include "InputAction.h"
 
 namespace ENGINE_NAMESPACE
 {
-	enum class InputActionType
-	{
-		Axis, Single
-	};
-
-	enum class InputActionButtonType
-	{
-		Repeated, Down, Up
-	};
-
-	struct InputAction
-	{
-		friend class InputMapper;
-
-		InputAction() = default;
-		InputAction(const std::string& actionName) : name(actionName) {}
-
-		InputActionType type = {};
-		InputActionButtonType buttonType = {};
-
-		Keycode negativeButton = {};
-		Keycode positiveButton = {};
-
-		Keycode button = {};
-
-	private:
-		std::string name;
-		int value = 0;
-
-	private:
-		void Update();
-
-		rapidjson::Value Save(rapidjson::Document::AllocatorType& anAllocator);
-		void Load(const rapidjson::Value& aValue);
-	};
-
-
 	class InputMapper
 	{
 	public:
