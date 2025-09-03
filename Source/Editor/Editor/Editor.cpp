@@ -4,7 +4,7 @@
 
 #include "Engine.h"
 #include "ImGui/ImGui_Impl.h"
-#include "DiscordIntegration.h"
+#include "PlatformIntegration/DiscordIntegration.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {

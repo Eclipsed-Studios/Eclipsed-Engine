@@ -51,6 +51,4 @@ endforeach()
 
 set_target_properties(CoreEngine PROPERTIES FOLDER "Engines")
 
-
-target_link_libraries(CoreEngine PRIVATE PlatformIntegration)
 target_link_libraries(CoreEngine PRIVATE SDL3)

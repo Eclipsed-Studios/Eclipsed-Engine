@@ -19,8 +19,6 @@ add_subdirectory(Source/Externals/stb_image)
 
 add_subdirectory(Source/Utilities)
 
-add_subdirectory(Source/PlatformIntegration)
-
 add_subdirectory(Source/Engines/GraphicsEngine)
 add_subdirectory(Source/Engines/CoreEngine)
 add_subdirectory(Source/Engines/PhysicsEngine)
