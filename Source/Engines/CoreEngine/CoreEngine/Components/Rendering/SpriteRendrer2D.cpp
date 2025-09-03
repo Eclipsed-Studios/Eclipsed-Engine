@@ -95,7 +95,7 @@ namespace ENGINE_NAMESPACE
         unsigned resolutionIndex = glGetUniformLocation(shaderID, "resolutionMultiplier");
         glUniform2f(resolutionIndex, resX, resY);
 
-        float resolutionRatio = settings.GetResolutionRatio();
+        float resolutionRatio = 9.f/16.f;//settings.GetResolutionRatio();
         unsigned resolutionRatioIndex = glGetUniformLocation(shaderID, "resolutionRatio");
         glUniform1f(resolutionRatioIndex, resolutionRatio);
 
