@@ -48,6 +48,9 @@ namespace ENGINE_NAMESPACE
         
         void SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax);
 
+        void SetXMirror(bool aMirror) { mirroredX = aMirror; }
+        void SetYMirror(bool aMirror) { mirroredY = aMirror; }
+
     private:
         Sprite* mySprite;
         Material* myMaterial;
@@ -56,5 +59,8 @@ namespace ENGINE_NAMESPACE
         Math::Vector2f spriteRectMax = { 1.f, 1.f };
 
         Transform2D* myTransform;
+
+        bool mirroredX = false;
+        bool mirroredY = false;
     };
 }

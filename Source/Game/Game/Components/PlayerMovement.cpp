@@ -3,6 +3,8 @@
 #include "ECS/ComponentManager.h"
 
 #include "Components/Physics/RigidBody2D.h"
+#include "Components/Rendering/SpriteRendrer2D.h"
+#include "Components/Rendering/SpriteSheetAnimator.h"
 #include "Components/Transform2D.h"
 
 #include "PhysicsEngine.h"
@@ -19,11 +21,21 @@ namespace ENGINE_NAMESPACE
 
         if (directionMove)
         {
+            myAnimation->Play();
+
             float moveSpeed = 1;
             float velY = myRigidBody->GetVelocity().Y;
             float time = Time::GetDeltaTime();
             myRigidBody->SetVelocity({ directionMove * moveSpeed * 1, velY });
 
+            if (directionMove > 0)
+                mySpriteRenderer->SetXMirror(false);
+            else
+                mySpriteRenderer->SetXMirror(true);
+        }
+        else
+        {
+            myAnimation->Pause();
         }
 
         if (InputMapper::ReadValue("Jump"))
@@ -41,5 +53,7 @@ namespace ENGINE_NAMESPACE
     {
         myRigidBody = GetComp(RigidBody2D, 1);
         myTransform = GetComp(Transform2D, 1);
+        mySpriteRenderer = GetComp(SpriteRendrer2D, 1);
+        myAnimation = GetComp(Animation2D, 1);
     }
 }

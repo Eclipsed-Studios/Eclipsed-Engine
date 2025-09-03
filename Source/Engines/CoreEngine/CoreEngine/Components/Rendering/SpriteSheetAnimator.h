@@ -18,6 +18,9 @@ namespace ENGINE_NAMESPACE
 
         void SetSpriteSheet(const char* aPath);
 
+        void Play() { myIsPlaying = true; }
+        void Pause() { myIsPlaying = false; }
+
     private:
         SpriteRendrer2D* mySpriteRenderer = nullptr;
 
@@ -26,5 +29,7 @@ namespace ENGINE_NAMESPACE
         float myTimePerFrame = 0.1f;
         float myTimeAccumulator = 0.f;
         int myCurrentFrame = 0;
+
+        bool myIsPlaying = true;
     };
 }

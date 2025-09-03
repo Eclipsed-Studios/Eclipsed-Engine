@@ -3,7 +3,7 @@
 #include "Input/InputMapper.h"
 
 #include <Components/Rendering/SpriteRendrer2D.h>
-#include <Components/Rendering/Animation2D.h>
+#include <Components/Rendering/SpriteSheetAnimator.h>
 #include <Components/Transform2D.h>
 #include <Components/Physics/RigidBody2D.h>
 #include <Components/Physics/BoxCollider2D.h>
@@ -26,7 +26,7 @@ namespace ENGINE_NAMESPACE
 	void Game::Init()
 	{
 		Material* matrial = new Material();
-		matrial->SetTexture(ASSET_PATH "Sprites/spritesheet.png");
+		matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster_Run_6.png");
 
 		// Player
 		{

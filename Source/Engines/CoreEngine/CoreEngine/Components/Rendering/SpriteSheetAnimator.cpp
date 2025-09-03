@@ -1,4 +1,4 @@
-#include "Animation2D.h"
+#include "SpriteSheetAnimator.h"
 
 #include "SpriteRendrer2D.h"
 
@@ -9,6 +9,9 @@ namespace ENGINE_NAMESPACE
 {
     void Animation2D::Update()
     {
+        if (!myIsPlaying || !mySpriteRenderer)
+            return;
+
         myTimeAccumulator += Time::GetDeltaTime();
 
         if (myTimeAccumulator >= myTimePerFrame)
@@ -26,6 +29,9 @@ namespace ENGINE_NAMESPACE
     void Animation2D::Start()
     {
         mySpriteRenderer = ComponentManager::GetComponent<SpriteRendrer2D>(gameObject);
+
+        const SpriteSheetRect& rect = mySpriteSheet.GetSpriteRecs()[0];
+        mySpriteRenderer->SetSpriteRect(rect.min, rect.max);
     }
 
     void Animation2D::SetSpriteSheet(const char* aPath)
@@ -33,11 +39,5 @@ namespace ENGINE_NAMESPACE
         mySpriteSheet.Load(aPath);
         myCurrentFrame = 0;
         myTimeAccumulator = 0.f;
-
-        if (mySpriteRenderer && !mySpriteSheet.GetSpriteRecs().empty())
-        {
-            const SpriteSheetRect& rect = mySpriteSheet.GetSpriteRecs()[0];
-            mySpriteRenderer->SetSpriteRect(rect.min, rect.max);
-        }
     }
 }

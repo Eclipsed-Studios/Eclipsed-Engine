@@ -16,5 +16,7 @@ namespace ENGINE_NAMESPACE
     private:
         class RigidBody2D* myRigidBody = nullptr;
         class Transform2D* myTransform = nullptr;
+        class SpriteRendrer2D* mySpriteRenderer = nullptr;
+        class Animation2D* myAnimation = nullptr;
     };
 }

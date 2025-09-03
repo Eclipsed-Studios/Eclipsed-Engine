@@ -44,10 +44,10 @@ namespace ENGINE_NAMESPACE
 
         unsigned shaderID = myShader->GetProgramID();
         GLint albedoColorIndex = glGetUniformLocation(shaderID, "material.color");
-        glUniform4f(albedoColorIndex, 
-            color.GetComponent(Math::ColorComponent::Red), 
-            color.GetComponent(Math::ColorComponent::Green), 
-            color.GetComponent(Math::ColorComponent::Blue), 
+        glUniform4f(albedoColorIndex,
+            color.GetComponent(Math::ColorComponent::Red),
+            color.GetComponent(Math::ColorComponent::Green),
+            color.GetComponent(Math::ColorComponent::Blue),
             color.GetComponent(Math::ColorComponent::Alpha));
     }
 
@@ -95,7 +95,7 @@ namespace ENGINE_NAMESPACE
         unsigned resolutionIndex = glGetUniformLocation(shaderID, "resolutionMultiplier");
         glUniform2f(resolutionIndex, resX, resY);
 
-        float resolutionRatio = 9.f/16.f;//settings.GetResolutionRatio();
+        float resolutionRatio = 9.f / 16.f;//settings.GetResolutionRatio();
         unsigned resolutionRatioIndex = glGetUniformLocation(shaderID, "resolutionRatio");
         glUniform1f(resolutionRatioIndex, resolutionRatio);
 
@@ -103,6 +103,9 @@ namespace ENGINE_NAMESPACE
 
         GLint spriteRectIndex = glGetUniformLocation(shaderID, "material.spriteRect");
         glUniform4f(spriteRectIndex, spriteRectMin.x, spriteRectMin.y, size.x, size.y);
+
+        GLint mirrord = glGetUniformLocation(shaderID, "material.mirrored");
+        glUniform2f(mirrord, mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f);
 
         myMaterial->Use();
         mySprite->Render();
