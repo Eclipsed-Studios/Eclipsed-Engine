@@ -1,12 +1,15 @@
 #pragma once
 
+#include "Interfaces/Serializable.h"
+
 namespace ENGINE_NAMESPACE
 {
     typedef unsigned GameObject;
 
-    class Component
+    class Component : public ISerializable
     {
         friend class ComponentManager;
+        friend class SceneLoader;
 
     public:
         Component() = default;
@@ -14,6 +17,7 @@ namespace ENGINE_NAMESPACE
 
         void SetComponentID() { myComponentID = ++nextComponentID; }
 
+    public:
         virtual void Awake() {}
         virtual void Start() {}
 
@@ -21,6 +25,11 @@ namespace ENGINE_NAMESPACE
         virtual void Update() {}
         virtual void LateUpdate() {}
 
+    public:
+        virtual rapidjson::Value Save(rapidjson::Document::AllocatorType& allocator) const override;
+        virtual void Load(const rapidjson::Value& aValue) override;
+
+    public:
         GameObject gameObject;
 
     protected:

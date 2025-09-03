@@ -42,7 +42,10 @@ namespace ENGINE_NAMESPACE
 
         unsigned shaderID = myShader->GetProgramID();
         GLint albedoColorIndex = glGetUniformLocation(shaderID, "material.color");
-        glUniform4f(albedoColorIndex, color.myR, color.myG, color.myB, color.myA);
+        glUniform4f(albedoColorIndex, color.GetComponent(Math::ColorComponent::Red), 
+            color.GetComponent(Math::ColorComponent::Green), 
+            color.GetComponent(Math::ColorComponent::Blue), 
+            color.GetComponent(Math::ColorComponent::Alpha));
     }
 
     void SpriteRendrer2D::SetMaterial(Material *aMaterial)

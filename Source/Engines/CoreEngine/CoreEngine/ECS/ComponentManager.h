@@ -40,6 +40,8 @@ namespace ENGINE_NAMESPACE
 		template <typename T>
 		static void RemoveComponent(GameObject aGOID);
 
+		static const std::vector<Component*>& GetComponents();
+
 	private:
 		static inline size_t myComponentMemoryTracker = 0;
 		static inline char* myComponentData;
@@ -47,7 +49,7 @@ namespace ENGINE_NAMESPACE
 		static inline std::vector<Component*> myComponents;
 
 		// Gameobject to components
-		static inline  std::unordered_map<GameObject, std::unordered_map<std::type_index, unsigned>> myEntityIDToVectorOfComponentIDs;
+		static inline std::unordered_map<GameObject, std::unordered_map<std::type_index, unsigned>> myEntityIDToVectorOfComponentIDs;
 	};
 }
 

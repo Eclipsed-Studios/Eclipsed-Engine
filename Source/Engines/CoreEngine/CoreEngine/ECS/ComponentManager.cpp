@@ -33,4 +33,8 @@ namespace ENGINE_NAMESPACE
         for (auto &component : myComponents)
             component->LateUpdate();
     }
+    const std::vector<Component*>& ComponentManager::GetComponents()
+    {
+        return myComponents;
+    }
 }

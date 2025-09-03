@@ -19,20 +19,20 @@
 
 namespace ENGINE_NAMESPACE
 {
-    void Game::Init()
-    {
-        Material *matrial = new Material();
+	void Game::Init()
+	{
+		Material* matrial = new Material();
 		matrial->SetTexture(ASSET_PATH "noah1.png");
 
 		{
 			int go = 1;
-			SpriteRendrer2D *rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
-			Transform2D *transform = ComponentManager::AddComponent<Transform2D>(go);
+			SpriteRendrer2D* rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
+			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
 			transform->SetScale(30.f, 30.f);
-			RigidBody2D *rb = ComponentManager::AddComponent<RigidBody2D>(go);
+			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(go);
 			rb->SetRotationLocked(true);
 
-			BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
+			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
 			boxCollider->SetHalfExtents(Math::Vector2f(15.f, 15.f));
 			boxCollider->myLayer = Layer::Player;
 
@@ -41,46 +41,46 @@ namespace ENGINE_NAMESPACE
 
 		{
 			int go = 2;
-			SpriteRendrer2D *rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
-			Transform2D *transform = ComponentManager::AddComponent<Transform2D>(go);
+			SpriteRendrer2D* rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
+			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
 			transform->SetPosition(0, -1.f);
 			transform->SetScale(1000.f, 10.f);
-			BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
+			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
 			boxCollider->SetHalfExtents(Math::Vector2f(500.f, 5.f));
 			boxCollider->myLayer = Layer::Ground;
 
 			rend->SetMaterial(matrial);
 		}
-    }
+	}
 
-    void Game::Update()
-    {
-        float directionMove = InputMapper::ReadValue("Sides");
+	void Game::Update()
+	{
+		float directionMove = InputMapper::ReadValue("Sides");
 
 		if (directionMove)
 		{
-			RigidBody2D *rb = GetComp(RigidBody2D, 1);
+			RigidBody2D* rb = GetComp(RigidBody2D, 1);
 
 			if (rb)
 			{
-				float moveSpeed = 150;
+				float moveSpeed = 1500;
 				float velY = rb->GetVelocity().Y;
-				rb->SetVelocity({directionMove * moveSpeed * Time::GetDeltaTime(), velY});
+				rb->SetVelocity({ directionMove * moveSpeed * Time::GetDeltaTime(), velY });
 			}
 		}
 
 		if (InputMapper::ReadValue("Jump"))
 		{
-			Transform2D *transform = GetComp(Transform2D, 1);
-			
+			Transform2D* transform = GetComp(Transform2D, 1);
+
 			HitResults hit;
 			if (PhysicsEngine::OverlapSphere(transform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.1f, hit, Layer::Ground))
 			{
-				RigidBody2D *rb = GetComp(RigidBody2D, 1);
+				RigidBody2D* rb = GetComp(RigidBody2D, 1);
 				if (rb)
 				{
 					float velX = rb->GetVelocity().x;
-					rb->SetVelocity({velX, 4.f});
+					rb->SetVelocity({ velX, 4.f });
 				}
 			}
 		}
@@ -106,5 +106,5 @@ namespace ENGINE_NAMESPACE
 		// 	boxCollider->Start();
 		// 	boxCollider->Awake();
 		// }
-    }
+	}
 }

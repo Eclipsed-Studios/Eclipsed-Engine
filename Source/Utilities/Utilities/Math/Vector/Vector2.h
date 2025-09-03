@@ -2,16 +2,22 @@
 
 #include <initializer_list>
 
+#include "Interfaces/Serializable.h"
+
 namespace ENGINE_NAMESPACE::Math
 {
 	template <typename T>
-	class Vector2 final
+	class Vector2 final : public ISerializable
 	{
 	public:
 		Vector2();
 		Vector2(const T& aX, const T& aY);
 		Vector2(const std::initializer_list<T> initList);
 		~Vector2() = default;
+
+	public:
+		rapidjson::Value Save(rapidjson::Document::AllocatorType& allocator) const override;
+		void Load(const rapidjson::Value& aValue) override;
 
 	public:
 		const Vector2 operator+(const Vector2& anotherVec) const;

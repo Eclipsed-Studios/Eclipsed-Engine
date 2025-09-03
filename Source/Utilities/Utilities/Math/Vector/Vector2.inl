@@ -22,6 +22,27 @@ namespace ENGINE_NAMESPACE::Math
 		std::memcpy(data, initList.begin(), sizeof(T) * 2);
 	}
 
+	template<typename T>
+	inline rapidjson::Value Vector2<T>::Save(rapidjson::Document::AllocatorType& allocator) const
+	{
+		rapidjson::Value obj(rapidjson::kObjectType);
+
+		obj.AddMember("x", x, allocator);
+		obj.AddMember("y", y, allocator);
+
+		return obj;
+	}
+
+	template<typename T>
+	inline void Vector2<T>::Load(const rapidjson::Value& aValue)
+	{
+		if (aValue.HasMember("x") && aValue["x"].IsNumber())
+			x = static_cast<T>(aValue["x"].GetDouble()); // or GetInt() if T is int
+
+		if (aValue.HasMember("y") && aValue["y"].IsNumber())
+			y = static_cast<T>(aValue["y"].GetDouble());
+	}
+
 	template <typename T>
 	inline T Vector2<T>::Dot(const Vector2 &anotherVec) const
 	{

@@ -7,6 +7,7 @@
 #include "../GraphicsEngine/Sprite.h"
 
 #include "AssetManagement/Resources.h"
+#include "Math/Color.h"
 
 namespace ENGINE_NAMESPACE
 {
@@ -22,13 +23,7 @@ namespace ENGINE_NAMESPACE
 
         ResourcePointer<Texture> myTexture;
 
-        struct Color
-        {
-            float myR = 1;
-            float myG = 1;
-            float myB = 1;
-            float myA = 1;
-        } color;
+        Math::Color color;
     };
 
     class Sprite;

@@ -1,0 +1,43 @@
+{
+    "components": [
+        {
+            "owner": 1
+        },
+        {
+            "owner": 2,
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotation": 0.0,
+            "scale": {
+                "x": 30.0,
+                "y": 30.0
+            }
+        },
+        {
+            "owner": 3
+        },
+        {
+            "owner": 4
+        },
+        {
+            "owner": 5
+        },
+        {
+            "owner": 6,
+            "position": {
+                "x": 0.0,
+                "y": -1.0
+            },
+            "rotation": 0.0,
+            "scale": {
+                "x": 1000.0,
+                "y": 10.0
+            }
+        },
+        {
+            "owner": 7
+        }
+    ]
+}

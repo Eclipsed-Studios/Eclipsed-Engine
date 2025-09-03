@@ -4,15 +4,15 @@
 
 namespace ENGINE_NAMESPACE
 {
-    const Math::Vector2f &Transform2D::GetPosition()
+    const Math::Vector2f &Transform2D::GetPosition() const
     {
         return position;
     }
-    const float Transform2D::GetRotation()
+    const float Transform2D::GetRotation() const
     {
         return rotation;
     }
-    const Math::Vector2f &Transform2D::GetScale()
+    const Math::Vector2f &Transform2D::GetScale() const
     {
         return scale;
     }
@@ -40,5 +40,20 @@ namespace ENGINE_NAMESPACE
     {
         scale.x = aX;
         scale.y = aY;
+    }
+
+    rapidjson::Value Transform2D::Save(rapidjson::Document::AllocatorType& allocator) const
+    {
+        rapidjson::Value obj = Component::Save(allocator);
+
+        obj.AddMember("position", GetPosition().Save(allocator), allocator);
+        obj.AddMember("rotation", GetRotation(), allocator);
+        obj.AddMember("scale", GetScale().Save(allocator), allocator);
+
+        return obj;
+    }
+
+    void Transform2D::Load(const rapidjson::Value& aValue)
+    {
     }
 }
