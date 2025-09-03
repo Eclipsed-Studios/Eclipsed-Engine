@@ -24,11 +24,13 @@ namespace ENGINE_NAMESPACE
 
 		int rgbTypeOffset = 3 - outResource.channels;
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - rgbTypeOffset, outResource.width, 
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - rgbTypeOffset, outResource.width,
 			outResource.height, 0, GL_RGB - rgbTypeOffset, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		FreeData_STB(data);
+
+		outResource.spriteDimDivOne = {1.0f / static_cast<float>(outResource.width), 1.0f / static_cast<float>(outResource.height)};
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}

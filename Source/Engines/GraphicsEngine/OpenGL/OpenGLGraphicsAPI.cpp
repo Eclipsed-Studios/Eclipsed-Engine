@@ -80,9 +80,16 @@ namespace ENGINE_NAMESPACE
         return ErrorCode::SUCCESS;
     }
 
+    void EnableOpenGLSettings()
+    {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
     ErrorCode GraphicsEngine::Init()
     {
         ErrorCode errorCode = InitOpenGL();
+        EnableOpenGLSettings();
         return errorCode;
     }
 
@@ -91,6 +98,7 @@ namespace ENGINE_NAMESPACE
         glfwMakeContextCurrent(myWindow);
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.4314f, 0.1804f, 0.6f, 1.0f);
     }
     void GraphicsEngine::Render()
     {

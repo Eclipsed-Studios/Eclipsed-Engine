@@ -4,6 +4,7 @@ struct Material
 {
    sampler2D albedo;
    vec4 color;
+   vec4 spriteRect; // x, y, width, height
 };
 
 // Uniforms
@@ -17,7 +18,12 @@ out vec4 frag_colour;
 
 void main() 
 {
-   vec4 textureAlbedo = texture(material.albedo, outTexCoord);
+   vec2 modifiedUV = vec2(
+       material.spriteRect.x + outTexCoord.x * material.spriteRect.z,
+       material.spriteRect.y + outTexCoord.y * material.spriteRect.w
+   );
+
+   vec4 textureAlbedo = texture(material.albedo, modifiedUV);
    vec4 colorAlbedo = textureAlbedo * material.color;
 
    frag_colour = colorAlbedo;

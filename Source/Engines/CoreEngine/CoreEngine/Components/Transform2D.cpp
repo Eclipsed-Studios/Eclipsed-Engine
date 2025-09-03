@@ -25,11 +25,15 @@ namespace ENGINE_NAMESPACE
     {
         position.x = aX;
         position.y = aY;
+
+        myIsDirty = true;
     }
 
     void Transform2D::SetRotation(float aRotation)
     {
         rotation = aRotation;
+
+        myIsDirty = true;
     }
 
     void Transform2D::SetScale(const Math::Vector2f &aScale)
@@ -40,6 +44,24 @@ namespace ENGINE_NAMESPACE
     {
         scale.x = aX;
         scale.y = aY;
+
+        myIsDirty = true;
+    }
+
+    void Transform2D::AddFunctionToRunOnDirtyUpdate(const std::function<void()> &aFunction)
+    {
+        myFunctionsToRunOnDirtyUpdate.push_back(aFunction);
+    }
+
+    void Transform2D::Update()
+    {
+        if (myIsDirty)
+        {
+            for (auto& func : myFunctionsToRunOnDirtyUpdate)
+                func();
+
+            myIsDirty = false;
+        }
     }
 
     rapidjson::Value Transform2D::Save(rapidjson::Document::AllocatorType& allocator) const

@@ -25,7 +25,7 @@ namespace ENGINE_NAMESPACE
         myShader->Create(ASSET_PATH "Shaders/DefaultSpritePixelShader.glsl", ASSET_PATH "Shaders/DefaultSpriteVertexShader.glsl");
     }
 
-    void Material::SetTexture(const char *aPath)
+    void Material::SetTexture(const char* aPath)
     {
         myTexture = Resources::Get<Texture>(aPath);
 
@@ -44,15 +44,21 @@ namespace ENGINE_NAMESPACE
 
         unsigned shaderID = myShader->GetProgramID();
         GLint albedoColorIndex = glGetUniformLocation(shaderID, "material.color");
-        glUniform4f(albedoColorIndex, color.GetComponent(Math::ColorComponent::Red), 
+        glUniform4f(albedoColorIndex, 
+            color.GetComponent(Math::ColorComponent::Red), 
             color.GetComponent(Math::ColorComponent::Green), 
             color.GetComponent(Math::ColorComponent::Blue), 
             color.GetComponent(Math::ColorComponent::Alpha));
     }
 
-    void SpriteRendrer2D::SetMaterial(Material *aMaterial)
+    void SpriteRendrer2D::SetMaterial(Material* aMaterial)
     {
         myMaterial = aMaterial;
+    }
+    void SpriteRendrer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
+    {
+        spriteRectMin = aMin * myMaterial->myTexture->spriteDimDivOne;
+        spriteRectMax = aMax * myMaterial->myTexture->spriteDimDivOne;
     }
 
     void SpriteRendrer2D::Awake()
@@ -68,28 +74,35 @@ namespace ENGINE_NAMESPACE
 
     void SpriteRendrer2D::LateUpdate()
     {
+        unsigned shaderID = myMaterial->myShader->GetProgramID();
+
+        auto& settings = TemporarySettingsSingleton::Get();
+
+        float resX = settings.GetOneDivResolutionX();
+        float resY = settings.GetOneDivResolutionY();
+
         Math::Vector2f position = myTransform->GetPosition();
         float rotation = myTransform->GetRotation();
         Math::Vector2f scale = myTransform->GetScale();
 
-        GLint positionIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "transform.position");
+        GLint positionIndex = glGetUniformLocation(shaderID, "transform.position");
         glUniform2f(positionIndex, position.x, position.y);
-        GLint rotationIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "transform.rotation");
+        GLint rotationIndex = glGetUniformLocation(shaderID, "transform.rotation");
         glUniform1f(rotationIndex, rotation);
-        GLint scaleIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "transform.pixelSize");
+        GLint scaleIndex = glGetUniformLocation(shaderID, "transform.pixelSize");
         glUniform2f(scaleIndex, scale.x, scale.y);
 
-        auto &settings = TemporarySettingsSingleton::Get();
-
-        float resX = settings.GetOneDivResolutionX();
-        float resY = settings.GetOneDivResolutionY();
-        
-        unsigned resolutionIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "resolutionMultiplier");
+        unsigned resolutionIndex = glGetUniformLocation(shaderID, "resolutionMultiplier");
         glUniform2f(resolutionIndex, resX, resY);
-        
+
         float resolutionRatio = settings.GetResolutionRatio();
-        unsigned resolutionRatioIndex = glGetUniformLocation(myMaterial->myShader->GetProgramID(), "resolutionRatio");
+        unsigned resolutionRatioIndex = glGetUniformLocation(shaderID, "resolutionRatio");
         glUniform1f(resolutionRatioIndex, resolutionRatio);
+
+        Math::Vector2f size = spriteRectMax - spriteRectMin;
+
+        GLint spriteRectIndex = glGetUniformLocation(shaderID, "material.spriteRect");
+        glUniform4f(spriteRectIndex, spriteRectMin.x, spriteRectMin.y, size.x, size.y);
 
         myMaterial->Use();
         mySprite->Render();

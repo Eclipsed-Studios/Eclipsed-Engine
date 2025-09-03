@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Math/Vector/Vector2.h"
+
 #include "Abstract/AbstractResource.h"
 
 namespace ENGINE_NAMESPACE
@@ -23,6 +25,9 @@ namespace ENGINE_NAMESPACE
 		BASE_RESOURCE(Texture)
 
 	public:
+		friend class AssetLoader;
+		friend class SpriteRendrer2D;
+
 		void Bind();
 
 		unsigned GetTextureID();
@@ -30,6 +35,8 @@ namespace ENGINE_NAMESPACE
 	private:
 		int width, height;
 		int channels;
+
+		Math::Vector2f spriteDimDivOne;
 
 		unsigned textureID = 0;
 	};

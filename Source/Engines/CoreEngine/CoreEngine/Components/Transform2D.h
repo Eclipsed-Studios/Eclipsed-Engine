@@ -4,6 +4,9 @@
 
 #include <Math/Vector/Vector2.h>
 
+#include <vector>
+#include <functional>
+
 namespace ENGINE_NAMESPACE
 {
 	class Transform2D : public Component
@@ -11,6 +14,8 @@ namespace ENGINE_NAMESPACE
 	public:
 		Transform2D() = default;
 		~Transform2D() = default;
+
+        void Update() override;
 
 		const Math::Vector2f& GetPosition() const;
 		const float GetRotation() const;
@@ -28,10 +33,15 @@ namespace ENGINE_NAMESPACE
 		virtual rapidjson::Value Save(rapidjson::Document::AllocatorType& allocator) const override;
 		virtual void Load(const rapidjson::Value& aValue) override;
 
-	private:
-		Math::Vector2f position = { 0, 0 };
-		float rotation = 0;
-		Math::Vector2f scale = { 1, 1 };
-	};
+        void AddFunctionToRunOnDirtyUpdate(const std::function<void()> &aFunction);
 
+    private:
+        Math::Vector2f position = {0, 0};
+        float rotation = 0;
+        Math::Vector2f scale = {1, 1};
+
+        std::vector<std::function<void()>> myFunctionsToRunOnDirtyUpdate;
+
+        bool myIsDirty = true;
+    };
 }

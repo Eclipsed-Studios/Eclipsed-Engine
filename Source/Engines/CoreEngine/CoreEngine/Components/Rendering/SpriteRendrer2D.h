@@ -9,6 +9,8 @@
 #include "AssetManagement/Resources.h"
 #include "Math/Color.h"
 
+#include "Math/Vector/Vector2.h"
+
 namespace ENGINE_NAMESPACE
 {
     class Material
@@ -16,10 +18,10 @@ namespace ENGINE_NAMESPACE
     public:
         Material();
 
-        void SetTexture(const char *aPath);
+        void SetTexture(const char* aPath);
         void Use();
 
-        Shader *myShader;
+        Shader* myShader;
 
         ResourcePointer<Texture> myTexture;
 
@@ -43,11 +45,16 @@ namespace ENGINE_NAMESPACE
         void LateUpdate() override;
 
         void SetMaterial(Material* aMaterial);
+        
+        void SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax);
 
     private:
-        Sprite *mySprite;
-        Material *myMaterial;
+        Sprite* mySprite;
+        Material* myMaterial;
 
-        Transform2D *myTransform;
+        Math::Vector2f spriteRectMin = { 0.f, 0.f };
+        Math::Vector2f spriteRectMax = { 1.f, 1.f };
+
+        Transform2D* myTransform;
     };
 }

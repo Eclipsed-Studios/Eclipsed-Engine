@@ -28,4 +28,6 @@ float ENGINE_NAMESPACE::Math::Color::GetComponent(ColorComponent aComponent)
 		return a;
 	}
 
+	return g;
+
 }

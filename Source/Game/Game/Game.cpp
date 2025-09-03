@@ -3,10 +3,12 @@
 #include "Input/InputMapper.h"
 
 #include <Components/Rendering/SpriteRendrer2D.h>
+#include <Components/Rendering/Animation2D.h>
 #include <Components/Transform2D.h>
 #include <Components/Physics/RigidBody2D.h>
 #include <Components/Physics/BoxCollider2D.h>
-#include <Components/TestingComponents/RotateObjectContin.h>
+
+#include "Components/PlayerMovement.h"
 
 #include <ECS/ComponentManager.h>
 #include <MainSingleton.h>
@@ -17,13 +19,16 @@
 
 #include "PhysicsEngine.h"
 
+#include "Components/Rendering/SpriteSheet.h"
+
 namespace ENGINE_NAMESPACE
 {
 	void Game::Init()
 	{
 		Material* matrial = new Material();
-		matrial->SetTexture(ASSET_PATH "noah1.png");
+		matrial->SetTexture(ASSET_PATH "Sprites/spritesheet.png");
 
+		// Player
 		{
 			int go = 1;
 			SpriteRendrer2D* rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
@@ -32,13 +37,19 @@ namespace ENGINE_NAMESPACE
 			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(go);
 			rb->SetRotationLocked(true);
 
+			ComponentManager::AddComponent<PlayerMovement>(go);
+
 			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
 			boxCollider->SetHalfExtents(Math::Vector2f(15.f, 15.f));
 			boxCollider->myLayer = Layer::Player;
 
 			rend->SetMaterial(matrial);
+
+			Animation2D* animation = ComponentManager::AddComponent<Animation2D>(go);
+			animation->SetSpriteSheet(ASSET_PATH "Sprites/spritesheet.json");
 		}
 
+		// Ground
 		{
 			int go = 2;
 			SpriteRendrer2D* rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
@@ -55,56 +66,6 @@ namespace ENGINE_NAMESPACE
 
 	void Game::Update()
 	{
-		float directionMove = InputMapper::ReadValue("Sides");
-
-		if (directionMove)
-		{
-			RigidBody2D* rb = GetComp(RigidBody2D, 1);
-
-			if (rb)
-			{
-				float moveSpeed = 1500;
-				float velY = rb->GetVelocity().Y;
-				rb->SetVelocity({ directionMove * moveSpeed * Time::GetDeltaTime(), velY });
-			}
-		}
-
-		if (InputMapper::ReadValue("Jump"))
-		{
-			Transform2D* transform = GetComp(Transform2D, 1);
-
-			HitResults hit;
-			if (PhysicsEngine::OverlapSphere(transform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.1f, hit, Layer::Ground))
-			{
-				RigidBody2D* rb = GetComp(RigidBody2D, 1);
-				if (rb)
-				{
-					float velX = rb->GetVelocity().x;
-					rb->SetVelocity({ velX, 4.f });
-				}
-			}
-		}
-
-		// if (InputMapper::ReadValue("Dash"))
-		// {
-		// 	RigidBody2D *rb = GetComp(RigidBody2D, 1);
-		// 	if (rb)
-		// 	{
-		// 		rb->AddForce({100.f * directionMove, 0});
-		// 	}
-		// }
-
-		if (Input::GetKeyDown(Keycode::R))
-		{
-			ComponentManager::RemoveComponent<BoxCollider2D>(1);
-		}
-		// if (Input::GetKeyDown(Keycode::U))
-		// {
-		// 	BoxCollider2D *boxCollider = ComponentManager::AddComponent<BoxCollider2D>(1);
-		// 	boxCollider->SetHalfExtents(Math::Vector2f(50.f, 50.f));
-
-		// 	boxCollider->Start();
-		// 	boxCollider->Awake();
-		// }
+		
 	}
 }
