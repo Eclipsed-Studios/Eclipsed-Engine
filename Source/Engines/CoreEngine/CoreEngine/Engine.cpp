@@ -16,6 +16,9 @@
 
 #include <iostream>
 
+#include "Debug/DebugInformationCollector.h"
+
+
 namespace ENGINE_NAMESPACE
 {
 	void Engine::Init()
@@ -43,6 +46,9 @@ namespace ENGINE_NAMESPACE
 	}
 	void Engine::Update()
 	{
+		DebugInformationCollector::ResetRenderCalls();
+
+
 		PlatformIntegration::IntegrationManager::Update();
 
 		Time::Update();

@@ -18,6 +18,11 @@ namespace ENGINE_NAMESPACE::Editor
 		void Update();
 
 	private:
+		void DrawDebugInfoWindow();
+
+		bool myShowDebugWindow = false;
+
+	private:
 		std::unordered_map<int, AbstractWindow*> IdToWindow;
 	};
 

@@ -15,6 +15,8 @@
 
 #include "AssetManagement/Resources/Texture.h"
 
+#include "Debug/DebugInformationCollector.h"
+
 namespace ENGINE_NAMESPACE
 {
     Material::Material()
@@ -91,5 +93,7 @@ namespace ENGINE_NAMESPACE
 
         myMaterial->Use();
         mySprite->Render();
+
+        DebugInformationCollector::UpdateRenderCalls();
     }
 }

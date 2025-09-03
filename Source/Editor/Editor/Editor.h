@@ -25,9 +25,6 @@ namespace ENGINE_NAMESPACE::Editor
         void OpenWindow();
 
     private:
-        void UpdateMainMenuBar();
-
-    private:
         GLFWwindow* myWindow;
 
         WindowManager myWindowManager;
