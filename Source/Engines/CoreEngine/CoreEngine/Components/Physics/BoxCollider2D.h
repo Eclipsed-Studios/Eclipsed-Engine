@@ -18,7 +18,7 @@ namespace ENGINE_NAMESPACE
         // Reason this is Start because if RB gets added after BOX it will start afterwards which is wrong
         void Start() override;
 
-        void SetHalfExtents(const Math::Vector2f& aHalfExtents);
+        void SetScale(const Math::Vector2f& aHalfExtents);
 
     private:
         Math::Vector2f myHalfExtents;

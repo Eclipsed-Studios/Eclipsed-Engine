@@ -31,6 +31,9 @@ namespace ENGINE_NAMESPACE
 		static void UpdateComponents();
 		static void LateUpdateComponents();
 
+		static void BeginCollisions(GameObject aGOID);
+		static void EndCollisions(GameObject aGOID);
+
 		template <typename T>
 		static T* GetComponent(GameObject aGOID);
 

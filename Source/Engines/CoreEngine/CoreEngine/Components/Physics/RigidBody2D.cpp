@@ -21,8 +21,10 @@ namespace ENGINE_NAMESPACE
         myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
 
         const Math::Vector2f& startPosition = myTransform->GetPosition();
-        PhysicsEngine::CreateRigidBody(&myBody, myRigidBodySettings, startPosition);
+        PhysicsEngine::CreateRigidBody(&myBody, &myUserData, myRigidBodySettings, startPosition);
         bodyHasBeenCreated = true;
+
+        myUserData = { gameObject };
     }
 
     void RigidBody2D::EarlyUpdate()

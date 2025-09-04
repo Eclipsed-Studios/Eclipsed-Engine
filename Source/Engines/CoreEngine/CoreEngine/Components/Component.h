@@ -25,6 +25,9 @@ namespace ENGINE_NAMESPACE
         virtual void Update() {}
         virtual void LateUpdate() {}
 
+        virtual void OnCollisionEnter() {}
+        virtual void OnCollisionExit() {}
+
     public:
         virtual rapidjson::Value Save(rapidjson::Document::AllocatorType& allocator) const override;
         virtual void Load(const rapidjson::Value& aValue) override;

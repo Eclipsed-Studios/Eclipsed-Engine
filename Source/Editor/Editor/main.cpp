@@ -8,15 +8,13 @@
 
 #include "TemporarySettingsSingleton.h"
 
-#include <chrono>
-
 using namespace ENGINE_NAMESPACE;
 
-int main()
+int main(int argsCount, char* args[])
 {
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_HIDE);
-	
+
 	TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
 	Editor::EditorContext editor;
 	ErrorCode result = editor.Init();

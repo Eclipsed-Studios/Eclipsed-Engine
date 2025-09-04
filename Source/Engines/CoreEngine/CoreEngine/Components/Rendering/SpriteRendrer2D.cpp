@@ -45,6 +45,7 @@ namespace ENGINE_NAMESPACE
 		glBindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
 
 		unsigned shaderID = myShader->GetProgramID();
+
 		GLint albedoColorIndex = glGetUniformLocation(shaderID, "material.color");
 		glUniform4f(albedoColorIndex, color.r, color.g, color.b, color.a);
 	}
@@ -83,6 +84,8 @@ namespace ENGINE_NAMESPACE
 		float rotation = myTransform->GetRotation();
 		Math::Vector2f scale = myTransform->GetScale();
 
+		myMaterial->Use();
+
 		GLint positionIndex = glGetUniformLocation(shaderID, "transform.position");
 		glUniform2f(positionIndex, position.x, position.y);
 		GLint rotationIndex = glGetUniformLocation(shaderID, "transform.rotation");
@@ -105,7 +108,6 @@ namespace ENGINE_NAMESPACE
 		GLint mirrord = glGetUniformLocation(shaderID, "material.mirrored");
 		glUniform2f(mirrord, mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f);
 
-		myMaterial->Use();
 		mySprite->Render();
 
 		DebugInformationCollector::UpdateRenderCalls();

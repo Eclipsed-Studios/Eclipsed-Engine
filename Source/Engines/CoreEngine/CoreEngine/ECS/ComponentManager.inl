@@ -76,4 +76,5 @@ namespace ENGINE_NAMESPACE
             if (backComponenetIndex == entity.second)
                 backEntityIDComponents.at(entity.first) = componentIndex;
     }
+    
 }

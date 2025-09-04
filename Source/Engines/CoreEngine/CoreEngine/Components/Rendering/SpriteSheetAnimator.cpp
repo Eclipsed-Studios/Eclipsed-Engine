@@ -7,7 +7,7 @@
 
 namespace ENGINE_NAMESPACE
 {
-    void Animation2D::Update()
+    void SpriteSheetAnimator2D::Update()
     {
         if (!myIsPlaying || !mySpriteRenderer)
             return;
@@ -26,7 +26,7 @@ namespace ENGINE_NAMESPACE
         }
     }
 
-    void Animation2D::Start()
+    void SpriteSheetAnimator2D::Start()
     {
         mySpriteRenderer = ComponentManager::GetComponent<SpriteRendrer2D>(gameObject);
 
@@ -34,7 +34,7 @@ namespace ENGINE_NAMESPACE
         mySpriteRenderer->SetSpriteRect(rect.min, rect.max);
     }
 
-    void Animation2D::SetSpriteSheet(const char* aPath)
+    void SpriteSheetAnimator2D::SetSpriteSheet(const char* aPath)
     {
         mySpriteSheet.Load(aPath);
         myCurrentFrame = 0;

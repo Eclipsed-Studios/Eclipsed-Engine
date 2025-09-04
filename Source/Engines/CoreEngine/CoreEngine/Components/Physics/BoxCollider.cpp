@@ -17,14 +17,14 @@ namespace ENGINE_NAMESPACE
         RigidBody2D* rigidBody = ComponentManager::GetComponent<RigidBody2D>(gameObject);
 
         if (!rigidBody)
-            PhysicsEngine::CreateRigidBody(&myBodyRef, RigidBodySettings(), ComponentManager::GetComponent<Transform2D>(gameObject)->GetPosition());
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), ComponentManager::GetComponent<Transform2D>(gameObject)->GetPosition());
         else
             myBodyRef = rigidBody->myBody;
 
-        PhysicsEngine::CreateBoxCollider(&myInternalCollider, &myUserData, myBodyRef, myHalfExtents, myLayer);
+        PhysicsEngine::CreateBoxCollider(&myInternalCollider, myBodyRef, myHalfExtents, myLayer);
     }
 
-    void BoxCollider2D::SetHalfExtents(const Math::Vector2f& aHalfExtents)
+    void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)
     {
         auto& temporary = TemporarySettingsSingleton::Get();
 
@@ -33,13 +33,10 @@ namespace ENGINE_NAMESPACE
 
         Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);
 
-        Math::Vector2f halfExtent = Math::Vector2f(aHalfExtents.x * oneDivY, aHalfExtents.y * oneDivY);
+        Math::Vector2f halfExtent = Math::Vector2f(transform->GetScale().x * oneDivY, transform->GetScale().y * oneDivY);
 
-        halfExtent.x *= 2.f;
-        halfExtent.y *= 2.f;
-
-        // halfExtent.x *= transform->GetScale().x * oneDivX;
-        // halfExtent.y *= transform->GetScale().y * oneDivY;
+        halfExtent.x *= aHalfExtents.x;
+        halfExtent.y *= aHalfExtents.y;
 
         myHalfExtents = halfExtent;
     }

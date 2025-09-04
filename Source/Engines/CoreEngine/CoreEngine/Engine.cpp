@@ -33,7 +33,16 @@ namespace ENGINE_NAMESPACE
 		ComponentManager::Init();
 
 		Utilities::MainSingleton::Init();
-		PhysicsEngine::Init();
+		PhysicsEngine::Init(8, { 0.f, -9.81f });
+
+		PhysicsEngine::myBeginContactCallback = [](UserData& aUserData)
+			{
+				ComponentManager::BeginCollisions(aUserData.gameobject);
+			};
+		PhysicsEngine::myEndContactCallback = [](UserData& aUserData)
+			{
+				ComponentManager::BeginCollisions(aUserData.gameobject);
+			};
 
 		game.Init();
 

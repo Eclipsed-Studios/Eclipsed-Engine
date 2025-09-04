@@ -44,6 +44,8 @@ namespace ENGINE_NAMESPACE
         bool GetYPosLocked();
 
     private:
+        UserData myUserData;
+
         bool bodyHasBeenCreated = false;
 
         Math::Vector2f myVelocity = { 0.f, 0.f };

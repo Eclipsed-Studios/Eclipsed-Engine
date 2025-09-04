@@ -52,7 +52,7 @@ namespace ENGINE_NAMESPACE
         b2DestroyShape(aShape, false);
     }
 
-    void PhysicsEngine::CreateRigidBody(b2BodyId* aBody, const RigidBodySettings& aBodySettings, const Math::Vector2f& aStartPosition)
+    void PhysicsEngine::CreateRigidBody(b2BodyId* aBody, UserData* aUserData, const RigidBodySettings& aBodySettings, const Math::Vector2f& aStartPosition)
     {
         b2BodyDef bodyDefine = b2DefaultBodyDef();
 
@@ -64,46 +64,107 @@ namespace ENGINE_NAMESPACE
 
         bodyDefine.linearDamping = 5.f;
 
-        //bodyDefine.userData = reinterpret_cast<void*>(&aUserData);
+        bodyDefine.userData = aUserData;
 
         *aBody = b2CreateBody(myWorld, &bodyDefine);
     }
 
-    void PhysicsEngine::CreateBoxCollider(b2ShapeId* aShape, UserData* aUserData, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer)
+    void PhysicsEngine::CreateBoxCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer)
     {
         b2Polygon polygon = b2MakeBox(aHalfExtents.x, aHalfExtents.y);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
 
         shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
 
-        shapeDef.userData = aUserData;
-
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
 
-    void PhysicsEngine::Init()
+    bool MyCustomFilter(b2ShapeId shapeIdA, b2ShapeId shapeIdB, void* context)
     {
+        return true;
+    }
+
+    bool MyPreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context)
+    {
+        return true;
+    }
+
+    void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity)
+    {
+        mySubstepCount = aSubstepCount;
+        myGravity = aGravity;
+
         b2WorldDef worldDef;
         worldDef = b2DefaultWorldDef();
         worldDef.gravity = b2Vec2(myGravity.x, myGravity.y);
         myWorld = b2CreateWorld(&worldDef);
 
-        b2ShapeProxy boxshape;
-        b2ShapeProxy circleShape;
-        {
-            boxshape.count = 4;
-            boxshape.radius = 0.0f;
-        }
-
-        {
-            boxshape.count = 1;
-            boxshape.points[0] = b2Vec2(0, 0);
-        }
+        // Elsewhere
+        b2World_SetCustomFilterCallback(myWorld, MyCustomFilter, nullptr);    // Elsewhere
     }
 
     void PhysicsEngine::Update()
     {
-        b2World_Step(myWorld, Time::GetDeltaTime(), substepCount);
+        b2World_Step(myWorld, Time::GetDeltaTime(), mySubstepCount);
+
+        CheckCollisions();
+    }
+
+    void HandleBeginContacts(b2ContactBeginTouchEvent& aEvent)
+    {
+        const b2ShapeId shapeIdA = aEvent.shapeIdA;
+        const b2ShapeId shapeIdB = aEvent.shapeIdB;
+
+        const b2BodyId bodyIdA = b2Shape_GetBody(shapeIdA);
+        const b2BodyId bodyIdB = b2Shape_GetBody(shapeIdB);
+
+        void* userInternalDataA = b2Body_GetUserData(bodyIdA);
+        void* userInternalDataB = b2Body_GetUserData(bodyIdB);
+
+        UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
+        UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataA);
+
+        PhysicsEngine::myBeginContactCallback(userDataA);
+        PhysicsEngine::myBeginContactCallback(userDataB);
+    }
+
+    void HandleEndContacts(b2ContactEndTouchEvent& aEvent)
+    {
+        const b2ShapeId shapeIdA = aEvent.shapeIdA;
+        const b2ShapeId shapeIdB = aEvent.shapeIdB;
+
+        const b2BodyId bodyIdA = b2Shape_GetBody(shapeIdA);
+        const b2BodyId bodyIdB = b2Shape_GetBody(shapeIdB);
+
+        void* userInternalDataA = b2Body_GetUserData(bodyIdA);
+        void* userInternalDataB = b2Body_GetUserData(bodyIdB);
+
+        UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
+        UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataA);
+
+        PhysicsEngine::myEndContactCallback(userDataA);
+        PhysicsEngine::myEndContactCallback(userDataB);
+    }
+
+    void PhysicsEngine::CheckCollisions()
+    {
+        b2ContactEvents contactEvents = b2World_GetContactEvents(myWorld);
+
+
+
+        printf("Begin: %d, End: %d\n", contactEvents.beginCount, contactEvents.endCount);
+
+        for (int i = 0; i < contactEvents.hitCount; ++i)
+        {
+            b2ContactBeginTouchEvent event = contactEvents.beginEvents[i];
+            HandleBeginContacts(event);
+        }
+
+        for (int i = 0; i < contactEvents.endCount; ++i)
+        {
+            b2ContactEndTouchEvent event = contactEvents.endEvents[i];
+            HandleEndContacts(event);
+        }
     }
 
     float MyRayCastCallback(b2ShapeId aShape, b2Vec2 aPoint, b2Vec2 aNormal, float aFraction, void* aContext)
@@ -116,9 +177,11 @@ namespace ENGINE_NAMESPACE
         hitContext.normal = { aNormal.x, aNormal.y };
         hitContext.fraction = aFraction;
 
-        void* userDatat = b2Shape_GetUserData(aShape);
-        if (userDatat)
-            hitContext.gameobject = reinterpret_cast<ColliderUserData*>(userDatat)->gameobject;
+        const b2BodyId bodyIdA = b2Shape_GetBody(aShape);
+        void* userData = b2Body_GetUserData(bodyIdA);
+
+        if (userData)
+            hitContext.gameobject = reinterpret_cast<UserData*>(userData)->gameobject;
 
         return aFraction;
     }
@@ -129,9 +192,11 @@ namespace ENGINE_NAMESPACE
 
         HitResult& hitContext = myContext->results.emplace_back();
 
-        void* userDatat = b2Shape_GetUserData(aShape);
-        if (userDatat)
-            hitContext.gameobject = reinterpret_cast<ColliderUserData*>(userDatat)->gameobject;
+        const b2BodyId bodyIdA = b2Shape_GetBody(aShape);
+        void* userData = b2Body_GetUserData(bodyIdA);
+
+        if (userData)
+            hitContext.gameobject = reinterpret_cast<UserData*>(userData)->gameobject;
 
         return true;
     }
@@ -169,7 +234,7 @@ namespace ENGINE_NAMESPACE
 
         b2QueryFilter filter = b2DefaultQueryFilter();
         filter.maskBits = static_cast<uint64_t>(aLayerMask);
-        
+
         b2World_OverlapAABB(myWorld, aabb, filter, MyShapeOverlapCallback, &aHitResults);
         if (!aHitResults.results.empty())
             return true;

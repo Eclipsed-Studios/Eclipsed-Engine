@@ -13,10 +13,13 @@ namespace ENGINE_NAMESPACE
         void Update() override;
         void Awake() override;
 
+        float myMoveSpeed = 0.4f;
+        float myJumpStrength = 2.5f;
+
     private:
         class RigidBody2D* myRigidBody = nullptr;
         class Transform2D* myTransform = nullptr;
         class SpriteRendrer2D* mySpriteRenderer = nullptr;
-        class Animation2D* myAnimation = nullptr;
+        class SpriteSheetAnimator2D* myAnimation = nullptr;
     };
 }

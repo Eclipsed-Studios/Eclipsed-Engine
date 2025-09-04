@@ -7,11 +7,11 @@ namespace ENGINE_NAMESPACE
 {
     class SpriteRendrer2D;
 
-    class Animation2D : public Component
+    class SpriteSheetAnimator2D : public Component
     {
     public:
-        Animation2D() = default;
-        ~Animation2D() = default;
+        SpriteSheetAnimator2D() = default;
+        ~SpriteSheetAnimator2D() = default;
 
         void Start() override;
         void Update() override;
@@ -26,7 +26,7 @@ namespace ENGINE_NAMESPACE
 
         SpriteSheet mySpriteSheet;
 
-        float myTimePerFrame = 0.1f;
+        float myTimePerFrame = 0.09f;
         float myTimeAccumulator = 0.f;
         int myCurrentFrame = 0;
 

@@ -20,8 +20,8 @@ out vec4 frag_colour;
 void main() 
 {
    vec2 modifiedUV = vec2(
-       material.spriteRect.x + outTexCoord.x * material.spriteRect.z,
-       material.spriteRect.y + outTexCoord.y * material.spriteRect.w
+      material.spriteRect.x + outTexCoord.x * material.spriteRect.z,
+      material.spriteRect.y + outTexCoord.y * material.spriteRect.w - 0.01f
    );
 
    vec4 textureAlbedo = texture(material.albedo, modifiedUV * material.mirrored);

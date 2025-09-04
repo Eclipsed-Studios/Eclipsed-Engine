@@ -40,7 +40,7 @@ void End()
     Engine::End();
 }
 
-int main()
+int main(int argsCount, char* args[])
 {
     HWND hWnd = GetConsoleWindow();
     ShowWindow(hWnd, SW_HIDE);

@@ -23,10 +23,9 @@ namespace ENGINE_NAMESPACE
         {
             myAnimation->Play();
 
-            float moveSpeed = 1;
             float velY = myRigidBody->GetVelocity().Y;
             float time = Time::GetDeltaTime();
-            myRigidBody->SetVelocity({ directionMove * moveSpeed * 1, velY });
+            myRigidBody->SetVelocity({ directionMove * myMoveSpeed * 1, velY });
 
             if (directionMove > 0)
                 mySpriteRenderer->SetXMirror(false);
@@ -41,19 +40,19 @@ namespace ENGINE_NAMESPACE
         if (InputMapper::ReadValue("Jump"))
         {
             HitResults hit;
-            if (PhysicsEngine::OverlapSphere(myTransform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.1f, hit, Layer::Ground))
+            if (PhysicsEngine::OverlapSphere(myTransform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.03f, hit, Layer::Ground))
             {
                 float velX = myRigidBody->GetVelocity().x;
-                myRigidBody->SetVelocity({ velX, 4.f });
+                myRigidBody->SetVelocity({ velX, myJumpStrength });
             }
         }
     }
 
     void PlayerMovement::Awake()
     {
-        myRigidBody = GetComp(RigidBody2D, 1);
-        myTransform = GetComp(Transform2D, 1);
-        mySpriteRenderer = GetComp(SpriteRendrer2D, 1);
-        myAnimation = GetComp(Animation2D, 1);
+        myRigidBody = GetComp(RigidBody2D, gameObject);
+        myTransform = GetComp(Transform2D, gameObject);
+        mySpriteRenderer = GetComp(SpriteRendrer2D, gameObject);
+        myAnimation = GetComp(SpriteSheetAnimator2D, gameObject);
     }
 }

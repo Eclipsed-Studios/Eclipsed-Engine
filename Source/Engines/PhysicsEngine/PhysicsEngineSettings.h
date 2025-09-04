@@ -28,11 +28,6 @@ namespace ENGINE_NAMESPACE
         unsigned gameobject = 0;
     };
 
-    struct ColliderUserData
-    {
-        unsigned gameobject = 0;
-    };
-
     struct HitResult
     {
         Math::Vector2f point;
