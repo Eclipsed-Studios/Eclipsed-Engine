@@ -37,7 +37,7 @@ namespace ENGINE_NAMESPACE::Math
 	inline void Vector2<T>::Load(const rapidjson::Value& aValue)
 	{
 		if (aValue.HasMember("x") && aValue["x"].IsNumber())
-			x = static_cast<T>(aValue["x"].GetDouble()); // or GetInt() if T is int
+			x = static_cast<T>(aValue["x"].GetDouble()); 
 
 		if (aValue.HasMember("y") && aValue["y"].IsNumber())
 			y = static_cast<T>(aValue["y"].GetDouble());

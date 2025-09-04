@@ -18,11 +18,14 @@
 
 #include "Debug/DebugInformationCollector.h"
 
+#include "SettingsManager.h"
 
 namespace ENGINE_NAMESPACE
 {
 	void Engine::Init()
 	{
+		SettingsManager::Load();
+
 		GraphicsEngine::Get().Init();
 
 		Time::Init();

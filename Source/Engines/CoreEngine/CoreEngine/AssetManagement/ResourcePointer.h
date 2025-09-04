@@ -25,6 +25,11 @@ namespace ENGINE_NAMESPACE
 			return *this;
 		}
 
+		operator bool() const noexcept
+		{
+			return Get() != nullptr;
+		}
+
 
 	private:
 		size_t id;

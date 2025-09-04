@@ -1,33 +1,42 @@
 #include "Color.h"
 
+ENGINE_NAMESPACE::Math::Color::Color(float R, float G, float B, float A)
+	: r(R), g(G), b(B), a(A)
+{
+
+}
+
 rapidjson::Value ENGINE_NAMESPACE::Math::Color::Save(rapidjson::Document::AllocatorType& allocator) const
 {
-	return rapidjson::Value();
+	rapidjson::Value obj(rapidjson::kObjectType);
+
+	obj.AddMember("r", r, allocator);
+	obj.AddMember("g", g, allocator);
+	obj.AddMember("b", b, allocator);
+	obj.AddMember("a", a, allocator);
+
+	return obj;
 }
 
 void ENGINE_NAMESPACE::Math::Color::Load(const rapidjson::Value& aValue)
 {
-}
-
-float ENGINE_NAMESPACE::Math::Color::GetComponent(ColorComponent aComponent)
-{
-	if (aComponent == ColorComponent::Red)
+	if (aValue.HasMember("r") && aValue["r"].IsNumber())
 	{
-		return r;
-	}
-	else if (aComponent == ColorComponent::Green)
-	{
-		return g;
-	}
-	else if (aComponent == ColorComponent::Blue)
-	{
-		return b;
-	}
-	else if (aComponent == ColorComponent::Alpha)
-	{
-		return a;
+		r = aValue["r"].GetFloat();
 	}
 
-	return g;
+	if (aValue.HasMember("g") && aValue["g"].IsNumber())
+	{
+		g = aValue["g"].GetFloat();
+	}
 
+	if (aValue.HasMember("b") && aValue["b"].IsNumber())
+	{
+		b = aValue["b"].GetFloat(); 
+	}
+
+	if (aValue.HasMember("a") && aValue["a"].IsNumber())
+	{
+		a = aValue["a"].GetFloat();
+	}
 }

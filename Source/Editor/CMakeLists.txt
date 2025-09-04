@@ -30,7 +30,6 @@ target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
 
-target_compile_definitions(Editor PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 
 set_target_properties(Editor PROPERTIES
 RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"

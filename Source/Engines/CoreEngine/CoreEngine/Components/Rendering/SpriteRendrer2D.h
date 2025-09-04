@@ -26,6 +26,8 @@ namespace ENGINE_NAMESPACE
         ResourcePointer<Texture> myTexture;
 
         Math::Color color;
+
+        void BindTexture();
     };
 
     class Sprite;
