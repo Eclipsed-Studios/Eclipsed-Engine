@@ -19,10 +19,10 @@ namespace ENGINE_NAMESPACE
         }
 
         ErrorCode Init();
-        void Begin();
+        void BeginFrame();
         void Render();
-        void End();
-
+        void EndFrame();
+        
         int ShouldWindowClose();
         
         ErrorCode CheckErrorCodes(ErrorCode aErrorCode);

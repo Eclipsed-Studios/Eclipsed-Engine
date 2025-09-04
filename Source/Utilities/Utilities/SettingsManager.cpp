@@ -21,12 +21,8 @@ namespace ENGINE_NAMESPACE
 
 		Document::AllocatorType& allocator = d.GetAllocator();
 
-		Value enginesValue = engineSettings.Save(allocator);
-		d.AddMember(stringify(engineSettings), enginesValue, allocator);
-		
-		
-		Value graphicsEnginesValue = graphicsSettings.Save(allocator);
-		d.AddMember(stringify(graphicsSettings), graphicsEnginesValue, allocator);
+		Value enginesValue = settings.Save(allocator);
+		d.AddMember(stringify(settings), enginesValue, allocator);
 
 		StringBuffer buffer;
 		PrettyWriter<StringBuffer> writer(buffer);
@@ -36,6 +32,12 @@ namespace ENGINE_NAMESPACE
 		ofs << buffer.GetString();
 		ofs.close();
 	}
+
+	Utilities::BlackBoard& SettingsManager::GetSettings()
+	{
+		return settings;
+	}
+
 
 	void SettingsManager::Load()
 	{
@@ -52,23 +54,12 @@ namespace ENGINE_NAMESPACE
 		ifs.close();
 
 		Document d;
-		d.Parse(jsonString.c_str());
+		if (d.Parse(jsonString.c_str()).HasParseError()) return;
 
-		//engineSettings.Add<Math::Vector2i>("position", { -1, 3 });
-		//engineSettings.Add<float>("length",  -9.34f);
-		//engineSettings.Add<float>("other",  10.03f);
-		//Save();
-
-		if (d.HasMember(stringify(engineSettings)))
+		if (d.HasMember(stringify(settings)))
 		{
-			const Value& value = d[stringify(engineSettings)];
-			engineSettings.Load(value);
-		}
-
-		if (d.HasMember(stringify(graphicsSettings)))
-		{
-			const Value& value = d[stringify(graphicsSettings)];
-			graphicsSettings.Load(value);
+			const Value& value = d[stringify(settings)];
+			settings.Load(value);
 		}
 	}
 }

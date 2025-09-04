@@ -41,9 +41,9 @@ namespace ENGINE_NAMESPACE
 		ComponentManager::StartComponents();
 	}
 
-	bool Engine::Begin()
+	bool Engine::BeginFrame()
 	{
-		GraphicsEngine::Get().Begin();
+		GraphicsEngine::Get().BeginFrame();
 		int shouldCloseWindow = GraphicsEngine::Get().ShouldWindowClose();
 		return !shouldCloseWindow;
 	}
@@ -67,8 +67,8 @@ namespace ENGINE_NAMESPACE
 
 		GraphicsEngine::Get().Render();
 	}
-	void Engine::End()
+	void Engine::EndFrame()
 	{
-		GraphicsEngine::Get().End();
+		GraphicsEngine::Get().EndFrame();
 	}
 }

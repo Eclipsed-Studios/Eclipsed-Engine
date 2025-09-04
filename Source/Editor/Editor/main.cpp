@@ -16,7 +16,7 @@ int main()
 {
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_HIDE);
-	
+
 	TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
 	Editor::EditorContext editor;
 	ErrorCode result = editor.Init();
@@ -24,10 +24,12 @@ int main()
 	if (result != ErrorCode::SUCCESS)
 		return 1;
 
-	while (editor.Begin())
+	while (editor.BeginFrame())
 	{
 		editor.Update();
 		editor.Render();
-		editor.End();
+		editor.EndFrame();
 	}
+
+	editor.End();
 }

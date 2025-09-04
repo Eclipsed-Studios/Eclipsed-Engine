@@ -7,10 +7,16 @@
 #include <typeindex>
 #include <any>
 #include <type_traits>
-#include "Math/Vector/Vector2.h"
+#include "Math/Vector/Vector2.h" 
 
 namespace ENGINE_NAMESPACE::Utilities
 {
+	class BlackBoardValue
+	{
+		std::string name;
+		void* value;
+	};
+
 	class BlackBoard : public ISerializable
 	{
 	public:
@@ -35,33 +41,21 @@ namespace ENGINE_NAMESPACE::Utilities
 	private:
 		using ValueList = std::unordered_map<std::string, std::any>;
 		std::unordered_map<std::type_index, ValueList> myData;
+
+		mutable bool myIsChanged = false;
 	};
 
 	template<typename T>
 	inline T BlackBoard::Get(const std::string& name)
 	{
-		//const auto idx = std::type_index(typeid(T));
-
-		//auto typeIt = myData.find(idx);
-		//if (typeIt == myData.end()) 
-		//{
-		//	throw std::runtime_error("type not found");
-		//}
-
-		//const auto& list = typeIt->second;
-		//auto nameIt = list.find(name);
-		//if (nameIt == list.end()) 
-		//{
-		//	throw std::runtime_error("name not found");
-		//}
-
-		//return std::any_cast<T>(nameIt->second);
+		return std::any_cast<T>(myData[typeid(T)][name]);
 	}
 	
 	template<typename T>
 	inline void BlackBoard::Add(const std::string& name, const T& value)
 	{
 		myData[typeid(T)][name] = value;
+		myIsChanged = true;
 	}
 
 	template<typename T>
