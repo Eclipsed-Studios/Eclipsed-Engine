@@ -16,10 +16,13 @@ namespace ENGINE_NAMESPACE::Editor
         ~EditorContext() = default;
 
         ErrorCode Init();
-        bool Begin();
+        bool BeginFrame();
         void Update();
         void Render();
+        void EndFrame();
+
         void End();
+
 
         template<typename T>
         void OpenWindow();

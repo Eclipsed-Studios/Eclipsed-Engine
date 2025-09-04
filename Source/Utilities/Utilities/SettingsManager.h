@@ -10,8 +10,9 @@ namespace ENGINE_NAMESPACE
 		static void Load();
 		static void Save();
 
+		static Utilities::BlackBoard& GetSettings();
+
 	private:
-		static inline Utilities::BlackBoard engineSettings;
-		static inline Utilities::BlackBoard graphicsSettings;
+		static inline Utilities::BlackBoard settings;
 	};
 }

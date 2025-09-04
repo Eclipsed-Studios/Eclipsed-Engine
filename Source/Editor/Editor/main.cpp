@@ -22,10 +22,12 @@ int main(int argsCount, char* args[])
 	if (result != ErrorCode::SUCCESS)
 		return 1;
 
-	while (editor.Begin())
+	while (editor.BeginFrame())
 	{
 		editor.Update();
 		editor.Render();
-		editor.End();
+		editor.EndFrame();
 	}
+
+	editor.End();
 }

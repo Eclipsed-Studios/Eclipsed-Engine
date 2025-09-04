@@ -1,21 +1,19 @@
 {
-    "engineSettings": {
+    "settings": {
         "class TEMPLATE::Math::Vector2<int>": [
             {
-                "position": {
-                    "x": -1,
-                    "y": 3
+                "Resolution": {
+                    "x": 1280,
+                    "y": 720
                 }
             }
         ],
-        "float": [
+        "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >": [],
+        "bool": [],
+        "int": [
             {
-                "other": 10.029999732971191
-            },
-            {
-                "length": -9.34000015258789
+                "NumberOfRenderBuffer": 0
             }
         ]
-    },
-    "graphicsSettings": {}
+    }
 }

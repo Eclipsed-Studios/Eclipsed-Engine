@@ -13,8 +13,9 @@ namespace ENGINE_NAMESPACE
 	public:
 		static void Init();
 		
-		static bool Begin();
+		static bool BeginFrame();
 		static void Update();
+		static void EndFrame();
 		static void End();
 
 		static inline Game game;

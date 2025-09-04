@@ -6,6 +6,8 @@
 #include "ImGui/ImGui_Impl.h"
 #include "PlatformIntegration/DiscordIntegration.h"
 
+#include "SettingsManager.h"
+
 namespace ENGINE_NAMESPACE::Editor
 {
     ErrorCode EditorContext::Init()
@@ -22,9 +24,9 @@ namespace ENGINE_NAMESPACE::Editor
         return ErrorCode::SUCCESS;
     }
 
-    bool EditorContext::Begin()
+    bool EditorContext::BeginFrame()
     {
-        bool beginRet = Engine::Begin();
+        bool beginRet = Engine::BeginFrame();
         ImGui_Impl::NewFrame();
         return beginRet;
     }
@@ -40,8 +42,24 @@ namespace ENGINE_NAMESPACE::Editor
         ImGui_Impl::Render();
     }
 
+    void EditorContext::EndFrame()
+    {
+        Engine::EndFrame();
+    }
+
     void EditorContext::End()
     {
-        Engine::End();
+
+        //Utilities::BlackBoard& engineSettings = SettingsManager::GetSettings();
+
+        //engineSettings.Add<std::string>("GameName", "Template_v.0.0.1");
+        //engineSettings.Add<std::string>("GameTitle", "Template");
+
+        //engineSettings.Add<Math::Vector2i>("Resolution", { 1280, 720 });
+        //engineSettings.Add<bool>("Fullscreen", false);
+        //engineSettings.Add<int>("NumberOfRenderBuffer", 0);
+
+
+        SettingsManager::Save();
     }
 }

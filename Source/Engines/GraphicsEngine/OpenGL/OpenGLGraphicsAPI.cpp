@@ -93,7 +93,7 @@ namespace ENGINE_NAMESPACE
         return errorCode;
     }
 
-    void GraphicsEngine::Begin()
+    void GraphicsEngine::BeginFrame()
     {
         glfwMakeContextCurrent(myWindow);
         glfwPollEvents();
@@ -103,7 +103,7 @@ namespace ENGINE_NAMESPACE
     void GraphicsEngine::Render()
     {
     }
-    void GraphicsEngine::End()
+    void GraphicsEngine::EndFrame()
     {
         glfwSwapBuffers(myWindow);
     }
