@@ -6,7 +6,6 @@ using namespace rapidjson;
 
 namespace ENGINE_NAMESPACE::Utilities
 {
-	rapidjson::Value Utilities::BlackBoard::Save(rapidjson::Document::AllocatorType& allocator) const
 	rapidjson::Value BlackBoard::Save(rapidjson::Document::AllocatorType& allocator) const
 	{
 		Value obj(kObjectType);
