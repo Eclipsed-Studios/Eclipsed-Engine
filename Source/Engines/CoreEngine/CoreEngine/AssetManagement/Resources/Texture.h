@@ -25,8 +25,7 @@ namespace ENGINE_NAMESPACE
 		BASE_RESOURCE(Texture)
 
 	public:
-		friend class AssetLoader;
-		friend class SpriteRendrer2D;
+		friend class SpriteRenderer2D;
 
 		void Bind();
 

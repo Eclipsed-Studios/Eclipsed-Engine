@@ -21,7 +21,7 @@ namespace ENGINE_NAMESPACE
 
         class RigidBody2D* myRigidBody = nullptr;
         class Transform2D* myTransform = nullptr;
-        class SpriteRendrer2D* mySpriteRenderer = nullptr;
+        class SpriteRenderer2D* mySpriteRenderer = nullptr;
         class SpriteSheetAnimator2D* myAnimation = nullptr;
     };
 }

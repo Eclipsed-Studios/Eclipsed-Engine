@@ -3,7 +3,7 @@
 #include "ECS/ComponentManager.h"
 
 #include "Components/Physics/RigidBody2D.h"
-#include "Components/Rendering/SpriteRendrer2D.h"
+#include "Components/Rendering/SpriteRenderer2D.h"
 #include "Components/Rendering/SpriteSheetAnimator.h"
 #include "Components/Transform2D.h"
 
@@ -71,7 +71,7 @@ namespace ENGINE_NAMESPACE
 	{
 		myRigidBody = GetComp(RigidBody2D, gameObject);
 		myTransform = GetComp(Transform2D, gameObject);
-		mySpriteRenderer = GetComp(SpriteRendrer2D, gameObject);
+		mySpriteRenderer = GetComp(SpriteRenderer2D, gameObject);
 		myAnimation = GetComp(SpriteSheetAnimator2D, gameObject);
 	}
 }

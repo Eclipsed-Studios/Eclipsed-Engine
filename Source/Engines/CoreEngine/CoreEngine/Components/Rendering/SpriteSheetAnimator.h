@@ -27,7 +27,7 @@ namespace ENGINE_NAMESPACE
         void SetCurrentAnimation(const char* anAnimationName);
 
     private:
-        SpriteRendrer2D* mySpriteRenderer = nullptr;
+        SpriteRenderer2D* mySpriteRenderer = nullptr;
 
         ResourcePointer<SpriteSheetAnimation> mySpriteSheetAnimations;
 

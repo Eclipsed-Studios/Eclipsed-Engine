@@ -1,4 +1,4 @@
-#include "SpriteRendrer2D.h"
+#include "SpriteRenderer2D.h"
 
 #include "Components/Transform2D.h"
 
@@ -50,28 +50,28 @@ namespace ENGINE_NAMESPACE
 		glUniform4f(albedoColorIndex, color.r, color.g, color.b, color.a);
 	}
 
-	void SpriteRendrer2D::SetMaterial(Material* aMaterial)
+	void SpriteRenderer2D::SetMaterial(Material* aMaterial)
 	{
 		myMaterial = aMaterial;
 	}
-	void SpriteRendrer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
+	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
 		spriteRectMin = aMin * myMaterial->myTexture->spriteDimDivOne;
 		spriteRectMax = aMax * myMaterial->myTexture->spriteDimDivOne;
 	}
 
-	void SpriteRendrer2D::Awake()
+	void SpriteRenderer2D::Awake()
 	{
 		mySprite = new Sprite();
 		mySprite->Init();
 	}
 
-	void SpriteRendrer2D::Start()
+	void SpriteRenderer2D::Start()
 	{
 		myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
 	}
 
-	void SpriteRendrer2D::LateUpdate()
+	void SpriteRenderer2D::LateUpdate()
 	{
 		unsigned shaderID = myMaterial->myShader->GetProgramID();
 

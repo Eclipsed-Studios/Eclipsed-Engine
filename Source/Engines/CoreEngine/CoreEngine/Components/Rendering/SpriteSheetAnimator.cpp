@@ -1,6 +1,6 @@
 #include "SpriteSheetAnimator.h"
 
-#include "SpriteRendrer2D.h"
+#include "SpriteRenderer2D.h"
 
 #include "Timer.h"
 #include "ECS/ComponentManager.h"
@@ -28,7 +28,7 @@ namespace ENGINE_NAMESPACE
 
     void SpriteSheetAnimator2D::Start()
     {
-        mySpriteRenderer = ComponentManager::GetComponent<SpriteRendrer2D>(gameObject);
+        mySpriteRenderer = ComponentManager::GetComponent<SpriteRenderer2D>(gameObject);
 
         const Math::Rect& rect = mySpriteSheetAnimations->GetRect(0);
         mySpriteRenderer->SetSpriteRect(rect.min, rect.max);

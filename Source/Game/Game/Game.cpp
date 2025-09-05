@@ -2,7 +2,7 @@
 
 #include "Input/InputMapper.h"
 
-#include <Components/Rendering/SpriteRendrer2D.h>
+#include <Components/Rendering/SpriteRenderer2D.h>
 #include <Components/Rendering/SpriteSheetAnimator.h>
 #include <Components/Transform2D.h>
 #include <Components/Physics/RigidBody2D.h>
@@ -31,7 +31,7 @@ namespace ENGINE_NAMESPACE
 		// Player
 		{
 			int go = 1;
-			SpriteRendrer2D* rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
+			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
 			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
 			transform->SetScale(60.f, 60.f);
 			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(go);
@@ -63,7 +63,7 @@ namespace ENGINE_NAMESPACE
 		// Ground
 		{
 			int go = 2;
-			SpriteRendrer2D* rend = ComponentManager::AddComponent<SpriteRendrer2D>(go);
+			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
 			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
 			transform->SetPosition(0, -0.9f);
 			transform->SetScale(1000.f, 10.f);

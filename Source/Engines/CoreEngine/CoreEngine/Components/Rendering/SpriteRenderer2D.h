@@ -35,11 +35,11 @@ namespace ENGINE_NAMESPACE
 
     class Transform2D;
 
-    class SpriteRendrer2D : public Component
+    class SpriteRenderer2D : public Component
     {
     public:
-        SpriteRendrer2D() = default;
-        ~SpriteRendrer2D() = default;
+        SpriteRenderer2D() = default;
+        ~SpriteRenderer2D() = default;
 
         void Awake() override;
         void Start() override;
