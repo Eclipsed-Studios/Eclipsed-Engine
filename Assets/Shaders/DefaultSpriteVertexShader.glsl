@@ -18,6 +18,7 @@ out vec2 outTexCoord;
 uniform vec2 resolutionMultiplier;
 uniform float resolutionRatio;
 uniform Transform transform;
+uniform vec2 mirrored;
 
 void main()
 {
@@ -27,7 +28,7 @@ void main()
    
    vec2 position_WS = VertexPosition * rotationMatrix;
    vec2 position_WSPixelScale = position_WS * resolutionMultiplier;
-   vec2 position_WSRealScale = position_WSPixelScale * transform.pixelSize;
+   vec2 position_WSRealScale = position_WSPixelScale * (transform.pixelSize * mirrored);
    
    vec2 position = transform.position * vec2(resolutionRatio, 1.0);
    

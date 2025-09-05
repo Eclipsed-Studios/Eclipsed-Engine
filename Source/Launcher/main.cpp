@@ -26,7 +26,7 @@ ErrorCode Init()
 
 int Begin()
 {
-    Engine::Begin();
+    Engine::BeginFrame();
     return 1;
 }
 
@@ -37,7 +37,7 @@ void Update()
 
 void End()
 {
-    Engine::End();
+    Engine::EndFrame();
 }
 
 int main(int argsCount, char* args[])

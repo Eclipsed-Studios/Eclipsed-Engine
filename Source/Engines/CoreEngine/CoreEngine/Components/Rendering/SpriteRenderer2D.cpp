@@ -105,7 +105,7 @@ namespace ENGINE_NAMESPACE
 		GLint spriteRectIndex = glGetUniformLocation(shaderID, "material.spriteRect");
 		glUniform4f(spriteRectIndex, spriteRectMin.x, spriteRectMin.y, size.x, size.y);
 
-		GLint mirrord = glGetUniformLocation(shaderID, "material.mirrored");
+		GLint mirrord = glGetUniformLocation(shaderID, "mirrored");
 		glUniform2f(mirrord, mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f);
 
 		mySprite->Render();

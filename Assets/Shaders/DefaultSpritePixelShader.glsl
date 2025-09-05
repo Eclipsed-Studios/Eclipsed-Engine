@@ -5,7 +5,6 @@ struct Material
    sampler2D albedo;
    vec4 color;
    vec4 spriteRect; // x, y, width, height
-   vec2 mirrored; // x, y
 };
 
 // Uniforms
@@ -24,7 +23,7 @@ void main()
       material.spriteRect.y + outTexCoord.y * material.spriteRect.w - 0.01f
    );
 
-   vec4 textureAlbedo = texture(material.albedo, modifiedUV * material.mirrored);
+   vec4 textureAlbedo = texture(material.albedo, modifiedUV);
    vec4 colorAlbedo = textureAlbedo * material.color;
 
    frag_colour = colorAlbedo;
