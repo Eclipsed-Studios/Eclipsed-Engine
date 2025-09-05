@@ -19,15 +19,12 @@
 
 #include "PhysicsEngine.h"
 
-#include "Components/Rendering/SpriteSheet.h"
-#include "AssetManagement/Resources/SpriteAnimation.h"
+#include "AssetManagement/Resources/SpriteSheetAnimation.h"
 
 namespace ENGINE_NAMESPACE
 {
 	void Game::Init()
 	{
-		//SpriteSheetAnimation::CreateDefualtJson(ASSET_PATH "Sprites/DefaultAnimation.json");
-
 		// Player
 		{
 			int go = 1;

@@ -1,10 +1,8 @@
 #pragma once
 
 #include "../Component.h"
-#include "SpriteSheet.h"
-#include "AssetManagement/Resources/SpriteAnimation.h"
+#include "AssetManagement/Resources/SpriteSheetAnimation.h"
 #include "AssetManagement/ResourcePointer.h"
-
 
 namespace ENGINE_NAMESPACE
 {
@@ -30,8 +28,7 @@ namespace ENGINE_NAMESPACE
         SpriteRenderer2D* mySpriteRenderer = nullptr;
 
         ResourcePointer<SpriteSheetAnimation> mySpriteSheetAnimations;
-
-        std::string myActiveAnimation = "Running";
+        std::string myActiveAnimation;
 
         float myTimePerFrame = 0.09f;
         float myTimeAccumulator = 0.f;

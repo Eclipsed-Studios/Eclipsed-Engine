@@ -1,6 +1,6 @@
 #include <AssetManagement/Loader/AssetLoader.hpp>
 
-#include <AssetManagement/Resources/SpriteAnimation.h>
+#include <AssetManagement/Resources/SpriteSheetAnimation.h>
 
 #include "rapidjson/rapidjson/document.h"
 #include "rapidjson/rapidjson/writer.h"

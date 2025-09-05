@@ -1,5 +1,4 @@
-#include "Texture.h"
-#include "SpriteAnimation.h"
+#include "SpriteSheetAnimation.h"
 
 #include "rapidjson/rapidjson/document.h"
 #include "rapidjson/rapidjson/writer.h"
