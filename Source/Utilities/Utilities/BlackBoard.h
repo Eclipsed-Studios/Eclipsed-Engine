@@ -5,16 +5,17 @@
 #include <unordered_map>
 #include <string>
 #include <typeindex>
+#include <functional>
 #include <any>
 #include <type_traits>
 #include "Math/Vector/Vector2.h" 
 
 namespace ENGINE_NAMESPACE::Utilities
 {
-	class BlackBoardValue
+	struct BlackBoardValue
 	{
-		std::string name;
-		void* value;
+		std::type_index type = typeid(void);
+		std::any value;
 	};
 
 	class BlackBoard : public ISerializable
@@ -24,82 +25,104 @@ namespace ENGINE_NAMESPACE::Utilities
 		~BlackBoard() = default;
 
 	public:
-		template<typename T>
-		T Get(const std::string& name);
-
-		template<typename T>
-		void Add(const std::string& name, const T& value);
-
-	public:
 		rapidjson::Value Save(rapidjson::Document::AllocatorType& allocator) const override;
 		void Load(const rapidjson::Value& aValue) override;
 
+	public:
+		template<typename T>
+		void Set(const char* name, const T& value);
+
+		template<typename T>
+		const T& Add(const char* name, const T& value);
+
+		template<typename T>
+		const T& Get(const char* name);
+
+	private:
+		using BlackBoardList =  std::unordered_map<std::string, BlackBoardValue>;
+		std::unordered_map<std::type_index, BlackBoardList> myData;
+
+
+		using Serializer = std::function<rapidjson::Value(const std::any&, rapidjson::Document::AllocatorType&)>;
+		std::unordered_map<std::type_index, Serializer> mySerializers;
+
+		rapidjson::Document myJsonDocument;
+
+
 	private:
 		template<typename T>
-		void LoadArray(const rapidjson::Value& aValue);
-
-	private:
-		using ValueList = std::unordered_map<std::string, std::any>;
-		std::unordered_map<std::type_index, ValueList> myData;
-
-		mutable bool myIsChanged = false;
+		void RegisterSerializer();
 	};
 
 	template<typename T>
-	inline T BlackBoard::Get(const std::string& name)
+	inline void BlackBoard::Set(const char* name, const T& value)
 	{
-		return std::any_cast<T>(myData[typeid(T)][name]);
-	}
-	
-	template<typename T>
-	inline void BlackBoard::Add(const std::string& name, const T& value)
-	{
-		myData[typeid(T)][name] = value;
-		myIsChanged = true;
+		const std::type_index& idx = typeid(T);
+		BlackBoardList& list = myData[idx];
+
+		BlackBoardValue& val = list[name];
+		val.value = value;
 	}
 
 	template<typename T>
-	inline void BlackBoard::LoadArray(const rapidjson::Value& aValue)
+	inline const T& BlackBoard::Add(const char* name, const T& value)
 	{
-		auto f = typeid(T).name();
-		if (aValue.HasMember(f))
+		const std::type_index& idx = typeid(T);
+		BlackBoardList& list = myData[idx];
+
+		BlackBoardValue bbValue;
+		bbValue.type = idx;
+		bbValue.value = value;
+
+		BlackBoardValue& val = list[name];
+		val = bbValue;
+
+		RegisterSerializer<T>();
+
+		return std::any_cast<T&>(val.value);
+	}
+
+	template<typename T>
+	inline const T& BlackBoard::Get(const char* name)
+	{
+		const std::type_index& idx = typeid(T);
+		BlackBoardList& list = myData[idx];
+
+		const BlackBoardValue& val = list[name];
+
+		return std::any_cast<const T&>(val.value);
+	}
+
+	template<typename T>
+	inline void BlackBoard::RegisterSerializer()
+	{
+		if constexpr (std::is_base_of_v<ISerializable, T>)
 		{
-			const char* typeKey = typeid(T).name();
-			const rapidjson::Value& objList = aValue[typeKey];
-			auto& list = myData[std::type_index(typeid(T))];
-
-			for (const auto& entry : objList.GetArray())
-			{
-				if (!entry.IsObject())
-					continue;
-
-				int i =  entry.MemberCount();
-
-				for (auto m = entry.MemberBegin(); m != entry.MemberEnd(); ++m)
-				{
-					const std::string name = m->name.GetString();
-					const rapidjson::Value& v = m->value;
-
-					if (v.IsInt())
-					{
-						list[name] = v.GetInt();
-					}
-					else if (v.IsString())
-					{
-						list[name] = v.GetString();
-					}
-					else if (v.IsFloat())
-					{
-						list[name] = v.GetFloat();
-					}
-					else if  (v.IsObject() && v.HasMember("x") && v.HasMember("y"))
-					{
-						Math::Vector2i vec;
-						vec.Load(v);
-						list[name] = vec;
-					}
-				}
-			}
+			mySerializers[typeid(T)] = [](const std::any& a, auto& alloc) {
+				return std::any_cast<const T&>(a).Save(alloc);
+				};
+		}
+		else if constexpr (std::is_same_v<T, std::string>)
+		{
+			mySerializers[typeid(T)] = [](const std::any& a, auto& alloc) {
+				const auto& s = std::any_cast<const std::string&>(a);
+				return rapidjson::Value(s.c_str(), alloc);
+				};
+		}
+		else if constexpr (std::is_arithmetic_v<T>)
+		{
+			mySerializers[typeid(T)] = [](const std::any& a, auto& alloc) {
+				if constexpr (std::is_integral_v<T>)
+					return rapidjson::Value(std::any_cast<T>(a));
+				else
+					return rapidjson::Value(static_cast<double>(std::any_cast<T>(a)));
+				};
+		}
+		else
+		{
+			mySerializers[typeid(T)] = [](const std::any& a, auto& alloc) {
+				return rapidjson::Value(std::any_cast<T>(a));
+				};
 		}
 	}
 }

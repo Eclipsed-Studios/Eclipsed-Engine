@@ -16,6 +16,14 @@ namespace ENGINE_NAMESPACE
 	{
 		using namespace rapidjson;
 
+		//{
+		//	settings.Add<int>("NumberOfRenderBuffer", 0);
+		//	settings.Add<std::string>("GameName", "Template_v.0.0.1");
+		//	settings.Add<std::string>("GameTitle", "Template");
+		//	settings.Add<Math::Vector2i>("Resolution", { 1280, 720 });
+		//	settings.Add<int>("Fullscreen", 0);
+		//}
+
 		Document d;
 		d.SetObject();
 

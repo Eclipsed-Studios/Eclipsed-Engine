@@ -15,44 +15,63 @@
 
 namespace ENGINE_NAMESPACE
 {
-    void PlayerMovement::Update()
-    {
-        float directionMove = InputMapper::ReadValue("Sides");
+	void PlayerMovement::Update()
+	{
+		float directionMove = InputMapper::ReadValue("Sides");
 
-        if (directionMove)
-        {
-            myAnimation->Play();
+		myAnimation->Play();
+		if (directionMove)
+		{
+			if (!myIsJumping)
+			{
+				myAnimation->SetCurrentAnimation("Running");
+			}
 
-            float velY = myRigidBody->GetVelocity().Y;
-            float time = Time::GetDeltaTime();
-            myRigidBody->SetVelocity({ directionMove * myMoveSpeed * 1, velY });
+			float velY = myRigidBody->GetVelocity().Y;
+			float time = Time::GetDeltaTime();
+			myRigidBody->SetVelocity({ directionMove * myMoveSpeed * 1, velY });
 
-            if (directionMove > 0)
-                mySpriteRenderer->SetXMirror(false);
-            else
-                mySpriteRenderer->SetXMirror(true);
-        }
-        else
-        {
-            myAnimation->Pause();
-        }
+			if (directionMove > 0)
+				mySpriteRenderer->SetXMirror(false);
+			else
+				mySpriteRenderer->SetXMirror(true);
+		}
+		else if (myIsJumping)
+		{
+			myAnimation->SetCurrentAnimation("Jump");
+		}
+		else
+		{
+			myAnimation->SetCurrentAnimation("Idle");
+		}
 
-        if (InputMapper::ReadValue("Jump"))
-        {
-            HitResults hit;
-            if (PhysicsEngine::OverlapSphere(myTransform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.03f, hit, Layer::Ground))
-            {
-                float velX = myRigidBody->GetVelocity().x;
-                myRigidBody->SetVelocity({ velX, myJumpStrength });
-            }
-        }
-    }
 
-    void PlayerMovement::Awake()
-    {
-        myRigidBody = GetComp(RigidBody2D, gameObject);
-        myTransform = GetComp(Transform2D, gameObject);
-        mySpriteRenderer = GetComp(SpriteRendrer2D, gameObject);
-        myAnimation = GetComp(SpriteSheetAnimator2D, gameObject);
-    }
+		HitResults hit;
+		bool isGrounded = PhysicsEngine::OverlapSphere(myTransform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.03f, hit, Layer::Ground);
+
+		if (isGrounded)
+		{
+			if (myIsJumping && myRigidBody->GetVelocity().y <= 0.f)
+			{
+				myIsJumping = false;
+
+			}
+
+			if (InputMapper::ReadValue("Jump"))
+			{
+				float velX = myRigidBody->GetVelocity().x;
+				myRigidBody->SetVelocity({ velX, myJumpStrength });
+
+				myIsJumping = true;
+			}
+		}
+	}
+
+	void PlayerMovement::Awake()
+	{
+		myRigidBody = GetComp(RigidBody2D, gameObject);
+		myTransform = GetComp(Transform2D, gameObject);
+		mySpriteRenderer = GetComp(SpriteRendrer2D, gameObject);
+		myAnimation = GetComp(SpriteSheetAnimator2D, gameObject);
+	}
 }

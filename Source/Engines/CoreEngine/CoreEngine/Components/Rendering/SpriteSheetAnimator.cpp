@@ -16,12 +16,12 @@ namespace ENGINE_NAMESPACE
 
         if (myTimeAccumulator >= myTimePerFrame)
         {
-            const std::vector<SpriteSheetRect>& spriteSheetFrames = mySpriteSheet.GetSpriteRecs();
+            const std::vector<unsigned>& animationFramesIdx = mySpriteSheetAnimations->GetAnimation(myActiveAnimation);
 
             myTimeAccumulator -= myTimePerFrame;
-            myCurrentFrame = (myCurrentFrame + 1) % spriteSheetFrames.size();
+            myCurrentFrame = (myCurrentFrame + 1) % animationFramesIdx.size();
 
-            const SpriteSheetRect& rect = spriteSheetFrames[myCurrentFrame];
+            const Math::Rect& rect = mySpriteSheetAnimations->GetRect(animationFramesIdx[myCurrentFrame]);
             mySpriteRenderer->SetSpriteRect(rect.min, rect.max);
         }
     }
@@ -30,14 +30,20 @@ namespace ENGINE_NAMESPACE
     {
         mySpriteRenderer = ComponentManager::GetComponent<SpriteRendrer2D>(gameObject);
 
-        const SpriteSheetRect& rect = mySpriteSheet.GetSpriteRecs()[0];
+        const Math::Rect& rect = mySpriteSheetAnimations->GetRect(0);
         mySpriteRenderer->SetSpriteRect(rect.min, rect.max);
     }
 
     void SpriteSheetAnimator2D::SetSpriteSheet(const char* aPath)
     {
-        mySpriteSheet.Load(aPath);
+        mySpriteSheetAnimations = Resources::Get<SpriteSheetAnimation>(aPath);
+
+        //mySpriteSheet.Load(aPath);
         myCurrentFrame = 0;
         myTimeAccumulator = 0.f;
+    }
+    void SpriteSheetAnimator2D::SetCurrentAnimation(const char* anAnimationName)
+    {
+        myActiveAnimation = anAnimationName;
     }
 }

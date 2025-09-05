@@ -17,6 +17,8 @@ namespace ENGINE_NAMESPACE
         float myJumpStrength = 2.5f;
 
     private:
+        bool myIsJumping = false;
+
         class RigidBody2D* myRigidBody = nullptr;
         class Transform2D* myTransform = nullptr;
         class SpriteRendrer2D* mySpriteRenderer = nullptr;

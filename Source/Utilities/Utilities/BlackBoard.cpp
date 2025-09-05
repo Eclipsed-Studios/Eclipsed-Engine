@@ -1,90 +1,64 @@
 #include "BlackBoard.h"
 
+#include <fstream>
 
-namespace ENGINE_NAMESPACE
+using namespace rapidjson;
+
+namespace ENGINE_NAMESPACE::Utilities
 {
 	rapidjson::Value Utilities::BlackBoard::Save(rapidjson::Document::AllocatorType& allocator) const
+	rapidjson::Value BlackBoard::Save(rapidjson::Document::AllocatorType& allocator) const
 	{
-		rapidjson::Value value(rapidjson::kObjectType);
+		Value obj(kObjectType);
 
 		for (auto& [type, list] : myData)
 		{
-			rapidjson::Value objList(rapidjson::kArrayType);
-
-			for (auto& [name, obj] : list)
+			Value objectList (kArrayType);
+			for (auto& [name, bbValue] : list)
 			{
-				rapidjson::Value entry(rapidjson::kObjectType);
+				const Serializer& serializer = mySerializers.at(type);
+				rapidjson::Value serializedValue = serializer(bbValue.value, allocator);
 
-				if (obj.type() == typeid(int))
-				{
-					entry.AddMember(
-						rapidjson::Value(name.c_str(), allocator).Move(),
-						rapidjson::Value(std::any_cast<int>(obj)).Move(),
-						allocator
-					);
-				}
-				else if (obj.type() == typeid(float))
-				{
-					entry.AddMember(
-						rapidjson::Value(name.c_str(), allocator).Move(),
-						rapidjson::Value(std::any_cast<float>(obj)).Move(),
-						allocator
-					);
-				}
-				else if (obj.type() == typeid(std::string))
-				{
-					entry.AddMember(
-						rapidjson::Value(name.c_str(), allocator).Move(),
-						rapidjson::Value(std::any_cast<std::string>(obj).c_str(), allocator).Move(),
-						allocator
-					);
-				}
-				else if (obj.type() == typeid(Math::Vector2i))
-				{
-					entry.AddMember(
-						rapidjson::Value(name.c_str(), allocator).Move(),
-						rapidjson::Value(std::any_cast<Math::Vector2i>(obj).Save(allocator), allocator).Move(),
-						allocator
-					);
-				}
-				else if (obj.type() == typeid(Math::Vector2f))
-				{
-					entry.AddMember(
-						rapidjson::Value(name.c_str(), allocator).Move(),
-						rapidjson::Value(std::any_cast<Math::Vector2f>(obj).Save(allocator), allocator).Move(),
-						allocator
-					);
-				}
-				else if (obj.type() == typeid(bool))
-				{
-					entry.AddMember(
-						rapidjson::Value(name.c_str(), allocator).Move(),
-						rapidjson::Value(std::any_cast<bool>(obj)).Move(),
-						allocator
-					);
-				}
-
-				objList.PushBack(entry, allocator);
+				Value entry(kObjectType);
+				entry.AddMember(
+					Value("name", allocator).Move(),
+					Value(name.c_str(), allocator).Move(),
+					allocator
+				);
+				entry.AddMember(
+					Value("value", allocator).Move(),
+					serializer(bbValue.value, allocator),
+					allocator
+				);
+				objectList.PushBack(entry, allocator);
 			}
 
-			value.AddMember(
-				rapidjson::Value(type.name(), allocator).Move(),
-				objList,
+			obj.AddMember(
+				Value(type.name(), allocator).Move(),
+				objectList,
 				allocator
 			);
 		}
 
-		myIsChanged = false;
-		return value;
+		return obj;
 	}
 
-	void Utilities::BlackBoard::Load(const rapidjson::Value& aValue)
+	void BlackBoard::Load(const rapidjson::Value& aValue)
 	{
-		LoadArray<Math::Vector2i>(aValue);
-		LoadArray<Math::Vector2f>(aValue);
-		LoadArray<std::string>(aValue);
-		LoadArray<bool>(aValue);
-		LoadArray<int>(aValue);
-		LoadArray<float>(aValue);
+		using namespace rapidjson;
+
+		std::ifstream ifs(SETTINGS_PATH "settings.json");
+		if (!ifs.is_open()) {
+			//Save();
+			return;
+		}
+
+		std::string jsonString((std::istreambuf_iterator<char>(ifs)),
+			std::istreambuf_iterator<char>());
+
+		ifs.close();
+
+		Document d;
+		if (d.Parse(jsonString.c_str()).HasParseError()) return;
 	}
 }

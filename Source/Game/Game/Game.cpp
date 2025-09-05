@@ -20,11 +20,14 @@
 #include "PhysicsEngine.h"
 
 #include "Components/Rendering/SpriteSheet.h"
+#include "AssetManagement/Resources/SpriteAnimation.h"
 
 namespace ENGINE_NAMESPACE
 {
 	void Game::Init()
 	{
+		//SpriteSheetAnimation::CreateDefualtJson(ASSET_PATH "Sprites/DefaultAnimation.json");
+
 		// Player
 		{
 			int go = 1;
@@ -41,7 +44,7 @@ namespace ENGINE_NAMESPACE
 			boxCollider->myLayer = Layer::Player;
 
 			Material* matrial = new Material();
-			matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster_Run_6.png");
+			matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster.png");
 
 			matrial->color.b = 0.f;
 			matrial->color.g = 0.f;
@@ -50,7 +53,11 @@ namespace ENGINE_NAMESPACE
 			rend->SetMaterial(matrial);
 
 			SpriteSheetAnimator2D* animation = ComponentManager::AddComponent<SpriteSheetAnimator2D>(go);
-			animation->SetSpriteSheet(ASSET_PATH "Sprites/spritesheet.json");
+
+			//ResourcePointer<SpriteSheetAnimation> anim = Resources::Get<SpriteSheetAnimation>(ASSET_PATH "Sprites/DefaultAnimation.json");
+
+
+			animation->SetSpriteSheet(ASSET_PATH "Sprites/DefaultAnimation.json");
 		}
 
 		// Ground

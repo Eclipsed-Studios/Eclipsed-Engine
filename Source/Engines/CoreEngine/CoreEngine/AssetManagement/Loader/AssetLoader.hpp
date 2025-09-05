@@ -3,6 +3,9 @@
 #include <vector>
 #include <unordered_map>
 #include <typeindex>
+#include <stdexcept>
+
+
 
 #include <AssetManagement/Resources/Texture.h>
 
@@ -12,7 +15,7 @@ namespace ENGINE_NAMESPACE
 	{
 	public:
 		template <typename T>
-		void LoadFromPath(const char* aPath, T& outResource) { __noop; }
+		void LoadFromPath(const char* aPath, T& outResource) { throw std::runtime_error("OWADDAWADW"); }
 
 		template <typename T>
 		void LoadAll(std::vector<T>& outResources) { __noop; }
@@ -36,3 +39,4 @@ namespace ENGINE_NAMESPACE
 #include "AssetLoader.inl"
 #include "TypeLoaders/TextureLoader.inl"
 #include "TypeLoaders/ShaderLoader.inl"
+#include "TypeLoaders/SpriteAnimationLoader.inl"

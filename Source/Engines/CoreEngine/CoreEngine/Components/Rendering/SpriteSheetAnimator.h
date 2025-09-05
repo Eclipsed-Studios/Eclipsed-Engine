@@ -2,6 +2,9 @@
 
 #include "../Component.h"
 #include "SpriteSheet.h"
+#include "AssetManagement/Resources/SpriteAnimation.h"
+#include "AssetManagement/ResourcePointer.h"
+
 
 namespace ENGINE_NAMESPACE
 {
@@ -21,10 +24,14 @@ namespace ENGINE_NAMESPACE
         void Play() { myIsPlaying = true; }
         void Pause() { myIsPlaying = false; }
 
+        void SetCurrentAnimation(const char* anAnimationName);
+
     private:
         SpriteRendrer2D* mySpriteRenderer = nullptr;
 
-        SpriteSheet mySpriteSheet;
+        ResourcePointer<SpriteSheetAnimation> mySpriteSheetAnimations;
+
+        std::string myActiveAnimation = "Running";
 
         float myTimePerFrame = 0.09f;
         float myTimeAccumulator = 0.f;
