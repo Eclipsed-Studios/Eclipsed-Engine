@@ -12,7 +12,7 @@
 
 #include "Timer.h"
 
-#include "OpenGL/DebugDrawer.h"
+#include "OpenGL/DebugDrawers/DebugDrawer.h"
 
 #include <iostream>
 

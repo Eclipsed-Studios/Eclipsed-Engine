@@ -72,8 +72,8 @@ namespace ENGINE_NAMESPACE
                 float oneDivResY = temporarySingleton.GetOneDivResolutionY();
 
                 LineVTX vert;
-                vert.posX = line.linePoints[i].x * oneDivResX;
-                vert.posY = line.linePoints[i].y * oneDivResY;
+                vert.posX = line.linePoints[i].x;// * oneDivResX;
+                vert.posY = line.linePoints[i].y;// * oneDivResY;
 
                 vertices.emplace_back(vert);
                 indices.emplace_back(i);

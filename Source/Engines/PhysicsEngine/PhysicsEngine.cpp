@@ -67,7 +67,7 @@ namespace ENGINE_NAMESPACE
         bodyDefine.userData = aUserData;
 
         *aBody = b2CreateBody(myWorld, &bodyDefine);
-    }
+    } 
 
     void PhysicsEngine::CreateBoxCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer)
     {
@@ -82,7 +82,7 @@ namespace ENGINE_NAMESPACE
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
 
-    void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity)
+    void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
     {
         mySubstepCount = aSubstepCount;
         myGravity = aGravity;
@@ -92,12 +92,15 @@ namespace ENGINE_NAMESPACE
         worldDef.gravity = b2Vec2(myGravity.x, myGravity.y);
         
         myWorld = b2CreateWorld(&worldDef);
+
+        myDebugDraw = std::move(aDebugdraw);
     }
 
     void PhysicsEngine::Update()
     {
         b2World_Step(myWorld, Time::GetDeltaTime(), mySubstepCount);
-
+        b2World_Draw(myWorld, &myDebugDraw);
+        
         CheckCollisions();
     }
 

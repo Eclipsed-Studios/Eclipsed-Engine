@@ -10,8 +10,6 @@
 
 #include "TemporarySettingsSingleton.h"
 
-#include "OpenGL/DebugDrawer.h"
-
 namespace ENGINE_NAMESPACE
 {
     void BoxCollider2D::Awake()

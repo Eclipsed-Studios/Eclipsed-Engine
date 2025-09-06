@@ -1,7 +1,5 @@
 #include "Input.h"
 
-#include "GLFW/glfw3.h"
-
 namespace ENGINE_NAMESPACE
 {
 	bool Input::GetKey(int aKey)

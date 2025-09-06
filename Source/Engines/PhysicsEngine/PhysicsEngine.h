@@ -4,6 +4,7 @@
 #include "Math/Vector/Vector2.h"
 
 #include "box2d/id.h"
+#include "box2d/types.h"
 
 #include <vector>
 #include <functional>
@@ -39,7 +40,7 @@ namespace ENGINE_NAMESPACE
         static void RemoveRigidBody(b2BodyId& aBodyID);
         static void RemoveCollider(b2ShapeId& aShape);
 
-        static void Init(int aSubstepCount, const Math::Vector2f& aGravity);
+        static void Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw);
         static void Update();
 
         static void CheckCollisions();
@@ -52,5 +53,7 @@ namespace ENGINE_NAMESPACE
         static inline Math::Vector2f myGravity;
 
         static inline int mySubstepCount = 8;
+
+        static inline b2DebugDraw myDebugDraw;
     };
 }

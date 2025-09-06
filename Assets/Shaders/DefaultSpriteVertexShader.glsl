@@ -25,14 +25,13 @@ void main()
    outTexCoord=TexCoord;
    
    mat2 rotationMatrix=mat2(cos(transform.rotation),-sin(transform.rotation),sin(transform.rotation),cos(transform.rotation));
-   
-   vec2 position_WS = VertexPosition * rotationMatrix;
-   vec2 position_WSPixelScale = position_WS * resolutionMultiplier;
-   vec2 position_WSRealScale = position_WSPixelScale * (transform.pixelSize * mirrored);
+
+   vec2 scaledVertex = VertexPosition * (transform.pixelSize * mirrored);
+   vec2 position_WS = scaledVertex * rotationMatrix * resolutionMultiplier;
    
    vec2 position = transform.position * vec2(resolutionRatio, 1.0);
    
-   vec2 positionNDC = position_WSRealScale+position;
+   vec2 positionNDC = position_WS+position;
    
    gl_Position=vec4(positionNDC,0,1.);
 }

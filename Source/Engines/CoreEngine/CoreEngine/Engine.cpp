@@ -1,26 +1,23 @@
 #include "Engine.h"
 
+#include "PhysicsEngine.h"
 #include "OpenGL/OpenGLGraphicsAPI.h"
 
-#include <ECS/ComponentManager.h>
-#include <MainSingleton.h>
+#include "OpenGL/DebugDrawers/PhysicsDebugDrawer.h"
 
 #include "Timer.h"
 #include "Input/Input.h"
-
-#include "PlatformIntegration/IntegrationManager.h"
-
-#include "PhysicsEngine.h"
-
 #include "Input/InputMapper.h"
 
-#include <iostream>
-
+#include "MainSingleton.h"
 #include "Debug/DebugInformationCollector.h"
 
+#include "ECS/ComponentManager.h"
+#include "PlatformIntegration/IntegrationManager.h"
 #include "SettingsManager.h"
-
 #include "Audio/AudioManager.h"
+
+#include <iostream>
 
 namespace ENGINE_NAMESPACE
 {
@@ -39,7 +36,11 @@ namespace ENGINE_NAMESPACE
 		{ // Sub engines
 			GraphicsEngine::Init();
 
-			PhysicsEngine::Init(8, { 0.f, -9.81f });
+			b2DebugDraw debugDraw = {0};
+
+			PhysicsDebugDrawer::Init(&debugDraw);
+
+			PhysicsEngine::Init(8, { 0.f, -9.81f }, debugDraw);
 			PhysicsEngine::myBeginContactCallback = [](UserData& aUserData)
 				{
 					ComponentManager::BeginCollisions(aUserData.gameobject);
