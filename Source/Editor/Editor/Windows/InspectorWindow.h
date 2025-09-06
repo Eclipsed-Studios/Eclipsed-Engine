@@ -27,6 +27,9 @@ namespace ENGINE_NAMESPACE::Editor
 
 	public:
 		static inline unsigned CurrentGameObjectID;
+
+		static inline constexpr int NAME_BUFFER_LENGTH = 256;
+		char nameBuffer[NAME_BUFFER_LENGTH];
 	};
 
 
