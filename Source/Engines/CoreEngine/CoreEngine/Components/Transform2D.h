@@ -12,7 +12,7 @@ namespace ENGINE_NAMESPACE
 	class Transform2D : public Component
 	{
 	public:
-		Transform2D() = default;
+		Transform2D() {myUpdateStartPriority = UINT_MAX;}
 		~Transform2D() = default;
 
         void Update() override;

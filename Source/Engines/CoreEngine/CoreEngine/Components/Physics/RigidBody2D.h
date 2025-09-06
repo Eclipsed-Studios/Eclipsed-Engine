@@ -10,14 +10,13 @@
 
 namespace ENGINE_NAMESPACE
 {
-    class Transform2D;
     class RigidBody2D : public Component
     {
     public:
         friend class Collider2D;
         friend class BoxCollider2D;
 
-        RigidBody2D() = default;
+        RigidBody2D() {myUpdateStartPriority = 10;}
         ~RigidBody2D() override;
 
         void Awake() override;
@@ -44,21 +43,18 @@ namespace ENGINE_NAMESPACE
         bool GetYPosLocked();
 
     private:
-        UserData myUserData;
-
-        bool bodyHasBeenCreated = false;
+        RigidBodySettings myRigidBodySettings;
+        b2BodyId myBody;
 
         Math::Vector2f myVelocity = { 0.f, 0.f };
         float myAngularVelocity = 0.f;
 
-        Transform2D* myTransform;
-
-        RigidBodySettings myRigidBodySettings;
-
-        b2BodyId myBody;
+    private:
+        class Transform2D* myTransform;
 
     private:
         // Internals
-        UserData mySavedDataForUserData;
+        UserData myUserData;
+        bool bodyHasBeenCreated = false;
     };
 }

@@ -21,6 +21,7 @@ namespace ENGINE_NAMESPACE
 	}
 
 	typedef unsigned GameObject;
+	typedef unsigned ComponentIndex;
 
 	struct GameObjectData
 	{
@@ -66,8 +67,8 @@ namespace ENGINE_NAMESPACE
 		static inline std::vector<Component*> myComponents;
 
 		// Gameobject to components
-		static inline std::unordered_map<GameObject, std::unordered_map<std::type_index, unsigned>> myEntityIDToVectorOfComponentIDs;
 		static inline std::unordered_map<GameObject, GameObjectData> myEntityIdToEntityData;
+		static inline std::unordered_map<GameObject, std::unordered_map<RegisteredTypeIndex, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
 	};
 }
 

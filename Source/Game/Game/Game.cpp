@@ -31,14 +31,13 @@ namespace ENGINE_NAMESPACE
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
 			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
 			transform->SetScale(60.f, 60.f);
-			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(go);
-			rb->SetRotationLocked(true);
-
-			ComponentManager::AddComponent<PlayerMovement>(go);
 
 			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
 			boxCollider->SetScale(Math::Vector2f(1.f, 1.f));
 			boxCollider->myLayer = Layer::Player;
+
+			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(go);
+			rb->SetRotationLocked(true);
 
 			Material* matrial = new Material();
 			matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster.png");
@@ -46,6 +45,7 @@ namespace ENGINE_NAMESPACE
 			matrial->color.b = 0.f;
 			matrial->color.g = 0.f;
 
+			ComponentManager::AddComponent<PlayerMovement>(go);
 
 			rend->SetMaterial(matrial);
 
@@ -94,6 +94,6 @@ namespace ENGINE_NAMESPACE
 
 	void Game::Update()
 	{
-		
+
 	}
 }
