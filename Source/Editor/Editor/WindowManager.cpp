@@ -65,7 +65,7 @@ namespace ENGINE_NAMESPACE::Editor
 			else
 			{
 				std::string imguiWindowName = window->GetWindowName() + "##" + std::to_string(id);
-				ImGui::Begin(imguiWindowName.c_str(), &window->myIsOpen, 0);
+				ImGui::Begin(imguiWindowName.c_str(), &window->myIsOpen, window->flags);
 				window->Update();
 				ImGui::End();
 

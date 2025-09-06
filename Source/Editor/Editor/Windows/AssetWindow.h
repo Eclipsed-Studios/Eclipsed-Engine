@@ -16,6 +16,9 @@ namespace ENGINE_NAMESPACE::Editor
 		void Close() override;
 
 	public:
+		float myButtonSizeMultiplier = 1.f;
+
 		std::filesystem::path myCurrentPath;
+		static inline std::filesystem::path Active_FilePath;
 	};
 }

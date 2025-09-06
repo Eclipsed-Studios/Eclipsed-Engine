@@ -2,6 +2,8 @@
 #include <string>
 #include "Random.h"
 
+#include "ImGui/imgui.h"
+
 namespace ENGINE_NAMESPACE::Editor
 {
 	class AbstractWindow
@@ -26,5 +28,7 @@ namespace ENGINE_NAMESPACE::Editor
 		bool myIsOpen = true;
 
 		bool myWasLastOpen = true;
+
+		ImGuiWindowFlags flags = 0;
 	};
 }
