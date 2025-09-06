@@ -31,6 +31,9 @@ namespace ENGINE_NAMESPACE
     void ComponentManager::LateUpdateComponents()
     {
         for (auto& component : myComponents)
+            component->OnDrawGizmos();
+
+        for (auto& component : myComponents)
             component->LateUpdate();
     }
     const std::vector<Component*>& ComponentManager::GetComponents()

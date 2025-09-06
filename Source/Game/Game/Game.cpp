@@ -5,6 +5,7 @@
 #include <Components/Rendering/SpriteRenderer2D.h>
 #include <Components/Rendering/SpriteSheetAnimator.h>
 #include <Components/Transform2D.h>
+#include <Components/Player.h>
 #include <Components/Physics/RigidBody2D.h>
 #include <Components/Physics/BoxCollider2D.h>
 
@@ -42,9 +43,7 @@ namespace ENGINE_NAMESPACE
 			Material* matrial = new Material();
 			matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster.png");
 
-			matrial->color.b = 0.f;
-			matrial->color.g = 0.f;
-
+			ComponentManager::AddComponent<Player>(go);
 			ComponentManager::AddComponent<PlayerMovement>(go);
 
 			rend->SetMaterial(matrial);

@@ -37,6 +37,8 @@ namespace ENGINE_NAMESPACE
         virtual void OnCollisionEnter() {}
         virtual void OnCollisionExit() {}
 
+        virtual void OnDrawGizmos() {}
+
     public:
         virtual rapidjson::Value Save(rapidjson::Document::AllocatorType& allocator) const override;
         virtual void Load(const rapidjson::Value& aValue) override;

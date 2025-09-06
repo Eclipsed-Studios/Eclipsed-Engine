@@ -7,23 +7,16 @@ namespace ENGINE_NAMESPACE
     class PlayerMovement : public Component
     {
     public:
-        PlayerMovement() = default;
-        ~PlayerMovement() = default;
-
-        void Update() override;
         void Awake() override;
-
-        void OnCollisionEnter() override;
-
-        float myMoveSpeed = 0.4f;
-        float myJumpStrength = 2.f;
+        void Update() override;
 
     private:
-        bool myIsJumping = false;
-
         class RigidBody2D* myRigidBody = nullptr;
         class Transform2D* myTransform = nullptr;
-        class SpriteRenderer2D* mySpriteRenderer = nullptr;
-        class SpriteSheetAnimator2D* myAnimation = nullptr;
+        class Player* myPlayer;
+
+        const float Run_Multiplier = 1.4f;
+        float myMovementSpeed = 0.4f;
+        float myJumpStrength = 2.0f;
     };
 }

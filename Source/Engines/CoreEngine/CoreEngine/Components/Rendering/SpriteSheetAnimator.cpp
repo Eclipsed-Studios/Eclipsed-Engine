@@ -17,6 +17,7 @@ namespace ENGINE_NAMESPACE
         if (myTimeAccumulator >= myTimePerFrame)
         {
             const std::vector<unsigned>& animationFramesIdx = mySpriteSheetAnimations->GetAnimation(myActiveAnimation);
+            if (animationFramesIdx.size() <= 0) return;
 
             myTimeAccumulator -= myTimePerFrame;
             myCurrentFrame = (myCurrentFrame + 1) % animationFramesIdx.size();

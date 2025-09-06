@@ -3,8 +3,7 @@
 #include "ECS/ComponentManager.h"
 
 #include "Components/Physics/RigidBody2D.h"
-#include "Components/Rendering/SpriteRenderer2D.h"
-#include "Components/Rendering/SpriteSheetAnimator.h"
+#include "Components/Player.h"
 #include "Components/Transform2D.h"
 
 #include "PhysicsEngine.h"
@@ -19,71 +18,35 @@
 
 namespace ENGINE_NAMESPACE
 {
-	void PlayerMovement::Update()
-	{
-		float directionMove = InputMapper::ReadValue("Sides");
-
-		myAnimation->Play();
-		if (directionMove)
-		{
-			if (!myIsJumping)
-			{
-				myAnimation->SetCurrentAnimation("Running");
-			}
-
-			float velY = myRigidBody->GetVelocity().Y;
-			float time = Time::GetDeltaTime();
-			myRigidBody->SetVelocity({ directionMove * myMoveSpeed * 1, velY });
-
-			if (directionMove > 0)
-				mySpriteRenderer->SetXMirror(false);
-			else
-				mySpriteRenderer->SetXMirror(true);
-		}
-		else if (myIsJumping)
-		{
-			myAnimation->SetCurrentAnimation("Jump");
-		}
-		else
-		{
-			myAnimation->SetCurrentAnimation("Idle");
-		}
-
-
-		HitResults hit;
-		bool isGrounded = PhysicsEngine::OverlapSphere(myTransform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.03f, hit, Layer::Ground);
-
-		if (isGrounded)
-		{
-			if (myIsJumping && myRigidBody->GetVelocity().y <= 0.f)
-			{
-				myIsJumping = false;
-
-			}
-
-			if (InputMapper::ReadValue("Jump"))
-			{
-				float velX = myRigidBody->GetVelocity().x;
-				myRigidBody->SetVelocity({ velX, myJumpStrength });
-
-				myIsJumping = true;
-			}
-		}
-
-		DebugDrawer::DrawArrow({500, 400}, Math::Vector2f{1.f, 0.5f}.Normalized() * 200.f, Math::Color(1, 0, 0, 1));
-		DebugDrawer::DrawArrow({700, 400}, Math::Vector2f{0.2f, -0.5f}.Normalized() * 200.f, Math::Color(1, 1, 0, 1));
-	}
-
 	void PlayerMovement::Awake()
 	{
 		myRigidBody = GetComp(RigidBody2D, gameObject);
 		myTransform = GetComp(Transform2D, gameObject);
-		mySpriteRenderer = GetComp(SpriteRenderer2D, gameObject);
-		myAnimation = GetComp(SpriteSheetAnimator2D, gameObject);
+		myPlayer = GetComp(Player, gameObject);
 	}
 
-	void PlayerMovement::OnCollisionEnter()
+	void PlayerMovement::Update()
 	{
-		std::cout << "Collide" << std::endl;
+		if (myPlayer->myState == Player::States::Duck) return;
+
+		const int moveDirection = myPlayer->myMoveDirection;
+
+		if (moveDirection != 0)
+		{
+			float velY = myRigidBody->GetVelocity().Y;
+			float time = Time::GetDeltaTime();
+			myRigidBody->SetVelocity({ moveDirection * myMovementSpeed * 1, velY });
+		}
+
+		HitResults hit;
+		bool isGrounded = PhysicsEngine::OverlapSphere(myTransform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.03f, hit, Layer::Ground);
+		if (isGrounded)
+		{
+			if (myPlayer->myState == Player::States::Jump && InputMapper::ReadValue("Jump"))
+			{
+				float velX = myRigidBody->GetVelocity().x;
+				myRigidBody->SetVelocity({ velX, myJumpStrength });
+			}
+		}
 	}
 }
