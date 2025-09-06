@@ -6,8 +6,16 @@ namespace ENGINE_NAMESPACE
 {
     typedef unsigned GameObject;
 
+    namespace Editor
+    {
+        class InspectorWindow;
+
+    }
+
     class Component : public ISerializable
     {
+        friend class Editor::InspectorWindow;
+
         friend class ComponentManager;
         friend class SceneLoader;
 
@@ -41,5 +49,8 @@ namespace ENGINE_NAMESPACE
 
     private:
         static inline unsigned nextComponentID = 0;
+
+        // IFDEF EDITOR
+        bool myInspectorWasDrawn = false;
     };
 }

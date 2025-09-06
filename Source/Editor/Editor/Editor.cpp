@@ -21,6 +21,8 @@ namespace ENGINE_NAMESPACE::Editor
         
         ImGui_Impl::ImplementImGui(myWindow);
 
+        myWindowManager.Begin();
+
         return ErrorCode::SUCCESS;
     }
 
@@ -49,7 +51,7 @@ namespace ENGINE_NAMESPACE::Editor
 
     void EditorContext::End()
     {
-
+        myWindowManager.End();
         //Utilities::BlackBoard& engineSettings = SettingsManager::GetSettings();
 
         //engineSettings.Add<std::string>("GameName", "Template_v.0.0.1");

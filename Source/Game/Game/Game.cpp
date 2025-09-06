@@ -62,18 +62,31 @@ namespace ENGINE_NAMESPACE
 			int go = 2;
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
 			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
-			transform->SetPosition(0, -0.9f);
-			transform->SetScale(1000.f, 10.f);
+			transform->SetPosition(0.4f, -0.6f);
+			transform->SetScale(130, 50.f);
 			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
-			boxCollider->SetScale(Math::Vector2f(1.f, 1.f));
+			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
 			boxCollider->myLayer = Layer::Ground;
 
 			Material* matrial = new Material();
-			//matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster_Run_6.png");
+			matrial->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
 
-			matrial->color.r = 0.f;
-			matrial->color.b = 1.f;
-			matrial->color.g = 1.f;
+			rend->SetMaterial(matrial);
+		}
+
+		// Ground
+		{
+			int go = 3;
+			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
+			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
+			transform->SetPosition(0, -0.7f);
+			transform->SetScale(130, 50.f);
+			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
+			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
+			boxCollider->myLayer = Layer::Ground;
+
+			Material* matrial = new Material();
+			matrial->SetTexture(ASSET_PATH "Sprites/Environment/012.png");
 
 			rend->SetMaterial(matrial);
 		}

@@ -36,6 +36,8 @@ namespace ENGINE_NAMESPACE
 
         auto &typeID = typeid(T);
         myEntityIDToVectorOfComponentIDs[aGOID][typeID] = componentIndex;
+        myEntityIdToEntityData[aGOID] = GameObjectData();
+
         myComponents.back()->myComponentIndex = componentIndex;
 
         return component;        

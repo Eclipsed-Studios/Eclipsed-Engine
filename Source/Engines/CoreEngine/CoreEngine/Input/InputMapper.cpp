@@ -21,11 +21,6 @@
 
 namespace ENGINE_NAMESPACE
 {
-
-
-
-
-
 	void InputMapper::Save()
 	{
 		using namespace rapidjson;
