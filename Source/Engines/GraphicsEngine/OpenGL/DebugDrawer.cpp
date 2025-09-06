@@ -17,9 +17,10 @@ static const char* vtxShaderSource =
 static const char* pixelShaderSource =
 "#version 460 core\n"
 "out vec4 frag_colour;\n"
+"uniform vec4 color;\n"
 "void main()\n"
 "{\n"
-"frag_colour = vec4(0, 1, 0, 1);\n"
+"frag_colour = color;\n"
 "}\n";
 
 namespace ENGINE_NAMESPACE
@@ -85,6 +86,10 @@ namespace ENGINE_NAMESPACE
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), indices.data(), GL_DYNAMIC_DRAW);
 
             glBindVertexArray(myLineBuffer);
+
+            unsigned location = glGetUniformLocation(programID, "color");
+            glUniform4f(location, line.color.r, line.color.g, line.color.b, line.color.a);
+
             glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, 0);
 
             indices.clear();
@@ -94,24 +99,27 @@ namespace ENGINE_NAMESPACE
         myLineCollection.clear();
     }
 
-    void DebugDrawer::DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd)
+    void DebugDrawer::DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd, const Math::Color& aColor)
     {
         auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
+        line.color = aColor;
 
         line.linePoints.emplace_back(aStart);
         line.linePoints.emplace_back(aEnd);
 
     }
-    void DebugDrawer::DrawRay(Math::Vector2f aStartPos, Math::Vector2f aDirection)
+    void DebugDrawer::DrawRay(Math::Vector2f aStartPos, Math::Vector2f aDirection, const Math::Color& aColor)
     {
         auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
+        line.color = aColor;
 
         line.linePoints.emplace_back(aStartPos);
         line.linePoints.emplace_back(aStartPos + aDirection);
     }
-    void DebugDrawer::DrawArrow(Math::Vector2f aStartPos, Math::Vector2f aDirection)
+    void DebugDrawer::DrawArrow(Math::Vector2f aStartPos, Math::Vector2f aDirection, const Math::Color& aColor)
     {
         auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
+        line.color = aColor;
 
         Math::Vector2f endPosition = aStartPos + aDirection;
 
@@ -133,9 +141,10 @@ namespace ENGINE_NAMESPACE
         line.linePoints.emplace_back(rightArrowCorner);
     }
 
-    void DebugDrawer::DrawSquare(Math::Vector2f aPosition, Math::Vector2f aHalfExtents)
+    void DebugDrawer::DrawSquare(Math::Vector2f aPosition, Math::Vector2f aHalfExtents, const Math::Color& aColor)
     {
         auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
+        line.color = aColor;
 
         line.linePoints.emplace_back(aPosition - aHalfExtents);
         line.linePoints.emplace_back(aPosition + Math::Vector2f{ -aHalfExtents.x, aHalfExtents.y });
@@ -149,9 +158,10 @@ namespace ENGINE_NAMESPACE
         line.linePoints.emplace_back(aPosition + Math::Vector2f{ aHalfExtents.x, -aHalfExtents.y });
         line.linePoints.emplace_back(aPosition - aHalfExtents);
     }
-    void DebugDrawer::DrawSquareMinMax(Math::Vector2f aMinPosition, Math::Vector2f aMaxPosition)
+    void DebugDrawer::DrawSquareMinMax(Math::Vector2f aMinPosition, Math::Vector2f aMaxPosition, const Math::Color& aColor)
     {
         auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
+        line.color = aColor;
 
         line.linePoints.emplace_back(aMinPosition);
         line.linePoints.emplace_back(Math::Vector2f{ aMinPosition.x, aMaxPosition.y });
@@ -166,13 +176,13 @@ namespace ENGINE_NAMESPACE
         line.linePoints.emplace_back(aMinPosition);
     }
 
-    void DebugDrawer::DrawCircle(Math::Vector2f aPosition, float aRadius, unsigned aCircleResolution)
+    void DebugDrawer::DrawCircle(Math::Vector2f aPosition, float aRadius, unsigned aCircleResolution, const Math::Color& aColor)
     {
+        auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
+        line.color = aColor;
+
         const float pi = 3.14159265358 * 2.f;
-
         float segmentSize = pi / aCircleResolution;
-
-        auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
 
         for (int i = 0; i < aCircleResolution - 1; i++)
         {

@@ -68,7 +68,8 @@ namespace ENGINE_NAMESPACE
 			}
 		}
 
-		DebugDrawer::DrawArrow({500, 400}, Math::Vector2f{1.f, 0.5f}.Normalized() * 200.f);
+		DebugDrawer::DrawArrow({500, 400}, Math::Vector2f{1.f, 0.5f}.Normalized() * 200.f, Math::Color(1, 0, 0, 1));
+		DebugDrawer::DrawArrow({700, 400}, Math::Vector2f{0.2f, -0.5f}.Normalized() * 200.f, Math::Color(1, 1, 0, 1));
 	}
 
 	void PlayerMovement::Awake()
