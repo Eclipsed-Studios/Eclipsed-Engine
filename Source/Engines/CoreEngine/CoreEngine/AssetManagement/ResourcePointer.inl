@@ -10,6 +10,12 @@ namespace ENGINE_NAMESPACE
 
 
 	template<typename ResourceType>
+	inline ResourceType* ResourcePointer<ResourceType>::Get()
+	{
+		return Resources::template GetPointer<ResourceType>(id);;
+	}
+
+	template<typename ResourceType>
 	inline const ResourceType* ResourcePointer<ResourceType>::Get() const
 	{
 		return Resources::template GetPointer<ResourceType>(id);;

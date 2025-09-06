@@ -20,29 +20,13 @@
 
 #include "SettingsManager.h"
 
+#include "Audio/AudioManager.h"
+
 namespace ENGINE_NAMESPACE
 {
 	void Engine::Init()
 	{
-		SettingsManager::Load();
-
-		GraphicsEngine::Get().Init();
-
-		Time::Init();
-		Input::Init();
-		ComponentManager::Init();
-
-		Utilities::MainSingleton::Init();
-		PhysicsEngine::Init(8, { 0.f, -9.81f });
-
-		PhysicsEngine::myBeginContactCallback = [](UserData& aUserData)
-			{
-				ComponentManager::BeginCollisions(aUserData.gameobject);
-			};
-		PhysicsEngine::myEndContactCallback = [](UserData& aUserData)
-			{
-				ComponentManager::EndCollisions(aUserData.gameobject);
-			};
+		InitSubSystems();
 
 		game.Init();
 
@@ -50,14 +34,40 @@ namespace ENGINE_NAMESPACE
 		ComponentManager::StartComponents();
 	}
 
+	void Engine::InitSubSystems()
+	{
+		{ // Sub engines
+			GraphicsEngine::Init();
+
+			PhysicsEngine::Init(8, { 0.f, -9.81f });
+			PhysicsEngine::myBeginContactCallback = [](UserData& aUserData)
+				{
+					ComponentManager::BeginCollisions(aUserData.gameobject);
+				};
+			PhysicsEngine::myEndContactCallback = [](UserData& aUserData)
+				{
+					ComponentManager::EndCollisions(aUserData.gameobject);
+				};
+		}
+
+		Time::Init();
+		Input::Init();
+		ComponentManager::Init();
+		AudioManager::Init();
+
+		Utilities::MainSingleton::Init();
+	}
+
 	bool Engine::BeginFrame()
 	{
-		GraphicsEngine::Get().BeginFrame();
-		int shouldCloseWindow = GraphicsEngine::Get().ShouldWindowClose();
+		GraphicsEngine::BeginFrame();
+		int shouldCloseWindow = GraphicsEngine::ShouldWindowClose();
 		return !shouldCloseWindow;
 	}
 	void Engine::Update()
 	{
+		AudioManager::Update();
+
 		DebugInformationCollector::ResetRenderCalls();
 
 		PlatformIntegration::IntegrationManager::Update();
@@ -73,10 +83,10 @@ namespace ENGINE_NAMESPACE
 
 		game.Update();
 
-		GraphicsEngine::Get().Render();
+		GraphicsEngine::Render();
 	}
 	void Engine::EndFrame()
 	{
-		GraphicsEngine::Get().EndFrame();
+		GraphicsEngine::EndFrame();
 	}
 }

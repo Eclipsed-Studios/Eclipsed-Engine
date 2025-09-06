@@ -1,9 +1,9 @@
 #include <AssetManagement/Loader/AssetLoader.hpp>
 
 #include <AssetManagement/Resources/Texture.h>
+#include "AssetManagement/Loader/ResourceLoaderHelper.h"
 
 #include <glad/glad.h>
-
 
 
 namespace ENGINE_NAMESPACE
@@ -11,7 +11,9 @@ namespace ENGINE_NAMESPACE
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, Texture& outResource)
 	{
-		unsigned char* data = Load_Texture_STB(aPath, outResource);
+		outResource = Texture(aPath);
+
+		unsigned char* data = ResourceLoaderHelper::Load_Texture_STB(aPath, outResource);
 
 		glGenTextures(1, &outResource.textureID);
 		glBindTexture(GL_TEXTURE_2D, outResource.textureID);
@@ -28,7 +30,7 @@ namespace ENGINE_NAMESPACE
 			outResource.height, 0, GL_RGB - rgbTypeOffset, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
-		FreeData_STB(data);
+		ResourceLoaderHelper::FreeData_STB(data);
 
 		outResource.spriteDimDivOne = {1.0f / static_cast<float>(outResource.width), 1.0f / static_cast<float>(outResource.height)};
 

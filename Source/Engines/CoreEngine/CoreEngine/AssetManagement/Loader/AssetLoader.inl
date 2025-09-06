@@ -18,7 +18,7 @@ namespace ENGINE_NAMESPACE
 
 		auto it = std::find(supportedExtensions.begin(), supportedExtensions.end(), anExtension);
 		
-		return it == supportedExtensions.end();
+		return it != supportedExtensions.end();
 	}
 }
 

@@ -6,32 +6,23 @@ struct GLFWwindow;
 
 namespace ENGINE_NAMESPACE
 {
-    class GraphicsEngine
-    {
-    public:
-        GraphicsEngine() = default;
-        ~GraphicsEngine() = default;
+	class GraphicsEngine
+	{
+	public:
+		static  ErrorCode Init();
+		static void BeginFrame();
+		static void Render();
+		static void EndFrame();
 
-        static GraphicsEngine& Get()
-        {
-            static GraphicsEngine instance;
-            return instance;
-        }
+		static int ShouldWindowClose();
 
-        ErrorCode Init();
-        void BeginFrame();
-        void Render();
-        void EndFrame();
+		static ErrorCode CheckErrorCodes(ErrorCode aErrorCode);
 
-        int ShouldWindowClose();
+	private:
+		static inline GLFWwindow* myWindow;
 
-        ErrorCode CheckErrorCodes(ErrorCode aErrorCode);
-
-    private:
-        GLFWwindow* myWindow;
-
-    private:
-        ErrorCode InitOpenGL();
-        ErrorCode CreateWindow();
-    };
+	private:
+		static ErrorCode InitOpenGL();
+		static ErrorCode CreateWindow();
+	};
 }

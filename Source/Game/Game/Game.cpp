@@ -8,6 +8,7 @@
 #include <Components/Player.h>
 #include <Components/Physics/RigidBody2D.h>
 #include <Components/Physics/BoxCollider2D.h>
+#include <Components/AudioSource.h>
 
 #include "Components/PlayerMovement.h"
 
@@ -36,6 +37,9 @@ namespace ENGINE_NAMESPACE
 			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
 			boxCollider->SetScale(Math::Vector2f(1.f, 1.f));
 			boxCollider->myLayer = Layer::Player;
+
+			AudioSource* audio = ComponentManager::AddComponent<AudioSource>(go);
+			audio->SetAudioClip(ASSET_PATH "Sounds/T.mp3");
 
 			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(go);
 			rb->SetRotationLocked(true);
@@ -93,6 +97,10 @@ namespace ENGINE_NAMESPACE
 
 	void Game::Update()
 	{
-
+		int go = 1;
+		AudioSource* au = GetComp(AudioSource, go);
+		if (Input::GetKeyDown(Keycode::I)) au->Play();
+		else if (Input::GetKeyDown(Keycode::O)) au->Pause();
+		else if (Input::GetKeyDown(Keycode::P)) au->Stop();
 	}
 }

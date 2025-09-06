@@ -6,9 +6,12 @@ namespace ENGINE_NAMESPACE
 {
 #define BASE_RESOURCE(type)									\
 friend class AssetLoader;									\
+friend class ResourceLoaderHelper;							\
 public:														\
 	type(const char* relativePath, const size_t& id) 		\
-		: AbstractResource(relativePath, id) { __noop; }	\
+		: AbstractResource(relativePath, id) {  }			\
+	type(const char* relativePath) 							\
+		: AbstractResource(relativePath) {  }				\
 	type() = default;										\
 	~type() = default;										\
 private:
@@ -18,6 +21,7 @@ private:
 	{
 	public:
 		AbstractResource(const char* relativePath, const size_t& id);
+		AbstractResource(const char* path);
 		AbstractResource() = default;
 		~AbstractResource() = default;
 

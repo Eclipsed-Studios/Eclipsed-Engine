@@ -1,9 +1,17 @@
 #include "AbstractResource.h"
 
+#include <filesystem>
+
 namespace ENGINE_NAMESPACE
 {
 	AbstractResource::AbstractResource(const char* _relativePath, const size_t& _id)
 		: relativePath(_relativePath), id(_id) { }
+
+	AbstractResource::AbstractResource(const char* path) 
+	{
+		relativePath = std::filesystem::relative(path, ASSET_PATH).string();
+		id = std::hash<std::string>{}(relativePath);
+	}
 
 	const char* AbstractResource::GetRelativePath() const
 	{

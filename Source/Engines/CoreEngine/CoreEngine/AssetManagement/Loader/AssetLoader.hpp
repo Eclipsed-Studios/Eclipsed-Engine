@@ -8,6 +8,9 @@
 
 
 #include <AssetManagement/Resources/Texture.h>
+#include <AssetManagement/Resources/Shaders/PixelShader.h>
+#include <AssetManagement/Resources/Shaders/VertexShader.h>
+#include <AssetManagement/Resources/SpriteSheetAnimation.h>
 
 namespace ENGINE_NAMESPACE
 {
@@ -23,15 +26,14 @@ namespace ENGINE_NAMESPACE
 		template <typename T>
 		bool IsExtensionSupported(const char* anExtension);
 
-
-		// MOve to helper class
-		unsigned char* Load_Texture_STB(const char* aPath, Texture& outResource);
-		void FreeData_STB(unsigned char* someData);
-
 	private:
 		const std::unordered_map<std::type_index, std::vector<const char*>> supportedFileTypes =
 		{
-			{ typeid(Texture), {".png"} }
+			{ typeid(Texture), {".png", ".jpg", ".jpeg",".bmp", ".tga", ".gif", ".psd", ".hdr" }},
+			{ typeid(PixelShader), { ".glsl" }},
+			{ typeid(VertexShader), { ".glsl" }},
+			{ typeid(SpriteSheetAnimation), { ".spriteanim" }},
+
 		};
 	};
 }
@@ -40,3 +42,4 @@ namespace ENGINE_NAMESPACE
 #include "TypeLoaders/TextureLoader.inl"
 #include "TypeLoaders/ShaderLoader.inl"
 #include "TypeLoaders/SpriteAnimationLoader.inl"
+#include "TypeLoaders/AudioLoader.inl"

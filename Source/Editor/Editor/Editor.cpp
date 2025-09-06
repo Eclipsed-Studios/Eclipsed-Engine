@@ -8,10 +8,14 @@
 
 #include "SettingsManager.h"
 
+#include "Files/MetaFileRegistry.h"
+
 namespace ENGINE_NAMESPACE::Editor
 {
     ErrorCode EditorContext::Init()
     {
+        MetaFileRegistry::Load();
+
         PlatformIntegration::Discord::SetupWithID(1401121853829025922);
         PlatformIntegration::Discord::SetLargeImage("noah1");
 
@@ -51,6 +55,7 @@ namespace ENGINE_NAMESPACE::Editor
 
     void EditorContext::End()
     {
+        MetaFileRegistry::Save();
         myWindowManager.End();
         //Utilities::BlackBoard& engineSettings = SettingsManager::GetSettings();
 

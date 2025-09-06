@@ -31,6 +31,7 @@ target_include_directories(CoreEngine PUBLIC ${GRAPHICSENGINE_SOURCES})
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/stbi_image/)
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/)
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/)
+target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/fmod)
 
 target_include_directories(CoreEngine PUBLIC ${SDL3_SOURCES})
 target_include_directories(CoreEngine PUBLIC ${PLATFORMINTEGRATION_SOURCES})
@@ -52,3 +53,4 @@ endforeach()
 set_target_properties(CoreEngine PROPERTIES FOLDER "Engines")
 
 target_link_libraries(CoreEngine PRIVATE SDL3)
+target_link_libraries(CoreEngine PRIVATE FMOD)
