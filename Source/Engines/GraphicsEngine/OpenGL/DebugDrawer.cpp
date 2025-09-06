@@ -109,6 +109,29 @@ namespace ENGINE_NAMESPACE
         line.linePoints.emplace_back(aStartPos);
         line.linePoints.emplace_back(aStartPos + aDirection);
     }
+    void DebugDrawer::DrawArrow(Math::Vector2f aStartPos, Math::Vector2f aDirection)
+    {
+        auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
+
+        Math::Vector2f endPosition = aStartPos + aDirection;
+
+        line.linePoints.emplace_back(aStartPos);
+        line.linePoints.emplace_back(endPosition);
+
+        Math::Vector2f directionNormalized = aDirection.Normalized();
+        Math::Vector2f arrowCornersStart = endPosition - directionNormalized * 30.f;
+
+        Math::Vector2f rightVector = Math::Vector2f(directionNormalized.y, -directionNormalized.x);
+
+        Math::Vector2f rightArrowCorner = arrowCornersStart + rightVector * 30.f;
+        Math::Vector2f leftArrowCorner = arrowCornersStart - rightVector * 30.f;
+
+        line.linePoints.emplace_back(endPosition);
+        line.linePoints.emplace_back(leftArrowCorner);
+
+        line.linePoints.emplace_back(endPosition);
+        line.linePoints.emplace_back(rightArrowCorner);
+    }
 
     void DebugDrawer::DrawSquare(Math::Vector2f aPosition, Math::Vector2f aHalfExtents)
     {
