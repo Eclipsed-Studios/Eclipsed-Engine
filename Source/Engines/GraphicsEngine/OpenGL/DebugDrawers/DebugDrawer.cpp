@@ -178,6 +178,8 @@ namespace ENGINE_NAMESPACE
 
     void DebugDrawer::DrawCircle(Math::Vector2f aPosition, float aRadius, unsigned aCircleResolution, const Math::Color& aColor)
     {
+        float resRatio = TemporarySettingsSingleton::Get().GetResolutionRatio();
+
         auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
         line.color = aColor;
 
@@ -186,11 +188,11 @@ namespace ENGINE_NAMESPACE
 
         for (int i = 0; i < aCircleResolution - 1; i++)
         {
-            line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * i), sin((segmentSize * i))) * aRadius);
-            line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * (i + 1)), sin(segmentSize * (i + 1))) * aRadius);
+            line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * i) * resRatio, sin((segmentSize * i))) * aRadius * 0.5f);
+            line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * (i + 1)) * resRatio, sin(segmentSize * (i + 1))) * aRadius * 0.5f);
         }
 
-        line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * (aCircleResolution - 1)), sin((segmentSize * (aCircleResolution - 1)))) * aRadius);
-        line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * 0), sin(segmentSize * 0)) * aRadius);
+        line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * (aCircleResolution - 1)) * resRatio, sin((segmentSize * (aCircleResolution - 1)))) * aRadius * 0.5f);
+        line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(0) * resRatio, sin(0)) * aRadius * 0.5f);
     }
 }

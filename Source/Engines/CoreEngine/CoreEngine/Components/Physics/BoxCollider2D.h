@@ -14,13 +14,14 @@ namespace ENGINE_NAMESPACE
         BoxCollider2D() {myUpdateStartPriority = 5;}
         ~BoxCollider2D() = default;
 
-        // TODO: Add a priority to component Update/Start/Awake etc.
-        // Reason this is Start because if RB gets added after BOX it will start afterwards which is wrong
         void Awake() override;
+
+        void OnTransformDirty();
 
         void SetScale(const Math::Vector2f& aHalfExtents);
 
     private:
         Math::Vector2f myHalfExtents;
+        class Transform2D* myTransform;
     };
 }

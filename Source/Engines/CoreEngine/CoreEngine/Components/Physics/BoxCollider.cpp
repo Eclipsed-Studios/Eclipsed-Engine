@@ -25,6 +25,9 @@ namespace ENGINE_NAMESPACE
             myBodyRef = rigidBody->myBody;
 
         PhysicsEngine::CreateBoxCollider(&myInternalCollider, myBodyRef, myHalfExtents, myLayer);
+
+        myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
     }
 
     void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)
@@ -35,12 +38,16 @@ namespace ENGINE_NAMESPACE
         float oneDivY = temporary.GetOneDivResolutionY();
 
         Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);
-
         Math::Vector2f halfExtent = Math::Vector2f(transform->GetScale().x * oneDivY, transform->GetScale().y * oneDivY);
 
         halfExtent.x *= aHalfExtents.x;
         halfExtent.y *= aHalfExtents.y;
 
         myHalfExtents = halfExtent;
+    }
+
+    void BoxCollider2D::OnTransformDirty()
+    {
+        PhysicsEngine::SetTransform(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation());
     }
 }

@@ -29,13 +29,29 @@ void PhysicsDebugDrawer::DrawSolidPolygon(b2Transform transform, const b2Vec2* v
     {
         int realIndexPOne = i == vertexCount - 1 ? 0 : i + 1;
 
-        Math::Vector2f mathVertex0(position + Math::Vector2f{ vertices[i].x * resRatio, vertices[i].y });
-        Math::Vector2f mathVertex1(position + Math::Vector2f{ vertices[realIndexPOne].x * resRatio, vertices[realIndexPOne].y });
+        Math::Vector2f mathVertex0(Math::Vector2f{ vertices[i].x, vertices[i].y });
+        float vertX0 = mathVertex0.x * transform.q.c - mathVertex0.y * transform.q.s;
+        float vertY0 = mathVertex0.x * transform.q.s + mathVertex0.y * transform.q.c;
+
+        mathVertex0.x = vertX0 * resRatio;
+        mathVertex0.y = vertY0;
+
+        mathVertex0 += position;
 
         mathVertex0.x += 1;
         mathVertex0.x *= 0.5f;
         mathVertex0.y += 1;
         mathVertex0.y *= 0.5f;
+
+
+        Math::Vector2f mathVertex1(Math::Vector2f{ vertices[realIndexPOne].x, vertices[realIndexPOne].y });
+        float vertX1 = mathVertex1.x * transform.q.c - mathVertex1.y * transform.q.s;
+        float vertY1 = mathVertex1.x * transform.q.s + mathVertex1.y * transform.q.c;
+
+        mathVertex1.x = vertX1 * resRatio;
+        mathVertex1.y = vertY1;
+
+        mathVertex1 += position;
 
         mathVertex1.x += 1;
         mathVertex1.x *= 0.5f;
@@ -50,7 +66,9 @@ void PhysicsDebugDrawer::DrawSolidPolygon(b2Transform transform, const b2Vec2* v
 }
 void PhysicsDebugDrawer::DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context)
 {
+    float resRatio = TemporarySettingsSingleton::Get().GetResolutionRatio();
 
+    DebugDrawer::DrawCircle(Math::Vector2f((center.x * resRatio + 1.f) * 0.5f, (center.y + 1.f) * 0.5f), radius, 32);
 }
 void PhysicsDebugDrawer::DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context)
 {

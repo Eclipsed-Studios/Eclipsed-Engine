@@ -39,7 +39,7 @@ namespace ENGINE_NAMESPACE
 		}
 
 		HitResults hit;
-		bool isGrounded = PhysicsEngine::OverlapSphere(myTransform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.03f, hit, Layer::Ground);
+		bool isGrounded = PhysicsEngine::OverlapSphere(myTransform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.05f, hit, Layer::Ground);
 		if (isGrounded)
 		{
 			if (myPlayer->myState == Player::States::Jump && InputMapper::ReadValue("Jump"))

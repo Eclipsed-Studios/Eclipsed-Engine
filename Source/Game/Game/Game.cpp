@@ -35,7 +35,7 @@ namespace ENGINE_NAMESPACE
 			transform->SetScale(60.f, 60.f);
 
 			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
-			boxCollider->SetScale(Math::Vector2f(1.f, 1.f));
+			boxCollider->SetScale(Math::Vector2f(0.7f, 1.f));
 			boxCollider->myLayer = Layer::Player;
 
 			AudioSource* audio = ComponentManager::AddComponent<AudioSource>(go);

@@ -67,7 +67,7 @@ namespace ENGINE_NAMESPACE
         bodyDefine.userData = aUserData;
 
         *aBody = b2CreateBody(myWorld, &bodyDefine);
-    } 
+    }
 
     void PhysicsEngine::CreateBoxCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer)
     {
@@ -82,6 +82,30 @@ namespace ENGINE_NAMESPACE
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
 
+    void PhysicsEngine::SetPosition(b2BodyId& aBodyID, const Math::Vector2f& aPosition)
+    {
+        b2Rot rotation = b2Body_GetRotation(aBodyID);
+        b2Body_SetTransform(aBodyID, b2Vec2(aPosition.x, aPosition.y), rotation);
+    }
+    void PhysicsEngine::SetRotation(b2BodyId& aBodyID, float aRotation)
+    {
+        b2Vec2 postition = b2Body_GetPosition(aBodyID);
+
+        b2Rot rot;
+        rot.c = cosf(aRotation);
+        rot.s = sinf(aRotation);
+
+        b2Body_SetTransform(aBodyID, postition, rot);
+    }
+    void PhysicsEngine::SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation)
+    {
+        b2Rot rot;
+        rot.c = cosf(aRotation);
+        rot.s = sinf(aRotation);
+
+        b2Body_SetTransform(aBodyID, b2Vec2(aPosition.x, aPosition.y), rot);
+    }
+
     void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
     {
         mySubstepCount = aSubstepCount;
@@ -90,7 +114,7 @@ namespace ENGINE_NAMESPACE
         b2WorldDef worldDef;
         worldDef = b2DefaultWorldDef();
         worldDef.gravity = b2Vec2(myGravity.x, myGravity.y);
-        
+
         myWorld = b2CreateWorld(&worldDef);
 
         myDebugDraw = std::move(aDebugdraw);
@@ -100,7 +124,7 @@ namespace ENGINE_NAMESPACE
     {
         b2World_Step(myWorld, Time::GetDeltaTime(), mySubstepCount);
         b2World_Draw(myWorld, &myDebugDraw);
-        
+
         CheckCollisions();
     }
 
@@ -245,6 +269,9 @@ namespace ENGINE_NAMESPACE
         filter.maskBits = static_cast<uint64_t>(aLayerMask);
 
         b2World_OverlapShape(myWorld, &proxy, filter, MyShapeOverlapCallback, &aHitResults);
+
+        myDebugDraw.DrawCircleFcn(b2Vec2(aPositon.x, aPositon.y), aRadius, b2HexColor::b2_colorBlack, nullptr);
+
         if (!aHitResults.results.empty())
             return true;
 
