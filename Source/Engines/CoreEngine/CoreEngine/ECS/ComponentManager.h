@@ -3,6 +3,7 @@
 #include "Components/Component.h"
 
 #include <vector>
+#include <string>
 #include <unordered_map>
 #include <typeindex>
 #include <assert.h>
@@ -14,11 +15,24 @@ ComponentManager::GetComponent<##Type>(GOID)
 
 namespace ENGINE_NAMESPACE
 {
+	namespace Editor {
+		class HierarchyWindow;
+		class InspectorWindow;
+	}
+
 	typedef unsigned GameObject;
 	typedef unsigned ComponentIndex;
 
+	struct GameObjectData
+	{
+		std::string name = "New Gameobject";
+	};
+
 	class ComponentManager
 	{
+		friend class Editor::HierarchyWindow;
+		friend class Editor::InspectorWindow;
+
 	public:
 		ComponentManager() = default;
 		~ComponentManager() = default;
@@ -53,6 +67,7 @@ namespace ENGINE_NAMESPACE
 		static inline std::vector<Component*> myComponents;
 
 		// Gameobject to components
+		static inline std::unordered_map<GameObject, GameObjectData> myEntityIdToEntityData;
 		static inline std::unordered_map<GameObject, std::unordered_map<RegisteredTypeIndex, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
 	};
 }

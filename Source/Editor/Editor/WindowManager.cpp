@@ -6,15 +6,28 @@
 
 #include "Debug/DebugInformationCollector.h"
 
+#include "rapidjson/rapidjson/document.h"
+#include "rapidjson/rapidjson/writer.h"
+#include "rapidjson/rapidjson/stringbuffer.h"
+#include "rapidjson/rapidjson/filewritestream.h"
+
 namespace ENGINE_NAMESPACE::Editor
 {
+	void WindowManager::OpenWindow(const std::string& name, int aId)
+	{
+		if (name == "Console") OpenWindow<ConsoleWindow>(aId);
+		if (name == "Hierarchy") OpenWindow<HierarchyWindow>(aId);
+		if (name == "Inspector") OpenWindow<InspectorWindow>(aId);
+	}
 	void WindowManager::UpdateMainMenuBar()
 	{
 		if (ImGui::BeginMainMenuBar())
 		{
 			if (ImGui::BeginMenu("Windows"))
 			{
-				if (ImGui::MenuItem("Console")) OpenWindow<ConsoleWindow>(-1);
+				if (ImGui::MenuItem("Console")) OpenWindow("Console", -1);
+				if (ImGui::MenuItem("Hierarchy")) OpenWindow("Hierarchy", -1);
+				if (ImGui::MenuItem("Inspector")) OpenWindow("Inspector", -1);
 
 				ImGui::EndMenu();
 			}
@@ -62,6 +75,77 @@ namespace ENGINE_NAMESPACE::Editor
 		{
 			DrawDebugInfoWindow();
 		}
+	}
+
+	void WindowManager::Begin()
+	{
+		using namespace rapidjson;
+
+		std::ifstream ifs(SETTINGS_PATH"editor.json");
+		if (!ifs.is_open()) {
+			
+		}
+
+		std::string jsonString((std::istreambuf_iterator<char>(ifs)),
+			std::istreambuf_iterator<char>());
+
+		ifs.close();
+
+		Document d;
+		d.Parse(jsonString.c_str());
+
+		if (d.HasMember("OpenWindows"))
+		{
+			const Value& windowList = d["OpenWindows"];
+			for (auto& window : windowList.GetArray())
+			{
+				const Value& vID = window["id"];
+				const Value& vName = window["name"];
+
+				const int id = vID.GetInt();
+				const std::string name = vName.GetString();
+
+				OpenWindow(name, id);
+			}
+		}
+	}
+
+	void WindowManager::End()
+	{
+		using namespace rapidjson;
+
+		Document d;
+		d.SetObject();
+		Document::AllocatorType& allocator = d.GetAllocator();
+
+		Value windowList(kArrayType);
+		for (const auto& [id, pWindow] : IdToWindow)
+		{
+			Value window(kObjectType);
+			window.AddMember(
+				"id",
+				id,
+				allocator
+			);
+
+			window.AddMember(
+				"name",
+				Value(pWindow->GetWindowName().c_str(), allocator).Move(),
+				allocator
+			);
+
+			windowList.PushBack(window, allocator);
+		}
+
+		d.AddMember("OpenWindows", windowList, allocator);
+
+		StringBuffer buffer;
+		Writer<StringBuffer> writer(buffer);
+		d.Accept(writer);
+
+		std::ofstream ofs(SETTINGS_PATH"editor.json");
+		ofs << buffer.GetString();
+		ofs.close();
 	}
 
 	void WindowManager::DrawDebugInfoWindow()

@@ -53,6 +53,7 @@ namespace ENGINE_NAMESPACE
         myComponents.emplace_back(component);
         size_t componentIndex = myComponents.size() - 1;
 
+myEntityIdToEntityData[aGOID] = GameObjectData();
         myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
         myComponents.back()->myComponentIndex = componentIndex;
 

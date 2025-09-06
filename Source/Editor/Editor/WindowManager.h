@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Windows/ConsoleWindow.h"
+#include "Windows/HierarchyWindow.h"
+#include "Windows/InspectorWindow.h"
 
 #include <unordered_map>
 
@@ -11,11 +13,14 @@ namespace ENGINE_NAMESPACE::Editor
 	public:
 		template<typename T>
 		void OpenWindow(int aId);
+		void OpenWindow(const std::string& name, int aId);
 
 		void UpdateMainMenuBar();
 
-		void Save();
 		void Update();
+
+		void Begin();
+		void End();
 
 	private:
 		void DrawDebugInfoWindow();
@@ -31,7 +36,9 @@ namespace ENGINE_NAMESPACE::Editor
 	{
 		AbstractWindow* window = nullptr;
 
-		if (std::is_same<T, ConsoleWindow>::value)	window = new ConsoleWindow(aId);
+		if constexpr(std::is_same<T, ConsoleWindow>::value)	window = new ConsoleWindow(aId);
+		else if constexpr (std::is_same<T, HierarchyWindow>::value)	window = new HierarchyWindow(aId);
+		else if constexpr (std::is_same<T, InspectorWindow>::value)	window = new InspectorWindow(aId);
 
 		if (window == nullptr) return;
 
