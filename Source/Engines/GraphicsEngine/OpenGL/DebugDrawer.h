@@ -24,6 +24,7 @@ namespace ENGINE_NAMESPACE
 
         static void DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd);
         static void DrawRay(Math::Vector2f aStartPos, Math::Vector2f aDirection);
+        static void DrawArrow(Math::Vector2f aStartPos, Math::Vector2f aDirection);
 
         static void DrawSquare(Math::Vector2f aPosition, Math::Vector2f aHalfExtents);
         static void DrawSquareMinMax(Math::Vector2f aMinPosition, Math::Vector2f aMaxPosition);
