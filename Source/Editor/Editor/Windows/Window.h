@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Random.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {

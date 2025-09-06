@@ -9,7 +9,7 @@ namespace ENGINE_NAMESPACE::Editor
 	HierarchyWindow::HierarchyWindow(const int& aId)
 	{
 		myWindowName = "Hierarchy";
-		myID = aId == -1 ? rand() : aId;
+		myID = aId == -1 ? Random::GetValue<int>() : aId;
 	}
 
 	void HierarchyWindow::Open()

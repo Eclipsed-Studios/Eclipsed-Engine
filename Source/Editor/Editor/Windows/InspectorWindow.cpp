@@ -10,7 +10,7 @@ namespace ENGINE_NAMESPACE::Editor
 	InspectorWindow::InspectorWindow(const int& aId)
 	{
 		myWindowName = "Inspector";
-		myID = aId == -1 ? rand() : aId;
+		myID = aId == -1 ? Random::GetValue<int>() : aId;
 	}
 	void InspectorWindow::Open()
 	{

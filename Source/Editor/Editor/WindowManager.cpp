@@ -18,6 +18,7 @@ namespace ENGINE_NAMESPACE::Editor
 		if (name == "Console") OpenWindow<ConsoleWindow>(aId);
 		if (name == "Hierarchy") OpenWindow<HierarchyWindow>(aId);
 		if (name == "Inspector") OpenWindow<InspectorWindow>(aId);
+		if (name == "Assets") OpenWindow<AssetWindow>(aId);
 	}
 	void WindowManager::UpdateMainMenuBar()
 	{
@@ -28,6 +29,7 @@ namespace ENGINE_NAMESPACE::Editor
 				if (ImGui::MenuItem("Console")) OpenWindow("Console", -1);
 				if (ImGui::MenuItem("Hierarchy")) OpenWindow("Hierarchy", -1);
 				if (ImGui::MenuItem("Inspector")) OpenWindow("Inspector", -1);
+				if (ImGui::MenuItem("Assets")) OpenWindow("Assets", -1);
 
 				ImGui::EndMenu();
 			}

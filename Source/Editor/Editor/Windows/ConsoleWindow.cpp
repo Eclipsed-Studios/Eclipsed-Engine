@@ -8,7 +8,7 @@ namespace ENGINE_NAMESPACE::Editor
 	ConsoleWindow::ConsoleWindow(const int& aId)
 	{
 		myWindowName = "Console";
-		myID = aId == -1 ? rand() : aId;
+		myID = aId == -1 ? Random::GetValue<int>() : aId;
 	}
 
 	void ConsoleWindow::Open()
