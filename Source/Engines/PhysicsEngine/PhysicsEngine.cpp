@@ -62,7 +62,7 @@ namespace ENGINE_NAMESPACE
         bodyDefine.type = static_cast<b2BodyType>(aBodySettings.BodyType);
         bodyDefine.position = b2Vec2(aStartPosition.x, aStartPosition.y);
 
-        bodyDefine.linearDamping = 5.f;
+        //bodyDefine.linearDamping = 5.f;
 
         bodyDefine.userData = aUserData;
 
@@ -74,20 +74,13 @@ namespace ENGINE_NAMESPACE
         b2Polygon polygon = b2MakeBox(aHalfExtents.x, aHalfExtents.y);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
 
+        shapeDef.enableHitEvents = true;
+        shapeDef.enableContactEvents = true;
+
         shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
 
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
-
-    bool MyCustomFilter(b2ShapeId shapeIdA, b2ShapeId shapeIdB, void* context)
-    {
-        return true;
-    }
-
-    // bool MyPreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context)
-    // {
-    //     return true;
-    // }
 
     void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity)
     {
@@ -97,9 +90,8 @@ namespace ENGINE_NAMESPACE
         b2WorldDef worldDef;
         worldDef = b2DefaultWorldDef();
         worldDef.gravity = b2Vec2(myGravity.x, myGravity.y);
+        
         myWorld = b2CreateWorld(&worldDef);
-
-        b2World_SetCustomFilterCallback(myWorld, MyCustomFilter, nullptr);
     }
 
     void PhysicsEngine::Update()
@@ -121,7 +113,7 @@ namespace ENGINE_NAMESPACE
         void* userInternalDataB = b2Body_GetUserData(bodyIdB);
 
         UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
-        UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataA);
+        UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataB);
 
         PhysicsEngine::myBeginContactCallback(userDataA);
         PhysicsEngine::myBeginContactCallback(userDataB);
@@ -139,7 +131,7 @@ namespace ENGINE_NAMESPACE
         void* userInternalDataB = b2Body_GetUserData(bodyIdB);
 
         UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
-        UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataA);
+        UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataB);
 
         PhysicsEngine::myEndContactCallback(userDataA);
         PhysicsEngine::myEndContactCallback(userDataB);
@@ -149,16 +141,16 @@ namespace ENGINE_NAMESPACE
     {
         b2ContactEvents contactEvents = b2World_GetContactEvents(myWorld);
 
-
-
-        printf("Begin: %d, End: %d\n", contactEvents.beginCount, contactEvents.endCount);
-
-        for (int i = 0; i < contactEvents.hitCount; ++i)
+        for (int i = 0; i < contactEvents.beginCount; ++i)
         {
             b2ContactBeginTouchEvent event = contactEvents.beginEvents[i];
             HandleBeginContacts(event);
         }
-
+        // for (int i = 0; i < contactEvents.hitCount; ++i)
+        // {
+        //     b2ContactBeginTouchEvent event = contactEvents.beginEvents[i];
+        //     HandleBeginContacts(event);
+        // }
         for (int i = 0; i < contactEvents.endCount; ++i)
         {
             b2ContactEndTouchEvent event = contactEvents.endEvents[i];

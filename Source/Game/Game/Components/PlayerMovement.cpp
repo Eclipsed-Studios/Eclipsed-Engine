@@ -15,6 +15,8 @@
 
 #include "OpenGL/DebugDrawer.h"
 
+#include <iostream>
+
 namespace ENGINE_NAMESPACE
 {
 	void PlayerMovement::Update()
@@ -78,5 +80,10 @@ namespace ENGINE_NAMESPACE
 		myTransform = GetComp(Transform2D, gameObject);
 		mySpriteRenderer = GetComp(SpriteRenderer2D, gameObject);
 		myAnimation = GetComp(SpriteSheetAnimator2D, gameObject);
+	}
+
+	void PlayerMovement::OnCollisionEnter()
+	{
+		std::cout << "Collide" << std::endl;
 	}
 }

@@ -41,7 +41,7 @@ namespace ENGINE_NAMESPACE
 			};
 		PhysicsEngine::myEndContactCallback = [](UserData& aUserData)
 			{
-				ComponentManager::BeginCollisions(aUserData.gameobject);
+				ComponentManager::EndCollisions(aUserData.gameobject);
 			};
 
 		game.Init();

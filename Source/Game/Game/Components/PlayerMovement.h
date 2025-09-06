@@ -13,8 +13,10 @@ namespace ENGINE_NAMESPACE
         void Update() override;
         void Awake() override;
 
+        void OnCollisionEnter() override;
+
         float myMoveSpeed = 0.4f;
-        float myJumpStrength = 2.5f;
+        float myJumpStrength = 2.f;
 
     private:
         bool myIsJumping = false;
