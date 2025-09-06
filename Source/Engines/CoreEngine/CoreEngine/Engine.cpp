@@ -60,7 +60,6 @@ namespace ENGINE_NAMESPACE
 	{
 		DebugInformationCollector::ResetRenderCalls();
 
-
 		PlatformIntegration::IntegrationManager::Update();
 
 		Time::Update();

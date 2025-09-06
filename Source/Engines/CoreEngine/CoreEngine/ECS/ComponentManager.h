@@ -15,6 +15,7 @@ ComponentManager::GetComponent<##Type>(GOID)
 namespace ENGINE_NAMESPACE
 {
 	typedef unsigned GameObject;
+	typedef unsigned ComponentIndex;
 
 	class ComponentManager
 	{
@@ -52,7 +53,7 @@ namespace ENGINE_NAMESPACE
 		static inline std::vector<Component*> myComponents;
 
 		// Gameobject to components
-		static inline std::unordered_map<GameObject, std::unordered_map<std::type_index, unsigned>> myEntityIDToVectorOfComponentIDs;
+		static inline std::unordered_map<GameObject, std::unordered_map<RegisteredTypeIndex, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
 	};
 }
 

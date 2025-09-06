@@ -11,17 +11,19 @@
 
 #include <iostream>
 
+#include "Math/Vector/Vector2.h"
 
+#include "DebugDrawer.h"
 
 namespace ENGINE_NAMESPACE
 {
-    void WindowChangeDimenstions(GLFWwindow *window, int width, int height)
+    void WindowChangeDimenstions(GLFWwindow* window, int width, int height)
     {
         glViewport(0, 0, width, height);
         ENGINE_NAMESPACE::TemporarySettingsSingleton::Get().SetResolution(width, height);
     }
 
-    void error_callback(int error, const char *description)
+    void error_callback(int error, const char* description)
     {
         fprintf(stderr, "Error: %s\n", description);
     }
@@ -34,7 +36,7 @@ namespace ENGINE_NAMESPACE
 
         float x = TemporarySettingsSingleton::Get().GetResolutionX();
         float y = TemporarySettingsSingleton::Get().GetResolutionY();
-        const char *gameTitle = TemporarySettingsSingleton::Get().GetGameTitle();
+        const char* gameTitle = TemporarySettingsSingleton::Get().GetGameTitle();
 
         myWindow = glfwCreateWindow(x, y, gameTitle, nullptr, nullptr);
 
@@ -44,7 +46,7 @@ namespace ENGINE_NAMESPACE
         // Set context to current context
         glfwMakeContextCurrent(myWindow);
 
-        Utilities::MainSingleton::RegisterInstance<GLFWwindow *>() = myWindow;
+        Utilities::MainSingleton::RegisterInstance<GLFWwindow*>() = myWindow;
 
         return ErrorCode::SUCCESS;
     }
@@ -90,6 +92,9 @@ namespace ENGINE_NAMESPACE
     {
         ErrorCode errorCode = InitOpenGL();
         EnableOpenGLSettings();
+
+        DebugDrawer::Get().Init();
+
         return errorCode;
     }
 
@@ -100,8 +105,10 @@ namespace ENGINE_NAMESPACE
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.4314f, 0.1804f, 0.6f, 1.0f);
     }
+
     void GraphicsEngine::Render()
     {
+        DebugDrawer::Get().Render();
     }
     void GraphicsEngine::EndFrame()
     {

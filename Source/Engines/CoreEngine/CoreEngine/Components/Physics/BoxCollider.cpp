@@ -12,7 +12,7 @@
 
 namespace ENGINE_NAMESPACE
 {
-    void BoxCollider2D::Start()
+    void BoxCollider2D::Awake()
     {
         RigidBody2D* rigidBody = ComponentManager::GetComponent<RigidBody2D>(gameObject);
 

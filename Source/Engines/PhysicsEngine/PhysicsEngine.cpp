@@ -84,10 +84,10 @@ namespace ENGINE_NAMESPACE
         return true;
     }
 
-    bool MyPreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context)
-    {
-        return true;
-    }
+    // bool MyPreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context)
+    // {
+    //     return true;
+    // }
 
     void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity)
     {
@@ -99,8 +99,7 @@ namespace ENGINE_NAMESPACE
         worldDef.gravity = b2Vec2(myGravity.x, myGravity.y);
         myWorld = b2CreateWorld(&worldDef);
 
-        // Elsewhere
-        b2World_SetCustomFilterCallback(myWorld, MyCustomFilter, nullptr);    // Elsewhere
+        b2World_SetCustomFilterCallback(myWorld, MyCustomFilter, nullptr);
     }
 
     void PhysicsEngine::Update()

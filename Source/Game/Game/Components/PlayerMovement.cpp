@@ -13,6 +13,8 @@
 
 #include "Timer.h"
 
+#include "OpenGL/DebugDrawer.h"
+
 namespace ENGINE_NAMESPACE
 {
 	void PlayerMovement::Update()
@@ -65,6 +67,8 @@ namespace ENGINE_NAMESPACE
 				myIsJumping = true;
 			}
 		}
+
+		DebugDrawer::DrawCircle(Math::Vector2f(500, 400), 100, 16);
 	}
 
 	void PlayerMovement::Awake()

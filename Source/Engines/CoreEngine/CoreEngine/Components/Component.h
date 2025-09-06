@@ -4,6 +4,7 @@
 
 namespace ENGINE_NAMESPACE
 {
+    typedef unsigned RegisteredTypeIndex;
     typedef unsigned GameObject;
 
     class Component : public ISerializable
@@ -36,10 +37,14 @@ namespace ENGINE_NAMESPACE
         GameObject gameObject;
 
     protected:
+        // Higher number higher priority
+        unsigned myUpdateStartPriority = 0;
+
         unsigned myComponentID = 0;
         unsigned myComponentIndex = 0;
 
     private:
+        RegisteredTypeIndex myUniqueComponentID;
         static inline unsigned nextComponentID = 0;
     };
 }
