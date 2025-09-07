@@ -31,11 +31,17 @@ namespace ENGINE_NAMESPACE
 
 		unsigned GetTextureID();
 
+		float GetTextureRatio() { return dimDivOne; }
+
+		Math::Vector2i GetTextureSize() { return Math::Vector2i{ width, height }; }
+		Math::Vector2i GetTextureSizeEngineUnits() { return Math::Vector2i{ static_cast<int>(static_cast<float>(width) * 0.01f), static_cast<int>(static_cast<float>(height) * 0.01f) }; }
+
 	private:
 		int width, height;
 		int channels;
 
 		Math::Vector2f spriteDimDivOne;
+		float dimDivOne;
 
 		unsigned textureID = 0;
 	};

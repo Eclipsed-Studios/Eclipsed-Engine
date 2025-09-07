@@ -36,7 +36,7 @@ namespace ENGINE_NAMESPACE
 		{ // Sub engines
 			GraphicsEngine::Init();
 
-			b2DebugDraw debugDraw = {0};
+			b2DebugDraw debugDraw = { 0 };
 
 			PhysicsDebugDrawer::Init(&debugDraw);
 

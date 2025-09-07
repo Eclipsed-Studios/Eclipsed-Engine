@@ -17,6 +17,8 @@
 
 #include "Debug/DebugInformationCollector.h"
 
+#include "OpenGL/OpenGLGraphicsAPI.h"
+
 namespace ENGINE_NAMESPACE
 {
 	Material::Material()
@@ -75,30 +77,19 @@ namespace ENGINE_NAMESPACE
 	{
 		unsigned shaderID = myMaterial->myShader->GetProgramID();
 
-		auto& settings = TemporarySettingsSingleton::Get();
-
-		float resX = settings.GetOneDivResolutionX();
-		float resY = settings.GetOneDivResolutionY();
-
+		
 		Math::Vector2f position = myTransform->GetPosition();
 		float rotation = myTransform->GetRotation();
 		Math::Vector2f scale = myTransform->GetScale();
-
+		
 		myMaterial->Use();
-
+		
 		GLint positionIndex = glGetUniformLocation(shaderID, "transform.position");
 		glUniform2f(positionIndex, position.x, position.y);
 		GLint rotationIndex = glGetUniformLocation(shaderID, "transform.rotation");
 		glUniform1f(rotationIndex, rotation);
-		GLint scaleIndex = glGetUniformLocation(shaderID, "transform.pixelSize");
+		GLint scaleIndex = glGetUniformLocation(shaderID, "transform.size");
 		glUniform2f(scaleIndex, scale.x, scale.y);
-
-		unsigned resolutionIndex = glGetUniformLocation(shaderID, "resolutionMultiplier");
-		glUniform2f(resolutionIndex, resX, resY);
-
-		float resolutionRatio = 9.f / 16.f;//settings.GetResolutionRatio();
-		unsigned resolutionRatioIndex = glGetUniformLocation(shaderID, "resolutionRatio");
-		glUniform1f(resolutionRatioIndex, resolutionRatio);
 
 		Math::Vector2f size = spriteRectMax - spriteRectMin;
 
@@ -108,6 +99,8 @@ namespace ENGINE_NAMESPACE
 		GLint mirrord = glGetUniformLocation(shaderID, "mirrored");
 		glUniform2f(mirrord, mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f);
 
+		GraphicsEngine::SetGlobalUniforms(shaderID);
+		
 		mySprite->Render();
 
 		DebugInformationCollector::UpdateRenderCalls();

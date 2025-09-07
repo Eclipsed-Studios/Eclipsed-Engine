@@ -22,6 +22,7 @@ namespace ENGINE_NAMESPACE
 
     private:
         Math::Vector2f myHalfExtents;
+        Math::Vector2f myScale;
         class Transform2D* myTransform;
     };
 }

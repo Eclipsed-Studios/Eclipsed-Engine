@@ -4,7 +4,7 @@
 
 namespace ENGINE_NAMESPACE
 {
-    const Math::Vector2f &Transform2D::GetPosition() const
+    const Math::Vector2f& Transform2D::GetPosition() const
     {
         return position;
     }
@@ -12,12 +12,25 @@ namespace ENGINE_NAMESPACE
     {
         return rotation;
     }
-    const Math::Vector2f &Transform2D::GetScale() const
+    const Math::Vector2f& Transform2D::GetScale() const
     {
         return scale;
     }
 
-    void Transform2D::SetPosition(const Math::Vector2f &aPosition)
+    Math::Vector2f* Transform2D::GetPositionPtr()
+    {
+        return &position;
+    }
+    float* Transform2D::GetRotationPtr()
+    {
+        return &rotation;
+    }
+    Math::Vector2f* Transform2D::GetScalePtr()
+    {
+        return &scale;
+    }
+
+    void Transform2D::SetPosition(const Math::Vector2f& aPosition)
     {
         SetPosition(aPosition.x, aPosition.y);
     }
@@ -36,7 +49,11 @@ namespace ENGINE_NAMESPACE
         myIsDirty = true;
     }
 
-    void Transform2D::SetScale(const Math::Vector2f &aScale)
+    void Transform2D::SetScale(const Math::Vector2i& aScale)
+    {
+        SetScale(static_cast<float>(aScale.x), static_cast<float>(aScale.y));
+    }
+    void Transform2D::SetScale(const Math::Vector2f& aScale)
     {
         SetScale(aScale.x, aScale.y);
     }
@@ -48,7 +65,7 @@ namespace ENGINE_NAMESPACE
         myIsDirty = true;
     }
 
-    void Transform2D::AddFunctionToRunOnDirtyUpdate(const std::function<void()> &aFunction)
+    void Transform2D::AddFunctionToRunOnDirtyUpdate(const std::function<void()>& aFunction)
     {
         myFunctionsToRunOnDirtyUpdate.push_back(aFunction);
     }

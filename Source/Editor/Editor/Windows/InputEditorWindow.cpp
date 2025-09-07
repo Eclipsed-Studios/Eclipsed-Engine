@@ -125,11 +125,7 @@ namespace ENGINE_NAMESPACE::Editor
 	{
 		if (aKey >= 65 && aKey <= 91)
 		{
-			char keyNameChar = static_cast<char>(aKey);
-
-			std::string keyNameString(&keyNameChar);
-			keyNameString[1] = '\0';
-
+			std::string keyNameString(1, static_cast<char>(aKey));
 			return keyNameString;
 		}
 
@@ -234,23 +230,37 @@ namespace ENGINE_NAMESPACE::Editor
 			std::string buttonNamePos = GetButtonName(static_cast<int>(aInput.second.positiveButton)) + "##" + aInput.first;
 			std::string buttonNameNeg = GetButtonName(static_cast<int>(aInput.second.negativeButton)) + "##" + aInput.first;
 
+			ImGui::Text("Positive Button: ");
+			ImGui::SameLine();
 			if (ImGui::Button(buttonNamePos.c_str())) ImGui::OpenPopup(("PressKeyPopupPos" + aInput.first).c_str());
+
+			ImGui::Text("Negative Button: ");
+			ImGui::SameLine();
 			if (ImGui::Button(buttonNameNeg.c_str())) ImGui::OpenPopup(("PressKeyPopupNeg" + aInput.first).c_str());
 		}
 		else if (aInput.second.type == InputActionType::Single)
 		{
 			std::string buttonName = GetButtonName(static_cast<int>(aInput.second.button)) + "##" + aInput.first;
 
+			ImGui::Text("Button: ");
+			ImGui::SameLine();
 			if (ImGui::Button(buttonName.c_str())) ImGui::OpenPopup(("PressKeyPopup" + aInput.first).c_str());
-
 		}
 		else if (aInput.second.type == InputActionType::Combo)
 		{
 			auto& comboButtons = aInput.second.comboButtons;
 
+			ImGui::Text("Combo Buttons: ");
+
 			for (int i = 0; i < comboButtons.size(); i++)
 			{
-				std::string buttonName = GetButtonName(static_cast<int>(comboButtons[i])) + "##" + aInput.first;
+				std::stringstream stringstream;
+				stringstream << i;
+
+				std::string buttonName = GetButtonName(static_cast<int>(comboButtons[i]));
+				buttonName.append("##");
+				buttonName.append(aInput.first);
+				buttonName.append(stringstream.str());
 
 				std::string pressKeyCombo = "PressKeyPopup" + buttonName;
 
@@ -260,28 +270,25 @@ namespace ENGINE_NAMESPACE::Editor
 				}
 				ImGui::SameLine();
 
-				if(ImGui::Button(("-## " + pressKeyCombo).c_str()))
+				if (ImGui::Button(("-## " + pressKeyCombo).c_str()))
 				{
-					for(int j = i; j < comboButtons.size() - 1; j++)
-					{
-						comboButtons[j] = comboButtons[j + 1];
-						comboButtons.pop_back();
-					}
+					if (i != comboButtons.size() - 1)
+						for (int j = i; j < comboButtons.size() - 1; j++)
+							comboButtons[j] = comboButtons[j + 1];
+
+					comboButtons.pop_back();
 				}
 
 				if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
 					ImGui::SetTooltip("Removes the button\nto the left");
 
-				ImGui::SameLine();
-
 				if (i != comboButtons.size() - 1)
 				{
 					ImGui::Text("+");
-					ImGui::SameLine();
 				}
 			}
-			ImGui::SameLine();
-			if(ImGui::Button("Add"))
+
+			if (ImGui::Button(("Add" + aInput.first).c_str()))
 				comboButtons.emplace_back(Keycode::NONE);
 
 		}
@@ -293,14 +300,19 @@ namespace ENGINE_NAMESPACE::Editor
 		if (ImGui::BeginPopup(("PressKeyPopup" + aInput.first).c_str()))
 			ChangeButton(aInput.second.button);
 
-		for (auto& input : aInput.second.comboButtons)
+		for (int i = 0; i < aInput.second.comboButtons.size(); i++)
 		{
-			std::string buttonName = GetButtonName(static_cast<int>(input)) + "##" + aInput.first;
+			auto& button = aInput.second.comboButtons[i];
+
+			std::stringstream stringstream;
+			stringstream << i;
+
+			std::string buttonName = GetButtonName(static_cast<int>(button)) + "##" + aInput.first + stringstream.str();
 
 			std::string pressKeyCombo = "PressKeyPopup" + buttonName;
 
 			if (ImGui::BeginPopup(pressKeyCombo.c_str()))
-				ChangeButton(input);
+				ChangeButton(button);
 		}
 	}
 

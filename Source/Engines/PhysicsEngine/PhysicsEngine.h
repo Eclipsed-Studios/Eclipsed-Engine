@@ -42,7 +42,7 @@ namespace ENGINE_NAMESPACE
 
         static void SetPosition(b2BodyId& aBodyID, const Math::Vector2f& aPosition);
         static void SetRotation(b2BodyId& aBodyID, float aRotation);
-        static void SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation);
+        static void SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale);
 
         static void Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw);
         static void Update();

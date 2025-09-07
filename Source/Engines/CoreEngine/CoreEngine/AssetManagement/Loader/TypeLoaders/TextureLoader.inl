@@ -33,6 +33,7 @@ namespace ENGINE_NAMESPACE
 		ResourceLoaderHelper::FreeData_STB(data);
 
 		outResource.spriteDimDivOne = {1.0f / static_cast<float>(outResource.width), 1.0f / static_cast<float>(outResource.height)};
+		outResource.dimDivOne = 1.f / (static_cast<float>(outResource.height) / static_cast<float>(outResource.width));
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}

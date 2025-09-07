@@ -32,13 +32,15 @@ namespace ENGINE_NAMESPACE
 
     void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)
     {
-        auto& temporary = TemporarySettingsSingleton::Get();
+        // auto& temporary = TemporarySettingsSingleton::Get();
 
-        float oneDivX = temporary.GetOneDivResolutionX();
-        float oneDivY = temporary.GetOneDivResolutionY();
+        // float oneDivX = temporary.GetOneDivResolutionX();
+        // float oneDivY = temporary.GetOneDivResolutionY();
+
+        myScale = aHalfExtents;
 
         Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);
-        Math::Vector2f halfExtent = Math::Vector2f(transform->GetScale().x * oneDivY, transform->GetScale().y * oneDivY);
+        Math::Vector2f halfExtent = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
 
         halfExtent.x *= aHalfExtents.x;
         halfExtent.y *= aHalfExtents.y;
@@ -48,6 +50,13 @@ namespace ENGINE_NAMESPACE
 
     void BoxCollider2D::OnTransformDirty()
     {
-        PhysicsEngine::SetTransform(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation());
+        Math::Vector2f halfExtent = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
+
+        halfExtent.x *= myScale.x;
+        halfExtent.y *= myScale.y;
+
+        myHalfExtents = halfExtent;
+
+        PhysicsEngine::SetTransform(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myHalfExtents);
     }
 }

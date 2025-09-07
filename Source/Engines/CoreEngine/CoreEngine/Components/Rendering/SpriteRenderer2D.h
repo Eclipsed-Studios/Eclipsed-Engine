@@ -47,7 +47,8 @@ namespace ENGINE_NAMESPACE
         void LateUpdate() override;
 
         void SetMaterial(Material* aMaterial);
-        
+        const Material* GetMaterial() { return myMaterial; }
+
         void SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax);
 
         void SetXMirror(bool aMirror) { mirroredX = aMirror; }

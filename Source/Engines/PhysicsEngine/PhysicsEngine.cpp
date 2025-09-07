@@ -97,13 +97,24 @@ namespace ENGINE_NAMESPACE
 
         b2Body_SetTransform(aBodyID, postition, rot);
     }
-    void PhysicsEngine::SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation)
+    void PhysicsEngine::SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale)
     {
         b2Rot rot;
         rot.c = cosf(aRotation);
         rot.s = sinf(aRotation);
 
         b2Body_SetTransform(aBodyID, b2Vec2(aPosition.x, aPosition.y), rot);
+
+        b2ShapeId shapeArray;
+        int capacity = 1;
+
+        b2Body_GetShapes(aBodyID, &shapeArray, capacity);
+
+        if (std::abs(aScale.x) > 0 && std::abs(aScale.y) > 0)
+        {
+            b2Polygon polygon = b2MakeBox(std::abs(aScale.x), std::abs(aScale.y));
+            b2Shape_SetPolygon(shapeArray, &polygon);
+        }
     }
 
     void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
