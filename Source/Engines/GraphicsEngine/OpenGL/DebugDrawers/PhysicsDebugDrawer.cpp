@@ -94,8 +94,6 @@ void PhysicsDebugDrawer::Init(b2DebugDraw* aDebugDraw)
 
     derefDebugDraw.drawingBounds = aabb;
 
-    derefDebugDraw.drawShapes = true;
-
     derefDebugDraw.DrawPolygonFcn = &PhysicsDebugDrawer::DrawPolygon;
     derefDebugDraw.DrawSolidPolygonFcn = &PhysicsDebugDrawer::DrawSolidPolygon;
 

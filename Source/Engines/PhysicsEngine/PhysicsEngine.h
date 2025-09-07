@@ -36,23 +36,33 @@ namespace ENGINE_NAMESPACE
 
         static void CreateRigidBody(b2BodyId* aBody, UserData* aUserData, const RigidBodySettings& aBodySettings, const Math::Vector2f& aStartPosition = { 0.f, 0.f });
         static void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer);
+        static void CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
 
         static void RemoveRigidBody(b2BodyId& aBodyID);
         static void RemoveCollider(b2ShapeId& aShape);
 
         static void SetPosition(b2BodyId& aBodyID, const Math::Vector2f& aPosition);
         static void SetRotation(b2BodyId& aBodyID, float aRotation);
-        static void SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale);
+
+        static void SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale);
+        static void SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale);
 
         static void Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw);
         static void Update();
 
         static void CheckCollisions();
 
+        static bool& GetDebugDraw();
+        static bool& GetDebugDrawShapes(DebugDrawTypes aType);
+
         static inline std::function<void(UserData&)> myBeginContactCallback;
         static inline std::function<void(UserData&)> myEndContactCallback;
 
     private:
+        static inline bool myDrawDebugShapes = true;
+
+        static inline bool myDrawQueries = false;
+
         static inline b2WorldId myWorld;
         static inline Math::Vector2f myGravity;
 

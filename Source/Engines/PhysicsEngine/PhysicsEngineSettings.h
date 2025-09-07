@@ -7,6 +7,25 @@ namespace ENGINE_NAMESPACE
 {
     class Collider2D;
 
+    enum DebugDrawTypes
+    {
+        drawShapes,
+        drawJoints,
+        drawJointExtras,
+        drawBounds,
+        drawMass,
+        drawBodyNames,
+        drawContacts,
+        drawGraphColors,
+        drawContactNormals,
+        drawContactImpulses,
+        drawContactFeatures,
+        drawFrictionImpulses,
+        drawIslands,
+
+        drawQueries,
+    };
+
     enum Box2DBodyType
     {
         StaticBody = 0,

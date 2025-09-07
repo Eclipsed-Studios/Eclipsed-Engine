@@ -20,7 +20,7 @@ void main()
 {
    vec2 modifiedUV = vec2(
       material.spriteRect.x + outTexCoord.x * material.spriteRect.z,
-      material.spriteRect.y + outTexCoord.y * material.spriteRect.w - 0.01f
+      material.spriteRect.y + outTexCoord.y * material.spriteRect.w
    );
 
    vec4 textureAlbedo = texture(material.albedo, modifiedUV);

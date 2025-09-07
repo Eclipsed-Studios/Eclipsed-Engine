@@ -57,6 +57,6 @@ namespace ENGINE_NAMESPACE
 
         myHalfExtents = halfExtent;
 
-        PhysicsEngine::SetTransform(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myHalfExtents);
+        PhysicsEngine::SetTransformBox(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myHalfExtents);
     }
 }

@@ -15,6 +15,7 @@ namespace ENGINE_NAMESPACE
     public:
         friend class Collider2D;
         friend class BoxCollider2D;
+        friend class PolygonCollider2D;
 
         RigidBody2D() {myUpdateStartPriority = 10;}
         ~RigidBody2D() override;

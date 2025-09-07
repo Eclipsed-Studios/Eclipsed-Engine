@@ -26,7 +26,7 @@ uniform vec2 mirrored;
 
 void main()
 {
-   outTexCoord = TexCoord;
+   outTexCoord = TexCoord * 0.98 + vec2(0.01, 0);
    
    float totalRotation = transform.rotation + cameraRotation;
 

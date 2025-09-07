@@ -4,6 +4,8 @@
 
 #include "box2d/box2d.h"
 
+#undef min
+
 namespace ENGINE_NAMESPACE
 {
 #pragma region PhysicsHelperFunctions
@@ -82,6 +84,28 @@ namespace ENGINE_NAMESPACE
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
 
+    void PhysicsEngine::CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer)
+    {
+        int pointCount = std::min(static_cast<int>(aPolygonPoints.size()), 8);
+
+        std::vector<b2Vec2> vecOfVec;
+        for (auto& vec : aPolygonPoints)
+        {
+            vecOfVec.emplace_back(b2Vec2{ vec.x, vec.y });
+        }
+
+        b2Hull hull = b2ComputeHull(vecOfVec.data(), pointCount);
+        b2Polygon polygon = b2MakePolygon(&hull, 0.0001f);
+        b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+        shapeDef.enableHitEvents = true;
+        shapeDef.enableContactEvents = true;
+
+        shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
+
+        *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
+    }
+
     void PhysicsEngine::SetPosition(b2BodyId& aBodyID, const Math::Vector2f& aPosition)
     {
         b2Rot rotation = b2Body_GetRotation(aBodyID);
@@ -97,7 +121,7 @@ namespace ENGINE_NAMESPACE
 
         b2Body_SetTransform(aBodyID, postition, rot);
     }
-    void PhysicsEngine::SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale)
+    void PhysicsEngine::SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale)
     {
         b2Rot rot;
         rot.c = cosf(aRotation);
@@ -117,6 +141,36 @@ namespace ENGINE_NAMESPACE
         }
     }
 
+    void PhysicsEngine::SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale)
+    {
+        b2Rot rot;
+        rot.c = cosf(aRotation);
+        rot.s = sinf(aRotation);
+
+        b2Body_SetTransform(aBodyID, b2Vec2(aPosition.x, aPosition.y), rot);
+
+        b2ShapeId shapeArray;
+        int capacity = 1;
+
+        b2Body_GetShapes(aBodyID, &shapeArray, capacity);
+
+        if (std::abs(aScale.x) > 0 && std::abs(aScale.y) > 0)
+        {
+            int pointCount = std::min(static_cast<int>(aPoints.size()), 8);
+
+            std::vector<b2Vec2> vecOfVec;
+            for (auto& vec : aPoints)
+            {
+                vecOfVec.emplace_back(b2Vec2{ vec.x * aScale.x * 10.f, vec.y * aScale.y * 10.f });
+            }
+
+            b2Hull hull = b2ComputeHull(vecOfVec.data(), pointCount);
+            b2Polygon polygon = b2MakePolygon(&hull, 0.0001f);
+
+            b2Shape_SetPolygon(shapeArray, &polygon);
+        }
+    }
+
     void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
     {
         mySubstepCount = aSubstepCount;
@@ -131,10 +185,42 @@ namespace ENGINE_NAMESPACE
         myDebugDraw = std::move(aDebugdraw);
     }
 
+    bool& PhysicsEngine::GetDebugDraw()
+    {
+        return myDrawDebugShapes;
+    }
+
+    bool& PhysicsEngine::GetDebugDrawShapes(DebugDrawTypes aType)
+    {
+        switch (aType)
+        {
+        case DebugDrawTypes::drawShapes: return myDebugDraw.drawShapes;
+        case DebugDrawTypes::drawJoints: return myDebugDraw.drawJoints;
+        case DebugDrawTypes::drawJointExtras: return myDebugDraw.drawJointExtras;
+        case DebugDrawTypes::drawBounds: return myDebugDraw.drawBounds;
+        case DebugDrawTypes::drawMass: return myDebugDraw.drawMass;
+        case DebugDrawTypes::drawBodyNames: return myDebugDraw.drawBodyNames;
+        case DebugDrawTypes::drawContacts: return myDebugDraw.drawContacts;
+        case DebugDrawTypes::drawGraphColors: return myDebugDraw.drawGraphColors;
+        case DebugDrawTypes::drawContactNormals: return myDebugDraw.drawContactNormals;
+        case DebugDrawTypes::drawContactImpulses: return myDebugDraw.drawContactImpulses;
+        case DebugDrawTypes::drawContactFeatures: return myDebugDraw.drawContactFeatures;
+        case DebugDrawTypes::drawFrictionImpulses: return myDebugDraw.drawFrictionImpulses;
+        case DebugDrawTypes::drawIslands: return myDebugDraw.drawIslands;
+
+        case DebugDrawTypes::drawQueries: return myDrawQueries;
+        }
+
+        return myDrawDebugShapes;
+    }
+
     void PhysicsEngine::Update()
     {
         b2World_Step(myWorld, Time::GetDeltaTime(), mySubstepCount);
-        b2World_Draw(myWorld, &myDebugDraw);
+
+        // TODO: Change to a define to not even compile debug physics if in not debug maybe potensially idk :P
+        if (myDrawDebugShapes)
+            b2World_Draw(myWorld, &myDebugDraw);
 
         CheckCollisions();
     }
@@ -281,7 +367,8 @@ namespace ENGINE_NAMESPACE
 
         b2World_OverlapShape(myWorld, &proxy, filter, MyShapeOverlapCallback, &aHitResults);
 
-        myDebugDraw.DrawCircleFcn(b2Vec2(aPositon.x, aPositon.y), aRadius, b2HexColor::b2_colorBlack, nullptr);
+        if (myDrawDebugShapes && myDrawQueries)
+            myDebugDraw.DrawCircleFcn(b2Vec2(aPositon.x, aPositon.y), aRadius, b2HexColor::b2_colorBlack, nullptr);
 
         if (!aHitResults.results.empty())
             return true;
