@@ -8,6 +8,8 @@
 
 #include "MainSingleton.h"
 
+//#include "ImGui/ImGui/imgui.h"
+
 namespace ENGINE_NAMESPACE
 {
     class TemporarySettingsSingleton
@@ -15,9 +17,9 @@ namespace ENGINE_NAMESPACE
     public:
         enum class WindowSizeType;
 
-        void Init(const std::string &settingsPath)
+        void Init(const std::string& settingsPath)
         {
-            FILE *fileP = fopen(settingsPath.c_str(), "rb");
+            FILE* fileP = fopen(settingsPath.c_str(), "rb");
             char readBuffer[2048];
             rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
 
@@ -28,7 +30,7 @@ namespace ENGINE_NAMESPACE
             myGameName = doc["GameName"].GetString();
             myGameTitle = doc["GameTitle"].GetString();
 
-            auto &gameSettings = doc["InGameSettings"];
+            auto& gameSettings = doc["InGameSettings"];
 
             float resolutionX = gameSettings["Resolution"]["X"].GetInt();
             float resolutionY = gameSettings["Resolution"]["Y"].GetInt();
@@ -42,16 +44,16 @@ namespace ENGINE_NAMESPACE
         TemporarySettingsSingleton() = default;
         ~TemporarySettingsSingleton() = default;
 
-        static TemporarySettingsSingleton &Get()
+        static TemporarySettingsSingleton& Get()
         {
             static TemporarySettingsSingleton instance;
             return instance;
         }
 
-        void SetWindowTitle(const char *aWindowTitle);
+        void SetWindowTitle(const char* aWindowTitle);
 
-        const char *GetGameName() { return myGameName.c_str(); };
-        const char *GetGameTitle() { return myGameTitle.c_str(); };
+        const char* GetGameName() { return myGameName.c_str(); };
+        const char* GetGameTitle() { return myGameTitle.c_str(); };
 
         // Change to vector2i
         int GetResolutionX() { return resX; };
@@ -75,6 +77,9 @@ namespace ENGINE_NAMESPACE
 
         WindowSizeType GetWindowSizeType() { return myWindowSizeType; };
         int GetNumRenderBuffers() { return myNumberOfRenderBuffer; };
+
+    // public:
+    //     ImFont* iconFont;
 
     private:
         std::string myGameName;

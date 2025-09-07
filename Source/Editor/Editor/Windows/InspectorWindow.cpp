@@ -2,8 +2,10 @@
 
 #include "HierarchyWindow.h"
 
-#include "ImGui/imgui.h"
 #include "ECS/ComponentManager.h"
+
+#include "FontAwesomeRegular.h"
+#include "IconsFontAwesome6.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {
@@ -11,6 +13,8 @@ namespace ENGINE_NAMESPACE::Editor
 	{
 		myWindowName = "Inspector";
 		myID = aId == -1 ? Random::GetValue<int>() : aId;
+
+		auto& io = ImGui::GetIO();
 	}
 	void InspectorWindow::Open()
 	{
@@ -37,7 +41,7 @@ namespace ENGINE_NAMESPACE::Editor
 		ImGui::Dummy({ 0, 10 });
 		ImGui::Separator();
 		ImGui::Dummy({ 0, 5 });
-		
+
 
 		for (auto& [type, id] : compList)
 		{

@@ -88,7 +88,10 @@ namespace ENGINE_NAMESPACE
 
 	int InputMapper::ReadValue(const std::string& actionName)
 	{
-		return map[actionName].value;
+		if (map.find(actionName) == map.end())
+			return 0;
+
+		return map.at(actionName).value;
 	}
 
 	InputAction& InputMapper::AddAction(const std::string& actionName)

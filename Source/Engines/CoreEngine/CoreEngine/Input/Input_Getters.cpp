@@ -51,6 +51,19 @@ namespace ENGINE_NAMESPACE
 		return releasedThisFrame[(int)aKey];
 	}
 
+	bool Input::GetAny()
+	{
+		return currentKeys.any();
+	}
+
+	Keycode Input::GetAnyKey()
+	{	
+		for(int i = 0; i < currentKeys.size(); i++)
+			if(currentKeys[i])
+				return static_cast<Keycode>(i);
+
+		return Keycode::NONE;
+	}
 
 
 	bool Input::GetMouse(int aKey)

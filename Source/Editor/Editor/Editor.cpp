@@ -22,7 +22,7 @@ namespace ENGINE_NAMESPACE::Editor
         Engine::Init();
 
         myWindow = Utilities::MainSingleton::GetInstance<GLFWwindow*>();
-        
+
         ImGui_Impl::ImplementImGui(myWindow);
 
         myWindowManager.Begin();

@@ -90,7 +90,7 @@ namespace ENGINE_NAMESPACE
 			myTimer = Attack_Duration;
 			myState = States::Attacking;
 		}
-		else if (Input::GetKeyDown(Keycode::SPACE))
+		else if (InputMapper::ReadValue("Jump"))
 		{
 			myTimer = Jump_Duration;
 			myState = States::Jump;
@@ -100,7 +100,7 @@ namespace ENGINE_NAMESPACE
 	{
 		myAnimation->SetCurrentAnimation("Idle");
 
-		if (Input::GetKey(Keycode::S))
+		if (InputMapper::ReadValue("Duck"))
 		{
 			myState = States::Duck;
 			return;
@@ -111,7 +111,7 @@ namespace ENGINE_NAMESPACE
 			myTimer = Attack_Duration;
 			myState = States::Attacking;
 		}
-		else if (Input::GetKeyDown(Keycode::SPACE))
+		else if (InputMapper::ReadValue("Jump"))
 		{
 			myTimer = Jump_Duration;
 			myState = States::Jump;
@@ -159,7 +159,7 @@ namespace ENGINE_NAMESPACE
 	{
 		myAnimation->SetCurrentAnimation("Duck");
 
-		if (Input::GetKey(Keycode::S)) myState = States::Duck;
+		if (InputMapper::ReadValue("Duck")) myState = States::Duck;
 		else myState = States::Idle;
 	}
 }

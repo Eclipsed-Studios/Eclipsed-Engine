@@ -28,15 +28,16 @@ namespace ENGINE_NAMESPACE
 		InputActionType type = {};
 		InputActionButtonType buttonType = {};
 
-		Keycode negativeButton = {};
 		Keycode positiveButton = {};
+		Keycode negativeButton = {};
 
 		Keycode button = {};
 		
 		std::vector<Keycode> comboButtons;
 
-	private:
 		std::string name;
+		
+	private:
 		int value = 0;
 
 	private:

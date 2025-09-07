@@ -16,6 +16,8 @@ namespace ENGINE_NAMESPACE
 
 	enum class Keycode : int
 	{
+		NONE = 0,
+
 		ESCAPE = 256,
 
 		PLUS = 45,
@@ -31,10 +33,10 @@ namespace ENGINE_NAMESPACE
 		N8 = 56,
 		N9 = 57,
 
-		RENAME_KEY_NEXT_TO_PLUS = 61,
-		RENAME_KEY_NEXT_TO_N1 = 96,
-		RENAME_KEY_NEXT_TO_L_SHIFT = 162,
-		RENAME_KEY_NEXT_TO_AA = 93,
+		ACUTE_ACCENT = 61,
+		LESS_THAN = 162,
+		SECTION_SIGN = 96,
+		UMLAUT = 93,
 
 		BACKSPACE = 259,
 

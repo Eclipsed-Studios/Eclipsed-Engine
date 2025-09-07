@@ -25,6 +25,8 @@ namespace ENGINE_NAMESPACE
 		static bool GetKeyUp(int aKey);
 		static bool GetKeyUp(Keycode aKey);
 
+		static bool GetAny();
+		static Keycode GetAnyKey();
 		
 		static bool GetMouse(int aKey);
 		static bool GetMouse(MouseButton aKey);
@@ -59,6 +61,8 @@ namespace ENGINE_NAMESPACE
 		static void OnMouseScroll_Callback(GLFWwindow* window, double xOffset, double yOffset);
 
 	private:
+		static inline std::bitset<MAX_KEYS> zeroKeys;
+
 		static inline std::bitset<MAX_KEYS> currentKeys;
 		static inline std::bitset<MAX_KEYS> lastKeys;
 

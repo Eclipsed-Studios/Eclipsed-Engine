@@ -7,14 +7,7 @@
 #include "Components/Transform2D.h"
 
 #include "PhysicsEngine.h"
-#include "PhysicsEngineSettings.h"
 #include "Input/InputMapper.h"
-
-#include "Timer.h"
-
-#include "OpenGL/DebugDrawers/DebugDrawer.h"
-
-#include <iostream>
 
 namespace ENGINE_NAMESPACE
 {
@@ -34,8 +27,7 @@ namespace ENGINE_NAMESPACE
 		if (moveDirection != 0)
 		{
 			float velY = myRigidBody->GetVelocity().Y;
-			float time = Time::GetDeltaTime();
-			myRigidBody->SetVelocity({ moveDirection * myMovementSpeed * 1, velY });
+			myRigidBody->SetVelocity({ moveDirection * myMovementSpeed, velY });
 		}
 
 		HitResults hit;
