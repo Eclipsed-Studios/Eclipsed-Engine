@@ -29,6 +29,9 @@ namespace ENGINE_NAMESPACE::Editor
                 style.Colors[ImGuiCol_WindowBg].w = 1.0f;
             }
 
+            //io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/Quicksand-Medium.ttf", 16);
+            io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/ARIAL.TTF", 16);
+
             ImGui_ImplGlfw_InitForOpenGL(aWindow, true);
             ImGui_ImplOpenGL3_Init("#version 460");
         }
@@ -51,5 +54,18 @@ namespace ENGINE_NAMESPACE::Editor
             ImGui::UpdatePlatformWindows();
             ImGui::RenderPlatformWindowsDefault();
         }
+
+
+
+
+
+        // Tools
+        inline void DrawComponentHeader(const char* compName, bool& isDrawn, const float values = 0, ImGuiStyleVar styleFlags = ImGuiStyleVar_FrameRounding)
+        {
+            ImGui::PushStyleVar(styleFlags, values);
+            isDrawn = ImGui::CollapsingHeader(compName);
+            ImGui::PopStyleVar();
+        }
+
 	}
 }

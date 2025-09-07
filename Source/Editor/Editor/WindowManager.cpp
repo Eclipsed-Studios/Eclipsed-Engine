@@ -15,11 +15,11 @@ namespace ENGINE_NAMESPACE::Editor
 {
 	void WindowManager::OpenWindow(const std::string& name, int aId)
 	{
-		if (name == "Console") OpenWindow<ConsoleWindow>(aId);
-		if (name == "Hierarchy") OpenWindow<HierarchyWindow>(aId);
-		if (name == "Inspector") OpenWindow<InspectorWindow>(aId);
-		if (name == "Assets") OpenWindow<AssetWindow>(aId);
-		if (name == "Input Editor") OpenWindow<InputEditorWindow>(aId);
+		AbstractWindow* window = static_cast<AbstractWindow*>(WindowRegistry::GetWindow(name));
+		AbstractWindow* newWindow = window->GetNewWindow(aId);
+
+		newWindow->Open();
+		IdToWindow[newWindow->instanceID] = newWindow;
 	}
 	void WindowManager::UpdateMainMenuBar()
 	{
@@ -27,11 +27,10 @@ namespace ENGINE_NAMESPACE::Editor
 		{
 			if (ImGui::BeginMenu("Windows"))
 			{
-				if (ImGui::MenuItem("Console")) OpenWindow("Console", -1);
-				if (ImGui::MenuItem("Hierarchy")) OpenWindow("Hierarchy", -1);
-				if (ImGui::MenuItem("Inspector")) OpenWindow("Inspector", -1);
-				if (ImGui::MenuItem("Assets")) OpenWindow("Assets", -1);
-				if (ImGui::MenuItem("Input Editor")) OpenWindow("Input Editor", -1);
+				for (const auto& [name, _] : WindowRegistry::GetWindows())
+				{
+					if (ImGui::MenuItem(name.c_str())) OpenWindow(name.c_str(), -1);
+				}
 
 				ImGui::EndMenu();
 			}
@@ -66,7 +65,7 @@ namespace ENGINE_NAMESPACE::Editor
 			}
 			else
 			{
-				std::string imguiWindowName = window->GetWindowName() + "##" + std::to_string(id);
+				std::string imguiWindowName = window->windowName + "##" + std::to_string(id);
 				ImGui::Begin(imguiWindowName.c_str(), &window->myIsOpen, window->flags);
 				window->Update();
 				ImGui::End();
@@ -134,7 +133,7 @@ namespace ENGINE_NAMESPACE::Editor
 
 			window.AddMember(
 				"name",
-				Value(pWindow->GetWindowName().c_str(), allocator).Move(),
+				Value(pWindow->windowName.c_str(), allocator).Move(),
 				allocator
 			);
 

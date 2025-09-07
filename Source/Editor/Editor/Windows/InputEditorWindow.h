@@ -10,12 +10,10 @@ namespace ENGINE_NAMESPACE::Editor
 {
 	class InputEditorWindow final : public AbstractWindow
 	{
-	public:
-		InputEditorWindow(const int& aId = -1);
+		BASE_WINDOW(InputEditorWindow, "Input Editor");
 
-		void Open() override;
+	public:
 		void Update() override;
-		void Close() override;
 
 	public:
 		bool isButtonEditing;

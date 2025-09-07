@@ -8,13 +8,13 @@
 
 #include <unordered_map>
 
+#include "WindowRegistry.h"
+
 namespace ENGINE_NAMESPACE::Editor
 {
 	class WindowManager final
 	{
 	public:
-		template<typename T>
-		void OpenWindow(int aId);
 		void OpenWindow(const std::string& name, int aId);
 
 		void UpdateMainMenuBar();
@@ -32,21 +32,4 @@ namespace ENGINE_NAMESPACE::Editor
 	private:
 		std::unordered_map<int, AbstractWindow*> IdToWindow;
 	};
-
-	template<typename T>
-	inline void WindowManager::OpenWindow(int aId)
-	{
-		AbstractWindow* window = nullptr;
-
-		if constexpr(std::is_same<T, ConsoleWindow>::value)	window = new ConsoleWindow(aId);
-		else if constexpr (std::is_same<T, HierarchyWindow>::value)	window = new HierarchyWindow(aId);
-		else if constexpr (std::is_same<T, InspectorWindow>::value)	window = new InspectorWindow(aId);
-		else if constexpr (std::is_same<T, AssetWindow>::value)	window = new AssetWindow(aId);
-		else if constexpr (std::is_same<T, InputEditorWindow>::value)	window = new InputEditorWindow(aId);
-
-		if (window == nullptr) return;
-
-		window->Open();
-		IdToWindow[window->GetID()] = window;
-	}
 }

@@ -5,17 +5,6 @@
 
 namespace ENGINE_NAMESPACE::Editor
 {
-	ConsoleWindow::ConsoleWindow(const int& aId)
-	{
-		myWindowName = "Console";
-		myID = aId == -1 ? Random::GetValue<int>() : aId;
-	}
-
-	void ConsoleWindow::Open()
-	{
-
-	}
-
 	void ConsoleWindow::Update()
 	{
 		ImGui::Checkbox("Show Messages", &myShouldShowMessages);
@@ -68,9 +57,5 @@ namespace ENGINE_NAMESPACE::Editor
 				ImGui::Separator();
 			}
 		}
-	}
-
-	void ConsoleWindow::Close()
-	{
 	}
 }

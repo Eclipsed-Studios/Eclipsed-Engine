@@ -44,7 +44,7 @@ namespace ENGINE_NAMESPACE
 			boxCollider->myLayer = Layer::Player;
 
 			AudioSource* audio = ComponentManager::AddComponent<AudioSource>(go);
-			audio->SetAudioClip(ASSET_PATH "Sounds/T.mp3");
+			audio->SetAudioClip(ASSET_PATH "Sounds/peak.mp3");
 
 			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(go);
 			rb->SetRotationLocked(true);

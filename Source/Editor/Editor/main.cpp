@@ -22,9 +22,6 @@ int main(int argsCount, char* args[])
 	Editor::EditorContext editor;
 	ErrorCode result = editor.Init();
 
-	ImGuiIO& io = ImGui::GetIO();
-	io.FontDefault = io.Fonts->AddFontFromFileTTF(ASSET_PATH "Quicksand-VariableFont_wght.ttf", 18);
-
 	// ImFontConfig fontAwesomeConfig;
 	// fontAwesomeConfig.MergeMode = true;
 	// fontAwesomeConfig.PixelSnapH = true;

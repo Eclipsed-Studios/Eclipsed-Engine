@@ -5,13 +5,10 @@
 namespace ENGINE_NAMESPACE::Editor
 {
 	class ConsoleWindow final : public AbstractWindow {
+		BASE_WINDOW(ConsoleWindow, "Console")
 
 	public:
-		ConsoleWindow(const int& aId = -1);
-
-		void Open() override;
 		void Update() override;
-		void Close() override;
 
 	private:
 		bool myShouldCollapseMessages = false;

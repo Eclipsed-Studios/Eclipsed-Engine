@@ -9,16 +9,6 @@
 
 namespace ENGINE_NAMESPACE::Editor
 {
-	InspectorWindow::InspectorWindow(const int& aId)
-	{
-		myWindowName = "Inspector";
-		myID = aId == -1 ? Random::GetValue<int>() : aId;
-
-		auto& io = ImGui::GetIO();
-	}
-	void InspectorWindow::Open()
-	{
-	}
 	void InspectorWindow::Update()
 	{
 		const unsigned& id = HierarchyWindow::CurrentGameObjectID;
@@ -46,18 +36,7 @@ namespace ENGINE_NAMESPACE::Editor
 		for (auto& [type, id] : compList)
 		{
 			Component* comp = ComponentManager::myComponents[id];
-			DrawInspector(comp);
+			comp->DrawInspector();
 		}
-	}
-	void InspectorWindow::Close()
-	{
-	}
-
-
-	void InspectorWindow::DrawComponentHeader(const char* compName, bool& isDrawn, const float values, ImGuiStyleVar styleFlags)
-	{
-		ImGui::PushStyleVar(styleFlags, values);
-		isDrawn = ImGui::CollapsingHeader(compName);
-		ImGui::PopStyleVar();
 	}
 }

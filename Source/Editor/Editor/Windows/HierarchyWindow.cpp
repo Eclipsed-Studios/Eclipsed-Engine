@@ -6,16 +6,6 @@
 
 namespace ENGINE_NAMESPACE::Editor
 {
-	HierarchyWindow::HierarchyWindow(const int& aId)
-	{
-		myWindowName = "Hierarchy";
-		myID = aId == -1 ? Random::GetValue<int>() : aId;
-	}
-
-	void HierarchyWindow::Open()
-	{
-	}
-	
 	void HierarchyWindow::Update()
 	{
 		for (const auto& [id, data] : ComponentManager::myEntityIdToEntityData)
@@ -25,9 +15,5 @@ namespace ENGINE_NAMESPACE::Editor
 				CurrentGameObjectID = id;
 			}
 		}
-	}
-	
-	void HierarchyWindow::Close()
-	{
 	}
 }

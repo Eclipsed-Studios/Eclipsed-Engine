@@ -12,19 +12,39 @@
 
 namespace ENGINE_NAMESPACE
 {
+	namespace Editor
+	{
+		class InspectorWindow;
+	}
+
 	class AudioSource : public Component
 	{
+		friend class Editor::InspectorWindow;
+
 	public:
 		void SetAudioClip(const char* aPath);
 
 	public:
+		void SetVolume(float aVolume);
+
 		void Play();
 		void Pause();
 		void Stop();
+
+		void SetLooping(bool aState);
+
+	protected:
+		void DrawInspector() override;
+
 
 	private:
 		ResourcePointer<AudioClip> myAudioClip;
 		bool myIsPaused = false;
 		bool myIsPlaying = false;
+
+		bool myIsLooping = false;
+		bool myPlayOnStart  = false;
+
+		float myVolume = 1.f;
     };
 }

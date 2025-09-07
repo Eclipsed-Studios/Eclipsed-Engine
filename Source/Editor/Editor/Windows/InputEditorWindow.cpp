@@ -17,16 +17,6 @@
 
 namespace ENGINE_NAMESPACE::Editor
 {
-	InputEditorWindow::InputEditorWindow(const int& aId)
-	{
-		myWindowName = "Input Editor";
-		myID = aId == -1 ? Random::GetValue<int>() : aId;
-	}
-
-	void InputEditorWindow::Open()
-	{
-	}
-
 	struct inputNameChange
 	{
 		std::string inputNamePrev;
@@ -390,8 +380,5 @@ namespace ENGINE_NAMESPACE::Editor
 			inputMap["NewInput"].type = InputActionType::Single;
 		}
 
-	}
-	void InputEditorWindow::Close()
-	{
 	}
 }

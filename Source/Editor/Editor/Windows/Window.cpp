@@ -1,10 +1,6 @@
 #include "Window.h"
 
-namespace ENGINE_NAMESPACE::Editor
+ENGINE_NAMESPACE::Editor::AbstractWindow::AbstractWindow(const std::string& name, const int& aId)
+	: instanceID(aId == -1 ? Random::GetValue<int>() : aId), windowName(name)
 {
-	const int& AbstractWindow::GetID() { return myID; }
-	const int& AbstractWindow::GetID() const { return myID; }
-
-	const std::string& AbstractWindow::GetWindowName() { return myWindowName; }
-	const std::string& AbstractWindow::GetWindowName() const { return myWindowName; }
 }

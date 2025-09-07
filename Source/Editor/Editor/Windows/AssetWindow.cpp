@@ -8,18 +8,10 @@
 
 namespace ENGINE_NAMESPACE::Editor
 {
-	AssetWindow::AssetWindow(const int& aId)
-	{
-		myWindowName = "Assets";
-		myID = aId == -1 ? Random::GetValue<int>() : aId;
-
-		myCurrentPath = ASSET_PATH;
-
-        flags = ImGuiWindowFlags_MenuBar;
-	}
-
 	void AssetWindow::Open()
 	{
+        flags = ImGuiWindowFlags_MenuBar;
+        myCurrentPath = ASSET_PATH;
 	}
 	
     void AssetWindow::Update()
@@ -49,17 +41,31 @@ namespace ENGINE_NAMESPACE::Editor
         float buttonSize = 100.0f * myButtonSizeMultiplier;
         float padding = ImGui::GetStyle().ItemSpacing.x;
 
+
+
         for (const directory_entry& entry : directory_iterator(myCurrentPath))
         {
-            bool buttonPressed = ImGui::Button(entry.path().filename().string().c_str(), { buttonSize, buttonSize });
-
-            if (entry.is_directory() && buttonPressed)
+            if (ImGui::Button(entry.path().filename().string().c_str(), { buttonSize, buttonSize }))
             {
-                myCurrentPath = entry.path();
+                if (entry.is_directory())
+                {
+                    myCurrentPath = entry.path();
+                }
+                else
+                {
+                    Active_FilePath = entry.path();
+                }
             }
-            else if (buttonPressed)
+
+            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
             {
-                Active_FilePath = entry.path();
+                myPayloadStr = entry.path().string();
+
+
+                ImGui::SetDragDropPayload("ASSET_DND", myPayloadStr.c_str(), myPayloadStr.size() + 1);
+
+                ImGui::Text(myPayloadStr.c_str());
+                ImGui::EndDragDropSource();
             }
 
             float currentWidth = ImGui::GetItemRectMax().x;
@@ -71,9 +77,4 @@ namespace ENGINE_NAMESPACE::Editor
             }
         }
     }
-
-	
-	void AssetWindow::Close()
-	{
-	}
 }

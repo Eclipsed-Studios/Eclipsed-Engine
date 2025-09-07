@@ -1,5 +1,7 @@
 #include "Component.h"
 
+#include "ImGui/ImGui/imgui.h"
+
 namespace ENGINE_NAMESPACE
 {
 	rapidjson::Value Component::Save(rapidjson::Document::AllocatorType& allocator) const
@@ -14,4 +16,10 @@ namespace ENGINE_NAMESPACE
 	void Component::Load(const rapidjson::Value& aValue)
 	{
 	}
+
+	void Component::DrawInspector()
+	{
+		ImGui::Text("Component not implemented.");
+	}
+
 }

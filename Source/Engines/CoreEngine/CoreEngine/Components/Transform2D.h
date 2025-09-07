@@ -40,10 +40,13 @@ namespace ENGINE_NAMESPACE
 
 		void AddFunctionToRunOnDirtyUpdate(const std::function<void()>& aFunction);
 
-	private:
-		Math::Vector2f position = { 0, 0 };
-		float rotation = 0;
-		Math::Vector2f scale = { 1, 1 };
+	protected:
+		void DrawInspector() override;
+
+    private:
+        Math::Vector2f position = {0, 0};
+        float rotation = 0;
+        Math::Vector2f scale = {1, 1};
 
 		std::vector<std::function<void()>> myFunctionsToRunOnDirtyUpdate;
 

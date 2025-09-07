@@ -39,6 +39,8 @@ target_include_directories(CoreEngine PUBLIC ${PLATFORMINTEGRATION_SOURCES})
 target_link_libraries(CoreEngine PUBLIC GraphicsEngine)
 target_link_libraries(CoreEngine PUBLIC PhysicsEngine)
 target_link_libraries(CoreEngine PUBLIC Game)
+target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
+
 
 foreach(source_file IN LISTS COREENGINE_SOURCES)
     file(RELATIVE_PATH source_path "${COREENGINE_ROOT}" "${source_file}")

@@ -6,12 +6,10 @@ namespace ENGINE_NAMESPACE::Editor
 {
 	class HierarchyWindow final : public AbstractWindow
 	{
-	public:
-		HierarchyWindow(const int& aId = -1);
+		BASE_WINDOW(HierarchyWindow, "Hierarchy")
 
-		void Open() override;
+	public:
 		void Update() override;
-		void Close() override;
 
 	public:
 		static inline unsigned CurrentGameObjectID;

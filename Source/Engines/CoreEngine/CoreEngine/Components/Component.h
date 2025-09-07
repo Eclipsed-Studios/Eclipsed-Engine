@@ -39,6 +39,9 @@ namespace ENGINE_NAMESPACE
 
         virtual void OnDrawGizmos() {}
 
+    protected:
+        virtual void DrawInspector();
+
     public:
         virtual rapidjson::Value Save(rapidjson::Document::AllocatorType& allocator) const override;
         virtual void Load(const rapidjson::Value& aValue) override;
@@ -57,6 +60,7 @@ namespace ENGINE_NAMESPACE
         RegisteredTypeIndex myUniqueComponentID;
         static inline unsigned nextComponentID = 0;
 
+    protected:
         // IFDEF EDITOR
         bool myInspectorWasDrawn = false;
     };
