@@ -9,6 +9,16 @@ namespace ENGINE_NAMESPACE
 	public:
 		ResourcePointer() = default;
 		ResourcePointer(const size_t& resourceID);
+		~ResourcePointer();
+
+		ResourcePointer(ResourcePointer&& other) noexcept;
+		ResourcePointer& operator=(ResourcePointer&& other) noexcept
+		{
+			id = other.id;
+			other.id = 0;
+
+			return *this;
+		}
 
 		ResourceType* Get();
 		const ResourceType* Get() const;
@@ -18,9 +28,9 @@ namespace ENGINE_NAMESPACE
 
 		inline ResourcePointer& operator=(const ResourcePointer& other)
 		{
-			if (this != &other) 
+			if (this != &other)
 			{
-				id = other.id;  
+				id = other.id;
 			}
 			return *this;
 		}

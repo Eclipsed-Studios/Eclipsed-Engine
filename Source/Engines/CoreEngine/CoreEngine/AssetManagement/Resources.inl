@@ -27,7 +27,8 @@ namespace ENGINE_NAMESPACE
 			myLoader.LoadFromPath(aPath, *resource);
 		}
 
-		return ResourcePointer<T>(id);
+		ResourcePointer<T> ptr(id);
+		return ptr;
 	}
 
 

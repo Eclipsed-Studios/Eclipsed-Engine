@@ -17,8 +17,8 @@ namespace ENGINE_NAMESPACE
 
         unsigned GetProgramID() { return myProgramID; }
 
-        ResourcePointer<PixelShader> GetPixelShader() { return myPixelShader; }
-        ResourcePointer<VertexShader> GetVertexShader() { return myVertexShader; }
+        ResourcePointer<PixelShader>& GetPixelShader() { return myPixelShader; }
+        ResourcePointer<VertexShader>& GetVertexShader() { return myVertexShader; }
 
     private:
         unsigned myProgramID = 0;

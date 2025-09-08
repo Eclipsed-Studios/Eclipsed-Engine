@@ -19,6 +19,9 @@ private:
 
 	class AbstractResource
 	{
+		template<typename T>
+		friend class ResourcePointer;
+
 	public:
 		AbstractResource(const char* relativePath, const size_t& id);
 		AbstractResource(const char* path);
@@ -32,5 +35,7 @@ private:
 	private:
 		std::string relativePath;
 		size_t id;
+
+		unsigned refCount = 0;
 	};
 }
