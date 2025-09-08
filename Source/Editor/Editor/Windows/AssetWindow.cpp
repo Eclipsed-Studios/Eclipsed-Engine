@@ -4,6 +4,7 @@
 #include "ECS/ComponentManager.h"
 
 #include "Input/Input.h"
+#include "Editor/DragAndDrop.h"
 
 
 namespace ENGINE_NAMESPACE::Editor
@@ -60,9 +61,13 @@ namespace ENGINE_NAMESPACE::Editor
             if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
             {
                 myPayloadStr = entry.path().string();
+                std::string extension = entry.path().extension().string();
 
+                DragAndDrop::AssetDragAndDropIdx idx = DragAndDrop::supportedFileTypes.at(extension);
 
-                ImGui::SetDragDropPayload("ASSET_DND", myPayloadStr.c_str(), myPayloadStr.size() + 1);
+                const char* dnd = DragAndDrop::dragAndDropString[(int)idx];
+
+                ImGui::SetDragDropPayload(dnd, myPayloadStr.c_str(), myPayloadStr.size() + 1);
 
                 ImGui::Text(myPayloadStr.c_str());
                 ImGui::EndDragDropSource();

@@ -41,6 +41,9 @@ namespace ENGINE_NAMESPACE::Editor
 			if (!comp->myInspectorWasDrawn) continue;
 
 			comp->DrawInspector();
+
+			ImGui::Dummy({0, 30});
+			ImGui::Separator();
 		}
 	}
 }

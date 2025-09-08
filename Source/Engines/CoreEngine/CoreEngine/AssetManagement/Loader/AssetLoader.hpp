@@ -33,7 +33,6 @@ namespace ENGINE_NAMESPACE
 			{ typeid(PixelShader), { ".glsl" }},
 			{ typeid(VertexShader), { ".glsl" }},
 			{ typeid(SpriteSheetAnimation), { ".spriteanim" }},
-
 		};
 	};
 }

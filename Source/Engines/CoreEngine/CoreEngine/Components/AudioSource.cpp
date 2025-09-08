@@ -1,7 +1,7 @@
 #include "AudioSource.h"
 
 #include "Editor/ImGui/ImGui_Impl.h"
-
+#include "Editor/DragAndDrop.h"
 #include <sstream>
 
 namespace ENGINE_NAMESPACE
@@ -74,21 +74,20 @@ namespace ENGINE_NAMESPACE
 
 	void AudioSource::DrawInspector()
 	{
-		Editor::ImGui_Impl::DrawComponentHeader("AudioSource", myInspectorWasDrawn);
-		if (!myInspectorWasDrawn) return;
-
 		std::stringstream ss;
 		ss << "##" << this;
 
-		if (!myAudioClip)
-		{
-			ImGui::Text("No audio clip");
-		}
+		bool hasAudioClip = myAudioClip;
 
-		ImGui::Button("Drop here");
+
+		Editor::DragAndDrop::TextBox(hasAudioClip ? myAudioClip->GetRelativePath() : "No audio clip", {5, 5}, {0,0,0,0}, {255, 255,255, 1}, "audioClipDND");
+
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_DND"))
+			int idx = (int)Editor::DragAndDrop::AssetDragAndDropIdx::Audio;
+			const char* dndString = Editor::DragAndDrop::dragAndDropString[idx];
+
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(dndString))
 			{
 				std::string path;
 				path.resize(payload->DataSize);
@@ -99,6 +98,8 @@ namespace ENGINE_NAMESPACE
 			}
 			ImGui::EndDragDropTarget();
 		}
+
+		if (!hasAudioClip) return;
 
 		if (!myIsPlaying && ImGui::Button("Play"))
 		{
