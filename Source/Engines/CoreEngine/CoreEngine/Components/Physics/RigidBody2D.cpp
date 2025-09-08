@@ -9,11 +9,6 @@ namespace ENGINE_NAMESPACE
 {
     typedef PhysicsEngine::Physics PhysHelper;
 
-    RigidBody2D::~RigidBody2D()
-    {
-
-    }
-
     void RigidBody2D::Awake()
     {
         myRigidBodySettings.BodyType = DynamicBody;
@@ -90,5 +85,9 @@ namespace ENGINE_NAMESPACE
     bool RigidBody2D::GetYPosLocked()
     {
         return myRigidBodySettings.LockYPos;
+    }
+
+    void RigidBody2D::DrawInspector()
+    {
     }
 }

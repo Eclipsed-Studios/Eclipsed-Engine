@@ -10,10 +10,12 @@ namespace ENGINE_NAMESPACE
 {
     class Collider2D : public Component
     {
-    public:
-        Collider2D() = default;
-        ~Collider2D() override;
+        BASE_BASE_COMPONENT(Collider2D)
 
+    public:
+        //~Collider2D();
+
+    public:
         Layer myLayer = Layer::Default;
 
     protected:

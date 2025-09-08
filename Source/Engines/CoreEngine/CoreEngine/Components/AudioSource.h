@@ -19,7 +19,7 @@ namespace ENGINE_NAMESPACE
 
 	class AudioSource : public Component
 	{
-		friend class Editor::InspectorWindow;
+		BASE_COMPONENT(AudioSource, 0)
 
 	public:
 		void SetAudioClip(const char* aPath);

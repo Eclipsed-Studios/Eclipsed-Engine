@@ -47,4 +47,8 @@ namespace ENGINE_NAMESPACE
     {
         myActiveAnimation = anAnimationName;
     }
+
+    void SpriteSheetAnimator2D::DrawInspector()
+    {
+    }
 }

@@ -1,67 +1,113 @@
 #pragma once
 
 #include "Interfaces/Serializable.h"
+#include <string>
+
+#include "defines.h"
+
+/*#define BASE_COMPONENT(type) BASE_COMPONENT(type, 0)
+
+#define BASE_COMPONENT(type, updatePriority)                                            \
+inline type() : Component(stringify(type), updatePriority) {}                           \
+inline ~type() = default;      */
+
+namespace ENGINE_NAMESPACE::Editor
+{
+	class InspectorWindow;
+}
+
+#define COMPONENT_FRIEND_CLASS         \
+friend class Editor::InspectorWindow;  \
+friend class ComponentManager;         \
+friend class SceneLoader;              \
+
+
+#define DERIVED_COMPONENT(type, derivedType, updatePriority)				\
+COMPONENT_FRIEND_CLASS														\
+public:																		\
+    inline type() : derivedType(updatePriority) {}							\
+virtual ~type() = default;													\
+protected:																	\
+virtual const char* GetComponentName() override { return stringify(type); }	\
+private:
+
+
+#define BASE_BASE_COMPONENT(type)											\
+COMPONENT_FRIEND_CLASS														\
+public:																		\
+inline type(unsigned updatePriority) : Component(updatePriority) {}			\
+virtual ~type() = default;													\
+private:
+
+
+#define BASE_COMPONENT(type, updatePriority)								\
+COMPONENT_FRIEND_CLASS														\
+public:																		\
+inline type() : Component(updatePriority) {}								\
+virtual ~type() = default;													\
+protected:																	\
+virtual const char* GetComponentName() override { return stringify(type); }	\
+private:
+        
+
+
 
 namespace ENGINE_NAMESPACE
 {
-    typedef unsigned RegisteredTypeIndex;
-    typedef unsigned GameObject;
+	typedef unsigned RegisteredTypeIndex;
+	typedef unsigned GameObject;
 
-    namespace Editor
-    {
-        class InspectorWindow;
+	class Component : public ISerializable
+	{
+		friend class Editor::InspectorWindow;
 
-    }
+		friend class ComponentManager;
+		friend class SceneLoader;
 
-    class Component : public ISerializable
-    {
-        friend class Editor::InspectorWindow;
+	public:
+		Component() = default;
+		Component(unsigned updatePriority);
+		virtual ~Component() = default;
 
-        friend class ComponentManager;
-        friend class SceneLoader;
+		void SetComponentID() { myComponentID = ++nextComponentID; }
 
-    public:
-        Component() = default;
-        virtual ~Component() = default;
+	public:
+		virtual void Awake() {}
+		virtual void Start() {}
 
-        void SetComponentID() { myComponentID = ++nextComponentID; }
+		virtual void EarlyUpdate() {}
+		virtual void Update() {}
+		virtual void LateUpdate() {}
 
-    public:
-        virtual void Awake() {}
-        virtual void Start() {}
+		virtual void OnCollisionEnter() {}
+		virtual void OnCollisionExit() {}
 
-        virtual void EarlyUpdate() {}
-        virtual void Update() {}
-        virtual void LateUpdate() {}
+		virtual void OnDrawGizmos() {}
 
-        virtual void OnCollisionEnter() {}
-        virtual void OnCollisionExit() {}
+	protected:
+		virtual void DrawInspector() {};
+		virtual const char* GetComponentName() { return "Component"; }
 
-        virtual void OnDrawGizmos() {}
+	public:
+		virtual rapidjson::Value Save(rapidjson::Document::AllocatorType& allocator) const override;
+		virtual void Load(const rapidjson::Value& aValue) override;
 
-    protected:
-        virtual void DrawInspector();
+	public:
+		GameObject gameObject;
 
-    public:
-        virtual rapidjson::Value Save(rapidjson::Document::AllocatorType& allocator) const override;
-        virtual void Load(const rapidjson::Value& aValue) override;
+	protected:
+		// Higher number higher priority
+		unsigned myUpdateStartPriority = 0;
 
-    public:
-        GameObject gameObject;
+		unsigned myComponentID = 0;
+		unsigned myComponentIndex = 0;
 
-    protected:
-        // Higher number higher priority
-        unsigned myUpdateStartPriority = 0;
+	private:
+		RegisteredTypeIndex myUniqueComponentID;
+		static inline unsigned nextComponentID = 0;
 
-        unsigned myComponentID = 0;
-        unsigned myComponentIndex = 0;
-
-    private:
-        RegisteredTypeIndex myUniqueComponentID;
-        static inline unsigned nextComponentID = 0;
-
-    protected:
-        // IFDEF EDITOR
-        bool myInspectorWasDrawn = false;
-    };
+	protected:
+		// IFDEF EDITOR
+		bool myInspectorWasDrawn = false;
+	};
 }

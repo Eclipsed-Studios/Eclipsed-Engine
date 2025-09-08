@@ -38,4 +38,7 @@ namespace ENGINE_NAMESPACE
 
         myTransform->SetRotation(myTransform->GetRotation() + forwardRot + backRot);
     }
+    void Camera::DrawInspector()
+    {
+    }
 }

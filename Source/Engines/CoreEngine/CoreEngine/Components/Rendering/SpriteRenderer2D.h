@@ -37,10 +37,9 @@ namespace ENGINE_NAMESPACE
 
     class SpriteRenderer2D : public Component
     {
-    public:
-        SpriteRenderer2D() = default;
-        ~SpriteRenderer2D() = default;
+        BASE_COMPONENT(SpriteRenderer2D, 0)
 
+    public:
         void Awake() override;
         void Start() override;
 
@@ -53,6 +52,11 @@ namespace ENGINE_NAMESPACE
 
         void SetXMirror(bool aMirror) { mirroredX = aMirror; }
         void SetYMirror(bool aMirror) { mirroredY = aMirror; }
+
+
+    protected:
+        void DrawInspector() override;
+
 
     private:
         Sprite* mySprite;

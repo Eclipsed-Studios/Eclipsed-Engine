@@ -10,15 +10,17 @@ namespace ENGINE_NAMESPACE
 {
     class BoxCollider2D : public Collider2D
     {
-    public:
-        BoxCollider2D() {myUpdateStartPriority = 5;}
-        ~BoxCollider2D() = default;
+        DERIVED_COMPONENT(BoxCollider2D, Collider2D, 5)
 
+    public:
         void Awake() override;
 
         void OnTransformDirty();
 
         void SetScale(const Math::Vector2f& aHalfExtents);
+
+    protected:
+        void DrawInspector() override;
 
     private:
         Math::Vector2f myHalfExtents;

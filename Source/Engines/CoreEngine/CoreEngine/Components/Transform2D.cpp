@@ -3,8 +3,6 @@
 #include "ImGui/ImGui/imgui.h"
 #include "TemporarySettingsSingleton.h"
 
-#include "Editor/ImGui/ImGui_Impl.h"
-
 #include <sstream>
 
 namespace ENGINE_NAMESPACE
@@ -77,9 +75,6 @@ namespace ENGINE_NAMESPACE
 
     void Transform2D::DrawInspector()
     {
-        Editor::ImGui_Impl::DrawComponentHeader("Transform2D", myInspectorWasDrawn);
-        if (!myInspectorWasDrawn) return;
-
         std::stringstream ss;
         ss << "##" << this;
 

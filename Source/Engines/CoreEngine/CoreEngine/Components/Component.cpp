@@ -17,9 +17,7 @@ namespace ENGINE_NAMESPACE
 	{
 	}
 
-	void Component::DrawInspector()
+	Component::Component(unsigned updatePriority) : myUpdateStartPriority(updatePriority)
 	{
-		ImGui::Text("Component not implemented.");
 	}
-
 }

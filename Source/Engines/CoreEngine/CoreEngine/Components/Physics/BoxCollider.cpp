@@ -48,6 +48,10 @@ namespace ENGINE_NAMESPACE
         myHalfExtents = halfExtent;
     }
 
+    void BoxCollider2D::DrawInspector()
+    {
+    }
+
     void BoxCollider2D::OnTransformDirty()
     {
         Math::Vector2f halfExtent = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;

@@ -6,6 +6,7 @@
 
 #include "FontAwesomeRegular.h"
 #include "IconsFontAwesome6.h"
+#include "Editor/ImGui/ImGui_Impl.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {
@@ -36,6 +37,9 @@ namespace ENGINE_NAMESPACE::Editor
 		for (auto& [type, id] : compList)
 		{
 			Component* comp = ComponentManager::myComponents[id];
+			ImGui_Impl::DrawComponentHeader(comp->GetComponentName(), comp->myInspectorWasDrawn);
+			if (!comp->myInspectorWasDrawn) continue;
+
 			comp->DrawInspector();
 		}
 	}

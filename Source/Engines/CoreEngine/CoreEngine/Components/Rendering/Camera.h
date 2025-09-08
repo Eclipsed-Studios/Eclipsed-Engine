@@ -8,12 +8,14 @@ namespace ENGINE_NAMESPACE
 {
     class Camera : public Component
     {
-    public:
-        Camera() { myUpdateStartPriority = 100; };
-        ~Camera() = default;
+        BASE_COMPONENT(Camera, 100)
 
+    public:
         void Awake() override;
         void Update() override;
+
+    protected:
+        void DrawInspector() override;
 
     private:
         class Transform2D* myTransform;

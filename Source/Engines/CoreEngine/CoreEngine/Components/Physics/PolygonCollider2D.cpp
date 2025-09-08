@@ -49,4 +49,8 @@ namespace ENGINE_NAMESPACE
 
         PhysicsEngine::SetTransformPolygon(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myPoints, scale);
     }
+
+    void PolygonCollider2D::DrawInspector()
+    {
+    }
 }

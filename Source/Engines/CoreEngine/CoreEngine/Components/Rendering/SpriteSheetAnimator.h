@@ -10,10 +10,9 @@ namespace ENGINE_NAMESPACE
 
     class SpriteSheetAnimator2D : public Component
     {
-    public:
-        SpriteSheetAnimator2D() = default;
-        ~SpriteSheetAnimator2D() = default;
+        BASE_COMPONENT(SpriteSheetAnimator2D, 0)
 
+    public:
         void Start() override;
         void Update() override;
 
@@ -23,6 +22,9 @@ namespace ENGINE_NAMESPACE
         void Pause() { myIsPlaying = false; }
 
         void SetCurrentAnimation(const char* anAnimationName);
+
+    protected:
+        void DrawInspector() override;
 
     private:
         SpriteRenderer2D* mySpriteRenderer = nullptr;

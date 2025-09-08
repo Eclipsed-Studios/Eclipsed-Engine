@@ -12,13 +12,12 @@ namespace ENGINE_NAMESPACE
 {
     class RigidBody2D : public Component
     {
+        BASE_COMPONENT(RigidBody2D, 10)
+
     public:
         friend class Collider2D;
         friend class BoxCollider2D;
         friend class PolygonCollider2D;
-
-        RigidBody2D() {myUpdateStartPriority = 10;}
-        ~RigidBody2D() override;
 
         void Awake() override;
         void EarlyUpdate() override;
@@ -42,6 +41,9 @@ namespace ENGINE_NAMESPACE
 
         void SetYPosLocked(bool aValue);
         bool GetYPosLocked();
+
+    protected:
+        void DrawInspector() override;
 
     private:
         RigidBodySettings myRigidBodySettings;

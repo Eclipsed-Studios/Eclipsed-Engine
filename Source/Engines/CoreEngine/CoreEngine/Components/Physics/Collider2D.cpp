@@ -8,8 +8,8 @@
 
 namespace ENGINE_NAMESPACE
 {
-    Collider2D::~Collider2D()
-    {
-        PhysicsEngine::RemoveCollider(myInternalCollider);
-    }
+    //Collider2D::~Collider2D()
+    //{
+    //    PhysicsEngine::RemoveCollider(myInternalCollider);
+    //}
 }

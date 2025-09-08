@@ -11,10 +11,9 @@ namespace ENGINE_NAMESPACE
 {
 	class Transform2D : public Component
 	{
-	public:
-		Transform2D() { myUpdateStartPriority = UINT_MAX; }
-		~Transform2D() = default;
+		BASE_COMPONENT(Transform2D, UINT_MAX)
 
+	public:
 		void Update() override;
 
 		const Math::Vector2f& GetPosition() const;

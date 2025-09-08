@@ -62,6 +62,10 @@ namespace ENGINE_NAMESPACE
 		spriteRectMax = aMax * myMaterial->myTexture->spriteDimDivOne;
 	}
 
+	void SpriteRenderer2D::DrawInspector()
+	{
+	}
+
 	void SpriteRenderer2D::Awake()
 	{
 		mySprite = new Sprite();
