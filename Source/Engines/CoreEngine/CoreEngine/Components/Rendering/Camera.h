@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Math/Math.h"
+#include "ECS/ComponentManager.h"
 
 #include "Components/Component.h"
 

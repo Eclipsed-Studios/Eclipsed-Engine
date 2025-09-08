@@ -8,6 +8,8 @@
 #include "IconsFontAwesome6.h"
 #include "Editor/ImGui/ImGui_Impl.h"
 
+#include "Editor/ComponentRegistry.h"
+
 namespace ENGINE_NAMESPACE::Editor
 {
 	void InspectorWindow::Update()
@@ -44,6 +46,21 @@ namespace ENGINE_NAMESPACE::Editor
 
 			ImGui::Dummy({0, 30});
 			ImGui::Separator();
+		}
+
+		
+		if (ImGui::BeginCombo("##ADD_COMPONENTS", "Add Component"))
+		{
+			for (auto& [name, addFunc] : ComponentRegistry::GetComponents())
+			{
+				if (ImGui::Button(name.c_str(), ImVec2(-FLT_MIN, 0)))
+				{
+					ComponentRegistry::AddComponent(name, id);
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::EndCombo();
 		}
 	}
 }

@@ -4,12 +4,14 @@
 #include <string>
 
 #include "defines.h"
+#include "Editor/ComponentRegistry.h"
 
 /*#define BASE_COMPONENT(type) BASE_COMPONENT(type, 0)
 
 #define BASE_COMPONENT(type, updatePriority)                                            \
 inline type() : Component(stringify(type), updatePriority) {}                           \
 inline ~type() = default;      */
+
 
 namespace ENGINE_NAMESPACE::Editor
 {
@@ -39,15 +41,25 @@ inline type(unsigned updatePriority) : Component(updatePriority) {}			\
 virtual ~type() = default;													\
 private:
 
+#define REGISTER_COMPONENT_CALLBACK(type) [](int id){ ComponentManager::AddComponent<type>(id); }
 
-#define BASE_COMPONENT(type, updatePriority)								\
-COMPONENT_FRIEND_CLASS														\
-public:																		\
-inline type() : Component(updatePriority) {}								\
-virtual ~type() = default;													\
-protected:																	\
-virtual const char* GetComponentName() override { return stringify(type); }	\
-private:
+
+
+#define BASE_COMPONENT(type, updatePriority)														\
+COMPONENT_FRIEND_CLASS																				\
+public:																								\
+inline type() : Component(updatePriority) {}														\
+virtual ~type() = default;																			\
+protected:																							\
+virtual const char* GetComponentName() override { return stringify(type); }							\
+private:																							\
+struct AutoRegister {																				\
+	AutoRegister() {																				\
+		using namespace ENGINE_NAMESPACE::Editor;													\
+		ComponentRegistry::RegisterComponent(stringify(type), REGISTER_COMPONENT_CALLBACK(type));	\
+	}																								\
+};																									\
+static inline AutoRegister _register = {};
         
 
 

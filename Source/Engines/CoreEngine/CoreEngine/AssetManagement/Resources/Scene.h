@@ -10,14 +10,5 @@ namespace ENGINE_NAMESPACE
 	{
 		BASE_RESOURCE(Scene)
 
-	public:
-		ComponentManager& GetComponentManager();
-
-	private:
-		void Setup();
-
-
-	private:
-		ComponentManager myComponentManager = {};
 	};
 }

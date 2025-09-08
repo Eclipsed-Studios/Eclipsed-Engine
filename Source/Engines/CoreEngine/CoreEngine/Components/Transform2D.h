@@ -1,6 +1,6 @@
 #pragma once
-
 #include "Component.h"
+#include "ECS/ComponentManager.h"
 
 #include <Math/Vector/Vector2.h>
 

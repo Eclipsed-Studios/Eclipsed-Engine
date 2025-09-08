@@ -11,7 +11,7 @@ namespace ENGINE_NAMESPACE
 		ResourcePointer(const size_t& resourceID);
 		~ResourcePointer();
 
-		ResourcePointer(ResourcePointer&& other) noexcept;
+		ResourcePointer(ResourcePointer&& other) noexcept; 
 		ResourcePointer& operator=(ResourcePointer&& other) noexcept
 		{
 			id = other.id;

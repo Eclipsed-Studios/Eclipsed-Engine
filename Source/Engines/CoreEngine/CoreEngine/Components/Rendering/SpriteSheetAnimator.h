@@ -3,6 +3,7 @@
 #include "../Component.h"
 #include "AssetManagement/Resources/SpriteSheetAnimation.h"
 #include "AssetManagement/ResourcePointer.h"
+#include "ECS/ComponentManager.h"
 
 namespace ENGINE_NAMESPACE
 {

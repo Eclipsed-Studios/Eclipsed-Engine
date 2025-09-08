@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "ECS/ComponentManager.h"
 
 #include "Components/Component.h"
 

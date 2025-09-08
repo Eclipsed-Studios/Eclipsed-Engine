@@ -3,6 +3,7 @@
 #include "Math/Vector/Vector2.h"
 
 #include "../Component.h"
+#include "ECS/ComponentManager.h"
 
 #include "box2d/id.h"
 

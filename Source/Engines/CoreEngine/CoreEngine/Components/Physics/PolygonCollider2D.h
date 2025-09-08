@@ -3,6 +3,7 @@
 #include "Collider2D.h"
 #include <Math/Vector/Vector2.h>
 #include "box2d/id.h"
+#include "ECS/ComponentManager.h"
 
 #include <vector>
 
