@@ -8,9 +8,9 @@
 
 namespace ENGINE_NAMESPACE::Editor
 {
-	namespace ImGui_Impl
-	{
-		inline void ImplementImGui(GLFWwindow* aWindow)
+    namespace ImGui_Impl
+    {
+        inline void ImplementImGui(GLFWwindow* aWindow)
         {
             IMGUI_CHECKVERSION();
             ImGui::CreateContext();
@@ -28,6 +28,8 @@ namespace ENGINE_NAMESPACE::Editor
                 style.WindowRounding = 0.0f;
                 style.Colors[ImGuiCol_WindowBg].w = 1.0f;
             }
+
+
 
             //io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/Quicksand-Medium.ttf", 16);
             io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/ARIAL.TTF", 16);
@@ -67,5 +69,5 @@ namespace ENGINE_NAMESPACE::Editor
             ImGui::PopStyleVar();
         }
 
-	}
+    }
 }

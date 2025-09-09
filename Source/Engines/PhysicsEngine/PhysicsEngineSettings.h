@@ -3,9 +3,58 @@
 #include <vector>
 #include "Math/Vector/Vector2.h"
 
+#include <string>
+
+#include "defines.h"
+
+#define MAX_LAYERS 16
+
 namespace ENGINE_NAMESPACE
 {
-    class Collider2D;
+    constexpr int layerCount = 7;
+    enum class Layer : uint64_t
+    {
+        Default = 1 << 0,
+        Player = 1 << 1,
+        Enemy = 1 << 2,
+        Projectile = 1 << 3,
+        Ground = 1 << 4,
+        Trigger = 1 << 5,
+        IgnoreRaycast = 1 << 6,
+        UI = 1 << 7,
+
+        All = (1 << (layerCount + 1)) - 1
+    };
+
+    inline std::string GetCollisionLayerAsName(Layer aLayer)
+    {
+        switch (aLayer)
+        {
+        case Layer::Default:
+            return stringify(Default);
+        case Layer::Player:
+            return stringify(Player);
+        case Layer::Enemy:
+            return stringify(Enemy);
+        case Layer::Projectile:
+            return stringify(Projectile);
+        case Layer::Ground:
+            return stringify(Ground);
+        case Layer::Trigger:
+            return stringify(Trigger);
+        case Layer::IgnoreRaycast:
+            return stringify(IgnoreRaycast);
+        case Layer::UI:
+            return stringify(UI);
+        }
+
+        return stringify(None);
+    }
+
+    inline Layer operator|(Layer a, Layer b)
+    {
+        return static_cast<Layer>(static_cast<unsigned>(a) | static_cast<unsigned>(b));
+    }
 
     enum DebugDrawTypes
     {
@@ -65,24 +114,4 @@ namespace ENGINE_NAMESPACE
         Math::Vector2f position;
         Math::Vector2f direction;
     };
-
-    enum class Layer : uint32_t
-    {
-        Default = 1 << 1,
-        Player = 1 << 2,
-        Enemy = 1 << 3,
-        Projectile = 1 << 4,
-        Ground = 1 << 5,
-        Trigger = 1 << 6,
-        IgnoreRaycast = 1 << 7,
-        UI = 1 << 8,
-
-        All = (1 << 8) - 1
-    };
-
-    inline Layer operator|(Layer a, Layer b)
-    {
-        return static_cast<Layer>(static_cast<unsigned>(a) | static_cast<unsigned>(b));
-    }
-
 }

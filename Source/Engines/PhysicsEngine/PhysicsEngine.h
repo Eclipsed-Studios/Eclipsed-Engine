@@ -9,8 +9,6 @@
 #include <vector>
 #include <functional>
 
-struct b2Polygon;
-
 namespace ENGINE_NAMESPACE
 {
     class PhysicsEngine
@@ -58,16 +56,16 @@ namespace ENGINE_NAMESPACE
         static inline std::function<void(UserData&)> myBeginContactCallback;
         static inline std::function<void(UserData&)> myEndContactCallback;
 
+        static inline uint64_t myCollisionLayers[MAX_LAYERS] = {};
+
     private:
-        static inline bool myDrawDebugShapes = true;
-
-        static inline bool myDrawQueries = false;
-
         static inline b2WorldId myWorld;
         static inline Math::Vector2f myGravity;
-
         static inline int mySubstepCount = 8;
 
         static inline b2DebugDraw myDebugDraw;
+        static inline bool myDrawDebugShapes = true;
+        static inline bool myDrawQueries = false;
+
     };
 }

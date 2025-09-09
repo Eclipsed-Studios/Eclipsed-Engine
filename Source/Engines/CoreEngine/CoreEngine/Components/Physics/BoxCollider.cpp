@@ -32,11 +32,6 @@ namespace ENGINE_NAMESPACE
 
     void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)
     {
-        // auto& temporary = TemporarySettingsSingleton::Get();
-
-        // float oneDivX = temporary.GetOneDivResolutionX();
-        // float oneDivY = temporary.GetOneDivResolutionY();
-
         myScale = aHalfExtents;
 
         Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);

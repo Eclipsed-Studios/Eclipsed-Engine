@@ -1,11 +1,13 @@
 #include "PhysicsEngine.h"
+#include <box2d/box2d.h>
 
 #include "Timer.h"
 
-#include "box2d/box2d.h"
+#include "rapidjson/rapidjson/rapidjson.h"
+#include "rapidjson/rapidjson/document.h"
+#include "rapidjson/rapidjson/filereadstream.h"
 
 #undef min
-
 namespace ENGINE_NAMESPACE
 {
 #pragma region PhysicsHelperFunctions
@@ -64,8 +66,6 @@ namespace ENGINE_NAMESPACE
         bodyDefine.type = static_cast<b2BodyType>(aBodySettings.BodyType);
         bodyDefine.position = b2Vec2(aStartPosition.x, aStartPosition.y);
 
-        //bodyDefine.linearDamping = 5.f;
-
         bodyDefine.userData = aUserData;
 
         *aBody = b2CreateBody(myWorld, &bodyDefine);
@@ -81,18 +81,20 @@ namespace ENGINE_NAMESPACE
 
         shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
 
+        int layerIndex = std::countr_zero(static_cast<uint32_t>(aLayer));
+        shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
+
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
 
     void PhysicsEngine::CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer)
     {
-        int pointCount = std::min(static_cast<int>(aPolygonPoints.size()), 8);
+        int pointCount = std::min(static_cast<int>(aPolygonPoints.size()), B2_MAX_POLYGON_VERTICES);
 
         std::vector<b2Vec2> vecOfVec;
+
         for (auto& vec : aPolygonPoints)
-        {
             vecOfVec.emplace_back(b2Vec2{ vec.x, vec.y });
-        }
 
         b2Hull hull = b2ComputeHull(vecOfVec.data(), pointCount);
         b2Polygon polygon = b2MakePolygon(&hull, 0.0001f);
@@ -101,7 +103,11 @@ namespace ENGINE_NAMESPACE
         shapeDef.enableHitEvents = true;
         shapeDef.enableContactEvents = true;
 
-        shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
+        uint64_t layer = static_cast<uint64_t>(aLayer);
+        shapeDef.filter.categoryBits = layer;
+
+        int layerIndex = std::countr_zero(layer);
+        shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
 
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
@@ -171,8 +177,40 @@ namespace ENGINE_NAMESPACE
         }
     }
 
+    bool CustomFilterFunction(b2ShapeId shapeIdA, b2ShapeId shapeIdB, void* context)
+    {
+        b2Filter filterObjA = b2Shape_GetFilter(shapeIdA);
+        b2Filter filterObjB = b2Shape_GetFilter(shapeIdB);
+
+        if (filterObjA.categoryBits | filterObjB.maskBits)
+            return true;
+        if (filterObjB.categoryBits | filterObjA.maskBits)
+            return true;
+
+        return false;
+    }
+
+    void LoadLayersFromJSON(uint64_t aCollisionLayers[MAX_LAYERS])
+    {
+        const char* layerPath = ASSET_PATH"CollisionLayers.json";
+
+        FILE* fileP = fopen(layerPath, "rb");
+        char readBuffer[2048];
+        rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
+
+        rapidjson::Document document;
+        document.ParseStream(fileReadStream);
+        fclose(fileP);
+
+        auto layers = document["Layer"].GetArray();
+        for (unsigned i = 0; i < layers.Size(); i++)
+            aCollisionLayers[i] = layers[i].GetInt();
+    }
+
     void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
     {
+        LoadLayersFromJSON(myCollisionLayers);
+
         mySubstepCount = aSubstepCount;
         myGravity = aGravity;
 
@@ -183,6 +221,8 @@ namespace ENGINE_NAMESPACE
         myWorld = b2CreateWorld(&worldDef);
 
         myDebugDraw = std::move(aDebugdraw);
+
+        b2World_SetCustomFilterCallback(myWorld, CustomFilterFunction, (void*)0);
     }
 
     bool& PhysicsEngine::GetDebugDraw()
@@ -319,8 +359,8 @@ namespace ENGINE_NAMESPACE
     bool PhysicsEngine::RayCast(const Ray& aRay, HitResults& aHitResults, float length, Layer aLayerMask)
     {
         b2QueryFilter filter = b2DefaultQueryFilter();
-
         filter.maskBits = static_cast<uint64_t>(aLayerMask);
+        filter.categoryBits = static_cast<uint64_t>(Layer::All);
 
         HitResults castContext;
         b2Vec2 translation = b2MulSV(length, b2Normalize(b2Vec2(aRay.direction.x, aRay.direction.y)));
@@ -341,14 +381,16 @@ namespace ENGINE_NAMESPACE
     bool PhysicsEngine::OverlapBox(const Math::Vector2f& aPositon, const Math::Vector2f& aHalfExent, HitResults& aHitResults, Layer aLayerMask)
     {
         b2AABB aabb;
+
         Math::Vector2f lowerBoundAABB = aPositon - aHalfExent;
         Math::Vector2f upperBoundAABB = aPositon + aHalfExent;
+
         aabb.lowerBound = b2Vec2(lowerBoundAABB.x, lowerBoundAABB.y);
         aabb.upperBound = b2Vec2(upperBoundAABB.x, upperBoundAABB.y);
 
-
         b2QueryFilter filter = b2DefaultQueryFilter();
         filter.maskBits = static_cast<uint64_t>(aLayerMask);
+        filter.categoryBits = static_cast<uint64_t>(Layer::All);
 
         b2World_OverlapAABB(myWorld, aabb, filter, MyShapeOverlapCallback, &aHitResults);
         if (!aHitResults.results.empty())
@@ -364,6 +406,7 @@ namespace ENGINE_NAMESPACE
 
         b2QueryFilter filter = b2DefaultQueryFilter();
         filter.maskBits = static_cast<uint64_t>(aLayerMask);
+        filter.categoryBits = static_cast<uint64_t>(Layer::All);
 
         b2World_OverlapShape(myWorld, &proxy, filter, MyShapeOverlapCallback, &aHitResults);
 
