@@ -42,7 +42,7 @@ namespace ENGINE_NAMESPACE
 		else if (type == InputActionType::Combo)
 		{
 			Value combo(kArrayType);
-			for (const Keycode& key : comboButtons)
+			for (const Keycode::Scancode& key : comboButtons)
 			{
 				combo.PushBack((int)key, anAllocator);
 			}
@@ -66,8 +66,8 @@ namespace ENGINE_NAMESPACE
 
 		if (type == InputActionType::Axis)
 		{
-			positiveButton = (Keycode)aValue[stringify(positiveButton)].GetInt();
-			negativeButton = (Keycode)aValue[stringify(negativeButton)].GetInt();
+			positiveButton = (Keycode::Scancode)aValue[stringify(positiveButton)].GetInt();
+			negativeButton = (Keycode::Scancode)aValue[stringify(negativeButton)].GetInt();
 		}
 		else if (type == InputActionType::Combo)
 		{
@@ -77,13 +77,13 @@ namespace ENGINE_NAMESPACE
 				comboButtons.clear();
 				for (auto& v : comboArray.GetArray())
 				{
-					comboButtons.push_back((Keycode)v.GetInt());
+					comboButtons.push_back((Keycode::Scancode)v.GetInt());
 				}
 			}
 		}
 		else
 		{
-			button = (Keycode)aValue[stringify(button)].GetInt();
+			button = (Keycode::Scancode)aValue[stringify(button)].GetInt();
 		}
 	}
 	int InputAction::GetSingleKey()
@@ -97,7 +97,7 @@ namespace ENGINE_NAMESPACE
 	}
 	int InputAction::GetCombo()
 	{
-		for (const Keycode& key : comboButtons)
+		for (const Keycode::Scancode& key : comboButtons)
 		{
 			if (!Input::GetKey(key))
 			{
@@ -107,7 +107,7 @@ namespace ENGINE_NAMESPACE
 
 		return true;
 	}
-	bool InputAction::GetKey(Keycode aKey, InputActionButtonType aButtonType)
+	bool InputAction::GetKey(Keycode::Scancode aKey, InputActionButtonType aButtonType)
 	{
 		switch (buttonType)
 		{

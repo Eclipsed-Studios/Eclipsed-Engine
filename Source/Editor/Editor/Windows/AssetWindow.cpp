@@ -19,7 +19,7 @@ namespace ENGINE_NAMESPACE::Editor
     {
         using namespace std::filesystem;
 
-        if (Input::GetMouseDown(MouseButton::BACK_BUTTON) && myCurrentPath != ASSET_PATH)
+        if (Input::GetMouseDown(Keycode::MOUSE_BACK_BUTTON) && myCurrentPath != ASSET_PATH)
         {
             myCurrentPath = myCurrentPath.parent_path();
         }

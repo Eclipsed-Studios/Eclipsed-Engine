@@ -28,12 +28,12 @@ namespace ENGINE_NAMESPACE
 		InputActionType type = {};
 		InputActionButtonType buttonType = {};
 
-		Keycode positiveButton = {};
-		Keycode negativeButton = {};
+		Keycode::Scancode positiveButton = {};
+		Keycode::Scancode negativeButton = {};
 
-		Keycode button = {};
+		Keycode::Scancode button = {};
 		
-		std::vector<Keycode> comboButtons;
+		std::vector<Keycode::Scancode> comboButtons;
 
 		std::string name;
 		
@@ -50,6 +50,6 @@ namespace ENGINE_NAMESPACE
 		int GetAxis();
 		int GetCombo();
 
-		bool GetKey(Keycode aKey, InputActionButtonType aButtonType);
+		bool GetKey(Keycode::Scancode aKey, InputActionButtonType aButtonType);
 	};
 }

@@ -27,6 +27,3 @@ foreach(source_file IN LISTS UTILITIES_SOURCES)
         source_group("" FILES "${source_file}")
     endif()
 endforeach()
-
-
-set_target_properties(Utilities PROPERTIES FOLDER "Utilils")

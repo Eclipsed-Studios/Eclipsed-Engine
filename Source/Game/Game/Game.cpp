@@ -11,6 +11,7 @@
 #include "Components/Physics/BoxCollider2D.h"
 #include "Components/Physics/PolygonCollider2D.h"
 #include "Components/AudioSource.h"
+#include "Components/UI/Button.h"
 
 #include "Components/PlayerMovement.h"
 

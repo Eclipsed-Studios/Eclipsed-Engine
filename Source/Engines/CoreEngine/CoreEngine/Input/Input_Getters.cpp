@@ -12,7 +12,7 @@ namespace ENGINE_NAMESPACE
 		return currentKeys[aKey];
 	}
 
-	bool Input::GetKey(Keycode aKey)
+	bool Input::GetKey(Keycode::Scancode aKey)
 	{
 		return currentKeys[(int)aKey];
 	}
@@ -29,7 +29,7 @@ namespace ENGINE_NAMESPACE
 		return pressedThisFrame[aKey];
 	}
 
-	bool Input::GetKeyDown(Keycode aKey)
+	bool Input::GetKeyDown(Keycode::Scancode aKey)
 	{
 		return pressedThisFrame[(int)aKey];
 	}
@@ -46,7 +46,7 @@ namespace ENGINE_NAMESPACE
 		return releasedThisFrame[aKey];
 	}
 
-	bool Input::GetKeyUp(Keycode aKey)
+	bool Input::GetKeyUp(Keycode::Scancode aKey)
 	{
 		return releasedThisFrame[(int)aKey];
 	}
@@ -56,13 +56,13 @@ namespace ENGINE_NAMESPACE
 		return currentKeys.any();
 	}
 
-	Keycode Input::GetAnyKey()
+	Keycode::Scancode Input::GetAnyKey()
 	{	
 		for(int i = 0; i < currentKeys.size(); i++)
 			if(currentKeys[i])
-				return static_cast<Keycode>(i);
+				return static_cast<Keycode::Scancode>(i);
 
-		return Keycode::NONE;
+		return Keycode::Scancode::NONE;
 	}
 
 
@@ -71,7 +71,7 @@ namespace ENGINE_NAMESPACE
 		return currentKeys[aKey];
 	}
 
-	bool Input::GetMouse(MouseButton aKey)
+	bool Input::GetMouse(Keycode::Scancode aKey)
 	{
 		return currentKeys[(int)aKey];
 	}
@@ -83,7 +83,7 @@ namespace ENGINE_NAMESPACE
 		return pressedThisFrame[aKey];
 	}
 
-	bool Input::GetMouseDown(MouseButton aKey)
+	bool Input::GetMouseDown(Keycode::Scancode aKey)
 	{
 		return pressedThisFrame[(int)aKey];
 	}
@@ -95,7 +95,7 @@ namespace ENGINE_NAMESPACE
 		return releasedThisFrame[aKey];
 	}
 
-	bool Input::GetMouseUp(MouseButton aKey)
+	bool Input::GetMouseUp(Keycode::Scancode aKey)
 	{
 		return releasedThisFrame[(int)aKey];
 	}

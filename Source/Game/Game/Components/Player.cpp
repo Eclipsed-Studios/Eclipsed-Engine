@@ -85,7 +85,7 @@ namespace ENGINE_NAMESPACE
 			break;
 		}
 
-		if (Input::GetMouseDown(MouseButton::LEFT))
+		if (Input::GetMouseDown(Keycode::MOUSE_LEFT))
 		{
 			myTimer = Attack_Duration;
 			myState = States::Attacking;
@@ -106,7 +106,7 @@ namespace ENGINE_NAMESPACE
 			return;
 		}
 
-		if (Input::GetMouseDown(MouseButton::LEFT))
+		if (Input::GetMouseDown(Keycode::LEFT))
 		{
 			myTimer = Attack_Duration;
 			myState = States::Attacking;
@@ -132,7 +132,7 @@ namespace ENGINE_NAMESPACE
 	{
 		myAnimation->SetCurrentAnimation("Jump");
 
-		if (Input::GetMouseDown(MouseButton::LEFT))
+		if (Input::GetMouseDown(Keycode::MOUSE_LEFT))
 		{
 			myTimer = Attack_Duration;
 			myState = States::Attacking;

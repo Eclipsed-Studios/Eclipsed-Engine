@@ -119,7 +119,7 @@ namespace ENGINE_NAMESPACE::Editor
 			return keyNameString;
 		}
 
-		switch (static_cast<Keycode>(aKey))
+		switch (static_cast<Keycode::Scancode>(aKey))
 		{
 		case Keycode::ESCAPE: return "Escape";
 
@@ -200,7 +200,7 @@ namespace ENGINE_NAMESPACE::Editor
 		return "None";
 	}
 
-	void ChangeButton(Keycode& aKeycode)
+	void ChangeButton(Keycode::Scancode& aKeycode)
 	{
 		ImGui::Text("Press Any Key");
 		if (Input::GetAny())
