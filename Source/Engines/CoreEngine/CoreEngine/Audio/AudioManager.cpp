@@ -18,9 +18,9 @@ namespace ENGINE_NAMESPACE
         mySystem->update();
 	}
 
-    void AudioManager::PlayAudio(AudioClip& anAudioClip)
+    void AudioManager::PlayAudio(AudioClip& anAudioClip, FMOD::Channel** aChannel)
     {
-        mySystem->playSound(anAudioClip.mySound, nullptr, false, &anAudioClip.myChannel);
+        mySystem->playSound(anAudioClip.mySound, nullptr, false, aChannel);
     }
 
     void AudioManager::CreateAudio(AudioClip& anAudioClip)

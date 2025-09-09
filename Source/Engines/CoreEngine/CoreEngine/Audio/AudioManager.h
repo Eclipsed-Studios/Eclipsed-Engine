@@ -13,7 +13,7 @@ namespace ENGINE_NAMESPACE
 		static void Init();
 		static void Update();
 
-		static void PlayAudio(AudioClip& anAudioClip);
+		static void PlayAudio(AudioClip& anAudioClip, FMOD::Channel** aChannel);
 		static void CreateAudio(AudioClip& anAudioClip);
 
 	private:

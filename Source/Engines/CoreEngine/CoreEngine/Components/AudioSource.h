@@ -39,6 +39,8 @@ namespace ENGINE_NAMESPACE
 
 
 	private:
+		FMOD::Channel* myChannel;
+
 		ResourcePointer<AudioClip> myAudioClip;
 		bool myIsPaused = false;
 		bool myIsPlaying = false;

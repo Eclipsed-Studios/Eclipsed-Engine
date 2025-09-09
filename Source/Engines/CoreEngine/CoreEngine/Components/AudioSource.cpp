@@ -19,14 +19,14 @@ namespace ENGINE_NAMESPACE
 	void AudioSource::SetVolume(float aVolume)
 	{
 		myVolume = aVolume;
-		myAudioClip->myChannel->setVolume(aVolume);
+		myChannel->setVolume(aVolume);
 	}
 
 	void AudioSource::Play()
 	{
 		if (!myIsPlaying)
 		{
-			AudioManager::PlayAudio(*myAudioClip.Get());
+			AudioManager::PlayAudio(*myAudioClip.Get(), &myChannel);
 			
 			SetVolume(myVolume);
 			SetLooping(myIsLooping);
@@ -36,20 +36,20 @@ namespace ENGINE_NAMESPACE
 		else if (myIsPaused)
 		{
 			myIsPaused = !myIsPaused;
-			myAudioClip->myChannel->setPaused(myIsPaused);
+			myChannel->setPaused(myIsPaused);
 		}
 	}
 
 	void AudioSource::Pause()
 	{
 		myIsPaused = true;
-		myAudioClip->myChannel->setPaused(true);
+		myChannel->setPaused(true);
 	}
 
 	void AudioSource::Stop()
 	{
-		myAudioClip->myChannel->stop();
-		myAudioClip->myChannel = nullptr;
+		myChannel->stop();
+		myChannel = nullptr;
 
 		myIsPlaying = false;
 	}
@@ -58,17 +58,17 @@ namespace ENGINE_NAMESPACE
 	{
 		myIsLooping = aState;
 
-		if (!myAudioClip && !myAudioClip->myChannel)  return;
+		if (!myAudioClip && !myChannel)  return;
 
 		if (aState) // Play infinitely looping
 		{
-			myAudioClip->myChannel->setMode(FMOD_LOOP_NORMAL);
-			myAudioClip->myChannel->setLoopCount(-1);
+			myChannel->setMode(FMOD_LOOP_NORMAL);
+			myChannel->setLoopCount(-1);
 		}
 		else // Play once
 		{
-			myAudioClip->myChannel->setMode(FMOD_LOOP_OFF);
-			myAudioClip->myChannel->setLoopCount(0);
+			myChannel->setMode(FMOD_LOOP_OFF);
+			myChannel->setLoopCount(0);
 		}
 	}
 

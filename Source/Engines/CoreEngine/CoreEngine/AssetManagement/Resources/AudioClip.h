@@ -19,7 +19,6 @@ namespace ENGINE_NAMESPACE
 	public:
 
 	public:
-		FMOD::Channel* myChannel;
 		FMOD::Sound* mySound;
 	};
 }
