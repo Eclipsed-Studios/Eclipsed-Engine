@@ -18,52 +18,6 @@ namespace ENGINE_NAMESPACE::Editor
 	class InspectorWindow;
 }
 
-#define COMPONENT_FRIEND_CLASS         \
-friend class Editor::InspectorWindow;  \
-friend class ComponentManager;         \
-friend class SceneLoader;              \
-
-
-#define DERIVED_COMPONENT(type, derivedType, updatePriority)				\
-COMPONENT_FRIEND_CLASS														\
-public:																		\
-    inline type() : derivedType(updatePriority) {}							\
-virtual ~type() = default;													\
-protected:																	\
-virtual const char* GetComponentName() override { return stringify(type); }	\
-private:
-
-
-#define BASE_BASE_COMPONENT(type)											\
-COMPONENT_FRIEND_CLASS														\
-public:																		\
-inline type(unsigned updatePriority) : Component(updatePriority) {}			\
-virtual ~type() = default;													\
-private:
-
-#define REGISTER_COMPONENT_CALLBACK(type) [](int id){ ComponentManager::AddComponent<type>(id); }
-
-
-
-#define BASE_COMPONENT(type, updatePriority)														\
-COMPONENT_FRIEND_CLASS																				\
-public:																								\
-inline type() : Component(updatePriority) {}														\
-virtual ~type() = default;																			\
-protected:																							\
-virtual const char* GetComponentName() override { return stringify(type); }							\
-private:																							\
-struct AutoRegister {																				\
-	AutoRegister() {																				\
-		using namespace ENGINE_NAMESPACE::Editor;													\
-		ComponentRegistry::RegisterComponent(stringify(type), REGISTER_COMPONENT_CALLBACK(type));	\
-	}																								\
-};																									\
-static inline AutoRegister _register = {};
-        
-
-
-
 namespace ENGINE_NAMESPACE
 {
 	typedef unsigned RegisteredTypeIndex;

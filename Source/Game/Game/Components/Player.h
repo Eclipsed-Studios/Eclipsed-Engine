@@ -1,6 +1,6 @@
 #pragma once
 
-#include "components/Component.h"
+#include "Components/Base/Component.h"
 
 #include "PlayerStateMachine.h"
 

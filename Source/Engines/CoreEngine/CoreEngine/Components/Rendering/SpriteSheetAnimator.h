@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../Component.h"
+#include "Components/Base/BaseComponent.h"
+
 #include "AssetManagement/Resources/SpriteSheetAnimation.h"
 #include "AssetManagement/ResourcePointer.h"
 #include "ECS/ComponentManager.h"
@@ -11,7 +12,7 @@ namespace ENGINE_NAMESPACE
 
     class SpriteSheetAnimator2D : public Component
     {
-        BASE_COMPONENT(SpriteSheetAnimator2D, 0)
+        BASE_SELECTION(SpriteSheetAnimator2D, 0)
 
     public:
         void Start() override;

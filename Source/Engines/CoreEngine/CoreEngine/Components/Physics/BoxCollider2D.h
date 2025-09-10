@@ -11,7 +11,7 @@ namespace ENGINE_NAMESPACE
 {
     class BoxCollider2D : public Collider2D
     {
-        DERIVED_COMPONENT(BoxCollider2D, Collider2D, 5)
+        BASE_SELECTION(BoxCollider2D, Collider2D, 5)
 
     public:
         void Awake() override;

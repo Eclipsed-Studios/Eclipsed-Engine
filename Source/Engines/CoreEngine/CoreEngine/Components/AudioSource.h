@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Component.h"
+#include "Components/Base/BaseComponent.h"
+
 #include "ECS/ComponentManager.h"
 
 #include <Math/Vector/Vector2.h>
@@ -20,7 +21,7 @@ namespace ENGINE_NAMESPACE
 
 	class AudioSource : public Component
 	{
-		BASE_COMPONENT(AudioSource, 0)
+		BASE_SELECTION(AudioSource, 0)
 
 	public:
 		void SetAudioClip(const char* aPath);

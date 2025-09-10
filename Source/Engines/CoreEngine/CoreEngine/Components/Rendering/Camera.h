@@ -1,15 +1,15 @@
 #pragma once
 
+#include "Components/Base/BaseComponent.h"
+
 #include "Math/Math.h"
 #include "ECS/ComponentManager.h"
-
-#include "Components/Component.h"
 
 namespace ENGINE_NAMESPACE
 {
     class Camera : public Component
     {
-        BASE_COMPONENT(Camera, 100)
+        BASE_SELECTION(Camera, 100)
 
     public:
         void Awake() override;

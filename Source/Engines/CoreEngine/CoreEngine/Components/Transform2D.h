@@ -1,5 +1,7 @@
 #pragma once
-#include "Component.h"
+
+#include "Base/BaseComponent.h"
+
 #include "ECS/ComponentManager.h"
 
 #include <Math/Vector/Vector2.h>
@@ -11,7 +13,7 @@ namespace ENGINE_NAMESPACE
 {
 	class Transform2D : public Component
 	{
-		BASE_COMPONENT(Transform2D, UINT_MAX)
+		BASE_SELECTION(Transform2D, UINT_MAX)
 
 	public:
 		void Update() override;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "components/Component.h"
+#include "Components/Base/Component.h"
 
 namespace ENGINE_NAMESPACE
 {
@@ -13,7 +13,7 @@ namespace ENGINE_NAMESPACE
     private:
         class RigidBody2D* myRigidBody = nullptr;
         class Transform2D* myTransform = nullptr;
-        class Player* myPlayer;
+        class Player* myPlayer = nullptr;
 
         const float Run_Multiplier = 1.4f;
         float myMovementSpeed = 0.4f;

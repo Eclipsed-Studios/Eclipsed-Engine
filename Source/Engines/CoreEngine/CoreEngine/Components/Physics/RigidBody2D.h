@@ -1,8 +1,9 @@
 #pragma once
 
+#include "Components/Base/BaseComponent.h"
+
 #include "Math/Vector/Vector2.h"
 
-#include "../Component.h"
 #include "ECS/ComponentManager.h"
 
 #include "box2d/id.h"
@@ -13,7 +14,7 @@ namespace ENGINE_NAMESPACE
 {
     class RigidBody2D : public Component
     {
-        BASE_COMPONENT(RigidBody2D, 10)
+        BASE_SELECTION(RigidBody2D, 10)
 
     public:
         friend class Collider2D;

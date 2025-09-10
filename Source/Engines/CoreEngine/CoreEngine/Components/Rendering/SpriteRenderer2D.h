@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Components/Base/BaseComponent.h"
+
 #include <string>
 #include "ECS/ComponentManager.h"
-
-#include "Components/Component.h"
 
 #include "../GraphicsEngine/Sprite.h"
 
@@ -38,7 +38,7 @@ namespace ENGINE_NAMESPACE
 
     class SpriteRenderer2D : public Component
     {
-        BASE_COMPONENT(SpriteRenderer2D, 0)
+        BASE_SELECTION(SpriteRenderer2D, 0)
 
     public:
         void Awake() override;

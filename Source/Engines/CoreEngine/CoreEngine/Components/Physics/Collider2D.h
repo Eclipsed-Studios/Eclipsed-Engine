@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Components/Component.h"
+#include "Components/Base/BaseComponent.h"
 
 #include "box2d/id.h"
 #include "PhysicsEngineSettings.h"
@@ -11,7 +11,7 @@ namespace ENGINE_NAMESPACE
 {
     class Collider2D : public Component
     {
-        BASE_BASE_COMPONENT(Collider2D)
+        BASE_SELECTION(Collider2D)
 
     public:
         //~Collider2D();
