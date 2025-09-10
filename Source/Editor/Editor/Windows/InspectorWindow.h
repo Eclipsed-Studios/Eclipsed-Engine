@@ -1,19 +1,12 @@
 #pragma once
 
-#include "Window.h"
-
-#include "Components/Transform2D.h"
-#include "Components/Rendering/SpriteRenderer2D.h"
-#include "Components/Rendering/SpriteSheetAnimator.h"
-#include "Components/AudioSource.h"
-
-#include "ImGui/imgui.h"
+#include "WindowBase.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {
 	class InspectorWindow final : public AbstractWindow
 	{
-		BASE_WINDOW(InspectorWindow, "Inspector");
+		BASE_SELECTION(InspectorWindow, "Inspector", "GRiann/SimonIsShit");
 
 	public:
 		void Update() override;

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Window.h"
+#include "WindowBase.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {
 	class DebugWindow final : public AbstractWindow 
 	{
-		BASE_WINDOW(DebugWindow, "Debug")
+		BASE_SELECTION(DebugWindow, "Debug")
 	};
 }

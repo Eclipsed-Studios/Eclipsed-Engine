@@ -17,6 +17,7 @@
 
 #include "Math/Math.h"
 
+#include <fstream>
 #include <rapidjson/rapidjson/stringbuffer.h>
 #include <rapidjson/rapidjson/prettywriter.h>
 

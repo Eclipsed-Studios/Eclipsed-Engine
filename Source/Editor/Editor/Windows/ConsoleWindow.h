@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Window.h"
+#include "WindowBase.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {
-	class ConsoleWindow final : public AbstractWindow {
-		BASE_WINDOW(ConsoleWindow, "Console")
+	class ConsoleWindow final : public AbstractWindow 
+	{
+		BASE_SELECTION(ConsoleWindow, "Console")
 
 	public:
 		void Update() override;

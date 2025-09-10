@@ -10,6 +10,7 @@
 #include "rapidjson/rapidjson/writer.h"
 #include "rapidjson/rapidjson/stringbuffer.h"
 #include "rapidjson/rapidjson/filewritestream.h"
+#include <fstream>
 
 namespace ENGINE_NAMESPACE::Editor
 {
@@ -27,9 +28,33 @@ namespace ENGINE_NAMESPACE::Editor
 		{
 			if (ImGui::BeginMenu("Windows"))
 			{
-				for (const auto& [name, _] : WindowRegistry::GetWindows())
+				for (const auto& [name, window] : WindowRegistry::GetWindows())
 				{
-					if (ImGui::MenuItem(name.c_str())) OpenWindow(name.c_str(), -1);
+					if (!window->GetCategoryName())
+					{
+						if (ImGui::MenuItem(name.c_str())) OpenWindow(name.c_str(), -1);
+					}
+					else
+					{
+						std::string fullCategory = window->GetCategoryName();
+
+						std::vector<std::string> categories = {};
+						while (!fullCategory.empty())
+						{
+							size_t idx = fullCategory.find_first_of('/');
+							std::string category = fullCategory.substr(0, idx);
+
+							if (!category.empty())
+								categories.push_back(category);
+
+							if (idx == std::string::npos)
+								break;
+
+							fullCategory.erase(0, idx + 1);
+						}
+
+						AddWindowToCategory(categories, 0, name);
+					}
 				}
 
 				ImGui::EndMenu();
@@ -86,7 +111,7 @@ namespace ENGINE_NAMESPACE::Editor
 
 		std::ifstream ifs(SETTINGS_PATH"editor.json");
 		if (!ifs.is_open()) {
-			
+
 		}
 
 		std::string jsonString((std::istreambuf_iterator<char>(ifs)),
@@ -149,6 +174,28 @@ namespace ENGINE_NAMESPACE::Editor
 		std::ofstream ofs(SETTINGS_PATH"editor.json");
 		ofs << buffer.GetString();
 		ofs.close();
+	}
+
+	void WindowManager::AddWindowToCategory(const std::vector<std::string>& categories, size_t idx, const std::string& windowName)
+	{
+		if (idx >= categories.size()) return;
+
+		if (ImGui::BeginMenu(categories[idx].c_str()))
+		{
+			if (idx == categories.size() - 1)
+			{
+				if(ImGui::MenuItem(windowName.c_str()))
+				{
+					OpenWindow(windowName, -1);
+				}
+			}
+			else
+			{
+				AddWindowToCategory(categories, idx + 1, windowName);
+			}
+
+			ImGui::EndMenu();
+		}
 	}
 
 	void WindowManager::DrawDebugInfoWindow()

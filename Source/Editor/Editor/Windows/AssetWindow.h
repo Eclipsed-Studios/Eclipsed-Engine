@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Window.h"
+#include "WindowBase.h"
 
 #include <filesystem>
 
@@ -8,7 +8,7 @@ namespace ENGINE_NAMESPACE::Editor
 {
 	class AssetWindow final : public AbstractWindow
 	{
-		BASE_WINDOW(AssetWindow, "Assets")
+		BASE_SELECTION(AssetWindow, "Assets")
 
 	public:
 		void Open() override;

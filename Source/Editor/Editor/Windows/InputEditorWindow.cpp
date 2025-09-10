@@ -14,6 +14,9 @@
 #include "ImGui/imgui.h"
 
 #include <iostream>
+#include <filesystem>
+
+#include <rapidjson/rapidjson/document.h>
 
 namespace ENGINE_NAMESPACE::Editor
 {

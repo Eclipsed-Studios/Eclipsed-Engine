@@ -24,6 +24,8 @@ namespace ENGINE_NAMESPACE::Editor
 		void Begin();
 		void End();
 
+		void AddWindowToCategory(const std::vector<std::string>& categories, size_t idx, const std::string& windowName);
+
 	private:
 		void DrawDebugInfoWindow();
 

@@ -1,5 +1,4 @@
 #include "InspectorWindow.h"
-
 #include "HierarchyWindow.h"
 
 #include "ECS/ComponentManager.h"
@@ -9,6 +8,13 @@
 #include "Editor/ImGui/ImGui_Impl.h"
 
 #include "Editor/ComponentRegistry.h"
+
+#include "Components/Transform2D.h"
+#include "Components/Rendering/SpriteRenderer2D.h"
+#include "Components/Rendering/SpriteSheetAnimator.h"
+#include "Components/AudioSource.h"
+
+#include "ImGui/imgui.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {
