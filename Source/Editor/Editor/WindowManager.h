@@ -1,11 +1,5 @@
 #pragma once
 
-#include "Windows/ConsoleWindow.h"
-#include "Windows/HierarchyWindow.h"
-#include "Windows/InspectorWindow.h"
-#include "Windows/AssetWindow.h"
-#include "Windows/InputEditorWindow.h"
-
 #include <unordered_map>
 
 #include "WindowRegistry.h"

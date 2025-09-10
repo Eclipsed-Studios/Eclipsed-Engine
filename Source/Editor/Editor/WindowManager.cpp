@@ -12,6 +12,8 @@
 #include "rapidjson/rapidjson/filewritestream.h"
 #include <fstream>
 
+#include "Windows/Window.h"
+
 namespace ENGINE_NAMESPACE::Editor
 {
 	void WindowManager::OpenWindow(const std::string& name, int aId)

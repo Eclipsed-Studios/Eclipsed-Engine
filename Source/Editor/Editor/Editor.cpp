@@ -47,114 +47,11 @@ namespace ENGINE_NAMESPACE::Editor
         ImGui_Impl::NewFrame();
         return beginRet;
     }
-
-    void SaveLayerEditToJSON()
-    {
-        std::string filePath = ASSET_PATH"CollisionLayers.json";
-        rapidjson::Document document;
-        document.SetObject();
-
-        auto allocator = document.GetAllocator();
-
-        rapidjson::Value layers(rapidjson::kArrayType);
-
-        for (int layer : PhysicsEngine::myCollisionLayers)
-            layers.PushBack(layer, allocator);
-
-        document.AddMember("Layer", layers, allocator);
-
-        rapidjson::StringBuffer buffer;
-        rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
-        document.Accept(writer);
-
-        std::ofstream ofs(filePath);
-        ofs << buffer.GetString();
-        ofs.close();
-    }
     
-
-
-
-    // Move to it own window you dummy austrian dude
-    void DrawLayerEdit()
-    {
-        ImGui::Begin("Layers");
-
-        int collisionLayerCount = layerCount;
-
-        ImGuiTableColumnFlags columnFlags = ImGuiTableColumnFlags_AngledHeader | ImGuiTableColumnFlags_WidthFixed;
-        ImGuiTableFlags tableFlags = ImGuiTableFlags_HighlightHoveredColumn | ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit;
-
-        int columnCount = collisionLayerCount + 2;
-        if (ImGui::BeginTable("CollisionLayers", columnCount, tableFlags))
-        {
-            ImGui::TableSetupColumn("Layers", ImGuiTableColumnFlags_NoHide | ImGuiTableColumnFlags_NoReorder);
-            for (int i = columnCount - 2; i >= 0; i--)
-            {
-                ImGui::TableSetupColumn(GetCollisionLayerAsName(static_cast<Layer>(1 << i)).c_str(), columnFlags);
-            }
-
-            ImGui::PushID(7834768345);
-            ImGui::TableAngledHeadersRow();
-            ImGui::PopID();
-
-            ImGui::PushID(78347688345);
-            ImGui::TableHeadersRow();
-            ImGui::PopID();
-
-            int totalID = 0;
-            for (int i = 0; i < collisionLayerCount; ++i)
-            {
-                totalID++;
-                std::string collisionName = GetCollisionLayerAsName(static_cast<Layer>(1 << i));
-
-                ImGui::TableNextRow();
-                ImGui::TableSetColumnIndex(0);
-                ImGui::Text("%s", collisionName.c_str());
-
-                for (int j = 0; j < collisionLayerCount - i; j++)
-                {
-                    ImGui::TableNextColumn();
-
-                    totalID++;
-                    int hasLayer = PhysicsEngine::myCollisionLayers[i] & (1 << (collisionLayerCount - 1 - j));
-
-                    bool hasLayerBool = static_cast<bool>(hasLayer);
-
-                    ImGui::PushID(totalID);
-                    ImGui::SetNextItemWidth(10);
-                    if (ImGui::Checkbox("", &hasLayerBool))
-                    {
-                        if (hasLayerBool)
-                        {
-                            PhysicsEngine::myCollisionLayers[collisionLayerCount - 1 - j] |= (1 << i);
-                            PhysicsEngine::myCollisionLayers[i] |= (1 << (collisionLayerCount - 1 - j));
-                        }
-                        else
-                        {
-                            PhysicsEngine::myCollisionLayers[collisionLayerCount - 1 - j] &= ~(1 << i);
-                            PhysicsEngine::myCollisionLayers[i] &= ~(1 << (collisionLayerCount - 1 - j));
-                        }
-
-                        SaveLayerEditToJSON();
-                    }
-                    ImGui::PopID();
-                }
-            }
-
-            ImGui::EndTable();
-        }
-
-        ImGui::End();
-        //ImGui::PopStyleVar();
-    }
-
     void EditorContext::Update()
     {
         myWindowManager.Update();
         Engine::Update();
-
-        DrawLayerEdit();
 
         ImGui::Begin("Test collision showing");
         ImGui::Checkbox("Draw Physics Debug Lines##DrawAnyPhysicsDebugLines", &PhysicsEngine::GetDebugDraw());
@@ -189,16 +86,6 @@ namespace ENGINE_NAMESPACE::Editor
     {
         MetaFileRegistry::Save();
         myWindowManager.End();
-        //Utilities::BlackBoard& engineSettings = SettingsManager::GetSettings();
-
-        //engineSettings.Add<std::string>("GameName", "Template_v.0.0.1");
-        //engineSettings.Add<std::string>("GameTitle", "Template");
-
-        //engineSettings.Add<Math::Vector2i>("Resolution", { 1280, 720 });
-        //engineSettings.Add<bool>("Fullscreen", false);
-        //engineSettings.Add<int>("NumberOfRenderBuffer", 0);
-
-
         SettingsManager::Save();
     }
 }
