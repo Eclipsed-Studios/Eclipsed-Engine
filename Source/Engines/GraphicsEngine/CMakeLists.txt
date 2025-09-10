@@ -10,6 +10,8 @@ file(GLOB_RECURSE GRAPHICSENGINE_SOURCES
 
 add_library(GraphicsEngine STATIC ${GRAPHICSENGINE_SOURCES})
 
+target_precompile_headers(GraphicsEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
+
 target_compile_definitions(GraphicsEngine PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 
 # Include Directories

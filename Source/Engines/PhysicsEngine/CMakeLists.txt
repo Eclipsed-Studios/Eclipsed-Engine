@@ -7,9 +7,12 @@ file(GLOB_RECURSE PHYSENGINE_SOURCES
     "${PHYSENGINE_ROOT}/*.h"
     "${PHYSENGINE_ROOT}/*.hpp"
     "${PHYSENGINE_ROOT}/*.inl"
+    "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
 )
 
 add_library(PhysicsEngine STATIC ${PHYSENGINE_SOURCES})
+
+target_precompile_headers(PhysicsEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 target_include_directories(PhysicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/)
 

@@ -3,7 +3,9 @@
 #include <vector>
 #include <unordered_map>
 
-#include "Math/Color.h"
+#include "Math/Math.h"
+
+#include "ImGui/ImGui/imgui.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {

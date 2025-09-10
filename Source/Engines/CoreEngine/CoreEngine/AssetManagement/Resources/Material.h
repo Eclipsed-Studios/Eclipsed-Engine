@@ -5,16 +5,16 @@
 
 namespace ENGINE_NAMESPACE
 {
-	class Material : public AbstractResource
-	{
-		BASE_RESOURCE(Material)
+	// class Material : public AbstractResource
+	// {
+	// 	BASE_RESOURCE(Material)
 
-	public:
-		const Math::Color& GetColor();
+	// public:
+	// 	const Math::Color& GetColor();
 
 
 
-	private:
-		Math::Color myColor;
-	};
+	// private:
+	// 	Math::Color myColor;
+	// };
 }

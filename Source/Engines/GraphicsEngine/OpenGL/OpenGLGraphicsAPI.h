@@ -7,6 +7,8 @@
 
 #include "UniformVariableManager.h"
 
+#undef CreateWindow
+
 struct GLFWwindow;
 
 namespace ENGINE_NAMESPACE
@@ -27,6 +29,8 @@ namespace ENGINE_NAMESPACE
 		static void UpdateGlobalUniform(UniformType aType, const std::string& aUniformName, void* aValue);
 
 		static void SetGlobalUniforms(unsigned aShaderProgram);
+
+		static void BindTexture(int aGLType, unsigned aTextureID);
 
 	private:
 		static inline GLFWwindow* myWindow;

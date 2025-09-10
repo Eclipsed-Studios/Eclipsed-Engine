@@ -44,7 +44,7 @@ namespace ENGINE_NAMESPACE
 		myShader->Use();
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
+		GraphicsEngine::BindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
 
 		unsigned shaderID = myShader->GetProgramID();
 

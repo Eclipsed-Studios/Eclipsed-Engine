@@ -28,24 +28,23 @@ namespace ENGINE_NAMESPACE::Editor
         ImGuiTableFlags tableFlags = ImGuiTableFlags_HighlightHoveredColumn | ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit;
 
         int columnCount = collisionLayerCount + 1;
-        if (ImGui::BeginTable("CollisionLayers", columnCount, tableFlags))
+        if (ImGui::BeginTable("CollisionLayers", columnCount + 2, tableFlags))
         {
+            // Not visible without table headersrow
             ImGui::TableSetupColumn("Layers", ImGuiTableColumnFlags_NoHide | ImGuiTableColumnFlags_NoReorder);
-            for (int i = columnCount - 2; i >= 0; i--)
-            {
+            for (int i = columnCount - 1; i >= 0; i--)
                 ImGui::TableSetupColumn(GetCollisionLayerAsName(static_cast<Layer>(1 << i)).c_str(), columnFlags);
-            }
 
             ImGui::PushID(7834768345);
             ImGui::TableAngledHeadersRow();
             ImGui::PopID();
 
-            ImGui::PushID(78347688345);
-            ImGui::TableHeadersRow();
-            ImGui::PopID();
+            // ImGui::PushID(78347688345);
+            // ImGui::TableHeadersRow();
+            // ImGui::PopID();
 
             int totalID = 0;
-            for (int i = 0; i < collisionLayerCount; ++i)
+            for (int i = 0; i < columnCount; ++i)
             {
                 totalID++;
                 std::string collisionName = GetCollisionLayerAsName(static_cast<Layer>(1 << i));
@@ -54,7 +53,7 @@ namespace ENGINE_NAMESPACE::Editor
                 ImGui::TableSetColumnIndex(0);
                 ImGui::Text("%s", collisionName.c_str());
 
-                for (int j = 0; j < collisionLayerCount - i; j++)
+                for (int j = 0; j < columnCount - i; j++)
                 {
                     ImGui::TableNextColumn();
 

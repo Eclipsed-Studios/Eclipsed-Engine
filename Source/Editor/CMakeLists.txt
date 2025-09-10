@@ -13,11 +13,12 @@ file(GLOB_RECURSE EDITOR_SOURCES
     "${EDITOR_ROOT}/*.h"
     "${EDITOR_ROOT}/*.hpp"
     "${EDITOR_ROOT}/*.inl"
+    "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
 )
 
-
-
 add_executable(Editor ${EDITOR_SOURCES})
+
+target_precompile_headers(Editor PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 target_include_directories(Editor PUBLIC ${OPENGL_SOURCES})
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)

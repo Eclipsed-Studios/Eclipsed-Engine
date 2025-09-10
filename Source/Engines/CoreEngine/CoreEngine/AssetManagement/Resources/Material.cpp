@@ -3,8 +3,8 @@
 
 namespace ENGINE_NAMESPACE
 {
-	const Math::Color& ENGINE_NAMESPACE::Material::GetColor()
-	{
-		return myColor;
-	}
+	// const Math::Color& ENGINE_NAMESPACE::Material::GetColor()
+	// {
+	// 	return myColor;
+	// }
 }

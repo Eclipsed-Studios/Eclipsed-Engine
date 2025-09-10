@@ -7,9 +7,12 @@ file(GLOB_RECURSE UTILITIES_SOURCES
     "${UTILITIES_ROOT}/*.h"
     "${UTILITIES_ROOT}/*.hpp"
     "${UTILITIES_ROOT}/*.inl"
+    "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
 )
 
 add_library(Utilities STATIC ${UTILITIES_SOURCES})
+
+target_precompile_headers(Utilities PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 target_include_directories(Utilities PUBLIC "${UTILITIES_ROOT}")
 target_include_directories(Utilities PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)

@@ -1,3 +1,5 @@
+#pragma once
+
 // File: 'fa-regular-400.ttf' (68004 bytes)
 // Exported using binary_to_compressed_c.cpp
 static const char FontAwesomeRegular_compressed_data_base85[46840+1] =

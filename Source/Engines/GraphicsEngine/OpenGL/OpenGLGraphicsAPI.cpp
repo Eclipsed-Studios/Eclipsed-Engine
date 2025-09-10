@@ -15,6 +15,8 @@
 
 #include "DebugDrawers/DebugDrawer.h"
 
+#undef CreateWindow
+
 namespace ENGINE_NAMESPACE
 {
     void SetWindowDimenstion()
@@ -58,12 +60,12 @@ namespace ENGINE_NAMESPACE
 
         myWindow = glfwCreateWindow(width, height, gameTitle, nullptr, nullptr);
         SetWindowDimenstion();
-        
+
         if (!myWindow)
-        return ErrorCode::GLFW_WINDOW_FAILED_TO_CREATE;
-        
+            return ErrorCode::GLFW_WINDOW_FAILED_TO_CREATE;
+
         // Set context to current context
-        
+
         glfwMakeContextCurrent(myWindow);
 
         Utilities::MainSingleton::RegisterInstance<GLFWwindow*>() = myWindow;
@@ -213,5 +215,10 @@ namespace ENGINE_NAMESPACE
         case UniformType::Matrix3x3f: myUniformManager.UpdateMat3x3(aUniformName, (float*)aValue); return;
         case UniformType::Matrix4x4f: myUniformManager.UpdateMat4x4(aUniformName, (float*)aValue); return;
         }
+    }
+
+    void GraphicsEngine::BindTexture(int aGLType, unsigned aTextureID)
+    {
+        glBindTexture(aGLType, aTextureID);
     }
 }

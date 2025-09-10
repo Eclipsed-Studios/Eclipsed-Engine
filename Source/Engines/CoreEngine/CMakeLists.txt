@@ -17,11 +17,12 @@ file(GLOB_RECURSE COREENGINE_SOURCES
     "${COREENGINE_ROOT}/*.h"
     "${COREENGINE_ROOT}/*.hpp"
     "${COREENGINE_ROOT}/*.inl"
+    "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
 )
 
 add_library(CoreEngine STATIC ${COREENGINE_SOURCES})
 
-
+target_precompile_headers(CoreEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 target_compile_definitions(CoreEngine PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 

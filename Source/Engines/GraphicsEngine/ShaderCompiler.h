@@ -1,3 +1,5 @@
+#pragma once
+
 #include "glad/glad.h"
 
 namespace ENGINE_NAMESPACE

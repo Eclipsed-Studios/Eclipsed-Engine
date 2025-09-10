@@ -149,7 +149,7 @@ namespace ENGINE_NAMESPACE::Editor
 		case Keycode::INSERT: return "Insert";
 		case Keycode::HOME: return "Home";
 		case Keycode::PG_UP: return "PageUp";
-		case Keycode::DELETE: return "Delete";
+		case Keycode::DELETE_KEY: return "Delete";
 		case Keycode::END: return "End";
 		case Keycode::PG_DOWN: return "PageDown";
 

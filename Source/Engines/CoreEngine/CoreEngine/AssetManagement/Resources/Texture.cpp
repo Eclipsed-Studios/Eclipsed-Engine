@@ -2,13 +2,13 @@
 
 namespace ENGINE_NAMESPACE
 {
-	void Texture::Bind()
-	{
+	// void Texture::Bind()
+	// {
 
-	}
+	// }
 
-	unsigned Texture::GetTextureID()
-	{
-		return textureID;
-	}
+	// unsigned Texture::GetTextureID()
+	// {
+	// 	return textureID;
+	// }
 }

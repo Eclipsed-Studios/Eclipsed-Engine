@@ -47,7 +47,7 @@ namespace ENGINE_NAMESPACE
 			INSERT = 260,
 			HOME = 268,
 			PG_UP = 266,
-			DELETE = 261,
+			DELETE_KEY = 261,
 			END = 269,
 			PG_DOWN = 267,
 
@@ -151,7 +151,7 @@ namespace ENGINE_NAMESPACE
 			case INSERT: return "INSERT";
 			case HOME: return "HOME";
 			case PG_UP: return "PG_UP";
-			case DELETE: return "DELETE";
+			case DELETE_KEY: return "DELETE";
 			case END: return "END";
 			case PG_DOWN: return "PG_DOWN";
 			case LEFT: return "LEFT";
