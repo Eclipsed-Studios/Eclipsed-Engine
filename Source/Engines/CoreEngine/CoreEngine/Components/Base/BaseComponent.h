@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Editor/ComponentRegistry.h"
+#include "ECS/ComponentManager.h"
+
 #include "defines.h"
 #include "Component.h"
 
@@ -40,7 +43,7 @@ struct AutoRegister {																				\
 		ComponentRegistry::RegisterComponent(stringify(type), REGISTER_COMPONENT_CALLBACK(type));	\
 	}																								\
 };																									\
-static inline AutoRegister _register = {};
+AutoRegister _register = {};
 
 
 #define COMPONENT_BASE_3(type, derivedType, updatePriority)				\

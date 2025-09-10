@@ -71,7 +71,11 @@ namespace ENGINE_NAMESPACE::Editor
         ofs << buffer.GetString();
         ofs.close();
     }
+    
 
+
+
+    // Move to it own window you dummy austrian dude
     void DrawLayerEdit()
     {
         ImGui::Begin("Layers");
@@ -85,9 +89,9 @@ namespace ENGINE_NAMESPACE::Editor
         if (ImGui::BeginTable("CollisionLayers", columnCount, tableFlags))
         {
             ImGui::TableSetupColumn("Layers", ImGuiTableColumnFlags_NoHide | ImGuiTableColumnFlags_NoReorder);
-            for (int n = 1; n < columnCount - 1; n++)
+            for (int i = columnCount - 2; i >= 0; i--)
             {
-                ImGui::TableSetupColumn(GetCollisionLayerAsName(static_cast<Layer>(1 << n)).c_str(), columnFlags);
+                ImGui::TableSetupColumn(GetCollisionLayerAsName(static_cast<Layer>(1 << i)).c_str(), columnFlags);
             }
 
             ImGui::PushID(7834768345);

@@ -1,11 +1,13 @@
 #pragma once
 
-#include "Components/Base/Component.h"
+#include "Components/Base/BaseComponent.h"
 
 namespace ENGINE_NAMESPACE
 {
     class PlayerMovement : public Component
     {
+        BASE_SELECTION(PlayerMovement, 0)
+
     public:
         void Awake() override;
         void Update() override;
