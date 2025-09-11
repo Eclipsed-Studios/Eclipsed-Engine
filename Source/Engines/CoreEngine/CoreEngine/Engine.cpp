@@ -18,6 +18,7 @@
 #include "Audio/AudioManager.h"
 
 #include <iostream>
+#include "Editor/Reflection/Reflection.h"
 
 namespace ENGINE_NAMESPACE
 {
@@ -58,6 +59,7 @@ namespace ENGINE_NAMESPACE
 
 		Utilities::MainSingleton::Init();
 	}
+
 
 	bool Engine::BeginFrame()
 	{

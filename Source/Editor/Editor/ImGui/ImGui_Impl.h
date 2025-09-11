@@ -57,10 +57,6 @@ namespace ENGINE_NAMESPACE::Editor
             ImGui::RenderPlatformWindowsDefault();
         }
 
-
-
-
-
         // Tools
         inline void DrawComponentHeader(const char* compName, bool& isDrawn, const float values = 0, ImGuiStyleVar styleFlags = ImGuiStyleVar_FrameRounding)
         {

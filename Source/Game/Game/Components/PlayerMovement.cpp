@@ -20,6 +20,8 @@ namespace ENGINE_NAMESPACE
 
 	void PlayerMovement::Update()
 	{
+		if (!myPlayer) return;
+
 		if (myPlayer->myState == Player::States::Duck) return;
 
 		const int moveDirection = myPlayer->myMoveDirection;

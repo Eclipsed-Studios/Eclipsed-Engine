@@ -6,12 +6,7 @@
 #include "defines.h"
 #include "Editor/ComponentRegistry.h"
 
-/*#define BASE_COMPONENT(type) BASE_COMPONENT(type, 0)
-
-#define BASE_COMPONENT(type, updatePriority)                                            \
-inline type() : Component(stringify(type), updatePriority) {}                           \
-inline ~type() = default;      */
-
+#include "Editor/Reflection/Reflection.h"
 
 namespace ENGINE_NAMESPACE::Editor
 {
@@ -51,7 +46,7 @@ namespace ENGINE_NAMESPACE
 		virtual void OnDrawGizmos() {}
 
 	protected:
-		virtual void DrawInspector() {};
+		virtual void DrawInspector() { Reflection::DrawInspector(this); };
 		virtual const char* GetComponentName() { return "Component"; }
 
 	public:
