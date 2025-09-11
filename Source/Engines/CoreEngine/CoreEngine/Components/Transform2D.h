@@ -9,7 +9,7 @@
 #include <vector>
 #include <functional>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class Transform2D : public Component
 	{

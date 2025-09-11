@@ -3,7 +3,7 @@
 #include "rapidjson/rapidjson/prettywriter.h"
 #include <fstream>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void MetaFileRegistry::Load()
 	{

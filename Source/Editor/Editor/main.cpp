@@ -11,7 +11,7 @@
 #include "IconsFontAwesome6.h"
 #include "FontAwesomeRegular.h"
 
-using namespace ENGINE_NAMESPACE;
+using namespace Eclipse;
 
 int main(int argsCount, char* args[])
 {

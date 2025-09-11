@@ -6,7 +6,7 @@
 
 #include "rapidjson/rapidjson/document.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class SceneLoader
 	{

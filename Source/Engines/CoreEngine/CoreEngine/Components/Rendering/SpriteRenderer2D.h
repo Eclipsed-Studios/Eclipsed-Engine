@@ -12,7 +12,7 @@
 
 #include "Math/Vector/Vector2.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class Material
     {

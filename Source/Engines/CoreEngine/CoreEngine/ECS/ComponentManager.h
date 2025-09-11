@@ -13,7 +13,7 @@ ComponentManager::GetComponent<##Type>(GOID)
 
 #define MAX_COMPONENT_MEMORY_BYTES 100'000
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	namespace Editor {
 		class HierarchyWindow;

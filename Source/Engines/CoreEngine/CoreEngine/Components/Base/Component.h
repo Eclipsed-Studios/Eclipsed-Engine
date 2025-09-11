@@ -8,12 +8,12 @@
 
 #include "Editor/Reflection/Reflection.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	class InspectorWindow;
 }
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	typedef unsigned RegisteredTypeIndex;
 	typedef unsigned GameObject;

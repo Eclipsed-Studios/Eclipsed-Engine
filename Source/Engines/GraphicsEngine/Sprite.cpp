@@ -2,7 +2,7 @@
 
 #include "glad/glad.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     void Sprite::Init()
     {

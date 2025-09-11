@@ -14,6 +14,7 @@
 #include "Components/UI/Button.h"
 
 #include "Components/PlayerMovement.h"
+#include "Components/PlayerCamera.h"
 
 #include "ECS/ComponentManager.h"
 #include "MainSingleton.h"
@@ -26,36 +27,38 @@
 
 #include "AssetManagement/Resources/SpriteSheetAnimation.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void Game::Init()
 	{
+		int playerGO = 1;
+
 		// Player
 		{
 			Material* matrial = new Material();
 			matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster.png");
 
-			int go = 1;
-			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
-			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
+
+			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(playerGO);
+			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(playerGO);
 			transform->SetScale(8.f, 8.f);
 
-			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
+			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(playerGO);
 			boxCollider->SetScale(Math::Vector2f(0.5f, 1.f));
 			boxCollider->myLayer = Layer::Player;
 
-			AudioSource* audio = ComponentManager::AddComponent<AudioSource>(go);
+			AudioSource* audio = ComponentManager::AddComponent<AudioSource>(playerGO);
 			//audio->SetAudioClip(ASSET_PATH "Sounds/peak.mp3");
 
-			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(go);
+			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(playerGO);
 			rb->SetRotationLocked(true);
 
-			ComponentManager::AddComponent<Player>(go);
-			ComponentManager::AddComponent<PlayerMovement>(go);
+			ComponentManager::AddComponent<Player>(playerGO);
+			ComponentManager::AddComponent<PlayerMovement>(playerGO);
 
 			rend->SetMaterial(matrial);
 
-			SpriteSheetAnimator2D* animation = ComponentManager::AddComponent<SpriteSheetAnimator2D>(go);
+			SpriteSheetAnimator2D* animation = ComponentManager::AddComponent<SpriteSheetAnimator2D>(playerGO);
 
 			//ResourcePointer<SpriteSheetAnimation> anim = Resources::Get<SpriteSheetAnimation>(ASSET_PATH "Sprites/DefaultAnimation.json");
 
@@ -129,6 +132,9 @@ namespace ENGINE_NAMESPACE
 			transform->SetPosition(0.f, 0.f);
 
 			ComponentManager::AddComponent<Camera>(go);
+
+			PlayerCamera* playerCamera = ComponentManager::AddComponent<PlayerCamera>(go);
+			playerCamera->myPlayerGO = playerGO;
 		}
 	}
 

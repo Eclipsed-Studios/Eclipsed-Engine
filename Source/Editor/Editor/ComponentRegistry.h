@@ -7,7 +7,7 @@
 //#include "ECS/ComponentManager.h"
 
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	class ComponentRegistry 
 	{

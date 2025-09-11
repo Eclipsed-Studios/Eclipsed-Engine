@@ -4,7 +4,7 @@
 #include <string>
 #include "Editor/Reflection/ReflectionDefines.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class PlayerMovement : public Component
 	{

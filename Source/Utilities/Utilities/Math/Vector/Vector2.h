@@ -4,7 +4,7 @@
 
 #include "Interfaces/Serializable.h"
 
-namespace ENGINE_NAMESPACE::Math
+namespace Eclipse::Math
 {
 	template <typename T>
 	class Vector2 final : public ISerializable

@@ -4,7 +4,7 @@
 
 #include <filesystem>
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	class AssetWindow final : public AbstractWindow
 	{

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ENGINE_NAMESPACE::PlatformIntegration
+namespace Eclipse::PlatformIntegration
 {
 	class IntegrationManager
 	{

@@ -7,7 +7,7 @@
 #include "defines.h"
 #include "Editor/WindowRegistry.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	class AbstractWindow
 	{

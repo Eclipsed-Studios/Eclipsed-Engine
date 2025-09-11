@@ -10,7 +10,7 @@
 #include <fstream>
 #include <filesystem>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     void ShaderCompiler::CompileShaderFromMemory(const char *aShaderSource, unsigned &aShaderID, ShaderType aShaderType)
     {

@@ -9,7 +9,7 @@
 #include "PhysicsEngine.h"
 #include "Input/InputMapper.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void PlayerMovement::Awake()
 	{

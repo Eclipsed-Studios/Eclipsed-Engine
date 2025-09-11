@@ -3,7 +3,7 @@
 
 #include "TemporarySettingsSingleton.h"
 
-using namespace ENGINE_NAMESPACE;
+using namespace Eclipse;
 
 void PhysicsDebugDrawer::DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)
 {

@@ -6,7 +6,7 @@
 #include "Keycodes.h"
 
 struct GLFWwindow;
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 #define MAX_KEYS 512
 

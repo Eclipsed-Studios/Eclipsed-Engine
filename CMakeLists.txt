@@ -12,8 +12,6 @@ add_compile_definitions(ENGINE_ASSETS_PATH=\"${CMAKE_SOURCE_DIR}/EngineAssets/\"
 add_compile_definitions(ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 add_compile_definitions(SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/\")
 
-add_compile_definitions(ENGINE_NAMESPACE=TEMPLATE)
-
 add_subdirectory(Source/Externals/DiscordSDK)
 add_subdirectory(Source/Externals/fmod)
 add_subdirectory(Source/Externals/rapidjson)

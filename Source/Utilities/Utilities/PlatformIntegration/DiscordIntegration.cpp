@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-namespace ENGINE_NAMESPACE::PlatformIntegration
+namespace Eclipse::PlatformIntegration
 {
 	discord::Activity* Discord::activity = {};
 	discord::Core* Discord::core = {};

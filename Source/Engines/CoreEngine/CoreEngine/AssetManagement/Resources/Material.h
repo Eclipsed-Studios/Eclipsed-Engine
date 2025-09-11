@@ -3,7 +3,7 @@
 #include "Abstract/AbstractResource.h"
 #include "Math/Color.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	// class Material : public AbstractResource
 	// {

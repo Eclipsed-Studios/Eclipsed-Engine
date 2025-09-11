@@ -4,7 +4,7 @@
 
 HELP // Hover this for some help.
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	class TemplateWindow final : public AbstractWindow
 	{

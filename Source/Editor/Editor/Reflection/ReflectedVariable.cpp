@@ -2,7 +2,7 @@
 
 #include "Editor/Reflection/Reflection.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	AbstractReflectedVariable::AbstractReflectedVariable(const std::string& aName, const std::string& aTypeName, Component* aComponent)
 		: myName(aName), myTypeName(aTypeName), pComponent(aComponent), myID(Random::GetValue<unsigned>())

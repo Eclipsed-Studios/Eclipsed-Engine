@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Window.h"	
 
 /**
@@ -22,7 +20,7 @@ public:                                                                         
 private:                                                                            \
     struct AutoRegister {                                                           \
         AutoRegister() {                                                            \
-            ENGINE_NAMESPACE::Editor::WindowRegistry::RegisterWindow<type>(name); \
+            Eclipse::Editor::WindowRegistry::RegisterWindow<type>(name); \
         }                                                                          \
     };                                                                             \
     static inline AutoRegister _register = {};

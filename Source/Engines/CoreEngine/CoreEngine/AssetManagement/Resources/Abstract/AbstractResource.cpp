@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	AbstractResource::AbstractResource(const char* _relativePath, const size_t& _id)
 		: relativePath(_relativePath), id(_id) { }

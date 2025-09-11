@@ -1,6 +1,6 @@
 #include "MainSingleton.h"
 
-namespace ENGINE_NAMESPACE::Utilities
+namespace Eclipse::Utilities
 {
 	std::unordered_map<std::type_index, void *> MainSingleton::mySingletons;
 	bool MainSingleton::myIsInitialized = false;

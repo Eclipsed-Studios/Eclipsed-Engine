@@ -9,7 +9,7 @@
 
 #include "InputAction.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class InputMapper
 	{

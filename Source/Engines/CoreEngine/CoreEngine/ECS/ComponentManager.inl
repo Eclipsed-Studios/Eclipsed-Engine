@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     inline unsigned GetUniqueComponentTypeId()
     {

@@ -2,7 +2,7 @@
 
 #include "DiscordIntegration.h"
 
-namespace ENGINE_NAMESPACE::PlatformIntegration
+namespace Eclipse::PlatformIntegration
 {
 	void IntegrationManager::Update()
 	{

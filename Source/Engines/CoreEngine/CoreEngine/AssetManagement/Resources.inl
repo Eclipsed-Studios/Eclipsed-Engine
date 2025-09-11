@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	template<typename T>
 	inline ResourcePointer<T> Resources::Get(const char* aPath)

@@ -6,7 +6,7 @@
 
 #include "PhysicsEngine.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     //Collider2D::~Collider2D()
     //{

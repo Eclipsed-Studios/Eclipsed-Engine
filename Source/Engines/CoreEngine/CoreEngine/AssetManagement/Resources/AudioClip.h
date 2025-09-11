@@ -7,7 +7,7 @@
 #include "fmod/fmod/fmod.h"
 #include "fmod/fmod/fmod.hpp"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class AudioClip : public AbstractResource
 	{

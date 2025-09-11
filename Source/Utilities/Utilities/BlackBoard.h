@@ -10,7 +10,7 @@
 #include <type_traits>
 #include "Math/Vector/Vector2.h" 
 
-namespace ENGINE_NAMESPACE::Utilities
+namespace Eclipse::Utilities
 {
 	struct BlackBoardValue
 	{

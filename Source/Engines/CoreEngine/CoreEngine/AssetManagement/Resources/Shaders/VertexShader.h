@@ -2,7 +2,7 @@
 
 #include <AssetManagement/Resources/Abstract/AbstractResource.h>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class VertexShader : public AbstractResource
 	{

@@ -4,7 +4,7 @@
 #include <vector>
 #include <unordered_map>
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	enum class MessageTypes
 	{

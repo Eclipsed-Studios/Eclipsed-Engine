@@ -10,7 +10,7 @@
 
 #include "../PhysicsEngine/PhysicsEngineSettings.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class RigidBody2D : public Component
     {

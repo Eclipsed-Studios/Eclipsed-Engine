@@ -7,7 +7,7 @@
 
 #include "ImGui/ImGui/imgui.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	class DragAndDrop
 	{

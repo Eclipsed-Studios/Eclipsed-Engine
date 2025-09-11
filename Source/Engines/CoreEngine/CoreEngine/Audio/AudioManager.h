@@ -5,7 +5,7 @@
 
 #include "AssetManagement/Resources/AudioClip.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class AudioManager
 	{

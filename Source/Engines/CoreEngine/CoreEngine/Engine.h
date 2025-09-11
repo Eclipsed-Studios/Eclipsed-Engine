@@ -2,7 +2,7 @@
 
 #include "Game.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class Engine
 	{

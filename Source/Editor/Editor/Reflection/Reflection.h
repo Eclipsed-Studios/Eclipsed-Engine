@@ -10,7 +10,7 @@
 
 
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class Component;
 	class AbstractReflectedVariable;

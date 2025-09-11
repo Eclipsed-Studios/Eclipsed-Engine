@@ -8,7 +8,7 @@
 #include "rapidjson/rapidjson/filereadstream.h"
 
 #undef min
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 #pragma region PhysicsHelperFunctions
     void PhysicsEngine::Physics::SetLinearVelocity(const b2BodyId& aBodyID, const Math::Vector2f& aVelocity)

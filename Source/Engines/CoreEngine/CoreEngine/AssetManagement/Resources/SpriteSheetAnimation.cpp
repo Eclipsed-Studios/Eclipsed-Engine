@@ -8,7 +8,7 @@
 
 #include <fstream>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	const Math::Rect& SpriteSheetAnimation::GetRect(unsigned aIdx) const
 	{

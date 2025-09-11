@@ -5,7 +5,7 @@
 #include "Math/Math.h"
 #include "ECS/ComponentManager.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class Camera : public Component
     {
@@ -13,7 +13,6 @@ namespace ENGINE_NAMESPACE
 
     public:
         void Awake() override;
-        void Update() override;
 
     protected:
         void DrawInspector() override;

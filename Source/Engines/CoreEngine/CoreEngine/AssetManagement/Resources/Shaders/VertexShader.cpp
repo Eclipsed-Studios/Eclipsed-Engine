@@ -1,6 +1,6 @@
 #include "VertexShader.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     const unsigned& VertexShader::GetVertexShaderID() const
     {

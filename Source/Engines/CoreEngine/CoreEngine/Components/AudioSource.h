@@ -12,7 +12,7 @@
 #include "AssetManagement/ResourcePointer.h"
 #include "AssetManagement/Resources/AudioClip.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	namespace Editor
 	{

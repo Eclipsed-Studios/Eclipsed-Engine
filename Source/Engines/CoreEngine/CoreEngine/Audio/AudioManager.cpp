@@ -3,7 +3,7 @@
 #include "fmod/fmod/fmod.hpp"
 
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void AudioManager::Init() 
 	{

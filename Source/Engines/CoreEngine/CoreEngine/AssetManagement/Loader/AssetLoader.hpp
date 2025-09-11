@@ -12,7 +12,7 @@
 #include <AssetManagement/Resources/Shaders/VertexShader.h>
 #include <AssetManagement/Resources/SpriteSheetAnimation.h>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class AssetLoader
 	{

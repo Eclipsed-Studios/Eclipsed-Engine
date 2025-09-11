@@ -1,7 +1,6 @@
 #include "SettingsWindow.h"
 
 #include "ImGui/imgui.h"
-#include "PhysicsEngine.h"
 #include "PhysicsEngineSettings.h"
 
 #include "Math/Math.h"
@@ -10,7 +9,7 @@
 #include <rapidjson/rapidjson/stringbuffer.h>
 #include <rapidjson/rapidjson/prettywriter.h>
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	void GameSettingsWindow::Update()
 	{
@@ -58,7 +57,7 @@ namespace ENGINE_NAMESPACE::Editor
                     ImGui::TableNextColumn();
 
                     totalID++;
-                    int hasLayer = PhysicsEngine::myCollisionLayers[i] & (1 << (collisionLayerCount - 1 - j));
+                    int hasLayer = myCollisionLayers[i] & (1 << (collisionLayerCount - 1 - j));
 
                     bool hasLayerBool = static_cast<bool>(hasLayer);
 
@@ -68,13 +67,13 @@ namespace ENGINE_NAMESPACE::Editor
                     {
                         if (hasLayerBool)
                         {
-                            PhysicsEngine::myCollisionLayers[collisionLayerCount - 1 - j] |= (1 << i);
-                            PhysicsEngine::myCollisionLayers[i] |= (1 << (collisionLayerCount - 1 - j));
+                            myCollisionLayers[collisionLayerCount - 1 - j] |= (1 << i);
+                            myCollisionLayers[i] |= (1 << (collisionLayerCount - 1 - j));
                         }
                         else
                         {
-                            PhysicsEngine::myCollisionLayers[collisionLayerCount - 1 - j] &= ~(1 << i);
-                            PhysicsEngine::myCollisionLayers[i] &= ~(1 << (collisionLayerCount - 1 - j));
+                            myCollisionLayers[collisionLayerCount - 1 - j] &= ~(1 << i);
+                            myCollisionLayers[i] &= ~(1 << (collisionLayerCount - 1 - j));
                         }
 
                         SaveLayerEditToJSON();
@@ -97,7 +96,7 @@ namespace ENGINE_NAMESPACE::Editor
 
         rapidjson::Value layers(rapidjson::kArrayType);
 
-        for (int layer : PhysicsEngine::myCollisionLayers)
+        for (int layer : myCollisionLayers)
             layers.PushBack(layer, allocator);
 
         document.AddMember("Layer", layers, allocator);

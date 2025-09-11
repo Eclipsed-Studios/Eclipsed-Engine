@@ -16,7 +16,7 @@
 
 #include "ImGui/imgui.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	void InspectorWindow::Update()
 	{

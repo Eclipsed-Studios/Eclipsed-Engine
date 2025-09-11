@@ -4,7 +4,7 @@
 #include "Editor/DragAndDrop.h"
 #include <sstream>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void AudioSource::SetAudioClip(const char* aPath)
 	{

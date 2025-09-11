@@ -6,7 +6,7 @@
 
 struct GLFWwindow;
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
     class EditorContext
     {

@@ -7,7 +7,7 @@
 
 #include "Math/Color.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class DebugDrawer
     {

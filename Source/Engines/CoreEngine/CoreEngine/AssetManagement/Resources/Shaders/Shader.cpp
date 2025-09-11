@@ -3,7 +3,7 @@
 #include "glad/glad.h"
 #include <AssetManagement/Resources.h>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void Shader::Create(const char* aPixelShaderPath, const char* aVertexShaderPath)
 	{

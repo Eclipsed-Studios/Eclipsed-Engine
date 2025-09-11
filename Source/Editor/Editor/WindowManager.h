@@ -4,7 +4,7 @@
 
 #include "WindowRegistry.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	class WindowManager final
 	{

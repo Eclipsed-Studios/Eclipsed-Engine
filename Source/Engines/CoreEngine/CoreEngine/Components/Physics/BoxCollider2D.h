@@ -7,7 +7,7 @@
 
 #include "box2d/id.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class BoxCollider2D : public Collider2D
     {

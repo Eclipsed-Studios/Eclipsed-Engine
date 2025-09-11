@@ -1,6 +1,6 @@
 #include "Input.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	bool Input::GetKey(int aKey)
 	{

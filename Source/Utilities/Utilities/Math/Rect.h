@@ -4,7 +4,7 @@
 
 #include "Interfaces/Serializable.h"
 
-namespace ENGINE_NAMESPACE::Math
+namespace Eclipse::Math
 {
 	class Rect : public ISerializable
 	{

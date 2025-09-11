@@ -1,9 +1,9 @@
 #include "Texture.h"
 #include "Material.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
-	// const Math::Color& ENGINE_NAMESPACE::Material::GetColor()
+	// const Math::Color& Eclipse::Material::GetColor()
 	// {
 	// 	return myColor;
 	// }

@@ -14,7 +14,7 @@
 
 #include "Windows/Window.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	void WindowManager::OpenWindow(const std::string& name, int aId)
 	{

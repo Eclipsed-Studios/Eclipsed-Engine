@@ -9,7 +9,7 @@
 #include <vector>
 #include <functional>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class PhysicsEngine
     {
@@ -55,8 +55,6 @@ namespace ENGINE_NAMESPACE
 
         static inline std::function<void(UserData&)> myBeginContactCallback;
         static inline std::function<void(UserData&)> myEndContactCallback;
-
-        static inline uint64_t myCollisionLayers[MAX_LAYERS] = {};
 
     private:
         static inline b2WorldId myWorld;

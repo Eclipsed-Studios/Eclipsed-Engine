@@ -5,7 +5,7 @@
 
 #include <sstream>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     const Math::Vector2f& Transform2D::GetPosition() const
     {

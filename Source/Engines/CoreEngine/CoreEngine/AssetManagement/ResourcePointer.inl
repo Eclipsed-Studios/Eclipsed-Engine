@@ -2,7 +2,7 @@
 
 #include "Resources.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	template<typename ResourceType>
 	inline ResourcePointer<ResourceType>::ResourcePointer(const size_t& resourceID)

@@ -6,7 +6,7 @@
 
 #include "BitMask.hpp"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	enum PlayerBitmaskIndex {
 		Walking, Running, Jumping, Attacking

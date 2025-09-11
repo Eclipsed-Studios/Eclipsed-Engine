@@ -4,7 +4,7 @@
 
 #include "Abstract/AbstractResource.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	enum TextureWrapMode
 	{

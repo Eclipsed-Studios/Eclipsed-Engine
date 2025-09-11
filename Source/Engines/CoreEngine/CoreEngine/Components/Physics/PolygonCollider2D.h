@@ -7,7 +7,7 @@
 
 #include <vector>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class PolygonCollider2D : public Collider2D
     {

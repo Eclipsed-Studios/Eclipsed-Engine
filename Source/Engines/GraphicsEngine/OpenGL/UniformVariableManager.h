@@ -1,12 +1,12 @@
 #pragma once 
 
-#include <vector>
+#include <unordered_map>
 #include <string>
 
 #include "Math/Math.h"
 
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     enum class UniformType
     {
@@ -45,95 +45,87 @@ namespace ENGINE_NAMESPACE
 
         struct GlobalUniformValueInt
         {
-            std::string uniformName;
             int value;
         };
 
         struct GlobalUniformValueFloat
         {
-            std::string uniformName;
             float value;
         };
 
         struct GlobalUniformValueVector2Float
         {
-            std::string uniformName;
             Math::Vector2f value;
         };
 
         struct GlobalUniformValueVector3Float
         {
-            std::string uniformName;
             Math::Vector4f value;
         };
 
         struct GlobalUniformValueVector4Float
         {
-            std::string uniformName;
             Math::Vector4f value;
         };
 
         struct GlobalUniformValueMatrixMatrix2x2Float
         {
-            std::string uniformName;
             float value[4];
         };
 
         struct GlobalUniformValueMatrixMatrix3x3Float
         {
-            std::string uniformName;
             float value[9];
         };
 
         struct GlobalUniformValueMatrixMatrix4x4Float
         {
-            std::string uniformName;
             float value[16];
         };
 
-        std::vector<GlobalUniformValueInt> myGlobalUniformsInt;
+        std::unordered_map<std::string, GlobalUniformValueInt> myGlobalUniformsInt;
 
-        std::vector<GlobalUniformValueFloat> myGlobalUniformsFloat;
+        std::unordered_map<std::string, GlobalUniformValueFloat> myGlobalUniformsFloat;
 
-        std::vector<GlobalUniformValueVector2Float> myGlobalUniformsVector2Float;
-        std::vector<GlobalUniformValueVector3Float> myGlobalUniformsVector3Float;
-        std::vector<GlobalUniformValueVector4Float> myGlobalUniformsVector4Float;
+        std::unordered_map<std::string, GlobalUniformValueVector2Float> myGlobalUniformsVector2Float;
+        std::unordered_map<std::string, GlobalUniformValueVector3Float> myGlobalUniformsVector3Float;
+        std::unordered_map<std::string, GlobalUniformValueVector4Float> myGlobalUniformsVector4Float;
 
-        std::vector<GlobalUniformValueMatrixMatrix2x2Float> myGlobalUniformsMatrix2x2Float;
-        std::vector<GlobalUniformValueMatrixMatrix3x3Float> myGlobalUniformsMatrix3x3Float;
-        std::vector<GlobalUniformValueMatrixMatrix4x4Float> myGlobalUniformsMatrix4x4Float;
+        std::unordered_map<std::string, GlobalUniformValueMatrixMatrix2x2Float> myGlobalUniformsMatrix2x2Float;
+        std::unordered_map<std::string, GlobalUniformValueMatrixMatrix3x3Float> myGlobalUniformsMatrix3x3Float;
+        std::unordered_map<std::string, GlobalUniformValueMatrixMatrix4x4Float> myGlobalUniformsMatrix4x4Float;
 
         void SetGlobalUniforms(unsigned aShaderProgram);
 
 
-        void AddInt(const std::string& aUniformName, int* aValue) { myGlobalUniformsInt.emplace_back(aUniformName, *aValue); }
+        void AddInt(const std::string& aUniformName, int* aValue) { myGlobalUniformsInt.emplace(aUniformName, *aValue); }
 
-        void AddFloat(const std::string& aUniformName, float* aValue) { myGlobalUniformsFloat.emplace_back(aUniformName, *aValue); }
+        void AddFloat(const std::string& aUniformName, float* aValue) { myGlobalUniformsFloat.emplace(aUniformName, *aValue); }
 
-        void AddVec2Float(const std::string& aUniformName, Math::Vector2f* aValue) { myGlobalUniformsVector2Float.emplace_back(aUniformName, *aValue); }
-        void AddVec3Float(const std::string& aUniformName, Math::Vector4f* aValue) { myGlobalUniformsVector3Float.emplace_back(aUniformName, *aValue); }
-        void AddVec4Float(const std::string& aUniformName, Math::Vector4f* aValue) { myGlobalUniformsVector4Float.emplace_back(aUniformName, *aValue); }
+        void AddVec2Float(const std::string& aUniformName, Math::Vector2f* aValue) { myGlobalUniformsVector2Float.emplace(aUniformName, *aValue); }
+        void AddVec3Float(const std::string& aUniformName, Math::Vector4f* aValue) { myGlobalUniformsVector3Float.emplace(aUniformName, *aValue); }
+        void AddVec4Float(const std::string& aUniformName, Math::Vector4f* aValue) { myGlobalUniformsVector4Float.emplace(aUniformName, *aValue); }
 
         void AddMat2x2(const std::string& aUniformName, float* aValue)
         {
-            myGlobalUniformsMatrix2x2Float.emplace_back(
-                GlobalUniformValueMatrixMatrix2x2Float{ aUniformName,
+            myGlobalUniformsMatrix2x2Float.emplace(aUniformName,
+                GlobalUniformValueMatrixMatrix2x2Float{
                     aValue[0], aValue[1], aValue[2], aValue[3]
                 }
             );
         }
         void AddMat3x3(const std::string& aUniformName, float* aValue)
         {
-            myGlobalUniformsMatrix3x3Float.emplace_back(
-                GlobalUniformValueMatrixMatrix3x3Float{ aUniformName,
+            myGlobalUniformsMatrix3x3Float.emplace(aUniformName,
+                GlobalUniformValueMatrixMatrix3x3Float{
                     aValue[0], aValue[1], aValue[2], aValue[3], aValue[4], aValue[5], aValue[6], aValue[7], aValue[8]
                 }
             );
         }
         void AddMat4x4(const std::string& aUniformName, float* aValue)
         {
-            myGlobalUniformsMatrix4x4Float.emplace_back(
-                GlobalUniformValueMatrixMatrix4x4Float{ aUniformName,
+            myGlobalUniformsMatrix4x4Float.emplace(aUniformName,
+                GlobalUniformValueMatrixMatrix4x4Float{
                     aValue[0], aValue[1], aValue[2], aValue[3], aValue[4], aValue[5], aValue[6], aValue[7],
                     aValue[8], aValue[9], aValue[10], aValue[11], aValue[12], aValue[13], aValue[14], aValue[15]
                 });
@@ -144,110 +136,125 @@ namespace ENGINE_NAMESPACE
 
         void UpdateInt(const std::string& aUniformName, int* aValue)
         {
-            for (auto& value : myGlobalUniformsInt)
-            {
-                if (value.uniformName == aUniformName)
-                {
-                    value.value = *aValue;
-                    return;
-                }
-            }
+            if (myGlobalUniformsInt.find(aUniformName) == myGlobalUniformsInt.end())
+                AddInt(aUniformName, aValue);
 
-            AddInt(aUniformName, aValue);
+            myGlobalUniformsInt.at(aUniformName).value = *aValue;
         }
 
         void UpdateFloat(const std::string& aUniformName, float* aValue)
         {
-            for (auto& value : myGlobalUniformsFloat)
-            {
-                if (value.uniformName == aUniformName)
-                {
-                    value.value = *aValue;
-                    return;
-                }
-            }
+            if (myGlobalUniformsFloat.find(aUniformName) == myGlobalUniformsFloat.end())
+                AddFloat(aUniformName, aValue);
 
-            AddFloat(aUniformName, aValue);
+            myGlobalUniformsFloat.at(aUniformName).value = *aValue;
         }
 
         void UpdateVec2Float(const std::string& aUniformName, Math::Vector2f* aValue)
         {
-            for (auto& value : myGlobalUniformsVector2Float)
-            {
-                if (value.uniformName == aUniformName)
-                {
-                    value.value = *aValue;
-                    return;
-                }
-            }
-            
-            AddVec2Float(aUniformName, aValue);
+            if (myGlobalUniformsVector2Float.find(aUniformName) == myGlobalUniformsVector2Float.end())
+                AddVec2Float(aUniformName, aValue);
+
+            myGlobalUniformsVector2Float.at(aUniformName).value = *aValue;
         }
         void UpdateVec3Float(const std::string& aUniformName, Math::Vector4f* aValue)
         {
-            for (auto& value : myGlobalUniformsVector3Float)
-            {
-                if (value.uniformName == aUniformName)
-                {
-                    value.value = *aValue;
-                    return;
-                }
-            }
+            if (myGlobalUniformsVector3Float.find(aUniformName) == myGlobalUniformsVector3Float.end())
+                AddVec3Float(aUniformName, aValue);
 
-            AddVec3Float(aUniformName, aValue);
+            myGlobalUniformsVector3Float.at(aUniformName).value = *aValue;
         }
         void UpdateVec4Float(const std::string& aUniformName, Math::Vector4f* aValue)
         {
-            for (auto& value : myGlobalUniformsVector4Float)
-            {
-                if (value.uniformName == aUniformName)
-                {
-                    value.value = *aValue;
-                    return;
-                }
-            }
+            if (myGlobalUniformsVector4Float.find(aUniformName) == myGlobalUniformsVector4Float.end())
+                AddVec4Float(aUniformName, aValue);
 
-            AddVec4Float(aUniformName, aValue);
+            myGlobalUniformsVector4Float.at(aUniformName).value = *aValue;
         }
 
         void UpdateMat2x2(const std::string& aUniformName, float* aValue)
         {
-            for (auto& value : myGlobalUniformsMatrix2x2Float)
-            {
-                if (value.uniformName == aUniformName)
-                {
-                    std::memcpy(value.value, aValue, 16);
-                    return;
-                }
-            }
+            if (myGlobalUniformsMatrix2x2Float.find(aUniformName) == myGlobalUniformsMatrix2x2Float.end())
+                AddMat2x2(aUniformName, aValue);
 
-            AddMat2x2(aUniformName, aValue);
+            std::memcpy(&myGlobalUniformsMatrix2x2Float.at(aUniformName).value, aValue, sizeof(GlobalUniformValueMatrixMatrix2x2Float));
         }
         void UpdateMat3x3(const std::string& aUniformName, float* aValue)
         {
-            for (auto& value : myGlobalUniformsMatrix3x3Float)
-            {
-                if (value.uniformName == aUniformName)
-                {
-                    std::memcpy(value.value, aValue, 36);
-                    return;
-                }
-            }
+            if (myGlobalUniformsMatrix3x3Float.find(aUniformName) == myGlobalUniformsMatrix3x3Float.end())
+                AddMat3x3(aUniformName, aValue);
 
-            AddMat3x3(aUniformName, aValue);
+            std::memcpy(&myGlobalUniformsMatrix3x3Float.at(aUniformName).value, aValue, sizeof(GlobalUniformValueMatrixMatrix3x3Float));
         }
         void UpdateMat4x4(const std::string& aUniformName, float* aValue)
         {
-            for (auto& value : myGlobalUniformsMatrix4x4Float)
-            {
-                if (value.uniformName == aUniformName)
-                {
-                    std::memcpy(value.value, aValue, 64);
-                    return;
-                }
-            }
+            if (myGlobalUniformsMatrix4x4Float.find(aUniformName) == myGlobalUniformsMatrix4x4Float.end())
+                AddMat4x4(aUniformName, aValue);
 
-            AddMat4x4(aUniformName, aValue);
+            std::memcpy(&myGlobalUniformsMatrix4x4Float.at(aUniformName).value, aValue, sizeof(GlobalUniformValueMatrixMatrix4x4Float));
+        }
+
+
+
+
+        void GetInt(const std::string& aUniformName, int* aValue)
+        {
+            if (myGlobalUniformsInt.find(aUniformName) == myGlobalUniformsInt.end())
+                return;
+
+            *aValue = myGlobalUniformsInt.at(aUniformName).value;
+        }
+
+        void GetFloat(const std::string& aUniformName, float* aValue)
+        {
+            if (myGlobalUniformsFloat.find(aUniformName) == myGlobalUniformsFloat.end())
+                return;
+
+            *aValue = myGlobalUniformsFloat.at(aUniformName).value;
+        }
+
+        void GetVec2Float(const std::string& aUniformName, Math::Vector2f* aValue)
+        {
+            if (myGlobalUniformsVector2Float.find(aUniformName) == myGlobalUniformsVector2Float.end())
+                return;
+
+            *aValue = myGlobalUniformsVector2Float.at(aUniformName).value;
+        }
+        void GetVec3Float(const std::string& aUniformName, Math::Vector4f* aValue)
+        {
+            if (myGlobalUniformsVector3Float.find(aUniformName) == myGlobalUniformsVector3Float.end())
+                return;
+
+            *aValue = myGlobalUniformsVector3Float.at(aUniformName).value;
+        }
+        void GetVec4Float(const std::string& aUniformName, Math::Vector4f* aValue)
+        {
+            if (myGlobalUniformsVector4Float.find(aUniformName) == myGlobalUniformsVector4Float.end())
+                return;
+
+            *aValue = myGlobalUniformsVector4Float.at(aUniformName).value;
+        }
+
+        void GetMat2x2(const std::string& aUniformName, float* aValue)
+        {
+            if (myGlobalUniformsMatrix2x2Float.find(aUniformName) == myGlobalUniformsMatrix2x2Float.end())
+                return;
+
+            std::memcpy(aValue, &myGlobalUniformsMatrix2x2Float.at(aUniformName).value, sizeof(GlobalUniformValueMatrixMatrix2x2Float));
+        }
+        void GetMat3x3(const std::string& aUniformName, float* aValue)
+        {
+            if (myGlobalUniformsMatrix3x3Float.find(aUniformName) == myGlobalUniformsMatrix3x3Float.end())
+                return;
+
+            std::memcpy(aValue, &myGlobalUniformsMatrix3x3Float.at(aUniformName).value, sizeof(GlobalUniformValueMatrixMatrix3x3Float));
+        }
+        void GetMat4x4(const std::string& aUniformName, float* aValue)
+        {
+            if (myGlobalUniformsMatrix4x4Float.find(aUniformName) == myGlobalUniformsMatrix4x4Float.end())
+                return;
+
+            std::memcpy(aValue, &myGlobalUniformsMatrix4x4Float.at(aUniformName).value, sizeof(GlobalUniformValueMatrixMatrix4x4Float));
         }
     };
 }

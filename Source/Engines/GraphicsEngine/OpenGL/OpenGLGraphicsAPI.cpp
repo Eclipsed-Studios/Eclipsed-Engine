@@ -15,10 +15,14 @@
 
 #include "DebugDrawers/DebugDrawer.h"
 
+#include "CommandList.h"
+
 #undef CreateWindow
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
+    static std::vector<std::function<void()>> resolutionChangeCallbackFunctions;
+
     void SetWindowDimenstion()
     {
         auto& settings = TemporarySettingsSingleton::Get();
@@ -31,6 +35,9 @@ namespace ENGINE_NAMESPACE
 
         float resolutionRatio = settings.GetResolutionRatio();
         GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &resolutionRatio);
+
+        for(auto& callBackFunc : resolutionChangeCallbackFunctions)
+            callBackFunc();
     }
 
     void WindowChangeDimenstions(GLFWwindow* window, int width, int height)
@@ -114,8 +121,12 @@ namespace ENGINE_NAMESPACE
     {
         ErrorCode errorCode = InitOpenGL();
         EnableOpenGLSettings();
-
         DebugDrawer::Get().Init();
+
+        myClearColor.r = 0.4314f;
+        myClearColor.g = 0.1804f;
+        myClearColor.b = 0.6f;
+        myClearColor.a = 1.0f;
 
         return errorCode;
     }
@@ -124,8 +135,6 @@ namespace ENGINE_NAMESPACE
     {
         glfwMakeContextCurrent(myWindow);
         glfwPollEvents();
-        glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(0.4314f, 0.1804f, 0.6f, 1.0f);
     }
 
     void GraphicsEngine::SetGlobalUniforms(unsigned aShaderProgram)
@@ -140,6 +149,8 @@ namespace ENGINE_NAMESPACE
     void GraphicsEngine::EndFrame()
     {
         glfwSwapBuffers(myWindow);
+
+        CommandList::Clear();
     }
 
     int GraphicsEngine::ShouldWindowClose()
@@ -217,8 +228,44 @@ namespace ENGINE_NAMESPACE
         }
     }
 
+    void GraphicsEngine::GetGlobalUniform(UniformType aType, const std::string& aUniformName, void* aValue)
+    {
+        switch (aType)
+        {
+        case UniformType::Bool: myUniformManager.GetInt(aUniformName, (int*)aValue); return;
+
+        case UniformType::Float: myUniformManager.GetFloat(aUniformName, (float*)aValue); return;
+
+        case UniformType::Vector2f: myUniformManager.GetVec2Float(aUniformName, (Math::Vector2f*)aValue); return;
+        case UniformType::Vector3f: myUniformManager.GetVec3Float(aUniformName, (Math::Vector4f*)aValue); return;
+        case UniformType::Vector4f: myUniformManager.GetVec4Float(aUniformName, (Math::Vector4f*)aValue); return;
+
+        case UniformType::Int: myUniformManager.GetInt(aUniformName, (int*)aValue); return;
+
+        case UniformType::Matrix2x2f: myUniformManager.GetMat2x2(aUniformName, (float*)aValue); return;
+        case UniformType::Matrix3x3f: myUniformManager.GetMat3x3(aUniformName, (float*)aValue); return;
+        case UniformType::Matrix4x4f: myUniformManager.GetMat4x4(aUniformName, (float*)aValue); return;
+        }
+    }
+
     void GraphicsEngine::BindTexture(int aGLType, unsigned aTextureID)
     {
         glBindTexture(aGLType, aTextureID);
+    }
+
+    void GraphicsEngine::BindFrameBuffer(unsigned aFrameBuffer)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, aFrameBuffer);
+    }
+
+    void GraphicsEngine::ClearCurrentSceneBuffer(float aClearColorR, float aClearColorG, float aClearColorB)
+    {
+        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(aClearColorR, aClearColorG, aClearColorB, 1.f);
+    }
+
+    void GraphicsEngine::RegisterListenToResolutionChange(const std::function<void()>& aLambda)
+    {
+        resolutionChangeCallbackFunctions.emplace_back(aLambda);
     }
 }

@@ -6,7 +6,7 @@
 
 #include "Input/Input.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	void HierarchyWindow::Update()
 	{

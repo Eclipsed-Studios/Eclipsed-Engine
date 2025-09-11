@@ -10,7 +10,7 @@
 
 #include <fstream>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void SettingsManager::Save()
 	{

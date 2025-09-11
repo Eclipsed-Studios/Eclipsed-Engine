@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _BASECOMPONENT
+#define _BASECOMPONENT
 
 #include "Editor/ComponentRegistry.h"
 #include "ECS/ComponentManager.h"
@@ -12,7 +13,7 @@
 #define COMPONENT_FRIEND_CLASS         \
 friend class Editor::InspectorWindow;  \
 friend class ComponentManager;         \
-friend class SceneLoader;              \
+friend class SceneLoader;              
 
 
 
@@ -39,7 +40,7 @@ virtual const char* GetComponentName() override { return stringify(type); }					
 private:																							\
 struct AutoRegister {																				\
 	AutoRegister() {																				\
-		using namespace ENGINE_NAMESPACE::Editor;													\
+		using namespace Eclipse::Editor;													\
 		ComponentRegistry::RegisterComponent(stringify(type), REGISTER_COMPONENT_CALLBACK(type));	\
 	}																								\
 };																									\
@@ -54,3 +55,5 @@ virtual ~type() = default;													\
 protected:																	\
 virtual const char* GetComponentName() override { return stringify(type); }	\
 private:
+
+#endif

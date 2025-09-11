@@ -11,7 +11,7 @@
 #include "Input/InputMapper.h"
 #include "Input/Input.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     void Camera::Awake()
     {
@@ -24,20 +24,6 @@ namespace ENGINE_NAMESPACE
             });
     }
 
-    void Camera::Update()
-    {
-        myTransform->SetPosition(GetComp(Transform2D, 1)->GetPosition());
-
-        float back = -Time::GetDeltaTime() * static_cast<float>(Input::GetKey(Keycode::S));
-        float forward = Time::GetDeltaTime() * static_cast<float>(Input::GetKey(Keycode::W));
-
-        myTransform->SetScale(myTransform->GetScale() + Math::Vector2f(forward + back, forward + back));
-
-        float backRot = -Time::GetDeltaTime() * static_cast<float>(Input::GetKey(Keycode::Q));
-        float forwardRot = Time::GetDeltaTime() * static_cast<float>(Input::GetKey(Keycode::E));
-
-        myTransform->SetRotation(myTransform->GetRotation() + forwardRot + backRot);
-    }
     void Camera::DrawInspector()
     {
     }

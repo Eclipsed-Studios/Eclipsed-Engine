@@ -18,7 +18,7 @@
 
 #include <rapidjson/rapidjson/document.h>
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	struct inputNameChange
 	{

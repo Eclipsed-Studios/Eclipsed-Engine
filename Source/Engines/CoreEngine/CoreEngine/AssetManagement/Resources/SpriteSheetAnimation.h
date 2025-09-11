@@ -7,7 +7,7 @@
 #include <vector>
 #include <unordered_map>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 
 	class SpriteSheetAnimation : public AbstractResource

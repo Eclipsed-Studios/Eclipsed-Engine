@@ -21,7 +21,7 @@
 #include <rapidjson/rapidjson/stringbuffer.h>
 #include <rapidjson/rapidjson/prettywriter.h>
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
     ErrorCode EditorContext::Init()
     {
@@ -50,8 +50,8 @@ namespace ENGINE_NAMESPACE::Editor
     
     void EditorContext::Update()
     {
-        myWindowManager.Update();
         Engine::Update();
+        myWindowManager.Update();
 
         ImGui::Begin("Test collision showing");
         ImGui::Checkbox("Draw Physics Debug Lines##DrawAnyPhysicsDebugLines", &PhysicsEngine::GetDebugDraw());

@@ -1,6 +1,6 @@
 #include "Rect.h"
 
-namespace ENGINE_NAMESPACE::Math
+namespace Eclipse::Math
 {
 	rapidjson::Value Math::Rect::Save(rapidjson::Document::AllocatorType& allocator) const
 	{

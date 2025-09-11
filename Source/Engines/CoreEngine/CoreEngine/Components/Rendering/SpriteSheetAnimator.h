@@ -6,7 +6,7 @@
 #include "AssetManagement/ResourcePointer.h"
 #include "ECS/ComponentManager.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class SpriteRendrer2D;
 

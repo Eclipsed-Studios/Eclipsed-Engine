@@ -2,7 +2,7 @@
 
 #include "BlackBoard.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class SettingsManager final
 	{

@@ -4,7 +4,7 @@
 
 using namespace rapidjson;
 
-namespace ENGINE_NAMESPACE::Utilities
+namespace Eclipse::Utilities
 {
 	rapidjson::Value BlackBoard::Save(rapidjson::Document::AllocatorType& allocator) const
 	{

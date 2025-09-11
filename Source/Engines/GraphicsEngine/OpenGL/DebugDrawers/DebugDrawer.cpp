@@ -34,7 +34,7 @@ static const char* pixelShaderSource =
 "frag_colour = color;"
 "}";
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     void DebugDrawer::Init()
     {

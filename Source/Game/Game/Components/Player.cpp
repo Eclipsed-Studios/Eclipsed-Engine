@@ -12,7 +12,7 @@
 
 #include "Timer.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void Player::Awake()
 	{

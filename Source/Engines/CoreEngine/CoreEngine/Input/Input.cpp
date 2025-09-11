@@ -6,7 +6,7 @@
 
 #include "InputMapper.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void Input::Update()
 	{

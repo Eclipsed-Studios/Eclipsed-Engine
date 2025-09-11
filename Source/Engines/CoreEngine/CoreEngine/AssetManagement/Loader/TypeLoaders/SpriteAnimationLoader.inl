@@ -9,7 +9,7 @@
 
 #include <fstream>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, SpriteSheetAnimation& outResource)

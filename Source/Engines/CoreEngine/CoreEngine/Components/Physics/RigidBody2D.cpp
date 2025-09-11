@@ -5,7 +5,7 @@
 #include "ECS/ComponentManager.h"
 #include "Components/Transform2D.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     typedef PhysicsEngine::Physics PhysHelper;
 

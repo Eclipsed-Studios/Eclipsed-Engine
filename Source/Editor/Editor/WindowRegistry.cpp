@@ -2,7 +2,7 @@
 
 #include "Editor/Windows/Window.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	AbstractWindow* WindowRegistry::GetWindow(const std::string& name)
 	{

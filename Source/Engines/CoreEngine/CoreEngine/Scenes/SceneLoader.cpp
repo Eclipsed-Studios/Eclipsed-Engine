@@ -8,7 +8,7 @@
 
 #include <fstream>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void SceneLoader::Save(const char* aPath, Scene& outScene)
 	{

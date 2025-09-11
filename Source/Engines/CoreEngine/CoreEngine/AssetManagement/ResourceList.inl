@@ -1,6 +1,6 @@
 #include "ResourceList.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	template<typename T>
 	inline T* ResourceList<T>::Get(const size_t& aId)

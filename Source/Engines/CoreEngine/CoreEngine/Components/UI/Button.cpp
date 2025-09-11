@@ -4,11 +4,11 @@
 
 #include <sstream>
 
-void ENGINE_NAMESPACE::UIButton::Update()
+void Eclipse::UIButton::Update()
 {
 }
 
-void ENGINE_NAMESPACE::UIButton::DrawInspector()
+void Eclipse::UIButton::DrawInspector()
 {
     std::stringstream ss;
     ss << "##" << this;

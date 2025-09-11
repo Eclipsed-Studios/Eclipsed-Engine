@@ -3,7 +3,7 @@
 #include "GLFW/glfw3.h"
 #include <algorithm>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void Input::OnMousePos_Callback(GLFWwindow* window, double x, double y)
 	{

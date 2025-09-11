@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 #define BASE_RESOURCE(type)									\
 friend class AssetLoader;									\

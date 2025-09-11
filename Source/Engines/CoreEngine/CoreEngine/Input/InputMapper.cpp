@@ -19,7 +19,7 @@
 
 #include "defines.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void InputMapper::Save()
 	{

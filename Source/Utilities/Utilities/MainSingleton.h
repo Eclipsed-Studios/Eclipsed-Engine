@@ -7,7 +7,7 @@
 #include <string>
 #include <stdexcept>
 
-namespace ENGINE_NAMESPACE::Utilities
+namespace Eclipse::Utilities
 {
 	class MainSingleton
 	{

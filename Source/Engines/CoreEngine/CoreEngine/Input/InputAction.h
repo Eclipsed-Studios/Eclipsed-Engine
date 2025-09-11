@@ -6,7 +6,7 @@
 
 #include "Keycodes.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	enum class InputActionType
 	{

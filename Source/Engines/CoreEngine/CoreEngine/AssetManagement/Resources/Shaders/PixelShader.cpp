@@ -1,6 +1,6 @@
 #include "PixelShader.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     const unsigned& PixelShader::GetPixelShaderID() const
     {

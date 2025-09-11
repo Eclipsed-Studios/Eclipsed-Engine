@@ -8,7 +8,7 @@
 
 #include <unordered_map>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class Resources
 	{

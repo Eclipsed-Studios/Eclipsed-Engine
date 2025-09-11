@@ -6,7 +6,7 @@
 #include "ImGui/ImGui/imgui_impl_glfw.h"
 #include "ImGui/ImGui/imgui_impl_opengl3.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
     namespace ImGui_Impl
     {

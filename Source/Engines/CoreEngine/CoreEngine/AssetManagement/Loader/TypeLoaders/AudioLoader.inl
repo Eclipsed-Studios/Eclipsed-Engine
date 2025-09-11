@@ -7,7 +7,7 @@
 
 #include "Audio/AudioManager.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, AudioClip& outResource)

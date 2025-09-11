@@ -5,7 +5,7 @@
 #include "ReflectedVariable.h"
 #include "Components/Base/Component.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void Reflection::RegisterVariable(AbstractReflectedVariable* ptr)
 	{

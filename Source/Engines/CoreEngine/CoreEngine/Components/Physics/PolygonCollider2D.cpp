@@ -13,7 +13,7 @@
 #include "Components/Rendering/SpriteRenderer2D.h"
 #include "AssetManagement/Resources/Texture.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     void PolygonCollider2D::Awake()
     {

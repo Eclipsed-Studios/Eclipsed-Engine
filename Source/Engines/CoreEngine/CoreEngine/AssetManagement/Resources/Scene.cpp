@@ -4,6 +4,6 @@
 
 #include "ECS/ComponentManager.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 }

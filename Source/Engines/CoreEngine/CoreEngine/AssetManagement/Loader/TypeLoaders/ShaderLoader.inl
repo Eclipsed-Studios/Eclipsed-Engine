@@ -6,7 +6,7 @@
 
 #include <ShaderCompiler.h>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, PixelShader& outResource)

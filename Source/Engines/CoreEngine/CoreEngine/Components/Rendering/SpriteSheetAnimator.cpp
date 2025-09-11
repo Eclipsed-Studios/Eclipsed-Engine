@@ -5,7 +5,7 @@
 #include "Timer.h"
 #include "ECS/ComponentManager.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     void SpriteSheetAnimator2D::Update()
     {

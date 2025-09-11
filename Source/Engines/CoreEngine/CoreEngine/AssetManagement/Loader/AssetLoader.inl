@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <string>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	template<typename T>
 	inline bool AssetLoader::IsExtensionSupported(const char* anExtension)

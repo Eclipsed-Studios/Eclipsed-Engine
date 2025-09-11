@@ -10,7 +10,7 @@ namespace discord
 	class Activity;
 }
 
-namespace ENGINE_NAMESPACE::PlatformIntegration
+namespace Eclipse::PlatformIntegration
 {
 	class Discord
 	{

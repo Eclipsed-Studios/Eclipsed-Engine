@@ -1,6 +1,6 @@
 #include "DebugInformationCollector.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	int DebugInformationCollector::GetRenderCalls()
 	{

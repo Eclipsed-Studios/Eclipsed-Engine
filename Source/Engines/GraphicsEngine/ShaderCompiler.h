@@ -2,7 +2,7 @@
 
 #include "glad/glad.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     enum class ShaderType
     {

@@ -12,7 +12,7 @@
 
 //#include "ImGui/ImGui/imgui.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class TemporarySettingsSingleton
     {

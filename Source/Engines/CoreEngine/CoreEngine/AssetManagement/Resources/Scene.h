@@ -4,7 +4,7 @@
 
 #include "ECS/ComponentManager.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class Scene : public AbstractResource
 	{

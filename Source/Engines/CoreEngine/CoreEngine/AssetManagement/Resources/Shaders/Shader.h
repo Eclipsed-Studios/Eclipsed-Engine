@@ -4,7 +4,7 @@
 #include <AssetManagement/Resources/Shaders/VertexShader.h>
 #include <AssetManagement/ResourcePointer.h>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class Shader
     {

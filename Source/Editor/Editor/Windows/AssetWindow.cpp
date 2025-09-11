@@ -7,7 +7,7 @@
 #include "Editor/DragAndDrop.h"
 
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	void AssetWindow::Open()
 	{

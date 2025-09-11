@@ -7,7 +7,7 @@
 
 #include "AssetManagement/Resources/Texture.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	unsigned char* ResourceLoaderHelper::Load_Texture_STB(const char* aPath, Texture& outResource)
 	{

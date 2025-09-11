@@ -10,7 +10,7 @@
 
 #include "TemporarySettingsSingleton.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     void BoxCollider2D::Awake()
     {

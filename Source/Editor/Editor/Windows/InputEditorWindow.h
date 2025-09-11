@@ -2,7 +2,7 @@
 
 #include "WindowBase.h"
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	class InputEditorWindow final : public AbstractWindow
 	{

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ENGINE_NAMESPACE::Math
+namespace Eclipse::Math
 {
     constexpr float pi = 3.141592653589f;
     constexpr float piHalf = 1.57079632679f; // Half pi, 90 degree rotation

@@ -9,8 +9,10 @@
 
 #define MAX_LAYERS 16
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
+    static inline uint64_t myCollisionLayers[MAX_LAYERS] = {};
+
     constexpr int layerCount = 7;
     enum class Layer : uint64_t
     {

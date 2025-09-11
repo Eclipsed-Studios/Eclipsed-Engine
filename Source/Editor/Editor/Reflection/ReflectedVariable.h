@@ -3,7 +3,7 @@
 #include <string>
 #include "Reflection.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	class Component;
 	class AbstractReflectedVariable
@@ -64,13 +64,13 @@ namespace ENGINE_NAMESPACE
 	};
 }
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	template<typename T>
 	inline void ReflectedVariable<T>::DrawInspector()
 	{
 		ImGui::Text(GetName().c_str());
 		ImGui::SameLine();
-		if constexpr (std::is_same<T, float>::value) ImGui::InputFloat(std::string("##float##" + GetName()).c_str(), &myData);
+		if constexpr (std::is_same<T, float>::value) ImGui::DragFloat(std::string("##float##" + GetName()).c_str(), &myData, 0.01f);
 	}
 }

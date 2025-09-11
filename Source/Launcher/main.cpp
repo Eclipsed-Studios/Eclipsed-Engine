@@ -12,7 +12,7 @@
 #include "Engine.h"
 #include "PlatformIntegration/DiscordIntegration.h"
 
-using namespace ENGINE_NAMESPACE;
+using namespace Eclipse;
 
 ErrorCode Init()
 {

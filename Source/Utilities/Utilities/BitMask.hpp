@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	namespace Utilities
 	{

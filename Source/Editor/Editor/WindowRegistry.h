@@ -4,7 +4,7 @@
 #include <string>
 
 
-namespace ENGINE_NAMESPACE::Editor
+namespace Eclipse::Editor
 {
 	class AbstractWindow;
 	class WindowRegistry 

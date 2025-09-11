@@ -20,7 +20,7 @@
 #include <iostream>
 #include "Editor/Reflection/Reflection.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void Engine::Init()
 	{

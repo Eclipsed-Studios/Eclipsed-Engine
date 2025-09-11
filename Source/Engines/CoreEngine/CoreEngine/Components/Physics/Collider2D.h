@@ -7,7 +7,7 @@
 #include "ECS/ComponentManager.h"
 
 struct b2Polygon;
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class Collider2D : public Component
     {

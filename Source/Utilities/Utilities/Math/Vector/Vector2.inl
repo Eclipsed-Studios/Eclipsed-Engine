@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace ENGINE_NAMESPACE::Math
+namespace Eclipse::Math
 {
 	template <typename T>
 	inline Vector2<T>::Vector2() : x(T()), y(T())

@@ -6,7 +6,7 @@
 
 #include <string>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	/// <summary>
 	/// Only used by the editor. The complete game will have this data stored in its asset bundle.

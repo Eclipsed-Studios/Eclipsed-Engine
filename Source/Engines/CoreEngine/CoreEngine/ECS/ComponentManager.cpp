@@ -1,6 +1,6 @@
 #include "ComponentManager.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     void ComponentManager::Init()
     {

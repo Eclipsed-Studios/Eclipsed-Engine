@@ -9,17 +9,17 @@
 #include "Keycodes.h"
 #include "Input.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void InputAction::Update()
 	{
 		switch (type)
 		{
-		case TEMPLATE::InputActionType::Axis: value = GetAxis();
+		case InputActionType::Axis: value = GetAxis();
 			break;
-		case TEMPLATE::InputActionType::Single: value = GetSingleKey();
+		case InputActionType::Single: value = GetSingleKey();
 			break;
-		case TEMPLATE::InputActionType::Combo: value = GetCombo();
+		case InputActionType::Combo: value = GetCombo();
 			break;
 		}
 	}

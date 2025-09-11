@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	void Texture::Bind()
 	{

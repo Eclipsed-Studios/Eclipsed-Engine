@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
     class Time
     {

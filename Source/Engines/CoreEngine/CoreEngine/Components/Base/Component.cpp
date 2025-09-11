@@ -2,7 +2,7 @@
 
 #include "ImGui/ImGui/imgui.h"
 
-namespace ENGINE_NAMESPACE
+namespace Eclipse
 {
 	rapidjson::Value Component::Save(rapidjson::Document::AllocatorType& allocator) const
 	{
