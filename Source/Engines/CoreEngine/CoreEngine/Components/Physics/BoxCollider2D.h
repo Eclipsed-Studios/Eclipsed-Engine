@@ -5,8 +5,6 @@
 #include <Math/Vector/Vector2.h>
 #include "ECS/ComponentManager.h"
 
-#include "box2d/id.h"
-
 namespace Eclipse
 {
     class BoxCollider2D : public Collider2D

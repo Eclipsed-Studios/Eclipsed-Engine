@@ -13,6 +13,8 @@ namespace Eclipse::Editor
 
 	public:
 
+		void MoveCamera();
+
 		void Update() override;
 		void Open() override;
 
@@ -21,5 +23,9 @@ namespace Eclipse::Editor
 		unsigned mySceneTexture = 0;
 
 		Math::Vector2i myLastWindowResolution = { 0, 0 };
+
+		Math::Vector2f myInspectorPosition = {0, 0};
+		float myInspectorRotation = 0;
+		Math::Vector2f myInspectorScale = {1, 1};
 	};
 }

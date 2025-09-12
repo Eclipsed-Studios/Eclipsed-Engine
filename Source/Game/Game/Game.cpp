@@ -10,6 +10,8 @@
 #include "Components/Physics/RigidBody2D.h"
 #include "Components/Physics/BoxCollider2D.h"
 #include "Components/Physics/PolygonCollider2D.h"
+#include "Components/Physics/CircleCollider2D.h"
+#include "Components/Physics/CapsuleCollider2D.h"
 #include "Components/AudioSource.h"
 #include "Components/UI/Button.h"
 
@@ -33,7 +35,7 @@ namespace Eclipse
 	{
 		int playerGO = 1;
 
-		// Player
+		// Players
 		{
 			Material* matrial = new Material();
 			matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster.png");
@@ -41,11 +43,13 @@ namespace Eclipse
 
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(playerGO);
 			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(playerGO);
-			transform->SetScale(8.f, 8.f);
+			transform->SetScale(10.f, 10.f);
 
-			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(playerGO);
-			boxCollider->SetScale(Math::Vector2f(0.5f, 1.f));
-			boxCollider->myLayer = Layer::Player;
+			CapsuleCollider2D* capsuleCollider = ComponentManager::AddComponent<CapsuleCollider2D>(playerGO);
+			capsuleCollider->myLayer = Layer::Player;
+
+			capsuleCollider->SetRadius(0.5f);
+			capsuleCollider->SetHalfHeight(1.f);
 
 			AudioSource* audio = ComponentManager::AddComponent<AudioSource>(playerGO);
 			//audio->SetAudioClip(ASSET_PATH "Sounds/peak.mp3");
@@ -74,8 +78,8 @@ namespace Eclipse
 			int go = 2;
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
 			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
-			transform->SetPosition(0.4f, -0.6f);
-			transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 5.f);
+			transform->SetPosition(0.46f, -0.625f);
+			transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
 			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
 			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
 			boxCollider->myLayer = Layer::Ground;
@@ -92,18 +96,22 @@ namespace Eclipse
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
 			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
 			transform->SetPosition(0, -0.7f);
-			transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 5.f);
+			transform->SetScale(matrial->myTexture->GetTextureSizeNormilized() * 20.f);
 			PolygonCollider2D* polygonCollider = ComponentManager::AddComponent<PolygonCollider2D>(go);
 
-			polygonCollider->AddPoint({ 0.f, 0.f });
-			polygonCollider->AddPoint({ 0.f, 0.35f });
-			polygonCollider->AddPoint({ 0.9f, 1.f });
+			polygonCollider->AddPoint({ -0.1f, 0.f });
+			polygonCollider->AddPoint({ -0.1f, 0.35f });
+			polygonCollider->AddPoint({ 0.95f, 1.f });
 
-			polygonCollider->AddPoint({ 1.f, 1.f });
-			polygonCollider->AddPoint({ 1.f, 0.65f });
+			polygonCollider->AddPoint({ 1.1f, 1.f });
+			polygonCollider->AddPoint({ 1.1f, 0.65f });
 			polygonCollider->AddPoint({ 0.1f, 0.f });
 
 			polygonCollider->myLayer = Layer::Ground;
+
+
+			transform->SetScale(matrial->myTexture->GetTextureSizeNormilized() * 25.f);
+
 
 			rend->SetMaterial(matrial);
 		}
@@ -116,8 +124,8 @@ namespace Eclipse
 			int go = 4;
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
 			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
-			transform->SetPosition(-0.4f, -0.8f);
-			transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 5.f);
+			transform->SetPosition(-0.46f, -0.78f);
+			transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
 			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
 			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
 			boxCollider->myLayer = Layer::Ground;
@@ -129,7 +137,6 @@ namespace Eclipse
 		{
 			int go = 5;
 			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
-			transform->SetPosition(0.f, 0.f);
 
 			ComponentManager::AddComponent<Camera>(go);
 

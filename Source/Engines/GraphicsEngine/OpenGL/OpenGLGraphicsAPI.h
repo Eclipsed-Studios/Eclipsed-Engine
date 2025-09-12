@@ -14,6 +14,7 @@
 #undef CreateWindow
 
 struct GLFWwindow;
+struct GLFWcursor;
 
 namespace Eclipse
 {
@@ -40,9 +41,9 @@ namespace Eclipse
 		static void BindFrameBuffer(unsigned aFrameBuffer);
 
 		static void ClearCurrentSceneBuffer(
-        float aClearColorR = myClearColor.r, 
-        float aClearColorG = myClearColor.g, 
-        float aClearColorB = myClearColor.b);
+			float aClearColorR = myClearColor.r,
+			float aClearColorG = myClearColor.g,
+			float aClearColorB = myClearColor.b);
 
 		static void RegisterListenToResolutionChange(const std::function<void()>& aLambda);
 
@@ -54,5 +55,17 @@ namespace Eclipse
 	private:
 		static ErrorCode InitOpenGL();
 		static ErrorCode CreateWindow();
+
+	public:
+		enum class MouseCursor {
+			Hand,
+			Grab
+		};
+
+		static void SetCursor(MouseCursor aMouseCursor);
+		static void ResetCursor();
+	private:
+
+		static inline std::vector<GLFWcursor*> myMouseCursors;
 	};
 }

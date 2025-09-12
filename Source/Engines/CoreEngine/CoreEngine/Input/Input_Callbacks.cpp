@@ -7,8 +7,8 @@ namespace Eclipse
 {
 	void Input::OnMousePos_Callback(GLFWwindow* window, double x, double y)
 	{
-		memcpy(&currentPos.x, &x, sizeof(int));
-		memcpy(&currentPos.y, &y, sizeof(int));
+		currentPos.x = static_cast<int>(x);
+		currentPos.y = static_cast<int>(y);
 	}
 
 	void Input::OnMouseEnter_Callback(GLFWwindow* window, int entered)

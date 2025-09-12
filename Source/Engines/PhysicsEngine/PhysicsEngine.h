@@ -33,7 +33,13 @@ namespace Eclipse
         static bool OverlapSphere(const Math::Vector2f& aPositon, float aRadius, HitResults& aHitResults, Layer aLayerMask = Layer::All);
 
         static void CreateRigidBody(b2BodyId* aBody, UserData* aUserData, const RigidBodySettings& aBodySettings, const Math::Vector2f& aStartPosition = { 0.f, 0.f });
+        
+        // Simple
         static void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer);
+        static void CreateCircleCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, float radius, Layer aLayer);
+        static void CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, float aHalfHeight, float aRadius, Layer aLayer);
+        
+        // Complex
         static void CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
 
         static void RemoveRigidBody(b2BodyId& aBodyID);
@@ -42,7 +48,14 @@ namespace Eclipse
         static void SetPosition(b2BodyId& aBodyID, const Math::Vector2f& aPosition);
         static void SetRotation(b2BodyId& aBodyID, float aRotation);
 
+        static void SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation);
+
+        // Update Simple collisions
         static void SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale);
+        static void SetTransformCircle(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius);
+        static void SetTransformCapsule(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight);
+        
+        // Update Complex collisions
         static void SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale);
 
         static void Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw);

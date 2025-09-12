@@ -70,7 +70,35 @@ void PhysicsDebugDrawer::DrawCircle(b2Vec2 center, float radius, b2HexColor colo
 }
 void PhysicsDebugDrawer::DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context)
 {
+    Math::Vector2f position({ transform.p.x, transform.p.y });
 
+    DebugDrawer::DrawCircle(Math::Vector2f((position.x + 1.f) * 0.5f, (position.y + 1.f) * 0.5f), radius, 32);
+}
+void PhysicsDebugDrawer::DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
+{
+    Math::Vector2f direction(p1.x - p2.x, p1.y - p2.y);
+    direction.Normalize();
+
+    Math::Vector2f negDir = direction * -1;
+
+    DebugDrawer::DrawHalfCircle(Math::Vector2f((p1.x + 1.f) * 0.5f, (p1.y + 1.f) * 0.5f) - direction * 0.001f, radius, direction, 32);
+    DebugDrawer::DrawHalfCircle(Math::Vector2f((p2.x + 1.f) * 0.5f, (p2.y + 1.f) * 0.5f) + direction * 0.001f, radius, negDir, 32);
+
+    Math::Vector2f eclpisePosition1(p1.x, p1.y);
+    Math::Vector2f eclpisePosition2(p2.x, p2.y);
+
+    eclpisePosition1.x += 1;
+    eclpisePosition1.x *= 0.5f;
+    eclpisePosition1.y += 1;
+    eclpisePosition1.y *= 0.5f;
+
+    eclpisePosition2.x += 1;
+    eclpisePosition2.x *= 0.5f;
+    eclpisePosition2.y += 1;
+    eclpisePosition2.y *= 0.5f;
+
+    DebugDrawer::DrawLine(eclpisePosition1 + Math::Vector2f(radius * 0.5f, 0), eclpisePosition2 + Math::Vector2f(radius * 0.5f, 0));
+    DebugDrawer::DrawLine(eclpisePosition1 - Math::Vector2f(radius * 0.5f, 0), eclpisePosition2 - Math::Vector2f(radius * 0.5f, 0));
 }
 void PhysicsDebugDrawer::DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context)
 {
@@ -96,6 +124,8 @@ void PhysicsDebugDrawer::Init(b2DebugDraw* aDebugDraw)
 
     derefDebugDraw.DrawPolygonFcn = &PhysicsDebugDrawer::DrawPolygon;
     derefDebugDraw.DrawSolidPolygonFcn = &PhysicsDebugDrawer::DrawSolidPolygon;
+
+    derefDebugDraw.DrawSolidCapsuleFcn = &PhysicsDebugDrawer::DrawSolidCapsule;
 
     derefDebugDraw.DrawCircleFcn = &PhysicsDebugDrawer::DrawCircle;
     derefDebugDraw.DrawSolidCircleFcn = &PhysicsDebugDrawer::DrawSolidCircle;

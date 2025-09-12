@@ -1,29 +1,30 @@
 #pragma once
 
 #include "Collider2D.h"
+
 #include <Math/Vector/Vector2.h>
 #include "ECS/ComponentManager.h"
 
-#include <vector>
-
 namespace Eclipse
 {
-    class PolygonCollider2D : public Collider2D
+    class CircleCollider2D : public Collider2D
     {
-        BASE_SELECTION(PolygonCollider2D, Collider2D, 5)
+        BASE_SELECTION(CircleCollider2D, Collider2D, 5)
 
     public:
         void Awake() override;
 
-        void AddPoint(const Math::Vector2f& aPoint);
-        
         void OnTransformDirty();
+
+        void SetRadius(float aRadius);
 
     protected:
         void DrawInspector() override;
 
     private:
-        std::vector<Math::Vector2f> myPoints;
+        float myRadius;
+
+        float myRealRadius;
 
         class Transform2D* myTransform;
     };

@@ -1,0 +1,64 @@
+#include "CapsuleCollider2D.h"
+
+#include "../Engines/PhysicsEngine/PhysicsEngine.h"
+
+#include "RigidBody2D.h"
+
+#include "Components/Transform2D.h"
+
+#include "ECS/ComponentManager.h"
+
+#undef max
+
+namespace Eclipse
+{
+    void CapsuleCollider2D::Awake()
+    {
+        RigidBody2D* rigidBody = ComponentManager::GetComponent<RigidBody2D>(gameObject);
+
+        if (!rigidBody)
+        {
+            myUserData = { gameObject };
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), ComponentManager::GetComponent<Transform2D>(gameObject)->GetPosition());
+        }
+        else
+            myBodyRef = rigidBody->myBody;
+
+        PhysicsEngine::CreateCapsuleCollider(&myInternalCollider, myBodyRef, myRadius, myHalfHeight, myLayer);
+
+        myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
+    }
+
+    void CapsuleCollider2D::SetRadius(float aRadius)
+    {
+        Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
+
+        myRealRadius = aRadius;
+        myRadius = myRealRadius * std::max(size.x, size.y);
+    }
+
+    void CapsuleCollider2D::SetHalfHeight(float aHalfHeight)
+    {
+        Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
+
+        myRealHalfHeight = aHalfHeight;
+        myHalfHeight = myRealHalfHeight * size.y;
+    }
+
+    void CapsuleCollider2D::DrawInspector()
+    {
+    }
+
+    void CapsuleCollider2D::OnTransformDirty()
+    {
+        Math::Vector2f size = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
+
+        float radius = myRealRadius * std::max(size.x, size.y);
+        float halfHeight = myRealHalfHeight * size.y;
+
+        PhysicsEngine::SetTransformCapsule(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), radius, halfHeight);
+    }
+}

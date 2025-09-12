@@ -17,6 +17,9 @@ namespace Eclipse
 {
     void PolygonCollider2D::Awake()
     {
+        myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
+
         RigidBody2D* rigidBody = ComponentManager::GetComponent<RigidBody2D>(gameObject);
 
         if (!rigidBody)
@@ -29,8 +32,7 @@ namespace Eclipse
 
         PhysicsEngine::CreatePolygonCollider(&myInternalCollider, myBodyRef, myPoints, myLayer);
 
-        myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
-        myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
+        OnTransformDirty();
     }
 
     void PolygonCollider2D::AddPoint(const Math::Vector2f& aPoint)

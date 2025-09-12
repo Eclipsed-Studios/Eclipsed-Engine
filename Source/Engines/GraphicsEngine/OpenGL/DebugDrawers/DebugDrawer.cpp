@@ -202,8 +202,7 @@ namespace Eclipse
         auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
         line.color = aColor;
 
-        const float pi = 3.14159265358 * 2.f;
-        float segmentSize = pi / aCircleResolution;
+        float segmentSize = Math::pi2 / aCircleResolution;
 
         for (int i = 0; i < aCircleResolution - 1; i++)
         {
@@ -213,5 +212,28 @@ namespace Eclipse
 
         line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * (aCircleResolution - 1)), sin((segmentSize * (aCircleResolution - 1)))) * aRadius * 0.5f);
         line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(0), sin(0)) * aRadius * 0.5f);
+    }
+
+    void DebugDrawer::DrawHalfCircle(Math::Vector2f aPosition, float aRadius, const Math::Vector2f& aDirection, unsigned aCircleResolution, const Math::Color& aColor)
+    {
+        float resRatio = TemporarySettingsSingleton::Get().GetResolutionRatio();
+
+        auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
+        line.color = aColor;
+
+        float segmentSize = Math::pi2 / aCircleResolution;
+
+        unsigned segmentCount = static_cast<unsigned>(static_cast<float>(aCircleResolution) * 0.5f);
+
+        float offsetRotation = std::atan2f(aDirection.x, aDirection.y) + segmentSize * 1.05f;
+
+        for (int i = 0; i < segmentCount - 1; i++)
+        {
+            line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * i + offsetRotation), sin(segmentSize * i + offsetRotation)) * aRadius * 0.5f);
+            line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * (i + 1) + offsetRotation), sin(segmentSize * (i + 1) + offsetRotation)) * aRadius * 0.5f);
+        }
+
+        line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(segmentSize * (aCircleResolution - 1) + offsetRotation), sin(segmentSize * (aCircleResolution - 1) + offsetRotation)) * aRadius * 0.5f);
+        line.linePoints.emplace_back(aPosition + Math::Vector2f(cos(offsetRotation), sin(offsetRotation)) * aRadius * 0.5f);
     }
 }

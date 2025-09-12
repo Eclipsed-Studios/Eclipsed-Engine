@@ -17,6 +17,8 @@
 
 #include "CommandList.h"
 
+#include "stb_image/stb_image.h"
+
 #undef CreateWindow
 
 namespace Eclipse
@@ -36,7 +38,7 @@ namespace Eclipse
         float resolutionRatio = settings.GetResolutionRatio();
         GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &resolutionRatio);
 
-        for(auto& callBackFunc : resolutionChangeCallbackFunctions)
+        for (auto& callBackFunc : resolutionChangeCallbackFunctions)
             callBackFunc();
     }
 
@@ -127,6 +129,14 @@ namespace Eclipse
         myClearColor.g = 0.1804f;
         myClearColor.b = 0.6f;
         myClearColor.a = 1.0f;
+
+        myMouseCursors.emplace_back(glfwCreateStandardCursor(GLFW_HAND_CURSOR));
+
+        GLFWimage cursor;
+
+        int nrChannels = 0;
+        cursor.pixels = stbi_load(ENGINE_ASSETS_PATH"GrabbyHand.png", &cursor.width, &cursor.height, &nrChannels, 0);
+        myMouseCursors.emplace_back(glfwCreateCursor(&cursor, 8.f, 8.f));
 
         return errorCode;
     }
@@ -270,4 +280,18 @@ namespace Eclipse
     {
         resolutionChangeCallbackFunctions.emplace_back(aLambda);
     }
+
+
+    void GraphicsEngine::SetCursor(MouseCursor aCursor)
+    {
+        GLFWcursor* curs = myMouseCursors[static_cast<int>(aCursor)];
+
+        glfwSetCursor(myWindow, curs);
+    }
+
+    void GraphicsEngine::ResetCursor()
+    {
+        glfwSetCursor(myWindow, nullptr);
+    }
 }
+

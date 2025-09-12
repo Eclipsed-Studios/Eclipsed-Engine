@@ -1,29 +1,33 @@
 #pragma once
 
 #include "Collider2D.h"
+
 #include <Math/Vector/Vector2.h>
 #include "ECS/ComponentManager.h"
 
-#include <vector>
-
 namespace Eclipse
 {
-    class PolygonCollider2D : public Collider2D
+    class CapsuleCollider2D : public Collider2D
     {
-        BASE_SELECTION(PolygonCollider2D, Collider2D, 5)
+        BASE_SELECTION(CapsuleCollider2D, Collider2D, 5)
 
     public:
         void Awake() override;
 
-        void AddPoint(const Math::Vector2f& aPoint);
-        
         void OnTransformDirty();
+
+        void SetRadius(float aRadius);
+        void SetHalfHeight(float aHalfHeight);
 
     protected:
         void DrawInspector() override;
 
     private:
-        std::vector<Math::Vector2f> myPoints;
+        float myRadius;
+        float myHalfHeight;
+
+        float myRealRadius;
+        float myRealHalfHeight;
 
         class Transform2D* myTransform;
     };

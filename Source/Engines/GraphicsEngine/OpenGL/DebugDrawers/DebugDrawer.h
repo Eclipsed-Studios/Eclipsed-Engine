@@ -34,6 +34,7 @@ namespace Eclipse
         static void DrawSquareMinMax(Math::Vector2f aMinPosition, Math::Vector2f aMaxPosition, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
 
         static void DrawCircle(Math::Vector2f aPosition, float aRadius, unsigned aCircleResolution = 16, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
+        static void DrawHalfCircle(Math::Vector2f aPosition, float aRadius, const Math::Vector2f& aDirection, unsigned aCircleResolution = 16, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
 
     private:
 

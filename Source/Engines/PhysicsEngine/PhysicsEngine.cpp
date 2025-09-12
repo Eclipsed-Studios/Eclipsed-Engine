@@ -87,6 +87,38 @@ namespace Eclipse
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
 
+    void PhysicsEngine::CreateCircleCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, float radius, Layer aLayer)
+    {
+        b2Circle cicle({ 0, 0 }, radius);
+        b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+        shapeDef.enableHitEvents = true;
+        shapeDef.enableContactEvents = true;
+
+        shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
+
+        int layerIndex = std::countr_zero(static_cast<uint32_t>(aLayer));
+        shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
+
+        *aShape = b2CreateCircleShape(aBodyID, &shapeDef, &cicle);
+    }
+
+    void PhysicsEngine::CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, float aHalfHeight, float aRadius, Layer aLayer)
+    {
+        b2Capsule capsule({ 0, -aHalfHeight * 0.5f }, { 0, aHalfHeight * 0.5f }, aRadius);
+        b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+        shapeDef.enableHitEvents = true;
+        shapeDef.enableContactEvents = true;
+
+        shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
+
+        int layerIndex = std::countr_zero(static_cast<uint32_t>(aLayer));
+        shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
+
+        *aShape = b2CreateCapsuleShape(aBodyID, &shapeDef, &capsule);
+    }
+
     void PhysicsEngine::CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer)
     {
         int pointCount = std::min(static_cast<int>(aPolygonPoints.size()), B2_MAX_POLYGON_VERTICES);
@@ -97,6 +129,9 @@ namespace Eclipse
             vecOfVec.emplace_back(b2Vec2{ vec.x, vec.y });
 
         b2Hull hull = b2ComputeHull(vecOfVec.data(), pointCount);
+        if (!b2ValidateHull(&hull))
+            return;
+
         b2Polygon polygon = b2MakePolygon(&hull, 0.0001f);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
 
@@ -127,33 +162,75 @@ namespace Eclipse
 
         b2Body_SetTransform(aBodyID, postition, rot);
     }
-    void PhysicsEngine::SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale)
+
+    void PhysicsEngine::SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation)
     {
         b2Rot rot;
         rot.c = cosf(aRotation);
         rot.s = sinf(aRotation);
 
         b2Body_SetTransform(aBodyID, b2Vec2(aPosition.x, aPosition.y), rot);
+    }
+
+    void PhysicsEngine::SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale)
+    {
+        SetTransform(aBodyID, aPosition, aRotation);
 
         b2ShapeId shapeArray;
         int capacity = 1;
 
         b2Body_GetShapes(aBodyID, &shapeArray, capacity);
 
-        if (std::abs(aScale.x) > 0 && std::abs(aScale.y) > 0)
+        float absX = std::abs(aScale.x);
+        float absY = std::abs(aScale.y);
+
+        if (absX > 0 && absY > 0)
         {
-            b2Polygon polygon = b2MakeBox(std::abs(aScale.x), std::abs(aScale.y));
+            b2Polygon polygon = b2MakeBox(absX, absY);
             b2Shape_SetPolygon(shapeArray, &polygon);
+        }
+    }
+
+    void PhysicsEngine::SetTransformCircle(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius)
+    {
+        SetTransform(aBodyID, aPosition, aRotation);
+
+        b2ShapeId shapeArray;
+        int capacity = 1;
+
+        b2Body_GetShapes(aBodyID, &shapeArray, capacity);
+
+        float absRadius = std::abs(aRadius);
+
+        if (absRadius > 0)
+        {
+            b2Circle circle({ 0, 0 }, absRadius);
+            b2Shape_SetCircle(shapeArray, &circle);
+        }
+    }
+
+    void PhysicsEngine::SetTransformCapsule(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight)
+    {
+        SetTransform(aBodyID, aPosition, aRotation);
+
+        b2ShapeId shapeArray;
+        int capacity = 1;
+
+        b2Body_GetShapes(aBodyID, &shapeArray, capacity);
+
+        float absRadius = std::abs(aRadius);
+        float absHalfHeight = std::abs(aHalfHeight);
+
+        if (absHalfHeight > 0)
+        {
+            b2Capsule circle({ 0, -absHalfHeight * 0.5f }, { 0, absHalfHeight * 0.5f }, absRadius);
+            b2Shape_SetCapsule(shapeArray, &circle);
         }
     }
 
     void PhysicsEngine::SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale)
     {
-        b2Rot rot;
-        rot.c = cosf(aRotation);
-        rot.s = sinf(aRotation);
-
-        b2Body_SetTransform(aBodyID, b2Vec2(aPosition.x, aPosition.y), rot);
+        SetTransform(aBodyID, aPosition, aRotation);
 
         b2ShapeId shapeArray;
         int capacity = 1;
@@ -171,6 +248,10 @@ namespace Eclipse
             }
 
             b2Hull hull = b2ComputeHull(vecOfVec.data(), pointCount);
+
+            if (!b2ValidateHull(&hull))
+                return;
+
             b2Polygon polygon = b2MakePolygon(&hull, 0.0001f);
 
             b2Shape_SetPolygon(shapeArray, &polygon);

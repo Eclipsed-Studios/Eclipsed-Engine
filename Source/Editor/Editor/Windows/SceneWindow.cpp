@@ -10,8 +10,26 @@
 
 #include "CommandList.h"
 
+#include "Input/Input.h"
+
 namespace Eclipse::Editor
 {
+	void SceneWindow::MoveCamera()
+	{
+		ImVec2 windowSize = ImGui::GetWindowSize();
+
+		if (ImGui::IsMouseDown(1) || ImGui::IsMouseDown(2))
+		{
+			Math::Vector2i mouseDragdelta = Input::GetMouseDeltaPos();
+			myInspectorPosition -= Math::Vector2f(mouseDragdelta.x / (windowSize.x * (windowSize.y / windowSize.x)), -mouseDragdelta.y / windowSize.y) * 2.f;
+		}
+
+		if (Input::GetMouse(1) || Input::GetMouse(2))
+		{
+			GraphicsEngine::SetCursor(GraphicsEngine::MouseCursor::Grab);
+		}
+	}
+
 	void SceneWindow::Update()
 	{
 		if (ImGui::BeginMenuBar())
@@ -21,6 +39,8 @@ namespace Eclipse::Editor
 			ImGui::EndMenuBar();
 		}
 
+		MoveCamera();
+
 		// These clear colors are not working like they should and get mixed up so the first is the empty background and second is the actual
 		GraphicsEngine::BindFrameBuffer(mySceneFrameBuffer);
 		GraphicsEngine::ClearCurrentSceneBuffer(0.3f, 0.3f, 0.3f);
@@ -29,22 +49,18 @@ namespace Eclipse::Editor
 		float lastInspectorRotation = 0;
 		Math::Vector2f lastInspectorScale(1, 1);
 
-		Math::Vector2f inspectorPosition(0, 0);
-		float inspectorRotation = 0;
-		Math::Vector2f inspectorScale(1, 1);
-
 		GraphicsEngine::GetGlobalUniform(UniformType::Vector2f, "cameraPosition", &lastInspectorPosition);
 		GraphicsEngine::GetGlobalUniform(UniformType::Float, "cameraRotation", &lastInspectorRotation);
 		GraphicsEngine::GetGlobalUniform(UniformType::Vector2f, "cameraScale", &lastInspectorScale);
 
-		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", &inspectorPosition);
-		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", &inspectorRotation);
-		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", &inspectorScale);
+		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", &myInspectorPosition);
+		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", &myInspectorRotation);
+		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", &myInspectorScale);
 
 		ImVec2 windowSize = ImGui::GetWindowSize();
 
-        float aspectRatio = windowSize.y / windowSize.x;
-        GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
+		float aspectRatio = windowSize.y / windowSize.x;
+		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
 
 		CommandList::Execute();
 

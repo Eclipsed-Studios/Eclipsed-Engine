@@ -35,6 +35,8 @@ namespace Eclipse
 
 		Math::Vector2i GetTextureSize() { return Math::Vector2i{ width, height }; }
 		Math::Vector2i GetTextureSizeEngineUnits() { return Math::Vector2i{ static_cast<int>(static_cast<float>(width) * 0.01f), static_cast<int>(static_cast<float>(height) * 0.01f) }; }
+		
+		Math::Vector2f GetTextureSizeNormilized() { return Math::Vector2f{ static_cast<float>(width), static_cast<float>(height) }.Normalized(); }
 
 	private:
 		int width, height;
