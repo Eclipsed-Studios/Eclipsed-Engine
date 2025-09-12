@@ -1,12 +1,13 @@
 #pragma once
 
 #include "WindowBase.h"
+#include "RenderingWindow.h"
 
 #include "Math/Vector/Vector2.h"
 
 namespace Eclipse::Editor
 {
-	class SceneWindow final : public AbstractWindow
+	class SceneWindow final : public AbstractWindow, public BaseRenderingWindow
 	{
 		BASE_SELECTION(SceneWindow, "Scene")
 

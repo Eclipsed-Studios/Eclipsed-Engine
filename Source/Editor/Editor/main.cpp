@@ -19,26 +19,17 @@ int main(int argsCount, char* args[])
 	ShowWindow(hWnd, SW_HIDE);
 
 	TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
-	Editor::EditorContext editor;
-	ErrorCode result = editor.Init();
-
-	// ImFontConfig fontAwesomeConfig;
-	// fontAwesomeConfig.MergeMode = true;
-	// fontAwesomeConfig.PixelSnapH = true;
-	// constexpr float fontAwesomeSize = 16.0f;
-	// fontAwesomeConfig.GlyphMinAdvanceX = fontAwesomeSize;
-	// static constexpr ImWchar iconRanges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
-	// TemporarySettingsSingleton::Get().iconFont = io.Fonts->AddFontFromMemoryCompressedBase85TTF(FontAwesomeRegular_compressed_data_base85, 18, &fontAwesomeConfig, iconRanges);
+	ErrorCode result = Editor::EditorContext::Init();
 
 	if (result != ErrorCode::SUCCESS)
 		return 1;
 
-	while (editor.BeginFrame())
+	while (Editor::EditorContext::BeginFrame())
 	{
-		editor.Update();
-		editor.Render();
-		editor.EndFrame();
+		Editor::EditorContext::Update();
+		Editor::EditorContext::Render();
+		Editor::EditorContext::EndFrame();
 	}
 
-	editor.End();
+	Editor::EditorContext::End();
 }

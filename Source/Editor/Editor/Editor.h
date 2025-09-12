@@ -11,30 +11,17 @@ namespace Eclipse::Editor
     class EditorContext
     {
     public:
-        EditorContext(/* args */) = default;
-        ~EditorContext() = default;
+        static ErrorCode Init();
+        static bool BeginFrame();
+        static void Update();
+        static void Render();
+        static void EndFrame();
 
-        ErrorCode Init();
-        bool BeginFrame();
-        void Update();
-        void Render();
-        void EndFrame();
-
-        void End();
-
-
-        template<typename T>
-        void OpenWindow();
+        static void End();
 
     private:
-        GLFWwindow* myWindow;
+        static inline GLFWwindow* myWindow;
 
-        WindowManager myWindowManager;
+        static inline WindowManager myWindowManager;
     };
-
-    template<typename T>
-    inline void EditorContext::OpenWindow()
-    {
-    }
-
 }

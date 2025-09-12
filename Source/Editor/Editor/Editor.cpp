@@ -52,24 +52,6 @@ namespace Eclipse::Editor
     {
         Engine::Update();
         myWindowManager.Update();
-
-        ImGui::Begin("Test collision showing");
-        ImGui::Checkbox("Draw Physics Debug Lines##DrawAnyPhysicsDebugLines", &PhysicsEngine::GetDebugDraw());
-        ImGui::Checkbox("Draw Shapes##DebugDrawShapes", &PhysicsEngine::GetDebugDrawShapes(drawShapes));
-        ImGui::Checkbox("Draw Queries##DebugDrawQueries", &PhysicsEngine::GetDebugDrawShapes(drawQueries));
-        ImGui::Checkbox("Draw Joints##DebugDrawJoints", &PhysicsEngine::GetDebugDrawShapes(drawJoints));
-        ImGui::Checkbox("Draw Joints Advanced##DebugDrawJointsAdvanced", &PhysicsEngine::GetDebugDrawShapes(drawJointExtras));
-        ImGui::Checkbox("Draw Bounds##DebugDrawBounds", &PhysicsEngine::GetDebugDrawShapes(drawBounds));
-        ImGui::Checkbox("Draw Mass##DebugDrawMass", &PhysicsEngine::GetDebugDrawShapes(drawMass));
-        ImGui::Checkbox("Draw Body Names##DebugDrawBodyNames", &PhysicsEngine::GetDebugDrawShapes(drawBodyNames));
-        ImGui::Checkbox("Draw Contacts##DebugDrawContacts", &PhysicsEngine::GetDebugDrawShapes(drawContacts));
-        ImGui::Checkbox("Draw Graph Colors##DebugDrawGraphColors", &PhysicsEngine::GetDebugDrawShapes(drawGraphColors));
-        ImGui::Checkbox("Draw Contact Normals##DebugDrawContactNormals", &PhysicsEngine::GetDebugDrawShapes(drawContactNormals));
-        ImGui::Checkbox("Draw Contact Impulses##DebugDrawContactImpulses", &PhysicsEngine::GetDebugDrawShapes(drawContactImpulses));
-        ImGui::Checkbox("Draw Contact Features##DebugDrawContactFeatures", &PhysicsEngine::GetDebugDrawShapes(drawContactFeatures));
-        ImGui::Checkbox("Draw Friction Impulse##DebugDrawFrictionImpulse", &PhysicsEngine::GetDebugDrawShapes(drawFrictionImpulses));
-        ImGui::Checkbox("Draw Islands##DebugDrawIslands", &PhysicsEngine::GetDebugDrawShapes(drawIslands));
-        ImGui::End();
     }
 
     void EditorContext::Render()

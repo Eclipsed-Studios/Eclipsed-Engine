@@ -2,11 +2,12 @@
 
 #include "WindowBase.h"
 
+#include "RenderingWindow.h"
 #include "Math/Vector/Vector2.h"
 
 namespace Eclipse::Editor
 {
-	class GameWindow final : public AbstractWindow
+	class GameWindow final : public AbstractWindow, public BaseRenderingWindow
 	{
 		BASE_SELECTION(GameWindow, "Game")
 

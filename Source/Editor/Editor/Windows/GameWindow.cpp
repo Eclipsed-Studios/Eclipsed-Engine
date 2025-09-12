@@ -14,6 +14,13 @@ namespace Eclipse::Editor
 {
     void GameWindow::Update()
     {
+        if (ImGui::BeginMenuBar())
+        {
+            DrawGizmoButtons(DrawGizmo);
+
+            ImGui::EndMenuBar();
+        }
+
         // These clear colors are not working like they should and get mixed up so the first is the empty background and second is the actual
         GraphicsEngine::BindFrameBuffer(myGameFrameBuffer);
         GraphicsEngine::ClearCurrentSceneBuffer(0.3f, 0.3f, 0.3f);
@@ -40,7 +47,7 @@ namespace Eclipse::Editor
 
     void GameWindow::Open()
     {
-        flags |= ImGuiWindowFlags_NoScrollbar;
+        flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollWithMouse;
 
 
 
