@@ -19,7 +19,6 @@ else()
     set(CMAKE_BUILD_TYPE Editor_D CACHE STRING "Active build type for IntelliSense" FORCE)
 endif()
 
-
 set(CMAKE_CXX_FLAGS_EDITOR_D "${CMAKE_CXX_FLAGS_DEBUG} /Zi /Od")
 set(CMAKE_C_FLAGS_EDITOR_D "${CMAKE_C_FLAGS_DEBUG} /Zi /Od")
 set(CMAKE_EXE_LINKER_FLAGS_EDITOR_D "${CMAKE_EXE_LINKER_FLAGS_DEBUG} /DEBUG")
@@ -71,7 +70,14 @@ add_subdirectory(Source/Editor)
 add_subdirectory(Source/Launcher)
 
 
-
+foreach(target Editor Launcher CoreEngine GraphicsEngine PhysicsEngine Game Utilities)
+    target_compile_definitions(${target} PRIVATE
+        $<$<CONFIG:Editor_D>:_EDITOR>
+        $<$<CONFIG:Editor_R>:_EDITOR>
+        $<$<CONFIG:Game_D>:_GAME>
+        $<$<CONFIG:Game_R>:_GAME>
+    )
+endforeach()
 
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
