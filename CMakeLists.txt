@@ -7,15 +7,18 @@ set(CMAKE_UNITY_BUILD ON)
 
 project(Eclipse LANGUAGES CXX)
 
-set(CMAKE_CONFIGURATION_TYPES
+
+
+if(CMAKE_GENERATOR MATCHES "Visual Studio")
+    set(CMAKE_CONFIGURATION_TYPES
     Editor_D Editor_R
     Game_D Game_R
     CACHE STRING "" FORCE
 )
-
-if(NOT CMAKE_BUILD_TYPE)
+else()
     set(CMAKE_BUILD_TYPE Editor_D CACHE STRING "Active build type for IntelliSense" FORCE)
 endif()
+
 
 set(CMAKE_CXX_FLAGS_EDITOR_D "${CMAKE_CXX_FLAGS_DEBUG} /Zi /Od")
 set(CMAKE_C_FLAGS_EDITOR_D "${CMAKE_C_FLAGS_DEBUG} /Zi /Od")
