@@ -5,21 +5,52 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_PCH_INSTANTIATE_TEMPLATES ON)
 set(CMAKE_UNITY_BUILD ON)
 
-project(Template LANGUAGES CXX)
+project(Eclipse LANGUAGES CXX)
+
+set(CMAKE_CONFIGURATION_TYPES
+    Editor_D Editor_R
+    Game_D Game_R
+    CACHE STRING "" FORCE
+)
+
+set(CMAKE_CXX_FLAGS_EDITOR_D "${CMAKE_CXX_FLAGS_DEBUG} /Zi /Od")
+set(CMAKE_C_FLAGS_EDITOR_D "${CMAKE_C_FLAGS_DEBUG} /Zi /Od")
+set(CMAKE_EXE_LINKER_FLAGS_EDITOR_D "${CMAKE_EXE_LINKER_FLAGS_DEBUG} /DEBUG")
+set(CMAKE_SHARED_LINKER_FLAGS_EDITOR_D "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} /DEBUG")
+
+set(CMAKE_CXX_FLAGS_EDITOR_R "${CMAKE_CXX_FLAGS_RELEASE} /O2 /DNDEBUG")
+set(CMAKE_C_FLAGS_EDITOR_R "${CMAKE_C_FLAGS_RELEASE} /O2 /DNDEBUG")
+set(CMAKE_EXE_LINKER_FLAGS_EDITOR_R "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
+set(CMAKE_SHARED_LINKER_FLAGS_EDITOR_R "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}")
+
+
+
+set(CMAKE_CXX_FLAGS_GAME_D "${CMAKE_CXX_FLAGS_DEBUG} /Zi /Od")
+set(CMAKE_C_FLAGS_GAME_D "${CMAKE_C_FLAGS_DEBUG} /Zi /Od")
+set(CMAKE_EXE_LINKER_FLAGS_GAME_D "${CMAKE_EXE_LINKER_FLAGS_DEBUG} /DEBUG")
+set(CMAKE_SHARED_LINKER_FLAGS_GAME_D "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} /DEBUG")
+
+set(CMAKE_CXX_FLAGS_GAME_R "${CMAKE_CXX_FLAGS_RELEASE} /O2 /DNDEBUG")
+set(CMAKE_C_FLAGS_GAME_R "${CMAKE_C_FLAGS_RELEASE} /O2 /DNDEBUG")
+set(CMAKE_EXE_LINKER_FLAGS_GAME_R "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
+set(CMAKE_SHARED_LINKER_FLAGS_GAME_R "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}")
+
+
+
+
 
 add_compile_definitions(ENGINE_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/GameSettings.json\")
 add_compile_definitions(ENGINE_ASSETS_PATH=\"${CMAKE_SOURCE_DIR}/EngineAssets/\")
 add_compile_definitions(ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 add_compile_definitions(SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/\")
 
-add_subdirectory(Source/Externals/DiscordSDK EXCLUDE_FROM_ALL)
-add_subdirectory(Source/Externals/fmod EXCLUDE_FROM_ALL)
-add_subdirectory(Source/Externals/rapidjson EXCLUDE_FROM_ALL)
-add_subdirectory(Source/Externals/ImGui EXCLUDE_FROM_ALL)
-add_subdirectory(Source/Externals/OpenGL EXCLUDE_FROM_ALL)
-add_subdirectory(Source/Externals/SDL3 EXCLUDE_FROM_ALL)
-add_subdirectory(Source/Externals/stb_image EXCLUDE_FROM_ALL)
-add_subdirectory(Source/Externals/box2d EXCLUDE_FROM_ALL)
+add_subdirectory(Source/Externals/DiscordSDK)
+add_subdirectory(Source/Externals/fmod)
+add_subdirectory(Source/Externals/rapidjson)
+add_subdirectory(Source/Externals/ImGui)
+add_subdirectory(Source/Externals/OpenGL)
+add_subdirectory(Source/Externals/SDL3)
+add_subdirectory(Source/Externals/stb_image)
 
 add_subdirectory(Source/Utilities)
 
@@ -31,6 +62,10 @@ add_subdirectory(Source/Game)
 
 add_subdirectory(Source/Editor)
 add_subdirectory(Source/Launcher)
+
+
+
+
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Editor) 
