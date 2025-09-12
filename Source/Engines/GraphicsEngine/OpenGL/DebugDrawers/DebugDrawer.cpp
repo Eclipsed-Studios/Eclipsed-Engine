@@ -71,49 +71,51 @@ namespace Eclipse
         glLinkProgram(programID);
     }
 
+    void DebugDrawer::Begin()
+    {
+        myLineCollection.clear();
+    }
     void DebugDrawer::Render()
     {
-        CommandList::Emplace([&](){
-        glUseProgram(programID);
+        CommandList::Emplace([&]() {
+            glUseProgram(programID);
 
-        for (auto& line : myLineCollection)
-        {
-            for (int i = 0; i < line.linePoints.size(); i++)
+            for (auto& line : myLineCollection)
             {
-                auto& temporarySingleton = TemporarySettingsSingleton::Get();
+                for (int i = 0; i < line.linePoints.size(); i++)
+                {
+                    auto& temporarySingleton = TemporarySettingsSingleton::Get();
 
-                float oneDivResX = temporarySingleton.GetOneDivResolutionX();
-                float oneDivResY = temporarySingleton.GetOneDivResolutionY();
+                    float oneDivResX = temporarySingleton.GetOneDivResolutionX();
+                    float oneDivResY = temporarySingleton.GetOneDivResolutionY();
 
-                LineVTX vert;
-                vert.posX = line.linePoints[i].x;// * oneDivResX;
-                vert.posY = line.linePoints[i].y;// * oneDivResY;
+                    LineVTX vert;
+                    vert.posX = line.linePoints[i].x;// * oneDivResX;
+                    vert.posY = line.linePoints[i].y;// * oneDivResY;
 
-                vertices.emplace_back(vert);
-                indices.emplace_back(i);
+                    vertices.emplace_back(vert);
+                    indices.emplace_back(i);
+                }
+
+                glBindBuffer(GL_ARRAY_BUFFER, myVTXbuffer);
+                glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(LineVTX), vertices.data(), GL_DYNAMIC_DRAW);
+
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, myIDXbuffer);
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), indices.data(), GL_DYNAMIC_DRAW);
+
+                glBindVertexArray(myLineBuffer);
+
+                unsigned location = glGetUniformLocation(programID, "color");
+                glUniform4f(location, line.color.r, line.color.g, line.color.b, line.color.a);
+
+                GraphicsEngine::SetGlobalUniforms(programID);
+
+                glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, 0);
+
+                indices.clear();
+                vertices.clear();
             }
-
-            glBindBuffer(GL_ARRAY_BUFFER, myVTXbuffer);
-            glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(LineVTX), vertices.data(), GL_DYNAMIC_DRAW);
-
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, myIDXbuffer);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), indices.data(), GL_DYNAMIC_DRAW);
-
-            glBindVertexArray(myLineBuffer);
-
-            unsigned location = glGetUniformLocation(programID, "color");
-            glUniform4f(location, line.color.r, line.color.g, line.color.b, line.color.a);
-
-            GraphicsEngine::SetGlobalUniforms(programID);
-
-            glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, 0);
-
-            indices.clear();
-            vertices.clear();
-        }
-
-        myLineCollection.clear();
-        });
+            });
     }
 
     void DebugDrawer::DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd, const Math::Color& aColor)

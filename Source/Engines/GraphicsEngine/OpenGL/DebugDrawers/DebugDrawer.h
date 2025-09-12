@@ -22,6 +22,8 @@ namespace Eclipse
         }
 
         void Init();
+        
+        void Begin();
         void Render();
 
         static void DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd, const Math::Color& aColor = Math::Color(0, 1, 0, 1));

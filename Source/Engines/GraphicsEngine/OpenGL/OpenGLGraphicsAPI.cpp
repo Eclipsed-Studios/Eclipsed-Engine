@@ -135,6 +135,8 @@ namespace Eclipse
     {
         glfwMakeContextCurrent(myWindow);
         glfwPollEvents();
+
+        DebugDrawer::Get().Begin();
     }
 
     void GraphicsEngine::SetGlobalUniforms(unsigned aShaderProgram)
