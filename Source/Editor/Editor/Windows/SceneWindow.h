@@ -27,5 +27,8 @@ namespace Eclipse::Editor
 		Math::Vector2f myInspectorPosition = {0, 0};
 		float myInspectorRotation = 0;
 		Math::Vector2f myInspectorScale = {1, 1};
+
+		float totalYScroll = 0; 
+		float lastScroll = 0;
 	};
 }

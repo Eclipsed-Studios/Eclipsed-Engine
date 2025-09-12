@@ -18,16 +18,24 @@ namespace Eclipse::Editor
 	{
 		ImVec2 windowSize = ImGui::GetWindowSize();
 
+		float scrollY = Input::GetScroll().y;
+
+		float deltaYScroll = scrollY - lastScroll;
+
+		totalYScroll += deltaYScroll * 0.05f;
+		myInspectorScale = { totalYScroll + 1.f, totalYScroll + 1.f };
+
 		if (ImGui::IsMouseDown(1) || ImGui::IsMouseDown(2))
 		{
 			Math::Vector2i mouseDragdelta = Input::GetMouseDeltaPos();
-			myInspectorPosition -= Math::Vector2f(mouseDragdelta.x / (windowSize.x * (windowSize.y / windowSize.x)), -mouseDragdelta.y / windowSize.y) * 2.f;
+			myInspectorPosition -= Math::Vector2f(mouseDragdelta.x / (windowSize.x * (windowSize.y / windowSize.x)), -mouseDragdelta.y / windowSize.y) * 2.f * (1.f / myInspectorScale);
 		}
-
 		if (Input::GetMouse(1) || Input::GetMouse(2))
 		{
 			GraphicsEngine::SetCursor(GraphicsEngine::MouseCursor::Grab);
 		}
+
+		lastScroll = scrollY;
 	}
 
 	void SceneWindow::Update()
@@ -58,6 +66,8 @@ namespace Eclipse::Editor
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", &myInspectorScale);
 
 		ImVec2 windowSize = ImGui::GetWindowSize();
+
+		glViewport(0, 0, windowSize.x, windowSize.y);
 
 		float aspectRatio = windowSize.y / windowSize.x;
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
