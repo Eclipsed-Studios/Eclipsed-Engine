@@ -41,13 +41,16 @@ namespace Eclipse::Editor
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", &inspectorRotation);
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", &inspectorScale);
 
+		ImVec2 windowSize = ImGui::GetWindowSize();
+
+        float aspectRatio = windowSize.y / windowSize.x;
+        GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
+
 		CommandList::Execute();
 
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", &lastInspectorPosition);
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", &lastInspectorRotation);
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", &lastInspectorScale);
-
-		ImVec2 windowSize = ImGui::GetWindowSize();
 
 		if (windowSize.x != myLastWindowResolution.x || windowSize.y != myLastWindowResolution.y)
 		{
@@ -68,8 +71,6 @@ namespace Eclipse::Editor
 	void SceneWindow::Open()
 	{
 		flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollWithMouse;
-
-
 
 		glGenTextures(1, &mySceneTexture);
 		glGenFramebuffers(1, &mySceneFrameBuffer);

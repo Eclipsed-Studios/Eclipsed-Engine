@@ -25,15 +25,25 @@ namespace Eclipse::Editor
         GraphicsEngine::BindFrameBuffer(myGameFrameBuffer);
         GraphicsEngine::ClearCurrentSceneBuffer(0.3f, 0.3f, 0.3f);
 
-        CommandList::Execute();
-
         ImVec2 windowSize = ImGui::GetWindowSize();
+        
+        glViewport(0, 0, windowSize.x, windowSize.y);
+        
+        float aspectRatio = windowSize.y / windowSize.x;
+        GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
+
+        CommandList::Execute();
 
         if (windowSize.x != myLastWindowResolution.x || windowSize.y != myLastWindowResolution.y)
         {
             glBindTexture(GL_TEXTURE_2D, myGameTexture);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowSize.x, windowSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
             glBindTexture(GL_TEXTURE_2D, 0);
+            
+            // Also update the framebuffer attachment
+            glBindFramebuffer(GL_FRAMEBUFFER, myGameFrameBuffer);
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, myGameTexture, 0);
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
 
         myLastWindowResolution = { static_cast<int>(windowSize.x), static_cast<int>(windowSize.y) };
@@ -63,7 +73,7 @@ namespace Eclipse::Editor
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1920, 1080, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
-        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, myGameTexture, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, myGameTexture, 0);
 
         GraphicsEngine::BindFrameBuffer(0);
         glBindTexture(GL_TEXTURE_2D, 0);

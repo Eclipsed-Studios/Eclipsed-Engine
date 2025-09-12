@@ -18,7 +18,7 @@ namespace Eclipse
 		class Transform2D* myPlayerTransform = nullptr;
 		class Transform2D* myTransform = nullptr;
 
-		ReflectedVar_Default(float, myPositionX, 0.5f);
-		ReflectedVar_Default(float, myPositionY, 0.5f);
+		float myPositionX = 0.f;
+		float myPositionY = 0.f;
 	};
 }
