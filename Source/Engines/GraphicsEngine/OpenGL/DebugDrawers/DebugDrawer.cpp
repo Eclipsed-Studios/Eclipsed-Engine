@@ -7,6 +7,8 @@
 
 #include "TemporarySettingsSingleton.h"
 
+#include "CommandList.h"
+
 static const char* vtxShaderSource =
 "#version 460 core\n"
 "layout(location = 0)in vec2 VertexPosition;"
@@ -71,6 +73,7 @@ namespace Eclipse
 
     void DebugDrawer::Render()
     {
+        CommandList::Emplace([&](){
         glUseProgram(programID);
 
         for (auto& line : myLineCollection)
@@ -110,6 +113,7 @@ namespace Eclipse
         }
 
         myLineCollection.clear();
+        });
     }
 
     void DebugDrawer::DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd, const Math::Color& aColor)
