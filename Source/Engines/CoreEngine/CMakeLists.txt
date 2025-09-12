@@ -42,6 +42,9 @@ target_link_libraries(CoreEngine PUBLIC PhysicsEngine)
 target_link_libraries(CoreEngine PUBLIC Game)
 target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
 
+# if(MSVC)
+#     target_compile_options(CoreEngine PUBLIC /wd26495)
+# endif()
 
 foreach(source_file IN LISTS COREENGINE_SOURCES)
     file(RELATIVE_PATH source_path "${COREENGINE_ROOT}" "${source_file}")

@@ -6,6 +6,8 @@
 #include "rapidjson/rapidjson/stringbuffer.h"
 #include "rapidjson/rapidjson/filewritestream.h"
 
+
+
 #include <fstream>
 
 namespace Eclipse
@@ -15,7 +17,7 @@ namespace Eclipse
 		return myFrames[aIdx];
 	}
 
-	const std::vector<unsigned>& SpriteSheetAnimation::GetAnimation(const std::string& aName) const
+	std::vector<unsigned> SpriteSheetAnimation::GetAnimation(const std::string& aName) const
 	{
 		if (myAnimations.find(aName) == myAnimations.end())
 		{

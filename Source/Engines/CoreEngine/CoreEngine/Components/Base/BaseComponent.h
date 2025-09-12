@@ -7,7 +7,11 @@
 #include "defines.h"
 #include "Component.h"
 
+#pragma warning (push)
+#pragma warning (disable:4005)
 #define BASE_MACRO_NAME COMPONENT_BASE
+#pragma warning(pop)
+
 #include "MacroOverloadSelector.h"
 
 #define COMPONENT_FRIEND_CLASS         \

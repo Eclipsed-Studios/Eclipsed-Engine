@@ -16,7 +16,7 @@ namespace Eclipse
 
 	public:
 		const Math::Rect& GetRect(unsigned aIdx) const;
-		const std::vector<unsigned>& GetAnimation(const std::string& aName) const;
+		std::vector<unsigned> GetAnimation(const std::string& aName) const;
 
 		static void CreateDefualtJson(const std::string& aPath);
 

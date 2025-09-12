@@ -1,6 +1,5 @@
 #pragma once
 
-#define LEAN_AND_MEAN
 #include <Windows.h>
 
 #include "ImGui/imgui.h"
@@ -10,6 +9,8 @@
 
 // ------------- Window Includes ------------------
 #include "Editor/Windows/AssetWindow.h"
+#include "Editor/Windows/SceneWindow.h"
+#include "Editor/Windows/GameWindow.h"
 #include "Editor/Windows/ConsoleWindow.h"
 #include "Editor/Windows/DebugWindow.h"
 #include "Editor/Windows/HierarchyWindow.h"

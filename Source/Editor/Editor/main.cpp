@@ -3,7 +3,6 @@
 #include "Editor.h"
 #include "ErrorCodes.h"
 
-#define LEAN_AND_MEAN
 #include <windows.h>
 
 #include "TemporarySettingsSingleton.h"

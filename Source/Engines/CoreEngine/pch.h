@@ -65,4 +65,5 @@
 #include "Input/InputAction.h"
 
 #define LEAN_AND_MEAN
+#undef APIENTRY
 #include <Windows.h>

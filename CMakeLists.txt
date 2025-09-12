@@ -12,13 +12,14 @@ add_compile_definitions(ENGINE_ASSETS_PATH=\"${CMAKE_SOURCE_DIR}/EngineAssets/\"
 add_compile_definitions(ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 add_compile_definitions(SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/\")
 
-add_subdirectory(Source/Externals/DiscordSDK)
-add_subdirectory(Source/Externals/fmod)
-add_subdirectory(Source/Externals/rapidjson)
-add_subdirectory(Source/Externals/ImGui)
-add_subdirectory(Source/Externals/OpenGL)
-add_subdirectory(Source/Externals/SDL3)
-add_subdirectory(Source/Externals/stb_image)
+add_subdirectory(Source/Externals/DiscordSDK EXCLUDE_FROM_ALL)
+add_subdirectory(Source/Externals/fmod EXCLUDE_FROM_ALL)
+add_subdirectory(Source/Externals/rapidjson EXCLUDE_FROM_ALL)
+add_subdirectory(Source/Externals/ImGui EXCLUDE_FROM_ALL)
+add_subdirectory(Source/Externals/OpenGL EXCLUDE_FROM_ALL)
+add_subdirectory(Source/Externals/SDL3 EXCLUDE_FROM_ALL)
+add_subdirectory(Source/Externals/stb_image EXCLUDE_FROM_ALL)
+add_subdirectory(Source/Externals/box2d EXCLUDE_FROM_ALL)
 
 add_subdirectory(Source/Utilities)
 
@@ -46,6 +47,7 @@ make_directory("${CMAKE_SOURCE_DIR}/Bin")
 file(GLOB DLLs "${CMAKE_SOURCE_DIR}/Tools/DLLs/*")
 file(COPY ${DLLs} DESTINATION "${CMAKE_SOURCE_DIR}/Bin")
 
+add_compile_definitions(LEAN_AND_MEAN)
 
 
 include_directories("${CMAKE_SOURCE_DIR}/Source/Utilities")

@@ -16,9 +16,7 @@ target_precompile_headers(PhysicsEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.
 
 target_include_directories(PhysicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/)
 
-target_link_directories(PhysicsEngine PUBLIC "${CMAKE_SOURCE_DIR}/Tools/Libs/box2d")
-target_link_libraries(PhysicsEngine PUBLIC debug box2d-d)
-target_link_libraries(PhysicsEngine PUBLIC optimized box2d)
+target_link_libraries(PhysicsEngine PUBLIC box2d)
 
 target_include_directories(PhysicsEngine PUBLIC "${PHYSENGINE_ROOT}")
 

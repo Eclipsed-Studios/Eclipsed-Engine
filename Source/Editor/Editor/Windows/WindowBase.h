@@ -1,3 +1,6 @@
+#ifndef _WINDOW_BASE_H
+#define _WINDOW_BASE_H
+
 #include "Window.h"	
 
 /**
@@ -7,7 +10,13 @@
 */
 #define HELP
 
+#pragma warning (push)
+#pragma warning (disable:4005)
+
 #define BASE_MACRO_NAME EDITOR_WINDOW_BASE
+
+#pragma warning(pop)
+
 #include "MacroOverloadSelector.h"	
 
 #define EDITOR_WINDOW_BASE_2(type, name)                                           \
@@ -30,3 +39,5 @@ private:                                                                        
 public:                                                       \
     const char* GetCategoryName() override { return category; } \
     EDITOR_WINDOW_BASE_2(type, name)
+
+#endif
