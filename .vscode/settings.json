@@ -5,6 +5,7 @@
     "comments": false,
     "strings": false
   },
+  "cmake.useCMakePresets":"always",
   "files.associations": {
     "algorithm": "cpp",
     "utility": "cpp",
