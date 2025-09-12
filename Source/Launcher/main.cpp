@@ -9,51 +9,85 @@
 
 #include <chrono>
 
-#include "Engine.h"
-#include "PlatformIntegration/DiscordIntegration.h"
-
 using namespace Eclipse;
 
-ErrorCode Init()
-{
-    PlatformIntegration::Discord::SetupWithID(1401121853829025922);
-    PlatformIntegration::Discord::SetLargeImage("noah1");
+#ifdef _EDITOR
 
+#include "Editor/Editor.h"
+
+static ErrorCode Init()
+{
+    Editor::EditorContext::Init();
+
+    return ErrorCode::SUCCESS;
+}
+
+static int BeginFrame()
+{
+    return Editor::EditorContext::BeginFrame();
+}
+
+static void Update()
+{
+    Editor::EditorContext::Update();
+    Editor::EditorContext::Render();
+}
+
+static void EndFrame()
+{
+    Editor::EditorContext::EndFrame();
+}
+
+static void End()
+{
+    Editor::EditorContext::End();
+}
+
+#elif _GAME
+
+#include "Engine.h"
+
+static ErrorCode Init()
+{
     Engine::Init();
 
     return ErrorCode::SUCCESS;
 }
 
-int Begin()
+static int BeginFrame()
 {
-    Engine::BeginFrame();
-    return 1;
+    return Engine::BeginFrame();
 }
 
-void Update()
+static void Update()
 {
     Engine::Update();
 }
 
-void End()
+static void EndFrame()
 {
     Engine::EndFrame();
 }
 
+static void End()
+{
+    // End the engine.
+}
+
+#endif
+
 int main(int argsCount, char* args[])
 {
-    HWND hWnd = GetConsoleWindow();
-    ShowWindow(hWnd, SW_HIDE);
-
-    TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
     ErrorCode result = Init();
 
     if (result != ErrorCode::SUCCESS)
         return 1;
 
-    while (Begin())
+    while (BeginFrame())
     {
         Update();
-        End();
+        EndFrame();
     }
+
+    End();
 }

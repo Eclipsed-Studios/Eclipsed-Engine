@@ -16,7 +16,8 @@ file(GLOB_RECURSE EDITOR_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
 )
 
-add_executable(Editor ${EDITOR_SOURCES})
+add_library(Editor STATIC ${EDITOR_SOURCES})
+# add_executable(Editor ${EDITOR_SOURCES})
 
 target_precompile_headers(Editor PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 

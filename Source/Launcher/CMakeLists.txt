@@ -24,6 +24,7 @@ target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
+target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
 
 target_compile_definitions(Launcher PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 
@@ -33,6 +34,12 @@ RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/Bin"
 RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/Bin"
 OUTPUT_NAME "${GAME_NAME}"
 )
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/Bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/Bin")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
 
 foreach(source_file IN LISTS LAUNCHER_SOURCES)
     file(RELATIVE_PATH source_path "${LAUNCHER_ROOT}" "${source_file}")
@@ -49,6 +56,7 @@ target_link_libraries(Launcher PRIVATE GraphicsEngine)
 target_link_libraries(Launcher PRIVATE CoreEngine)
 target_link_libraries(Launcher PRIVATE PhysicsEngine)
 target_link_libraries(Launcher PRIVATE FMOD)
+target_link_libraries(Launcher PRIVATE Editor)
 find_package(OpenGL REQUIRED)
 target_link_libraries(Launcher PRIVATE OpenGL::GL)
 target_link_libraries(Launcher PRIVATE Opengl)

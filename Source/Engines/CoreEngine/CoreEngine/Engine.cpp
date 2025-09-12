@@ -24,6 +24,8 @@ namespace Eclipse
 {
 	void Engine::Init()
 	{
+		TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
+
 		InitSubSystems();
 
 		game.Init();
@@ -34,9 +36,9 @@ namespace Eclipse
 
 	void Engine::InitSubSystems()
 	{
-		{ // Sub engines
-			GraphicsEngine::Init();
+		GraphicsEngine::Init();
 
+		{ // PHYSICS
 			b2DebugDraw debugDraw = { 0 };
 
 			PhysicsDebugDrawer::Init(&debugDraw);
