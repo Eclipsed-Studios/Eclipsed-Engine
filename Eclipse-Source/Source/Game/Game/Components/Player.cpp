@@ -20,13 +20,13 @@ namespace Eclipse
 		mySpriteRenderer = gameObject->GetComponent<SpriteRenderer2D>();
 		myAnimation = gameObject->GetComponent<SpriteSheetAnimator2D>();
 
-		myAnimation->Play();
+		//myAnimation->Play();
 	}
 
 	void Player::Update()
 	{
 		CheckInput();
-		HandleInput();
+		//HandleInput();
 
 		myTimer -= Time::GetDeltaTime();
 

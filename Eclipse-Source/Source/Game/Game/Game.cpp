@@ -63,14 +63,14 @@ namespace Eclipse
 			playerObj->AddComponent<Player>();
 			playerObj->AddComponent<PlayerMovement>();
 
-			rend->SetTexture(ASSET_PATH "Sprites/Pink_Monster.png");
+			rend->SetTexture(ASSET_PATH "Sprites/Scissors.png");
 
-			SpriteSheetAnimator2D* animation = playerObj->AddComponent<SpriteSheetAnimator2D>();
+			//SpriteSheetAnimator2D* animation = playerObj->AddComponent<SpriteSheetAnimator2D>();
 
 			//ResourcePointer<SpriteSheetAnimation> anim = Resources::Get<SpriteSheetAnimation>(ASSET_PATH "Sprites/DefaultAnimation.json");
 
 
-			animation->SetSpriteSheet(ASSET_PATH "Sprites/DefaultAnimation.json");
+			//animation->SetSpriteSheet(ASSET_PATH "Sprites/DefaultAnimation.json");
 		}
 
 		// Ground

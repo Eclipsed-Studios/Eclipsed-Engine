@@ -79,6 +79,9 @@ namespace Eclipse
 
 		myMaterial = new Material();
 		myMaterial->SetTexture(myTexturePath->c_str());
+
+					myMaterial->color.g = 0;
+			myMaterial->color.b = 0;
 	}
 
 	void SpriteRenderer2D::Start()

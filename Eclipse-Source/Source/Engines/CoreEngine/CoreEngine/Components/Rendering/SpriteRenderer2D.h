@@ -48,7 +48,7 @@ namespace Eclipse
         void Draw();
 
         void SetTexture(const char* aPath);
-        const Material* GetMaterial() { return myMaterial; }
+        Material* GetMaterial() { return myMaterial; }
 
         void SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax);
 

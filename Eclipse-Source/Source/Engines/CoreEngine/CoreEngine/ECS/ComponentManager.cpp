@@ -60,11 +60,13 @@ namespace Eclipse
 				return aComp0->myUpdateStartPriority > aComp1->myUpdateStartPriority;
 			});
 
+		myEntityIDToVectorOfComponentIDs.clear();
+
 		for (int i = 0; i < (int)myComponents.size()/* - 1*/; i++)
 		{
 			Component* comp = myComponents[i];
 
-			auto& mapOfComponentsGO = myEntityIDToVectorOfComponentIDs.at(comp->gameObject->GetID());
+			auto& mapOfComponentsGO = myEntityIDToVectorOfComponentIDs[comp->gameObject->GetID()];
 			RegisteredTypeIndex index = comp->myUniqueComponentID;
 
 			// Example: store the new position in the map
