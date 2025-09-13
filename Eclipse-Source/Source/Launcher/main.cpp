@@ -78,9 +78,9 @@ static void End()
 
 int main(int argsCount, char* args[])
 {
-    AllocConsole();
-    freopen("CONOUT$", "w", stdout);
-    freopen("CONIN$", "r", stdin);
+    // AllocConsole();
+    // freopen("CONOUT$", "w", stdout);
+    // freopen("CONIN$", "r", stdin);
 
     ErrorCode result = Init();
 

@@ -12,26 +12,48 @@
 
 #include "Input/Input.h"
 
+#include <iostream>
+
 namespace Eclipse::Editor
 {
 	void SceneWindow::MoveCamera()
 	{
+		float scrollY = Input::GetScroll().y;
+		float deltaYScroll = scrollY - lastScroll;
+		lastScroll = scrollY;
+
 		if (ImGui::IsWindowHovered())
 		{
 			if (ImGui::IsMouseDown(1) || ImGui::IsMouseDown(2))
 			{
 				mouseIsDown = true;
 			}
-		}
-		if (mouseIsDown)
-		{
-			float scrollY = Input::GetScroll().y;
-			float deltaYScroll = scrollY - lastScroll;
-			lastScroll = scrollY;
 
 			totalYScroll += deltaYScroll * 0.05f;
 			myInspectorScale = { totalYScroll + 1.f, totalYScroll + 1.f };
 
+			if (deltaYScroll > 0)
+			{
+				ImGui::SetCursorPos(ImVec2(0, 0));
+
+				ImVec2 mousePos = ImGui::GetMousePos();
+				ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
+				ImVec2 windowSize = ImGui::GetWindowSize();
+
+				Math::Vector2f relativeMousePosEcl;
+
+				relativeMousePosEcl.x = (mousePos.x - cursorScreenPos.x) / windowSize.x;
+				relativeMousePosEcl.y = 1 - (mousePos.y - cursorScreenPos.y) / windowSize.y;
+
+				relativeMousePosEcl.x = relativeMousePosEcl.x * 2.f - 1;
+				relativeMousePosEcl.y = relativeMousePosEcl.y * 2.f - 1;
+
+				myInspectorPosition += relativeMousePosEcl * 0.1f;
+			}
+
+		}
+		if (mouseIsDown)
+		{
 			ImVec2 windowSize = ImGui::GetWindowSize();
 			Math::Vector2i mouseDragdelta = Input::GetMouseDeltaPos();
 			myInspectorPosition -= Math::Vector2f(mouseDragdelta.x / (windowSize.x * (windowSize.y / windowSize.x)), -mouseDragdelta.y / windowSize.y) * 2.f * (1.f / myInspectorScale);
