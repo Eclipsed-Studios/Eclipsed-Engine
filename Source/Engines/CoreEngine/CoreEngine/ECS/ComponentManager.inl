@@ -55,6 +55,8 @@ namespace Eclipse
         component->gameObject = myEntityIdToEntity[aGOID];
         component->myUniqueComponentID = typeIndex;
 
+        myComponentsToStart.emplace_back(component);
+
         myComponents.emplace_back(component);
         size_t componentIndex = myComponents.size() - 1;
 
@@ -72,11 +74,11 @@ namespace Eclipse
                     auto& mapOfComponentsGO0 = myEntityIDToVectorOfComponentIDs.at(aComp0->gameObject->GetID());
                     RegisteredTypeIndex indexComp0 = aComp0->myUniqueComponentID;
                     ComponentIndex savedValue0 = mapOfComponentsGO0.at(indexComp0);
-                    
+
                     auto& mapOfComponentsGO1 = myEntityIDToVectorOfComponentIDs.at(aComp1->gameObject->GetID());
                     RegisteredTypeIndex indexComp1 = aComp1->myUniqueComponentID;
                     ComponentIndex savedValue1 = mapOfComponentsGO1.at(indexComp1);
-                    
+
                     mapOfComponentsGO0.erase(indexComp0);
                     mapOfComponentsGO1.erase(indexComp1);
 
@@ -87,14 +89,15 @@ namespace Eclipse
                 return hasPriority;
             });
 
+
         return component;
     }
 
     template<typename T>
     inline T* ComponentManager::AddComponentWithID(GameObjectID aGOID, unsigned aComponentID)
     {
-        char* base = static_cast<char*>(myComponentData);
-        char* ptrToComponent = base + myComponentMemoryTracker;
+        uint8_t* base = static_cast<uint8_t*>(myComponentData);
+        uint8_t* ptrToComponent = base + myComponentMemoryTracker;
         myComponentMemoryTracker += sizeof(T);
 
         RegisteredTypeIndex typeIndex = GetComponentID<T>();
@@ -108,6 +111,8 @@ namespace Eclipse
         component->SetComponentID(aComponentID);
         component->gameObject = myEntityIdToEntity[aGOID];
         component->myUniqueComponentID = typeIndex;
+
+        myComponentsToStart.emplace_back(component);
 
         myComponents.emplace_back(component);
         size_t componentIndex = myComponents.size() - 1;

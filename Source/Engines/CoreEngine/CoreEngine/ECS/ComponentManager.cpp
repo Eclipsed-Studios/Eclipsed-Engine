@@ -7,14 +7,31 @@ namespace Eclipse
         myComponentData = new uint8_t[MAX_COMPONENT_MEMORY_BYTES];
     }
 
+    void ComponentManager::AwakeStartComponents()
+    {
+        if (myComponentsToStart.empty())
+            return;
+
+        std::sort(myComponentsToStart.begin(), myComponentsToStart.end(), [&](Component* aComp0, Component* aComp1)
+            {
+                bool hasPriority = aComp0->myUpdateStartPriority > aComp1->myUpdateStartPriority;
+                return hasPriority;
+            });
+
+        AwakeComponents();
+        StartComponents();
+
+        myComponentsToStart.clear();
+    }
+
     void ComponentManager::AwakeComponents()
     {
-        for (auto& component : myComponents)
+        for (auto& component : myComponentsToStart)
             component->Awake();
     }
     void ComponentManager::StartComponents()
     {
-        for (auto& component : myComponents)
+        for (auto& component : myComponentsToStart)
             component->Start();
     }
 

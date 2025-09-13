@@ -35,6 +35,8 @@ namespace Eclipse
 
 		static void Init();
 
+		static void AwakeStartComponents();
+
 		static void AwakeComponents();
 		static void StartComponents();
 
@@ -68,6 +70,8 @@ namespace Eclipse
 
 		static inline std::vector<Component*> myComponents;
 		static inline unsigned myNextGameobjectID = 0;
+
+		static inline std::vector<Component*> myComponentsToStart;
 
 		// Gameobject to components
 		static inline std::unordered_map<GameObjectID, GameObject*> myEntityIdToEntity;

@@ -29,9 +29,6 @@ namespace Eclipse
 		InitSubSystems();
 
 		game.Init();
-
-		ComponentManager::AwakeComponents();
-		ComponentManager::StartComponents();
 	}
 
 	void Engine::InitSubSystems()
@@ -67,6 +64,7 @@ namespace Eclipse
 	{
 		GraphicsEngine::BeginFrame();
 		int shouldCloseWindow = GraphicsEngine::ShouldWindowClose();
+
 		return !shouldCloseWindow;
 	}
 	void Engine::Update()
@@ -81,6 +79,8 @@ namespace Eclipse
 		Input::Update();
 
 		PhysicsEngine::Update();
+
+		ComponentManager::AwakeStartComponents();
 
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();
