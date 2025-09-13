@@ -26,7 +26,7 @@ namespace Eclipse
 		list.erase(
 			std::remove_if(list.begin(), list.end(),
 				[&](const auto& element) {
-					return element->myID == ptr->myID;
+					return element->pComponent == ptr->pComponent;
 				}),
 			list.end());
 
@@ -59,9 +59,9 @@ namespace Eclipse
 		}
 	}
 
-	void Reflection::DrawInspector(Component* aComponent)
+	void Reflection::DrawInspector(Component* aComp)
 	{
-		TypeToList& typeList = registeredVariables[aComponent];
+		TypeToList& typeList = registeredVariables[aComp];
 
 		for (auto& [type, list] : typeList)
 		{

@@ -26,7 +26,7 @@ namespace Eclipse
 	public:
 		static void RegisterVariable(AbstractReflectedVariable* ptr);
 		static void UnregisterVariable(AbstractReflectedVariable* ptr);
-		static void DrawInspector(Component* aComponent);
+		static void DrawInspector(Component* aComp);
 
 		static CompToTypeList& GetList();
 	};

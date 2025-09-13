@@ -4,8 +4,8 @@
 
 namespace Eclipse
 {
-	AbstractReflectedVariable::AbstractReflectedVariable(const std::string& aName, const std::string& aTypeName, Component* aComponent)
-		: myName(aName), myTypeName(aTypeName), pComponent(aComponent), myID(Random::GetValue<unsigned>())
+	AbstractReflectedVariable::AbstractReflectedVariable(const std::string& aName, const std::string& aTypeName, unsigned aCompID, Component* aComponent)
+		: myName(aName), myTypeName(aTypeName), pComponent(aComponent), myID()
 	{
 		Register();
 	}

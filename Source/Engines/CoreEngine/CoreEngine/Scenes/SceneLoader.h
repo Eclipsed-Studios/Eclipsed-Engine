@@ -19,6 +19,7 @@ namespace Eclipse
 
 	private:
 		static void LoadComponent(const std::string& componentName, const rapidjson::Value& aValue);
+		static void LoadType(AbstractReflectedVariable* aReflectedVariable, const rapidjson::Value& aValue);
 
 		static void WriteMember(rapidjson::Value& aValue, AbstractReflectedVariable* aReflectedVariable, rapidjson::Document::AllocatorType& alloc);
 		static void WriteType(rapidjson::Value& aValue, AbstractReflectedVariable* aReflectedVariable, rapidjson::Document::AllocatorType& alloc);

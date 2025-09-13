@@ -11,7 +11,7 @@ namespace Eclipse
 		friend class Reflection;
 
 	public:
-		AbstractReflectedVariable(const std::string& aName, const std::string& aTypeName, Component* aComponent);
+		AbstractReflectedVariable(const std::string& aName, const std::string& aTypeName, unsigned aCompID, Component* aComponent);
 
 	public:
 		const std::string& GetName() const { return myName; }
@@ -40,14 +40,14 @@ namespace Eclipse
 	class ReflectedVariable : public AbstractReflectedVariable
 	{
 	public:
-		ReflectedVariable(const std::string& aName, const std::string& aTypeName, Component* aComponent)
-			: AbstractReflectedVariable(aName, aTypeName, aComponent), myData({})
+		ReflectedVariable(const std::string& aName, const std::string& aTypeName, unsigned aCompID, Component* aComponent)
+			: AbstractReflectedVariable(aName, aTypeName, aCompID, aComponent), myData({})
 		{
 			size = sizeof(T);
 		}
 
-		ReflectedVariable(const std::string& aName, const std::string& aTypeName, Component* aComponent, const T& aDefaultValue)
-			: AbstractReflectedVariable(aName, aTypeName, aComponent), myData(aDefaultValue)
+		ReflectedVariable(const std::string& aName, const std::string& aTypeName, unsigned aCompID, Component* aComponent, const T& aDefaultValue)
+			: AbstractReflectedVariable(aName, aTypeName, aCompID, aComponent), myData(aDefaultValue)
 		{
 			if constexpr (std::is_same<T, std::string>::value) size = aDefaultValue.size();
 			else size = sizeof(T);
@@ -59,6 +59,7 @@ namespace Eclipse
 		const T& Get() const { return myData; }
 
 		void* GetData() override { return &myData; }
+		void SetData(const T& aValue) { myData = aValue; }
 
 	public:
 		operator T& () { return myData; }

@@ -47,10 +47,9 @@ namespace Eclipse
 		{
 			for (auto& [type, varList] : typeToVarList)
 			{
-				std::string compName = pComp->GetComponentName();
-
 				for (auto& var : varList)
 				{
+					std::string compName = var->GetComponent()->GetComponentName();
 					Component* pComp = var->GetComponent();
 					rapidjson::Value& val = components[compName][pComp->myComponentID];
 
@@ -213,9 +212,81 @@ namespace Eclipse
 		using namespace rapidjson;
 		auto addComponent = ComponentRegistry::GetAddComponent(componentName);
 
+		std::unordered_map<unsigned, Component*> compMap;
 		for (const Value& val : aValue.GetArray())
 		{
-			addComponent(val["owner"].GetUint(), val["id"].GetUint());
+			const unsigned id = val["id"].GetUint();
+			const unsigned owner = val["owner"].GetUint();
+
+			compMap.emplace(id, addComponent(owner, id));
 		}
+
+
+		for (const Value& val : aValue.GetArray())
+		{
+			const unsigned id = val["id"].GetUint();
+			auto& compIdToTypeList = Reflection::GetList();
+
+			Component* pComp = compMap[id];
+			auto& typeList = compIdToTypeList[pComp];
+
+			for (auto& [type, varList] : typeList)
+			{
+				for (auto* var : varList)
+				{
+					LoadType(var, val);
+				}
+			}
+		}
+	}
+	void SceneLoader::LoadType(AbstractReflectedVariable* aReflectedVariable, const rapidjson::Value& aValue)
+	{
+		if (aReflectedVariable->GetTypeName() == "float")
+		{
+			((ReflectedVariable<float>*)aReflectedVariable)->SetData(aValue[aReflectedVariable->GetName().c_str()].GetFloat());
+		}
+		else if (aReflectedVariable->GetTypeName() == "int")
+		{
+			((ReflectedVariable<int>*)aReflectedVariable)->SetData(aValue[aReflectedVariable->GetName().c_str()].GetInt());
+		}
+		else if (aReflectedVariable->GetTypeName() == "Math::Vector2<float>" || aReflectedVariable->GetTypeName() == "Math::Vector2f")
+		{
+			const rapidjson::Value& val = aValue[aReflectedVariable->GetName().c_str()];
+			((ReflectedVariable<Math::Vector2f>*)aReflectedVariable)->Get().Load(val);
+		}
+		else if (aReflectedVariable->GetTypeName() == "Math::Vector2<unsigned>" || aReflectedVariable->GetTypeName() == "Math::Vector2ui"
+			|| aReflectedVariable->GetTypeName() == "Math::Vector2<unsigned int>")
+		{
+			const rapidjson::Value& val = aValue[aReflectedVariable->GetName().c_str()];
+			((ReflectedVariable<Math::Vector2ui>*)aReflectedVariable)->Get().Load(val);
+		}
+		else if (aReflectedVariable->GetTypeName() == "Math::Vector2<int>" || aReflectedVariable->GetTypeName() == "Math::Vector2i")
+		{
+			const rapidjson::Value& val = aValue[aReflectedVariable->GetName().c_str()];
+			((ReflectedVariable<Math::Vector2i>*)aReflectedVariable)->Get().Load(val);
+		}
+		else if (aReflectedVariable->GetTypeName() == "Math::Vector2<double>" || aReflectedVariable->GetTypeName() == "Math::Vector2d")
+		{
+			const rapidjson::Value& val = aValue[aReflectedVariable->GetName().c_str()];
+			((ReflectedVariable<Math::Vector2d>*)aReflectedVariable)->Get().Load(val);
+		}
+
+		else if (aReflectedVariable->GetTypeName() == "bool")
+		{
+			((ReflectedVariable<bool>*)aReflectedVariable)->SetData(aValue[aReflectedVariable->GetName().c_str()].GetBool());
+		}
+		else if (aReflectedVariable->GetTypeName() == "std::string")
+		{
+			((ReflectedVariable<std::string>*)aReflectedVariable)->SetData(aValue[aReflectedVariable->GetName().c_str()].GetString());
+		}
+#ifdef _EDITOR
+		else
+		{
+			auto& var = aReflectedVariable;
+			DebugLogger::LogWarning("Reflected variable not supported in SceneLoading: " +
+				std::string(var->GetComponent()->GetComponentName()) +
+				" | " + var->GetTypeName() + " | " + var->GetName());
+		}
+#endif
 	}
 }

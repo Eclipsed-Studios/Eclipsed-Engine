@@ -6,6 +6,7 @@
 
 namespace Eclipse
 {
+	class Component;
 	class ComponentRegistry final
 	{
 	public:
@@ -13,13 +14,13 @@ namespace Eclipse
 		~ComponentRegistry() = delete;
 
 	public:
-		static void Register(const std::string& aTypeName, std::function<void(unsigned, unsigned)> aAddComponentMethod)
+		static void Register(const std::string& aTypeName, std::function<Component*(unsigned, unsigned)> aAddComponentMethod)
 		{
 			auto& map = GetAddComponentMap();
 			map[aTypeName] = aAddComponentMethod;
 		}
 
-		static std::function<void(unsigned, unsigned)> GetAddComponent(const std::string& aTypeName)
+		static std::function<Component* (unsigned, unsigned)> GetAddComponent(const std::string& aTypeName)
 		{
 			auto& map = GetAddComponentMap();
 			auto it = map.find(aTypeName);
@@ -28,12 +29,12 @@ namespace Eclipse
 				return it->second;
 			}
 
-			return [](unsigned, unsigned) {};
+			return [](unsigned, unsigned) {return nullptr;};
 		}
 
-		static std::unordered_map<std::string, std::function<void(unsigned, unsigned)>>& GetAddComponentMap()
+		static std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>>& GetAddComponentMap()
 		{
-			static std::unordered_map<std::string, std::function<void(unsigned, unsigned)>> map;
+			static std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>> map;
 			return map;
 		}
 	};

@@ -24,6 +24,7 @@ namespace Eclipse
 
 		friend class ComponentManager;
 		friend class SceneLoader;
+		friend class Reflection;
 
 	public:
 		Component() = default;

@@ -31,7 +31,7 @@ inline type(unsigned updatePriority) : Component(updatePriority) {}			\
 virtual ~type() = default;													\
 private:
 
-#define REGISTER_COMPONENT_CALLBACK(type) [](unsigned gameObjId, unsigned compID){ ComponentManager::AddComponentWithID<type>(gameObjId, compID); }
+#define REGISTER_COMPONENT_CALLBACK(type) [](unsigned gameObjId, unsigned compID){ return ComponentManager::AddComponentWithID<type>(gameObjId, compID); }
 
 
 

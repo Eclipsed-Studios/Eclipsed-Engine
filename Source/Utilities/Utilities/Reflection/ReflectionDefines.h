@@ -8,7 +8,7 @@ namespace Eclipse {
 }
 
 #define ReflectedVar_Default(type, name, defaultValue) \
-    Eclipse::ReflectedVariable<type> name{#name, #type, this, defaultValue}
+    Eclipse::ReflectedVariable<type> name{#name, #type, this->myComponentID, this, defaultValue}
 
 #define ReflectedVar(type, name) \
     ReflectedVar_Default(type, name, {})
