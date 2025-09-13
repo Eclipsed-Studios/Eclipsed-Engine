@@ -98,8 +98,20 @@ namespace Eclipse
 		Value key(aReflectedVariable->GetName().c_str(), alloc);
 		Value jsonVal(kObjectType);
 
-		std::string encoded = Base64::Encode(aReflectedVariable->GetData(), aReflectedVariable->GetSize());
-		jsonVal.SetString(encoded.c_str(), alloc);
+		if (aReflectedVariable->GetTypeName() == "std::string")
+		{
+			void* rawPtr = aReflectedVariable->GetData();
+			std::string* strPtr = static_cast<std::string*>(rawPtr);
+			std::string& encoded = *strPtr; 
+			jsonVal.SetString(encoded.c_str(), alloc);
+		}
+		else
+		{
+			std::string encoded = Base64::Encode(aReflectedVariable->GetData(), aReflectedVariable->GetSize());
+			jsonVal.SetString(encoded.c_str(), alloc);
+		}
+
+		
 
 		aValue.AddMember(key, jsonVal.Move(), alloc);
 	}
@@ -153,6 +165,8 @@ namespace Eclipse
 			compMap.emplace(id, addComponent(owner, id));
 		}
 
+		ComponentManager::SortSHit();
+
 
 		for (const Value& val : aValue.GetArray())
 		{
@@ -173,8 +187,19 @@ namespace Eclipse
 	}
 	void SceneLoader::LoadType(AbstractReflectedVariable* aReflectedVariable, const rapidjson::Value& aValue)
 	{
-		std::string o = std::string(aValue[aReflectedVariable->GetName().c_str()].GetString());
-		std::vector<unsigned char> decoded = Base64::Decode(o);
-		memcpy(aReflectedVariable->GetData(), decoded.data(), decoded.size());
+		std::string o(aValue[aReflectedVariable->GetName().c_str()].GetString());
+		
+		if (aReflectedVariable->GetTypeName() == "std::string")
+		{
+			std::string* str = (std::string*)aReflectedVariable->GetData();
+			str->resize(o.size());
+
+			memcpy(str->data(), o.data(), o.size());
+		}
+		else
+		{
+			std::vector<unsigned char> decoded = Base64::Decode(o);
+			memcpy(aReflectedVariable->GetData(), decoded.data(), decoded.size());
+		}
 	}
 }

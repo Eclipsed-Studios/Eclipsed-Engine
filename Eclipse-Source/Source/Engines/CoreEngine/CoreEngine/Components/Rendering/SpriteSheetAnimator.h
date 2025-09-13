@@ -32,6 +32,10 @@ namespace Eclipse
         SpriteRenderer2D* mySpriteRenderer = nullptr;
 
         ResourcePointer<SpriteSheetAnimation> mySpriteSheetAnimations;
+
+        ReflectedVar_Default(std::string, mySpriteSheetAnimationPath, "");
+
+    private:
         std::string myActiveAnimation;
 
         float myTimePerFrame = 0.09f;

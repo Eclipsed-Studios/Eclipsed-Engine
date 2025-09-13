@@ -47,7 +47,7 @@ namespace Eclipse
         void LateUpdate() override;
         void Draw();
 
-        void SetMaterial(Material* aMaterial);
+        void SetTexture(const char* aPath);
         const Material* GetMaterial() { return myMaterial; }
 
         void SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax);
@@ -62,7 +62,7 @@ namespace Eclipse
 
     private:
         Sprite* mySprite;
-        Material* myMaterial;
+        Material* myMaterial = nullptr;
 
         Math::Vector2f spriteRectMin = { 0.f, 0.f };
         Math::Vector2f spriteRectMax = { 1.f, 1.f };
@@ -71,5 +71,8 @@ namespace Eclipse
 
         bool mirroredX = false;
         bool mirroredY = false;
+
+    private:
+        ReflectedVar_Default(std::string, myTexturePath, "");
     };
 }

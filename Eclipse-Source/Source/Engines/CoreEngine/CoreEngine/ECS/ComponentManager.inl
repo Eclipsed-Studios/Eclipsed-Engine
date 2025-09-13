@@ -122,31 +122,6 @@ namespace Eclipse
 
         if (myComponents.size() <= 1) return component;
 
-        //  TODO: Fix? - Remvoed as of now, dont seem to work when loading a scene.
-        //std::sort(myComponents.begin(), myComponents.end(), [&](Component* aComp0, Component* aComp1)
-        //    {
-        //        bool hasPriority = aComp0->myUpdateStartPriority > aComp1->myUpdateStartPriority;
-
-        //        if (hasPriority)
-        //        {
-        //            auto& mapOfComponentsGO0 = myEntityIDToVectorOfComponentIDs.at(aComp0->gameObject->GetID());
-        //            RegisteredTypeIndex indexComp0 = aComp0->myUniqueComponentID;
-        //            ComponentIndex savedValue0 = mapOfComponentsGO0.at(indexComp0);
-        //            
-        //            auto& mapOfComponentsGO1 = myEntityIDToVectorOfComponentIDs.at(aComp1->gameObject->GetID());
-        //            RegisteredTypeIndex indexComp1 = aComp1->myUniqueComponentID;
-        //            ComponentIndex savedValue1 = mapOfComponentsGO1.at(indexComp1);
-        //            
-        //            mapOfComponentsGO0.erase(indexComp0);
-        //            mapOfComponentsGO1.erase(indexComp1);
-
-        //            mapOfComponentsGO0[indexComp0] = savedValue1;
-        //            mapOfComponentsGO1[indexComp1] = savedValue0;
-        //        }
-
-        //        return hasPriority;
-        //    });
-
         return component;
     }
 

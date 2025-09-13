@@ -44,30 +44,26 @@ namespace Eclipse
 
 		// Players
 		{
-			Material* matrial = new Material();
-			matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster.png");
-
-
 			SpriteRenderer2D* rend = playerObj->AddComponent<SpriteRenderer2D>();
 			Transform2D* transform = playerObj->GetComponent<Transform2D>();
 			transform->SetScale(10.f, 10.f);
 
-			CapsuleCollider2D* capsuleCollider = playerObj->AddComponent<CapsuleCollider2D>();
-			capsuleCollider->myLayer = Layer::Player;
+			//CapsuleCollider2D* capsuleCollider = playerObj->AddComponent<CapsuleCollider2D>();
+			//capsuleCollider->myLayer = Layer::Player;
 
-			capsuleCollider->SetRadius(0.5f);
-			capsuleCollider->SetHalfHeight(1.f);
+			//capsuleCollider->SetRadius(0.5f);
+			//capsuleCollider->SetHalfHeight(1.f);
 
 			AudioSource* audio = playerObj->AddComponent<AudioSource>();
 			//audio->SetAudioClip(ASSET_PATH "Sounds/peak.mp3");
 
-			RigidBody2D* rb = playerObj->AddComponent<RigidBody2D>();
-			rb->SetRotationLocked(true);
+			//RigidBody2D* rb = playerObj->AddComponent<RigidBody2D>();
+			//rb->SetRotationLocked(true);
 
 			playerObj->AddComponent<Player>();
 			playerObj->AddComponent<PlayerMovement>();
 
-			rend->SetMaterial(matrial);
+			rend->SetTexture(ASSET_PATH "Sprites/Pink_Monster.png");
 
 			SpriteSheetAnimator2D* animation = playerObj->AddComponent<SpriteSheetAnimator2D>();
 
@@ -79,66 +75,61 @@ namespace Eclipse
 
 		// Ground
 		{
-			Material* matrial = new Material();
-			matrial->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
-
 			GameObject* obj = CreateGameObject();
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(obj->GetID());
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(obj->GetID());
 			transform->SetPosition(0.46f, -0.625f);
-			transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
-			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
+			transform->SetScale(Math::Vector2f(25.f, 25.f));
+			//transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
+		/*	BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
 			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
-			boxCollider->myLayer = Layer::Ground;
+			boxCollider->myLayer = Layer::Ground;*/
 
-			rend->SetMaterial(matrial);
+			rend->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
 		}
 
 		// Ground
 		{
-			Material* matrial = new Material();
-			matrial->SetTexture(ASSET_PATH "Sprites/Environment/012.png");
-
 			GameObject* obj = CreateGameObject();
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(obj->GetID());
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(obj->GetID());
 			transform->SetPosition(0, -0.7f);
-			transform->SetScale(matrial->myTexture->GetTextureSizeNormilized() * 20.f);
-			PolygonCollider2D* polygonCollider = ComponentManager::AddComponent<PolygonCollider2D>(obj->GetID());
+			transform->SetScale(Math::Vector2f(25.f, 25.f));
 
-			polygonCollider->AddPoint({ -0.1f, 0.f });
-			polygonCollider->AddPoint({ -0.1f, 0.35f });
-			polygonCollider->AddPoint({ 0.95f, 1.f });
+			//PolygonCollider2D* polygonCollider = ComponentManager::AddComponent<PolygonCollider2D>(obj->GetID());
 
-			polygonCollider->AddPoint({ 1.1f, 1.f });
-			polygonCollider->AddPoint({ 1.1f, 0.65f });
-			polygonCollider->AddPoint({ 0.1f, 0.f });
+			//polygonCollider->AddPoint({ -0.1f, 0.f });
+			//polygonCollider->AddPoint({ -0.1f, 0.35f });
+			//polygonCollider->AddPoint({ 0.95f, 1.f });
 
-			polygonCollider->myLayer = Layer::Ground;
+			//polygonCollider->AddPoint({ 1.1f, 1.f });
+			//polygonCollider->AddPoint({ 1.1f, 0.65f });
+			//polygonCollider->AddPoint({ 0.1f, 0.f });
 
-
-			transform->SetScale(matrial->myTexture->GetTextureSizeNormilized() * 25.f);
+			//polygonCollider->myLayer = Layer::Ground;
 
 
-			rend->SetMaterial(matrial);
+			//// NEED THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			//transform->SetScale(Math::Vector2f( 25.f , 25.f ));
+
+
+			rend->SetTexture(ASSET_PATH "Sprites/Environment/012.png");
 		}
 
 		// Ground
 		{
-			Material* matrial = new Material();
-			matrial->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
-
 			GameObject* obj = CreateGameObject();
 
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(obj->GetID());
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(obj->GetID());
 			transform->SetPosition(-0.46f, -0.78f);
-			transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
-			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
+			transform->SetScale(Math::Vector2f(25.f, 25.f));
+			//transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
+	/*		BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
 			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
-			boxCollider->myLayer = Layer::Ground;
+			boxCollider->myLayer = Layer::Ground;*/
 
-			rend->SetMaterial(matrial);
+			rend->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
 		}
 
 		// Camera

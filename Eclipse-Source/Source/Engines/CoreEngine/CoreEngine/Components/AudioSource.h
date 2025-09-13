@@ -24,6 +24,9 @@ namespace Eclipse
 		BASE_SELECTION(AudioSource, 0)
 
 	public:
+		void Awake() override;
+
+	public:
 		void SetAudioClip(const char* aPath);
 
 	public:

@@ -6,6 +6,11 @@
 
 namespace Eclipse
 {
+	void AudioSource::Awake()
+	{
+		SetAudioClip(myAudioPath->c_str());
+	}
+
 	void AudioSource::SetAudioClip(const char* aPath)
 	{
 		myAudioClip = Resources::Get<AudioClip>(aPath);

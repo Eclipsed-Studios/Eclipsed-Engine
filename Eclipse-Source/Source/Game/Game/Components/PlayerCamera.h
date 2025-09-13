@@ -13,7 +13,7 @@ namespace Eclipse
 		void Update() override;
         void Awake() override;
 
-		GameObjectID myPlayerGO;
+		ReflectedVar(unsigned, myPlayerGO);
 	private:
 		class Transform2D* myPlayerTransform = nullptr;
 		class Transform2D* myTransform = nullptr;

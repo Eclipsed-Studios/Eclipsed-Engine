@@ -1,209 +1,45 @@
 {
+    "SpriteRenderer2D": [
+        {
+            "owner": 2,
+            "id": 2,
+            "myTexturePath": ""
+        }
+    ],
     "Transform2D": [
         {
             "owner": 1,
-            "id": 9,
-            "position": {
-                "x": 0.46000000834465027,
-                "y": -0.625,
-                "type": "Math::Vector2<float>"
-            },
-            "rotation": 0.0,
-            "scale": {
-                "x": 24.0,
-                "y": 6.0,
-                "type": "Math::Vector2f"
-            }
-        },
-        {
-            "owner": 0,
             "id": 1,
-            "position": {
-                "x": 0.09692501276731491,
-                "y": -0.49638503789901733,
-                "type": "Math::Vector2<float>"
-            },
-            "rotation": 0.0,
-            "scale": {
-                "x": 10.0,
-                "y": 10.0,
-                "type": "Math::Vector2f"
-            }
+            "position": "AAAAAAAAAAA=",
+            "rotation": "AAAAAA==",
+            "scale": "AAAAAAAAAAA="
         },
         {
             "owner": 2,
-            "id": 12,
-            "position": {
-                "x": 0.0,
-                "y": -0.699999988079071,
-                "type": "Math::Vector2<float>"
-            },
-            "rotation": 0.0,
-            "scale": {
-                "x": 21.524057388305664,
-                "y": 12.716719627380371,
-                "type": "Math::Vector2f"
-            }
-        },
-        {
-            "owner": 3,
-            "id": 15,
-            "position": {
-                "x": -0.46000000834465027,
-                "y": -0.7799999713897705,
-                "type": "Math::Vector2<float>"
-            },
-            "rotation": 0.0,
-            "scale": {
-                "x": 24.0,
-                "y": 6.0,
-                "type": "Math::Vector2f"
-            }
-        },
-        {
-            "owner": 4,
-            "id": 18,
-            "position": {
-                "y": -0.5473988652229309,
-                "x": 0.09692501276731491,
-                "y": -0.49638503789901733,
-                "type": "Math::Vector2<float>"
-            },
-            "rotation": 0.0,
-            "scale": {
-                "x": 0.0,
-                "y": 0.0,
-                "type": "Math::Vector2f"
-            }
-        },
-        {
-            "owner": 5,
-            "id": 19,
-            "position": {
-                "x": 0.0,
-                "y": 0.0,
-                "type": "Math::Vector2<float>"
-            },
-            "rotation": 0.0,
-            "scale": {
-                "x": 0.0,
-                "y": 0.0,
-                "type": "Math::Vector2f"
-            }
-        }
-    ],
-    "SpriteRenderer2D": [
-        {
-            "owner": 1,
-            "id": 10
-        },
-        {
-            "owner": 0,
-            "id": 2
-        },
-        {
-            "owner": 2,
-            "id": 13
-        },
-        {
-            "owner": 3,
-            "id": 16
-        }
-    ],
-    "CapsuleCollider2D": [
-        {
-            "owner": 0,
-            "id": 3
-        }
-    ],
-    "RigidBody2D": [
-        {
-            "owner": 0,
-            "id": 5
-        }
-    ],
-    "Camera": [
-        {
-            "owner": 5,
-            "id": 20
-        }
-    ],
-    "BoxCollider2D": [
-        {
-            "owner": 1,
-            "id": 11
-        },
-        {
-            "owner": 3,
-            "id": 17
+            "id": 2,
+            "position": "AAAAAAAAAAA=",
+            "rotation": "AAAAAA==",
+            "scale": "AACAPwAAgD8="
         }
     ],
     "AudioSource": [
         {
-            "owner": 0,
-            "id": 4,
-            "myPlayOnStart": false,
-            "myIsLooping": false,
-            "myVolume": 1.0,
-            "myAudioPath": ""
-        }
-    ],
-    "PlayerCamera": [
-        {
-            "owner": 4,
-            "id": 21
-        }
-    ],
-    "PolygonCollider2D": [
-        {
-            "owner": 2,
-            "id": 14
-        }
-    ],
-    "Player": [
-        {
-            "owner": 0,
-            "id": 6
-        }
-    ],
-    "PlayerMovement": [
-        {
-            "owner": 0,
-            "id": 7,
-            "myJumpStrength": 2.0,
-            "myMovementSpeed": 0.4000000059604645
-        }
-    ],
-    "SpriteSheetAnimator2D": [
-        {
-            "owner": 0,
-            "id": 8
+            "owner": 1,
+            "id": 1,
+            "myPlayOnStart": "AA==",
+            "myIsLooping": "AA==",
+            "myVolume": "AACAPw==",
+            "myAudioPath": "F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Assets/Sounds\\T.mp3"
         }
     ],
     "GameObjects": [
         {
-            "id": "0",
+            "id": 1,
             "name": "Gameobject"
         },
         {
-            "id": "1",
-            "name": "Gameobject"
-        },
-        {
-            "id": "2",
-            "name": "Gameobject"
-        },
-        {
-            "id": "3",
-            "name": "Gameobject"
-        },
-        {
-            "id": "4",
-            "name": "Gameobject"
-        },
-        {
-            "id": "5",
-            "name": "Gameobject"
+            "id": 2,
+            "name": "New GameObject"
         }
     ]
 }

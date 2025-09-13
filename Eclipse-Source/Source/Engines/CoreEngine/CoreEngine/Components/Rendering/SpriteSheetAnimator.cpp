@@ -29,6 +29,8 @@ namespace Eclipse
 
     void SpriteSheetAnimator2D::Start()
     {
+        SetSpriteSheet(mySpriteSheetAnimationPath->c_str());
+
         mySpriteRenderer = gameObject->GetComponent<SpriteRenderer2D>();
 
         const Math::Rect& rect = mySpriteSheetAnimations->GetRect(0);
@@ -37,12 +39,14 @@ namespace Eclipse
 
     void SpriteSheetAnimator2D::SetSpriteSheet(const char* aPath)
     {
+        mySpriteSheetAnimationPath = aPath;
         mySpriteSheetAnimations = Resources::Get<SpriteSheetAnimation>(aPath);
 
         //mySpriteSheet.Load(aPath);
         myCurrentFrame = 0;
         myTimeAccumulator = 0.f;
     }
+
     void SpriteSheetAnimator2D::SetCurrentAnimation(const char* anAnimationName)
     {
         myActiveAnimation = anAnimationName;

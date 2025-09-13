@@ -44,6 +44,8 @@ namespace Eclipse
 		static void UpdateComponents();
 		static void LateUpdateComponents();
 
+		static void SortSHit();
+
 		static void BeginCollisions(GameObjectID aGOID);
 		static void EndCollisions(GameObjectID aGOID);
 

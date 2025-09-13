@@ -6,17 +6,24 @@
 #include "ImGui/ImGui/imgui_impl_glfw.h"
 #include "ImGui/ImGui/imgui_impl_opengl3.h"
 
+#include <string>
+
 namespace Eclipse::Editor
 {
     namespace ImGui_Impl
     {
+        inline std::string currentEditorLayout = "Default";
+
         inline void ImplementImGui(GLFWwindow* aWindow)
         {
             IMGUI_CHECKVERSION();
             ImGui::CreateContext();
             ImGui::StyleColorsDark();
 
+            std::string path = ENGINE_ASSETS_PATH "Editor/Layouts/" + currentEditorLayout + ".ini";
+
             ImGuiIO& io = ImGui::GetIO();
+            io.IniFilename = NULL;
             io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
             io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
             io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -29,13 +36,13 @@ namespace Eclipse::Editor
                 style.Colors[ImGuiCol_WindowBg].w = 1.0f;
             }
 
-
-
             //io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/Quicksand-Medium.ttf", 16);
             io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/ARIAL.TTF", 16);
 
             ImGui_ImplGlfw_InitForOpenGL(aWindow, true);
             ImGui_ImplOpenGL3_Init("#version 460");
+
+            ImGui::LoadIniSettingsFromDisk(path.c_str());
         }
 
         inline void NewFrame()

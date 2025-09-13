@@ -55,10 +55,6 @@ namespace Eclipse
 		glUniform4f(albedoColorIndex, color.r, color.g, color.b, color.a);
 	}
 
-	void SpriteRenderer2D::SetMaterial(Material* aMaterial)
-	{
-		myMaterial = aMaterial;
-	}
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
 		spriteRectMin = aMin * myMaterial->myTexture->spriteDimDivOne;
@@ -69,10 +65,20 @@ namespace Eclipse
 	{
 	}
 
+	void SpriteRenderer2D::SetTexture(const char* aPath)
+	{
+		myTexturePath = aPath;
+
+		if(myMaterial != nullptr) myMaterial->SetTexture(myTexturePath->c_str());
+	}
+
 	void SpriteRenderer2D::Awake()
 	{
 		mySprite = new Sprite();
 		mySprite->Init();
+
+		myMaterial = new Material();
+		myMaterial->SetTexture(myTexturePath->c_str());
 	}
 
 	void SpriteRenderer2D::Start()

@@ -14,8 +14,20 @@
 
 #include "Windows/Window.h"
 
+#include "ImGui/ImGui_Impl.h"
+
 namespace Eclipse::Editor
 {
+	void WindowManager::LoadLayouts()
+	{
+		for (auto entry : std::filesystem::directory_iterator(ENGINE_ASSETS_PATH "Editor/Layouts/"))
+		{
+			
+
+			myLayouts.push_back(entry.path().filename().string());
+		}
+	}
+
 	void WindowManager::OpenWindow(const std::string& name, int aId)
 	{
 		AbstractWindow* window = static_cast<AbstractWindow*>(WindowRegistry::GetWindow(name));
@@ -61,8 +73,47 @@ namespace Eclipse::Editor
 
 				ImGui::EndMenu();
 			}
+
 			if (ImGui::BeginMenu("Settings"))
 			{
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Layouts"))
+			{
+				if (ImGui::BeginMenu("Saved Layouts"))
+				{
+
+
+
+
+					if (ImGui::MenuItem("Default"))
+					{
+						OpenLayout("Default");
+						return;
+					}
+					if (ImGui::MenuItem("Testing"))
+					{
+						OpenLayout("Testing");
+						return;
+					}
+					ImGui::EndMenu();
+				}
+
+				if (ImGui::BeginMenu("Saving"))
+				{
+					if (ImGui::MenuItem("Default"))
+					{
+						ImGui::SaveIniSettingsToDisk(ENGINE_ASSETS_PATH "Editor/Layouts/Default.ini");
+					}
+					if (ImGui::MenuItem("Testing"))
+					{
+						ImGui::SaveIniSettingsToDisk(ENGINE_ASSETS_PATH "Editor/Layouts/Testing.ini");
+					}
+
+					ImGui::EndMenu();
+				}
+
 				ImGui::EndMenu();
 			}
 
@@ -109,6 +160,8 @@ namespace Eclipse::Editor
 
 	void WindowManager::Begin()
 	{
+		LoadLayouts();
+
 		using namespace rapidjson;
 
 		std::ifstream ifs(SETTINGS_PATH"editor.json");
@@ -198,6 +251,18 @@ namespace Eclipse::Editor
 
 			ImGui::EndMenu();
 		}
+	}
+
+	void WindowManager::OpenLayout(const char* aName)
+	{
+		ImGui_ImplGlfw_Shutdown();
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui::DestroyContext();
+
+		ImGui_Impl::currentEditorLayout = aName;
+
+		ImGui_Impl::ImplementImGui(Utilities::MainSingleton::GetInstance<GLFWwindow*>());
+		ImGui_Impl::NewFrame();
 	}
 
 	void WindowManager::DrawDebugInfoWindow()
