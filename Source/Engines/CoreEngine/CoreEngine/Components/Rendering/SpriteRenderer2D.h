@@ -45,6 +45,7 @@ namespace Eclipse
         void Start() override;
 
         void LateUpdate() override;
+        void Draw();
 
         void SetMaterial(Material* aMaterial);
         const Material* GetMaterial() { return myMaterial; }

@@ -14,9 +14,11 @@ namespace Eclipse::Editor
 		friend class WindowManager;
 
 	public:
+		AbstractWindow() = delete;
+
 		AbstractWindow(const std::string& name, const int& aId = -1);
 
-		virtual AbstractWindow* GetNewWindow(const int& aId = -1) { return new AbstractWindow(windowName, aId); }										\
+		virtual AbstractWindow* GetNewWindow(const int& aId = -1) { return new AbstractWindow(windowName, aId); }
 
 
 	public:

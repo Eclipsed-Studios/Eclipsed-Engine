@@ -39,8 +39,8 @@ namespace Eclipse
     template <typename T>
     inline T* ComponentManager::AddComponent(GameObjectID aGOID)
     {
-        char* base = static_cast<char*>(myComponentData);
-        char* ptrToComponent = base + myComponentMemoryTracker;
+        uint8_t* base = static_cast<uint8_t*>(myComponentData);
+        uint8_t* ptrToComponent = base + myComponentMemoryTracker;
         myComponentMemoryTracker += sizeof(T);
 
         RegisteredTypeIndex typeIndex = GetComponentID<T>();

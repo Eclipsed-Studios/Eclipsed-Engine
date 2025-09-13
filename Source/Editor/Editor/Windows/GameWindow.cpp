@@ -8,7 +8,7 @@
 
 #include "OpenGL/OpenGLGraphicsAPI.h"
 
-#include "CommandList.h"
+#include "RenderCommands/CommandList.h"
 
 namespace Eclipse::Editor
 {

@@ -7,7 +7,7 @@
 
 namespace Eclipse::Editor
 {
-	class SceneWindow final : public AbstractWindow, public BaseRenderingWindow
+	class SceneWindow final : public AbstractWindow, BaseRenderingWindow
 	{
 		BASE_SELECTION(SceneWindow, "Scene")
 
@@ -30,5 +30,7 @@ namespace Eclipse::Editor
 
 		float totalYScroll = 0; 
 		float lastScroll = 0;
+
+		bool mouseIsDown = false;
 	};
 }

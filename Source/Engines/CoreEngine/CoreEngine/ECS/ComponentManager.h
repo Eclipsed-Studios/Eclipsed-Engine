@@ -64,7 +64,7 @@ namespace Eclipse
 
 	private:
 		static inline size_t myComponentMemoryTracker = 0;
-		static inline char* myComponentData;
+		static inline uint8_t* myComponentData;
 
 		static inline std::vector<Component*> myComponents;
 		static inline unsigned myNextGameobjectID = 0;

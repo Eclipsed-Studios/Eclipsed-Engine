@@ -4,7 +4,7 @@ namespace Eclipse
 {
     void ComponentManager::Init()
     {
-        myComponentData = static_cast<char*>(malloc(MAX_COMPONENT_MEMORY_BYTES));
+        myComponentData = new uint8_t[MAX_COMPONENT_MEMORY_BYTES];
     }
 
     void ComponentManager::AwakeComponents()

@@ -18,7 +18,9 @@
 #include "Debug/DebugInformationCollector.h"
 
 #include "OpenGL/OpenGLGraphicsAPI.h"
-#include "CommandList.h"
+#include "RenderCommands/CommandList.h"
+
+#include "RenderCommands/RenderSprite2DCommand.h"
 
 namespace Eclipse
 {
@@ -80,36 +82,36 @@ namespace Eclipse
 
 	void SpriteRenderer2D::LateUpdate()
 	{
+		CommandList::Enqueue<RenderSprite2DCommand>(this);
+		DebugInformationCollector::UpdateRenderCalls();
+	}
+
+	void SpriteRenderer2D::Draw()
+	{
 		Math::Vector2f position = myTransform->GetPosition();
 		float rotation = myTransform->GetRotation();
 		Math::Vector2f scale = myTransform->GetScale();
 
-		CommandList::Emplace([&, position, rotation, scale]()
-			{
-				unsigned shaderID = myMaterial->myShader->GetProgramID();
+		unsigned shaderID = myMaterial->myShader->GetProgramID();
 
-				myMaterial->Use();
+		myMaterial->Use();
+		GLint positionIndex = glGetUniformLocation(shaderID, "transform.position");
+		glUniform2f(positionIndex, position.x, position.y);
+		GLint rotationIndex = glGetUniformLocation(shaderID, "transform.rotation");
+		glUniform1f(rotationIndex, rotation);
+		GLint scaleIndex = glGetUniformLocation(shaderID, "transform.size");
+		glUniform2f(scaleIndex, scale.x, scale.y);
 
-				GLint positionIndex = glGetUniformLocation(shaderID, "transform.position");
-				glUniform2f(positionIndex, position.x, position.y);
-				GLint rotationIndex = glGetUniformLocation(shaderID, "transform.rotation");
-				glUniform1f(rotationIndex, rotation);
-				GLint scaleIndex = glGetUniformLocation(shaderID, "transform.size");
-				glUniform2f(scaleIndex, scale.x, scale.y);
+		Math::Vector2f size = spriteRectMax - spriteRectMin;
 
-				Math::Vector2f size = spriteRectMax - spriteRectMin;
+		GLint spriteRectIndex = glGetUniformLocation(shaderID, "material.spriteRect");
+		glUniform4f(spriteRectIndex, spriteRectMin.x, spriteRectMin.y, size.x, size.y);
 
-				GLint spriteRectIndex = glGetUniformLocation(shaderID, "material.spriteRect");
-				glUniform4f(spriteRectIndex, spriteRectMin.x, spriteRectMin.y, size.x, size.y);
+		GLint mirrored = glGetUniformLocation(shaderID, "mirrored");
+		glUniform2f(mirrored, mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f);
 
-				GLint mirrored = glGetUniformLocation(shaderID, "mirrored");
-				glUniform2f(mirrored, mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f);
+		GraphicsEngine::SetGlobalUniforms(shaderID);
 
-				GraphicsEngine::SetGlobalUniforms(shaderID);
-
-				mySprite->Render();
-
-				DebugInformationCollector::UpdateRenderCalls();
-			});
+		mySprite->Render();
 	}
 }

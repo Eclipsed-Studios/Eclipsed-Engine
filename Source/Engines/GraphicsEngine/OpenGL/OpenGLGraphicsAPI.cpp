@@ -15,7 +15,7 @@
 
 #include "DebugDrawers/DebugDrawer.h"
 
-#include "CommandList.h"
+#include "RenderCommands/CommandList.h"
 
 #include "stb_image/stb_image.h"
 
@@ -138,6 +138,9 @@ namespace Eclipse
         cursor.pixels = stbi_load(ENGINE_ASSETS_PATH"GrabbyHand.png", &cursor.width, &cursor.height, &nrChannels, 0);
         myMouseCursors.emplace_back(glfwCreateCursor(&cursor, 8.f, 8.f));
 
+
+        CommandList::Init();
+
         return errorCode;
     }
 
@@ -162,7 +165,7 @@ namespace Eclipse
     {
         glfwSwapBuffers(myWindow);
 
-        CommandList::Clear();
+        CommandList::Reset();
     }
 
     int GraphicsEngine::ShouldWindowClose()

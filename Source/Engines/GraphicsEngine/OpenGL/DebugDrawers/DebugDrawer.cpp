@@ -7,7 +7,7 @@
 
 #include "TemporarySettingsSingleton.h"
 
-#include "CommandList.h"
+#include "RenderCommands/CommandList.h"
 
 static const char* vtxShaderSource =
 "#version 460 core\n"
@@ -77,7 +77,7 @@ namespace Eclipse
     }
     void DebugDrawer::Render()
     {
-        CommandList::Emplace([&]() {
+        CommandList::Enqueue([&]() {
             glUseProgram(programID);
 
             for (auto& line : myLineCollection)
