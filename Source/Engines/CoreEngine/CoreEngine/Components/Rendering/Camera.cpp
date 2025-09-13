@@ -15,7 +15,7 @@ namespace Eclipse
 {
     void Camera::Awake()
     {
-        myTransform = GetComp(Transform2D, gameObject);
+        myTransform = gameObject->GetComponent<Transform2D>();
 
         myTransform->AddFunctionToRunOnDirtyUpdate([&]() {
             GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", myTransform->GetPositionPtr());

@@ -18,7 +18,7 @@
 #include "Audio/AudioManager.h"
 
 #include <iostream>
-#include "Editor/Reflection/Reflection.h"
+#include "Reflection/Reflection.h"
 
 namespace Eclipse
 {

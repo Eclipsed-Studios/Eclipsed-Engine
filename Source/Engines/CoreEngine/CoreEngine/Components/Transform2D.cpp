@@ -22,15 +22,15 @@ namespace Eclipse
 
     Math::Vector2f* Transform2D::GetPositionPtr()
     {
-        return &position;
+        return &position.Get();
     }
     float* Transform2D::GetRotationPtr()
     {
-        return &rotation;
+        return &rotation.Get();
     }
     Math::Vector2f* Transform2D::GetScalePtr()
     {
-        return &scale;
+        return &scale.Get();
     }
 
     void Transform2D::SetPosition(const Math::Vector2f& aPosition)
@@ -39,8 +39,8 @@ namespace Eclipse
     }
     void Transform2D::SetPosition(float aX, float aY)
     {
-        position.x = aX;
-        position.y = aY;
+        position->x = aX;
+        position->y = aY;
 
         myIsDirty = true;
     }
@@ -62,8 +62,8 @@ namespace Eclipse
     }
     void Transform2D::SetScale(float aX, float aY)
     {
-        scale.x = aX;
-        scale.y = aY;
+        scale->x = aX;
+        scale->y = aY;
 
         myIsDirty = true;
     }
@@ -81,7 +81,7 @@ namespace Eclipse
         { // Position
             ImGui::Text("Position");
             ImGui::SameLine();
-            if (ImGui::DragFloat2(("##Position" + ss.str()).c_str(), &position.x, 0.001f))
+            if (ImGui::DragFloat2(("##Position" + ss.str()).c_str(), &position->x, 0.001f))
             {
                 myIsDirty = true;
             }
@@ -90,7 +90,7 @@ namespace Eclipse
         { // Scale
             ImGui::Text("Scale");
             ImGui::SameLine();
-            if (ImGui::DragFloat2(("##Scale" + ss.str()).c_str(), &scale.x, 0.1f))
+            if (ImGui::DragFloat2(("##Scale" + ss.str()).c_str(), &scale->x, 0.1f))
             {
                 myIsDirty = true;
             }

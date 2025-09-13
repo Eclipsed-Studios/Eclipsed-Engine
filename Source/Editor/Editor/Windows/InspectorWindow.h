@@ -6,7 +6,7 @@ namespace Eclipse::Editor
 {
 	class InspectorWindow final : public AbstractWindow
 	{
-		BASE_SELECTION(InspectorWindow, "Inspector", "GRiann/SimonIsShit");
+		BASE_SELECTION(InspectorWindow, "Inspector");
 
 	public:
 		void Update() override;

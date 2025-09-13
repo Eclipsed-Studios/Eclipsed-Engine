@@ -13,9 +13,9 @@ namespace Eclipse
 {
 	void PlayerMovement::Awake()
 	{
-		myRigidBody = GetComp(RigidBody2D, gameObject);
-		myTransform = GetComp(Transform2D, gameObject);
-		myPlayer = GetComp(Player, gameObject);
+		myRigidBody = gameObject->GetComponent<RigidBody2D>();
+		myTransform = gameObject->GetComponent<Transform2D>();
+		myPlayer = gameObject->GetComponent<Player>();
 	}
 
 	void PlayerMovement::Update()
@@ -29,7 +29,7 @@ namespace Eclipse
 		if (moveDirection != 0)
 		{
 			float velY = myRigidBody->GetVelocity().Y;
-			myRigidBody->SetVelocity({ moveDirection * myMovementSpeed, velY });
+ 			myRigidBody->SetVelocity({ moveDirection * myMovementSpeed, velY });
 		}
 
 		HitResults hit;

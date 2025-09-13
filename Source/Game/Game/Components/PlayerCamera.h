@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Components/Base/BaseComponent.h"
-#include "Editor/Reflection/ReflectionDefines.h"
+#include "Reflection/ReflectionDefines.h"
 
 namespace Eclipse
 {
@@ -13,7 +13,7 @@ namespace Eclipse
 		void Update() override;
         void Awake() override;
 
-		GameObject myPlayerGO;
+		GameObjectID myPlayerGO;
 	private:
 		class Transform2D* myPlayerTransform = nullptr;
 		class Transform2D* myTransform = nullptr;

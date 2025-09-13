@@ -4,9 +4,10 @@
 #include <string>
 
 #include "defines.h"
-#include "Editor/ComponentRegistry.h"
+#include "Reflection/Registry/ComponentRegistry.h"
 
-#include "Editor/Reflection/Reflection.h"
+#include "Reflection/Reflection.h"
+#include "GameObject.h"
 
 namespace Eclipse::Editor
 {
@@ -16,7 +17,6 @@ namespace Eclipse::Editor
 namespace Eclipse
 {
 	typedef unsigned RegisteredTypeIndex;
-	typedef unsigned GameObject;
 
 	class Component : public ISerializable
 	{
@@ -31,6 +31,19 @@ namespace Eclipse
 		virtual ~Component() = default;
 
 		void SetComponentID() { myComponentID = ++nextComponentID; }
+		void SetComponentID(unsigned compID) 
+		{ 
+			myComponentID = compID; 
+
+			if (nextComponentID <= compID)
+			{
+				nextComponentID = compID++;
+			}
+			else
+			{
+				nextComponentID++;
+			}
+		}
 
 	public:
 		virtual void Awake() {}
@@ -54,7 +67,7 @@ namespace Eclipse
 		virtual void Load(const rapidjson::Value& aValue) override;
 
 	public:
-		GameObject gameObject;
+		GameObject* gameObject;
 
 	protected:
 		// Higher number higher priority

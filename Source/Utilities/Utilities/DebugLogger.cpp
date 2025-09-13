@@ -2,7 +2,7 @@
 
 #include <chrono>
 #include <ctime>
-namespace Eclipse::Editor
+namespace Eclipse
 {
 	void DebugLogger::Log(const std::string& aMessage)
 	{

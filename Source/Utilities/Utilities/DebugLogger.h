@@ -4,7 +4,7 @@
 #include <vector>
 #include <unordered_map>
 
-namespace Eclipse::Editor
+namespace Eclipse
 {
 	enum class MessageTypes
 	{
@@ -16,8 +16,13 @@ namespace Eclipse::Editor
 		std::string timeString;
 	};
 
+	namespace Editor
+	{
+		class ConsoleWindow;
+	}
+
 	class DebugLogger final {
-		friend class ConsoleWindow;
+		friend class Editor::ConsoleWindow;
 
 	public:
 		static void Log(const std::string& aMessage);

@@ -14,25 +14,25 @@ namespace Eclipse
 {
     void CapsuleCollider2D::Awake()
     {
-        RigidBody2D* rigidBody = ComponentManager::GetComponent<RigidBody2D>(gameObject);
+        RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
 
         if (!rigidBody)
         {
-            myUserData = { gameObject };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), ComponentManager::GetComponent<Transform2D>(gameObject)->GetPosition());
+            myUserData = { gameObject->GetID() };
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), gameObject->GetComponent<Transform2D>()->GetPosition());
         }
         else
             myBodyRef = rigidBody->myBody;
 
         PhysicsEngine::CreateCapsuleCollider(&myInternalCollider, myBodyRef, myRadius, myHalfHeight, myLayer);
 
-        myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        myTransform = gameObject->GetComponent<Transform2D>();
         myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
     }
 
     void CapsuleCollider2D::SetRadius(float aRadius)
     {
-        Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        Transform2D* transform = gameObject->GetComponent<Transform2D>();
         Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
 
         myRealRadius = aRadius;
@@ -41,7 +41,7 @@ namespace Eclipse
 
     void CapsuleCollider2D::SetHalfHeight(float aHalfHeight)
     {
-        Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        Transform2D* transform = gameObject->GetComponent<Transform2D>();
         Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
 
         myRealHalfHeight = aHalfHeight;

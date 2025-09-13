@@ -1,6 +1,6 @@
 #include "ReflectedVariable.h"
 
-#include "Editor/Reflection/Reflection.h"
+#include "Reflection/Reflection.h"
 
 namespace Eclipse
 {

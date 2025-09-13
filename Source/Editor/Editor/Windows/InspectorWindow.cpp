@@ -7,7 +7,7 @@
 #include "IconsFontAwesome6.h"
 #include "Editor/ImGui/ImGui_Impl.h"
 
-#include "Editor/ComponentRegistry.h"
+#include "Reflection/Registry/ComponentRegistry.h"
 
 #include "Components/Transform2D.h"
 #include "Components/Rendering/SpriteRenderer2D.h"
@@ -24,17 +24,17 @@ namespace Eclipse::Editor
 		if (id == 0) return;
 
 		auto& compList = ComponentManager::myEntityIDToVectorOfComponentIDs[id];
-		auto& compData = ComponentManager::myEntityIdToEntityData[id];
+		auto& gameObject = ComponentManager::myEntityIdToEntity[id];
 
 		// TODO: This bad, it copies every frame. But who cares, am i right?
-		strncpy(nameBuffer, compData.name.c_str(), NAME_BUFFER_LENGTH);
+		strncpy(nameBuffer, gameObject->GetName().c_str(), NAME_BUFFER_LENGTH);
 
 		ImGui::Text("Name");
 		ImGui::SameLine();
 
 		if (ImGui::InputText((std::string("##") + std::to_string(id)).c_str(), nameBuffer, NAME_BUFFER_LENGTH))
 		{
-			compData.name = nameBuffer;
+			gameObject->SetName(nameBuffer);
 		}
 
 		ImGui::Dummy({ 0, 10 });
@@ -57,11 +57,12 @@ namespace Eclipse::Editor
 		
 		if (ImGui::BeginCombo("##ADD_COMPONENTS", "Add Component"))
 		{
-			for (auto& [name, addFunc] : ComponentRegistry::GetComponents())
+			for (auto& [name, addFunc] : ComponentRegistry::GetAddComponentMap())
 			{
 				if (ImGui::Button(name.c_str(), ImVec2(-FLT_MIN, 0)))
 				{
-					ComponentRegistry::AddComponent(name, id);
+					auto func = ComponentRegistry::GetAddComponent(name);
+					func(id, Component::nextComponentID);
 					ImGui::CloseCurrentPopup();
 				}
 			}

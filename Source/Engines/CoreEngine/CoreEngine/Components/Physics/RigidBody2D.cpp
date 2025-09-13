@@ -13,13 +13,13 @@ namespace Eclipse
     {
         myRigidBodySettings.BodyType = DynamicBody;
 
-        myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        myTransform = gameObject->GetComponent<Transform2D>();
 
         const Math::Vector2f& startPosition = myTransform->GetPosition();
         PhysicsEngine::CreateRigidBody(&myBody, &myUserData, myRigidBodySettings, startPosition);
         bodyHasBeenCreated = true;
 
-        myUserData = { gameObject };
+        myUserData = { gameObject->GetID() };
     }
 
     void RigidBody2D::EarlyUpdate()

@@ -16,16 +16,18 @@ namespace Eclipse
 	class AbstractReflectedVariable;
 	class Reflection
 	{
-	public:
-		static void RegisterVariable(AbstractReflectedVariable* ptr);
-		static void UnregisterVariable(AbstractReflectedVariable* ptr);
-		static void DrawInspector(Component* aComponent);
-
 	private:
 		using VariableList = std::vector<AbstractReflectedVariable*>;
 		using TypeToList = std::unordered_map<std::string, VariableList>;
 		using CompToTypeList = std::unordered_map<Component*, TypeToList>;
 
 		static inline CompToTypeList registeredVariables;
+
+	public:
+		static void RegisterVariable(AbstractReflectedVariable* ptr);
+		static void UnregisterVariable(AbstractReflectedVariable* ptr);
+		static void DrawInspector(Component* aComponent);
+
+		static CompToTypeList& GetList();
 	};
 }

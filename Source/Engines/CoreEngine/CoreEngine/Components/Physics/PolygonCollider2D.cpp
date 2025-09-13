@@ -17,15 +17,15 @@ namespace Eclipse
 {
     void PolygonCollider2D::Awake()
     {
-        myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        myTransform = gameObject->GetComponent<Transform2D>();
         myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
 
-        RigidBody2D* rigidBody = ComponentManager::GetComponent<RigidBody2D>(gameObject);
+        RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
 
         if (!rigidBody)
         {
-            myUserData = { gameObject };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), ComponentManager::GetComponent<Transform2D>(gameObject)->GetPosition());
+            myUserData = { gameObject->GetID() };
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), gameObject->GetComponent<Transform2D>()->GetPosition());
         }
         else
             myBodyRef = rigidBody->myBody;
@@ -37,7 +37,7 @@ namespace Eclipse
 
     void PolygonCollider2D::AddPoint(const Math::Vector2f& aPoint)
     {
-        Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        Transform2D* transform = gameObject->GetComponent<Transform2D>();
         Math::Vector2f scale = (Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f);
 
         scale *= aPoint * Math::Vector2f(2.f, 2.f) - Math::Vector2f(1.f, 1.f);

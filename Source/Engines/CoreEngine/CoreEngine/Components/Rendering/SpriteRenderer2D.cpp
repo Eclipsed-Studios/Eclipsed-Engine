@@ -75,7 +75,7 @@ namespace Eclipse
 
 	void SpriteRenderer2D::Start()
 	{
-		myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
+		myTransform = gameObject->GetComponent<Transform2D>();
 	}
 
 	void SpriteRenderer2D::LateUpdate()

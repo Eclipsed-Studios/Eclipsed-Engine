@@ -9,6 +9,7 @@ namespace Eclipse
 	void AudioSource::SetAudioClip(const char* aPath)
 	{
 		myAudioClip = Resources::Get<AudioClip>(aPath);
+		myAudioPath = aPath;
 	}
 
 	void AudioSource::SetVolume(float aVolume)
@@ -122,26 +123,6 @@ namespace Eclipse
 			if (ImGui::Button("Stop"))
 			{
 				Stop();
-			}
-		}
-
-
-
-		{ // Volume
-			ImGui::Text("Volume");
-			ImGui::SameLine();
-			if (ImGui::SliderFloat(("##Volume" + ss.str()).c_str(), &myVolume, 0.f, 1.f))
-			{
-				SetVolume(myVolume);
-			}
-		}
-
-		{ // Looping
-			ImGui::Text("Is Looping");
-			ImGui::SameLine();
-			if (ImGui::Checkbox(("##IsLooping" + ss.str()).c_str(), &myIsLooping))
-			{
-				SetLooping(myIsLooping);
 			}
 		}
 	}

@@ -41,7 +41,27 @@ namespace Eclipse
         return myComponents;
     }
 
-    void ComponentManager::BeginCollisions(GameObject aGOID)
+    GameObject* ComponentManager::CreateGameObject()
+    {
+        GameObject* obj = new GameObject(myNextGameobjectID);
+        myEntityIdToEntity[myNextGameobjectID] = obj;
+
+        obj->AddComponent<Transform2D>();
+
+        myNextGameobjectID++;
+        return obj;
+    }
+
+    GameObject* ComponentManager::CreateGameObjectNoTransform()
+    {
+        GameObject* obj = new GameObject(myNextGameobjectID);
+        myEntityIdToEntity[myNextGameobjectID] = obj;
+
+        myNextGameobjectID++;
+        return obj;
+    }
+
+    void ComponentManager::BeginCollisions(GameObjectID aGOID)
     {
         auto& components = myEntityIDToVectorOfComponentIDs.at(aGOID);
 
@@ -49,7 +69,7 @@ namespace Eclipse
             for (auto& [_, componentIndex] : components)
                 myComponents[componentIndex]->OnCollisionEnter();
     }
-    void ComponentManager::EndCollisions(GameObject aGOID)
+    void ComponentManager::EndCollisions(GameObjectID aGOID)
     {
         auto& components = myEntityIDToVectorOfComponentIDs.at(aGOID);
 

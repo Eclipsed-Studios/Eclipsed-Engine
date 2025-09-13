@@ -21,6 +21,8 @@
 #include <rapidjson/rapidjson/stringbuffer.h>
 #include <rapidjson/rapidjson/prettywriter.h>
 
+#include "Scenes/SceneLoader.h"
+
 namespace Eclipse::Editor
 {
     ErrorCode EditorContext::Init()
@@ -52,6 +54,15 @@ namespace Eclipse::Editor
     {
         Engine::Update();
         myWindowManager.Update();
+
+        if (Input::GetKeyDown(Keycode::F1))
+        {
+            SceneLoader::Save(ASSET_PATH"Scenes/TestScene.json");
+        }
+        else  if (Input::GetKeyDown(Keycode::F2))
+        {
+            SceneLoader::Load(ASSET_PATH"Scenes/TestScene.json");
+        }
     }
 
     void EditorContext::Render()

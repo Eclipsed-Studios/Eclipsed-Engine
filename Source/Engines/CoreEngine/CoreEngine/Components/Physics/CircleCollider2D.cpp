@@ -14,25 +14,25 @@ namespace Eclipse
 {
     void CircleCollider2D::Awake()
     {
-        RigidBody2D* rigidBody = ComponentManager::GetComponent<RigidBody2D>(gameObject);
+        RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
 
         if (!rigidBody)
         {
-            myUserData = { gameObject };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), ComponentManager::GetComponent<Transform2D>(gameObject)->GetPosition());
+            myUserData = { gameObject->GetID() };
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), gameObject->GetComponent<Transform2D>()->GetPosition());
         }
         else
             myBodyRef = rigidBody->myBody;
 
         PhysicsEngine::CreateCircleCollider(&myInternalCollider, myBodyRef, myRadius, myLayer);
 
-        myTransform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        myTransform = gameObject->GetComponent<Transform2D>();
         myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
     }
 
     void CircleCollider2D::SetRadius(float aRadius)
     {
-        Transform2D* transform = ComponentManager::GetComponent<Transform2D>(gameObject);
+        Transform2D* transform = gameObject->GetComponent<Transform2D>();
         Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
 
         myRealRadius = aRadius;

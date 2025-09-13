@@ -13,12 +13,14 @@ namespace Eclipse
 	class SceneLoader
 	{
 	public:
-		static void Save(const char* aPath, Scene& outScene);
+		static void Save(const char* aPath);
+		static void Load(const char* aPath);
+
 
 	private:
-		template<typename T>
-		static void SaveComponent(rapidjson::Value& aValue, const T* aComponent);
+		static void LoadComponent(const std::string& componentName, const rapidjson::Value& aValue);
 
-		//static void LoadComponent(const std::string& compName, rapidjson::Value&)
+		static void WriteMember(rapidjson::Value& aValue, AbstractReflectedVariable* aReflectedVariable, rapidjson::Document::AllocatorType& alloc);
+		static void WriteType(rapidjson::Value& aValue, AbstractReflectedVariable* aReflectedVariable, rapidjson::Document::AllocatorType& alloc);
 	};
 }

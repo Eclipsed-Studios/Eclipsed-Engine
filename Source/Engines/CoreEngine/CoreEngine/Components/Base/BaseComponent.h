@@ -1,7 +1,8 @@
 #ifndef _BASECOMPONENT
 #define _BASECOMPONENT
 
-#include "Editor/ComponentRegistry.h"
+#include "Reflection/Registry/ComponentRegistry.h"
+
 #include "ECS/ComponentManager.h"
 
 #include "defines.h"
@@ -23,14 +24,14 @@ friend class SceneLoader;
 
 
 
-#define COMPONENT_BASE_1(type)											\
+#define COMPONENT_BASE_1(type)												\
 COMPONENT_FRIEND_CLASS														\
 public:																		\
 inline type(unsigned updatePriority) : Component(updatePriority) {}			\
 virtual ~type() = default;													\
 private:
 
-#define REGISTER_COMPONENT_CALLBACK(type) [](int id){ ComponentManager::AddComponent<type>(id); }
+#define REGISTER_COMPONENT_CALLBACK(type) [](unsigned gameObjId, unsigned compID){ ComponentManager::AddComponentWithID<type>(gameObjId, compID); }
 
 
 
@@ -44,11 +45,11 @@ virtual const char* GetComponentName() override { return stringify(type); }					
 private:																							\
 struct AutoRegister {																				\
 	AutoRegister() {																				\
-		using namespace Eclipse::Editor;													\
-		ComponentRegistry::RegisterComponent(stringify(type), REGISTER_COMPONENT_CALLBACK(type));	\
+		using namespace Eclipse;																	\
+		ComponentRegistry::Register(stringify(type), REGISTER_COMPONENT_CALLBACK(type));			\
 	}																								\
 };																									\
-AutoRegister _register = {};
+static inline AutoRegister _register = {};
 
 
 #define COMPONENT_BASE_3(type, derivedType, updatePriority)				\

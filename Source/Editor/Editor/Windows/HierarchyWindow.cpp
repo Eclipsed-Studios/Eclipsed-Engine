@@ -6,6 +6,8 @@
 
 #include "Input/Input.h"
 
+#include "ECS/ECS.hpp"
+
 namespace Eclipse::Editor
 {
 	void HierarchyWindow::Update()
@@ -16,9 +18,8 @@ namespace Eclipse::Editor
 			{
 				if (ImGui::MenuItem("GameObject")) 
 				{ 
-					// TODO: Fix a gameobject creation manager
-					static int id = 1000;
-					ComponentManager::AddComponent<Transform2D>(id++);
+					GameObject* obj = CreateGameObject();
+					obj->SetName("New GameObject");
 				}
 
 				ImGui::EndMenu();
@@ -28,9 +29,9 @@ namespace Eclipse::Editor
         }
 
 
-		for (const auto& [id, data] : ComponentManager::myEntityIdToEntityData)
+		for (const auto& [id, data] : ComponentManager::myEntityIdToEntity)
 		{
-			if (ImGui::Button(std::string(data.name + "##" + std::to_string(id)).c_str()))
+			if (ImGui::Button(std::string(data->GetName() + "##" + std::to_string(id)).c_str()))
 			{
 				CurrentGameObjectID = id;
 			}

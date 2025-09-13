@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Editor/Reflection/ReflectedVariable.h"
+#include "Reflection/ReflectedVariable.h"
 
 namespace Eclipse {
     template<typename T>

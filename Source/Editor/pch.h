@@ -26,6 +26,5 @@
 #include "Editor/Windows/Window_Template.h"
 
 // ------------- Editor Includes ------------------
-#include "Editor/ComponentRegistry.h"
 #include "Editor/DragAndDrop.h"
 #include "Editor/Editor.h"

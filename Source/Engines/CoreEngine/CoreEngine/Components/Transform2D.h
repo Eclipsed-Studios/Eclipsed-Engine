@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <functional>
+#include "Reflection/ReflectionDefines.h"
 
 namespace Eclipse
 {
@@ -45,12 +46,12 @@ namespace Eclipse
 		void DrawInspector() override;
 
     private:
-        Math::Vector2f position = {0, 0};
-        float rotation = 0;
-        Math::Vector2f scale = {1, 1};
+		ReflectedVar_Default(Math::Vector2<float>, position, Math::Vector2f(0, 0));
+		ReflectedVar_Default(float, rotation, 0);
+		ReflectedVar_Default(Math::Vector2f, scale, Math::Vector2f(0, 0));
 
-		std::vector<std::function<void()>> myFunctionsToRunOnDirtyUpdate;
-
+	private:
 		bool myIsDirty = true;
+		std::vector<std::function<void()>> myFunctionsToRunOnDirtyUpdate;
 	};
 }

@@ -29,11 +29,18 @@
 
 #include "AssetManagement/Resources/SpriteSheetAnimation.h"
 
+
+#include "Scenes/SceneLoader.h"
+#include "ECS/ECS.hpp"
+
+#define GAME
+
 namespace Eclipse
 {
+#ifdef GAME
 	void Game::Init()
 	{
-		int playerGO = 1;
+		GameObject* playerObj = CreateGameObject();
 
 		// Players
 		{
@@ -41,28 +48,28 @@ namespace Eclipse
 			matrial->SetTexture(ASSET_PATH "Sprites/Pink_Monster.png");
 
 
-			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(playerGO);
-			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(playerGO);
+			SpriteRenderer2D* rend = playerObj->AddComponent<SpriteRenderer2D>();
+			Transform2D* transform = playerObj->GetComponent<Transform2D>();
 			transform->SetScale(10.f, 10.f);
 
-			CapsuleCollider2D* capsuleCollider = ComponentManager::AddComponent<CapsuleCollider2D>(playerGO);
+			CapsuleCollider2D* capsuleCollider = playerObj->AddComponent<CapsuleCollider2D>();
 			capsuleCollider->myLayer = Layer::Player;
 
 			capsuleCollider->SetRadius(0.5f);
 			capsuleCollider->SetHalfHeight(1.f);
 
-			AudioSource* audio = ComponentManager::AddComponent<AudioSource>(playerGO);
+			AudioSource* audio = playerObj->AddComponent<AudioSource>();
 			//audio->SetAudioClip(ASSET_PATH "Sounds/peak.mp3");
 
-			RigidBody2D* rb = ComponentManager::AddComponent<RigidBody2D>(playerGO);
+			RigidBody2D* rb = playerObj->AddComponent<RigidBody2D>();
 			rb->SetRotationLocked(true);
 
-			ComponentManager::AddComponent<Player>(playerGO);
-			ComponentManager::AddComponent<PlayerMovement>(playerGO);
+			playerObj->AddComponent<Player>();
+			playerObj->AddComponent<PlayerMovement>();
 
 			rend->SetMaterial(matrial);
 
-			SpriteSheetAnimator2D* animation = ComponentManager::AddComponent<SpriteSheetAnimator2D>(playerGO);
+			SpriteSheetAnimator2D* animation = playerObj->AddComponent<SpriteSheetAnimator2D>();
 
 			//ResourcePointer<SpriteSheetAnimation> anim = Resources::Get<SpriteSheetAnimation>(ASSET_PATH "Sprites/DefaultAnimation.json");
 
@@ -75,12 +82,12 @@ namespace Eclipse
 			Material* matrial = new Material();
 			matrial->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
 
-			int go = 2;
-			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
-			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
+			GameObject* obj = CreateGameObject();
+			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(obj->GetID());
+			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(obj->GetID());
 			transform->SetPosition(0.46f, -0.625f);
 			transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
-			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
+			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
 			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
 			boxCollider->myLayer = Layer::Ground;
 
@@ -92,12 +99,12 @@ namespace Eclipse
 			Material* matrial = new Material();
 			matrial->SetTexture(ASSET_PATH "Sprites/Environment/012.png");
 
-			int go = 3;
-			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
-			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
+			GameObject* obj = CreateGameObject();
+			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(obj->GetID());
+			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(obj->GetID());
 			transform->SetPosition(0, -0.7f);
 			transform->SetScale(matrial->myTexture->GetTextureSizeNormilized() * 20.f);
-			PolygonCollider2D* polygonCollider = ComponentManager::AddComponent<PolygonCollider2D>(go);
+			PolygonCollider2D* polygonCollider = ComponentManager::AddComponent<PolygonCollider2D>(obj->GetID());
 
 			polygonCollider->AddPoint({ -0.1f, 0.f });
 			polygonCollider->AddPoint({ -0.1f, 0.35f });
@@ -121,12 +128,13 @@ namespace Eclipse
 			Material* matrial = new Material();
 			matrial->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
 
-			int go = 4;
-			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(go);
-			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
+			GameObject* obj = CreateGameObject();
+
+			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(obj->GetID());
+			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(obj->GetID());
 			transform->SetPosition(-0.46f, -0.78f);
 			transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
-			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(go);
+			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
 			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
 			boxCollider->myLayer = Layer::Ground;
 
@@ -136,12 +144,13 @@ namespace Eclipse
 		// Camera
 		{
 			int go = 5;
-			Transform2D* transform = ComponentManager::AddComponent<Transform2D>(go);
+			GameObject* obj = CreateGameObject();
+			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(obj->GetID());
 
 			ComponentManager::AddComponent<Camera>(go);
 
-			PlayerCamera* playerCamera = ComponentManager::AddComponent<PlayerCamera>(go);
-			playerCamera->myPlayerGO = playerGO;
+			PlayerCamera* playerCamera = ComponentManager::AddComponent<PlayerCamera>(obj->GetID());
+			playerCamera->myPlayerGO = playerObj->GetID();
 		}
 	}
 
@@ -153,4 +162,8 @@ namespace Eclipse
 		else if (Input::GetKeyDown(Keycode::O)) au->Pause();
 		else if (Input::GetKeyDown(Keycode::P)) au->Stop();
 	}
+#else
+void Game::Init(){}
+void Game::Update(){}
+#endif
 }

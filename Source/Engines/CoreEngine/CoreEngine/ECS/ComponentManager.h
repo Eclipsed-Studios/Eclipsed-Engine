@@ -20,18 +20,14 @@ namespace Eclipse
 		class InspectorWindow;
 	}
 
-	typedef unsigned GameObject;
 	typedef unsigned ComponentIndex;
 
-	struct GameObjectData
-	{
-		std::string name = "New Gameobject";
-	};
-
+	class GameObject;
 	class ComponentManager
 	{
 		friend class Editor::HierarchyWindow;
 		friend class Editor::InspectorWindow;
+		friend class SceneLoader;
 
 	public:
 		ComponentManager() = default;
@@ -46,29 +42,36 @@ namespace Eclipse
 		static void UpdateComponents();
 		static void LateUpdateComponents();
 
-		static void BeginCollisions(GameObject aGOID);
-		static void EndCollisions(GameObject aGOID);
+		static void BeginCollisions(GameObjectID aGOID);
+		static void EndCollisions(GameObjectID aGOID);
 
 		template <typename T>
-		static T* GetComponent(GameObject aGOID);
+		static T* GetComponent(GameObjectID aGOID);
 
 		template <typename T>
-		static T* AddComponent(GameObject aGOID);
+		static T* AddComponent(GameObjectID aGOID);
 
 		template <typename T>
-		static void RemoveComponent(GameObject aGOID);
+		static T* AddComponentWithID(GameObjectID aGOID, unsigned aComponentID);
+
+		template <typename T>
+		static void RemoveComponent(GameObjectID aGOID);
 
 		static const std::vector<Component*>& GetComponents();
+
+		static GameObject* CreateGameObject();
+		static GameObject* CreateGameObjectNoTransform();
 
 	private:
 		static inline size_t myComponentMemoryTracker = 0;
 		static inline char* myComponentData;
 
 		static inline std::vector<Component*> myComponents;
+		static inline unsigned myNextGameobjectID = 0;
 
 		// Gameobject to components
-		static inline std::unordered_map<GameObject, GameObjectData> myEntityIdToEntityData;
-		static inline std::unordered_map<GameObject, std::unordered_map<RegisteredTypeIndex, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
+		static inline std::unordered_map<GameObjectID, GameObject*> myEntityIdToEntity;
+		static inline std::unordered_map<GameObjectID, std::unordered_map<RegisteredTypeIndex, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
 	};
 }
 

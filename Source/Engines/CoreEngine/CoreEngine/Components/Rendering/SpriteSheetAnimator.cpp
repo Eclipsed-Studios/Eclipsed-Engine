@@ -29,7 +29,7 @@ namespace Eclipse
 
     void SpriteSheetAnimator2D::Start()
     {
-        mySpriteRenderer = ComponentManager::GetComponent<SpriteRenderer2D>(gameObject);
+        mySpriteRenderer = gameObject->GetComponent<SpriteRenderer2D>();
 
         const Math::Rect& rect = mySpriteSheetAnimations->GetRect(0);
         mySpriteRenderer->SetSpriteRect(rect.min, rect.max);

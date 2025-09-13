@@ -1,10 +1,8 @@
 #include "Reflection.h"
 
-#include "ImGui/imgui.h"
+#include "ImGui/ImGui/imgui.h"
 
 #include "ReflectedVariable.h"
-#include "Components/Base/Component.h"
-
 namespace Eclipse
 {
 	void Reflection::RegisterVariable(AbstractReflectedVariable* ptr)
@@ -72,5 +70,10 @@ namespace Eclipse
 				element->DrawInspector();
 			}
 		}
+	}
+
+	Reflection::CompToTypeList& Reflection::GetList()
+	{
+		return registeredVariables;
 	}
 }

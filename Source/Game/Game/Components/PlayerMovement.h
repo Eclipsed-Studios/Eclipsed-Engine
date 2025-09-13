@@ -2,7 +2,7 @@
 
 #include "Components/Base/BaseComponent.h"
 #include <string>
-#include "Editor/Reflection/ReflectionDefines.h"
+#include "Reflection/ReflectionDefines.h"
 
 namespace Eclipse
 {

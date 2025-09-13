@@ -8,7 +8,7 @@ namespace Eclipse
     void PlayerCamera::Awake()
     {
         myPlayerTransform = GetComp(Transform2D, myPlayerGO);
-        myTransform = GetComp(Transform2D, gameObject);
+        myTransform = gameObject->GetComponent<Transform2D>();
     }
 
 	void PlayerCamera::Update()

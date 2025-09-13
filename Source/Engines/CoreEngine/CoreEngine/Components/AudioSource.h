@@ -46,9 +46,10 @@ namespace Eclipse
 		bool myIsPaused = false;
 		bool myIsPlaying = false;
 
-		bool myIsLooping = false;
-		bool myPlayOnStart  = false;
 
-		float myVolume = 1.f;
+		ReflectedVar_Default(float, myVolume, 1.f);
+		ReflectedVar_Default(bool, myPlayOnStart, false);
+		ReflectedVar_Default(bool, myIsLooping, false);
+		ReflectedVar_Default(std::string, myAudioPath, "");
     };
 }

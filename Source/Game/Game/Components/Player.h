@@ -29,6 +29,8 @@ namespace Eclipse
 		};
 
 	public:
+		BASE_SELECTION(Player, 0)
+
 		void Awake() override;
 		void Update() override;
 
@@ -44,7 +46,7 @@ namespace Eclipse
 		void HandleDuck();
 
 	private:
-		States myState;
+		States myState = States::Idle;
 
 		int myMoveDirection = 0;
 		Utilities::BitMask<> myInput;
