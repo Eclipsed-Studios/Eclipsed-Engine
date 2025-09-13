@@ -1,2 +1,2 @@
 @echo off
-code ../Eclipse_Source/
+code ../Eclipse-Source/

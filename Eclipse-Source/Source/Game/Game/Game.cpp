@@ -33,7 +33,7 @@
 #include "Scenes/SceneLoader.h"
 #include "ECS/ECS.hpp"
 
-//#define GAME
+#define GAME
 
 namespace Eclipse
 {

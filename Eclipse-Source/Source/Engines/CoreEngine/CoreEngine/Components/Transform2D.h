@@ -44,7 +44,7 @@ namespace Eclipse
     private:
 		ReflectedVar_Default(Math::Vector2<float>, position, Math::Vector2f(0, 0));
 		ReflectedVar_Default(float, rotation, 0);
-		ReflectedVar_Default(Math::Vector2f, scale, Math::Vector2f(0, 0));
+		ReflectedVar_Default(Math::Vector2f, scale, Math::Vector2f(1, 1));
 
 	private:
 		bool myIsDirty = true;
