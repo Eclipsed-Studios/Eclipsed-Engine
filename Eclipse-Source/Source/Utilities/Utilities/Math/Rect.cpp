@@ -12,33 +12,33 @@ namespace Eclipse::Math
 
 		rapidjson::Value maxRect(rapidjson::kObjectType);
 
-		maxRect.AddMember("x", max.x, allocator);
-		maxRect.AddMember("y", max.y, allocator);
+		maxRect.AddMember("width", max.x - min.x, allocator);
+		maxRect.AddMember("height", max.y - min.y, allocator);
 
 
 		rapidjson::Value val(rapidjson::kObjectType);
 
-		val.AddMember("min", minRect.Move(), allocator);
-		val.AddMember("max", maxRect.Move(), allocator);
+		val.AddMember("pos", minRect.Move(), allocator);
+		val.AddMember("size", maxRect.Move(), allocator);
 
 		return val;
 	}
 	void Rect::Load(const rapidjson::Value& aValue)
 	{
-		const rapidjson::Value& minVal = aValue["min"];
-		const rapidjson::Value& maxVal = aValue["max"];
+		const rapidjson::Value& position = aValue["pos"];
+		const rapidjson::Value& size = aValue["size"];
 		
 
-		if (minVal.HasMember("x") && minVal["x"].IsNumber())
-			min.x = static_cast<float>(minVal["x"].GetDouble());
+		if (position.HasMember("x") && position["x"].IsNumber())
+			min.x = static_cast<float>(position["x"].GetFloat());
 
-		if (minVal.HasMember("y") && minVal["y"].IsNumber())
-			min.y = static_cast<float>(minVal["y"].GetDouble());
+		if (position.HasMember("y") && position["y"].IsNumber())
+			min.y = static_cast<float>(position["y"].GetFloat());
 
-		if (maxVal.HasMember("x") && maxVal["x"].IsNumber())
-			max.x = static_cast<float>(maxVal["x"].GetDouble());
+		if (size.HasMember("width") && size["width"].IsNumber())
+			max.x = min.x + static_cast<float>(size["width"].GetFloat());
 
-		if (maxVal.HasMember("y") && maxVal["y"].IsNumber())
-			max.y = static_cast<float>(maxVal["y"].GetDouble());
+		if (size.HasMember("height") && size["height"].IsNumber())
+			max.y = min.y + static_cast<float>(size["height"].GetFloat());
 	}
 }

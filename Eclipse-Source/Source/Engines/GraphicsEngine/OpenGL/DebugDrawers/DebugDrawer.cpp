@@ -79,19 +79,24 @@ namespace Eclipse
     {
         CommandList::Enqueue([&]() {
             glUseProgram(programID);
+            });
 
-            for (auto& line : myLineCollection)
-            {
+        for (auto& line : myLineCollection)
+        {
+            CommandList::Enqueue([&]() {
                 for (int i = 0; i < line.linePoints.size(); i++)
                 {
-                    auto& temporarySingleton = TemporarySettingsSingleton::Get();
+                    //auto& temporarySingleton = TemporarySettingsSingleton::Get();
 
-                    float oneDivResX = temporarySingleton.GetOneDivResolutionX();
-                    float oneDivResY = temporarySingleton.GetOneDivResolutionY();
+                    //float oneDivResX = temporarySingleton.GetOneDivResolutionX();
+                    //float oneDivResY = temporarySingleton.GetOneDivResolutionY();
 
                     LineVTX vert;
-                    vert.posX = line.linePoints[i].x;// * oneDivResX;
-                    vert.posY = line.linePoints[i].y;// * oneDivResY;
+                    
+                    std::memcpy(&vert, &line.linePoints[i], sizeof(LineVTX));
+
+                    // vert.trashDataX = line.linePoints[i].x;// * oneDivResX;
+                    // vert.trashDataY = line.linePoints[i].y;// * oneDivResY;
 
                     vertices.emplace_back(vert);
                     indices.emplace_back(i);
@@ -114,17 +119,26 @@ namespace Eclipse
 
                 indices.clear();
                 vertices.clear();
-            }
-            });
+
+                });
+        }
     }
 
-    void DebugDrawer::DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd, const Math::Color& aColor)
+    void DebugDrawer::DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd, bool aUsePrev, const Math::Color& aColor)
     {
-        auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
-        line.color = aColor;
+        Line* line = nullptr;
 
-        line.linePoints.emplace_back(aStart);
-        line.linePoints.emplace_back(aEnd);
+        if (!aUsePrev)
+        {
+            line = &DebugDrawer::Get().myLineCollection.emplace_back();
+            line->color = aColor;
+        }
+        else
+            line = &DebugDrawer::Get().myLineCollection.back();
+
+
+        line->linePoints.emplace_back(aStart);
+        line->linePoints.emplace_back(aEnd);
 
     }
     void DebugDrawer::DrawRay(Math::Vector2f aStartPos, Math::Vector2f aDirection, const Math::Color& aColor)

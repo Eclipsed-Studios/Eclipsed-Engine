@@ -40,6 +40,12 @@ namespace Eclipse
 
 	void Player::CheckInput()
 	{
+		if (Input::GetKeyDown(Keycode::Z))
+		{
+			myAnimation->SetCurrentAnimation("Attack", false);
+		}
+		
+
 		myMoveDirection = InputMapper::ReadValue("Sides");
 	}
 

@@ -23,7 +23,7 @@ namespace Eclipse
         void Play() { myIsPlaying = true; }
         void Pause() { myIsPlaying = false; }
 
-        void SetCurrentAnimation(const char* anAnimationName);
+        void SetCurrentAnimation(const char* anAnimationName, bool aLoop = true);
 
     protected:
         void DrawInspector() override;
@@ -38,10 +38,11 @@ namespace Eclipse
     private:
         std::string myActiveAnimation;
 
-        float myTimePerFrame = 0.09f;
+        float myTimePerFrame = 0.04f;
         float myTimeAccumulator = 0.f;
         int myCurrentFrame = 0;
 
-        bool myIsPlaying = true;
+        bool myIsPlaying = false;
+        bool myLoop = true;
     };
 }

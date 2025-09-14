@@ -16,7 +16,7 @@ void PhysicsDebugDrawer::DrawPolygon(const b2Vec2* vertices, int vertexCount, b2
 
         Math::Color mathColor(color);
 
-        DebugDrawer::DrawLine(mathVertex0, mathVertex1, mathColor);
+        DebugDrawer::DrawLine(mathVertex0, mathVertex1, true, mathColor);
     }
 }
 void PhysicsDebugDrawer::DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context)
@@ -61,7 +61,7 @@ void PhysicsDebugDrawer::DrawSolidPolygon(b2Transform transform, const b2Vec2* v
         Math::Color mathColor(color);
         mathColor.a = 1;
 
-        DebugDrawer::DrawLine(mathVertex0, mathVertex1);
+        DebugDrawer::DrawLine(mathVertex0, mathVertex1, i ? true : false);
     }
 }
 void PhysicsDebugDrawer::DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context)

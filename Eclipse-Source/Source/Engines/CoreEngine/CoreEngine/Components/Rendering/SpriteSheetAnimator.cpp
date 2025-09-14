@@ -17,12 +17,24 @@ namespace Eclipse
         if (myTimeAccumulator >= myTimePerFrame)
         {
             const std::vector<unsigned>& animationFramesIdx = mySpriteSheetAnimations->GetAnimation(myActiveAnimation);
-            if (animationFramesIdx.size() <= 0) return;
+            if (animationFramesIdx.empty())
+                return;
 
             myTimeAccumulator -= myTimePerFrame;
-            myCurrentFrame = (myCurrentFrame + 1) % animationFramesIdx.size();
 
-            const Math::Rect& rect = mySpriteSheetAnimations->GetRect(animationFramesIdx[myCurrentFrame]);
+            if (myCurrentFrame == animationFramesIdx.size() - 1)
+            {
+                myCurrentFrame = 0;
+
+                if (!myLoop)
+                {
+                    myIsPlaying = false;
+                    return;
+                }
+            }
+
+
+            const Math::Rect& rect = mySpriteSheetAnimations->GetRect(animationFramesIdx[myCurrentFrame++]);
             mySpriteRenderer->SetSpriteRect(rect.min, rect.max);
         }
     }
@@ -47,9 +59,12 @@ namespace Eclipse
         myTimeAccumulator = 0.f;
     }
 
-    void SpriteSheetAnimator2D::SetCurrentAnimation(const char* anAnimationName)
+    void SpriteSheetAnimator2D::SetCurrentAnimation(const char* anAnimationName, bool aLoop)
     {
         myActiveAnimation = anAnimationName;
+
+        myLoop = aLoop;
+        myIsPlaying = true;
     }
 
     void SpriteSheetAnimator2D::DrawInspector()

@@ -54,20 +54,17 @@ namespace Eclipse
 			capsuleCollider->SetRadius(0.5f);
 			capsuleCollider->SetHalfHeight(1.f);
 
-			//RigidBody2D* rb = playerObj->AddComponent<RigidBody2D>();
-			//rb->SetRotationLocked(true);
+			RigidBody2D* rb = playerObj->AddComponent<RigidBody2D>();
+			rb->SetRotationLocked(true);
 
 			playerObj->AddComponent<Player>();
 			playerObj->AddComponent<PlayerMovement>();
 
-			rend->SetTexture(ASSET_PATH "Sprites/Scissors.png");
+			rend->SetTexture(ASSET_PATH "Sprites/ScissorSprite/Scissors.png");
 
-			//SpriteSheetAnimator2D* animation = playerObj->AddComponent<SpriteSheetAnimator2D>();
-
-			//ResourcePointer<SpriteSheetAnimation> anim = Resources::Get<SpriteSheetAnimation>(ASSET_PATH "Sprites/DefaultAnimation.json");
-
-
-			//animation->SetSpriteSheet(ASSET_PATH "Sprites/DefaultAnimation.json");
+			SpriteSheetAnimator2D* animation = playerObj->AddComponent<SpriteSheetAnimator2D>();
+			ResourcePointer<SpriteSheetAnimation> anim = Resources::Get<SpriteSheetAnimation>(ASSET_PATH "Sprites/ScissorSprite/ScissorAnimation.json");
+			animation->SetSpriteSheet(ASSET_PATH "Sprites/ScissorSprite/ScissorAnimation.json");
 		}
 
 		// Ground
@@ -78,9 +75,9 @@ namespace Eclipse
 			transform->SetPosition(0.46f, -0.625f);
 			transform->SetScale(Math::Vector2f(25.f, 25.f));
 			//transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
-		/*	BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
+			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
 			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
-			boxCollider->myLayer = Layer::Ground;*/
+			boxCollider->myLayer = Layer::Ground;
 
 			rend->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
 		}
@@ -93,21 +90,21 @@ namespace Eclipse
 			transform->SetPosition(0, -0.7f);
 			transform->SetScale(Math::Vector2f(25.f, 25.f));
 
-			//PolygonCollider2D* polygonCollider = ComponentManager::AddComponent<PolygonCollider2D>(obj->GetID());
+			PolygonCollider2D* polygonCollider = ComponentManager::AddComponent<PolygonCollider2D>(obj->GetID());
 
-			//polygonCollider->AddPoint({ -0.1f, 0.f });
-			//polygonCollider->AddPoint({ -0.1f, 0.35f });
-			//polygonCollider->AddPoint({ 0.95f, 1.f });
+			polygonCollider->AddPoint({ -0.1f, 0.f });
+			polygonCollider->AddPoint({ -0.1f, 0.35f });
+			polygonCollider->AddPoint({ 0.95f, 1.f });
 
-			//polygonCollider->AddPoint({ 1.1f, 1.f });
-			//polygonCollider->AddPoint({ 1.1f, 0.65f });
-			//polygonCollider->AddPoint({ 0.1f, 0.f });
+			polygonCollider->AddPoint({ 1.1f, 1.f });
+			polygonCollider->AddPoint({ 1.1f, 0.65f });
+			polygonCollider->AddPoint({ 0.1f, 0.f });
 
-			//polygonCollider->myLayer = Layer::Ground;
+			polygonCollider->myLayer = Layer::Ground;
 
 
 			//// NEED THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			//transform->SetScale(Math::Vector2f( 25.f , 25.f ));
+			transform->SetScale(Math::Vector2f( 25.f , 25.f ));
 
 
 			rend->SetTexture(ASSET_PATH "Sprites/Environment/012.png");
@@ -122,9 +119,9 @@ namespace Eclipse
 			transform->SetPosition(-0.46f, -0.78f);
 			transform->SetScale(Math::Vector2f(25.f, 25.f));
 			//transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
-	/*		BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
+			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
 			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
-			boxCollider->myLayer = Layer::Ground;*/
+			boxCollider->myLayer = Layer::Ground;
 
 			rend->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
 		}

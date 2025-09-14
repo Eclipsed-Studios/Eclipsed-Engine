@@ -26,7 +26,7 @@ namespace Eclipse
         void Begin();
         void Render();
 
-        static void DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
+        static void DrawLine(Math::Vector2f aStart, Math::Vector2f aEnd, bool aUsePrev = false, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
         static void DrawRay(Math::Vector2f aStartPos, Math::Vector2f aDirection, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
         static void DrawArrow(Math::Vector2f aStartPos, Math::Vector2f aDirection, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
 
@@ -51,8 +51,8 @@ namespace Eclipse
             float posX;
             float posY;
 
-            float trashDataX;
-            float trashDataY;
+            // float SecondPosX;
+            // float SecondPosY;
         };
 
         std::vector<LineVTX> vertices;

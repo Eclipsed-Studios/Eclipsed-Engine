@@ -24,7 +24,7 @@ namespace Eclipse
 	{
 		if (!myPlayer) return;
 
-		if (myPlayer->myState == Player::States::Duck) return;
+		//if (myPlayer->myState == Player::States::Duck) return;
 
 		const int moveDirection = myPlayer->myMoveDirection;
 
@@ -38,7 +38,7 @@ namespace Eclipse
 		bool isGrounded = PhysicsEngine::OverlapSphere(myTransform->GetPosition() - Math::Vector2f(0.f, 0.07), 0.05f, hit, Layer::Ground);
 		if (isGrounded)
 		{
-			if (myPlayer->myState == Player::States::Jump && InputMapper::ReadValue("Jump"))
+			if (InputMapper::ReadValue("Jump"))
 			{
 				float velX = myRigidBody->GetVelocity().x;
 				myRigidBody->SetVelocity({ velX, myJumpStrength });

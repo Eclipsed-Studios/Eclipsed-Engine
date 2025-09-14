@@ -5,6 +5,7 @@
 #include "box2d/id.h"
 #include "PhysicsEngineSettings.h"
 #include "ECS/ComponentManager.h"
+#include "Reflection/ReflectionDefines.h"
 
 struct b2Polygon;
 namespace Eclipse

@@ -1,46 +1,9 @@
 {
-    "PlayerMovement": [
-        {
-            "owner": 1,
-            "id": 5,
-            "myJumpStrength": "AAAAQA==",
-            "myMovementSpeed": "zczMPg=="
-        }
-    ],
-    "SpriteRenderer2D": [
-        {
-            "owner": 3,
-            "id": 10,
-            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Environment/012.png"
-        },
-        {
-            "owner": 1,
-            "id": 2,
-            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Pink_Monster.png"
-        },
-        {
-            "owner": 2,
-            "id": 8,
-            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Environment/013.png"
-        },
-        {
-            "owner": 4,
-            "id": 12,
-            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Environment/013.png"
-        }
-    ],
     "Transform2D": [
-        {
-            "owner": 3,
-            "id": 9,
-            "position": "AAAAADMzM78=",
-            "rotation": "AAAAAA==",
-            "scale": "AADIQQAAyEE="
-        },
         {
             "owner": 1,
             "id": 1,
-            "position": "AAAAAAAAAAA=",
+            "position": "FpTIvsEI6b4=",
             "rotation": "AAAAAA==",
             "scale": "AAAgQQAAIEE="
         },
@@ -52,54 +15,110 @@
             "scale": "AADIQQAAyEE="
         },
         {
+            "owner": 3,
+            "id": 10,
+            "position": "AAAAADMzM78=",
+            "rotation": "AAAAAA==",
+            "scale": "AADIQQAAyEE="
+        },
+        {
             "owner": 4,
-            "id": 11,
+            "id": 13,
             "position": "H4XrvhSuR78=",
             "rotation": "AAAAAA==",
             "scale": "AADIQQAAyEE="
         },
         {
             "owner": 5,
-            "id": 13,
-            "position": "AAAAAAAAAAA=",
+            "id": 16,
+            "position": "FpTIvsEI6b4=",
             "rotation": "AAAAAA==",
             "scale": "AACAPwAAgD8="
         }
     ],
-    "Camera": [
-        {
-            "owner": 5,
-            "id": 14
-        }
-    ],
-    "SpriteSheetAnimator2D": [
+    "SpriteRenderer2D": [
         {
             "owner": 1,
-            "id": 6,
-            "mySpriteSheetAnimationPath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/DefaultAnimation.json"
+            "id": 2,
+            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Scissors.png"
+        },
+        {
+            "owner": 2,
+            "id": 8,
+            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Environment/013.png"
+        },
+        {
+            "owner": 3,
+            "id": 11,
+            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Environment/012.png"
+        },
+        {
+            "owner": 4,
+            "id": 14,
+            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Environment/013.png"
         }
     ],
-    "AudioSource": [
+    "CapsuleCollider2D": [
         {
             "owner": 1,
             "id": 3,
-            "myPlayOnStart": "AA==",
-            "myIsLooping": "AA==",
-            "myVolume": "AACAPw==",
-            "myAudioPath": ""
+            "myRadius": "zMxMPQ==",
+            "myHalfHeight": "zMzMPQ==",
+            "myRealRadius": "AAAAPw==",
+            "myRealHalfHeight": "AACAPw=="
         }
     ],
-    "Player": [
+    "RigidBody2D": [
         {
             "owner": 1,
             "id": 4
         }
     ],
+    "Camera": [
+        {
+            "owner": 5,
+            "id": 17
+        }
+    ],
+    "BoxCollider2D": [
+        {
+            "owner": 2,
+            "id": 9,
+            "myHalfExtents": "AACAPmZmZj4=",
+            "myScale": "AACAP2ZmZj8="
+        },
+        {
+            "owner": 4,
+            "id": 15,
+            "myHalfExtents": "AACAPmZmZj4=",
+            "myScale": "AACAP2ZmZj8="
+        }
+    ],
     "PlayerCamera": [
         {
             "owner": 5,
-            "id": 15,
+            "id": 18,
             "myPlayerGO": "AQAAAA=="
+        }
+    ],
+    "PolygonCollider2D": [
+        {
+            "owner": 3,
+            "id": 12
+        }
+    ],
+    "Player": [
+        {
+            "owner": 1,
+            "id": 5
+        }
+    ],
+    "PlayerMovement": [
+        {
+            "owner": 1,
+            "id": 6,
+            "myJumpStrength": "AAAAQA==",
+            "myMovementSpeed": "zczMPg=="
         }
     ],
     "GameObjects": [
