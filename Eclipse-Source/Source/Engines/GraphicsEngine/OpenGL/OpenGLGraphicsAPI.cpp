@@ -23,6 +23,8 @@
 
 namespace Eclipse
 {
+    
+
     static std::vector<std::function<void()>> resolutionChangeCallbackFunctions;
 
     void SetWindowDimenstion()

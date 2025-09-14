@@ -78,9 +78,8 @@ static void End()
 
 int main(int argsCount, char* args[])
 {
-    // AllocConsole();
-    // freopen("CONOUT$", "w", stdout);
-    // freopen("CONIN$", "r", stdin);
+    HWND console = GetConsoleWindow();
+    ShowWindow(console, SW_HIDE);
 
     ErrorCode result = Init();
 

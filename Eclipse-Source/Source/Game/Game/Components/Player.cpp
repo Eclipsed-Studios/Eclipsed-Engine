@@ -16,6 +16,8 @@ namespace Eclipse
 {
 	void Player::Awake()
 	{
+		LOG_WARNING("I think it works.");
+
 		myTransform = gameObject->GetComponent<Transform2D>();
 		mySpriteRenderer = gameObject->GetComponent<SpriteRenderer2D>();
 		myAnimation = gameObject->GetComponent<SpriteSheetAnimator2D>();

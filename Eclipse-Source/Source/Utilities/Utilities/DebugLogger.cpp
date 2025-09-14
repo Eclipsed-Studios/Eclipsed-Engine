@@ -2,24 +2,34 @@
 
 #include <chrono>
 #include <ctime>
+#include <iostream>
+
+#include "DebugLogBuffer.h"
+
 namespace Eclipse
 {
-	void DebugLogger::Log(const std::string& aMessage)
+	void DebugLogger::OverwriteDefaultCoutBuffer()
 	{
-		AddMessage(aMessage, MessageTypes::Message);
+		static DebugLogBuf buffer = DebugLogBuf();
+		std::cout.rdbuf(&buffer);
 	}
 
-	void DebugLogger::LogWarning(const std::string& aMessage)
+	void DebugLogger::Log(const std::string& aMessage, const char* aFile, int aLine)
 	{
-		AddMessage(aMessage, MessageTypes::Warning);
+		AddMessage(aMessage, aFile, aLine, MessageTypes::Message);
 	}
 
-	void DebugLogger::LogError(const std::string& aMessage)
+	void DebugLogger::LogWarning(const std::string& aMessage, const char* aFile, int aLine)
 	{
-		AddMessage(aMessage, MessageTypes::Error);
+		AddMessage(aMessage, aFile, aLine, MessageTypes::Warning);
 	}
 
-	void DebugLogger::AddMessage(const std::string& aMessage, MessageTypes aMessageType)
+	void DebugLogger::LogError(const std::string& aMessage, const char* aFile, int aLine)
+	{
+		AddMessage(aMessage, aFile, aLine, MessageTypes::Error);
+	}
+
+	void DebugLogger::AddMessage(const std::string& aMessage, const char* aFile, int aLine, MessageTypes aMessageType)
 	{
 		const auto now = std::time(nullptr);
 		const auto currentTime = std::localtime(&now);
@@ -30,11 +40,15 @@ namespace Eclipse
 		Message message;
 		message.type = aMessageType;
 		message.timeString = timeString.str();
+		message.file = aFile;
+		message.line = aLine;
+		message.message = aMessage;
 
 		messages[aMessage].emplace_back(message);
+		messageQueue.emplace_back(aMessage);
 	}
 
-	const std::unordered_map<std::string, std::vector<Message>>& DebugLogger::GetMessaes() { return messages; }
+	const std::unordered_map<std::string, std::vector<Message>>& DebugLogger::GetMessages() { return messages; }
 
 	void DebugLogger::Clear() { messages.clear(); }
 

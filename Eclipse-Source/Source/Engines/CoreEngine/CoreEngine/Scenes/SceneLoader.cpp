@@ -31,7 +31,6 @@ namespace Eclipse
 
 			if (compName == "Component")
 			{
-				DebugLogger::LogWarning("Component missing BASE_SELECTION macro.");
 				continue;
 			}
 			rapidjson::Value value(rapidjson::kObjectType);
@@ -122,7 +121,6 @@ namespace Eclipse
 
 		std::ifstream ifs(aPath);
 		if (!ifs.is_open()) {
-			DebugLogger::LogError("Scene at path do not exist:   " + std::string(aPath));
 			return;
 		}
 

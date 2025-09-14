@@ -1,6 +1,7 @@
 #pragma once
 
 #include "WindowBase.h"
+#include <DebugLogger.h>
 
 namespace Eclipse::Editor
 {
@@ -10,6 +11,9 @@ namespace Eclipse::Editor
 
 	public:
 		void Update() override;
+
+	private:
+		void DisplayMessage(const Message& aMessage);
 
 	private:
 		bool myShouldCollapseMessages = false;

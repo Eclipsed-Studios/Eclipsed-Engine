@@ -48,14 +48,11 @@ namespace Eclipse
 			Transform2D* transform = playerObj->GetComponent<Transform2D>();
 			transform->SetScale(10.f, 10.f);
 
-			//CapsuleCollider2D* capsuleCollider = playerObj->AddComponent<CapsuleCollider2D>();
-			//capsuleCollider->myLayer = Layer::Player;
+			CapsuleCollider2D* capsuleCollider = playerObj->AddComponent<CapsuleCollider2D>();
+			capsuleCollider->myLayer = Layer::Player;
 
-			//capsuleCollider->SetRadius(0.5f);
-			//capsuleCollider->SetHalfHeight(1.f);
-
-			AudioSource* audio = playerObj->AddComponent<AudioSource>();
-			//audio->SetAudioClip(ASSET_PATH "Sounds/peak.mp3");
+			capsuleCollider->SetRadius(0.5f);
+			capsuleCollider->SetHalfHeight(1.f);
 
 			//RigidBody2D* rb = playerObj->AddComponent<RigidBody2D>();
 			//rb->SetRotationLocked(true);

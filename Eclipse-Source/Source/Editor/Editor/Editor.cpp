@@ -22,11 +22,13 @@
 #include <rapidjson/rapidjson/prettywriter.h>
 
 #include "Scenes/SceneLoader.h"
+#include <iostream>
 
 namespace Eclipse::Editor
 {
     ErrorCode EditorContext::Init()
     {
+        DebugLogger::OverwriteDefaultCoutBuffer();
         MetaFileRegistry::Load();
 
         PlatformIntegration::Discord::SetupWithID(1401121853829025922);
@@ -50,6 +52,7 @@ namespace Eclipse::Editor
         return beginRet;
     }
     
+
     void EditorContext::Update()
     {
         Engine::Update();

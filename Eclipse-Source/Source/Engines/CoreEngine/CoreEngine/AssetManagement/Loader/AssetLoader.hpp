@@ -18,7 +18,7 @@ namespace Eclipse
 	{
 	public:
 		template <typename T>
-		void LoadFromPath(const char* aPath, T& outResource) { throw std::runtime_error("OWADDAWADW"); }
+		void LoadFromPath(const char* aPath, T& outResource) {  }
 
 		template <typename T>
 		void LoadAll(std::vector<T>& outResources) { __noop; }

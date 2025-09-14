@@ -13,6 +13,8 @@ namespace Eclipse
 {
 	void PlayerMovement::Awake()
 	{
+		LOG_ERROR("Does it work?"".");
+
 		myRigidBody = gameObject->GetComponent<RigidBody2D>();
 		myTransform = gameObject->GetComponent<Transform2D>();
 		myPlayer = gameObject->GetComponent<Player>();

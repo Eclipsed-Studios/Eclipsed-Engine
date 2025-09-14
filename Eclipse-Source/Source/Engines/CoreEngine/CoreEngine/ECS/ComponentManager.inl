@@ -64,7 +64,8 @@ namespace Eclipse
         myComponents.back()->myComponentIndex = componentIndex;
 
         if (myComponents.size() <= 1) return component;
-
+        SortSHit();
+        return component;
         std::sort(myComponents.begin(), myComponents.end(), [&](Component* aComp0, Component* aComp1)
             {
                 bool hasPriority = aComp0->myUpdateStartPriority > aComp1->myUpdateStartPriority;

@@ -34,14 +34,18 @@ add_subdirectory(Source/Game)
 add_subdirectory(Source/Editor)
 add_subdirectory(Source/Launcher)
 
-
 foreach(target Editor Launcher CoreEngine GraphicsEngine PhysicsEngine Game Utilities)
     target_compile_definitions(${target} PRIVATE
         $<$<CONFIG:Debug>:_EDITOR>
         $<$<CONFIG:Release>:_GAME>
     )
-endforeach()
 
+    if (MSVC)
+        target_compile_options(${target} PRIVATE /FI"${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/ForceInclude.h")
+    else()
+        target_compile_options(${target} PRIVATE -include "${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/ForceInclude.h")
+    endif()
+endforeach()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Launcher) 
