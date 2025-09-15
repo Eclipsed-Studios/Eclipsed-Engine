@@ -47,6 +47,8 @@ namespace Eclipse
 
 		static void RegisterListenToResolutionChange(const std::function<void()>& aLambda);
 
+		static Math::Vector2i GetWindowPosition();
+
 	private:
 		static inline GLFWwindow* myWindow;
 		static inline UniformVariableManager myUniformManager;

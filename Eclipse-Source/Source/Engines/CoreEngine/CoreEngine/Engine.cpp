@@ -69,25 +69,31 @@ namespace Eclipse
 	}
 	void Engine::Update()
 	{
-		AudioManager::Update();
-
 		DebugInformationCollector::ResetRenderCalls();
 
 		PlatformIntegration::IntegrationManager::Update();
 
 		Time::Update();
 		Input::Update();
-
-		PhysicsEngine::Update();
-
-		ComponentManager::AwakeStartComponents();
-
-		ComponentManager::EarlyUpdateComponents();
-		ComponentManager::UpdateComponents();
-		ComponentManager::LateUpdateComponents();
-
-		game.Update();
-
+		
+		ComponentManager::EditorUpdateComponents();
+		
+		if (game.myIsPlaying && !game.myIsPaused)
+		{
+			AudioManager::Update();
+			PhysicsEngine::Update();
+			
+			ComponentManager::AwakeStartComponents();
+			
+			ComponentManager::EarlyUpdateComponents();
+			ComponentManager::UpdateComponents();
+			ComponentManager::LateUpdateComponents();
+			
+			game.Update();
+		}
+		
+		PhysicsEngine::DrawPhysicsObjects();
+		ComponentManager::RenderComponents();
 		GraphicsEngine::Render();
 	}
 	void Engine::EndFrame()

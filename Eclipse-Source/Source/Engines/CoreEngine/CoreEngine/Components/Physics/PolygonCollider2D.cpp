@@ -38,7 +38,7 @@ namespace Eclipse
     void PolygonCollider2D::AddPoint(const Math::Vector2f& aPoint)
     {
         Transform2D* transform = gameObject->GetComponent<Transform2D>();
-        Math::Vector2f scale = (Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f);
+        Math::Vector2f scale = (Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.1f);
 
         scale *= aPoint * Math::Vector2f(2.f, 2.f) - Math::Vector2f(1.f, 1.f);
 
@@ -47,7 +47,7 @@ namespace Eclipse
 
     void PolygonCollider2D::OnTransformDirty()
     {
-        Math::Vector2f scale = Math::Vector2f(myTransform->GetScale().x * 0.5f, myTransform->GetScale().y) * 0.01f;
+        Math::Vector2f scale = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
         PhysicsEngine::SetTransformPolygon(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myPoints, scale);
     }

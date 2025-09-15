@@ -37,6 +37,11 @@ namespace Eclipse
 			component->Start();
 	}
 
+	void ComponentManager::EditorUpdateComponents()
+	{
+		for (auto& component : myComponents)
+			component->EditorUpdate();
+	}
 	void ComponentManager::EarlyUpdateComponents()
 	{
 		for (auto& component : myComponents)
@@ -54,6 +59,11 @@ namespace Eclipse
 
 		for (auto& component : myComponents)
 			component->LateUpdate();
+	}
+	void ComponentManager::RenderComponents()
+	{
+		for (auto& component : myComponents)
+			component->Render();
 	}
 	void ComponentManager::SortSHit()
 	{
@@ -123,7 +133,7 @@ namespace Eclipse
 		GameObject* obj = new GameObject(aId);
 		myEntityIdToEntity[aId] = obj;
 
-		if(myNextGameobjectID < aId) myNextGameobjectID = aId+ 1;
+		if (myNextGameobjectID < aId) myNextGameobjectID = aId + 1;
 		return obj;
 	}
 

@@ -20,6 +20,10 @@ namespace Eclipse
         bodyHasBeenCreated = true;
 
         myUserData = { gameObject->GetID() };
+
+        myTransform->AddFunctionToRunOnDirtyUpdate([&](){
+            PhysicsEngine::SetTransform(myBody, myTransform->GetPosition(), myTransform->GetRotation());
+        });
     }
 
     void RigidBody2D::EarlyUpdate()

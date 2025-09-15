@@ -33,7 +33,7 @@
 #include "Scenes/SceneLoader.h"
 #include "ECS/ECS.hpp"
 
-//#define GAME
+#define GAME
 #define OBJECTS
 
 namespace Eclipse
@@ -50,11 +50,11 @@ namespace Eclipse
 			Transform2D* transform = playerObj->GetComponent<Transform2D>();
 			transform->SetScale(10.f, 10.f);
 
-			CapsuleCollider2D* capsuleCollider = playerObj->AddComponent<CapsuleCollider2D>();
+			CircleCollider2D* capsuleCollider = playerObj->AddComponent<CircleCollider2D>();
 			capsuleCollider->myLayer = Layer::Player;
 
-			capsuleCollider->SetRadius(0.5f);
-			capsuleCollider->SetHalfHeight(1.f);
+			capsuleCollider->SetRadius(1.f);
+			//capsuleCollider->SetHalfHeight(1.f);
 
 			RigidBody2D* rb = playerObj->AddComponent<RigidBody2D>();
 			rb->SetRotationLocked(true);
@@ -90,24 +90,22 @@ namespace Eclipse
 			SpriteRenderer2D* rend = ComponentManager::AddComponent<SpriteRenderer2D>(obj->GetID());
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(obj->GetID());
 			transform->SetPosition(0, -0.7f);
-			transform->SetScale(Math::Vector2f(25.f, 25.f));
+
 
 			PolygonCollider2D* polygonCollider = ComponentManager::AddComponent<PolygonCollider2D>(obj->GetID());
 
-			polygonCollider->AddPoint({ -0.1f, 0.f });
-			polygonCollider->AddPoint({ -0.1f, 0.35f });
-			polygonCollider->AddPoint({ 0.95f, 1.f });
+			polygonCollider->AddPoint({ 0.f, 0.f });
+			polygonCollider->AddPoint({ 0.f, 0.4f });
+			polygonCollider->AddPoint({ 0.9f, 1.f });
 
-			polygonCollider->AddPoint({ 1.1f, 1.f });
-			polygonCollider->AddPoint({ 1.1f, 0.65f });
-			polygonCollider->AddPoint({ 0.1f, 0.f });
+			polygonCollider->AddPoint({ 1.f, 1.f });
+			polygonCollider->AddPoint({ 1.f, 0.6f });
+			polygonCollider->AddPoint({ 0.2f, 0.f });
 
 			polygonCollider->myLayer = Layer::Ground;
 
 
-			//// NEED THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			transform->SetScale(Math::Vector2f( 25.f , 25.f ));
-
+			transform->SetScale(Math::Vector2f(30.f, 30.f));
 
 			rend->SetTexture(ASSET_PATH "Sprites/Environment/012.png");
 		}
@@ -120,7 +118,6 @@ namespace Eclipse
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(obj->GetID());
 			transform->SetPosition(-0.46f, -0.78f);
 			transform->SetScale(Math::Vector2f(25.f, 25.f));
-			//transform->SetScale(matrial->myTexture->GetTextureSizeEngineUnits() * 6.f);
 			BoxCollider2D* boxCollider = ComponentManager::AddComponent<BoxCollider2D>(obj->GetID());
 			boxCollider->SetScale(Math::Vector2f(1.f, 0.9f));
 			boxCollider->myLayer = Layer::Ground;
@@ -140,6 +137,8 @@ namespace Eclipse
 			PlayerCamera* playerCamera = ComponentManager::AddComponent<PlayerCamera>(obj->GetID());
 			playerCamera->myPlayerGO = playerObj->GetID();
 		}
+
+		ComponentManager::AwakeStartComponents();
 	}
 
 	void Game::Update()
@@ -151,7 +150,7 @@ namespace Eclipse
 		else if (Input::GetKeyDown(Keycode::P)) au->Stop();
 	}
 #else
-void Game::Init(){}
-void Game::Update(){}
+	void Game::Init() {}
+	void Game::Update() {}
 #endif
-}
+	}

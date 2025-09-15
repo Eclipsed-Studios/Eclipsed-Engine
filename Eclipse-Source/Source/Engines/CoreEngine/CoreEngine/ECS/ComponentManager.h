@@ -40,9 +40,12 @@ namespace Eclipse
 		static void AwakeComponents();
 		static void StartComponents();
 
+		static void EditorUpdateComponents();
+
 		static void EarlyUpdateComponents();
 		static void UpdateComponents();
 		static void LateUpdateComponents();
+		static void RenderComponents();
 
 		static void SortSHit();
 

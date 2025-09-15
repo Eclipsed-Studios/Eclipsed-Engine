@@ -23,7 +23,7 @@
 
 namespace Eclipse
 {
-    
+
 
     static std::vector<std::function<void()>> resolutionChangeCallbackFunctions;
 
@@ -284,6 +284,12 @@ namespace Eclipse
     void GraphicsEngine::RegisterListenToResolutionChange(const std::function<void()>& aLambda)
     {
         resolutionChangeCallbackFunctions.emplace_back(aLambda);
+    }
+    Math::Vector2i GraphicsEngine::GetWindowPosition()
+    {
+        int xpos, ypos;
+        glfwGetWindowPos(myWindow, &xpos, &ypos);
+        return Math::Vector2i(xpos, ypos);
     }
 
 

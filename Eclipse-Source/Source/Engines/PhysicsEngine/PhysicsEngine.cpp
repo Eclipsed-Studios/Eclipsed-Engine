@@ -234,6 +234,11 @@ namespace Eclipse
         }
     }
 
+    void PhysicsEngine::SetGravity(const Math::Vector2f& aGravity)
+    {
+
+    }
+
     void PhysicsEngine::SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale)
     {
         SetTransform(aBodyID, aPosition, aRotation);
@@ -345,11 +350,13 @@ namespace Eclipse
     {
         b2World_Step(myWorld, Time::GetDeltaTime(), mySubstepCount);
 
+        CheckCollisions();
+    }
+    void PhysicsEngine::DrawPhysicsObjects()
+    {
         // TODO: Change to a define to not even compile debug physics if in not debug maybe potensially idk :P
         if (myDrawDebugShapes)
             b2World_Draw(myWorld, &myDebugDraw);
-
-        CheckCollisions();
     }
 
     void HandleBeginContacts(b2ContactBeginTouchEvent& aEvent)

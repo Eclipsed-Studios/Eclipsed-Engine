@@ -22,5 +22,6 @@ namespace Eclipse::Editor
 		unsigned myGameTexture = 0;
 
 		Math::Vector2i myLastWindowResolution = { 0, 0 };
+		std::string myCurrentWindowRes;
 	};
 }

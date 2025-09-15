@@ -17,7 +17,9 @@ namespace Eclipse
 		BASE_SELECTION(Transform2D, UINT_MAX)
 
 	public:
-		void Update() override;
+		void Awake() override;
+
+		void EditorUpdate() override;
 
 		const Math::Vector2f& GetPosition() const;
 		const float GetRotation() const;

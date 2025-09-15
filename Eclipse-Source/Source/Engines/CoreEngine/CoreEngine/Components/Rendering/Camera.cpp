@@ -11,6 +11,8 @@
 #include "Input/InputMapper.h"
 #include "Input/Input.h"
 
+#include "OpenGL/DebugDrawers/DebugDrawer.h"
+
 namespace Eclipse
 {
     void Camera::Awake()
@@ -22,6 +24,13 @@ namespace Eclipse
             GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", myTransform->GetRotationPtr());
             GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", myTransform->GetScalePtr());
             });
+    }
+
+    void Camera::Render()
+    {
+        float size = TemporarySettingsSingleton::Get().resolutionRatioGameView;
+
+        DebugDrawer::DrawSquare(myTransform->GetPosition() + Math::Vector2f(0.5f, 0.5f), Math::Vector2f(0.5f * size, 0.5f));
     }
 
     void Camera::DrawInspector()

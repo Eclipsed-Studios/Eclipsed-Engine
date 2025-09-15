@@ -66,8 +66,11 @@ namespace Eclipse
         // Update Complex collisions
         static void SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale);
 
+        static void SetGravity(const Math::Vector2f& aGravity);
+
         static void Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw);
         static void Update();
+        static void DrawPhysicsObjects();
 
         static void CheckCollisions();
 

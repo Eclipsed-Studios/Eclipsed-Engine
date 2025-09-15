@@ -51,7 +51,7 @@ namespace Eclipse::Editor
         ImGui_Impl::NewFrame();
         return beginRet;
     }
-    
+
 
     void EditorContext::Update()
     {
@@ -70,6 +70,45 @@ namespace Eclipse::Editor
 
     void EditorContext::Render()
     {
+        int windowSizeX = TemporarySettingsSingleton::Get().GetResolutionX() * 0.5f;
+        int windowSizeY = TemporarySettingsSingleton::Get().GetResolutionY() * 0.5f;
+        Math::Vector2i windowPosition = GraphicsEngine::GetWindowPosition();
+
+        ImGui::Begin("TestGameButons", (bool*)1, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+        if (ImGui::Button("Play"))
+        {
+            if (Engine::game.myIsPlaying)
+            {
+                Engine::game.myIsPaused = false;
+                Engine::game.myIsPlaying = false;
+
+                if (!firstSceneOnPlay.empty())
+                    SceneLoader::Load(firstSceneOnPlay.c_str());
+            }
+            else
+            {
+                Engine::game.myIsPaused = false;
+                Engine::game.myIsPlaying = true;
+
+                if (!firstSceneOnPlay.empty())
+                {
+                    firstSceneOnPlay = SceneLoader::GetActiveScene();
+                    SceneLoader::Save(firstSceneOnPlay.c_str());
+                }
+            }
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Pause"))
+            Engine::game.myIsPaused = !Engine::game.myIsPaused;
+        ImGui::SameLine();
+        ImGui::Button("Stop");
+
+        ImVec2 buttonsWindowSize = ImGui::GetWindowSize();
+        ImGui::SetWindowPos(ImVec2(windowPosition.x + windowSizeX - buttonsWindowSize.x * 0.5f, windowPosition.y));
+
+        ImGui::End();
+
+
         ImGui_Impl::Render();
     }
 

@@ -97,8 +97,11 @@ void PhysicsDebugDrawer::DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2
     eclpisePosition2.y += 1;
     eclpisePosition2.y *= 0.5f;
 
-    DebugDrawer::DrawLine(eclpisePosition1 + Math::Vector2f(radius * 0.5f, 0), eclpisePosition2 + Math::Vector2f(radius * 0.5f, 0));
-    DebugDrawer::DrawLine(eclpisePosition1 - Math::Vector2f(radius * 0.5f, 0), eclpisePosition2 - Math::Vector2f(radius * 0.5f, 0));
+    Math::Vector2f rightVec(direction.y, -direction.x);
+    Math::Vector2f totalRightDirection(rightVec * radius * 0.5f);
+
+    DebugDrawer::DrawLine(eclpisePosition1 + totalRightDirection, eclpisePosition2 + totalRightDirection);
+    DebugDrawer::DrawLine(eclpisePosition1 - totalRightDirection, eclpisePosition2 - totalRightDirection);
 }
 void PhysicsDebugDrawer::DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context)
 {

@@ -7,6 +7,11 @@
 
 namespace Eclipse
 {
+    void Transform2D::Awake()
+    {
+        gameObject->transform = this;
+    }
+
     const Math::Vector2f& Transform2D::GetPosition() const
     {
         return position;
@@ -108,7 +113,7 @@ namespace Eclipse
         }
     }
 
-    void Transform2D::Update()
+    void Transform2D::EditorUpdate()
     {
         if (myIsDirty)
         {

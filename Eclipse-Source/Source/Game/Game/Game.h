@@ -11,5 +11,10 @@ namespace Eclipse
         void Init();
         void Update();
         void Start();
+        
+        #ifndef _GAME
+            bool myIsPlaying = false;
+            bool myIsPaused = false;
+        #endif
     };
 }

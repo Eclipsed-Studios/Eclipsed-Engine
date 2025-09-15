@@ -44,7 +44,7 @@ namespace Eclipse
         void Awake() override;
         void Start() override;
 
-        void LateUpdate() override;
+        void Render() override;
         void Draw();
 
         void SetTexture(const char* aPath);
@@ -66,8 +66,6 @@ namespace Eclipse
 
         Math::Vector2f spriteRectMin = { 0.f, 0.f };
         Math::Vector2f spriteRectMax = { 1.f, 1.f };
-
-        Transform2D* myTransform;
 
         bool mirroredX = false;
         bool mirroredY = false;

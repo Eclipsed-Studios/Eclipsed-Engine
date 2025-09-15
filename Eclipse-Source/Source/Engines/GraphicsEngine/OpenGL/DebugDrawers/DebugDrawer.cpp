@@ -239,7 +239,7 @@ namespace Eclipse
 
         unsigned segmentCount = static_cast<unsigned>(static_cast<float>(aCircleResolution) * 0.5f);
 
-        float offsetRotation = std::atan2f(aDirection.x, aDirection.y) + segmentSize * 1.05f;
+        float offsetRotation = std::atan2f(aDirection.y, aDirection.x) + segmentSize * 1.05f - Math::piHalf;
 
         for (int i = 0; i < segmentCount - 1; i++)
         {

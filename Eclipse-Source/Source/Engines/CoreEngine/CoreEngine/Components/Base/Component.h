@@ -52,9 +52,12 @@ namespace Eclipse
 		virtual void Awake() {}
 		virtual void Start() {}
 
+		virtual void EditorUpdate() {}
+
 		virtual void EarlyUpdate() {}
 		virtual void Update() {}
 		virtual void LateUpdate() {}
+		virtual void Render() {}
 
 		virtual void OnCollisionEnter() {}
 		virtual void OnCollisionExit() {}

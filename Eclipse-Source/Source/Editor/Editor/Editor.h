@@ -4,6 +4,8 @@
 
 #include "ErrorCodes.h"
 
+#include <string>
+
 struct GLFWwindow;
 
 namespace Eclipse::Editor
@@ -23,5 +25,7 @@ namespace Eclipse::Editor
         static inline GLFWwindow* myWindow;
 
         static inline WindowManager myWindowManager;
+
+        static inline std::string firstSceneOnPlay;
     };
 }

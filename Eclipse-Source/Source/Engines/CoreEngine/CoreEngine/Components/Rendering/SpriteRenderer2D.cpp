@@ -91,7 +91,7 @@ namespace Eclipse
 	{
 		myTexturePath = aPath;
 
-		if(myMaterial != nullptr) myMaterial->SetTexture(myTexturePath->c_str());
+		if (myMaterial != nullptr) myMaterial->SetTexture(myTexturePath->c_str());
 	}
 
 	void SpriteRenderer2D::Awake()
@@ -102,16 +102,22 @@ namespace Eclipse
 		myMaterial = new Material();
 		myMaterial->SetTexture(myTexturePath->c_str());
 
-					myMaterial->color.g = 0;
-			myMaterial->color.b = 0;
+		myMaterial->color.g = 0;
+		myMaterial->color.b = 0;
+
+		Transform2D& localTransform = *gameObject->transform;
+		Math::Vector2f textureSizeNormalized = myMaterial->myTexture->GetTextureSizeNormilized();
+		Math::Vector2f scale = localTransform.GetScale();
+
+		localTransform.SetScale(textureSizeNormalized * scale);
 	}
 
 	void SpriteRenderer2D::Start()
 	{
-		myTransform = gameObject->GetComponent<Transform2D>();
+
 	}
 
-	void SpriteRenderer2D::LateUpdate()
+	void SpriteRenderer2D::Render()
 	{
 		CommandList::Enqueue<RenderSprite2DCommand>(this);
 		DebugInformationCollector::UpdateRenderCalls();
@@ -119,9 +125,9 @@ namespace Eclipse
 
 	void SpriteRenderer2D::Draw()
 	{
-		Math::Vector2f position = myTransform->GetPosition();
-		float rotation = myTransform->GetRotation();
-		Math::Vector2f scale = myTransform->GetScale();
+		Math::Vector2f position = gameObject->transform->GetPosition();
+		float rotation = gameObject->transform->GetRotation();
+		Math::Vector2f scale = gameObject->transform->GetScale();
 
 		unsigned shaderID = myMaterial->myShader->GetProgramID();
 

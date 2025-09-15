@@ -30,6 +30,7 @@ namespace Eclipse
 
 		operator Eclipse::GameObjectID() const;
 
+		class Transform2D* transform;
 
 	private:
 		GameObjectID myID;

@@ -15,6 +15,7 @@ namespace Eclipse
 
     public:
         void Awake() override;
+        void Render() override;
 
     protected:
         void DrawInspector() override;

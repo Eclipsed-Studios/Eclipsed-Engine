@@ -80,9 +80,10 @@ namespace Eclipse
         WindowSizeType GetWindowSizeType() { return myWindowSizeType; };
         int GetNumRenderBuffers() { return myNumberOfRenderBuffer; };
 
-    // public:
-    //     ImFont* iconFont;
+        // public:
+        //     ImFont* iconFont;
 
+        float resolutionRatioGameView = 1;
     private:
         std::string myGameName;
 
