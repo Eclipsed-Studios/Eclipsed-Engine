@@ -1,67 +1,68 @@
 {
     "Transform2D": [
         {
+            "owner": 5,
+            "id": 17,
+            "position": "hx/Jvo42n74=",
+            "rotation": "AAAAAA==",
+            "scale": "AACAPwAAgD8="
+        },
+        {
             "owner": 1,
             "id": 1,
-            "position": "FpTIvsEI6b4=",
-            "rotation": "AAAAAA==",
+            "position": "hx/Jvo42n74=",
+            "rotation": "uwHJvw==",
             "scale": "AAAgQQAAIEE="
         },
         {
             "owner": 2,
-            "id": 7,
+            "id": 8,
             "position": "H4XrPgAAIL8=",
             "rotation": "AAAAAA==",
             "scale": "AADIQQAAyEE="
         },
         {
             "owner": 3,
-            "id": 10,
+            "id": 11,
             "position": "AAAAADMzM78=",
             "rotation": "AAAAAA==",
             "scale": "AADIQQAAyEE="
         },
         {
             "owner": 4,
-            "id": 13,
+            "id": 14,
             "position": "H4XrvhSuR78=",
             "rotation": "AAAAAA==",
             "scale": "AADIQQAAyEE="
-        },
-        {
-            "owner": 5,
-            "id": 16,
-            "position": "FpTIvsEI6b4=",
-            "rotation": "AAAAAA==",
-            "scale": "AACAPwAAgD8="
         }
     ],
     "SpriteRenderer2D": [
         {
             "owner": 1,
             "id": 2,
-            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Scissors.png"
+            "myTexturePath": "F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Assets/Sprites/ScissorSprite/Scissors.png"
         },
         {
             "owner": 2,
-            "id": 8,
-            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Environment/013.png"
+            "id": 9,
+            "myTexturePath": "F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Assets/Sprites/Environment/013.png"
         },
         {
             "owner": 3,
-            "id": 11,
-            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Environment/012.png"
+            "id": 12,
+            "myTexturePath": "F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Assets/Sprites/Environment/012.png"
         },
         {
             "owner": 4,
-            "id": 14,
-            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites/Environment/013.png"
+            "id": 15,
+            "myTexturePath": "F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Assets/Sprites/Environment/013.png"
         }
     ],
     "CapsuleCollider2D": [
         {
             "owner": 1,
             "id": 3,
+            "myLayer": "AgAAAA==",
             "myRadius": "zMxMPQ==",
             "myHalfHeight": "zMzMPQ==",
             "myRealRadius": "AAAAPw==",
@@ -71,25 +72,30 @@
     "RigidBody2D": [
         {
             "owner": 1,
-            "id": 4
+            "id": 4,
+            "LockRotation": "AQ==",
+            "LockXPos": "AA==",
+            "LockYPos": "AA=="
         }
     ],
     "Camera": [
         {
             "owner": 5,
-            "id": 17
+            "id": 18
         }
     ],
     "BoxCollider2D": [
         {
             "owner": 2,
-            "id": 9,
+            "id": 10,
+            "myLayer": "EAAAAA==",
             "myHalfExtents": "AACAPmZmZj4=",
             "myScale": "AACAP2ZmZj8="
         },
         {
             "owner": 4,
-            "id": 15,
+            "id": 16,
+            "myLayer": "EAAAAA==",
             "myHalfExtents": "AACAPmZmZj4=",
             "myScale": "AACAP2ZmZj8="
         }
@@ -97,14 +103,15 @@
     "PlayerCamera": [
         {
             "owner": 5,
-            "id": 18,
+            "id": 19,
             "myPlayerGO": "AQAAAA=="
         }
     ],
     "PolygonCollider2D": [
         {
             "owner": 3,
-            "id": 12
+            "id": 13,
+            "myLayer": "EAAAAA=="
         }
     ],
     "Player": [
@@ -119,6 +126,13 @@
             "id": 6,
             "myJumpStrength": "AAAAQA==",
             "myMovementSpeed": "zczMPg=="
+        }
+    ],
+    "SpriteSheetAnimator2D": [
+        {
+            "owner": 1,
+            "id": 7,
+            "mySpriteSheetAnimationPath": "F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Assets/Sprites/ScissorSprite/ScissorAnimation.json"
         }
     ],
     "GameObjects": [

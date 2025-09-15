@@ -19,10 +19,12 @@ namespace Eclipse
         if (!rigidBody)
         {
             myUserData = { gameObject->GetID() };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), gameObject->GetComponent<Transform2D>()->GetPosition());
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, gameObject->GetComponent<Transform2D>()->GetPosition());
         }
         else
+        {
             myBodyRef = rigidBody->myBody;
+        }
 
         PhysicsEngine::CreateCapsuleCollider(&myInternalCollider, myBodyRef, myRadius, myHalfHeight, myLayer);
 
@@ -46,10 +48,6 @@ namespace Eclipse
 
         myRealHalfHeight = aHalfHeight;
         myHalfHeight = myRealHalfHeight * size.y;
-    }
-
-    void CapsuleCollider2D::DrawInspector()
-    {
     }
 
     void CapsuleCollider2D::OnTransformDirty()

@@ -132,15 +132,21 @@ namespace Eclipse
 		Document d;
 		d.Parse(jsonString.c_str());
 
+		const Value& objs = d["GameObjects"];
+		{
+			for (const Value& obj : objs.GetArray())
+			{
+				unsigned int id = obj["id"].GetUint();
+				std::string name = obj["name"].GetString();
 
-		Value gameobjectList;
+				GameObject* gObj = ComponentManager::CreateGameObjectNoTransformWithID(id);
+				gObj->SetName(name);
+			}
+		}
+
 		for (auto it = d.MemberBegin(); it != d.MemberEnd();)
 		{
-			if (it->name == "GameObjects")
-			{
-				gameobjectList = it->value.Move();
-			}
-			else
+			if(it->name != "GameObjects")
 			{
 				LoadComponent(it->name.GetString(), it->value);
 			}

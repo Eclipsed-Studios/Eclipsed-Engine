@@ -32,7 +32,7 @@ namespace Eclipse::Editor
             // Not visible without table headersrow
             ImGui::TableSetupColumn("Layers", ImGuiTableColumnFlags_NoHide | ImGuiTableColumnFlags_NoReorder);
             for (int i = columnCount - 1; i >= 0; i--)
-                ImGui::TableSetupColumn(GetCollisionLayerAsName(static_cast<Layer>(1 << i)).c_str(), columnFlags);
+                ImGui::TableSetupColumn(Layer::AsString(Layer(1 << i)).c_str(), columnFlags);
 
             ImGui::PushID(7834768345);
             ImGui::TableAngledHeadersRow();
@@ -46,7 +46,7 @@ namespace Eclipse::Editor
             for (int i = 0; i < columnCount; ++i)
             {
                 totalID++;
-                std::string collisionName = GetCollisionLayerAsName(static_cast<Layer>(1 << i));
+                std::string collisionName = Layer::AsString(Layer(1 << i));
 
                 ImGui::TableNextRow();
                 ImGui::TableSetColumnIndex(0);

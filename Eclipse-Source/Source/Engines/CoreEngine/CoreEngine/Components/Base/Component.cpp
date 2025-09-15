@@ -4,7 +4,4 @@
 
 namespace Eclipse
 {
-	Component::Component(unsigned updatePriority) : myUpdateStartPriority(updatePriority)
-	{
-	}
 }

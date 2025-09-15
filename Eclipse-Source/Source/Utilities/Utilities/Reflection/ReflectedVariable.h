@@ -3,6 +3,7 @@
 #include <string>
 
 #include "ImGui/ImGui/imgui.h"
+#include "ReflectedEnum.h"
 
 namespace Eclipse
 {
@@ -78,6 +79,33 @@ namespace Eclipse
 		const T* operator->() const { return &myData; }
 
 	private:
+		template<typename T>
+		bool ComboEnum(const char* label, T& e, int count) {
+			unsigned currentIndex = static_cast<unsigned>(e);
+			bool changed = false;
+
+			if (ImGui::BeginCombo(label, T::AsString(T(currentIndex)).c_str()))
+			{
+				for (const T& val : T::List)
+				{
+					bool isSelected = (currentIndex == val);
+					std::string name = T::AsString(val);
+
+					if (ImGui::Selectable(name.c_str(), isSelected)) {
+						e = static_cast<T>(val);
+						changed = true;
+					}
+					if (isSelected) {
+						ImGui::SetItemDefaultFocus();
+					}
+				}
+				ImGui::EndCombo();
+			}
+
+			return changed;
+		}
+
+	private:
 		T myData = {};
 	};
 }
@@ -90,5 +118,7 @@ namespace Eclipse
 		ImGui::Text(GetName().c_str());
 		ImGui::SameLine();
 		if constexpr (std::is_same<T, float>::value) ImGui::DragFloat(std::string("##float##" + GetName()).c_str(), &myData, 0.01f);
+		else if constexpr (std::is_same<T, bool>::value) ImGui::Checkbox(std::string("##bool##" + GetName()).c_str(), &myData);
+		else if constexpr (std::is_base_of<SerializedEnum, T>::value) ComboEnum(std::string("##float##" + GetName()).c_str(), myData, 7);
 	}
 }

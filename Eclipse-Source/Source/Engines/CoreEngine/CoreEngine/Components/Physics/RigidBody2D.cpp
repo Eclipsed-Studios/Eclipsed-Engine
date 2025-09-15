@@ -16,7 +16,7 @@ namespace Eclipse
         myTransform = gameObject->GetComponent<Transform2D>();
 
         const Math::Vector2f& startPosition = myTransform->GetPosition();
-        PhysicsEngine::CreateRigidBody(&myBody, &myUserData, myRigidBodySettings, startPosition);
+        PhysicsEngine::CreateRigidBody(&myBody, &myUserData, BodyType, LockRotation.Get(), LockXPos.Get(), LockYPos.Get(), startPosition);
         bodyHasBeenCreated = true;
 
         myUserData = { gameObject->GetID() };
@@ -85,9 +85,5 @@ namespace Eclipse
     bool RigidBody2D::GetYPosLocked()
     {
         return myRigidBodySettings.LockYPos;
-    }
-
-    void RigidBody2D::DrawInspector()
-    {
     }
 }

@@ -48,12 +48,15 @@ namespace Eclipse
         void SetYPosLocked(bool aValue);
         bool GetYPosLocked();
 
-    protected:
-        void DrawInspector() override;
-
     private:
         RigidBodySettings myRigidBodySettings;
         b2BodyId myBody;
+
+        Box2DBodyType BodyType = DynamicBody;
+
+        ReflectedVar_Default(bool, LockRotation, false);
+        ReflectedVar_Default(bool, LockXPos, false);
+        ReflectedVar_Default(bool, LockYPos, false);
 
         Math::Vector2f myVelocity = { 0.f, 0.f };
         float myAngularVelocity = 0.f;

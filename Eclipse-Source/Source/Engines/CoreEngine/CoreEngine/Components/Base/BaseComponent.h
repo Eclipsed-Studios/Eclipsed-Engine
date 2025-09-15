@@ -20,14 +20,10 @@ friend class Editor::InspectorWindow;  \
 friend class ComponentManager;         \
 friend class SceneLoader;              
 
-
-
-
-
 #define COMPONENT_BASE_1(type)												\
 COMPONENT_FRIEND_CLASS														\
 public:																		\
-inline type(unsigned updatePriority) : Component(updatePriority) {}			\
+inline type() = default;													\
 virtual ~type() = default;													\
 private:
 
@@ -38,7 +34,8 @@ private:
 #define COMPONENT_BASE_2(type, updatePriority)														\
 COMPONENT_FRIEND_CLASS																				\
 public:																								\
-inline type() : Component(updatePriority) {}														\
+virtual unsigned GetUpdatePriority() const override {return updatePriority;}						\
+inline type() = default;																			\
 virtual ~type() = default;																			\
 protected:																							\
 virtual const char* GetComponentName() override { return stringify(type); }							\
@@ -55,7 +52,7 @@ static inline AutoRegister _register = {};
 #define COMPONENT_BASE_3(type, derivedType, updatePriority)				\
 COMPONENT_FRIEND_CLASS														\
 public:																		\
-    inline type() : derivedType(updatePriority) {}							\
+    inline type() = default;										\
 virtual ~type() = default;													\
 protected:																	\
 virtual const char* GetComponentName() override { return stringify(type); }	\

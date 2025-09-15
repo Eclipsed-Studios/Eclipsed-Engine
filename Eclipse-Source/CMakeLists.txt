@@ -41,11 +41,19 @@ foreach(target Editor Launcher CoreEngine GraphicsEngine PhysicsEngine Game Util
     )
 
     if (MSVC)
-        target_compile_options(${target} PRIVATE /FI"${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/ForceInclude.h")
+        target_compile_options(${target} PRIVATE /FI ${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/ForceInclude.h)
     else()
-        target_compile_options(${target} PRIVATE -include "${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/ForceInclude.h")
+        target_compile_options(${target} PRIVATE -include ${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/ForceInclude.h)
     endif()
 endforeach()
+
+if (MSVC)
+        target_compile_options(CoreEngine PRIVATE /FI ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/CoreEngine/ECS/ECS.hpp)
+        target_compile_options(Game PRIVATE /FI ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/CoreEngine/ECS/ECS.hpp)
+    else()
+        target_compile_options(CoreEngine PRIVATE -include ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/CoreEngine/ECS/ECS.hpp)
+        target_compile_options(Game PRIVATE -include ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/CoreEngine/ECS/ECS.hpp)
+    endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Launcher) 

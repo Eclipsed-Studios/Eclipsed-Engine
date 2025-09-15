@@ -19,7 +19,7 @@ namespace Eclipse
         if (!rigidBody)
         {
             myUserData = { gameObject->GetID() };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), gameObject->GetComponent<Transform2D>()->GetPosition());
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, gameObject->GetComponent<Transform2D>()->GetPosition());
         }
         else
             myBodyRef = rigidBody->myBody;
@@ -37,10 +37,6 @@ namespace Eclipse
 
         myRealRadius = aRadius;
         myRadius = myRealRadius * std::max(size.x, size.y);
-    }
-
-    void CircleCollider2D::DrawInspector()
-    {
     }
 
     void CircleCollider2D::OnTransformDirty()

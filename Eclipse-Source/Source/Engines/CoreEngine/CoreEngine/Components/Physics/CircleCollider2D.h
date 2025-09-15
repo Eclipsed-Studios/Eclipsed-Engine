@@ -11,7 +11,7 @@ namespace Eclipse
 {
     class CircleCollider2D : public Collider2D
     {
-        BASE_SELECTION(CircleCollider2D, Collider2D, 5)
+        BASE_SELECTION(CircleCollider2D, 5)
 
     public:
         void Awake() override;
@@ -19,9 +19,6 @@ namespace Eclipse
         void OnTransformDirty();
 
         void SetRadius(float aRadius);
-
-    protected:
-        void DrawInspector() override;
 
     private:
         ReflectedVar(float, myRadius);

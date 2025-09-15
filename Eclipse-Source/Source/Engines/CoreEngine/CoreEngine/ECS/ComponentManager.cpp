@@ -1,5 +1,7 @@
 #include "ComponentManager.h"
 
+#include "DebugLogger.h"
+
 namespace Eclipse
 {
 	void ComponentManager::Init()
@@ -14,7 +16,7 @@ namespace Eclipse
 
 		std::sort(myComponentsToStart.begin(), myComponentsToStart.end(), [&](Component* aComp0, Component* aComp1)
 			{
-				bool hasPriority = aComp0->myUpdateStartPriority > aComp1->myUpdateStartPriority;
+				bool hasPriority = aComp0->GetUpdatePriority() > aComp1->GetUpdatePriority();
 				return hasPriority;
 			});
 
@@ -57,7 +59,7 @@ namespace Eclipse
 	{
 		std::sort(myComponents.begin(), myComponents.end(), [&](Component* aComp0, Component* aComp1)
 			{
-				return aComp0->myUpdateStartPriority > aComp1->myUpdateStartPriority;
+				return aComp0->GetUpdatePriority() > aComp1->GetUpdatePriority();
 			});
 
 		myEntityIDToVectorOfComponentIDs.clear();
@@ -113,6 +115,15 @@ namespace Eclipse
 		myEntityIdToEntity[myNextGameobjectID] = obj;
 
 		myNextGameobjectID++;
+		return obj;
+	}
+
+	GameObject* ComponentManager::CreateGameObjectNoTransformWithID(GameObjectID aId)
+	{
+		GameObject* obj = new GameObject(aId);
+		myEntityIdToEntity[aId] = obj;
+
+		if(myNextGameobjectID < aId) myNextGameobjectID = aId+ 1;
 		return obj;
 	}
 

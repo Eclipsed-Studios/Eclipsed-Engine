@@ -18,7 +18,7 @@ namespace Eclipse
         //~Collider2D();
 
     public:
-        Layer myLayer = Layer::Default;
+        ReflectedVar(Layer, myLayer);
 
     protected:
         UserData myUserData;

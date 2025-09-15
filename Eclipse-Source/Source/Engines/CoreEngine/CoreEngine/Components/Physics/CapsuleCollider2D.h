@@ -10,7 +10,7 @@ namespace Eclipse
 {
     class CapsuleCollider2D : public Collider2D
     {
-        BASE_SELECTION(CapsuleCollider2D, Collider2D, 5)
+        BASE_SELECTION(CapsuleCollider2D, 5)
 
     public:
         void Awake() override;
@@ -19,9 +19,6 @@ namespace Eclipse
 
         void SetRadius(float aRadius);
         void SetHalfHeight(float aHalfHeight);
-
-    protected:
-        void DrawInspector() override;
 
     private:
         ReflectedVar(float, myRadius);

@@ -26,7 +26,7 @@ namespace Eclipse
 		void SetName(const std::string& aName);
 		const std::string& GetName() const;
 
-		const GameObjectID& GetID() const;
+		GameObjectID GetID() const;
 
 		operator Eclipse::GameObjectID() const;
 

@@ -19,7 +19,7 @@ namespace Eclipse
         if (!rigidBody)
         {
             myUserData = { gameObject->GetID() };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), gameObject->GetComponent<Transform2D>()->GetPosition());
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, gameObject->GetComponent<Transform2D>()->GetPosition());
         }
         else
             myBodyRef = rigidBody->myBody;
@@ -41,10 +41,6 @@ namespace Eclipse
         halfExtent.y *= aHalfExtents.y;
 
         myHalfExtents = halfExtent;
-    }
-
-    void BoxCollider2D::DrawInspector()
-    {
     }
 
     void BoxCollider2D::OnTransformDirty()

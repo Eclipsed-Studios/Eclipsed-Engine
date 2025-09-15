@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BaseComponent.h"
 #include "Interfaces/Serializable.h"
 #include <string>
 
@@ -18,7 +19,7 @@ namespace Eclipse
 {
 	typedef unsigned RegisteredTypeIndex;
 
-	class Component 
+	class Component
 	{
 		friend class Editor::InspectorWindow;
 
@@ -28,13 +29,12 @@ namespace Eclipse
 
 	public:
 		Component() = default;
-		Component(unsigned updatePriority);
 		virtual ~Component() = default;
 
 		void SetComponentID() { myComponentID = ++nextComponentID; }
-		void SetComponentID(unsigned compID) 
-		{ 
-			myComponentID = compID; 
+		void SetComponentID(unsigned compID)
+		{
+			myComponentID = compID;
 
 			if (nextComponentID <= compID)
 			{
@@ -45,6 +45,8 @@ namespace Eclipse
 				nextComponentID++;
 			}
 		}
+
+		virtual unsigned GetUpdatePriority() const = 0;
 
 	public:
 		virtual void Awake() {}
@@ -67,9 +69,6 @@ namespace Eclipse
 		GameObject* gameObject;
 
 	protected:
-		// Higher number higher priority
-		unsigned myUpdateStartPriority = 0;
-
 		unsigned myComponentID = 0;
 		unsigned myComponentIndex = 0;
 

@@ -37,6 +37,14 @@ namespace Eclipse::Editor
 			gameObject->SetName(nameBuffer);
 		}
 
+		ImGui::BeginDisabled();
+		ImGui::Text("ID");
+		ImGui::SameLine();
+		unsigned awawada = gameObject->GetID();
+
+		ImGui::InputInt("##ID FIELDS", (int*)&awawada);
+		ImGui::EndDisabled();
+
 		ImGui::Dummy({ 0, 10 });
 		ImGui::Separator();
 		ImGui::Dummy({ 0, 5 });

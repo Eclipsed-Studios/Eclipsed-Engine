@@ -32,7 +32,15 @@ namespace Eclipse
         static bool OverlapBox(const Math::Vector2f& aPositon, const Math::Vector2f& aHalfExent, HitResults& aHitResults, Layer aLayerMask = Layer::All);
         static bool OverlapSphere(const Math::Vector2f& aPositon, float aRadius, HitResults& aHitResults, Layer aLayerMask = Layer::All);
 
-        static void CreateRigidBody(b2BodyId* aBody, UserData* aUserData, const RigidBodySettings& aBodySettings, const Math::Vector2f& aStartPosition = { 0.f, 0.f });
+
+     
+        static void CreateRigidBody(b2BodyId* aBody, 
+            UserData* aUserData,
+            Box2DBodyType BodyType = StaticBody,
+            bool LockRotation = false,
+            bool LockXPos = false,
+            bool LockYPos = false,
+            const Math::Vector2f& aStartPosition = { 0.f, 0.f });
         
         // Simple
         static void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer);

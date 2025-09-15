@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include "DebugLogger.h"
 namespace Eclipse
 {
     inline unsigned GetUniqueComponentTypeId()
@@ -55,6 +56,9 @@ namespace Eclipse
         component->gameObject = myEntityIdToEntity[aGOID];
         component->myUniqueComponentID = typeIndex;
 
+        //LOG(std::string(component->GetComponentName()) + "  |  " + std::to_string(component->UpdateStartPriority) + " | " + std::to_string(T::UpdateStartPriority));
+
+
         myComponentsToStart.emplace_back(component);
 
         myComponents.emplace_back(component);
@@ -68,7 +72,7 @@ namespace Eclipse
         return component;
         std::sort(myComponents.begin(), myComponents.end(), [&](Component* aComp0, Component* aComp1)
             {
-                bool hasPriority = aComp0->myUpdateStartPriority > aComp1->myUpdateStartPriority;
+                bool hasPriority = aComp0->GetUpdatePriority() > aComp1->GetUpdatePriority();
 
                 if (hasPriority)
                 {

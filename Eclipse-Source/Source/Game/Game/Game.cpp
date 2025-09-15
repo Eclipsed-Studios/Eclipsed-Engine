@@ -33,7 +33,8 @@
 #include "Scenes/SceneLoader.h"
 #include "ECS/ECS.hpp"
 
-#define GAME
+//#define GAME
+#define OBJECTS
 
 namespace Eclipse
 {
@@ -42,6 +43,7 @@ namespace Eclipse
 	{
 		GameObject* playerObj = CreateGameObject();
 
+#ifdef OBJECTS
 		// Players
 		{
 			SpriteRenderer2D* rend = playerObj->AddComponent<SpriteRenderer2D>();
@@ -125,6 +127,7 @@ namespace Eclipse
 
 			rend->SetTexture(ASSET_PATH "Sprites/Environment/013.png");
 		}
+#endif
 
 		// Camera
 		{

@@ -56,14 +56,20 @@ namespace Eclipse
         b2DestroyShape(aShape, false);
     }
 
-    void PhysicsEngine::CreateRigidBody(b2BodyId* aBody, UserData* aUserData, const RigidBodySettings& aBodySettings, const Math::Vector2f& aStartPosition)
+    void PhysicsEngine::CreateRigidBody(b2BodyId* aBody,
+        UserData* aUserData,
+        Box2DBodyType BodyType,
+        bool LockRotation,
+        bool LockXPos,
+        bool LockYPos,
+        const Math::Vector2f& aStartPosition)
     {
         b2BodyDef bodyDefine = b2DefaultBodyDef();
 
-        b2MotionLocks motionLocks(aBodySettings.LockXPos, aBodySettings.LockYPos, aBodySettings.LockRotation);
+        b2MotionLocks motionLocks(LockXPos, LockYPos, LockRotation);
         bodyDefine.motionLocks = motionLocks;
 
-        bodyDefine.type = static_cast<b2BodyType>(aBodySettings.BodyType);
+        bodyDefine.type = static_cast<b2BodyType>(BodyType);
         bodyDefine.position = b2Vec2(aStartPosition.x, aStartPosition.y);
 
         bodyDefine.userData = aUserData;

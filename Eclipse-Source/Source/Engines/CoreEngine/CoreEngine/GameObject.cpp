@@ -18,7 +18,7 @@ namespace Eclipse
 		return myName;
 	}
 
-	const GameObjectID& GameObject::GetID() const
+	GameObjectID GameObject::GetID() const
 	{
 		return myID;
 	}

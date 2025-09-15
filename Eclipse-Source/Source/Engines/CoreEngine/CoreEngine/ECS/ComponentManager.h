@@ -65,6 +65,7 @@ namespace Eclipse
 
 		static GameObject* CreateGameObject();
 		static GameObject* CreateGameObjectNoTransform();
+		static GameObject* CreateGameObjectNoTransformWithID(GameObjectID aId);
 
 	private:
 		static inline size_t myComponentMemoryTracker = 0;

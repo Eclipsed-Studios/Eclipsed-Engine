@@ -25,7 +25,7 @@ namespace Eclipse
         if (!rigidBody)
         {
             myUserData = { gameObject->GetID() };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, RigidBodySettings(), gameObject->GetComponent<Transform2D>()->GetPosition());
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, gameObject->GetComponent<Transform2D>()->GetPosition());
         }
         else
             myBodyRef = rigidBody->myBody;
@@ -50,9 +50,5 @@ namespace Eclipse
         Math::Vector2f scale = Math::Vector2f(myTransform->GetScale().x * 0.5f, myTransform->GetScale().y) * 0.01f;
 
         PhysicsEngine::SetTransformPolygon(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myPoints, scale);
-    }
-
-    void PolygonCollider2D::DrawInspector()
-    {
     }
 }
