@@ -65,7 +65,7 @@ namespace Eclipse
 		for (auto& component : myComponents)
 			component->Render();
 	}
-	void ComponentManager::SortSHit()
+	void ComponentManager::SortComponents()
 	{
 		std::sort(myComponents.begin(), myComponents.end(), [&](Component* aComp0, Component* aComp1)
 			{
@@ -81,31 +81,42 @@ namespace Eclipse
 			auto& mapOfComponentsGO = myEntityIDToVectorOfComponentIDs[comp->gameObject->GetID()];
 			RegisteredTypeIndex index = comp->myUniqueComponentID;
 
-			// Example: store the new position in the map
-			// (this replaces your erase/swap logic)
 			mapOfComponentsGO[index] = static_cast<ComponentIndex>(i);
-
-			//Component* aComp0 = myComponents[i];
-			//Component* aComp1 = myComponents[i + 1];
-
-			//auto& mapOfComponentsGO0 = myEntityIDToVectorOfComponentIDs.at(aComp0->gameObject->GetID());
-			//RegisteredTypeIndex indexComp0 = aComp0->myUniqueComponentID;
-			//ComponentIndex savedValue0 = mapOfComponentsGO0.at(indexComp0);
-
-			//auto& mapOfComponentsGO1 = myEntityIDToVectorOfComponentIDs.at(aComp1->gameObject->GetID());
-			//RegisteredTypeIndex indexComp1 = aComp1->myUniqueComponentID;
-			//ComponentIndex savedValue1 = mapOfComponentsGO1.at(indexComp1);
-
-			//mapOfComponentsGO0.erase(indexComp0);
-			//mapOfComponentsGO1.erase(indexComp1);
-
-			//mapOfComponentsGO0[indexComp0] = savedValue1;
-			//mapOfComponentsGO1[indexComp1] = savedValue0;
 		}
 	}
-	const std::vector<Component*>& ComponentManager::GetComponents()
+	const std::vector<Component*>& ComponentManager::GetAllComponents()
 	{
 		return myComponents;
+	}
+
+	std::vector<Component*> ComponentManager::GetComponents(GameObjectID aGOID)
+	{
+		std::vector<Component*> components;
+
+		for(auto& component : myEntityIDToVectorOfComponentIDs.at(aGOID))
+		{
+			components.emplace_back(myComponents[component.second]);
+		}
+
+		return components;
+	}
+
+	bool ComponentManager::HasGameObject(GameObjectID aGOID)
+	{
+		return myEntityIDToVectorOfComponentIDs.find(aGOID) != myEntityIDToVectorOfComponentIDs.end();
+	}
+
+	void ComponentManager::Destroy(GameObjectID aGOID)
+	{
+		for(auto& componentAtGO : myEntityIDToVectorOfComponentIDs.at(aGOID))
+		{
+			Component* component = myComponents[componentAtGO.second];
+
+			component->OnDestroy();
+			component->~Component();
+		}
+
+		myEntityIDToVectorOfComponentIDs.erase(aGOID);
 	}
 
 	GameObject* ComponentManager::CreateGameObject()

@@ -56,9 +56,6 @@ namespace Eclipse
         component->gameObject = myEntityIdToEntity[aGOID];
         component->myUniqueComponentID = typeIndex;
 
-        //LOG(std::string(component->GetComponentName()) + "  |  " + std::to_string(component->UpdateStartPriority) + " | " + std::to_string(T::UpdateStartPriority));
-
-
         myComponentsToStart.emplace_back(component);
 
         myComponents.emplace_back(component);
@@ -67,33 +64,10 @@ namespace Eclipse
         myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
         myComponents.back()->myComponentIndex = componentIndex;
 
-        if (myComponents.size() <= 1) return component;
-        SortSHit();
-        return component;
-        std::sort(myComponents.begin(), myComponents.end(), [&](Component* aComp0, Component* aComp1)
-            {
-                bool hasPriority = aComp0->GetUpdatePriority() > aComp1->GetUpdatePriority();
+        if (myComponents.size() <= 1)
+            return component;
 
-                if (hasPriority)
-                {
-                    auto& mapOfComponentsGO0 = myEntityIDToVectorOfComponentIDs.at(aComp0->gameObject->GetID());
-                    RegisteredTypeIndex indexComp0 = aComp0->myUniqueComponentID;
-                    ComponentIndex savedValue0 = mapOfComponentsGO0.at(indexComp0);
-
-                    auto& mapOfComponentsGO1 = myEntityIDToVectorOfComponentIDs.at(aComp1->gameObject->GetID());
-                    RegisteredTypeIndex indexComp1 = aComp1->myUniqueComponentID;
-                    ComponentIndex savedValue1 = mapOfComponentsGO1.at(indexComp1);
-
-                    mapOfComponentsGO0.erase(indexComp0);
-                    mapOfComponentsGO1.erase(indexComp1);
-
-                    mapOfComponentsGO0[indexComp0] = savedValue1;
-                    mapOfComponentsGO1[indexComp1] = savedValue0;
-                }
-
-                return hasPriority;
-            });
-
+        SortComponents();
 
         return component;
     }
@@ -125,7 +99,10 @@ namespace Eclipse
         myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
         myComponents.back()->myComponentIndex = componentIndex;
 
-        if (myComponents.size() <= 1) return component;
+        if (myComponents.size() <= 1)
+            return component;
+
+        SortComponents();
 
         return component;
     }
@@ -145,6 +122,7 @@ namespace Eclipse
 
         int componentIndex = entityIDComponents.at(typeIndex);
         T* component = static_cast<T*>(myComponents.at(componentIndex));
+        component->OnDestroy();
         component->~T();
         entityIDComponents.erase(typeIndex);
 

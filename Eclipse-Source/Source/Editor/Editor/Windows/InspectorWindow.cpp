@@ -19,7 +19,7 @@ namespace Eclipse::Editor
 	void InspectorWindow::Update()
 	{
 		const unsigned& id = HierarchyWindow::CurrentGameObjectID;
-		if (id == 0) return;
+		if (id == 0 || !ComponentManager::HasGameObject(id)) return;
 
 		auto& compList = ComponentManager::myEntityIDToVectorOfComponentIDs[id];
 		auto& gameObject = ComponentManager::myEntityIdToEntity[id];
@@ -56,11 +56,11 @@ namespace Eclipse::Editor
 
 			comp->DrawInspector();
 
-			ImGui::Dummy({0, 30});
+			ImGui::Dummy({ 0, 30 });
 			ImGui::Separator();
 		}
 
-		
+
 		if (ImGui::BeginCombo("##ADD_COMPONENTS", "Add Component"))
 		{
 			for (auto& [name, addFunc] : ComponentRegistry::GetAddComponentMap())

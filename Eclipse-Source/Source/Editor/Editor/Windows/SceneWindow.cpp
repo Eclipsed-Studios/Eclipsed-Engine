@@ -18,9 +18,8 @@ namespace Eclipse::Editor
 {
 	void SceneWindow::MoveCamera()
 	{
-		float scrollY = Input::GetScroll().y;
-		float deltaYScroll = scrollY - lastScroll;
-		lastScroll = scrollY;
+		ImGuiIO& io = ImGui::GetIO();
+		float deltaYScroll = io.MouseWheel;
 
 		if (ImGui::IsWindowHovered())
 		{
@@ -40,6 +39,7 @@ namespace Eclipse::Editor
 				ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
 				ImVec2 windowSize = ImGui::GetWindowSize();
 
+
 				Math::Vector2f relativeMousePosEcl;
 
 				relativeMousePosEcl.x = (mousePos.x - cursorScreenPos.x) / windowSize.x;
@@ -55,13 +55,16 @@ namespace Eclipse::Editor
 		if (mouseIsDown)
 		{
 			ImVec2 windowSize = ImGui::GetWindowSize();
-			Math::Vector2i mouseDragdelta = Input::GetMouseDeltaPos();
+			ImGuiIO& io = ImGui::GetIO();
+			ImVec2 mouseDelta = io.MouseDelta;
+
+			Math::Vector2i mouseDragdelta = { static_cast<int>(mouseDelta.x), static_cast<int>(mouseDelta.y) };
 			myInspectorPosition -= Math::Vector2f(mouseDragdelta.x / (windowSize.x * (windowSize.y / windowSize.x)), -mouseDragdelta.y / windowSize.y) * 2.f * (1.f / myInspectorScale);
 
 			GraphicsEngine::SetCursor(GraphicsEngine::MouseCursor::Grab);
 		}
 
-		if (Input::GetMouseUp(1) || Input::GetMouseUp(2))
+		if (!(ImGui::IsMouseDown(1) || ImGui::IsMouseDown(2)))
 			mouseIsDown = false;
 	}
 
@@ -78,7 +81,7 @@ namespace Eclipse::Editor
 
 		// These clear colors are not working like they should and get mixed up so the first is the empty background and second is the actual
 		GraphicsEngine::BindFrameBuffer(mySceneFrameBuffer);
-		GraphicsEngine::ClearCurrentSceneBuffer(0.3f, 0.3f, 0.3f);
+		GraphicsEngine::ClearCurrentSceneBuffer();
 
 		Math::Vector2f lastInspectorPosition(0, 0);
 		float lastInspectorRotation = 0;
@@ -114,8 +117,8 @@ namespace Eclipse::Editor
 
 		myLastWindowResolution = { static_cast<int>(windowSize.x), static_cast<int>(windowSize.y) };
 
-		ImGui::SetCursorPos(ImVec2(0, 0));
-		ImGui::Image(mySceneTexture, windowSize, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::SetCursorPos(ImVec2(0, 43));
+		ImGui::Image(mySceneTexture, ImVec2(windowSize.x, windowSize.y - 43), ImVec2(0, 1), ImVec2(1, 0));
 
 		GraphicsEngine::BindFrameBuffer(0);
 		GraphicsEngine::ClearCurrentSceneBuffer();

@@ -75,23 +75,27 @@ namespace Eclipse
 
 		Time::Update();
 		Input::Update();
-		
+
 		ComponentManager::EditorUpdateComponents();
-		
+
+#ifndef _GAME
 		if (game.myIsPlaying && !game.myIsPaused)
 		{
+#endif
 			AudioManager::Update();
 			PhysicsEngine::Update();
-			
+
 			ComponentManager::AwakeStartComponents();
-			
+
 			ComponentManager::EarlyUpdateComponents();
 			ComponentManager::UpdateComponents();
 			ComponentManager::LateUpdateComponents();
-			
+
 			game.Update();
+#ifndef _GAME
 		}
-		
+#endif
+
 		PhysicsEngine::DrawPhysicsObjects();
 		ComponentManager::RenderComponents();
 		GraphicsEngine::Render();

@@ -75,6 +75,13 @@ namespace Eclipse::Editor
         }
 
         ImGui::PopFont();
+
+        if (Input::GetKeyDown(Keycode::DELETE_KEY))
+        {
+            GameObject currentObject = HierarchyWindow::CurrentGameObjectID;
+
+            ComponentManager::Destroy(currentObject);
+        }
     }
 
     void EditorContext::Render()

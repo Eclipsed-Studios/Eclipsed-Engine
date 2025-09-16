@@ -47,7 +47,7 @@ namespace Eclipse
 		static void LateUpdateComponents();
 		static void RenderComponents();
 
-		static void SortSHit();
+		static void SortComponents();
 
 		static void BeginCollisions(GameObjectID aGOID);
 		static void EndCollisions(GameObjectID aGOID);
@@ -59,12 +59,19 @@ namespace Eclipse
 		static T* AddComponent(GameObjectID aGOID);
 
 		template <typename T>
-		static T* AddComponentWithID(GameObjectID aGOID, unsigned aComponentID);
-
-		template <typename T>
 		static void RemoveComponent(GameObjectID aGOID);
 
-		static const std::vector<Component*>& GetComponents();
+		template <typename T>
+		static T* AddComponentWithID(GameObjectID aGOID, unsigned aComponentID);
+
+		static const std::vector<Component*>& GetAllComponents();
+
+		static std::vector<Component*> GetComponents(GameObjectID aGOID);
+
+
+		static bool HasGameObject(GameObjectID aGOID);
+
+		static void Destroy(GameObjectID aGOID);
 
 		static GameObject* CreateGameObject();
 		static GameObject* CreateGameObjectNoTransform();

@@ -161,6 +161,9 @@ namespace Eclipse
 
     void GraphicsEngine::Render()
     {
+        		GraphicsEngine::BindFrameBuffer(0);
+		GraphicsEngine::ClearCurrentSceneBuffer();
+
         DebugDrawer::Get().Render();
     }
     void GraphicsEngine::EndFrame()

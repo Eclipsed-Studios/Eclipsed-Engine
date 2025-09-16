@@ -23,5 +23,7 @@ namespace Eclipse::Editor
 
 		Math::Vector2i myLastWindowResolution = { 0, 0 };
 		std::string myCurrentWindowRes;
+
+		float menuHeight = 0;
 	};
 }

@@ -12,9 +12,12 @@ namespace Eclipse
         BASE_SELECTION(Camera, 100)
 
     public:
+        void OnDestroy() override;
+
         void Awake() override;
         void Render() override;
 
+        static inline class Camera* main;
     protected:
         void DrawInspector() override;
 
