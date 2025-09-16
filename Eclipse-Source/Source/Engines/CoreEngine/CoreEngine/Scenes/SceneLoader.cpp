@@ -9,10 +9,12 @@
 #include <fstream>
 
 #include "Reflection/Reflection.h"
-#include "Reflection/ReflectedVariable.h"
+#include "Reflection/SerializedVariable.h"
 
 #include "DebugLogger.h"
 #include "ChatGPT_Dump/Base64.hpp"
+
+#include "Components/Base/Component.h"
 
 namespace Eclipse
 {
@@ -47,19 +49,16 @@ namespace Eclipse
 		}
 
 
-		auto& list = Reflection::GetList();
-		for (auto& [pComp, typeToVarList] : list)
+		auto& list = Reflection::ReflectionManager::GetList();
+		for (auto& [pComp, varList] : list)
 		{
-			for (auto& [type, varList] : typeToVarList)
+			for (auto& var : varList)
 			{
-				for (auto& var : varList)
-				{
-					std::string compName = var->GetComponent()->GetComponentName();
-					Component* pComp = var->GetComponent();
-					rapidjson::Value& val = components[compName][pComp->myComponentID];
+				std::string compName = var->GetComponent()->GetComponentName();
+				Component* pComp = var->GetComponent();
+				rapidjson::Value& val = components[compName][pComp->myComponentID];
 
-					WriteMember(val, var, alloc);
-				}
+				WriteMember(val, var, alloc);
 			}
 		}
 
@@ -86,7 +85,7 @@ namespace Eclipse
 		d.AddMember("GameObjects", goArray, alloc);
 
 		rapidjson::StringBuffer buffer;
-		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
 
 		d.Accept(writer);
 
@@ -95,27 +94,41 @@ namespace Eclipse
 		ofs.close();
 	}
 
-	void SceneLoader::WriteMember(rapidjson::Value& aValue, AbstractReflectedVariable* aReflectedVariable, rapidjson::Document::AllocatorType& alloc)
+	void SceneLoader::WriteMember(rapidjson::Value& aValue, Reflection::AbstractSerializedVariable* aSerialized, rapidjson::Document::AllocatorType& alloc)
 	{
 		using namespace rapidjson;
 
-		Value key(aReflectedVariable->GetName().c_str(), alloc);
+		aSerialized->ResolveTypeInfo();
+
+		Value key(aSerialized->GetName(), alloc);
 		Value jsonVal(kObjectType);
 
-		if (aReflectedVariable->GetTypeName() == "std::string")
+		if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_String)
 		{
-			void* rawPtr = aReflectedVariable->GetData();
+			void* rawPtr = aSerialized->GetData();
 			std::string* strPtr = static_cast<std::string*>(rawPtr);
-			std::string& encoded = *strPtr; 
-			jsonVal.SetString(encoded.c_str(), alloc);
-		}
-		else
-		{
-			std::string encoded = Base64::Encode(aReflectedVariable->GetData(), aReflectedVariable->GetSize());
+			std::string& encoded = *strPtr;
 			jsonVal.SetString(encoded.c_str(), alloc);
 		}
 
-		
+
+		else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_List)
+		{
+			jsonVal.AddMember("size", aSerialized->GetCount(), alloc);
+
+			void* rawPtr = aSerialized->GetData();
+			std::string encoded = Base64::Encode(aSerialized->GetData(), aSerialized->GetSizeInBytes());
+			jsonVal.AddMember("data", Value(encoded.c_str(), alloc).Move(), alloc);
+		}
+
+
+
+		else
+		{
+			int i = aSerialized->GetSizeInBytes();
+			std::string encoded = Base64::Encode(aSerialized->GetData(), i);
+			jsonVal.SetString(encoded.c_str(), alloc);
+		}
 
 		aValue.AddMember(key, jsonVal.Move(), alloc);
 	}
@@ -153,7 +166,7 @@ namespace Eclipse
 
 		for (auto it = d.MemberBegin(); it != d.MemberEnd();)
 		{
-			if(it->name != "GameObjects")
+			if (it->name != "GameObjects")
 			{
 				LoadComponent(it->name.GetString(), it->value);
 			}
@@ -176,43 +189,53 @@ namespace Eclipse
 			compMap.emplace(id, addComponent(owner, id));
 		}
 
-		ComponentManager::SortSHit();
-
-
 		for (const Value& val : aValue.GetArray())
 		{
 			const unsigned id = val["id"].GetUint();
-			auto& compIdToTypeList = Reflection::GetList();
+			auto& list = Reflection::ReflectionManager::GetList();
 
 			Component* pComp = compMap[id];
-			auto& typeList = compIdToTypeList[pComp];
+			auto& varList  = list[pComp];
 
-			for (auto& [type, varList] : typeList)
+			for (auto* var : varList)
 			{
-				for (auto* var : varList)
-				{
-					LoadType(var, val);
-				}
+				if(pComp->myComponentID == id) LoadType(var, val);
 			}
 		}
 
 		ComponentManager::AwakeStartComponents();
 	}
-	void SceneLoader::LoadType(AbstractReflectedVariable* aReflectedVariable, const rapidjson::Value& aValue)
+	void SceneLoader::LoadType(Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, const rapidjson::Value& aValue)
 	{
-		std::string o(aValue[aReflectedVariable->GetName().c_str()].GetString());
-		
-		if (aReflectedVariable->GetTypeName() == "std::string")
-		{
-			std::string* str = (std::string*)aReflectedVariable->GetData();
-			str->resize(o.size());
+		using namespace rapidjson;
+		aSERIALIZED_FIELDiable->ResolveTypeInfo();
 
-			memcpy(str->data(), o.data(), o.size());
+		const Value& val = aValue[aSERIALIZED_FIELDiable->GetName()];
+
+		if (aSERIALIZED_FIELDiable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_String)
+		{
+			std::string strVal = val.GetString();
+
+			std::string* str = (std::string*)aSERIALIZED_FIELDiable->GetData();
+			str->resize(strVal.size());
+
+			memcpy(str->data(), strVal.data(), strVal.size());
+		}
+		else if (aSERIALIZED_FIELDiable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_List)
+		{
+			const unsigned count = val["size"].GetUint();
+			aSERIALIZED_FIELDiable->Resize(count);
+
+			const std::string strVal = val["data"].GetString();
+
+			std::vector<unsigned char> decoded = Base64::Decode(strVal);
+			memcpy(aSERIALIZED_FIELDiable->GetData(), decoded.data(), decoded.size());
 		}
 		else
 		{
-			std::vector<unsigned char> decoded = Base64::Decode(o);
-			memcpy(aReflectedVariable->GetData(), decoded.data(), decoded.size());
+			std::string strVal = val.GetString();
+			std::vector<unsigned char> decoded = Base64::Decode(strVal);
+			memcpy(aSERIALIZED_FIELDiable->GetData(), decoded.data(), decoded.size());
 		}
 	}
 }

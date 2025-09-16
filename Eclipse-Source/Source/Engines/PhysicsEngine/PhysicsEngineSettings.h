@@ -7,7 +7,7 @@
 
 #include "defines.h"
 
-#include "Reflection/ReflectionDefines.h"
+#include "Reflection/SerializedEnum.hpp"
 #include <string>
 #include <unordered_map>
 #define MAX_LAYERS 16

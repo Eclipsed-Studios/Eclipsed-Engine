@@ -2,7 +2,7 @@
 
 #include "Components/Base/BaseComponent.h"
 #include <string>
-#include "Reflection/ReflectionDefines.h"
+ 
 
 namespace Eclipse
 {
@@ -22,7 +22,7 @@ namespace Eclipse
 
 		const float Run_Multiplier = 1.4f;
 
-		ReflectedVar_Default(float, myJumpStrength, 2.f);
-		ReflectedVar_Default(float, myMovementSpeed, 0.4f);
+		SERIALIZED_FIELD_DEFAULT(float, myJumpStrength, 2.f);
+		SERIALIZED_FIELD_DEFAULT(float, myMovementSpeed, 0.4f);
 	};
 }

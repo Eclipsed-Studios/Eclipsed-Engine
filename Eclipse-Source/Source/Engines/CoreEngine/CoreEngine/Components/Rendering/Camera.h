@@ -5,8 +5,6 @@
 #include "Math/Math.h"
 #include "ECS/ComponentManager.h"
 
-#include "Reflection/ReflectionDefines.h"
-
 namespace Eclipse
 {
     class Camera : public Component

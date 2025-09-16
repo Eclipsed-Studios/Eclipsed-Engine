@@ -11,9 +11,11 @@ namespace Eclipse
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, Texture& outResource)
 	{
+		ASSET_PATH;
+		std::string fullpath = std::filesystem::current_path().parent_path().generic_string() + "/" + std::string(aPath);
 		outResource = Texture(aPath);
 
-		unsigned char* data = ResourceLoaderHelper::Load_Texture_STB(aPath, outResource);
+		unsigned char* data = ResourceLoaderHelper::Load_Texture_STB(fullpath.c_str(), outResource);
 
 		glGenTextures(1, &outResource.textureID);
 		glBindTexture(GL_TEXTURE_2D, outResource.textureID);

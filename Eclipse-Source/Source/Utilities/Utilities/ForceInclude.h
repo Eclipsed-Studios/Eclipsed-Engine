@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DebugLogger.h"
-#include "Reflection/ReflectionDefines.h"
+#include "Reflection/Reflection_Macros.h"
 #include "Math/Math.h"
 #include "Random.h"
 

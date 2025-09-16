@@ -8,11 +8,19 @@
 #include "Reflection/Registry/ComponentRegistry.h"
 
 #include "Reflection/Reflection.h"
+#include "Reflection/Reflection_Macros.h"
 #include "GameObject.h"
 
-namespace Eclipse::Editor
+namespace Eclipse
 {
-	class InspectorWindow;
+	namespace Editor
+	{
+		class InspectorWindow;
+	}
+	namespace Reflection
+	{
+		class ReflectionManager;
+	}
 }
 
 namespace Eclipse
@@ -22,10 +30,10 @@ namespace Eclipse
 	class Component
 	{
 		friend class Editor::InspectorWindow;
+		friend class Reflection::ReflectionManager;
 
 		friend class ComponentManager;
 		friend class SceneLoader;
-		friend class Reflection;
 
 	public:
 		Component() = default;
@@ -65,7 +73,7 @@ namespace Eclipse
 		virtual void OnDrawGizmos() {}
 
 	protected:
-		virtual void DrawInspector() { Reflection::DrawInspector(this); };
+		virtual void DrawInspector() { Reflection::ReflectionManager::DrawInspector(this); };
 		virtual const char* GetComponentName() { return "Component"; }
 
 	public:

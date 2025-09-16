@@ -42,7 +42,7 @@ namespace Eclipse
 
         scale *= aPoint * Math::Vector2f(2.f, 2.f) - Math::Vector2f(1.f, 1.f);
 
-        myPoints.emplace_back(scale);
+        myPoints->emplace_back(scale);
     }
 
     void PolygonCollider2D::OnTransformDirty()

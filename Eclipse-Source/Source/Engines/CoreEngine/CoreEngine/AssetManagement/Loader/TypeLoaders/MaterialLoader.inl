@@ -11,7 +11,8 @@ namespace Eclipse
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, Texture& outResource)
 	{
-		outResource = Texture(aPath);
+		std::string folder = std::filesystem::current_path().parent_path().string();
+		outResource = Texture((folder + std::string(aPath)).c_str());
 
 		unsigned char* data = ResourceLoaderHelper::Load_Texture_STB(aPath, outResource);
 

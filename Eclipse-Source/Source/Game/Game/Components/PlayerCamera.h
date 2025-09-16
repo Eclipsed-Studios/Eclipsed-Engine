@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Components/Base/BaseComponent.h"
-#include "Reflection/ReflectionDefines.h"
 
 namespace Eclipse
 {
@@ -13,7 +12,7 @@ namespace Eclipse
 		void Update() override;
         void Awake() override;
 
-		ReflectedVar(unsigned, myPlayerGO);
+		SERIALIZED_FIELD(unsigned, myPlayerGO);
 	private:
 		class Transform2D* myPlayerTransform = nullptr;
 		class Transform2D* myTransform = nullptr;

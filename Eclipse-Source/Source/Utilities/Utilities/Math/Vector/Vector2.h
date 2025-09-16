@@ -1,8 +1,7 @@
 #pragma once
 
 #include <initializer_list>
-
-#include "Interfaces/Serializable.h"
+#include "Reflection/Reflection_Macros.h"
 
 namespace Eclipse::Math
 {
@@ -14,6 +13,8 @@ namespace Eclipse::Math
 		Vector2(const T& aX, const T& aY);
 		Vector2(const std::initializer_list<T> initList);
 		~Vector2() = default;
+
+		MAKE_SERIALIZABLE;
 
 	public:
 		const Vector2 operator+(const Vector2& anotherVec) const;

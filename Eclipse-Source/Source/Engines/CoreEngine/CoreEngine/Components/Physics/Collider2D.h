@@ -5,7 +5,6 @@
 #include "box2d/id.h"
 #include "PhysicsEngineSettings.h"
 #include "ECS/ComponentManager.h"
-#include "Reflection/ReflectionDefines.h"
 
 struct b2Polygon;
 namespace Eclipse
@@ -18,7 +17,7 @@ namespace Eclipse
         //~Collider2D();
 
     public:
-        ReflectedVar(Layer, myLayer);
+        SERIALIZED_FIELD(Layer, myLayer);
 
     protected:
         UserData myUserData;

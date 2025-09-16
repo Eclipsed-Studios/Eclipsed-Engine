@@ -10,6 +10,11 @@
 
 namespace Eclipse
 {
+	namespace Reflection
+	{
+		class AbstractSerializedVariable;
+	}
+
 	class SceneLoader
 	{
 	public:
@@ -22,8 +27,8 @@ namespace Eclipse
 		static inline std::string myActiveScene;
 
 		static void LoadComponent(const std::string& componentName, const rapidjson::Value& aValue);
-		static void LoadType(AbstractReflectedVariable* aReflectedVariable, const rapidjson::Value& aValue);
+		static void LoadType(Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, const rapidjson::Value& aValue);
 
-		static void WriteMember(rapidjson::Value& aValue, AbstractReflectedVariable* aReflectedVariable, rapidjson::Document::AllocatorType& alloc);
+		static void WriteMember(rapidjson::Value& aValue, Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, rapidjson::Document::AllocatorType& alloc);
 	};
 }

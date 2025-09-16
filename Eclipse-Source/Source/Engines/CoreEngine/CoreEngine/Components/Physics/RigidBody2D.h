@@ -54,9 +54,9 @@ namespace Eclipse
 
         Box2DBodyType BodyType = DynamicBody;
 
-        ReflectedVar_Default(bool, LockRotation, false);
-        ReflectedVar_Default(bool, LockXPos, false);
-        ReflectedVar_Default(bool, LockYPos, false);
+        SERIALIZED_FIELD_DEFAULT(bool, LockRotation, false);
+        SERIALIZED_FIELD_DEFAULT(bool, LockXPos, false);
+        SERIALIZED_FIELD_DEFAULT(bool, LockYPos, false);
 
         Math::Vector2f myVelocity = { 0.f, 0.f };
         float myAngularVelocity = 0.f;

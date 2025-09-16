@@ -4,28 +4,25 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Random.h"
-
-#include "ImGui/ImGui/imgui.h"
-
-
-
-namespace Eclipse
-{
+namespace Eclipse 
+{ 
 	class Component;
-	class AbstractReflectedVariable;
-	class Reflection
+}
+
+namespace Eclipse::Reflection
+{
+	class AbstractSerializedVariable;
+	class ReflectionManager
 	{
 	private:
-		using VariableList = std::vector<AbstractReflectedVariable*>;
-		using TypeToList = std::unordered_map<std::string, VariableList>;
-		using CompToTypeList = std::unordered_map<Component*, TypeToList>;
+		using VariableList = std::vector<AbstractSerializedVariable*>;
+		using CompToTypeList = std::unordered_map<Component*, VariableList>;
 
 		static inline CompToTypeList registeredVariables;
 
 	public:
-		static void RegisterVariable(AbstractReflectedVariable* ptr);
-		static void UnregisterVariable(AbstractReflectedVariable* ptr);
+		static void RegisterVariable(AbstractSerializedVariable* ptr);
+		static void UnregisterVariable(AbstractSerializedVariable* ptr);
 		static void DrawInspector(Component* aComp);
 
 		static CompToTypeList& GetList();

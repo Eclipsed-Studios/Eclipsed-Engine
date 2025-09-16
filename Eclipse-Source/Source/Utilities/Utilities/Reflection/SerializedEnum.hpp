@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SERIALIZED_ENUM_HPP
+#define SERIALIZED_ENUM_HPP
 
 #define MAKE_ENUM(name, value) name = value,
 #define MAKE_STRING(name, value) { e::name, #name },
@@ -6,8 +7,8 @@
 
 class SerializedEnum {};
 
-#define SERIALIZABLE_ENUM(name, ENUM_ITEMS)                              \
-class name : SerializedEnum {                                                  \
+#define SERIALIZABLE_ENUM(name, ENUM_ITEMS)                                     \
+class name : SerializedEnum {                                                   \
 public:                                                                         \
     enum e : int { ENUM_ITEMS(MAKE_ENUM) };                                     \
     e value = {};                                                               \
@@ -16,8 +17,7 @@ public:                                                                         
         ENUM_ITEMS(MAKE_STRING)                                                 \
     };                                                                          \
                                                                                 \
-    /* Make List a member of the class, holding enum values */                  \
-    static inline std::vector<e> List = { ENUM_ITEMS(MAKE_LIST) };     \
+    static inline std::vector<e> List = { ENUM_ITEMS(MAKE_LIST) };              \
                                                                                 \
     constexpr operator e() const { return value; }                              \
     constexpr name() = default;                                                 \
@@ -37,3 +37,4 @@ public:                                                                         
         return AsString(static_cast<e>(v));                                     \
     }                                                                           \
 };
+#endif

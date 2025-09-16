@@ -16,7 +16,8 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
-		std::ifstream ifs(aPath);
+		std::string folder = std::filesystem::current_path().parent_path().string();
+		std::ifstream ifs((folder + std::string( aPath)).c_str());
 		if (!ifs.is_open())
 		{
 			throw std::runtime_error("No file.");

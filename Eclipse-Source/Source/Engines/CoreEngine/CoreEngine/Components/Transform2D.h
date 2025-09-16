@@ -8,7 +8,6 @@
 
 #include <vector>
 #include <functional>
-#include "Reflection/ReflectionDefines.h"
 
 namespace Eclipse
 {
@@ -44,9 +43,9 @@ namespace Eclipse
 		void DrawInspector() override;
 
     private:
-		ReflectedVar_Default(Math::Vector2<float>, position, Math::Vector2f(0, 0));
-		ReflectedVar_Default(float, rotation, 0);
-		ReflectedVar_Default(Math::Vector2f, scale, Math::Vector2f(1, 1));
+		SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, position, Math::Vector2f(0, 0));
+		SERIALIZED_FIELD_DEFAULT(float, rotation, 0);
+		SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1));
 
 	private:
 		bool myIsDirty = true;

@@ -20,7 +20,7 @@ namespace Eclipse
         void OnTransformDirty();
 
     private:
-        std::vector<Math::Vector2f> myPoints; 
+        SERIALIZED_FIELD(std::vector<Math::Vector2f>, myPoints);
 
         class Transform2D* myTransform;
     };

@@ -32,7 +32,7 @@ namespace Eclipse
 		myShader = new Shader();
 		myShader->Create(ASSET_PATH "Shaders/DefaultSpritePixelShader.glsl", ASSET_PATH "Shaders/DefaultSpriteVertexShader.glsl");
 
-		myTexture = Resources::Get<Texture>(ASSET_PATH "Default_Texture.png");
+		myTexture = Resources::Get<Texture>("Assets/Default_Texture.png");
 	}
 
 	void Material::SetTexture(const char* aPath)
@@ -102,14 +102,11 @@ namespace Eclipse
 		myMaterial = new Material();
 		myMaterial->SetTexture(myTexturePath->c_str());
 
-		myMaterial->color.g = 0;
-		myMaterial->color.b = 0;
+		//Transform2D& localTransform = *gameObject->transform;
+		//Math::Vector2f textureSizeNormalized = myMaterial->myTexture->GetTextureSizeNormilized();
+		//Math::Vector2f scale = localTransform.GetScale();
 
-		Transform2D& localTransform = *gameObject->transform;
-		Math::Vector2f textureSizeNormalized = myMaterial->myTexture->GetTextureSizeNormilized();
-		Math::Vector2f scale = localTransform.GetScale();
-
-		localTransform.SetScale(textureSizeNormalized * scale);
+		//localTransform.SetScale(textureSizeNormalized * scale);
 	}
 
 	void SpriteRenderer2D::Start()

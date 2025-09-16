@@ -71,6 +71,6 @@ namespace Eclipse
         bool mirroredY = false;
 
     private:
-        ReflectedVar_Default(std::string, myTexturePath, "");
+        SERIALIZED_FIELD_DEFAULT(std::string, myTexturePath, "");
     };
 }

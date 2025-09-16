@@ -12,7 +12,8 @@ namespace Eclipse
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, AudioClip& outResource)
 	{
-		outResource = AudioClip(aPath);
+		std::string folder = std::filesystem::current_path().parent_path().string();
+		outResource = AudioClip((folder  + std::string(aPath)).c_str());
 
 		AudioManager::CreateAudio(outResource);
 	}

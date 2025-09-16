@@ -50,9 +50,9 @@ namespace Eclipse
 		bool myIsPlaying = false;
 
 
-		ReflectedVar_Default(float, myVolume, 1.f);
-		ReflectedVar_Default(bool, myPlayOnStart, false);
-		ReflectedVar_Default(bool, myIsLooping, false);
-		ReflectedVar_Default(std::string, myAudioPath, "");
+		SERIALIZED_FIELD_DEFAULT(float, myVolume, 1.f);
+		SERIALIZED_FIELD_DEFAULT(bool, myPlayOnStart, false);
+		SERIALIZED_FIELD_DEFAULT(bool, myIsLooping, false);
+		SERIALIZED_FIELD_DEFAULT(std::string, myAudioPath, "");
     };
 }

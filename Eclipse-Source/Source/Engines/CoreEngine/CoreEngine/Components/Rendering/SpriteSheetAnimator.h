@@ -33,7 +33,7 @@ namespace Eclipse
 
         ResourcePointer<SpriteSheetAnimation> mySpriteSheetAnimations;
 
-        ReflectedVar_Default(std::string, mySpriteSheetAnimationPath, "");
+        SERIALIZED_FIELD_DEFAULT(std::string, mySpriteSheetAnimationPath, "");
 
     private:
         std::string myActiveAnimation;

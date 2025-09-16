@@ -4,7 +4,6 @@
 
 #include <Math/Vector/Vector2.h>
 #include "ECS/ComponentManager.h"
-#include "Reflection/ReflectionDefines.h"
 
 namespace Eclipse
 {
@@ -20,8 +19,8 @@ namespace Eclipse
         void SetScale(const Math::Vector2f& aHalfExtents);
 
     private:
-        ReflectedVar(Math::Vector2f, myHalfExtents); 
-        ReflectedVar(Math::Vector2f, myScale);
+        SERIALIZED_FIELD(Math::Vector2f, myHalfExtents);
+        SERIALIZED_FIELD(Math::Vector2f, myScale);
         class Transform2D* myTransform;
     };
 }

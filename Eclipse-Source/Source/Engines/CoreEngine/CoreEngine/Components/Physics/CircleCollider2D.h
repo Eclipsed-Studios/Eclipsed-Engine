@@ -5,8 +5,6 @@
 #include <Math/Vector/Vector2.h>
 #include "ECS/ComponentManager.h"
 
-#include "Reflection/ReflectionDefines.h"
-
 namespace Eclipse
 {
     class CircleCollider2D : public Collider2D
@@ -21,9 +19,9 @@ namespace Eclipse
         void SetRadius(float aRadius);
 
     private:
-        ReflectedVar(float, myRadius);
+        SERIALIZED_FIELD(float, myRadius);
 
-        ReflectedVar(float, myRealRadius);
+        SERIALIZED_FIELD(float, myRealRadius);
 
         class Transform2D* myTransform;
     };

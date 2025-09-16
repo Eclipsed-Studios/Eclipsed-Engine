@@ -4,7 +4,6 @@
 
 #include <Math/Vector/Vector2.h>
 #include "ECS/ComponentManager.h"
-#include "Reflection/ReflectionDefines.h"
 
 namespace Eclipse
 {
@@ -21,11 +20,11 @@ namespace Eclipse
         void SetHalfHeight(float aHalfHeight);
 
     private:
-        ReflectedVar(float, myRadius);
-        ReflectedVar(float, myHalfHeight);
+        SERIALIZED_FIELD(float, myRadius);
+        SERIALIZED_FIELD(float, myHalfHeight);
 
-        ReflectedVar(float, myRealRadius);
-        ReflectedVar(float, myRealHalfHeight);
+        SERIALIZED_FIELD(float, myRealRadius);
+        SERIALIZED_FIELD(float, myRealHalfHeight);
 
         class Transform2D* myTransform;
     };
