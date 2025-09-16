@@ -85,7 +85,7 @@ namespace Eclipse
 		d.AddMember("GameObjects", goArray, alloc);
 
 		rapidjson::StringBuffer buffer;
-		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
 
 		d.Accept(writer);
 
