@@ -7,6 +7,7 @@
 #include <string>
 
 struct GLFWwindow;
+struct ImFont;
 
 namespace Eclipse::Editor
 {
@@ -22,10 +23,20 @@ namespace Eclipse::Editor
         static void End();
 
     private:
+        static void LoadFonts();
+
+    private:
         static inline GLFWwindow* myWindow;
 
         static inline WindowManager myWindowManager;
 
         static inline std::string firstSceneOnPlay;
+
+    public:
+        static inline ImFont* fontTiny = nullptr;
+        static inline ImFont* fontSmall = nullptr;
+        static inline ImFont* fontMedium= nullptr;
+        static inline ImFont* fontLarge= nullptr;
+        static inline ImFont* fontExtraLarge = nullptr;
     };
 }

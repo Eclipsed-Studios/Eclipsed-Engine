@@ -22,6 +22,7 @@ add_subdirectory(Source/Externals/ImGui)
 add_subdirectory(Source/Externals/OpenGL)
 add_subdirectory(Source/Externals/SDL3)
 add_subdirectory(Source/Externals/stb_image)
+add_subdirectory(Source/Externals/Font-Awesome-6)
 
 add_subdirectory(Source/Utilities)
 

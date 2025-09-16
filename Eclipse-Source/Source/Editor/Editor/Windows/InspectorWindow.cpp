@@ -3,8 +3,6 @@
 
 #include "ECS/ComponentManager.h"
 
-#include "FontAwesomeRegular.h"
-#include "IconsFontAwesome6.h"
 #include "Editor/ImGui/ImGui_Impl.h"
 
 #include "Reflection/Registry/ComponentRegistry.h"

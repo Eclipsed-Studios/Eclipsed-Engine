@@ -11,75 +11,96 @@ namespace Eclipse::Editor
 {
 	void AssetWindow::Open()
 	{
-        flags = ImGuiWindowFlags_MenuBar;
-        myCurrentPath = ASSET_PATH;
+		flags = ImGuiWindowFlags_MenuBar;
+		myCurrentPath = ASSET_PATH;
 	}
-	
-    void AssetWindow::Update()
-    {
-        using namespace std::filesystem;
 
-        if (Input::GetMouseDown(Keycode::MOUSE_BACK_BUTTON) && myCurrentPath != ASSET_PATH)
-        {
-            myCurrentPath = myCurrentPath.parent_path();
-        }
+	void AssetWindow::Update()
+	{
+		using namespace std::filesystem;
 
-        if (ImGui::BeginMenuBar())
-        {
-            float offset = ImGui::GetContentRegionAvail().x - 200;
-            if (offset > 0)
-            {
-                ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offset);
-            }
+		if (Input::GetMouseDown(Keycode::MOUSE_BACK_BUTTON) && myCurrentPath != ASSET_PATH)
+		{
+			myCurrentPath = myCurrentPath.parent_path();
+		}
 
-            ImGui::SetNextItemWidth(200);
-            ImGui::SliderFloat("##MULTIPLIERS", &myButtonSizeMultiplier, 0.1f, 2.f);
+		if (ImGui::BeginMenuBar())
+		{
+			float offset = ImGui::GetContentRegionAvail().x - 200;
+			if (offset > 0)
+			{
+				ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offset);
+			}
 
-            ImGui::EndMenuBar();
-        }
+			ImGui::SetNextItemWidth(200);
+			ImGui::SliderFloat("##MULTIPLIERS", &myButtonSizeMultiplier, 0.1f, 2.f);
 
-        float width = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
-        float buttonSize = 100.0f * myButtonSizeMultiplier;
-        float padding = ImGui::GetStyle().ItemSpacing.x;
+			ImGui::EndMenuBar();
+		}
+
+		float width = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
+		float buttonSize = 100.0f * myButtonSizeMultiplier;
+		float padding = ImGui::GetStyle().ItemSpacing.x;
 
 
 
-        for (const directory_entry& entry : directory_iterator(myCurrentPath))
-        {
-            if (ImGui::Button(entry.path().filename().string().c_str(), { buttonSize, buttonSize }))
-            {
-                if (entry.is_directory())
-                {
-                    myCurrentPath = entry.path();
-                }
-                else
-                {
-                    Active_FilePath = entry.path();
-                }
-            }
+		for (const directory_entry& entry : directory_iterator(myCurrentPath))
+		{
+			ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
 
-            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-            {
-                myPayloadStr = entry.path().string();
-                std::string extension = entry.path().extension().string();
+			if (entry.is_directory())
+			{
+				if (ImGui::Button((std::string(ICON_FA_FOLDER "##") + entry.path().string()).c_str(), ImVec2(buttonSize, buttonSize)))
+				{
+					Active_FilePath = entry.path();
+				}
+			}
+			else
+			{
+				ImGui::PushFont(Editor::EditorContext::fontTiny);
+				if (ImGui::Button(entry.path().filename().stem().string().c_str(), ImVec2(buttonSize, buttonSize)))
+				{
+					Active_FilePath = entry.path();
+				}
+				ImGui::PopFont();
+			}
 
-                DragAndDrop::AssetDragAndDropIdx idx = DragAndDrop::supportedFileTypes.at(extension);
+			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+			{
+				if (entry.is_directory())
+				{
+					myCurrentPath = entry.path();
+				}
+				else
+				{
+					Active_FilePath = entry.path();
+				}
+			}
 
-                const char* dnd = DragAndDrop::dragAndDropString[(int)idx];
+			ImGui::PopFont();
 
-                ImGui::SetDragDropPayload(dnd, myPayloadStr.c_str(), myPayloadStr.size() + 1);
+			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+			{
+				myPayloadStr = entry.path().string();
+				std::string extension = entry.path().extension().string();
 
-                ImGui::Text(myPayloadStr.c_str());
-                ImGui::EndDragDropSource();
-            }
+				DragAndDrop::AssetDragAndDropIdx idx = DragAndDrop::supportedFileTypes.at(extension);
 
-            float currentWidth = ImGui::GetItemRectMax().x;
+				const char* dnd = DragAndDrop::dragAndDropString[(int)idx];
 
-            if (currentWidth + buttonSize + padding < width)
+				ImGui::SetDragDropPayload(dnd, myPayloadStr.c_str(), myPayloadStr.size() + 1);
 
-            {
-                ImGui::SameLine();
-            }
-        }
-    }
+				ImGui::Text(myPayloadStr.c_str());
+				ImGui::EndDragDropSource();
+			}
+
+			float currentWidth = ImGui::GetItemRectMax().x;
+
+			if (currentWidth + buttonSize + padding < width)
+
+			{
+				ImGui::SameLine();
+			}
+		}
+	}
 }

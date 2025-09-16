@@ -24,6 +24,8 @@
 #include "Scenes/SceneLoader.h"
 #include <iostream>
 
+#include "Font-Awesome-6/IconsFontAwesome6.h"
+
 namespace Eclipse::Editor
 {
     ErrorCode EditorContext::Init()
@@ -42,6 +44,8 @@ namespace Eclipse::Editor
 
         myWindowManager.Begin();
 
+        LoadFonts();
+
         return ErrorCode::SUCCESS;
     }
 
@@ -56,6 +60,9 @@ namespace Eclipse::Editor
     void EditorContext::Update()
     {
         Engine::Update();
+
+        ImGui::PushFont(fontMedium);
+
         myWindowManager.Update();
 
         if (Input::GetKeyDown(Keycode::F1))
@@ -66,6 +73,8 @@ namespace Eclipse::Editor
         {
             SceneLoader::Load(ASSET_PATH"Scenes/TestScene.json");
         }
+
+        ImGui::PopFont();
     }
 
     void EditorContext::Render()
@@ -122,5 +131,43 @@ namespace Eclipse::Editor
         MetaFileRegistry::Save();
         myWindowManager.End();
         SettingsManager::Save();
+    }
+
+    void EditorContext::LoadFonts()
+    {
+        ImGuiIO& io = ImGui::GetIO();
+
+        fontTiny = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 12.0f);
+        fontSmall = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 16.0f);
+        fontMedium = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 20.0f);
+        fontLarge = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 32.0f);
+        fontExtraLarge = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 100.0f);
+
+        static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+        ImFontConfig icons_config;
+        icons_config.MergeMode = true;
+        icons_config.PixelSnapH = true;
+
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-solid-900.TTF", 100.f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-brands-400.TTF", 100.f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-regular-400.TTF", 100.f, &icons_config, icons_ranges);
+
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-solid-900.TTF", 12.0f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-brands-400.TTF", 12.0f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-regular-400.TTF", 12.0f, &icons_config, icons_ranges);
+        
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-solid-900.TTF", 16.0f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-brands-400.TTF", 16.0f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-regular-400.TTF", 16.0f, &icons_config, icons_ranges);
+
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-solid-900.TTF", 20.0f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-brands-400.TTF", 20.0f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-regular-400.TTF", 20.0f, &icons_config, icons_ranges);
+
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-solid-900.TTF", 32.0f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-brands-400.TTF", 32.0f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/fa-regular-400.TTF", 32.0f, &icons_config, icons_ranges);
+
+        io.Fonts->Build();
     }
 }
