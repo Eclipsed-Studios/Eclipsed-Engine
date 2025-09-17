@@ -1,5 +1,7 @@
 #include "Resources.h"
 
+#include "Font-Awesome/7/IconsFontAwesome7.h"
+
 namespace Eclipse
 {
 	FileInfo Resources::GetFileInfo(const std::filesystem::path& aPath)
@@ -17,6 +19,16 @@ namespace Eclipse
 
 			{".glsl", FileInfo::FileType_Shader}, 
 
+			{".scene", FileInfo::FileType_Scene},
+			{".zip", FileInfo::FileType_Zip},
+
+			{".json", FileInfo::FileType_Json},
+
+			{".ttf", FileInfo::FileType_Font},
+			{".TTF", FileInfo::FileType_Font},
+
+			{".spriteanim", FileInfo::FileType_SpriteAnimation}, 
+
 			{".spriteanim", FileInfo::FileType_SpriteAnimation}, 
 		};
 
@@ -27,8 +39,16 @@ namespace Eclipse
 		switch (status.type())
 		{
 		case std::filesystem::file_type::not_found: info.status = FileInfo::FileStatus_NotFound; break;
-		case std::filesystem::file_type::regular:   info.status = FileInfo::FileStatus_Ok; break;
-		case std::filesystem::file_type::directory: info.status = FileInfo::FileStatus_Directory; break;
+		case std::filesystem::file_type::regular:   
+		{
+			info.status = FileInfo::FileStatus_Ok;
+			info.type = files[aPath.filename().extension().string()];
+		}break;
+		case std::filesystem::file_type::directory: 
+		{
+			info.status = FileInfo::FileStatus_Directory;
+			info.type = FileInfo::FileType_Directory;
+		}break;
 		case std::filesystem::file_type::symlink:   info.status = FileInfo::FileStatus_Symlink; break;
 
 		case std::filesystem::file_type::block:
@@ -40,9 +60,24 @@ namespace Eclipse
 		default: info.status = FileInfo::FileStatus_Unknown; break;
 		}
 
-
-		info.type = files[aPath.extension().string()];
-
 		return info;
+	}
+
+	const char* FileInfo::GetIcon() const
+	{
+		static std::unordered_map<FileInfo::FileType_, const char*> fileTypeToIcon =
+		{
+			{FileInfo::FileType_Audio, ICON_FA_FILE_AUDIO},
+			{FileInfo::FileType_Shader, ICON_FA_QUESTION},
+			{FileInfo::FileType_Texture, ICON_FA_IMAGE},
+			{FileInfo::FileType_Scene, ICON_FA_EARTH_EUROPE},
+			{FileInfo::FileType_Font, ICON_FA_FONT},
+			{FileInfo::FileType_SpriteAnimation, ICON_FA_PERSON_RUNNING},
+			{FileInfo::FileType_Directory, ICON_FA_FOLDER},
+			{FileInfo::FileType_Json, ICON_FA_FILE_EXCEL },
+			{FileInfo::FileType_Zip, ICON_FA_FILE_ZIPPER},
+		};
+
+		return fileTypeToIcon[type];
 	}
 }

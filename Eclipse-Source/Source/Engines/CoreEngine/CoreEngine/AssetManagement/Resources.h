@@ -15,12 +15,17 @@ namespace Eclipse
 		enum FileType_
 		{
 			FileType_None,
+			FileType_Directory,
+
+			FileType_Zip,
+			FileType_Json,
+			FileType_Font,
+			FileType_Scene,
 			FileType_Texture,
 			FileType_Audio,
 			FileType_Material,
 			FileType_Shader,
 			FileType_SpriteAnimation,
-			FileType_Directory,
 		};
 
 		enum FileStatus_
@@ -33,6 +38,8 @@ namespace Eclipse
 			FileStatus_Unknown,
 			FileStatus_NoPerm,
 		};
+
+		const char* GetIcon() const;
 
 		FileStatus_ status;
 		FileType_ type;

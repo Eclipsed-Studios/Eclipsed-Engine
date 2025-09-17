@@ -19,13 +19,44 @@ namespace Eclipse::Editor
 	{
 		using namespace std::filesystem;
 
-		if (Input::GetMouseDown(Keycode::MOUSE_BACK_BUTTON) && myCurrentPath != ASSET_PATH)
+		if (Input::GetMouseDown(Keycode::MOUSE_BACK_BUTTON) && !std::filesystem::equivalent(myCurrentPath, ASSET_PATH))
 		{
 			myCurrentPath = myCurrentPath.parent_path();
 		}
 
+		std::filesystem::path startPath = std::filesystem::relative(myCurrentPath, ASSET_PATH "../");
+
 		if (ImGui::BeginMenuBar())
 		{
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
+
+			std::string pathCombiner = ASSET_PATH;
+			for (auto& path : startPath)
+			{
+				if (path.string() != "Assets")
+				{
+					ImVec2 pos = ImGui::GetCursorPos();
+					ImGui::SetCursorPos(ImVec2(pos.x, pos.y - 2));
+					ImGui::PushFont(EditorContext::fontMedium);
+					ImGui::Text(">");
+					ImGui::PopFont();
+
+					pathCombiner += path.string();
+					pathCombiner.push_back('/');
+				}
+
+
+				if (ImGui::Button(path.string().c_str()))
+				{
+					myCurrentPath = pathCombiner;
+				}
+			}
+
+
+			ImGui::PopStyleColor(3);
+
 			float offset = ImGui::GetContentRegionAvail().x - 200;
 			if (offset > 0)
 			{
@@ -46,26 +77,60 @@ namespace Eclipse::Editor
 
 		for (const directory_entry& entry : directory_iterator(myCurrentPath))
 		{
-			ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
+			ImVec2 pos = ImGui::GetCursorPos();
 
-			if (entry.is_directory())
+			FileInfo info = Resources::GetFileInfo(entry);
+			const char* icon = info.GetIcon();
+
+			ImGui::PushID(Random::GetValue<int>());
+
+			ImVec2 buttonSizeVec(buttonSize, buttonSize);
+			if (ImGui::Button("##dirButton", buttonSizeVec))
 			{
-				if (ImGui::Button((std::string(ICON_FA_FILE_AUDIO "##") + entry.path().string()).c_str(), ImVec2(buttonSize, buttonSize)))
-				{
-					Active_FilePath = entry.path();
-					InspectorWindow::activeType = ActiveItemTypes_Asset;
-				}
+
 			}
-			else
+
+			ImVec2 min = ImGui::GetItemRectMin();
+			ImVec2 max = ImGui::GetItemRectMax();
+			ImVec2 center = ImVec2((min.x + max.x) * 0.5f, (min.y + max.y) * 0.5f);
+
+			ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
+			ImVec2 iconSize = ImGui::CalcTextSize(icon);
+			ImGui::GetWindowDrawList()->AddText(
+				Editor::EditorContext::fontExtraLarge,
+				0.0f,
+				ImVec2(center.x - iconSize.x * 0.5f, min.y + 6),
+				IM_COL32(255, 255, 255, 255),
+				icon
+			);
+			ImGui::PopFont();
+
+			std::string label = entry.path().filename().string();
+			const float maxSize = buttonSize - 86.f;
+			if (label.size() > maxSize)
 			{
-				ImGui::PushFont(Editor::EditorContext::fontTiny);
-				if (ImGui::Button(entry.path().filename().stem().string().c_str(), ImVec2(buttonSize, buttonSize)))
-				{
-					Active_FilePath = entry.path();
-					InspectorWindow::activeType = ActiveItemTypes_Asset;
-				}
-				ImGui::PopFont();
+				label.erase(maxSize, label.size());
+				label += "...";
 			}
+
+			ImGui::PushFont(Editor::EditorContext::fontTiny);
+			ImVec2 textSize = ImGui::CalcTextSize(label.c_str());
+			const char* end = label.c_str() + 10;
+			ImGui::GetWindowDrawList()->AddText(
+				Editor::EditorContext::fontTiny,
+				0.0f,
+				ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 6),
+				IM_COL32(255, 255, 255, 255),
+				label.c_str()
+			);
+
+			ImGui::PopFont();
+
+			ImGui::PopID();
+
+
+
+
 
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 			{
@@ -77,23 +142,6 @@ namespace Eclipse::Editor
 				{
 					Active_FilePath = entry.path();
 				}
-			}
-
-			ImGui::PopFont();
-
-			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-			{
-				myPayloadStr = entry.path().string();
-				std::string extension = entry.path().extension().string();
-
-				DragAndDrop::AssetDragAndDropIdx idx = DragAndDrop::supportedFileTypes.at(extension);
-
-				const char* dnd = DragAndDrop::dragAndDropString[(int)idx];
-
-				ImGui::SetDragDropPayload(dnd, myPayloadStr.c_str(), myPayloadStr.size() + 1);
-
-				ImGui::Text(myPayloadStr.c_str());
-				ImGui::EndDragDropSource();
 			}
 
 			float currentWidth = ImGui::GetItemRectMax().x;

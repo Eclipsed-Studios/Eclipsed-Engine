@@ -7,8 +7,8 @@
 #include "defines.h"
 #include "Editor/WindowRegistry.h"
 
-#include "Font-Awesome-6/IconsFontAwesome6.h"
-#include "Font-Awesome-6/IconsFontAwesome6Brands.h"
+#include "Font-Awesome/7/IconsFontAwesome7.h"
+#include "Font-Awesome/7/IconsFontAwesome7Brands.h"
 
 namespace Eclipse::Editor
 {
