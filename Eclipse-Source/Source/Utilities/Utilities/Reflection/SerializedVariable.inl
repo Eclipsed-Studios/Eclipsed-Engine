@@ -92,7 +92,31 @@ namespace Eclipse::Reflection
 		if constexpr(Is_Vector<T>::value) data.resize(size);
 	}
 
+	template<typename T>
+	bool ComboEnum(const char* label, T& e, int count) {
+		unsigned currentIndex = static_cast<unsigned>(e);
+		bool changed = false;
 
+		if (ImGui::BeginCombo(label, T::AsString(T(currentIndex)).c_str()))
+		{
+			for (const T& val : T::List)
+			{
+				bool isSelected = (currentIndex == val);
+				std::string name = T::AsString(val);
+
+				if (ImGui::Selectable(name.c_str(), isSelected)) {
+					e = static_cast<T>(val);
+					changed = true;
+				}
+				if (isSelected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		return changed;
+	}
 
 	template<typename T>
 	inline void SerializedVariable<T>::DrawInspector()
@@ -101,6 +125,17 @@ namespace Eclipse::Reflection
 		ImGui::SameLine();
 		if constexpr (std::is_same<T, float>::value) ImGui::DragFloat((std::string("##float##") + std::string(GetName())).c_str(), &data, 0.01f);
 		else if constexpr (std::is_same<T, bool>::value) ImGui::Checkbox((std::string("##bools##") + std::string(GetName())).c_str(), &data);
-		//else if constexpr (std::is_base_of<SerializedEnum, T>::value) ComboEnum(std::string("##float##" + GetName()).c_str(), data, 7);
+		else if constexpr (std::is_base_of<SerializedEnum, T>::value) ComboEnum((std::string("##float##") + std::string(GetName())).c_str(), data, 7);
+		else if constexpr (Is_String<T>::value)
+		{
+			char TemporaryName[256];
+			std::strcpy(TemporaryName, data.c_str());
+
+			if (ImGui::InputText((std::string("##float##") + std::string(GetName())).c_str(), TemporaryName, 256, ImGuiInputTextFlags_EnterReturnsTrue))
+			{
+				data = TemporaryName;
+			}
+		}
+		else LOG_WARNING("Draw inspector of type " + std::to_string(GetType()) + " is not supported.");
 	}
 }

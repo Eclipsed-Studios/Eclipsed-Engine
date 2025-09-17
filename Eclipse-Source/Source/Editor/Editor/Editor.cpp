@@ -124,7 +124,6 @@ namespace Eclipse::Editor
 
         ImGui::End();
 
-
         ImGui_Impl::Render();
     }
 
