@@ -78,6 +78,12 @@ namespace Eclipse
 			{FileInfo::FileType_Zip, ICON_FA_FILE_ZIPPER},
 		};
 
-		return fileTypeToIcon[type];
+		const auto& it = fileTypeToIcon.find(type);
+		if (it != fileTypeToIcon.end())
+		{
+			return it->second;
+		}
+
+		return ICON_FA_TRIANGLE_EXCLAMATION;
 	}
 }

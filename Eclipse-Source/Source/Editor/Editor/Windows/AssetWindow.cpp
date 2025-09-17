@@ -11,7 +11,7 @@ namespace Eclipse::Editor
 {
 	void AssetWindow::Open()
 	{
-		flags = ImGuiWindowFlags_MenuBar;
+		//flags = ImGuiWindowFlags_MenuBar;
 		myCurrentPath = ASSET_PATH;
 	}
 
@@ -26,50 +26,54 @@ namespace Eclipse::Editor
 
 		std::filesystem::path startPath = std::filesystem::relative(myCurrentPath, ASSET_PATH "../");
 
-		if (ImGui::BeginMenuBar())
+
+		float folderStructureWidth = 200.f;
+		float scrollBarWidth = 15.f;
+
+		ImGui::BeginChild("FolderStructure", ImVec2(folderStructureWidth, ImGui::GetWindowHeight()), true, ImGuiWindowFlags_NoScrollbar);
+		ImGui::Text("Welcome! You are here early.");
+		ImGui::Text("You idiot.  " ICON_FA_HAND_MIDDLE_FINGER);
+		ImGui::EndChild();
+
+		ImGui::SameLine();
+
+		float customWidth = ImGui::GetWindowWidth() - folderStructureWidth + scrollBarWidth;
+		ImGui::BeginChild("CustomMenuBarRegion", ImVec2(customWidth, ImGui::GetWindowHeight()), false, ImGuiWindowFlags_NoScrollbar);
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
+
+		std::string pathCombiner = ASSET_PATH;
+		for (auto& path : startPath)
 		{
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
-
-			std::string pathCombiner = ASSET_PATH;
-			for (auto& path : startPath)
+			if (path.string() != "Assets")
 			{
-				if (path.string() != "Assets")
-				{
-					ImVec2 pos = ImGui::GetCursorPos();
-					ImGui::SetCursorPos(ImVec2(pos.x, pos.y - 2));
-					ImGui::PushFont(EditorContext::fontMedium);
-					ImGui::Text(">");
-					ImGui::PopFont();
+				ImGui::SameLine();
 
-					pathCombiner += path.string();
-					pathCombiner.push_back('/');
-				}
+				ImVec2 pos = ImGui::GetCursorPos();
+				ImGui::SetCursorPos(ImVec2(pos.x, pos.y - 2));
+				ImGui::PushFont(EditorContext::fontMedium);
+				ImGui::Text(">");
+				ImGui::PopFont();
 
-
-				if (ImGui::Button(path.string().c_str()))
-				{
-					myCurrentPath = pathCombiner;
-				}
+				pathCombiner += path.string();
+				pathCombiner.push_back('/');
 			}
 
+			ImGui::SameLine();
 
-			ImGui::PopStyleColor(3);
-
-			float offset = ImGui::GetContentRegionAvail().x - 200;
-			if (offset > 0)
+			if (ImGui::Button(path.string().c_str()))
 			{
-				ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offset);
+				myCurrentPath = pathCombiner;
 			}
-
-			ImGui::SetNextItemWidth(200);
-			ImGui::SliderFloat("##MULTIPLIERS", &myButtonSizeMultiplier, 0.1f, 2.f);
-
-			ImGui::EndMenuBar();
 		}
 
-		float width = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
+
+		ImGui::PopStyleColor(3);
+
+
+		float width = customWidth + ImGui::GetWindowPos().x - scrollBarWidth * 2;
 		float buttonSize = 100.0f * myButtonSizeMultiplier;
 		float padding = ImGui::GetStyle().ItemSpacing.x;
 
@@ -87,7 +91,7 @@ namespace Eclipse::Editor
 			ImVec2 buttonSizeVec(buttonSize, buttonSize);
 			if (ImGui::Button("##dirButton", buttonSizeVec))
 			{
-
+				LOG_ERROR("Not implemented: Must make assets selectable.");
 			}
 
 			ImVec2 min = ImGui::GetItemRectMin();
@@ -129,9 +133,6 @@ namespace Eclipse::Editor
 			ImGui::PopID();
 
 
-
-
-
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 			{
 				if (entry.is_directory())
@@ -152,5 +153,7 @@ namespace Eclipse::Editor
 				ImGui::SameLine();
 			}
 		}
+
+		ImGui::EndChild();
 	}
 }
