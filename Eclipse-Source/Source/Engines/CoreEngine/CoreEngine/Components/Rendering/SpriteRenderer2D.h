@@ -56,10 +56,6 @@ namespace Eclipse
         void SetYMirror(bool aMirror) { mirroredY = aMirror; }
 
 
-    protected:
-        void DrawInspector() override;
-
-
     private:
         Sprite* mySprite;
         Material* myMaterial = nullptr;

@@ -25,9 +25,6 @@ namespace Eclipse
 
         void SetCurrentAnimation(const char* anAnimationName, bool aLoop = true);
 
-    protected:
-        void DrawInspector() override;
-
     private:
         SpriteRenderer2D* mySpriteRenderer = nullptr;
 

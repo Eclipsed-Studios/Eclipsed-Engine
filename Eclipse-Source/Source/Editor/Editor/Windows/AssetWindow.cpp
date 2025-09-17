@@ -50,9 +50,10 @@ namespace Eclipse::Editor
 
 			if (entry.is_directory())
 			{
-				if (ImGui::Button((std::string(ICON_FA_FOLDER "##") + entry.path().string()).c_str(), ImVec2(buttonSize, buttonSize)))
+				if (ImGui::Button((std::string(ICON_FA_FILE_AUDIO "##") + entry.path().string()).c_str(), ImVec2(buttonSize, buttonSize)))
 				{
 					Active_FilePath = entry.path();
+					InspectorWindow::activeType = ActiveItemTypes_Asset;
 				}
 			}
 			else
@@ -61,6 +62,7 @@ namespace Eclipse::Editor
 				if (ImGui::Button(entry.path().filename().stem().string().c_str(), ImVec2(buttonSize, buttonSize)))
 				{
 					Active_FilePath = entry.path();
+					InspectorWindow::activeType = ActiveItemTypes_Asset;
 				}
 				ImGui::PopFont();
 			}

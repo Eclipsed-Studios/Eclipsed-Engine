@@ -18,6 +18,17 @@ namespace Eclipse::Editor
 {
 	void InspectorWindow::Update()
 	{
+		switch (activeType)
+		{
+		case Eclipse::Editor::ActiveItemTypes_GameObject: DrawGameObjectInspector();
+			break;
+		case Eclipse::Editor::ActiveItemTypes_Asset: DrawAssetInspector();
+			break;
+		}
+	}
+
+	void InspectorWindow::DrawGameObjectInspector()
+	{
 		const unsigned& id = HierarchyWindow::CurrentGameObjectID;
 		if (id == 0 || !ComponentManager::HasGameObject(id)) return;
 
@@ -75,5 +86,10 @@ namespace Eclipse::Editor
 
 			ImGui::EndCombo();
 		}
+	}
+
+	void InspectorWindow::DrawAssetInspector()
+	{
+		ImGui::Text(AssetWindow::Active_FilePath.string().c_str());
 	}
 }

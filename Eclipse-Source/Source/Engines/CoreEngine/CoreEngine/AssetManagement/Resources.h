@@ -10,6 +10,35 @@
 
 namespace Eclipse
 {
+	struct FileInfo
+	{
+		enum FileType_
+		{
+			FileType_None,
+			FileType_Texture,
+			FileType_Audio,
+			FileType_Material,
+			FileType_Shader,
+			FileType_SpriteAnimation,
+			FileType_Directory,
+		};
+
+		enum FileStatus_
+		{
+			FileStatus_NotFound,
+			FileStatus_Ok,
+			FileStatus_Directory,
+			FileStatus_Symlink,
+			FileStatus_Special,
+			FileStatus_Unknown,
+			FileStatus_NoPerm,
+		};
+
+		FileStatus_ status;
+		FileType_ type;
+		std::filesystem::path filePath;
+	};
+
 	class Resources
 	{
 	public:
@@ -19,11 +48,12 @@ namespace Eclipse
 		template<typename T>
 		static T* GetPointer(const size_t& aId);
 
-
+		static FileInfo GetFileInfo(const std::filesystem::path& aPath);
+		static std::string ResolveFilePath(const std::string& aPath);
 
 	private:
-		static std::unordered_map<std::type_index, IResourceList*> myLoadedResources;
-		static AssetLoader myLoader;
+		static inline std::unordered_map<std::type_index, IResourceList*> myLoadedResources;
+		static inline AssetLoader myLoader;
 	};
 }
 

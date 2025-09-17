@@ -66,8 +66,4 @@ namespace Eclipse
         myLoop = aLoop;
         myIsPlaying = true;
     }
-
-    void SpriteSheetAnimator2D::DrawInspector()
-    {
-    }
 }

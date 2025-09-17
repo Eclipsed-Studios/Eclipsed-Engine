@@ -4,6 +4,13 @@
 
 namespace Eclipse::Editor
 {
+	enum ActiveItemTypes_
+	{
+		ActiveItemTypes_None,
+		ActiveItemTypes_GameObject,
+		ActiveItemTypes_Asset
+	};
+
 	class InspectorWindow final : public AbstractWindow
 	{
 		BASE_SELECTION(InspectorWindow, "Inspector");
@@ -11,10 +18,15 @@ namespace Eclipse::Editor
 	public:
 		void Update() override;
 
+	private:
+		void DrawGameObjectInspector();
+		void DrawAssetInspector();
+
 	public:
 		static inline unsigned CurrentGameObjectID;
 
 		static inline constexpr int NAME_BUFFER_LENGTH = 256;
 		char nameBuffer[NAME_BUFFER_LENGTH] = {};
+		static inline ActiveItemTypes_ activeType;
 	};
 }

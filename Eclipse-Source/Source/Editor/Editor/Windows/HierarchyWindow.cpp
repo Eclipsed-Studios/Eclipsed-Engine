@@ -34,6 +34,7 @@ namespace Eclipse::Editor
 			if (ImGui::Button(std::string(data->GetName() + "##" + std::to_string(id)).c_str()))
 			{
 				CurrentGameObjectID = id;
+				InspectorWindow::activeType = ActiveItemTypes_GameObject;
 			}
 		}
 	}

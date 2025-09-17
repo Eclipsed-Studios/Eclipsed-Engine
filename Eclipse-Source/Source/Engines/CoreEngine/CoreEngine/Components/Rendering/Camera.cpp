@@ -44,8 +44,4 @@ namespace Eclipse
 
         DebugDrawer::DrawSquare(myTransform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), Math::Vector2f(0.5f * size, 0.5f));
     }
-
-    void Camera::DrawInspector()
-    {
-    }
 }

@@ -15,8 +15,6 @@ namespace Eclipse
 	public:
 		void Update() override;
 
-		void DrawInspector() override;
-
 	public:
 		//Math::Rect myRect;
 	};

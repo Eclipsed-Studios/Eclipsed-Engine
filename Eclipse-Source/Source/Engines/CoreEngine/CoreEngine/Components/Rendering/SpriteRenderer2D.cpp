@@ -64,29 +64,6 @@ namespace Eclipse
 		spriteRectMax = aMax * myMaterial->myTexture->spriteDimDivOne;
 	}
 
-	void SpriteRenderer2D::DrawInspector()
-	{
-		//bool hasSprite = 
-		//Editor::DragAndDrop::TextBox(hasAudioClip ? myAudioClip->GetRelativePath() : "No audio clip", { 5, 5 }, { 0,0,0,0 }, { 255, 255,255, 1 }, "audioClipDND");
-
-		//if (ImGui::BeginDragDropTarget())
-		//{
-		//	int idx = (int)Editor::DragAndDrop::AssetDragAndDropIdx::Audio;
-		//	const char* dndString = Editor::DragAndDrop::dragAndDropString[idx];
-
-		//	if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(dndString))
-		//	{
-		//		std::string path;
-		//		path.resize(payload->DataSize);
-
-		//		memcpy(path.data(), payload->Data, payload->DataSize);
-		//		SetAudioClip(path.c_str());
-
-		//	}
-		//	ImGui::EndDragDropTarget();
-		//}
-	}
-
 	void SpriteRenderer2D::SetTexture(const char* aPath)
 	{
 		myTexturePath = aPath;
