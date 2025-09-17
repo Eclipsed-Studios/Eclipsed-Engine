@@ -83,7 +83,7 @@ namespace Eclipse
 
         for (auto& line : myLineCollection)
         {
-            CommandList::Enqueue([&]() {
+            CommandList::Enqueue([&, line]() {
                 for (int i = 0; i < line.linePoints.size(); i++)
                 {
                     //auto& temporarySingleton = TemporarySettingsSingleton::Get();

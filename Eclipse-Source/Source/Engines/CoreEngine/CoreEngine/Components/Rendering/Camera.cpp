@@ -18,23 +18,20 @@ namespace Eclipse
     void Camera::OnDestroy()
     {
         if (main == this)
-        {
             main = nullptr;
-        }
     }
 
     void Camera::Awake()
     {
         main = this;
-        myTransform = gameObject->GetComponent<Transform2D>();
 
-        myTransform->AddFunctionToRunOnDirtyUpdate([&]() {
-            if (main == this)
-            {
-                GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", myTransform->GetPositionPtr());
-                GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", myTransform->GetRotationPtr());
-                GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", myTransform->GetScalePtr());
-            }
+        gameObject->transform->AddFunctionToRunOnDirtyUpdate([&]() {
+            if (Camera::main != this)
+                return;
+
+            GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", gameObject->transform->GetPositionPtr());
+            GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", gameObject->transform->GetRotationPtr());
+            GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", gameObject->transform->GetScalePtr());
             });
     }
 
@@ -42,6 +39,6 @@ namespace Eclipse
     {
         float size = TemporarySettingsSingleton::Get().resolutionRatioGameView;
 
-        DebugDrawer::DrawSquare(myTransform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), Math::Vector2f(0.5f * size, 0.5f));
+        DebugDrawer::DrawSquare(gameObject->transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), Math::Vector2f(0.5f * size, 0.5f), Math::Color(0.9f, 0.9f, 0.9f, 1.f));
     }
 }

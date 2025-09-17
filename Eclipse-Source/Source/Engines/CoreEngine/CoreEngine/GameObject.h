@@ -3,6 +3,8 @@
 #include <string>
 #include "ECS/ComponentManager.h"
 
+#include "Math/Vector/Vector4.h"
+
 namespace Eclipse
 {
 	typedef unsigned GameObjectID;
@@ -22,6 +24,8 @@ namespace Eclipse
 		template<typename T>
 		T* GetComponent();
 
+		const Math::Vector4f& GetPixelPickingIDColor() { return myPixelPickColor; }
+
 	public:
 		void SetName(const std::string& aName);
 		const std::string& GetName() const;
@@ -35,6 +39,8 @@ namespace Eclipse
 	private:
 		GameObjectID myID;
 		std::string myName = "Gameobject";
+
+		Math::Vector4f myPixelPickColor;
 	};
 
 	template<typename T>

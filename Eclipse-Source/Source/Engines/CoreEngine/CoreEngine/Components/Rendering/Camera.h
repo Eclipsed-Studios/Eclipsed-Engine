@@ -18,8 +18,5 @@ namespace Eclipse
         void Render() override;
 
         static inline class Camera* main;
-
-    private:
-        class Transform2D* myTransform;
     };
 }

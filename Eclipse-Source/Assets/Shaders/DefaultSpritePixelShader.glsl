@@ -10,6 +10,9 @@ struct Material
 // Uniforms
 uniform Material material;
 
+uniform int notOverrideColor;
+uniform vec4 pixelPickColor;
+
 // Ins
 in vec2 outTexCoord;
 
@@ -26,5 +29,11 @@ void main()
    vec4 textureAlbedo = texture(material.albedo, modifiedUV);
    vec4 colorAlbedo = textureAlbedo * material.color;
 
-   frag_colour = colorAlbedo;
+   float Override = float(notOverrideColor);
+   float notOverride = float(!bool(notOverrideColor));
+
+   vec4 colorOverride = colorAlbedo * Override;
+   colorOverride += pixelPickColor * notOverride;
+
+   frag_colour = vec4(colorOverride.r, colorOverride.g, colorOverride.b, textureAlbedo.a);
 }

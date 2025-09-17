@@ -7,7 +7,7 @@
 
 namespace Eclipse
 {
-    void Transform2D::Awake()
+    void Transform2D::OnComponentAdded()
     {
         gameObject->transform = this;
     }

@@ -152,6 +152,9 @@ namespace Eclipse
         glfwPollEvents();
 
         DebugDrawer::Get().Begin();
+
+        GraphicsEngine::BindFrameBuffer(0);
+        GraphicsEngine::ClearCurrentSceneBuffer(0.3f, 0.3f, 0.3f, 1);
     }
 
     void GraphicsEngine::SetGlobalUniforms(unsigned aShaderProgram)
@@ -161,9 +164,6 @@ namespace Eclipse
 
     void GraphicsEngine::Render()
     {
-        		GraphicsEngine::BindFrameBuffer(0);
-		GraphicsEngine::ClearCurrentSceneBuffer();
-
         DebugDrawer::Get().Render();
     }
     void GraphicsEngine::EndFrame()
@@ -278,10 +278,10 @@ namespace Eclipse
         glBindFramebuffer(GL_FRAMEBUFFER, aFrameBuffer);
     }
 
-    void GraphicsEngine::ClearCurrentSceneBuffer(float aClearColorR, float aClearColorG, float aClearColorB)
+    void GraphicsEngine::ClearCurrentSceneBuffer(float aClearColorR, float aClearColorG, float aClearColorB, float aClearColorA)
     {
-        glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(aClearColorR, aClearColorG, aClearColorB, 1.f);
+        glClearColor(aClearColorR, aClearColorG, aClearColorB, aClearColorA);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void GraphicsEngine::RegisterListenToResolutionChange(const std::function<void()>& aLambda)
@@ -306,6 +306,19 @@ namespace Eclipse
     void GraphicsEngine::ResetCursor()
     {
         glfwSetCursor(myWindow, nullptr);
+    }
+
+    Math::Vector4ui GraphicsEngine::ReadPixel(const Math::Vector2ui& aPos)
+    {
+        glFlush();
+        glFinish();
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+        unsigned char data[4];
+        glReadPixels(aPos.x, aPos.y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+        return Math::Vector4ui(data[0], data[1], data[2], data[3]);
     }
 }
 

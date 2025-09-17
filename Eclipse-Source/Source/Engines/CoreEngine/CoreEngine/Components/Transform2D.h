@@ -16,7 +16,8 @@ namespace Eclipse
 		BASE_SELECTION(Transform2D, UINT_MAX)
 
 	public:
-		void Awake() override;
+
+		void OnComponentAdded() override;
 
 		void EditorUpdate() override;
 
@@ -42,7 +43,7 @@ namespace Eclipse
 	protected:
 		void DrawInspector() override;
 
-    private:
+	private:
 		SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, position, Math::Vector2f(0, 0));
 		SERIALIZED_FIELD_DEFAULT(float, rotation, 0);
 		SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1));

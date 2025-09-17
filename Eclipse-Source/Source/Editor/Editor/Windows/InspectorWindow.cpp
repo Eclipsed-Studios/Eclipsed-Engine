@@ -30,7 +30,11 @@ namespace Eclipse::Editor
 	void InspectorWindow::DrawGameObjectInspector()
 	{
 		const unsigned& id = HierarchyWindow::CurrentGameObjectID;
-		if (id == 0 || !ComponentManager::HasGameObject(id)) return;
+		if (id == 0 || !ComponentManager::HasGameObject(id))
+			return;
+
+		// Transform2D* idTransform = ComponentManager::GetComponent<Transform2D>(id);
+		// DebugDrawer::DrawSquare(idTransform->GetPosition(), idTransform->GetScale() * 0.5f, {1, 0.6f, 0.f, 1.f});
 
 		auto& compList = ComponentManager::myEntityIDToVectorOfComponentIDs[id];
 		auto& gameObject = ComponentManager::myEntityIdToEntity[id];

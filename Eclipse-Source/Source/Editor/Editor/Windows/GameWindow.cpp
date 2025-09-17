@@ -49,17 +49,17 @@ namespace Eclipse::Editor
         if (!Camera::main)
         {
             ImVec2 size = ImGui::CalcTextSize("No Camera Rendering");
-            ImGui::SetCursorPos({windowSize.x * 0.5f - size.x * 0.5f, windowSize.y * 0.5f - size.y * 0.5f + 43 * 0.5f});
+            ImGui::SetCursorPos({ windowSize.x * 0.5f - size.x * 0.5f, windowSize.y * 0.5f - size.y * 0.5f + 43 * 0.5f });
             ImGui::Text("No Camera Rendering");
             return;
         }
-        
+
 
         // These clear colors are not working like they should and get mixed up so the first is the empty background and second is the actual
         GraphicsEngine::BindFrameBuffer(myGameFrameBuffer);
         GraphicsEngine::ClearCurrentSceneBuffer();
 
-        
+
         TemporarySettingsSingleton::Get().resolutionRatioGameView = windowSize.x / windowSize.y;
 
 
@@ -68,13 +68,13 @@ namespace Eclipse::Editor
             //     windowSize.x = windowSize.y * 1.777777f;
             // }
 
-            
-            glViewport(0, 0, windowSize.x, windowSize.y);
-            
-            float aspectRatio = windowSize.y / windowSize.x;
-            GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
-            
-            CommandList::Execute();
+
+        glViewport(0, 0, windowSize.x, windowSize.y);
+
+        float aspectRatio = windowSize.y / windowSize.x;
+        GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
+
+        CommandList::Execute();
 
         if (windowSize.x != myLastWindowResolution.x || windowSize.y != myLastWindowResolution.y)
         {
@@ -91,10 +91,9 @@ namespace Eclipse::Editor
         myLastWindowResolution = { static_cast<int>(windowSize.x), static_cast<int>(windowSize.y) };
 
         ImGui::SetCursorPos(ImVec2(0, 43));
-        ImGui::Image(myGameTexture, ImVec2(windowSize.x, windowSize.y - 43), ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::Image(myGameTexture, ImVec2(windowSize.x, windowSize.y - 64), ImVec2(0, 1), ImVec2(1, 0));
 
         GraphicsEngine::BindFrameBuffer(0);
-        GraphicsEngine::ClearCurrentSceneBuffer();
     }
 
     void GameWindow::Open()

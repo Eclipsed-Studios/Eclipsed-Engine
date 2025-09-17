@@ -68,7 +68,8 @@ namespace Eclipse
 	{
 		myTexturePath = aPath;
 
-		if (myMaterial != nullptr) myMaterial->SetTexture(myTexturePath->c_str());
+		if (myMaterial != nullptr)
+			myMaterial->SetTexture(myTexturePath->c_str());
 	}
 
 	void SpriteRenderer2D::Awake()
@@ -78,6 +79,8 @@ namespace Eclipse
 
 		myMaterial = new Material();
 		myMaterial->SetTexture(myTexturePath->c_str());
+
+		//myTexturePath = myTexturePath->c_str();
 
 		//Transform2D& localTransform = *gameObject->transform;
 		//Math::Vector2f textureSizeNormalized = myMaterial->myTexture->GetTextureSizeNormilized();
@@ -99,6 +102,12 @@ namespace Eclipse
 
 	void SpriteRenderer2D::Draw()
 	{
+		if (!myMaterial)
+			return;
+		if (!mySprite)
+			return;
+
+
 		Math::Vector2f position = gameObject->transform->GetPosition();
 		float rotation = gameObject->transform->GetRotation();
 		Math::Vector2f scale = gameObject->transform->GetScale();
@@ -106,6 +115,7 @@ namespace Eclipse
 		unsigned shaderID = myMaterial->myShader->GetProgramID();
 
 		myMaterial->Use();
+
 		GLint positionIndex = glGetUniformLocation(shaderID, "transform.position");
 		glUniform2f(positionIndex, position.x, position.y);
 		GLint rotationIndex = glGetUniformLocation(shaderID, "transform.rotation");
@@ -120,6 +130,11 @@ namespace Eclipse
 
 		GLint mirrored = glGetUniformLocation(shaderID, "mirrored");
 		glUniform2f(mirrored, mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f);
+
+		Math::Vector4f pixelPickColor = gameObject->GetPixelPickingIDColor();
+
+		GLint pixelPickingIndex = glGetUniformLocation(shaderID, "pixelPickColor");
+		glUniform4f(pixelPickingIndex, pixelPickColor.x, pixelPickColor.y, pixelPickColor.z, pixelPickColor.w);
 
 		GraphicsEngine::SetGlobalUniforms(shaderID);
 

@@ -43,11 +43,14 @@ namespace Eclipse
 		static void ClearCurrentSceneBuffer(
 			float aClearColorR = myClearColor.r,
 			float aClearColorG = myClearColor.g,
-			float aClearColorB = myClearColor.b);
+			float aClearColorB = myClearColor.b,
+			float aClearColorA = 1.f);
 
 		static void RegisterListenToResolutionChange(const std::function<void()>& aLambda);
 
 		static Math::Vector2i GetWindowPosition();
+
+		static Math::Vector4ui ReadPixel(const Math::Vector2ui& aPos);
 
 	private:
 		static inline GLFWwindow* myWindow;
