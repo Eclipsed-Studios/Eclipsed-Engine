@@ -11,7 +11,7 @@ namespace Eclipse
 
 		myDocument.SetObject();
 
-		std::ifstream ifs(ASSET_PATH "meta_data");
+		std::ifstream ifs(ASSET_PATH "meta_data.meta");
 		if (!ifs.is_open()) {
 			return;
 		}

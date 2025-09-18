@@ -69,15 +69,12 @@ namespace Eclipse::Editor
 			}
 		}
 
-
-		ImGui::PopStyleColor(3);
+		ImGui::Separator();
 
 
 		float width = customWidth + ImGui::GetWindowPos().x - scrollBarWidth * 2;
 		float buttonSize = 100.0f * myButtonSizeMultiplier;
 		float padding = ImGui::GetStyle().ItemSpacing.x;
-
-
 
 		for (const directory_entry& entry : directory_iterator(myCurrentPath))
 		{
@@ -89,9 +86,15 @@ namespace Eclipse::Editor
 			ImGui::PushID(Random::GetValue<int>());
 
 			ImVec2 buttonSizeVec(buttonSize, buttonSize);
-			if (ImGui::Button("##dirButton", buttonSizeVec))
+			if (ImGui::Button((std::string("##dirButton") + entry.path().string()).c_str(), buttonSizeVec))
 			{
 				LOG_ERROR("Not implemented: Must make assets selectable.");
+			}
+
+			ImColor col(200, 200, 200, 255);
+			if (!Active_FilePath.empty() && std::filesystem::equivalent(Active_FilePath, entry))
+			{
+				col = ImColor(150, 150, 255, 255);
 			}
 
 			ImVec2 min = ImGui::GetItemRectMin();
@@ -104,7 +107,7 @@ namespace Eclipse::Editor
 				Editor::EditorContext::fontExtraLarge,
 				0.0f,
 				ImVec2(center.x - iconSize.x * 0.5f, min.y + 6),
-				IM_COL32(255, 255, 255, 255),
+				col,
 				icon
 			);
 			ImGui::PopFont();
@@ -132,6 +135,17 @@ namespace Eclipse::Editor
 
 			ImGui::PopID();
 
+			if(ImGui::IsItemClicked(ImGuiMouseButton_Left))
+			{
+				Active_FilePath = entry.path();
+			}
+			else if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+			{
+				Active_FilePath = entry.path();
+				ImGui::OpenPopup("AssetContextMenu");
+			}
+			
+
 
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 			{
@@ -142,6 +156,7 @@ namespace Eclipse::Editor
 				else
 				{
 					Active_FilePath = entry.path();
+					OpenFile(info);
 				}
 			}
 
@@ -153,7 +168,39 @@ namespace Eclipse::Editor
 				ImGui::SameLine();
 			}
 		}
+		ImGui::PopStyleColor(3);
+
+		if (ImGui::BeginPopup("AssetContextMenu"))
+		{
+			if (ImGui::MenuItem("Open in file explorer"))
+			{
+				auto path = Active_FilePath.make_preferred().string();
+				std::string cmd;
+
+				if (std::filesystem::is_directory(Active_FilePath))
+					cmd = "explorer \"" + path + "\"";
+				else
+					cmd = "explorer /select,\"" + path + "\"";
+
+				system(cmd.c_str());
+			}
+
+			ImGui::EndPopup();
+		}
 
 		ImGui::EndChild();
+	}
+
+	void AssetWindow::OpenFile(const FileInfo& fifo)
+	{
+		switch (fifo.type)
+		{
+		case FileInfo::FileType_Scene: // Open it.
+			break;
+
+		default:
+			system(fifo.filePath.string().c_str());
+			break;
+		}
 	}
 }

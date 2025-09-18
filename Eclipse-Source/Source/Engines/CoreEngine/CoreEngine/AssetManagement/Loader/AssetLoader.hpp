@@ -23,6 +23,9 @@ namespace Eclipse
 		template <typename T>
 		void LoadAll(std::vector<T>& outResources) { __noop; }
 
+		template<typename T>
+		void Unload() {};
+
 		template <typename T>
 		bool IsExtensionSupported(const char* anExtension);
 

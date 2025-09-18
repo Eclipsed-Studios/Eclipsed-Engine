@@ -1,6 +1,5 @@
 #include "Resources.h"
 
-#include "Font-Awesome/7/IconsFontAwesome7.h"
 
 namespace Eclipse
 {
@@ -61,29 +60,5 @@ namespace Eclipse
 		}
 
 		return info;
-	}
-
-	const char* FileInfo::GetIcon() const
-	{
-		static std::unordered_map<FileInfo::FileType_, const char*> fileTypeToIcon =
-		{
-			{FileInfo::FileType_Audio, ICON_FA_FILE_AUDIO},
-			{FileInfo::FileType_Shader, ICON_FA_QUESTION},
-			{FileInfo::FileType_Texture, ICON_FA_IMAGE},
-			{FileInfo::FileType_Scene, ICON_FA_EARTH_EUROPE},
-			{FileInfo::FileType_Font, ICON_FA_FONT},
-			{FileInfo::FileType_SpriteAnimation, ICON_FA_PERSON_RUNNING},
-			{FileInfo::FileType_Directory, ICON_FA_FOLDER},
-			{FileInfo::FileType_Json, ICON_FA_FILE_EXCEL },
-			{FileInfo::FileType_Zip, ICON_FA_FILE_ZIPPER},
-		};
-
-		const auto& it = fileTypeToIcon.find(type);
-		if (it != fileTypeToIcon.end())
-		{
-			return it->second;
-		}
-
-		return ICON_FA_TRIANGLE_EXCLAMATION;
 	}
 }

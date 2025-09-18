@@ -4,6 +4,9 @@
 
 #include <filesystem>
 
+#include "AssetManagement/Resources.h"
+
+
 namespace Eclipse::Editor
 {
 	class AssetWindow final : public AbstractWindow
@@ -13,6 +16,9 @@ namespace Eclipse::Editor
 	public:
 		void Open() override;
 		void Update() override;
+
+		void OpenFile(const FileInfo& fifo);
+		void OpenContextMenu(const FileInfo& fifo);
 
 	public:
 		float myButtonSizeMultiplier = 1.f;

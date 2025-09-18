@@ -7,6 +7,7 @@ namespace Eclipse
 	class IResourceList
 	{
 	public:
+		virtual void Remove(const size_t& aId) = 0;
 	};
 
 	template<typename T>
@@ -14,7 +15,10 @@ namespace Eclipse
 	{
 	public:
 		T* Get(const size_t& aId);
+
 		T* Add(const size_t& aId);
+		void Remove(const size_t& aId) override;
+
 		bool Exists(const size_t& aId);
 
 	private:
