@@ -144,7 +144,7 @@ namespace Eclipse
 		GameObject* obj = new GameObject(aId);
 		myEntityIdToEntity[aId] = obj;
 
-		if (myNextGameobjectID < aId) myNextGameobjectID = aId + 1;
+		if (myNextGameobjectID <= aId) myNextGameobjectID = aId + 1;
 		return obj;
 	}
 
