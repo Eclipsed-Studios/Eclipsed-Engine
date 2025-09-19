@@ -7,6 +7,7 @@
 #include <typeindex>
 
 #include <unordered_map>
+#include <filesystem>
 #include "FileInfo.h"
 
 namespace Eclipse
@@ -21,7 +22,6 @@ namespace Eclipse
 		static T* GetPointer(const size_t& aId);
 
 		static FileInfo GetFileInfo(const std::filesystem::path& aPath);
-
 
 		static void Update();
 

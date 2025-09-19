@@ -5,6 +5,7 @@
 #include <typeindex>
 #include <stdexcept>
 
+#include "AssetManagement/Resources.h"
 
 
 #include <AssetManagement/Resources/Texture.h>
@@ -14,6 +15,7 @@
 
 namespace Eclipse
 {
+	class Resources;
 	class AssetLoader
 	{
 	public:

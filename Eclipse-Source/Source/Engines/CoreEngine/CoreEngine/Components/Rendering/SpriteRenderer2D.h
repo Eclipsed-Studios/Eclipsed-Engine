@@ -27,8 +27,6 @@ namespace Eclipse
         ResourcePointer<Texture> myTexture;
 
         Math::Color color;
-
-        void BindTexture();
     };
 
     class Sprite;
@@ -55,6 +53,8 @@ namespace Eclipse
         void SetXMirror(bool aMirror) { mirroredX = aMirror; }
         void SetYMirror(bool aMirror) { mirroredY = aMirror; }
 
+        void DrawInspector() override;
+
 
     private:
         Sprite* mySprite;
@@ -65,6 +65,8 @@ namespace Eclipse
 
         bool mirroredX = false;
         bool mirroredY = false;
+
+        bool hasTexture = false;
 
     private:
         SERIALIZED_FIELD_DEFAULT(std::string, myTexturePath, "");

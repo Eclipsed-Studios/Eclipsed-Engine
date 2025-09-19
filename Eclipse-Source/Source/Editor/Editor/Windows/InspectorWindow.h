@@ -22,6 +22,9 @@ namespace Eclipse::Editor
 		void DrawGameObjectInspector();
 		void DrawAssetInspector();
 
+		template<typename T>
+		void DrawComponentInspector() {}
+
 	public:
 		static inline unsigned CurrentGameObjectID;
 

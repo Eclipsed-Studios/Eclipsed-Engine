@@ -15,9 +15,17 @@ namespace Eclipse
 	inline void AssetLoader::LoadFromPath(const char* aPath, SpriteSheetAnimation& outResource)
 	{
 		using namespace rapidjson;
+		std::filesystem::path resolvedPath = aPath;
+		if (resolvedPath.is_relative())
+		{
+			resolvedPath = std::filesystem::current_path().parent_path().generic_string() + "/" + resolvedPath.string();
+		}
+		else if (resolvedPath.is_absolute())
+		{
+			resolvedPath = aPath;
+		}
 
-		std::string folder = std::filesystem::current_path().parent_path().string();
-		std::ifstream ifs((folder + std::string( aPath)).c_str());
+		std::ifstream ifs(resolvedPath.string().c_str());
 		if (!ifs.is_open())
 		{
 			throw std::runtime_error("No file.");

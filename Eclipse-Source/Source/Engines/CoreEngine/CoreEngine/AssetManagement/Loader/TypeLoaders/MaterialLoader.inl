@@ -5,14 +5,22 @@
 
 #include <glad/glad.h>
 
-
 namespace Eclipse
 {
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, Texture& outResource)
 	{
-		std::string folder = std::filesystem::current_path().parent_path().string();
-		outResource = Texture((folder + std::string(aPath)).c_str());
+		std::filesystem::path resolvedPath = aPath;
+		if (resolvedPath.is_relative())
+		{
+			resolvedPath = std::filesystem::current_path().parent_path().generic_string() + "/" + resolvedPath.string();
+		}
+		else if (resolvedPath.is_absolute())
+		{
+			resolvedPath = aPath;
+		}
+
+		outResource = Texture(resolvedPath.string().c_str());
 
 		unsigned char* data = ResourceLoaderHelper::Load_Texture_STB(aPath, outResource);
 

@@ -5,17 +5,24 @@
 
 #include <glad/glad.h>
 
-
 namespace Eclipse
 {
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, Texture& outResource)
 	{
-		ASSET_PATH;
-		std::string fullpath = std::filesystem::current_path().parent_path().generic_string() + "/" + std::string(aPath);
-		outResource = Texture(aPath);
+		std::filesystem::path resolvedPath = aPath;
+		if (resolvedPath.is_relative())
+		{
+			resolvedPath = std::filesystem::current_path().parent_path().generic_string() + "/" + resolvedPath.string();
+		}
+		else if (resolvedPath.is_absolute())
+		{
+			resolvedPath = aPath;
+		}
 
-		unsigned char* data = ResourceLoaderHelper::Load_Texture_STB(fullpath.c_str(), outResource);
+		outResource = Texture(resolvedPath.string().c_str());
+
+		unsigned char* data = ResourceLoaderHelper::Load_Texture_STB(resolvedPath.string().c_str(), outResource);
 
 		glGenTextures(1, &outResource.textureID);
 		glBindTexture(GL_TEXTURE_2D, outResource.textureID);
@@ -34,7 +41,7 @@ namespace Eclipse
 
 		ResourceLoaderHelper::FreeData_STB(data);
 
-		outResource.spriteDimDivOne = {1.0f / static_cast<float>(outResource.width), 1.0f / static_cast<float>(outResource.height)};
+		outResource.spriteDimDivOne = { 1.0f / static_cast<float>(outResource.width), 1.0f / static_cast<float>(outResource.height) };
 		outResource.dimDivOne = 1.f / (static_cast<float>(outResource.height) / static_cast<float>(outResource.width));
 
 		glBindTexture(GL_TEXTURE_2D, 0);

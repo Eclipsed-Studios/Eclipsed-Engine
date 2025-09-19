@@ -91,13 +91,9 @@ namespace Eclipse::Editor
 			FileInfo info = Resources::GetFileInfo(entry);
 			const char* icon = info.GetIcon();
 
-			ImGui::PushID(Random::GetValue<int>());
+			ImGui::PushID((std::string("##") + entry.path().string()).c_str());
 
 			ImVec2 buttonSizeVec(buttonSize, buttonSize);
-			if (ImGui::Button((std::string("##dirButton") + entry.path().string()).c_str(), buttonSizeVec))
-			{
-				LOG_ERROR("Not implemented: Must make assets selectable.");
-			}
 
 			ImColor col(200, 200, 200, 255);
 			if (!Active_FilePath.empty() && std::filesystem::equivalent(Active_FilePath, entry))
@@ -109,16 +105,30 @@ namespace Eclipse::Editor
 			ImVec2 max = ImGui::GetItemRectMax();
 			ImVec2 center = ImVec2((min.x + max.x) * 0.5f, (min.y + max.y) * 0.5f);
 
-			ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
-			ImVec2 iconSize = ImGui::CalcTextSize(icon);
-			ImGui::GetWindowDrawList()->AddText(
-				Editor::EditorContext::fontExtraLarge,
-				0.0f,
-				ImVec2(center.x - iconSize.x * 0.5f, min.y + 6),
-				col,
-				icon
-			);
-			ImGui::PopFont();
+			//if (info.type == FileInfo::FileType_Texture)
+			//{
+			//	ResourcePointer<Texture> tex = Resources::Get<Texture>(entry.path().string().c_str());
+			//	auto id = tex->GetTextureID();
+			//	ImGui::Image((ImTextureID)(intptr_t)id, ImVec2(90, 90));
+			//}
+			//else
+			{
+				ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
+				//ImVec2 iconSize = ImGui::CalcTextSize(icon);
+				//ImGui::GetWindowDrawList()->AddText(
+				//	Editor::EditorContext::fontExtraLarge,
+				//	0.0f,
+				//	ImVec2(center.x - iconSize.x * 0.5f, min.y + 6),
+				//	col,
+				//	icon
+				//);
+				ImGui::PushStyleColor(ImGuiCol_Text, col.Value);
+				ImGui::Button(icon, buttonSizeVec);
+				ImGui::PopStyleColor();
+				ImGui::PopFont();
+			}
+
+			DragAndDrop::BeginSource(entry.path().string().c_str(), entry.path().string().size(), info);
 
 			std::string label = entry.path().filename().string();
 			const float maxSize = buttonSize - 86.f;
@@ -140,6 +150,8 @@ namespace Eclipse::Editor
 			);
 
 			ImGui::PopFont();
+
+
 
 			ImGui::PopID();
 

@@ -45,7 +45,7 @@
         {
             "owner": 2,
             "id": 9,
-            "myTexturePath": "Assets/Sprites/Environment/013.png"
+            "myTexturePath": "F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Assets/Sprites\\noah1.png"
         },
         {
             "owner": 3,
@@ -58,12 +58,6 @@
             "myTexturePath": "Assets/Sprites/Environment/013.png"
         }
     ],
-    "Camera": [
-        {
-            "owner": 5,
-            "id": 18
-        }
-    ],
     "RigidBody2D": [
         {
             "owner": 1,
@@ -73,20 +67,10 @@
             "LockYPos": "AA=="
         }
     ],
-    "CircleCollider2D": [
-        {
-            "owner": 1,
-            "id": 3,
-            "myLayer": "AgAAAA==",
-            "myRadius": "zMzMPQ==",
-            "myRealRadius": "AACAPw=="
-        }
-    ],
-    "PlayerCamera": [
+    "Camera": [
         {
             "owner": 5,
-            "id": 19,
-            "myPlayerGO": "AQAAAA=="
+            "id": 18
         }
     ],
     "PolygonCollider2D": [
@@ -98,6 +82,32 @@
                 "size": 6,
                 "data": "zczMvc3MzL3NzMy9CtejvArXoz3NzMw9zczMPc3MzD3NzMw9DdejPJDCdb3NzMy9"
             }
+        }
+    ],
+    "PlayerCamera": [
+        {
+            "owner": 5,
+            "id": 19,
+            "myPlayerGO": "AQAAAA=="
+        }
+    ],
+    "CircleCollider2D": [
+        {
+            "owner": 1,
+            "id": 3,
+            "myLayer": "AgAAAA==",
+            "myRadius": "zMzMPQ==",
+            "myRealRadius": "AACAPw=="
+        }
+    ],
+    "AudioSource": [
+        {
+            "owner": 1,
+            "id": 34,
+            "myVolume": "AACAPw==",
+            "myPlayOnStart": "AA==",
+            "myIsLooping": "AA==",
+            "myAudioPath": ""
         }
     ],
     "BoxCollider2D": [
