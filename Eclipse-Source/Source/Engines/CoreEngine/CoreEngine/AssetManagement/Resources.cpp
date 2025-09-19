@@ -19,6 +19,10 @@ namespace Eclipse
 			{".glsl", FileInfo::FileType_Shader}, 
 
 			{".scene", FileInfo::FileType_Scene},
+
+			{".wav", FileInfo::FileType_Audio},
+			{".mp3", FileInfo::FileType_Audio},
+
 			{".zip", FileInfo::FileType_Zip},
 
 			{".json", FileInfo::FileType_Json},
