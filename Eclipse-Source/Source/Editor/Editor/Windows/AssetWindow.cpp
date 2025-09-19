@@ -9,6 +9,14 @@
 
 namespace Eclipse::Editor
 {
+	void print_file_id(const char* path) {
+		struct stat s;
+		if (stat(path, &s) == 0) {
+			LOG(std::to_string((unsigned long)s.st_dev));
+			LOG(std::to_string((unsigned long)s.st_ino));
+		}
+	}
+
 	void AssetWindow::Open()
 	{
 		//flags = ImGuiWindowFlags_MenuBar;
@@ -138,6 +146,7 @@ namespace Eclipse::Editor
 			if(ImGui::IsItemClicked(ImGuiMouseButton_Left))
 			{
 				Active_FilePath = entry.path();
+				print_file_id(Active_FilePath.string().c_str());
 			}
 			else if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{

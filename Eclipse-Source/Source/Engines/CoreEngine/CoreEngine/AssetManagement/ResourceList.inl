@@ -16,6 +16,11 @@ namespace Eclipse
 	}
 
 	template<typename T>
+	inline void ResourceList<T>::Remove(const size_t& aId)
+	{
+	}
+
+	template<typename T>
 	inline bool ResourceList<T>::Exists(const size_t& aId)
 	{
 		return myIdToResource.find(aId) != myIdToResource.end();

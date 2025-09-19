@@ -8,7 +8,7 @@
 
 #include "SettingsManager.h"
 
-#include "Files/MetaFileRegistry.h"
+#include "AssetManagement/MetaFileRegistry.h"
 
 #include "defines.h"
 
@@ -25,6 +25,8 @@
 #include <iostream>
 
 #include "Font-Awesome/7/IconsFontAwesome7.h"
+
+#include "AssetManagement/MetaFileRegistry.h"
 
 namespace Eclipse::Editor
 {

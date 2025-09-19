@@ -10,5 +10,11 @@ namespace Eclipse
 	{
 		BASE_RESOURCE(Scene)
 
+	public:
+
+
+	private:
+		std::string sceneName;
+		ComponentManager myComponentManager;
 	};
 }

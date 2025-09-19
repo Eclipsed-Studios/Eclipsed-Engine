@@ -6,7 +6,6 @@
 
 // ------------- Asset includes ------------------
 #include "AssetManagement/Resources.h"
-#include "AssetManagement/Exporter/AssetExporter.hpp"
 
 #include "AssetManagement/Loader/AssetLoader.hpp"
 #include "AssetManagement/Loader/ResourceLoaderHelper.h"
@@ -50,7 +49,7 @@
 
 
 // ------------- File Includes ------------------
-#include "Files/MetaFileRegistry.h"
+#include "AssetManagement/MetaFileRegistry.h"
 
 
 // ------------- Input Includes ------------------
