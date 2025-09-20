@@ -16,8 +16,11 @@ namespace Eclipse
 		glLinkProgram(myProgramID);
 	}
 
-	void Shader::Use()
+	void Shader::Use(unsigned aProgramID)
 	{
-		glUseProgram(myProgramID);
+		if (!aProgramID)
+			aProgramID = myProgramID;
+		
+		glUseProgram(aProgramID);
 	}
 }

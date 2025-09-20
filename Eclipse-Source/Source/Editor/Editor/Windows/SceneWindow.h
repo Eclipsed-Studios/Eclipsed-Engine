@@ -13,16 +13,19 @@ namespace Eclipse::Editor
 
 	public:
 
-		void PixelPickCheck();
+		void SpriteSelecter();
 
 		void ZoomToObject();
 		void ScrollManager();
 		void MouseManager();
+		void SpriteDragging();
+
 
 		void Update() override;
 		void Open() override;
 
-		void InitSceneBuffers();
+		void InitSceneBuffer();
+		void InitSelectedObjectShader();
 
 	private:
 		Math::Vector2f myInspectorPosition = { 0, 0 };
@@ -30,16 +33,21 @@ namespace Eclipse::Editor
 		Math::Vector2f myInspectorScale = { 1, 1 };
 
 	private:
-		Math::Vector2i myLastWindowResolution = { 0, 0 };
+		Math::Vector2f myWindowSize;
+		Math::Vector2f myLastWindowResolution = { 0, 0 };
 		Math::Vector2f normalizedMousePosition = { 0, 0 };
 		Math::Vector2ui windowRelativeMousePosition = { 0, 0 };
+
+	private:
+		SpriteRenderer2D* mySelectedObject = nullptr;
+		unsigned mySelectedSpriteHighlightProgram;
 
 	private:
 		float totalYScroll = 0;
 		float lastScroll = 0;
 		bool mouseIsDown = false;
 
-		
+
 		bool draggingSprite = false;
 
 	private:

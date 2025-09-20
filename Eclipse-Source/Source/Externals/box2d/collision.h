@@ -199,7 +199,7 @@ B2_API b2Polygon b2MakeSquare( float halfWidth );
 /// Make a box (rectangle) polygon, bypassing the need for a convex hull.
 /// @param halfWidth the half-width (x-axis)
 /// @param halfHeight the half-height (y-axis)
-B2_API b2Polygon b2MakeBox( float halfWidth, float halfHeight );
+B2_API b2Polygon b2MakeBox( float halfWidth, float halfHeight);
 
 /// Make a rounded box, bypassing the need for a convex hull.
 /// @param halfWidth the half-width (x-axis)

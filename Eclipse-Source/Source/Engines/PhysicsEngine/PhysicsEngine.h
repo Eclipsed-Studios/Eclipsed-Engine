@@ -59,12 +59,12 @@ namespace Eclipse
         static void SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation);
 
         // Update Simple collisions
-        static void SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale);
-        static void SetTransformCircle(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius);
-        static void SetTransformCapsule(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight);
+        static void SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = {0.f, 0.f});
+        static void SetTransformCircle(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, const Math::Vector2f& aPivot = {0.f, 0.f});
+        static void SetTransformCapsule(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot = {0.f, 0.f});
         
         // Update Complex collisions
-        static void SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale);
+        static void SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = {0.f, 0.f});
 
         static void SetGravity(const Math::Vector2f& aGravity);
 

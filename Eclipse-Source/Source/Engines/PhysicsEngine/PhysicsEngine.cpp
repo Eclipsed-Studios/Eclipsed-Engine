@@ -178,7 +178,7 @@ namespace Eclipse
         b2Body_SetTransform(aBodyID, b2Vec2(aPosition.x, aPosition.y), rot);
     }
 
-    void PhysicsEngine::SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale)
+    void PhysicsEngine::SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale, const Math::Vector2f& aPivot)
     {
         SetTransform(aBodyID, aPosition, aRotation);
 
@@ -192,12 +192,16 @@ namespace Eclipse
 
         if (absX > 0 && absY > 0)
         {
-            b2Polygon polygon = b2MakeBox(absX, absY);
+            b2Rot rot;
+            rot.c = cosf(0);
+            rot.s = sinf(0);
+
+            b2Polygon polygon = b2MakeOffsetBox(absX, absY, { aPivot.x, aPivot.y }, rot);
             b2Shape_SetPolygon(shapeArray, &polygon);
         }
     }
 
-    void PhysicsEngine::SetTransformCircle(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius)
+    void PhysicsEngine::SetTransformCircle(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, const Math::Vector2f& aPivot)
     {
         SetTransform(aBodyID, aPosition, aRotation);
 
@@ -210,12 +214,12 @@ namespace Eclipse
 
         if (absRadius > 0)
         {
-            b2Circle circle({ 0, 0 }, absRadius);
+            b2Circle circle({ aPivot.x, aPivot.y }, absRadius);
             b2Shape_SetCircle(shapeArray, &circle);
         }
     }
 
-    void PhysicsEngine::SetTransformCapsule(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight)
+    void PhysicsEngine::SetTransformCapsule(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot)
     {
         SetTransform(aBodyID, aPosition, aRotation);
 
@@ -229,17 +233,12 @@ namespace Eclipse
 
         if (absHalfHeight > 0)
         {
-            b2Capsule circle({ 0, -absHalfHeight * 0.5f }, { 0, absHalfHeight * 0.5f }, absRadius);
-            b2Shape_SetCapsule(shapeArray, &circle);
+            b2Capsule capsule({ aPivot.x, -absHalfHeight * 0.5f + aPivot.y }, { aPivot.x, absHalfHeight * 0.5f + aPivot.y }, absRadius);
+            b2Shape_SetCapsule(shapeArray, &capsule);
         }
     }
 
-    void PhysicsEngine::SetGravity(const Math::Vector2f& aGravity)
-    {
-
-    }
-
-    void PhysicsEngine::SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale)
+    void PhysicsEngine::SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot)
     {
         SetTransform(aBodyID, aPosition, aRotation);
 
@@ -267,6 +266,11 @@ namespace Eclipse
 
             b2Shape_SetPolygon(shapeArray, &polygon);
         }
+    }
+
+    void PhysicsEngine::SetGravity(const Math::Vector2f& aGravity)
+    {
+
     }
 
     bool CustomFilterFunction(b2ShapeId shapeIdA, b2ShapeId shapeIdB, void* context)

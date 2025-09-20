@@ -3,7 +3,7 @@
 
 #define MAKE_ENUM(name, value) name = value,
 #define MAKE_STRING(name, value) { e::name, #name },
-#define MAKE_LIST(value) value,
+#define MAKE_LIST(value, name) value,
 
 class SerializedEnum {};
 

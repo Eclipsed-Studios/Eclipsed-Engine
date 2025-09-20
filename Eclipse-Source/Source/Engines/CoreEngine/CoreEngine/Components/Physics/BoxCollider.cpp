@@ -24,18 +24,38 @@ namespace Eclipse
         else
             myBodyRef = rigidBody->myBody;
 
+        SetScale(HalfExtents);
+
         PhysicsEngine::CreateBoxCollider(&myInternalCollider, myBodyRef, myHalfExtents, myLayer);
 
-        myTransform = gameObject->GetComponent<Transform2D>();
         myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
+    }
+
+    void BoxCollider2D::EditorUpdate()
+    {
+        if (myLastHalfExtents.x != HalfExtents->x || myLastHalfExtents.y != HalfExtents->y)
+        {
+            OnTransformDirty();
+        }
+
+        if (myLastColliderPivot.x != ColliderPivot->x || myLastColliderPivot.y != ColliderPivot->y)
+        {
+            OnTransformDirty();
+        }
+    }
+
+    void BoxCollider2D::OnComponentAdded()
+    {
+        myTransform = gameObject->transform;
+        SetScale(HalfExtents);
     }
 
     void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)
     {
-        myScale = aHalfExtents;
+        myLastHalfExtents = HalfExtents;
+        HalfExtents = aHalfExtents;
 
-        Transform2D* transform = gameObject->GetComponent<Transform2D>();
-        Math::Vector2f halfExtent = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
+        Math::Vector2f halfExtent = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
         halfExtent.x *= aHalfExtents.x;
         halfExtent.y *= aHalfExtents.y;
@@ -45,13 +65,14 @@ namespace Eclipse
 
     void BoxCollider2D::OnTransformDirty()
     {
+        myLastHalfExtents = HalfExtents;
         Math::Vector2f halfExtent = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
-        halfExtent.x *= myScale->x;
-        halfExtent.y *= myScale->y;
+        halfExtent.x *= HalfExtents->x;
+        halfExtent.y *= HalfExtents->y;
 
         myHalfExtents = halfExtent;
 
-        PhysicsEngine::SetTransformBox(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myHalfExtents);
+        PhysicsEngine::SetTransformBox(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myHalfExtents, { ColliderPivot->x * halfExtent.x * 2.f, ColliderPivot->y * halfExtent.y * 2.f });
     }
 }

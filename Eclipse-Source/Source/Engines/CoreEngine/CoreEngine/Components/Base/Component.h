@@ -57,6 +57,8 @@ namespace Eclipse
 		virtual unsigned GetUpdatePriority() const = 0;
 
 	public:
+		virtual void OnComponentLoaded() {}
+
 		virtual void OnComponentAdded() {}
 		virtual void OnDestroy() {}
 
@@ -68,6 +70,7 @@ namespace Eclipse
 		virtual void EarlyUpdate() {}
 		virtual void Update() {}
 		virtual void LateUpdate() {}
+
 		virtual void Render() {}
 
 		virtual void OnCollisionEnter() {}

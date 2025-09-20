@@ -4,7 +4,7 @@
 
 
 
-// HOW THE FUCK IS THIS A COMPONENT (Asked in a nice way)
+// HOW THE FUCK IS THIS A COMPONENT (Asked in a nice way) ITS FINE... (HE SAID CALMLY)
 
 
 

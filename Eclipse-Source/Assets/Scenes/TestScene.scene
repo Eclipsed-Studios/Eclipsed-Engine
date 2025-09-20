@@ -1,13 +1,6 @@
 {
     "Transform2D": [
         {
-            "owner": 5,
-            "id": 17,
-            "position": "AAAAAAAAAAA=",
-            "rotation": "AAAAAA==",
-            "scale": "AACAPwAAgD8="
-        },
-        {
             "owner": 1,
             "id": 1,
             "position": "LcQlPdeguj0=",
@@ -16,7 +9,7 @@
         },
         {
             "owner": 5,
-            "id": 40,
+            "id": 17,
             "position": "AAAAAAAAAAA=",
             "rotation": "AAAAAA==",
             "scale": "AACAPwAAgD8="
@@ -26,21 +19,28 @@
             "id": 8,
             "position": "MCqmPxn9lD4=",
             "rotation": "AAAAAA==",
-            "scale": "AADoQTMzS0E="
+            "scale": "AADwQQAA8EE="
+        },
+        {
+            "owner": 5,
+            "id": 40,
+            "position": "AAAAAAAAAAA=",
+            "rotation": "AAAAAA==",
+            "scale": "AACAPwAAgD8="
         },
         {
             "owner": 3,
             "id": 11,
             "position": "BHieP74UdL8=",
             "rotation": "AAAAAA==",
-            "scale": "AAAEQs3MTEE="
+            "scale": "AADwQQAA8EE="
         },
         {
             "owner": 4,
             "id": 14,
-            "position": "nVzoP8J3cr8=",
+            "position": "5HAfQHJLVr8=",
             "rotation": "AAAAAA==",
-            "scale": "zcwEQjMzS0E="
+            "scale": "AADwQQAA8EE="
         }
     ],
     "SpriteRenderer2D": [
@@ -85,6 +85,7 @@
             "owner": 3,
             "id": 13,
             "myLayer": "EAAAAA==",
+            "ColliderPivot": "AAAAAAAAAAA=",
             "myPoints": {
                 "size": 6,
                 "data": "zczMvc3MzL3NzMy9CtejvArXoz3NzMw9zczMPc3MzD3NzMw9DdejPJDCdb3NzMy9"
@@ -103,6 +104,7 @@
             "owner": 1,
             "id": 3,
             "myLayer": "AgAAAA==",
+            "ColliderPivot": "AAAAAAAAAAA=",
             "myRadius": "zMzMPQ==",
             "myRealRadius": "AACAPw=="
         }
@@ -122,15 +124,15 @@
             "owner": 2,
             "id": 10,
             "myLayer": "EAAAAA==",
-            "myHalfExtents": "4XqUPh0W6j0=",
-            "myScale": "AACAP2ZmZj8="
+            "ColliderPivot": "AAAAAAAAAAA=",
+            "HalfExtents": "AACAPwAAgD8="
         },
         {
             "owner": 4,
             "id": 16,
             "myLayer": "EAAAAA==",
-            "myHalfExtents": "5/upPh0W6j0=",
-            "myScale": "AACAP2ZmZj8="
+            "ColliderPivot": "AAAAAHsUjj8=",
+            "HalfExtents": "AACAP83MzD0="
         }
     ],
     "Player": [

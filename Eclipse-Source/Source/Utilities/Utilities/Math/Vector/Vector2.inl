@@ -77,6 +77,9 @@ namespace Eclipse::Math
 	inline Vector2<T> Vector2<T>::Normalized() const
 	{
 		T length = Length();
+
+		if (!length) *this;
+
 		return Vector2(x / length, y / length);
 	}
 

@@ -18,11 +18,14 @@ namespace Eclipse
 
     public:
         SERIALIZED_FIELD(Layer, myLayer);
+        SERIALIZED_FIELD(Math::Vector2f, ColliderPivot);
 
     protected:
         UserData myUserData;
 
         b2ShapeId myInternalCollider;
+
+        Math::Vector2f myLastColliderPivot;
 
         // Internals
         b2BodyId myBodyRef;

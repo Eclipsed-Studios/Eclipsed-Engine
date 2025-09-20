@@ -36,10 +36,12 @@ namespace Eclipse
 		Math::Vector2i GetTextureSize() { return Math::Vector2i{ width, height }; }
 		Math::Vector2i GetTextureSizeEngineUnits() { return Math::Vector2i{ static_cast<int>(static_cast<float>(width) * 0.01f), static_cast<int>(static_cast<float>(height) * 0.01f) }; }
 		
-		Math::Vector2f GetTextureSizeNormilized() { return Math::Vector2f{ static_cast<float>(width), static_cast<float>(height) }.Normalized(); }
+		Math::Vector2f GetTextureSizeNormilized() { return Math::Vector2f{ 
+			1.f, static_cast<float>(height) / width }; 
+		}
 
 	private:
-		int width, height;
+		int width = 1, height = 1;
 		int channels;
 
 		Math::Vector2f spriteDimDivOne;

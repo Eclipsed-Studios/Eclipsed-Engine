@@ -173,6 +173,8 @@ namespace Eclipse
 
 			it++;
 		}
+
+		ComponentManager::AwakeStartComponents();
 	}
 
 	void SceneLoader::LoadComponent(const std::string& componentName, const rapidjson::Value& aValue)
@@ -195,20 +197,21 @@ namespace Eclipse
 			auto& list = Reflection::ReflectionManager::GetList();
 
 			Component* pComp = compMap[id];
-			auto& varList  = list[pComp];
+			auto& varList = list[pComp];
 
 			for (auto* var : varList)
 			{
-				if(pComp->myComponentID == id) LoadType(var, val);
+				if (pComp->myComponentID == id) LoadType(var, val);
 			}
 		}
-
-		ComponentManager::AwakeStartComponents();
 	}
 	void SceneLoader::LoadType(Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, const rapidjson::Value& aValue)
 	{
 		using namespace rapidjson;
 		aSERIALIZED_FIELDiable->ResolveTypeInfo();
+
+		if (!aValue.HasMember(aSERIALIZED_FIELDiable->GetName()))
+			return;
 
 		const Value& val = aValue[aSERIALIZED_FIELDiable->GetName()];
 

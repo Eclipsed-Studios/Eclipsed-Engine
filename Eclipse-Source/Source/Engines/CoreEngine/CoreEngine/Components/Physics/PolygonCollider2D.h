@@ -15,12 +15,15 @@ namespace Eclipse
     public:
         void Awake() override;
 
+        void EditorUpdate() override;
+
         void AddPoint(const Math::Vector2f& aPoint);
         
         void OnTransformDirty();
 
     private:
         SERIALIZED_FIELD(std::vector<Math::Vector2f>, myPoints);
+        std::vector<Math::Vector2f> myLastPoints;
 
         class Transform2D* myTransform;
     };

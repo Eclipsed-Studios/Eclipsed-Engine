@@ -14,11 +14,14 @@ namespace Eclipse
     public:
         void Awake() override;
 
+        void EditorUpdate() override;
+
         void OnTransformDirty();
 
         void SetRadius(float aRadius);
 
     private:
+        float LastRadius;
         SERIALIZED_FIELD(float, myRadius);
 
         SERIALIZED_FIELD(float, myRealRadius);

@@ -45,6 +45,17 @@ namespace Eclipse
         myPoints->emplace_back(scale);
     }
 
+    void PolygonCollider2D::EditorUpdate()
+    {
+        if (myLastPoints.empty() || memcmp(&myPoints->data()->x, &myLastPoints.data()->x, myPoints->size() * sizeof(Math::Vector2f)))
+        {
+            myLastPoints.resize(myPoints->size());
+            memcpy(&myLastPoints.data()->x, &myPoints->data()->x, myPoints->size() * sizeof(Math::Vector2f));
+
+            OnTransformDirty();
+        }
+    }
+    
     void PolygonCollider2D::OnTransformDirty()
     {
         Math::Vector2f scale = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;

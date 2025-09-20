@@ -13,7 +13,7 @@ namespace Eclipse
         ~Shader() = default;
 
         void Create(const char *aPixelShaderPath, const char *aVertexShaderPath);
-        void Use();
+        void Use(unsigned aProgramID);
 
         unsigned GetProgramID() { return myProgramID; }
 

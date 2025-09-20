@@ -5,8 +5,6 @@
 #include <string>
 #include "ECS/ComponentManager.h"
 
-#include "../GraphicsEngine/Sprite.h"
-
 #include "AssetManagement/Resources.h"
 #include "Math/Color.h"
 
@@ -43,7 +41,7 @@ namespace Eclipse
         void Start() override;
 
         void Render() override;
-        void Draw();
+        void Draw(unsigned aProgramID = 0);
 
         void SetTexture(const char* aPath);
         Material* GetMaterial() { return myMaterial; }
@@ -55,13 +53,13 @@ namespace Eclipse
 
         void DrawInspector() override;
 
+        Math::Vector2f spriteRectMin = { 0.f, 0.f };
+        Math::Vector2f spriteRectMax = { 1.f, 1.f };
 
     private:
         Sprite* mySprite;
         Material* myMaterial = nullptr;
 
-        Math::Vector2f spriteRectMin = { 0.f, 0.f };
-        Math::Vector2f spriteRectMax = { 1.f, 1.f };
 
         bool mirroredX = false;
         bool mirroredY = false;

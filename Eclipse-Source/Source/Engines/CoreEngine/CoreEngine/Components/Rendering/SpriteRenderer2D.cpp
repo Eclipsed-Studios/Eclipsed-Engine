@@ -47,8 +47,6 @@ namespace Eclipse
 
 	void Material::Use()
 	{
-		myShader->Use();
-
 		glActiveTexture(GL_TEXTURE0);
 		GraphicsEngine::BindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
 
@@ -118,13 +116,12 @@ namespace Eclipse
 		DebugInformationCollector::UpdateRenderCalls();
 	}
 
-	void SpriteRenderer2D::Draw()
+	void SpriteRenderer2D::Draw(unsigned aProgramID)
 	{
 		if (!myMaterial)
 			return;
 		if (!mySprite)
 			return;
-
 
 		Math::Vector2f position = gameObject->transform->GetPosition();
 		float rotation = gameObject->transform->GetRotation();
@@ -132,6 +129,10 @@ namespace Eclipse
 
 		unsigned shaderID = myMaterial->myShader->GetProgramID();
 
+		if(aProgramID)
+			shaderID = aProgramID;
+
+		myMaterial->myShader->Use(shaderID);
 		myMaterial->Use();
 
 		GLint positionIndex = glGetUniformLocation(shaderID, "transform.position");
@@ -141,10 +142,16 @@ namespace Eclipse
 		GLint scaleIndex = glGetUniformLocation(shaderID, "transform.size");
 		glUniform2f(scaleIndex, scale.x, scale.y);
 
-		Math::Vector2f size = spriteRectMax - spriteRectMin;
 
+		Math::Vector2f size = spriteRectMax - spriteRectMin;
 		GLint spriteRectIndex = glGetUniformLocation(shaderID, "material.spriteRect");
 		glUniform4f(spriteRectIndex, spriteRectMin.x, spriteRectMin.y, size.x, size.y);
+
+		float aspectScale = size.y / size.x;
+		Math::Vector2f scaleMultiplier = myMaterial->myTexture->GetTextureSizeNormilized();
+		GLint spriteScaleMultiplier = glGetUniformLocation(shaderID, "spriteScaleMultiplier");
+		glUniform2f(spriteScaleMultiplier, scaleMultiplier.x, scaleMultiplier.y * aspectScale);
+
 
 		GLint mirrored = glGetUniformLocation(shaderID, "mirrored");
 		glUniform2f(mirrored, mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f);

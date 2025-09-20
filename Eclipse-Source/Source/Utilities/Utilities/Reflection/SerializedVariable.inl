@@ -6,6 +6,8 @@
 
 #include "ImGui/ImGui/imgui.h"
 
+#include "Math/Math.h"
+
 namespace Eclipse::Reflection
 {
 	template<typename T>
@@ -89,7 +91,7 @@ namespace Eclipse::Reflection
 	template<typename T>
 	inline void SerializedVariable<T>::Resize(const size_t& size)
 	{
-		if constexpr(Is_Vector<T>::value) data.resize(size);
+		if constexpr (Is_Vector<T>::value) data.resize(size);
 	}
 
 	template<typename T>
@@ -123,19 +125,47 @@ namespace Eclipse::Reflection
 	{
 		ImGui::Text(GetName());
 		ImGui::SameLine();
-		if constexpr (std::is_same<T, float>::value) ImGui::DragFloat((std::string("##float##") + std::string(GetName())).c_str(), &data, 0.01f);
-		else if constexpr (std::is_same<T, bool>::value) ImGui::Checkbox((std::string("##bools##") + std::string(GetName())).c_str(), &data);
-		else if constexpr (std::is_base_of<SerializedEnum, T>::value) ComboEnum((std::string("##float##") + std::string(GetName())).c_str(), data, 7);
+		if constexpr (std::is_same<T, float>::value) ImGui::DragFloat((std::string("##Float##") + std::string(GetName())).c_str(), &data, 0.01f);
+		else if constexpr (std::is_same<T, bool>::value) ImGui::Checkbox((std::string("##Bool##") + std::string(GetName())).c_str(), &data);
+		else if constexpr (std::is_base_of<SerializedEnum, T>::value) ComboEnum((std::string("##Enum##") + std::string(GetName())).c_str(), data, 7);
 		else if constexpr (Is_String<T>::value)
 		{
 			char TemporaryName[256];
 			std::strcpy(TemporaryName, data.c_str());
 
-			if (ImGui::InputText((std::string("##float##") + std::string(GetName())).c_str(), TemporaryName, 256, ImGuiInputTextFlags_EnterReturnsTrue))
+			if (ImGui::InputText((std::string("##String##") + std::string(GetName())).c_str(), TemporaryName, 256, ImGuiInputTextFlags_EnterReturnsTrue))
 			{
 				data = TemporaryName;
 			}
 		}
-		else LOG_WARNING("Draw inspector of type " + std::to_string(GetType()) + " is not supported.");
+
+		// Engine Types
+		else if constexpr (std::is_same<T, Math::Vector2<float>>::value) ImGui::DragFloat2((std::string("##Vector2Float##") + std::string(GetName())).c_str(), reinterpret_cast<float*>(&data), 0.01f);
+		else if constexpr (std::is_same<T, std::vector<Math::Vector2<float>>>::value)
+		{
+			ResolveTypeInfo();
+
+			size_t vectorSize = sizeof(Math::Vector2<float>);
+			size_t itemCount = GetSizeInBytes() / vectorSize;
+
+			ImGui::Dummy({0, 0});
+
+			std::stringstream stream;
+
+			stream << "Size: " << itemCount << "##Vector2CollapsingHeader##";
+
+			if(!ImGui::CollapsingHeader(stream.str().c_str()))
+				return;
+
+			for (int i = 0; i < itemCount; i++)
+			{
+				ImGui::PushID(i);
+				Math::Vector2f& floatVec2 = static_cast<Math::Vector2f&>(data[i]);
+				ImGui::DragFloat2((std::string("##ListVactorOrWhateverItIsCalledInOurEngineYouCanCallItWhateverYouWantVector2Float##") + std::string(GetName())).c_str(), floatVec2.data, 0.001f);
+				ImGui::PopID();
+			}
+		}
+
+		else ImGui::Text("Type: %s is not supported", typeid(T).name());
 	}
 }
