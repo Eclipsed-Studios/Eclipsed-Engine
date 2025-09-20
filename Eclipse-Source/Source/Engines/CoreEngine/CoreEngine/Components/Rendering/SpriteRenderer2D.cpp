@@ -73,16 +73,29 @@ namespace Eclipse
 			myMaterial = new Material();
 		}
 
+		if (mySprite == nullptr)
+		{
+			mySprite = new Sprite();
+			mySprite->Init();
+		}
+
 		hasTexture = true;
 		myMaterial->SetTexture(myTexturePath->c_str());
 	}
 
 	void SpriteRenderer2D::Awake()
 	{
-		mySprite = new Sprite();
+		if (mySprite == nullptr)
+		{
+			mySprite = new Sprite();
+		}
+
 		mySprite->Init();
 
-		myMaterial = new Material();
+		if (myMaterial == nullptr)
+		{
+			myMaterial = new Material();
+		}
 		myMaterial->SetTexture(myTexturePath->c_str());
 
 		//myTexturePath = myTexturePath->c_str();

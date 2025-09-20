@@ -20,7 +20,7 @@ namespace Eclipse::Math
 		union
 		{
 			struct { float r, g, b, a; };
-			float data[4];
+			float data[4] = { 1,1,1,1 };
 		};
 	};
 }

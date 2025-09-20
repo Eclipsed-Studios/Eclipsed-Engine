@@ -58,7 +58,7 @@ namespace Eclipse
 
 	void SpriteRenderer2D::DrawInspector()
 	{
-		if (Editor::DragAndDrop::BeginTarget(hasTexture ?  std::filesystem::relative(myTexturePath->c_str(), ASSET_PATH).string().c_str() : "No texture clip", FileInfo::FileType_Texture))
+		if (Editor::DragAndDrop::BeginTarget(hasTexture ?  std::filesystem::relative(myTexturePath->c_str(), ASSET_PATH).string().c_str() : "No texture", FileInfo::FileType_Texture))
 		{
 			myTexturePath = Editor::DragAndDrop::payloadBuffer;
 			SetTexture(myTexturePath->c_str());
