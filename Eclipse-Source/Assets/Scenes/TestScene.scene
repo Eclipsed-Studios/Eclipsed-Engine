@@ -1,6 +1,13 @@
 {
     "Transform2D": [
         {
+            "owner": 5,
+            "id": 17,
+            "position": "AAAAAAAAAAA=",
+            "rotation": "AAAAAA==",
+            "scale": "AACAPwAAgD8="
+        },
+        {
             "owner": 1,
             "id": 1,
             "position": "lXMgQKSBGb8=",
@@ -9,7 +16,7 @@
         },
         {
             "owner": 5,
-            "id": 17,
+            "id": 40,
             "position": "AAAAAAAAAAA=",
             "rotation": "AAAAAA==",
             "scale": "AACAPwAAgD8="
@@ -20,13 +27,6 @@
             "position": "MCqmPxn9lD4=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
-        },
-        {
-            "owner": 5,
-            "id": 40,
-            "position": "AAAAAAAAAAA=",
-            "rotation": "AAAAAA==",
-            "scale": "AACAPwAAgD8="
         },
         {
             "owner": 3,
@@ -62,7 +62,7 @@
         {
             "owner": 4,
             "id": 15,
-            "myTexturePath": "Assets/Sprites/Environment/013.png"
+            "myTexturePath": "Assets\\Sprites\\noah1.png"
         }
     ],
     "RigidBody2D": [

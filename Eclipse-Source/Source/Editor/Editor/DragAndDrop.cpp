@@ -30,6 +30,8 @@ namespace Eclipse::Editor
         {
             if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
             {
+                std::memset(payloadBuffer, 0, sizeof(payloadBuffer));
+
                 memcpy(&payloadBuffer[0], payload, size);
                 const char* dnd = DragAndDrop::dnd_id[info.type];
 
