@@ -61,7 +61,7 @@ namespace Eclipse::Reflection
 		//}
 	}
 
-	void ReflectionManager::DrawInspector(Component* aComp)
+	void ReflectionManager::DrawInspector(Component* aComp, const char* name)
 	{
 		VariableList& list = registeredVariables[aComp];
 

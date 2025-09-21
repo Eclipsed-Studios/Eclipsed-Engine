@@ -69,7 +69,9 @@ namespace Eclipse::Editor
 			ImGui_Impl::DrawComponentHeader(comp->GetComponentName(), comp->myInspectorWasDrawn);
 			if (!comp->myInspectorWasDrawn) continue;
 
-			comp->DrawInspector();
+			ImGui::Indent(20.f);
+			comp->UpdateInspector();
+			ImGui::Unindent(20.f);
 
 			ImGui::Dummy({ 0, 30 });
 			ImGui::Separator();

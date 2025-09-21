@@ -7,6 +7,7 @@
 #include "ImGui/ImGui/imgui.h"
 
 #include "Math/Math.h"
+#include "Reflection/ReflectionTypeChecks.h"
 
 namespace Eclipse::Reflection
 {
@@ -95,7 +96,7 @@ namespace Eclipse::Reflection
 	}
 
 	template<typename T>
-	bool ComboEnum(const char* label, T& e, int count) {
+	bool ComboEnum(const char* label, T& e) {
 		unsigned currentIndex = static_cast<unsigned>(e);
 		bool changed = false;
 
@@ -123,49 +124,100 @@ namespace Eclipse::Reflection
 	template<typename T>
 	inline void SerializedVariable<T>::DrawInspector()
 	{
-		ImGui::Text(GetName());
-		ImGui::SameLine();
-		if constexpr (std::is_same<T, float>::value) ImGui::DragFloat((std::string("##Float##") + std::string(GetName())).c_str(), &data, 0.01f);
-		else if constexpr (std::is_same<T, bool>::value) ImGui::Checkbox((std::string("##Bool##") + std::string(GetName())).c_str(), &data);
-		else if constexpr (std::is_base_of<SerializedEnum, T>::value) ComboEnum((std::string("##Enum##") + std::string(GetName())).c_str(), data, 7);
-		else if constexpr (Is_String<T>::value)
-		{
-			char TemporaryName[256];
-			std::strcpy(TemporaryName, data.c_str());
 
-			if (ImGui::InputText((std::string("##String##") + std::string(GetName())).c_str(), TemporaryName, 256, ImGuiInputTextFlags_EnterReturnsTrue))
-			{
-				data = TemporaryName;
-			}
-		}
-
-		// Engine Types
-		else if constexpr (std::is_same<T, Math::Vector2<float>>::value) ImGui::DragFloat2((std::string("##Vector2Float##") + std::string(GetName())).c_str(), reinterpret_cast<float*>(&data), 0.01f);
-		else if constexpr (std::is_same<T, std::vector<Math::Vector2<float>>>::value)
+		if constexpr (Is_Vector<T>::value || Is_Array<T>::value)
 		{
+			isDrawn = ImGui::CollapsingHeader(GetName());
+
+			if (!isDrawn) return;
+
 			ResolveTypeInfo();
-
-			size_t vectorSize = sizeof(Math::Vector2<float>);
-			size_t itemCount = GetSizeInBytes() / vectorSize;
-
-			ImGui::Dummy({0, 0});
-
-			std::stringstream stream;
-
-			stream << "Size: " << itemCount << "##Vector2CollapsingHeader##";
-
-			if(!ImGui::CollapsingHeader(stream.str().c_str()))
-				return;
-
-			for (int i = 0; i < itemCount; i++)
+			for (int i = 0; i < GetCount(); ++i)
 			{
+				ImGui::Dummy({ 20, 0 });
+				ImGui::SameLine();
+
 				ImGui::PushID(i);
-				Math::Vector2f& floatVec2 = static_cast<Math::Vector2f&>(data[i]);
-				ImGui::DragFloat2((std::string("##ListVactorOrWhateverItIsCalledInOurEngineYouCanCallItWhateverYouWantVector2Float##") + std::string(GetName())).c_str(), floatVec2.data, 0.001f);
+
+				if constexpr (Is_Vector<T>::value)
+				{
+					ImGui::SameLine();
+
+					if (ImGui::Button("-"))
+					{
+						data.erase(data.begin() + i);
+						ImGui::PopID();
+						return;
+					}
+
+					ImGui::SameLine();
+				}
+
+				DrawElement(data[i]);
 				ImGui::PopID();
 			}
+
+			if constexpr (Is_Vector<T>::value)
+			{
+				ImGui::Dummy({ 20, 0 });
+				ImGui::SameLine();
+
+				if (ImGui::Button("Add"))
+				{
+					data.push_back({});
+				}
+			}
+		}
+		else
+		{
+			ImGui::Text(GetName());
+			ImGui::SameLine();
+			DrawElement(data);
+		}
+	}
+
+	template<typename T>
+	template<typename U>
+	inline void SerializedVariable<T>::DrawElement(U& element)
+	{
+		float availX = ImGui::GetContentRegionAvail().x;
+		float rightPad = ImGui::GetStyle().WindowPadding.x;
+
+		float totalSize = availX - rightPad;
+
+		if constexpr (std::is_same<U, Math::Vector2<float>>::value)
+		{
+			float size = totalSize * 0.5f;
+
+			ImGui::SetNextItemWidth(size);
+			ImGui::DragFloat((GetNameID() + std::string("X")).c_str(), &element.x, 0.01f);
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(size);
+			ImGui::DragFloat((GetNameID() + std::string("Y")).c_str(), &element.y, 0.01f);
+
+			return;
 		}
 
+		ImGui::SetNextItemWidth(availX);
+
+		if constexpr (std::is_same<U, float>::value) ImGui::DragFloat(GetNameID().c_str(), &element, 0.01f);
+		else if constexpr (std::is_same<U, bool>::value) ImGui::Checkbox(GetNameID().c_str(), &element);
+		else if constexpr (Is_String<U>::value) DrawString(data);
+		else if constexpr (std::is_base_of<SerializedEnum, U>::value) ComboEnum(GetNameID().c_str(), element);
+
 		else ImGui::Text("Type: %s is not supported", typeid(T).name());
+	}
+
+	template<typename T>
+	template<typename U>
+	inline void SerializedVariable<T>::DrawString(U& element)
+	{
+		char TemporaryName[256];
+		std::strcpy(TemporaryName, element.c_str());
+
+		if (ImGui::InputText(GetName(), TemporaryName, 256, ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			element = TemporaryName;
+		}
 	}
 }

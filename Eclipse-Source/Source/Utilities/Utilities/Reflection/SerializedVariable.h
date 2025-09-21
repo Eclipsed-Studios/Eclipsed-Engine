@@ -13,6 +13,12 @@ namespace Eclipse::Reflection
 
 		void DrawInspector() override;
 
+		template<typename U>
+		void DrawElement(U& element);
+
+		template<typename U>
+		void DrawString(U& element);
+
 	public:
 		void* GetData() override;
 		void ResolveTypeInfo() override;
@@ -38,6 +44,7 @@ namespace Eclipse::Reflection
 
 	private:
 		T data;
+		bool isDrawn = false;
 	};
 }
 

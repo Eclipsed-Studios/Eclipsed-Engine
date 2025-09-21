@@ -23,7 +23,7 @@ namespace Eclipse::Reflection
 	public:
 		static void RegisterVariable(AbstractSerializedVariable* ptr);
 		static void UnregisterVariable(AbstractSerializedVariable* ptr);
-		static void DrawInspector(Component* aComp);
+		static void DrawInspector(Component* aComp, const char* name);
 
 		static CompToTypeList& GetList();
 	};

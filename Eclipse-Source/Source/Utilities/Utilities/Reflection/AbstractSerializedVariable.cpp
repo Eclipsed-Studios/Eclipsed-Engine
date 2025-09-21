@@ -10,7 +10,9 @@ namespace Eclipse::Reflection
 		ReflectionManager::RegisterVariable(this);
 	}
 
+
 	const char* AbstractSerializedVariable::GetName() const { return name; }
+	std::string AbstractSerializedVariable::GetNameID() const { return std::string("##") + std::string(name); }
 	Component* AbstractSerializedVariable::GetComponent() { return pComponent; }
 	const Component* AbstractSerializedVariable::GetComponent() const { return pComponent; }
 	unsigned AbstractSerializedVariable::GetSizePerElement() const { return sizePerElement; }

@@ -79,7 +79,8 @@ namespace Eclipse
 		virtual void OnDrawGizmos() {}
 
 	protected:
-		virtual void DrawInspector() { Reflection::ReflectionManager::DrawInspector(this); };
+		void UpdateInspector() { Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); DrawInspector(); }
+		virtual void DrawInspector() {}
 		virtual const char* GetComponentName() { return "Component"; }
 
 	public:

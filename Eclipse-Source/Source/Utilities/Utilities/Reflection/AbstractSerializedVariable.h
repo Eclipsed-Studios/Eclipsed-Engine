@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace Eclipse { class Component; }
 namespace Eclipse::Reflection
 {
@@ -39,6 +41,7 @@ namespace Eclipse::Reflection
 
 	public:
 		const char* GetName() const;
+		std::string GetNameID() const;
 		Component* GetComponent();
 		const Component* GetComponent() const;
 		unsigned GetSizePerElement() const;
@@ -48,6 +51,7 @@ namespace Eclipse::Reflection
 
 	protected:
 		const char* name = "";
+		const char* nameID = "";
 		Component* pComponent = nullptr;
 
 		SerializedTypes_ type = SerializedType_None;

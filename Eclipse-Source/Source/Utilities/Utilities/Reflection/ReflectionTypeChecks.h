@@ -56,3 +56,31 @@ template<typename T>
 struct Is_Serializable<T, std::void_t<decltype(T::serializable)>>
     : std::bool_constant<T::serializable> {
 };
+
+
+
+
+
+
+
+
+
+
+template<typename T, typename Enable = void>
+struct ElementType {};
+
+// Specialization for vector
+template<typename T>
+struct ElementType<std::vector<T>> {
+    using type = T;
+};
+
+// Specialization for arrays
+template<typename T, std::size_t N>
+struct ElementType<T[N]> {
+    using type = T;
+};
+
+// Helper alias
+template<typename T>
+using ElementType_t = typename ElementType<T>::type;
