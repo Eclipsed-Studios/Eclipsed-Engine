@@ -1,5 +1,3 @@
-#pragma message(AudioSource)
-
 #include "AudioSource.h"
 
 #include "Editor/ImGui/ImGui_Impl.h"

@@ -196,6 +196,7 @@ namespace Eclipse::Editor
 				Math::Vector2f textureScale = mySelectedObject->GetMaterial()->myTexture->GetTextureSizeNormilized();
 				Math::Vector2f size = mySelectedObject->spriteRectMax - mySelectedObject->spriteRectMin;
 				float aspectScale = size.y / size.x;
+
 				DebugDrawer::DrawSquare(transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), transform->GetScale() * 0.01f * 0.5f * textureScale * Math::Vector2f(1.f, aspectScale), Math::Color(1.f, 0.4f, 0.7f, 1.f));
 				DebugDrawer::Get().Render();
 			}
@@ -221,9 +222,9 @@ namespace Eclipse::Editor
 		}
 
 		myLastWindowResolution = { myWindowSize.x, myWindowSize.y };
-		
-        ImVec2 CursorPos = ImGui::GetCursorPos();
-        ImGui::SetCursorPos(ImVec2(CursorPos.x - 8, CursorPos.y - 7));
+
+		ImVec2 CursorPos = ImGui::GetCursorPos();
+		ImGui::SetCursorPos(ImVec2(CursorPos.x - 8, CursorPos.y - 7));
 		ImGui::Image(mySceneTexture, ImVec2(myWindowSize.x, myWindowSize.y), ImVec2(0, 1), ImVec2(1, 0));
 
 		GraphicsEngine::BindFrameBuffer(0);

@@ -2,12 +2,8 @@
 
 #include "Components/Transform2D.h"
 
-#include "Math/Vector/Vector2.h"
-
 #include "AssetManagement/Resources/Shaders/Shader.h"
 #include "Sprite.h"
-
-#include "ECS/ComponentManager.h"
 
 #include "TemporarySettingsSingleton.h"
 
@@ -19,9 +15,6 @@
 #include "RenderCommands/CommandList.h"
 
 #include "RenderCommands/RenderSprite2DCommand.h"
-
-#include "Editor/DragAndDrop.h"
-#include "ImGui/ImGui/imgui.h"
 
 namespace Eclipse
 {
@@ -39,8 +32,8 @@ namespace Eclipse
 
 		unsigned shaderID = myShader->GetProgramID();
 
-		GLint diffuseIndex = glGetUniformLocation(shaderID, "material.albedo");
-		glUniform1i(diffuseIndex, 0);
+		int none = 0;
+		GraphicsEngine::SetUniform(UniformType::Int, shaderID, "material.albedo", &none);
 	}
 
 	void Material::Use()
@@ -50,8 +43,8 @@ namespace Eclipse
 
 		unsigned shaderID = myShader->GetProgramID();
 
-		GLint albedoColorIndex = glGetUniformLocation(shaderID, "material.color");
-		glUniform4f(albedoColorIndex, color.r, color.g, color.b, color.a);
+		Math::Vector4f American_Colour = color.ToVector();
+		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.color", &American_Colour);
 	}
 
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
@@ -133,66 +126,29 @@ namespace Eclipse
 		myMaterial->myShader->Use(shaderID);
 		myMaterial->Use();
 
-		GLint positionIndex = glGetUniformLocation(shaderID, "transform.position");
-		glUniform2f(positionIndex, position.x, position.y);
-		GLint rotationIndex = glGetUniformLocation(shaderID, "transform.rotation");
-		glUniform1f(rotationIndex, rotation);
-		GLint scaleIndex = glGetUniformLocation(shaderID, "transform.size");
-		glUniform2f(scaleIndex, scale.x, scale.y);
-
+		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "transform.position", &position);
+		GraphicsEngine::SetUniform(UniformType::Float, shaderID, "transform.rotation", &rotation);
+		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "transform.size", &scale);
 
 		Math::Vector2f size = spriteRectMax - spriteRectMin;
-		GLint spriteRectIndex = glGetUniformLocation(shaderID, "material.spriteRect");
-		glUniform4f(spriteRectIndex, spriteRectMin.x, spriteRectMin.y, size.x, size.y);
+		Math::Vector4f spriteRect = { spriteRectMin.x, spriteRectMin.y, size.x, size.y };
+		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.spriteRect", &spriteRect);
 
 		float aspectScale = size.y / size.x;
 		Math::Vector2f scaleMultiplier = myMaterial->myTexture->GetTextureSizeNormilized();
-		GLint spriteScaleMultiplier = glGetUniformLocation(shaderID, "spriteScaleMultiplier");
-		glUniform2f(spriteScaleMultiplier, scaleMultiplier.x, scaleMultiplier.y * aspectScale);
+		Math::Vector2f spriteScaleMultiplier = { scaleMultiplier.x, scaleMultiplier.y * aspectScale };
+		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "spriteScaleMultiplier", &spriteScaleMultiplier);
 
-
-		GLint mirrored = glGetUniformLocation(shaderID, "mirrored");
-		glUniform2f(mirrored, mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f);
+		Math::Vector2f mirroredVec2 = { mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f };
+		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "mirrored", &mirroredVec2);
 
 		Math::Vector4f pixelPickColor = gameObject->GetPixelPickingIDColor();
+		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "pixelPickColor", &pixelPickColor);
 
-		GLint pixelPickingIndex = glGetUniformLocation(shaderID, "pixelPickColor");
-		glUniform4f(pixelPickingIndex, pixelPickColor.x, pixelPickColor.y, pixelPickColor.z, pixelPickColor.w);
+		GraphicsEngine::SetGlobalUniforms(shaderID);
 
 		GraphicsEngine::SetGlobalUniforms(shaderID);
 
 		mySprite->Render();
-
-
-
-
-
-
-
-
-		/*
-
-				GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "transform.position", position.data);
-		GraphicsEngine::SetUniform(UniformType::Float, shaderID, "transform.rotation", &rotation);
-		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "transform.size", scale.data);
-
-		Math::Vector2f size = spriteRectMax - spriteRectMin;
-		Math::Vector4f spriteRect = { spriteRectMin.x, spriteRectMin.y, size.x, size.y };
-		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.spriteRect", spriteRect.data);
-
-		float aspectScale = size.y / size.x;
-		Math::Vector2f scaleMultiplier = myMaterial->myTexture->GetTextureSizeNormilized();
-		Math::Vector2f spriteScaleMultiplier = {scaleMultiplier.x, scaleMultiplier.y * aspectScale};
-		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "spriteScaleMultiplier", spriteScaleMultiplier.data);
-
-		Math::Vector2f mirroredVec2 = {mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f};
-		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "mirrored", mirroredVec2.data);
-
-		Math::Vector4f pixelPickColor = gameObject->GetPixelPickingIDColor();
-		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "pixelPickColor", pixelPickColor.data);
-
-		GraphicsEngine::SetGlobalUniforms(shaderID);
-
-		*/
 	}
 }
