@@ -256,5 +256,21 @@ namespace Eclipse
 
             std::memcpy(aValue, &myGlobalUniformsMatrix4x4Float.at(aUniformName).value, sizeof(GlobalUniformValueMatrixMatrix4x4Float));
         }
+
+
+
+
+
+        void SetUniformInt(const std::string& aUniformName, unsigned aShaderProgram, int* aValue);
+
+        void SetUniformFloat(const std::string& aUniformName, unsigned aShaderProgram, float* aValue);
+
+        void SetUniformVec2Float(const std::string& aUniformName, unsigned aShaderProgram, Math::Vector2f* aValue);
+        void SetUniformVec3Float(const std::string& aUniformName, unsigned aShaderProgram, Math::Vector4f* aValue);
+        void SetUniformVec4Float(const std::string& aUniformName, unsigned aShaderProgram, Math::Vector4f* aValue);
+
+        void SetUniformMat2x2(const std::string& aUniformName, unsigned aShaderProgram, float* aValue);
+        void SetUniformMat3x3(const std::string& aUniformName, unsigned aShaderProgram, float* aValue);
+        void SetUniformMat4x4(const std::string& aUniformName, unsigned aShaderProgram, float* aValue);
     };
 }

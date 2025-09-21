@@ -9,8 +9,6 @@
 
 #include "ECS/ComponentManager.h"
 
-// Temporary dont use setuniforms
-#include "glad/glad.h"
 #include "TemporarySettingsSingleton.h"
 
 #include "AssetManagement/Resources/Texture.h"
@@ -129,7 +127,7 @@ namespace Eclipse
 
 		unsigned shaderID = myMaterial->myShader->GetProgramID();
 
-		if(aProgramID)
+		if (aProgramID)
 			shaderID = aProgramID;
 
 		myMaterial->myShader->Use(shaderID);
@@ -164,5 +162,37 @@ namespace Eclipse
 		GraphicsEngine::SetGlobalUniforms(shaderID);
 
 		mySprite->Render();
+
+
+
+
+
+
+
+
+		/*
+
+				GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "transform.position", position.data);
+		GraphicsEngine::SetUniform(UniformType::Float, shaderID, "transform.rotation", &rotation);
+		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "transform.size", scale.data);
+
+		Math::Vector2f size = spriteRectMax - spriteRectMin;
+		Math::Vector4f spriteRect = { spriteRectMin.x, spriteRectMin.y, size.x, size.y };
+		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.spriteRect", spriteRect.data);
+
+		float aspectScale = size.y / size.x;
+		Math::Vector2f scaleMultiplier = myMaterial->myTexture->GetTextureSizeNormilized();
+		Math::Vector2f spriteScaleMultiplier = {scaleMultiplier.x, scaleMultiplier.y * aspectScale};
+		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "spriteScaleMultiplier", spriteScaleMultiplier.data);
+
+		Math::Vector2f mirroredVec2 = {mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f};
+		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "mirrored", mirroredVec2.data);
+
+		Math::Vector4f pixelPickColor = gameObject->GetPixelPickingIDColor();
+		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "pixelPickColor", pixelPickColor.data);
+
+		GraphicsEngine::SetGlobalUniforms(shaderID);
+
+		*/
 	}
 }

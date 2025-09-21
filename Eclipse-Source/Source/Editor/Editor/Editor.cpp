@@ -94,7 +94,7 @@ namespace Eclipse::Editor
         Math::Vector2i windowPosition = GraphicsEngine::GetWindowPosition();
 
         ImGui::Begin("TestGameButons", (bool*)1, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-        if (ImGui::Button("Play"))
+        if (ImGui::Button("Play") || Input::GetKeyDown(Keycode::F5))
         {
             if (Engine::game.myIsPlaying)
             {

@@ -11,16 +11,16 @@
 
 namespace Eclipse::Editor
 {
-	void GameSettingsWindow::Update()
-	{
-		static bool collisionLayersShown = false;
+    void GameSettingsWindow::Update()
+    {
+        static bool collisionLayersShown = false;
         collisionLayersShown = ImGui::CollapsingHeader("Collision Layers");
 
         if (collisionLayersShown) DrawCollisionLayerEditor();
-	}
+    }
 
-	void GameSettingsWindow::DrawCollisionLayerEditor()
-	{
+    void GameSettingsWindow::DrawCollisionLayerEditor()
+    {
         ImGuiTableColumnFlags columnFlags = ImGuiTableColumnFlags_AngledHeader | ImGuiTableColumnFlags_WidthFixed;
         ImGuiTableFlags tableFlags = ImGuiTableFlags_HighlightHoveredColumn | ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit;
 
@@ -55,7 +55,11 @@ namespace Eclipse::Editor
                     ImGui::TableNextColumn();
 
                     totalID++;
-                    int hasLayer = myCollisionLayers[i] & (1 << (layerCount - 1 - j));
+
+                    uint64_t firstLayer = PhysicsEngine::myCollisionLayers[i];
+                    int secondLayer = (1 << (layerCount - 1 - j));
+
+                    int hasLayer = firstLayer & secondLayer;
 
                     bool hasLayerBool = static_cast<bool>(hasLayer);
 
@@ -65,13 +69,13 @@ namespace Eclipse::Editor
                     {
                         if (hasLayerBool)
                         {
-                            myCollisionLayers[layerCount - 1 - j] |= (1 << i);
-                            myCollisionLayers[i] |= (1 << (layerCount - 1 - j));
+                            PhysicsEngine::myCollisionLayers[layerCount - 1 - j] |= (1 << i);
+                            PhysicsEngine::myCollisionLayers[i] |= (1 << (layerCount - 1 - j));
                         }
                         else
                         {
-                            myCollisionLayers[layerCount - 1 - j] &= ~(1 << i);
-                            myCollisionLayers[i] &= ~(1 << (layerCount - 1 - j));
+                            PhysicsEngine::myCollisionLayers[layerCount - 1 - j] &= ~(1 << i);
+                            PhysicsEngine::myCollisionLayers[i] &= ~(1 << (layerCount - 1 - j));
                         }
 
                         SaveLayerEditToJSON();
@@ -82,22 +86,21 @@ namespace Eclipse::Editor
 
             ImGui::EndTable();
         }
-	}
+    }
 
     void GameSettingsWindow::SaveLayerEditToJSON()
     {
-        std::string filePath = ASSET_PATH"CollisionLayers.json";
+        std::string filePath = ASSET_PATH "CollisionLayers.json";
         rapidjson::Document document;
         document.SetObject();
+        auto& allocator = document.GetAllocator();
 
-        auto allocator = document.GetAllocator();
+        rapidjson::Value layersArray(rapidjson::kArrayType);
+        for (int i = 0; i < layerCount; i++) {
+            layersArray.PushBack(PhysicsEngine::myCollisionLayers[i], allocator);
+        }
 
-        rapidjson::Value layers(rapidjson::kArrayType);
-
-        for (int layer : myCollisionLayers)
-            layers.PushBack(layer, allocator);
-
-        document.AddMember("Layer", layers, allocator);
+        document.AddMember("Layers", layersArray, allocator);
 
         rapidjson::StringBuffer buffer;
         rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);

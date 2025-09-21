@@ -34,6 +34,8 @@ namespace Eclipse
 		static void UpdateGlobalUniform(UniformType aType, const std::string& aUniformName, void* aValue);
 		static void GetGlobalUniform(UniformType aType, const std::string& aUniformName, void* aValue);
 
+		static void SetUniform(UniformType aType, unsigned aShaderProgram, const std::string& aUniformName, void* aValue);
+
 		static void SetGlobalUniforms(unsigned aShaderProgram);
 
 		static void BindTexture(int aGLType, unsigned aTextureID);

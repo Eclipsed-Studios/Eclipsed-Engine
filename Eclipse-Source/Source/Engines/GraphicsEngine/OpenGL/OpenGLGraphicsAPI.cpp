@@ -173,6 +173,9 @@ namespace Eclipse
         float aspectRatio = resY / resX;
         GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
 
+        int ovColor = 1;
+        GraphicsEngine::UpdateGlobalUniform(UniformType::Int, "notOverrideColor", &ovColor);
+
         CommandList::Execute();
 #else
         DebugDrawer::Get().Render();
@@ -277,6 +280,26 @@ namespace Eclipse
         case UniformType::Matrix2x2f: myUniformManager.GetMat2x2(aUniformName, (float*)aValue); return;
         case UniformType::Matrix3x3f: myUniformManager.GetMat3x3(aUniformName, (float*)aValue); return;
         case UniformType::Matrix4x4f: myUniformManager.GetMat4x4(aUniformName, (float*)aValue); return;
+        }
+    }
+
+    void GraphicsEngine::SetUniform(UniformType aType, unsigned aShaderProgram, const std::string& aUniformName, void* aValue)
+    {
+        switch (aType)
+        {
+        case UniformType::Bool: myUniformManager.SetUniformInt(aUniformName, aShaderProgram, (int*)aValue); return;
+
+        case UniformType::Float: myUniformManager.SetUniformFloat(aUniformName, aShaderProgram, (float*)aValue); return;
+
+        case UniformType::Vector2f: myUniformManager.SetUniformVec2Float(aUniformName, aShaderProgram, (Math::Vector2f*)aValue); return;
+        case UniformType::Vector3f: myUniformManager.SetUniformVec3Float(aUniformName, aShaderProgram, (Math::Vector4f*)aValue); return;
+        case UniformType::Vector4f: myUniformManager.SetUniformVec4Float(aUniformName, aShaderProgram, (Math::Vector4f*)aValue); return;
+
+        case UniformType::Int: myUniformManager.SetUniformInt(aUniformName, aShaderProgram, (int*)aValue); return;
+
+        case UniformType::Matrix2x2f: myUniformManager.SetUniformMat2x2(aUniformName, aShaderProgram, (float*)aValue); return;
+        case UniformType::Matrix3x3f: myUniformManager.SetUniformMat3x3(aUniformName, aShaderProgram, (float*)aValue); return;
+        case UniformType::Matrix4x4f: myUniformManager.SetUniformMat4x4(aUniformName, aShaderProgram, (float*)aValue); return;
         }
     }
 
