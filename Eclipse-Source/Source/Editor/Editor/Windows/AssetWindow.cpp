@@ -1,3 +1,4 @@
+#ifdef _EDITOR
 #include "AssetWindow.h"
 
 #include "ImGui/imgui.h"
@@ -128,7 +129,9 @@ namespace Eclipse::Editor
 				ImGui::PopFont();
 			}
 
-			DragAndDrop::BeginSource(entry.path().string().c_str(), entry.path().string().size(), info);
+			std::string relativePath = std::filesystem::relative(entry, SOURCE_PATH).string();
+
+			DragAndDrop::BeginSource(relativePath.c_str(), relativePath.size(), info);
 
 			std::string label = entry.path().filename().string();
 			const float maxSize = buttonSize - 86.f;
@@ -225,3 +228,4 @@ namespace Eclipse::Editor
 		}
 	}
 }
+#endif

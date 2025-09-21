@@ -1,3 +1,4 @@
+#ifdef _EDITOR
 #include "Editor.h"
 
 #include "MainSingleton.h"
@@ -180,3 +181,4 @@ namespace Eclipse::Editor
         io.FontDefault = fontSmall;
     }
 }
+#endif

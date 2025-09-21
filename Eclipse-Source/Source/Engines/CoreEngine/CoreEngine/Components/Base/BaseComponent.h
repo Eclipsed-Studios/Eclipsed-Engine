@@ -27,6 +27,7 @@ inline type() = default;													\
 virtual ~type() = default;													\
 private:
 
+
 #define REGISTER_COMPONENT_CALLBACK(type) [](unsigned gameObjId, unsigned compID){ return ComponentManager::AddComponentWithID<type>(gameObjId, compID); }
 
 
@@ -46,7 +47,10 @@ struct AutoRegister {																				\
 		ComponentRegistry::Register(stringify(type), REGISTER_COMPONENT_CALLBACK(type));			\
 	}																								\
 };																									\
+public: \
 static inline AutoRegister _register = {};
+
+
 
 
 #define COMPONENT_BASE_3(type, derivedType, updatePriority)				\
@@ -58,4 +62,9 @@ protected:																	\
 virtual const char* GetComponentName() override { return stringify(type); }	\
 private:
 
+
+#define FORCELINK(Class)												\
+	namespace {															\
+		static auto& forceLink = Eclipse::Class::_register;				\
+	}
 #endif

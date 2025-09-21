@@ -36,6 +36,8 @@ namespace Eclipse
         static void Reset();
 
     private:
+        static inline bool hasCommands = false;
+
         static inline uint8_t* myData = nullptr;
         static inline size_t commandCursor = 0;
 
@@ -46,6 +48,7 @@ namespace Eclipse
     template <class CommandClass, class ...Args>
     inline void CommandList::Enqueue(Args... args)
     {
+        hasCommands = true;
         const size_t commandSize = sizeof(CommandClass);
 
         RenderCommandBase* command = reinterpret_cast<RenderCommandBase*>(myData + commandCursor);

@@ -1,3 +1,4 @@
+#ifdef _EDITOR
 #pragma once
 
 #include "WindowBase.h"
@@ -54,3 +55,4 @@ namespace Eclipse::Editor
 		unsigned mySceneTexture = 0;
 	};
 }
+#endif

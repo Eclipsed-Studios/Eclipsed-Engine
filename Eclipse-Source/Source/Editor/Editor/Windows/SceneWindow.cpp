@@ -1,3 +1,4 @@
+#ifdef _EDITOR
 #include "SceneWindow.h"
 
 #include "ImGui/imgui.h"
@@ -269,3 +270,4 @@ namespace Eclipse::Editor
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
+#endif

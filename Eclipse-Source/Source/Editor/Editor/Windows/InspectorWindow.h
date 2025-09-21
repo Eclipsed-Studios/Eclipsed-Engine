@@ -1,3 +1,4 @@
+#ifdef _EDITOR
 #pragma once
 
 #include "WindowBase.h"
@@ -33,3 +34,4 @@ namespace Eclipse::Editor
 		static inline ActiveItemTypes_ activeType;
 	};
 }
+#endif

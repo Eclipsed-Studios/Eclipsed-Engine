@@ -4,15 +4,24 @@
 
 namespace Eclipse::Reflection
 {
+#ifdef _EDITOR
 	AbstractSerializedVariable::AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
 		: name(aName), pComponent(aCompPtr), canDrawInspector(drawInspector)
 	{
 		ReflectionManager::RegisterVariable(this);
 	}
 
+	std::string AbstractSerializedVariable::GetNameID() const { return std::string("##") + std::string(name); }
+#else 
+	AbstractSerializedVariable::AbstractSerializedVariable(const char* aName, Component* aCompPtr)
+		: name(aName), pComponent(aCompPtr)
+	{
+		ReflectionManager::RegisterVariable(this);
+	}
+#endif
+
 
 	const char* AbstractSerializedVariable::GetName() const { return name; }
-	std::string AbstractSerializedVariable::GetNameID() const { return std::string("##") + std::string(name); }
 	Component* AbstractSerializedVariable::GetComponent() { return pComponent; }
 	const Component* AbstractSerializedVariable::GetComponent() const { return pComponent; }
 	unsigned AbstractSerializedVariable::GetSizePerElement() const { return sizePerElement; }

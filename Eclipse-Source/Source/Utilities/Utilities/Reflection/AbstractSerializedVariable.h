@@ -10,13 +10,18 @@ namespace Eclipse::Reflection
 		friend class ReflectionManager;
 
 	public:
+
+#ifdef _EDITOR
 		AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector);
+		virtual void DrawInspector() = 0;
+#else
+		AbstractSerializedVariable(const char* aName, Component* aCompPtr);
+#endif
 
 	public:
 		virtual void* GetData() = 0;
 		virtual void ResolveTypeInfo() = 0;
 
-		virtual void DrawInspector() = 0;
 
 		virtual void Resize(const size_t& size) = 0;
 
@@ -41,7 +46,6 @@ namespace Eclipse::Reflection
 
 	public:
 		const char* GetName() const;
-		std::string GetNameID() const;
 		Component* GetComponent();
 		const Component* GetComponent() const;
 		unsigned GetSizePerElement() const;
@@ -51,12 +55,17 @@ namespace Eclipse::Reflection
 
 	protected:
 		const char* name = "";
-		const char* nameID = "";
 		Component* pComponent = nullptr;
 
 		SerializedTypes_ type = SerializedType_None;
 		unsigned sizePerElement = 0;
 		unsigned count = 1;
+
+#ifdef _EDITOR
+		std::string GetNameID() const;
+
+		const char* nameID = "";
 		bool canDrawInspector = false;
+#endif
 	};
 }

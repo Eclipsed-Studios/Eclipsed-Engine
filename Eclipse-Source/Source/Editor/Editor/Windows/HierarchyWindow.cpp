@@ -1,3 +1,4 @@
+#ifdef _EDITOR
 #include "HierarchyWindow.h"
 
 #include "ImGui/imgui.h"
@@ -39,3 +40,4 @@ namespace Eclipse::Editor
 		}
 	}
 }
+#endif

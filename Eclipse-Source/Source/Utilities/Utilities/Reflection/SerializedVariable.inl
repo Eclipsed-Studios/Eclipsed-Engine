@@ -11,6 +11,8 @@
 
 namespace Eclipse::Reflection
 {
+
+#ifdef _EDITOR
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector)
@@ -34,6 +36,21 @@ namespace Eclipse::Reflection
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
 	{
 	}
+#else
+	template<typename T>
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr)
+		: AbstractSerializedVariable(aName, aCompPtr)
+	{
+	}
+
+	template<typename T>
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue)
+		: AbstractSerializedVariable(aName, aCompPtr), data(aDefaultValue)
+	{
+	}
+#endif
+
+
 
 	template<typename T>
 	inline void* SerializedVariable<T>::GetData()
@@ -107,6 +124,8 @@ namespace Eclipse::Reflection
 		if constexpr (Is_Vector<T>::value) data.resize(size);
 	}
 
+
+#ifdef _EDITOR
 	template<typename T>
 	bool ComboEnum(const char* label, T& e) {
 		unsigned currentIndex = static_cast<unsigned>(e);
@@ -218,4 +237,5 @@ namespace Eclipse::Reflection
 			element = TemporaryName;
 		}
 	}
+#endif
 }

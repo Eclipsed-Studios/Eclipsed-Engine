@@ -3,7 +3,9 @@
 #include "PhysicsEngine.h"
 #include "OpenGL/OpenGLGraphicsAPI.h"
 
+#ifdef _EDITOR
 #include "OpenGL/DebugDrawers/PhysicsDebugDrawer.h"
+#endif
 
 #include "Timer.h"
 #include "Input/Input.h"
@@ -19,6 +21,9 @@
 
 #include <iostream>
 #include "Reflection/Reflection.h"
+#include "Scenes/SceneLoader.h"
+
+#include "Components/AudioSource.h"
 
 namespace Eclipse
 {
@@ -28,6 +33,7 @@ namespace Eclipse
 
 		InitSubSystems();
 
+		SceneLoader::Load(ASSET_PATH"Scenes/TestScene.scene");
 		game.Init();
 	}
 
@@ -90,8 +96,6 @@ namespace Eclipse
 			ComponentManager::EarlyUpdateComponents();
 			ComponentManager::UpdateComponents();
 			ComponentManager::LateUpdateComponents();
-
-			game.Update();
 #ifndef _GAME
 		}
 #endif

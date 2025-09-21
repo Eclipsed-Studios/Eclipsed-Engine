@@ -76,7 +76,7 @@ static void End()
 
 #endif
 
-int main(int argsCount, char* args[])
+int main()
 {
     HWND console = GetConsoleWindow();
     ShowWindow(console, SW_HIDE);

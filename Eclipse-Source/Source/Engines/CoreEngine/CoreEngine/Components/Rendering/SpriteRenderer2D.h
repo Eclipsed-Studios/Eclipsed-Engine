@@ -67,6 +67,6 @@ namespace Eclipse
         bool hasTexture = false;
 
     private:
-        SERIALIZED_FIELD_DEFAULT(std::string, myTexturePath, "");
+        PRIVATE_SERIALIZED_FIELD_DEFAULT(std::string, myTexturePath, "");
     };
 }

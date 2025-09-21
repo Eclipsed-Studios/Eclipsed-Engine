@@ -13,6 +13,7 @@ project(Eclipse LANGUAGES CXX)
 add_compile_definitions(ENGINE_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/GameSettings.json\")
 add_compile_definitions(ENGINE_ASSETS_PATH=\"${CMAKE_SOURCE_DIR}/EngineAssets/\")
 add_compile_definitions(ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
+add_compile_definitions(SOURCE_PATH=\"${CMAKE_SOURCE_DIR}/\")
 add_compile_definitions(SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/\")
 
 add_subdirectory(Source/Externals/DiscordSDK)

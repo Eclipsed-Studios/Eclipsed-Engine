@@ -17,6 +17,8 @@ namespace Eclipse
 
     void CommandList::Execute()
     {
+        if (!hasCommands) return;
+
         RenderCommandBase* nextCMD = myRoot;
 
         while (nextCMD)

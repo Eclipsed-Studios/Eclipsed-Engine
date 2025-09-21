@@ -1,3 +1,4 @@
+#ifdef _EDITOR
 #include "InspectorWindow.h"
 #include "HierarchyWindow.h"
 
@@ -99,3 +100,4 @@ namespace Eclipse::Editor
 		ImGui::Text(AssetWindow::Active_FilePath.string().c_str());
 	}
 }
+#endif

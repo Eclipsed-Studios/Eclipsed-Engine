@@ -1,5 +1,6 @@
 #pragma once
 
+#ifdef _EDITOR
 #include "WindowManager.h"
 
 #include "ErrorCodes.h"
@@ -40,3 +41,4 @@ namespace Eclipse::Editor
         static inline ImFont* fontExtraLarge = nullptr;
     };
 }
+#endif

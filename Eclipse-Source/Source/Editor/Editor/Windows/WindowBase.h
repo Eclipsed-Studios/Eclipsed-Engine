@@ -19,6 +19,7 @@
 
 #include "MacroOverloadSelector.h"	
 
+#ifdef _EDITOR
 #define EDITOR_WINDOW_BASE_2(type, name)                                           \
 public:                                                                             \
     const size_t typeID = std::hash<std::string>{}(#type);                          \
@@ -33,6 +34,16 @@ private:                                                                        
         }                                                                          \
     };                                                                             \
     static inline AutoRegister _register = {};
+#else
+#define EDITOR_WINDOW_BASE_2(type, name)                                           \
+public:                                                                             \
+    const size_t typeID = std::hash<std::string>{}(#type);                          \
+    inline type(const int& aId = -1) : AbstractWindow(name, aId) {}                \
+    virtual AbstractWindow* GetNewWindow(const int& aId = -1) override {           \
+        return new type(aId);                                                      \
+    }                                                                              \
+private:
+#endif
 
 
 #define EDITOR_WINDOW_BASE_3(type, name, category)           \

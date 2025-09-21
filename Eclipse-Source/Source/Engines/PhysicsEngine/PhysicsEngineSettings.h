@@ -33,23 +33,6 @@ namespace Eclipse
 #undef LAYER_ENUM_ITEMS
 
 
-	//enum class Layer : uint64_t
-	//{
-	//	Default = 1 << 0,
-	//	Player = 1 << 1,
-	//	Enemy = 1 << 2,
-	//	Projectile = 1 << 3,
-	//	Ground = 1 << 4,
-
-	//	Trigger = 1 << 5,
-	//	IgnoreRaycast = 1 << 6,
-	//	UI = 1 << 7,
-
-	//	All = (1 << (layerCount + 1)) - 1
-	//};
-
-
-
 	enum DebugDrawTypes
 	{
 		drawShapes,

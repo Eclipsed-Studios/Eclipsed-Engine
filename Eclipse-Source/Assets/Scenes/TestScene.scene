@@ -1,22 +1,15 @@
 {
     "Transform2D": [
         {
-            "owner": 5,
-            "id": 17,
-            "position": "AAAAAAAAAAA=",
-            "rotation": "AAAAAA==",
-            "scale": "AACAPwAAgD8="
-        },
-        {
             "owner": 1,
             "id": 1,
-            "position": "LcQlPdeguj0=",
+            "position": "lXMgQKSBGb8=",
             "rotation": "AAAAAA==",
             "scale": "AAAgQQAAIEE="
         },
         {
             "owner": 5,
-            "id": 40,
+            "id": 17,
             "position": "AAAAAAAAAAA=",
             "rotation": "AAAAAA==",
             "scale": "AACAPwAAgD8="
@@ -27,6 +20,13 @@
             "position": "MCqmPxn9lD4=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
+        },
+        {
+            "owner": 5,
+            "id": 40,
+            "position": "AAAAAAAAAAA=",
+            "rotation": "AAAAAA==",
+            "scale": "AACAPwAAgD8="
         },
         {
             "owner": 3,
@@ -52,12 +52,12 @@
         {
             "owner": 2,
             "id": 9,
-            "myTexturePath": "F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Assets/Sprites\\Environment\\012.png"
+            "myTexturePath": "Assets\\Sprites\\noah1.png"
         },
         {
             "owner": 3,
             "id": 12,
-            "myTexturePath": "C:/Users/simon/Documents/RPSGame/Eclipse-Source/Assets/Sprites\\Environment\\012.png"
+            "myTexturePath": "Assets\\Sprites\\Pink_Monster.png"
         },
         {
             "owner": 4,
@@ -132,7 +132,7 @@
             "id": 16,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAAHsUjj8=",
-            "HalfExtents": "AACAP83MzD0="
+            "HalfExtents": "d75/P83MzD0="
         }
     ],
     "Player": [
