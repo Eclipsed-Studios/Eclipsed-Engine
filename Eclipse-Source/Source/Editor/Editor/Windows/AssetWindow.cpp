@@ -68,9 +68,9 @@ namespace Eclipse::Editor
 
 				pathCombiner += path.string();
 				pathCombiner.push_back('/');
+				ImGui::SameLine();
 			}
 
-			ImGui::SameLine();
 
 			if (ImGui::Button(path.string().c_str()))
 			{
@@ -102,32 +102,12 @@ namespace Eclipse::Editor
 				col = ImColor(150, 150, 255, 255);
 			}
 
-			ImVec2 min = ImGui::GetItemRectMin();
-			ImVec2 max = ImGui::GetItemRectMax();
-			ImVec2 center = ImVec2((min.x + max.x) * 0.5f, (min.y + max.y) * 0.5f);
 
-			//if (info.type == FileInfo::FileType_Texture)
-			//{
-			//	ResourcePointer<Texture> tex = Resources::Get<Texture>(entry.path().string().c_str());
-			//	auto id = tex->GetTextureID();
-			//	ImGui::Image((ImTextureID)(intptr_t)id, ImVec2(90, 90));
-			//}
-			//else
-			{
-				ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
-				//ImVec2 iconSize = ImGui::CalcTextSize(icon);
-				//ImGui::GetWindowDrawList()->AddText(
-				//	Editor::EditorContext::fontExtraLarge,
-				//	0.0f,
-				//	ImVec2(center.x - iconSize.x * 0.5f, min.y + 6),
-				//	col,
-				//	icon
-				//);
-				ImGui::PushStyleColor(ImGuiCol_Text, col.Value);
-				ImGui::Button(icon, buttonSizeVec);
-				ImGui::PopStyleColor();
-				ImGui::PopFont();
-			}
+			ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
+			ImGui::PushStyleColor(ImGuiCol_Text, col.Value);
+			ImGui::Button(icon, buttonSizeVec);
+			ImGui::PopStyleColor();
+			ImGui::PopFont();
 
 			std::string relativePath = std::filesystem::relative(entry, SOURCE_PATH).string();
 
@@ -140,6 +120,10 @@ namespace Eclipse::Editor
 				label.erase(maxSize, label.size());
 				label += "...";
 			}
+
+			ImVec2 min = ImGui::GetItemRectMin();
+			ImVec2 max = ImGui::GetItemRectMax();
+			ImVec2 center = ImVec2((min.x + max.x) * 0.5f, (min.y + max.y) * 0.5f);
 
 			ImGui::PushFont(Editor::EditorContext::fontTiny);
 			ImVec2 textSize = ImGui::CalcTextSize(label.c_str());
@@ -158,7 +142,7 @@ namespace Eclipse::Editor
 
 			ImGui::PopID();
 
-			if(ImGui::IsItemClicked(ImGuiMouseButton_Left))
+			if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
 			{
 				Active_FilePath = entry.path();
 				print_file_id(Active_FilePath.string().c_str());
@@ -168,7 +152,7 @@ namespace Eclipse::Editor
 				Active_FilePath = entry.path();
 				ImGui::OpenPopup("AssetContextMenu");
 			}
-			
+
 
 
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
