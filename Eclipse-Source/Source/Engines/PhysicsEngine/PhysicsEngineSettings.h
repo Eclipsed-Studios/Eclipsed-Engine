@@ -12,11 +12,12 @@
 #include <unordered_map>
 #define MAX_LAYERS 16
 
+#include <array>
+
+
 
 namespace Eclipse
 {
-	static inline uint64_t myCollisionLayers[MAX_LAYERS] = {};
-
 	constexpr int layerCount = 8;
 #define LAYER_ENUM_ITEMS(X)                \
     X(Default, 1 << 0)                     \

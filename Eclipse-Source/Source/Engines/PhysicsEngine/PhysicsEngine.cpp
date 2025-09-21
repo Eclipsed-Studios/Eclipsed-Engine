@@ -82,6 +82,7 @@ namespace Eclipse
         b2Polygon polygon = b2MakeBox(aHalfExtents.x, aHalfExtents.y);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
 
+        shapeDef.enableCustomFiltering = true;
         shapeDef.enableHitEvents = true;
         shapeDef.enableContactEvents = true;
 
@@ -98,6 +99,7 @@ namespace Eclipse
         b2Circle cicle({ 0, 0 }, radius);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
 
+        shapeDef.enableCustomFiltering = true;
         shapeDef.enableHitEvents = true;
         shapeDef.enableContactEvents = true;
 
@@ -114,6 +116,7 @@ namespace Eclipse
         b2Capsule capsule({ 0, -aHalfHeight * 0.5f }, { 0, aHalfHeight * 0.5f }, aRadius);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
 
+        shapeDef.enableCustomFiltering = true;
         shapeDef.enableHitEvents = true;
         shapeDef.enableContactEvents = true;
 
@@ -141,6 +144,7 @@ namespace Eclipse
         b2Polygon polygon = b2MakePolygon(&hull, 0.0001f);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
 
+        shapeDef.enableCustomFiltering = true;
         shapeDef.enableHitEvents = true;
         shapeDef.enableContactEvents = true;
 
@@ -286,7 +290,7 @@ namespace Eclipse
         return false;
     }
 
-    void LoadLayersFromJSON(uint64_t aCollisionLayers[MAX_LAYERS])
+    void LoadLayersFromJSON(std::array<uint64_t, MAX_LAYERS>& aCollisionLayers)
     {
         const char* layerPath = ASSET_PATH"CollisionLayers.json";
 
@@ -298,7 +302,7 @@ namespace Eclipse
         document.ParseStream(fileReadStream);
         fclose(fileP);
 
-        auto layers = document["Layer"].GetArray();
+        auto layers = document["Layers"].GetArray();
         for (unsigned i = 0; i < layers.Size(); i++)
             aCollisionLayers[i] = layers[i].GetInt();
     }
@@ -318,7 +322,7 @@ namespace Eclipse
 
         myDebugDraw = std::move(aDebugdraw);
 
-        //b2World_SetCustomFilterCallback(myWorld, CustomFilterFunction, (void*)0);
+        b2World_SetCustomFilterCallback(myWorld, CustomFilterFunction, (void*)0);
     }
 
     bool& PhysicsEngine::GetDebugDraw()

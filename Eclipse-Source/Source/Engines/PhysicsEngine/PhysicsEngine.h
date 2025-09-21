@@ -33,20 +33,20 @@ namespace Eclipse
         static bool OverlapSphere(const Math::Vector2f& aPositon, float aRadius, HitResults& aHitResults, Layer aLayerMask = Layer::All);
 
 
-     
-        static void CreateRigidBody(b2BodyId* aBody, 
+
+        static void CreateRigidBody(b2BodyId* aBody,
             UserData* aUserData,
             Box2DBodyType BodyType = StaticBody,
             bool LockRotation = false,
             bool LockXPos = false,
             bool LockYPos = false,
             const Math::Vector2f& aStartPosition = { 0.f, 0.f });
-        
+
         // Simple
         static void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer);
         static void CreateCircleCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, float radius, Layer aLayer);
         static void CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, float aHalfHeight, float aRadius, Layer aLayer);
-        
+
         // Complex
         static void CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
 
@@ -59,12 +59,12 @@ namespace Eclipse
         static void SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation);
 
         // Update Simple collisions
-        static void SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = {0.f, 0.f});
-        static void SetTransformCircle(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, const Math::Vector2f& aPivot = {0.f, 0.f});
-        static void SetTransformCapsule(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot = {0.f, 0.f});
-        
+        static void SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        static void SetTransformCircle(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        static void SetTransformCapsule(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot = { 0.f, 0.f });
+
         // Update Complex collisions
-        static void SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = {0.f, 0.f});
+        static void SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
 
         static void SetGravity(const Math::Vector2f& aGravity);
 
@@ -80,6 +80,8 @@ namespace Eclipse
         static inline std::function<void(UserData&)> myBeginContactCallback;
         static inline std::function<void(UserData&)> myEndContactCallback;
 
+        static inline std::array<uint64_t, MAX_LAYERS> myCollisionLayers = {};
+
     private:
         static inline b2WorldId myWorld;
         static inline Math::Vector2f myGravity;
@@ -88,6 +90,5 @@ namespace Eclipse
         static inline b2DebugDraw myDebugDraw;
         static inline bool myDrawDebugShapes = true;
         static inline bool myDrawQueries = false;
-
     };
 }
