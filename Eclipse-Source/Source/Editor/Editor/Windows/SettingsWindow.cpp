@@ -21,12 +21,10 @@ namespace Eclipse::Editor
 
 	void GameSettingsWindow::DrawCollisionLayerEditor()
 	{
-        int collisionLayerCount = layerCount;
-
         ImGuiTableColumnFlags columnFlags = ImGuiTableColumnFlags_AngledHeader | ImGuiTableColumnFlags_WidthFixed;
         ImGuiTableFlags tableFlags = ImGuiTableFlags_HighlightHoveredColumn | ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit;
 
-        int columnCount = collisionLayerCount + 1;
+        int columnCount = layerCount;
         if (ImGui::BeginTable("CollisionLayers", columnCount + 2, tableFlags))
         {
             // Not visible without table headersrow
@@ -57,7 +55,7 @@ namespace Eclipse::Editor
                     ImGui::TableNextColumn();
 
                     totalID++;
-                    int hasLayer = myCollisionLayers[i] & (1 << (collisionLayerCount - 1 - j));
+                    int hasLayer = myCollisionLayers[i] & (1 << (layerCount - 1 - j));
 
                     bool hasLayerBool = static_cast<bool>(hasLayer);
 
@@ -67,13 +65,13 @@ namespace Eclipse::Editor
                     {
                         if (hasLayerBool)
                         {
-                            myCollisionLayers[collisionLayerCount - 1 - j] |= (1 << i);
-                            myCollisionLayers[i] |= (1 << (collisionLayerCount - 1 - j));
+                            myCollisionLayers[layerCount - 1 - j] |= (1 << i);
+                            myCollisionLayers[i] |= (1 << (layerCount - 1 - j));
                         }
                         else
                         {
-                            myCollisionLayers[collisionLayerCount - 1 - j] &= ~(1 << i);
-                            myCollisionLayers[i] &= ~(1 << (collisionLayerCount - 1 - j));
+                            myCollisionLayers[layerCount - 1 - j] &= ~(1 << i);
+                            myCollisionLayers[i] &= ~(1 << (layerCount - 1 - j));
                         }
 
                         SaveLayerEditToJSON();

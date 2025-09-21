@@ -20,7 +20,6 @@ namespace Eclipse::Editor
 		void MouseManager();
 		void SpriteDragging();
 
-
 		void Update() override;
 		void Open() override;
 

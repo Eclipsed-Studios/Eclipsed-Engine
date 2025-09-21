@@ -318,7 +318,7 @@ namespace Eclipse
 
         myDebugDraw = std::move(aDebugdraw);
 
-        b2World_SetCustomFilterCallback(myWorld, CustomFilterFunction, (void*)0);
+        //b2World_SetCustomFilterCallback(myWorld, CustomFilterFunction, (void*)0);
     }
 
     bool& PhysicsEngine::GetDebugDraw()

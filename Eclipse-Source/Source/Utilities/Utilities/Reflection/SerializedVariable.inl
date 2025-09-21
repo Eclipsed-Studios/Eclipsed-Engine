@@ -190,17 +190,17 @@ namespace Eclipse::Reflection
 			float size = totalSize * 0.5f;
 
 			ImGui::SetNextItemWidth(size);
-			ImGui::DragFloat((GetNameID() + std::string("X")).c_str(), &element.x, 0.01f);
+			ImGui::DragFloat((GetNameID() + std::string("X")).c_str(), &element.x, 0.001f);
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(size);
-			ImGui::DragFloat((GetNameID() + std::string("Y")).c_str(), &element.y, 0.01f);
+			ImGui::DragFloat((GetNameID() + std::string("Y")).c_str(), &element.y, 0.001f);
 
 			return;
 		}
 
 		ImGui::SetNextItemWidth(availX);
 
-		if constexpr (std::is_same<U, float>::value) ImGui::DragFloat(GetNameID().c_str(), &element, 0.01f);
+		if constexpr (std::is_same<U, float>::value) ImGui::DragFloat(GetNameID().c_str(), &element, 0.001f);
 		else if constexpr (std::is_same<U, bool>::value) ImGui::Checkbox(GetNameID().c_str(), &element);
 		else if constexpr (Is_String<U>::value) DrawString(data);
 		else if constexpr (std::is_base_of<SerializedEnum, U>::value) ComboEnum(GetNameID().c_str(), element);

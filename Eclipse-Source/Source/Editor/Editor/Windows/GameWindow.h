@@ -14,6 +14,9 @@ namespace Eclipse::Editor
 
 	public:
 
+		void UpdateFreeAspect();
+		void UpdateSpecifiedRes();
+
 		void Update() override;
 		void Open() override;
 
@@ -22,7 +25,16 @@ namespace Eclipse::Editor
 		unsigned myGameTexture = 0;
 
 		Math::Vector2i myLastWindowResolution = { 0, 0 };
-		std::string myCurrentWindowRes;
+
+		enum WindowMode
+		{
+			FreeAspect,
+			AnythingElse
+		} myCurrentWindowMode;
+
+		int currentResIndex = 1;
+
+		Math::Vector2f myWindowResAspect = {1.7777f, 0.5625f};
 
 		float menuHeight = 0;
 	};

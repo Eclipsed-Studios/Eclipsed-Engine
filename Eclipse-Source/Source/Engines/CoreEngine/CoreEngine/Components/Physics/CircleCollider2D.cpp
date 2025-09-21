@@ -32,7 +32,7 @@ namespace Eclipse
 
     void CircleCollider2D::EditorUpdate()
     {
-        if (LastRadius != myRadius || LastRadius != myRadius)
+        if (LastRadius != myRealRadius || LastRadius != myRealRadius)
         {
             OnTransformDirty();
         }
@@ -54,6 +54,7 @@ namespace Eclipse
 
     void CircleCollider2D::OnTransformDirty()
     {
+        LastRadius = myRealRadius;
         Math::Vector2f size = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
         float radius = myRealRadius * std::max(size.x, size.y);

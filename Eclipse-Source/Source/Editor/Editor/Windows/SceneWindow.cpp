@@ -40,14 +40,21 @@ namespace Eclipse::Editor
 		if (deltaYScroll == 0.0f)
 			return;
 
-		float zoomFactor = (deltaYScroll > 0) ? 1.05f : 0.95f;
+		float baseFactor = 1.07f;
 
-		Math::Vector2f zoomCenter = normalizedMousePosition;
+		float scaleMagnitude = std::log2(myInspectorScale.x + 1.0f);
+		float dynamicFactor = baseFactor - (0.02f * scaleMagnitude);
+
+		dynamicFactor = std::max(1.001f, dynamicFactor);
+		float zoomFactor = (deltaYScroll > 0) ? dynamicFactor : 1.0f / dynamicFactor;
+
+		Math::Vector2f zoomCenter = normalizedMousePosition + myInspectorPosition;
 
 		myInspectorPosition = zoomCenter + (myInspectorPosition - zoomCenter) * (1.0f / zoomFactor);
 
-		myInspectorScale *= {zoomFactor, zoomFactor};
+		myInspectorScale *= { zoomFactor, zoomFactor };
 	}
+
 
 	void SceneWindow::MouseManager()
 	{
@@ -123,7 +130,7 @@ namespace Eclipse::Editor
 
 		CommandList::Execute();
 
-		Math::Vector4ui colorValue = GraphicsEngine::ReadPixel({ windowRelativeMousePosition.x, windowRelativeMousePosition.y });
+		Math::Vector4ui colorValue = GraphicsEngine::ReadPixel({ windowRelativeMousePosition.x + 10, windowRelativeMousePosition.y - 8 });
 		int pickedID = colorValue.x + colorValue.y * 256 + colorValue.z * 256 * 256;
 
 		if (ImGui::IsMouseClicked(0) && HierarchyWindow::CurrentGameObjectID == pickedID && HierarchyWindow::CurrentGameObjectID)
@@ -213,7 +220,9 @@ namespace Eclipse::Editor
 		}
 
 		myLastWindowResolution = { myWindowSize.x, myWindowSize.y };
-
+		
+        ImVec2 CursorPos = ImGui::GetCursorPos();
+        ImGui::SetCursorPos(ImVec2(CursorPos.x - 8, CursorPos.y - 7));
 		ImGui::Image(mySceneTexture, ImVec2(myWindowSize.x, myWindowSize.y), ImVec2(0, 1), ImVec2(1, 0));
 
 		GraphicsEngine::BindFrameBuffer(0);

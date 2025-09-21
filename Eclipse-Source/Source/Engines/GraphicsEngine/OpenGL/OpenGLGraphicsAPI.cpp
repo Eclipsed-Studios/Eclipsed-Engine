@@ -164,7 +164,19 @@ namespace Eclipse
 
     void GraphicsEngine::Render()
     {
+#ifdef _GAME
+        float resX = TemporarySettingsSingleton::Get().GetResolutionX();
+        float resY = TemporarySettingsSingleton::Get().GetResolutionY();
+
+        glViewport(0, 0, resX, resY);
+
+        float aspectRatio = resY / resX;
+        GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
+
+        CommandList::Execute();
+#else
         DebugDrawer::Get().Render();
+#endif
     }
     void GraphicsEngine::EndFrame()
     {

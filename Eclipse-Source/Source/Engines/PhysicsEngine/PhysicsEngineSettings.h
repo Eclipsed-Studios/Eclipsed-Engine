@@ -17,7 +17,7 @@ namespace Eclipse
 {
 	static inline uint64_t myCollisionLayers[MAX_LAYERS] = {};
 
-	constexpr int layerCount = 7;
+	constexpr int layerCount = 8;
 #define LAYER_ENUM_ITEMS(X)                \
     X(Default, 1 << 0)                     \
     X(Player, 1 << 1)                      \
@@ -27,7 +27,7 @@ namespace Eclipse
     X(Trigger, 1 << 5)                     \
     X(IgnoreRaycast, 1 << 6)               \
     X(UI, 1 << 7)                          \
-    X(All, (1 << (layerCount + 1)) - 1)
+    X(All, (1 << (layerCount)) - 1)
 
 	SERIALIZABLE_ENUM(Layer, LAYER_ENUM_ITEMS);
 #undef LAYER_ENUM_ITEMS

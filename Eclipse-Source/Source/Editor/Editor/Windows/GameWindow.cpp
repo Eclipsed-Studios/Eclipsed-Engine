@@ -14,26 +14,37 @@
 
 namespace Eclipse::Editor
 {
-    std::array<std::string, 2> resolutionChooser{ "Free Aspect", "16:9" };
+    struct TResolution
+    {
+        std::string name;
+        Math::Vector2f res;
+    };
+
+    std::vector<TResolution> resolutionChooser{ {"Free Aspect", {0.f, 0.f}}, {"16:9", {16.f, 9.f}}, {"16:10", {16.f, 10.f}}, {"4:3", {4.f, 3.f}}, {"21:9", {21.f, 9.f}} };
 
     void GameWindow::Update()
     {
         if (ImGui::BeginMenuBar())
         {
             std::stringstream ss;
-            ss << "Resolution: " << myCurrentWindowRes;
+            ss << "Resolution: " << resolutionChooser[currentResIndex].name;
 
             if (ImGui::Button(ss.str().c_str()))
                 ImGui::OpenPopup("Res");
 
             if (ImGui::BeginPopup("Res"))
             {
-                for (auto& res : resolutionChooser)
+                for (int i = 0; i < resolutionChooser.size(); i++)
                 {
-                    if (ImGui::Selectable(res.c_str()))
+                    if (ImGui::Selectable(resolutionChooser[i].name.c_str()))
                     {
-                        myCurrentWindowRes = res;
+                        currentResIndex = i;
+                        myCurrentWindowMode = static_cast<WindowMode>(static_cast<bool>(i));
+
+                        Math::Vector2f resolution = resolutionChooser[i].res;
+                        myWindowResAspect = { resolution.x / resolution.y, resolution.y / resolution.x };
                     }
+
                 }
 
                 ImGui::EndPopup();
@@ -59,17 +70,22 @@ namespace Eclipse::Editor
         GraphicsEngine::BindFrameBuffer(myGameFrameBuffer);
         GraphicsEngine::ClearCurrentSceneBuffer();
 
+        if (myCurrentWindowMode != FreeAspect)
+            UpdateSpecifiedRes();
+        else
+            UpdateFreeAspect();
 
-        TemporarySettingsSingleton::Get().resolutionRatioGameView = windowSize.x / windowSize.y;
+        GraphicsEngine::BindFrameBuffer(0);
+    }
 
+    void GameWindow::UpdateFreeAspect()
+    {
+        ImVec2 CursorPos = ImGui::GetCursorPos();
+        CursorPos.x -= 8;
+        CursorPos.y -= 7;
 
-        // if (myCurrentWindowRes == "16:9")
-        // {
-            //     windowSize.x = windowSize.y * 1.777777f;
-            // }
-
-
-        glViewport(0, 0, windowSize.x, windowSize.y);
+        ImVec2 windowSize = ImGui::GetWindowSize();
+        glViewport(0, 0, windowSize.x, windowSize.y + 44);
 
         float aspectRatio = windowSize.y / windowSize.x;
         GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
@@ -90,15 +106,67 @@ namespace Eclipse::Editor
 
         myLastWindowResolution = { static_cast<int>(windowSize.x), static_cast<int>(windowSize.y) };
 
-        ImGui::SetCursorPos(ImVec2(0, 43));
-        ImGui::Image(myGameTexture, ImVec2(windowSize.x, windowSize.y - 64), ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::SetCursorPos(CursorPos);
+        ImGui::Image(myGameTexture, ImVec2(windowSize.x, windowSize.y - CursorPos.y), ImVec2(0, 1), ImVec2(0.99, 0));
 
-        GraphicsEngine::BindFrameBuffer(0);
+        TemporarySettingsSingleton::Get().resolutionRatioGameView = windowSize.x / (windowSize.y - 46);
+    }
+
+    void GameWindow::UpdateSpecifiedRes()
+    {
+        ImVec2 windowSize = ImGui::GetWindowSize();
+
+        glViewport(0, 0, windowSize.x, (windowSize.x * myWindowResAspect.y));
+
+        float aspectRatio = (windowSize.x * myWindowResAspect.y) / windowSize.x;
+        GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
+
+        CommandList::Execute();
+
+        if (windowSize.x != myLastWindowResolution.x || windowSize.y != myLastWindowResolution.y)
+        {
+            glBindTexture(GL_TEXTURE_2D, myGameTexture);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowSize.x, (windowSize.x * myWindowResAspect.y), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+            // Also update the framebuffer attachment
+            glBindFramebuffer(GL_FRAMEBUFFER, myGameFrameBuffer);
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, myGameTexture, 0);
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
+
+        myLastWindowResolution = { static_cast<int>(windowSize.x), static_cast<int>((windowSize.x * myWindowResAspect.y)) };
+
+        ImVec2 CursorPos = ImGui::GetCursorPos();
+        CursorPos.x -= 8;
+        CursorPos.y -= 7;
+
+        if (windowSize.y - 46 > (windowSize.x * myWindowResAspect.y))
+        {
+            ImVec2 actuallWindowRes = windowSize;
+
+            windowSize.y = (windowSize.x * myWindowResAspect.y);
+
+            ImGui::SetCursorPos(ImVec2(CursorPos.x, actuallWindowRes.y * 0.5f - (windowSize.y - 46) * 0.5f));
+        }
+        else
+        {
+            ImVec2 actuallWindowRes = windowSize;
+
+            windowSize.x = ((windowSize.y - 46) * myWindowResAspect.x);
+            windowSize.y = windowSize.y - 46;
+
+            ImGui::SetCursorPos(ImVec2(actuallWindowRes.x * 0.5f - windowSize.x * 0.5f, CursorPos.y));
+        }
+
+        ImGui::Image(myGameTexture, windowSize, ImVec2(0, 0.99), ImVec2(1, 0));
+
+        TemporarySettingsSingleton::Get().resolutionRatioGameView = windowSize.x / windowSize.y;
     }
 
     void GameWindow::Open()
     {
-        myCurrentWindowRes = resolutionChooser[0];
+        myCurrentWindowMode = static_cast<WindowMode>(currentResIndex);
 
         flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollWithMouse;
 
