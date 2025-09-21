@@ -67,6 +67,8 @@ namespace Eclipse::Reflection
 
 		for (auto& element : list)
 		{
+			if (!element->canDrawInspector) continue;
+
 			element->DrawInspector();
 		}
 	}

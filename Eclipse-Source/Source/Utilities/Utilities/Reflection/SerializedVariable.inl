@@ -12,14 +12,26 @@
 namespace Eclipse::Reflection
 {
 	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr)
-		: AbstractSerializedVariable(aName, aCompPtr)
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
+		: AbstractSerializedVariable(aName, aCompPtr, drawInspector)
 	{
 	}
 
 	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue)
-		: AbstractSerializedVariable(aName, aCompPtr), data(aDefaultValue)
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue)
+		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue)
+	{
+	}
+
+	template<typename T>
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, T _min, T _max)
+		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), myMin(_min), myMax(_max), hasMinMax(true)
+	{
+	}
+
+	template<typename T>
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue, T _min, T _max)
+		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
 	{
 	}
 
@@ -181,26 +193,12 @@ namespace Eclipse::Reflection
 	inline void SerializedVariable<T>::DrawElement(U& element)
 	{
 		float availX = ImGui::GetContentRegionAvail().x;
-		float rightPad = ImGui::GetStyle().WindowPadding.x;
-
-		float totalSize = availX - rightPad;
-
-		if constexpr (std::is_same<U, Math::Vector2<float>>::value)
-		{
-			float size = totalSize * 0.5f;
-
-			ImGui::SetNextItemWidth(size);
-			ImGui::DragFloat((GetNameID() + std::string("X")).c_str(), &element.x, 0.001f);
-			ImGui::SameLine();
-			ImGui::SetNextItemWidth(size);
-			ImGui::DragFloat((GetNameID() + std::string("Y")).c_str(), &element.y, 0.001f);
-
-			return;
-		}
 
 		ImGui::SetNextItemWidth(availX);
 
-		if constexpr (std::is_same<U, float>::value) ImGui::DragFloat(GetNameID().c_str(), &element, 0.001f);
+		if constexpr (std::is_same<U, float>::value) ImGui::DragFloat(GetNameID().c_str(), &element, 0.001f, hasMinMax ? myMin : 0.f, hasMinMax ? myMax : 0.f);
+		else if constexpr (std::is_same<U, int>::value) ImGui::DragInt(GetNameID().c_str(), &element, 1.f, hasMinMax ? myMin : 0, hasMinMax ? myMax : 0);
+		else if constexpr (std::is_same<U, Math::Vector2<float>>::value) ImGui::DragFloat2(GetNameID().c_str(), &element.x, 0.001f);
 		else if constexpr (std::is_same<U, bool>::value) ImGui::Checkbox(GetNameID().c_str(), &element);
 		else if constexpr (Is_String<U>::value) DrawString(data);
 		else if constexpr (std::is_base_of<SerializedEnum, U>::value) ComboEnum(GetNameID().c_str(), element);

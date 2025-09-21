@@ -50,9 +50,9 @@ namespace Eclipse
 		bool myIsPlaying = false;
 
 
-		SERIALIZED_FIELD_DEFAULT(float, myVolume, 1.f);
+		SERIALIZED_FIELD_DEFAULT_MIN_MAX(float, myVolume, 1.f, 0.f, 1.f);
 		SERIALIZED_FIELD_DEFAULT(bool, myPlayOnStart, false);
 		SERIALIZED_FIELD_DEFAULT(bool, myIsLooping, false);
-		SERIALIZED_FIELD_DEFAULT(std::string, myAudioPath, "");
+		PRIVATE_SERIALIZED_FIELD_DEFAULT(std::string, myAudioPath, "");
     };
 }

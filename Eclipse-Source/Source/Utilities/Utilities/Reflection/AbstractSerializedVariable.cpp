@@ -4,8 +4,8 @@
 
 namespace Eclipse::Reflection
 {
-	AbstractSerializedVariable::AbstractSerializedVariable(const char* aName, Component* aCompPtr)
-		: name(aName), pComponent(aCompPtr)
+	AbstractSerializedVariable::AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
+		: name(aName), pComponent(aCompPtr), canDrawInspector(drawInspector)
 	{
 		ReflectionManager::RegisterVariable(this);
 	}

@@ -10,7 +10,7 @@ namespace Eclipse::Reflection
 		friend class ReflectionManager;
 
 	public:
-		AbstractSerializedVariable(const char* aName, Component* aCompPtr);
+		AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector);
 
 	public:
 		virtual void* GetData() = 0;
@@ -57,5 +57,6 @@ namespace Eclipse::Reflection
 		SerializedTypes_ type = SerializedType_None;
 		unsigned sizePerElement = 0;
 		unsigned count = 1;
+		bool canDrawInspector = false;
 	};
 }
