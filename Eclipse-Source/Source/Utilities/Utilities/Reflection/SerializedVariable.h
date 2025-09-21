@@ -8,8 +8,11 @@ namespace Eclipse::Reflection
 	class SerializedVariable final : public AbstractSerializedVariable
 	{
 	public:
-		SerializedVariable(const char* aName, Component* aCompPtr);
-		SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue);
+		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector);
+		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue);
+
+		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, T _min, T _max);
+		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue, T _min, T _max);
 
 		void DrawInspector() override;
 
@@ -44,6 +47,9 @@ namespace Eclipse::Reflection
 
 	private:
 		T data;
+		T myMin, myMax;
+		bool hasMinMax = false;
+
 		bool isDrawn = false;
 	};
 }
