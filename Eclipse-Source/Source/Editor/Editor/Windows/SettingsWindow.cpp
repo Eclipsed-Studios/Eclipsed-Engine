@@ -9,6 +9,8 @@
 #include <rapidjson/rapidjson/stringbuffer.h>
 #include <rapidjson/rapidjson/prettywriter.h>
 
+#include "Scenes/SceneManager.h"
+
 namespace Eclipse::Editor
 {
     void GameSettingsWindow::Update()
@@ -17,6 +19,109 @@ namespace Eclipse::Editor
         collisionLayersShown = ImGui::CollapsingHeader("Collision Layers");
 
         if (collisionLayersShown) DrawCollisionLayerEditor();
+
+
+        static bool sceneShown = false;
+        sceneShown = ImGui::CollapsingHeader("Scene Build Settings");
+
+        if (sceneShown) DrawSceneEditor();
+    }
+
+    void GameSettingsWindow::DrawSceneEditor()
+    {
+        if (ImGui::Button("Save"))
+        {
+            SceneManager::SaveSceneData();
+        }
+
+        if (DragAndDrop::BeginTarget("Drag scene here", FileInfo::FileType_Scene))
+        {
+            SceneManager::AddScene(DragAndDrop::payloadBuffer);
+        }
+
+        for (auto& [name, idx] : SceneManager::GetNameToIdx())
+        {
+            if (ImGui::Button(name.c_str()))
+            {
+                SceneManager::LoadScene(name);
+            }
+        }
+
+        ImGui::Spacing();
+
+        if (ImGui::BeginTable("SceneOrderTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg))
+        {
+            ImGui::TableSetupColumn("##Label", ImGuiTableColumnFlags_WidthFixed, 10.0f);
+            ImGui::TableSetupColumn("Scenes");
+            ImGui::TableHeadersRow();
+
+            static std::vector<std::string> sceneOrder;
+            if (sceneOrder.empty() || sceneOrder.size() < SceneManager::GetNameToIdx().size()) 
+            {
+                sceneOrder.clear();
+
+                for (auto& [name, _] : SceneManager::GetNameToIdx())
+                {
+                    sceneOrder.push_back(name);
+                }
+            }
+
+            for (int row = 0; row < sceneOrder.size(); row++)
+            {
+                const std::string& name = sceneOrder[row];
+
+                ImGui::TableNextRow();
+
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text(std::to_string(row).c_str());
+
+                ImGui::TableSetColumnIndex(1);
+
+                ImGui::Selectable(name.c_str(), false, ImGuiSelectableFlags_SpanAllColumns);
+
+                if (ImGui::BeginDragDropSource())
+                {
+                    ImGui::SetDragDropPayload("ROW_PAYLOAD", &row, sizeof(int));
+                    ImGui::Text("Move %s", name.c_str());
+                    ImGui::EndDragDropSource();
+                }
+
+                if (ImGui::BeginDragDropTarget())
+                {
+                    if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ROW_PAYLOAD"))
+                    {
+                        std::vector<std::string>& paths = SceneManager::GetScenePaths();
+
+                        int srcIndex = *(const int*)payload->Data;
+                        if (srcIndex != row)
+                        {
+                            std::string movedPath = paths[srcIndex];
+                            paths.erase(paths.begin() + srcIndex);
+
+                            std::string moved = sceneOrder[srcIndex];
+                            sceneOrder.erase(sceneOrder.begin() + srcIndex);
+
+                            int insert_at = row;
+                            if (srcIndex < row) insert_at--;
+
+                            sceneOrder.insert(sceneOrder.begin() + insert_at, moved);
+                            paths.insert(paths.begin() + insert_at, movedPath);
+
+
+                            int idx = 0;
+                            for (auto& path : sceneOrder)
+                            {
+                                SceneManager::GetNameToIdx()[path] = idx;
+                                idx += 1;
+                            }
+                        }
+                    }
+                    ImGui::EndDragDropTarget();
+                }
+            }
+
+            ImGui::EndTable();
+        }
     }
 
     void GameSettingsWindow::DrawCollisionLayerEditor()

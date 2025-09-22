@@ -15,6 +15,8 @@ namespace Eclipse
 	class Resources
 	{
 	public:
+		static void Init();
+
 		template<typename T>
 		static ResourcePointer<T> Get(const char* aPath);
 

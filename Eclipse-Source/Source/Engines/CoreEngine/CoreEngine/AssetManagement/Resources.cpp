@@ -3,6 +3,12 @@
 
 namespace Eclipse
 {
+	void Resources::Init()
+	{
+		myLoader.Init();
+	}
+
+
 	FileInfo Resources::GetFileInfo(const std::filesystem::path& aPath)
 	{
 		static std::unordered_map<std::string, FileInfo::FileType_> files =

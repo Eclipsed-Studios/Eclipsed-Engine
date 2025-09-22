@@ -117,6 +117,18 @@ namespace Eclipse::Editor
 				ImGui::EndMenu();
 			}
 
+			if (ImGui::MenuItem("Build"))
+			{
+				AssetExporter::ExportAll();
+				std::string cmd = "cd /d \"" SOURCE "Tools"  "\" && build-game.bat";
+				int result = system(cmd.c_str());
+
+				if (result != 0)
+				{
+					int i = 0;
+				}
+			}
+
 			ImGui::SameLine(ImGui::GetWindowWidth() - (ImGui::CalcTextSize("Debug").x * 2) + 10);
 			if (ImGui::Button("Debug"))
 			{

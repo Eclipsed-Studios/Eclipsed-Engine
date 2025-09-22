@@ -6,14 +6,10 @@
 
 namespace Eclipse
 {
-	class Scene : public AbstractResource
+	class Scene
 	{
-		BASE_RESOURCE(Scene)
-
 	public:
-
-
-	private:
+		std::string relativePath;
 		std::string sceneName;
 		ComponentManager myComponentManager;
 	};

@@ -28,6 +28,7 @@ namespace Eclipse::Editor
 		{
 			{FileInfo::FileType_Audio, "DND_AUDIO"},
 			{FileInfo::FileType_Texture, "DND_TEXTURE"},
+			{FileInfo::FileType_Scene, "DND_SCENE"},
 		};
 	};
 }

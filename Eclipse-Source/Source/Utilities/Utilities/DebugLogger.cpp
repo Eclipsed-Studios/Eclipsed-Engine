@@ -10,8 +10,8 @@ namespace Eclipse
 {
 	void DebugLogger::OverwriteDefaultCoutBuffer()
 	{
-		static DebugLogBuf buffer = DebugLogBuf();
-		std::cout.rdbuf(&buffer);
+		//static DebugLogBuf buffer = DebugLogBuf();
+		//std::cout.rdbuf(&buffer);
 	}
 
 	void DebugLogger::Log(const std::string& aMessage, const char* aFile, int aLine)

@@ -13,12 +13,18 @@
 #include <AssetManagement/Resources/Shaders/VertexShader.h>
 #include <AssetManagement/Resources/SpriteSheetAnimation.h>
 
+#include "AssetManagement/AssetExporter.h"
+
 namespace Eclipse
 {
 	class Resources;
 	class AssetLoader
 	{
 	public:
+		void Init();
+		std::unordered_map<size_t, FileEntryData> loadedDatas;
+
+
 		template <typename T>
 		void LoadFromPath(const char* aPath, T& outResource) {  }
 

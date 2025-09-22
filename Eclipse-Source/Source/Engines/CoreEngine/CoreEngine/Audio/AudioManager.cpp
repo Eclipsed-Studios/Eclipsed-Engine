@@ -23,11 +23,23 @@ namespace Eclipse
         mySystem->playSound(anAudioClip.mySound, nullptr, false, aChannel);
     }
 
-    void AudioManager::CreateAudio(AudioClip& anAudioClip)
+    void AudioManager::CreateAudioFromPath(AudioClip& anAudioClip)
     {
         FMOD_MODE mode = true ? FMOD_LOOP_NORMAL : FMOD_DEFAULT;
 
         std::string path = ASSET_PATH + std::string(anAudioClip.GetRelativePath());
         mySystem->createSound(path.c_str(), mode, nullptr, &anAudioClip.mySound);
+    }
+
+    void AudioManager::CreateAudioFromMemory(const char* data, size_t size, AudioClip& anAudioClip)
+    {
+        FMOD_MODE mode = true ? FMOD_LOOP_NORMAL : FMOD_DEFAULT;
+
+        FMOD_CREATESOUNDEXINFO exinfo = {};
+        exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
+        exinfo.length = size;
+
+        mySystem->createSound((const char*)data, FMOD_OPENMEMORY | mode, &exinfo, &anAudioClip.mySound);
+
     }
 }

@@ -1,15 +1,26 @@
 {
-  "GameName": "Template_v.0.0.1",
-  "GameTitle": "Template",
-
-  "InGameSettings": {
-    "Resolution": {
-      "X": 1280,
-      "Y": 720
+    "GameName": "Template_v.0.0.1",
+    "GameTitle": "Template",
+    "InGameSettings": {
+        "Resolution": {
+            "X": 1280,
+            "Y": 720
+        },
+        "/": "0 = windowed, 1 = WindowedFullscreen, 2 = Fullscreen",
+        "Fullscreen": 0,
+        "//": "Higher than 0 is vsync on and even higher changes how many buffers should it renders too",
+        "NumberOfRenderBuffer": 0
     },
-    "/": "0 = windowed, 1 = WindowedFullscreen, 2 = Fullscreen",
-    "Fullscreen": 0,
-    "//": "Higher than 0 is vsync on and even higher changes how many buffers should it renders too",
-    "NumberOfRenderBuffer": 0
-  }
+    "scenes": [
+        {
+            "name": "SimonsScene",
+            "relativePath": "Assets\\Scenes\\SimonsScene.scene",
+            "idx": 1
+        },
+        {
+            "name": "TestScene",
+            "relativePath": "Assets\\Scenes\\TestScene.scene",
+            "idx": 0
+        }
+    ]
 }

@@ -22,6 +22,7 @@
 #include <iostream>
 #include "Reflection/Reflection.h"
 #include "Scenes/SceneLoader.h"
+#include "Scenes/SceneManager.h"
 
 #include "Components/AudioSource.h"
 
@@ -33,12 +34,13 @@ namespace Eclipse
 
 		InitSubSystems();
 
-		SceneLoader::Load(ASSET_PATH"Scenes/TestScene.scene");
 		game.Init();
 	}
 
 	void Engine::InitSubSystems()
 	{
+		Resources::Init();
+
 		GraphicsEngine::Init();
 
 		{ // PHYSICS
@@ -61,6 +63,8 @@ namespace Eclipse
 		Input::Init();
 		ComponentManager::Init();
 		AudioManager::Init();
+
+		SceneManager::LoadSceneData();
 
 		Utilities::MainSingleton::Init();
 	}

@@ -28,6 +28,8 @@
 #include "Font-Awesome/7/IconsFontAwesome7.h"
 
 #include "AssetManagement/MetaFileRegistry.h"
+#include "AssetManagement/AssetExporter.h"
+
 
 namespace Eclipse::Editor
 {

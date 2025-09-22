@@ -64,9 +64,20 @@ namespace Eclipse::Editor
 		ImGui::Dummy({ 0, 5 });
 
 
+		std::vector<Component*> comps;
 		for (auto& [type, id] : compList)
 		{
 			Component* comp = ComponentManager::myComponents[id];
+			comps.push_back(comp);
+		}
+
+		std::sort(comps.begin(), comps.end(),
+			[](Component* a, Component* b){
+				return a->GetUpdatePriority() > b->GetUpdatePriority();
+		});
+
+		for (Component* comp : comps)
+		{
 			ImGui_Impl::DrawComponentHeader(comp->GetComponentName(), comp->myInspectorWasDrawn);
 			if (!comp->myInspectorWasDrawn) continue;
 

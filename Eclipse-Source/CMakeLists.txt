@@ -16,6 +16,11 @@ add_compile_definitions(ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 add_compile_definitions(SOURCE_PATH=\"${CMAKE_SOURCE_DIR}/\")
 add_compile_definitions(SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/\")
 
+get_filename_component(PARENT_DIR "${CMAKE_SOURCE_DIR}" DIRECTORY)
+
+# Define SOURCE_PATH as a compile definition
+add_compile_definitions(SOURCE=\"${PARENT_DIR}/\")
+
 add_subdirectory(Source/Externals/DiscordSDK)
 add_subdirectory(Source/Externals/fmod)
 add_subdirectory(Source/Externals/rapidjson)

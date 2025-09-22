@@ -12,6 +12,7 @@ namespace Eclipse::Editor
 		void Update() override;
 
 	private:
+		void DrawSceneEditor();
 		void DrawCollisionLayerEditor();
 		void SaveLayerEditToJSON();
 	};

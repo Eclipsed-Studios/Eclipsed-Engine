@@ -24,6 +24,24 @@ namespace Eclipse
 		}
 		outResource = AudioClip(resolvedPath.string().c_str());
 
-		AudioManager::CreateAudio(outResource);
+#ifdef _GAME
+		size_t id = std::hash<std::string>{}(std::filesystem::path(aPath).generic_string());
+		std::ifstream in(SOURCE_PATH "Bin/assets.bundle", std::ios::binary);
+
+		if (AssetLoader::loadedDatas.find(id) != AssetLoader::loadedDatas.end())
+		{
+			in.seekg(AssetLoader::loadedDatas[id].offset, std::ios::beg);
+
+			std::vector<unsigned char> rawData;
+			rawData.resize(AssetLoader::loadedDatas[id].size);
+
+			in.read(reinterpret_cast<char*>(rawData.data()), AssetLoader::loadedDatas[id].size);
+			in.close();
+
+		AudioManager::CreateAudioFromMemory((const char*)rawData.data(), AssetLoader::loadedDatas[id].size, outResource);
+		}
+#else
+		AudioManager::CreateAudioFromPath(outResource);
+#endif
 	}
 }
