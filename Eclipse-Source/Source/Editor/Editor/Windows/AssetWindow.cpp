@@ -6,6 +6,7 @@
 
 #include "Input/Input.h"
 #include "Editor/DragAndDrop.h"
+#include "Editor/TextureIconManager.h"
 
 
 namespace Eclipse::Editor
@@ -158,6 +159,12 @@ namespace Eclipse::Editor
 
 		for (const directory_entry& entry : GetDirectoryEntries(myCurrentPath, true))
 		{
+			if (!std::filesystem::exists(entry))
+			{
+				ImGui::PopStyleColor(3);
+				return;
+			}
+
 			ImVec2 pos = ImGui::GetCursorPos();
 
 			FileInfo info = Resources::GetFileInfo(entry);
@@ -176,7 +183,55 @@ namespace Eclipse::Editor
 
 			ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
 			ImGui::PushStyleColor(ImGuiCol_Text, col.Value);
-			ImGui::Button(icon, buttonSizeVec);
+
+			if (info.type == FileInfo::FileType_Texture)
+			{
+				const IconData& data = IconManager::GetIcon(entry.path().string());
+
+				ImGui::InvisibleButton("##icon", buttonSizeVec);
+
+				ImVec2 p_min = ImGui::GetItemRectMin();
+				ImVec2 p_max = ImGui::GetItemRectMax();
+
+				float availW = p_max.x - p_min.x;
+				float availH = p_max.y - p_min.y;
+
+				float texWidth = data.width;
+				float texHeight = data.height;
+
+				float scale = 0.6f;
+				float maxDim = std::min(availW, availH) * scale;
+
+				float ratio = texWidth / texHeight;
+				float drawWidth, drawHeight;
+
+				if (ratio > 1.0f) 
+				{
+					drawWidth = maxDim;
+					drawHeight = maxDim / ratio;
+				}
+				else 
+				{
+					drawHeight = maxDim;
+					drawWidth = maxDim * ratio;
+				}
+
+				ImVec2 center((p_min.x + p_max.x) * 0.5f, (p_min.y + p_max.y) * 0.5f);
+				ImVec2 imageMin(center.x - drawWidth * 0.5f, center.y - drawHeight * 0.5f);
+				ImVec2 imageMax(center.x + drawWidth * 0.5f, center.y + drawHeight * 0.5f);
+
+				ImGui::GetWindowDrawList()->AddImage(
+					(ImTextureID)data.textureID,
+					imageMin, imageMax,
+					ImVec2(0, 1), ImVec2(1, 0),
+					col
+				);
+			}
+			else
+			{
+				ImGui::Button(icon, buttonSizeVec);
+			}
+
 			ImGui::PopStyleColor();
 			ImGui::PopFont();
 

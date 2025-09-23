@@ -30,6 +30,9 @@
 #include "AssetManagement/MetaFileRegistry.h"
 #include "AssetManagement/AssetExporter.h"
 
+#include "TextureIconManager.h"
+
+#include "FileWatcher.h"
 
 namespace Eclipse::Editor
 {
@@ -49,6 +52,14 @@ namespace Eclipse::Editor
 
         myWindowManager.Begin();
 
+        FileWatcher::Start();
+
+        //IconManager::LoadAllTextureIcons();
+        //IconManager::ExportLoadedTextures();
+
+        IconManager::LoadIconsFile();
+        IconManager::CheckForChanges();
+
         LoadFonts();
 
         return ErrorCode::SUCCESS;
@@ -65,6 +76,7 @@ namespace Eclipse::Editor
     void EditorContext::Update()
     {
         Engine::Update();
+        IconManager::Update();
 
         ImGui::PushFont(fontSmall);
 
