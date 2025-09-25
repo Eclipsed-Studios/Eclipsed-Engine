@@ -36,6 +36,38 @@ namespace Eclipse::Editor
 
 		FileWatcher::Subscribe(EventType::FileAdded, onFileAdded);
 		FileWatcher::Subscribe(EventType::FileRemoved, onFileRemoved);
+
+		int textureCounter = 0;
+		for (auto& entry : fs::recursive_directory_iterator(ASSET_PATH))
+		{
+			FileInfo info = Resources::GetFileInfo(entry);
+			if (info.type != FileInfo::FileType_Texture) continue;
+
+			textureCounter++;
+
+			std::string relativePath = fs::relative(entry.path(), SOURCE_PATH).generic_string();
+			size_t id = std::hash<std::string>{}(relativePath);
+
+			if (loadedIcons.find(id) != loadedIcons.end())
+			{
+				fs::file_time_type ftime = fs::last_write_time(entry);
+
+				std::chrono::system_clock::time_point sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
+					ftime - fs::file_time_type::clock::now()
+					+ std::chrono::system_clock::now()
+				);
+
+				if (loadedIcons[id].lastWriteTime != std::chrono::system_clock::to_time_t(sctp))
+				{
+					filesToLoad.push_back(entry.path().string());
+					loadedIcons.erase(id);
+				}
+			}
+			else
+			{
+				filesToLoad.push_back(entry.path().string());
+			}
+		}
 	}
 
 	void IconManager::Update()
@@ -223,16 +255,20 @@ namespace Eclipse::Editor
 		glGenTextures(1, &data.textureID);
 		glBindTexture(GL_TEXTURE_2D, data.textureID);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, TextureWrapMode::Repeat);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, TextureWrapMode::Repeat);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, SamplingType::Bilinear);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, SamplingType::Bilinear);
+		GLenum format;
+		if (data.channels == 1)
+			format = GL_RED;
+		else if (data.channels == 2)
+			format = GL_RG;
+		else if (data.channels == 3)
+			format = GL_RGB;
+		else if (data.channels == 4)
+			format = GL_RGBA;
 
-		const int offset = 3 - data.channels;
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - offset, data.width,
-			data.height, 0, GL_RGB - offset, GL_UNSIGNED_BYTE, data.data.data());
+		glTexImage2D(GL_TEXTURE_2D, 0, format, data.width,
+			data.height, 0, format, GL_UNSIGNED_BYTE, data.data.data());
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, 0);

@@ -246,7 +246,7 @@ namespace Eclipse::Editor
 				label.erase(maxSize, label.size());
 				label += "...";
 			}
-
+			
 			ImVec2 min = ImGui::GetItemRectMin();
 			ImVec2 max = ImGui::GetItemRectMax();
 			ImVec2 center = ImVec2((min.x + max.x) * 0.5f, (min.y + max.y) * 0.5f);
