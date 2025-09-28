@@ -223,7 +223,7 @@ namespace Eclipse::Editor
 				ImGui::GetWindowDrawList()->AddImage(
 					(ImTextureID)data.textureID,
 					imageMin, imageMax,
-					ImVec2(0, 1), ImVec2(1, 0),
+					ImVec2(0, 0), ImVec2(1, 1),
 					col
 				);
 			}
@@ -268,10 +268,11 @@ namespace Eclipse::Editor
 
 			ImGui::PopID();
 
-			if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+			if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 			{
 				Active_FilePath = entry.path();
 				print_file_id(Active_FilePath.string().c_str());
+				InspectorWindow::activeType = ActiveItemTypes_Asset;
 			}
 			else if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{

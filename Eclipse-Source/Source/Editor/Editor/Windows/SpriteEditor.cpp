@@ -34,9 +34,9 @@ namespace Eclipse::Editor
 
 		float textureSizeScaleFactor = static_cast<float>(std::min(myTextureSize.x, myTextureSize.y)) * 0.001f;
 
-		float baseFactor = 1.07f * textureSizeScaleFactor;
+		float baseFactor = 1.07f;
 		if (ImGui::IsKeyDown(ImGuiKey_LeftShift))
-			baseFactor = 1.3f * textureSizeScaleFactor;
+			baseFactor = 1.5f;
 
 		float scaleMagnitude = std::log2(myInspectorScale.x + 1.0f);
 		float dynamicFactor = baseFactor - (0.02f * scaleMagnitude);
@@ -172,12 +172,13 @@ namespace Eclipse::Editor
 
 			if (ImGui::IsMouseClicked(0))
 			{
-				if (!RectangleEdgeChoosing(OffsetPositionScaledRight))
+				bool propertyWindowSelected = IsInPropertyWindow();
+
+				if (!propertyWindowSelected)
 				{
 					bool createNewRect = true;
-					bool propertyWindowSelected = IsInPropertyWindow();
 
-					if (!propertyWindowSelected)
+					if (!RectangleEdgeChoosing(OffsetPositionScaledRight))
 					{
 						bool clickedSelectedRect = false;
 						if (mySelectedRectPtr)
@@ -273,9 +274,9 @@ namespace Eclipse::Editor
 					float sizeDivScaleY = size.y / myInspectorScale.y;
 
 					bool createRect = true;
-					if (sizeDivScaleX <= 0)
+					if (sizeDivScaleX <= 2)
 						createRect = false;
-					if (sizeDivScaleY <= 0)
+					if (sizeDivScaleY <= 2)
 						createRect = false;
 
 					if (createRect)
@@ -288,6 +289,8 @@ namespace Eclipse::Editor
 						rect.position = { inspectPosOffsetZeroX, inspectPosOffsetZeroY };
 						rect.size = { sizeDivScaleX, sizeDivScaleY };
 						rect.isSelected = false;
+
+						rect.name = std::string("Rect_") + std::to_string(myRects.size());
 
 						myRects.emplace_back(rect);
 					}
@@ -354,10 +357,10 @@ namespace Eclipse::Editor
 		ImVec2 windowPosition = ImGui::GetWindowPos();
 
 		ImVec2 positionToPlacePropertyWindow = { myStartCursorPosition.x + windowPosition.x, myStartCursorPosition.y + windowPosition.y + 30.f };
-		
+
 		myPropertyWindowPosition = ImVec2(myStartCursorPosition.x + 5.f, myStartCursorPosition.y + 35.f);
 		mySizeOfProperyWindow = { 200.f, 205.f };
-		
+
 		ImVec2 sizeOfProperyWindow = { myStartCursorPosition.x + windowPosition.x + mySizeOfProperyWindow.x, myStartCursorPosition.y + windowPosition.y + mySizeOfProperyWindow.y };
 		ImGui::GetWindowDrawList()->AddRectFilled(positionToPlacePropertyWindow, sizeOfProperyWindow, (ImColor)IM_COL32(100, 100, 100, 255), 2.f);
 
@@ -368,10 +371,10 @@ namespace Eclipse::Editor
 		ImGui::SetNextItemWidth(125.f);
 		char tempRectName[512];
 		std::strcpy(tempRectName, mySelectedRectPtr->name.c_str());
-		if(ImGui::InputText("##RectName", tempRectName, 512, ImGuiInputTextFlags_EnterReturnsTrue))
-		{
+
+		if (ImGui::InputText("##RectName", tempRectName, 512))
 			mySelectedRectPtr->name = tempRectName;
-		}
+
 		ImGui::SetCursorPosX(myStartCursorPosition.x + 5.f);
 
 		ImGui::SetCursorPosX(myStartCursorPosition.x + 5.f);
@@ -521,11 +524,16 @@ namespace Eclipse::Editor
 
 	void SpriteEditor::Load()
 	{
+		myRects.clear();
+
 		std::filesystem::path filePath = "../Assets";
 		filePath /= myTexture->GetRelativePath();
 		filePath.replace_extension("meta");
 
 		FILE* fileP = fopen(filePath.string().c_str(), "rb");
+		if (!fileP)
+			return;
+
 		char readBuffer[32000];
 		rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
 
@@ -604,6 +612,9 @@ namespace Eclipse::Editor
 
 	void SpriteEditor::Update()
 	{
+		if (!myTexture)
+			return;
+
 		{
 			ImVec2 CursorPos = ImGui::GetCursorPos();
 			myStartCursorPosition = { CursorPos.x, CursorPos.y - 32 };
@@ -650,6 +661,8 @@ namespace Eclipse::Editor
 					myRects[i] = myRects.back();
 					myRects.pop_back();
 					i--;
+
+					mySelectedRectPtr = nullptr;
 				}
 			}
 		}
@@ -743,7 +756,7 @@ namespace Eclipse::Editor
 		ImU32 bgColor = IM_COL32(backgroundColor.x * 255.f, backgroundColor.y * 255.f, backgroundColor.z * 255.f, backgroundColor.w * 255.f);
 		ImGui::GetWindowDrawList()->AddRectFilled(imguiInspectorPos, ImVec2(imguiInspectorPos.x + spriteSize.x, imguiInspectorPos.y + spriteSize.y), bgColor);
 
-		ImGui::Image(myTexture->GetTextureID(), spriteSize, ImVec2(0, 0), ImVec2(1, 1));
+		ImGui::Image(myTexture->GetTextureID(), spriteSize, ImVec2(0, 1), ImVec2(1, 0));
 
 		DrawRects();
 
@@ -753,9 +766,15 @@ namespace Eclipse::Editor
 	void SpriteEditor::Open()
 	{
 		flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollWithMouse;
+	}
 
+	void SpriteEditor::SetTexture(const char* aPath)
+	{
+		myTexture = Resources::Get<Texture>(aPath);
 
-		myTexture = Resources::Get<Texture>("Assets/Sprites/ScissorSprite/Scissors.png");
+		Load();
+
+		myTextureSize = myTexture->GetTextureSize();
 
 		glBindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
 
@@ -764,9 +783,6 @@ namespace Eclipse::Editor
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		Load();
-
-		myTextureSize = myTexture->GetTextureSize();
 		mySpriteScaleSnapping = { static_cast<float>(myTextureSize.x), static_cast<float>(myTextureSize.y) };
 
 		mySpriteScaleSnapping.x = 1.f;

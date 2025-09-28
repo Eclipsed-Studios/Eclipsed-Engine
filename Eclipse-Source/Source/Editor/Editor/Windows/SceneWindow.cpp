@@ -188,7 +188,7 @@ namespace Eclipse::Editor
 		{
 			mySelectedObject = GetComp(SpriteRenderer2D, HierarchyWindow::CurrentGameObjectID);
 
-			if (mySelectedObject)
+			if (mySelectedObject && mySelectedObject->GetMaterial())
 			{
 				Transform2D* transform = GetComp(Transform2D, HierarchyWindow::CurrentGameObjectID);
 
@@ -228,6 +228,13 @@ namespace Eclipse::Editor
 		ImGui::Image(mySceneTexture, ImVec2(myWindowSize.x, myWindowSize.y), ImVec2(0, 1), ImVec2(1, 0));
 
 		GraphicsEngine::BindFrameBuffer(0);
+
+		if (Input::GetKeyDown(Keycode::DELETE_KEY))
+		{
+			GameObject currentObject = HierarchyWindow::CurrentGameObjectID;
+			if (currentObject > 0)
+				ComponentManager::Destroy(currentObject);
+		}
 	}
 
 	void SceneWindow::InitSceneBuffer()

@@ -13,6 +13,8 @@
 #include "Components/Rendering/SpriteSheetAnimator.h"
 #include "Components/AudioSource.h"
 
+#include "SpriteEditor.h"
+
 #include "ImGui/imgui.h"
 
 namespace Eclipse::Editor
@@ -72,9 +74,9 @@ namespace Eclipse::Editor
 		}
 
 		std::sort(comps.begin(), comps.end(),
-			[](Component* a, Component* b){
+			[](Component* a, Component* b) {
 				return a->GetUpdatePriority() > b->GetUpdatePriority();
-		});
+			});
 
 		for (Component* comp : comps)
 		{
@@ -108,7 +110,20 @@ namespace Eclipse::Editor
 
 	void InspectorWindow::DrawAssetInspector()
 	{
-		ImGui::Text(AssetWindow::Active_FilePath.string().c_str());
+		ImGui::Text(AssetWindow::Active_FilePath.filename().string().c_str());
+
+		FileInfo info = Resources::GetFileInfo(AssetWindow::Active_FilePath);
+		if (info.type == FileInfo::FileType_Texture)
+			DrawTextureAssetInspector();
+		
+	}
+
+	void InspectorWindow::DrawTextureAssetInspector()
+	{
+		if (ImGui::Button("Open Editor"))
+		{
+			SpriteEditor::SetTexture(AssetWindow::Active_FilePath.string().c_str());
+		}
 	}
 }
 #endif

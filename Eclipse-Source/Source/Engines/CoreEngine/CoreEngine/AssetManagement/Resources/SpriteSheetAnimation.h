@@ -18,8 +18,6 @@ namespace Eclipse
 		const Math::Rect& GetRect(unsigned aIdx) const;
 		std::vector<unsigned> GetAnimation(const std::string& aName) const;
 
-		static void CreateDefualtJson(const std::string& aPath);
-
 	private:
 		std::vector<Math::Rect> myFrames;
 		std::unordered_map<std::string, std::vector<unsigned>> myAnimations;

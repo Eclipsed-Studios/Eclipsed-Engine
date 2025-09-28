@@ -23,6 +23,8 @@ namespace Eclipse::Editor
 		void DrawGameObjectInspector();
 		void DrawAssetInspector();
 
+		void DrawTextureAssetInspector();
+
 		template<typename T>
 		void DrawComponentInspector() {}
 

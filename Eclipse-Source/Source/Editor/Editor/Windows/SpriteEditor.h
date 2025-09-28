@@ -22,9 +22,11 @@ namespace Eclipse::Editor
 		void Update() override;
 		void Open() override;
 
+		static void SetTexture(const char* aPath);
+
 	private:
-		void Save();
-		void Load();
+		static void Save();
+		static void Load();
 
 		void EdgeScaling();
 
@@ -49,7 +51,7 @@ namespace Eclipse::Editor
 		Math::Vector2f mySaveMin = { 0, 0 };
 
 	private:
-		Math::Vector2f mySpriteScaleSnapping;
+		static inline Math::Vector2f mySpriteScaleSnapping;
 
 	private:
 		Math::Vector2f myWindowSize;
@@ -60,14 +62,15 @@ namespace Eclipse::Editor
 
 		ImVec2 myPropertyWindowPosition = { 0, 0 };
 		ImVec2 mySizeOfProperyWindow = { 0, 0 };
-		bool holdingRect = false;
 
 		Math::Vector4f backgroundColor = { 0.7f, 0.7f, 0.7f, 1.f };
 
-		Math::Vector2i myTextureSize;
+		static inline Math::Vector2i myTextureSize;
 		float myTextureSizeAspectRatio = 0;
 
 	private:
+		bool holdingRect = false;
+
 		float totalYScroll = 0;
 		float lastScroll = 0;
 		bool mouseIsDown = false;
@@ -89,10 +92,10 @@ namespace Eclipse::Editor
 		float myMinEdgeScaling;
 		float myMaxEdgeScaling;
 
-		float mouseEdgeSensetivity = 12;
+		float mouseEdgeSensetivity = 5;
 
 	private:
-		ResourcePointer<Texture> myTexture;
+		static inline ResourcePointer<Texture> myTexture;
 
 		struct Rect
 		{
@@ -111,7 +114,7 @@ namespace Eclipse::Editor
 
 		Rect* mySelectedRectPtr = nullptr;
 		Math::Vector2f savedPositionBeforeMove;
-		std::vector<Rect> myRects;
+		static inline std::vector<Rect> myRects;
 	};
 }
 #endif
