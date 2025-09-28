@@ -19,20 +19,25 @@ namespace Eclipse::Editor
 
 	public:
 
+		void Update() override;
+		void Open() override;
+
+	private:
+		void Save();
+		void Load();
+
+		void EdgeScaling();
+
 		void ScrollManager();
 		void MouseManager();
 
 		void DrawRects();
-
 		void RectProperties();
-
-		void Update() override;
-		void Open() override;
 
 		bool IsInPropertyWindow();
 		bool CheckIfRectMove(Math::Vector2f aOffsetPositionScaledRight);
 
-		bool RectangleEdgeScaling(Math::Vector2f aMousePosition);
+		bool RectangleEdgeChoosing(Math::Vector2f aMousePosition);
 		void ChangeEdgeCursor(Math::Vector2f aMousePosition);
 
 	private:
@@ -84,7 +89,7 @@ namespace Eclipse::Editor
 		float myMinEdgeScaling;
 		float myMaxEdgeScaling;
 
-		float mouseEdgeSensetivity = 15;
+		float mouseEdgeSensetivity = 12;
 
 	private:
 		ResourcePointer<Texture> myTexture;
@@ -93,6 +98,8 @@ namespace Eclipse::Editor
 		{
 			Math::Vector2f position;
 			Math::Vector2f size;
+
+			std::string name;
 
 			bool isSelected;
 		};

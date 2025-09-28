@@ -16,7 +16,7 @@ namespace Eclipse
 {
 	unsigned char* ResourceLoaderHelper::Load_Texture_STB(const char* aPath, Texture& outResource)
 	{
-		stbi_set_flip_vertically_on_load(true);
+		//stbi_set_flip_vertically_on_load(true);
 		return stbi_load(aPath, &outResource.width, &outResource.height, &outResource.channels, 0);
 	}
 

@@ -17,6 +17,9 @@
 
 #include <sstream>
 
+#include "rapidjson/rapidjson/prettywriter.h"
+#include "rapidjson/rapidjson/stringbuffer.h"
+
 #undef min
 
 namespace Eclipse::Editor
@@ -32,7 +35,7 @@ namespace Eclipse::Editor
 		float textureSizeScaleFactor = static_cast<float>(std::min(myTextureSize.x, myTextureSize.y)) * 0.001f;
 
 		float baseFactor = 1.07f * textureSizeScaleFactor;
-		if (Input::GetKey(Keycode::L_SHIFT))
+		if (ImGui::IsKeyDown(ImGuiKey_LeftShift))
 			baseFactor = 1.3f * textureSizeScaleFactor;
 
 		float scaleMagnitude = std::log2(myInspectorScale.x + 1.0f);
@@ -79,33 +82,8 @@ namespace Eclipse::Editor
 		return true;
 	}
 
-	void SpriteEditor::MouseManager()
+	void SpriteEditor::EdgeScaling()
 	{
-		if (myLastInspectorPosition.x != myInspectorPosition.x || myLastInspectorPosition.y != myInspectorPosition.y)
-		{
-			myLastInspectorPosition = myInspectorPosition;
-
-			mySpriteCurrentMin = { std::clamp(static_cast<float>(-myInspectorPosition.x + myInspectorPositionOffsetFromZeroZero.x), -myInspectorPosition.x, -myInspectorPosition.x + myTextureSize.x), std::clamp(static_cast<float>(myInspectorPosition.y + myInspectorPositionOffsetFromZeroZero.y), myInspectorPosition.y, myInspectorPosition.y + myTextureSize.y) };
-
-			// mySpriteCurrentMin.x = roundf(mySpriteCurrentMin.x / (mySpriteScaleSnapping.x * myInspectorScale.x)) * mySpriteScaleSnapping.x * myInspectorScale.x;
-			// mySpriteCurrentMin.y = roundf(mySpriteCurrentMin.y / (mySpriteScaleSnapping.y * myInspectorScale.y)) * mySpriteScaleSnapping.y * myInspectorScale.y;
-		}
-
-
-		{
-			ImVec2 mousePos = ImGui::GetMousePos();
-			ImGui::SetCursorPos(ImVec2(0, 0));
-			ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
-
-			windowRelativeMousePosition = { static_cast<int>((mousePos.x - cursorScreenPos.x)), static_cast<int>(mousePos.y - cursorScreenPos.y) };
-
-			normalizedMousePosition.x = windowRelativeMousePosition.x / myWindowSize.x;
-			normalizedMousePosition.y = windowRelativeMousePosition.y / myWindowSize.y;
-
-			normalizedMousePosition.x = normalizedMousePosition.x * 2.f - 1;
-			normalizedMousePosition.y = normalizedMousePosition.y * 2.f - 1;
-		}
-
 		if (myPositionEdgeScalingX)
 		{
 			float mouseDragDelta = ImGui::GetMouseDragDelta().x / myInspectorScale.x;
@@ -143,6 +121,36 @@ namespace Eclipse::Editor
 			(*myScaleEdgeScalingY) = currentScalingY + positionSnappingY;
 			(*myScaleEdgeScalingY) = std::clamp((*myScaleEdgeScalingY), 0.f, myTextureSize.y - mySelectedRectPtr->position.y);
 		}
+	}
+
+	void SpriteEditor::MouseManager()
+	{
+		if (myLastInspectorPosition.x != myInspectorPosition.x || myLastInspectorPosition.y != myInspectorPosition.y)
+		{
+			myLastInspectorPosition = myInspectorPosition;
+
+			mySpriteCurrentMin = { std::clamp(static_cast<float>(-myInspectorPosition.x + myInspectorPositionOffsetFromZeroZero.x), -myInspectorPosition.x, -myInspectorPosition.x + myTextureSize.x), std::clamp(static_cast<float>(myInspectorPosition.y + myInspectorPositionOffsetFromZeroZero.y), myInspectorPosition.y, myInspectorPosition.y + myTextureSize.y) };
+
+			// mySpriteCurrentMin.x = roundf(mySpriteCurrentMin.x / (mySpriteScaleSnapping.x * myInspectorScale.x)) * mySpriteScaleSnapping.x * myInspectorScale.x;
+			// mySpriteCurrentMin.y = roundf(mySpriteCurrentMin.y / (mySpriteScaleSnapping.y * myInspectorScale.y)) * mySpriteScaleSnapping.y * myInspectorScale.y;
+		}
+
+
+		{
+			ImVec2 mousePos = ImGui::GetMousePos();
+			ImGui::SetCursorPos(ImVec2(0, 0));
+			ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
+
+			windowRelativeMousePosition = { static_cast<int>((mousePos.x - cursorScreenPos.x)), static_cast<int>(mousePos.y - cursorScreenPos.y) };
+
+			normalizedMousePosition.x = windowRelativeMousePosition.x / myWindowSize.x;
+			normalizedMousePosition.y = windowRelativeMousePosition.y / myWindowSize.y;
+
+			normalizedMousePosition.x = normalizedMousePosition.x * 2.f - 1;
+			normalizedMousePosition.y = normalizedMousePosition.y * 2.f - 1;
+		}
+
+		EdgeScaling();
 
 		if (ImGui::IsMouseReleased(0))
 		{
@@ -164,7 +172,7 @@ namespace Eclipse::Editor
 
 			if (ImGui::IsMouseClicked(0))
 			{
-				if (!RectangleEdgeScaling(OffsetPositionScaledRight))
+				if (!RectangleEdgeChoosing(OffsetPositionScaledRight))
 				{
 					bool createNewRect = true;
 					bool propertyWindowSelected = IsInPropertyWindow();
@@ -346,15 +354,27 @@ namespace Eclipse::Editor
 		ImVec2 windowPosition = ImGui::GetWindowPos();
 
 		ImVec2 positionToPlacePropertyWindow = { myStartCursorPosition.x + windowPosition.x, myStartCursorPosition.y + windowPosition.y + 30.f };
-		ImVec2 sizeOfProperyWindow = { myStartCursorPosition.x + windowPosition.x + 200.f, myStartCursorPosition.y + windowPosition.y + 200.f };
-
+		
 		myPropertyWindowPosition = ImVec2(myStartCursorPosition.x + 5.f, myStartCursorPosition.y + 35.f);
-		mySizeOfProperyWindow = { 200.f, 200.f };
-
+		mySizeOfProperyWindow = { 200.f, 205.f };
+		
+		ImVec2 sizeOfProperyWindow = { myStartCursorPosition.x + windowPosition.x + mySizeOfProperyWindow.x, myStartCursorPosition.y + windowPosition.y + mySizeOfProperyWindow.y };
 		ImGui::GetWindowDrawList()->AddRectFilled(positionToPlacePropertyWindow, sizeOfProperyWindow, (ImColor)IM_COL32(100, 100, 100, 255), 2.f);
 
 		ImGui::SetCursorPos(myPropertyWindowPosition);
 
+		ImGui::Text("Name");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(125.f);
+		char tempRectName[512];
+		std::strcpy(tempRectName, mySelectedRectPtr->name.c_str());
+		if(ImGui::InputText("##RectName", tempRectName, 512, ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			mySelectedRectPtr->name = tempRectName;
+		}
+		ImGui::SetCursorPosX(myStartCursorPosition.x + 5.f);
+
+		ImGui::SetCursorPosX(myStartCursorPosition.x + 5.f);
 		ImGui::Text("Position");
 		ImGui::SetCursorPosX(myStartCursorPosition.x + 5.f);
 		ImGui::Text("X:");
@@ -381,7 +401,7 @@ namespace Eclipse::Editor
 		ImGui::DragFloat("##RectEditSizeY", &mySelectedRectPtr->size.y, 1.f, 0.f, myTextureSize.y - mySelectedRectPtr->position.y);
 	}
 
-	bool SpriteEditor::RectangleEdgeScaling(Math::Vector2f aMousePosition)
+	bool SpriteEditor::RectangleEdgeChoosing(Math::Vector2f aMousePosition)
 	{
 		if (mySelectedRectPtr)
 		{
@@ -448,7 +468,7 @@ namespace Eclipse::Editor
 			bool leftEdge = false;
 			bool upEdge = false;
 			bool downEdge = false;
-			
+
 			Rect& rect = *mySelectedRectPtr;
 
 			Math::Vector2f min = rect.position;
@@ -458,7 +478,6 @@ namespace Eclipse::Editor
 
 			bool isInsideY = min.y - edgeSens * 0.5f < aMousePosition.y && max.y + edgeSens * 0.5f > aMousePosition.y;
 			float distanceFromMaxX = abs(aMousePosition.x - max.x);
-			LOG(std::to_string(distanceFromMaxX));
 			if (distanceFromMaxX < edgeSens && isInsideY)
 			{
 				rightEdge = true;
@@ -500,6 +519,89 @@ namespace Eclipse::Editor
 		}
 	}
 
+	void SpriteEditor::Load()
+	{
+		std::filesystem::path filePath = "../Assets";
+		filePath /= myTexture->GetRelativePath();
+		filePath.replace_extension("meta");
+
+		FILE* fileP = fopen(filePath.string().c_str(), "rb");
+		char readBuffer[32000];
+		rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
+
+		rapidjson::Document document;
+		document.ParseStream(fileReadStream);
+		fclose(fileP);
+
+		for (auto& value : document.GetObj())
+		{
+			Rect newRect;
+
+			const rapidjson::Value& position = value.value["pos"];
+			const rapidjson::Value& size = value.value["size"];
+
+			if (position.HasMember("x") && position["x"].IsNumber())
+				newRect.position.x = static_cast<float>(position["x"].GetFloat());
+
+			if (position.HasMember("y") && position["y"].IsNumber())
+				newRect.position.y = static_cast<float>(position["y"].GetFloat());
+
+			if (size.HasMember("width") && size["width"].IsNumber())
+				newRect.size.x = static_cast<float>(size["width"].GetFloat());
+
+			if (size.HasMember("height") && size["height"].IsNumber())
+				newRect.size.y = static_cast<float>(size["height"].GetFloat());
+
+			newRect.isSelected = false;
+
+			newRect.name = value.name.GetString();
+
+			myRects.emplace_back(newRect);
+		}
+	}
+
+	void SpriteEditor::Save()
+	{
+		rapidjson::Document document;
+		auto allocator = document.GetAllocator();
+
+		document.SetObject();
+
+		for (Rect& rect : myRects)
+		{
+			rapidjson::Value minRect(rapidjson::kObjectType);
+			minRect.AddMember("x", rect.position.x, allocator);
+			minRect.AddMember("y", rect.position.y, allocator);
+
+			rapidjson::Value maxRect(rapidjson::kObjectType);
+			maxRect.AddMember("width", rect.size.x, allocator);
+			maxRect.AddMember("height", rect.size.y, allocator);
+
+			rapidjson::Value val(rapidjson::kObjectType);
+			val.AddMember("pos", minRect.Move(), allocator);
+			val.AddMember("size", maxRect.Move(), allocator);
+
+			rapidjson::Value strValue;
+			strValue.SetString(rect.name.c_str(), static_cast<rapidjson::SizeType>(strlen(rect.name.c_str())), allocator);
+
+			document.AddMember(strValue, val.Move(), allocator);
+		}
+
+		rapidjson::StringBuffer buffer;
+		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+		document.Accept(writer);
+
+		std::filesystem::path filePath = "../Assets";
+
+		filePath /= myTexture->GetRelativePath();
+
+		filePath.replace_extension("meta");
+
+		std::ofstream ofs(filePath);
+		ofs << buffer.GetString();
+		ofs.close();
+	}
+
 	void SpriteEditor::Update()
 	{
 		{
@@ -527,6 +629,13 @@ namespace Eclipse::Editor
 				ImGui::EndPopup();
 			}
 
+			ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 50.f);
+			if (ImGui::Button("Apply"))
+			{
+				Save();
+			}
+
+
 			ImGui::EndMenuBar();
 		}
 
@@ -545,7 +654,7 @@ namespace Eclipse::Editor
 			}
 		}
 
-		if (!holdingRect)
+		if (!holdingRect && !ImGui::IsAnyItemActive())
 		{
 			if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
 			{
@@ -591,20 +700,20 @@ namespace Eclipse::Editor
 		}
 		else if (mouseIsDownLeft)
 		{
-			float posX = static_cast<float>(windowRelativeMousePosition.x) - myInspectorPositionOffsetFromZeroZero.x;
-			float posY = static_cast<float>(windowRelativeMousePosition.y) - myInspectorPositionOffsetFromZeroZero.y;
+			float posX = static_cast<float>(windowRelativeMousePosition.x);
+			float posY = static_cast<float>(windowRelativeMousePosition.y);
 
 			float snapScaleX = (mySpriteScaleSnapping.x * myInspectorScale.x);
-			float snapScaleY = (mySpriteScaleSnapping.x * myInspectorScale.x);
+			float snapScaleY = (mySpriteScaleSnapping.y * myInspectorScale.y);
 
 			posX += snapScaleX * 0.5f;
 			posY += snapScaleY * 0.5f;
 
-			float positionSnappingX = roundf(posX / snapScaleX) * mySpriteScaleSnapping.x * myInspectorScale.x;
-			float positionSnappingY = roundf(posY / snapScaleY) * mySpriteScaleSnapping.y * myInspectorScale.y;
+			float positionSnappingX = roundf(static_cast<float>(posX - mySpriteCurrentMin.x) / myInspectorScale.x) * myInspectorScale.x;
+			float positionSnappingY = roundf(static_cast<float>(posY - mySpriteCurrentMin.y) / myInspectorScale.y) * myInspectorScale.y;
 
-			float spriteCurrentMaxX = std::clamp(static_cast<float>(positionSnappingX) + myInspectorPositionOffsetFromZeroZero.x, -myInspectorPosition.x, -myInspectorPosition.x + myTextureSize.x * myInspectorScale.x);
-			float spriteCurrentMaxY = std::clamp(static_cast<float>(positionSnappingY) + myInspectorPositionOffsetFromZeroZero.y, myInspectorPosition.y, myInspectorPosition.y + myTextureSize.y * myInspectorScale.y);
+			float spriteCurrentMaxX = std::clamp(static_cast<float>(positionSnappingX) + mySpriteCurrentMin.x, -myInspectorPosition.x, -myInspectorPosition.x + myTextureSize.x * myInspectorScale.x);
+			float spriteCurrentMaxY = std::clamp(static_cast<float>(positionSnappingY) + mySpriteCurrentMin.y, myInspectorPosition.y, myInspectorPosition.y + myTextureSize.y * myInspectorScale.y);
 
 			mySpriteCurrentMax = { spriteCurrentMaxX, spriteCurrentMaxY };
 
@@ -645,6 +754,7 @@ namespace Eclipse::Editor
 	{
 		flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollWithMouse;
 
+
 		myTexture = Resources::Get<Texture>("Assets/Sprites/ScissorSprite/Scissors.png");
 
 		glBindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
@@ -654,6 +764,7 @@ namespace Eclipse::Editor
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
+		Load();
 
 		myTextureSize = myTexture->GetTextureSize();
 		mySpriteScaleSnapping = { static_cast<float>(myTextureSize.x), static_cast<float>(myTextureSize.y) };
