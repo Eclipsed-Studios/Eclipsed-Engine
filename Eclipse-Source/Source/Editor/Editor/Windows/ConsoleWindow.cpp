@@ -14,6 +14,13 @@ namespace Eclipse::Editor
 		ImGui::SameLine();
 		ImGui::Checkbox("Collapse", &myShouldCollapseMessages);
 		ImGui::SameLine();
+
+		if (myAlwaysAtBottom)
+		{
+			ImGui::SetScrollY(ImGui::GetScrollMaxY());
+		}
+		
+
 		if (ImGui::Button("Clear"))DebugLogger::Clear();
 
 		ImGui::Separator();
@@ -47,6 +54,16 @@ namespace Eclipse::Editor
 				ImGui::Separator();
 			}
 		}
+
+		if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY() - 100)
+		{
+			myAlwaysAtBottom = true;
+		}
+		else
+		{
+			myAlwaysAtBottom = false;
+		}
+		
 	}
 	void ConsoleWindow::DisplayMessage(const Message& aMessage)
 	{

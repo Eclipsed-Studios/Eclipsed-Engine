@@ -16,6 +16,7 @@ namespace Eclipse::Editor
 		void DisplayMessage(const Message& aMessage);
 
 	private:
+		bool myAlwaysAtBottom = false;
 		bool myShouldCollapseMessages = false;
 		bool myShouldShowMessages = true;
 		bool myShouldShowWarnings = true;

@@ -120,7 +120,7 @@ namespace Eclipse::Editor
 			if (ImGui::MenuItem("Build"))
 			{
 				AssetExporter::ExportAll();
-				std::string cmd = "cd /d \"" SOURCE "Tools"  "\" && build-game.bat";
+				std::string cmd = "cd \"" SOURCE "Tools"  "\" && build-game.bat";
 				int result = system(cmd.c_str());
 
 				if (result != 0)

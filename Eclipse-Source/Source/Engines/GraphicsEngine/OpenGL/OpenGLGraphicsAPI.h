@@ -11,6 +11,8 @@
 
 #include <functional>
 
+#include "GPUInfo.h"
+
 #undef CreateWindow
 
 struct GLFWwindow;

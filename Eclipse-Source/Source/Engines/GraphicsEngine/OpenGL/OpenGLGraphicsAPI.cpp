@@ -19,6 +19,8 @@
 
 #include "stb_image/stb_image.h"
 
+//#include <nvml.h>
+
 #undef CreateWindow
 
 namespace Eclipse
@@ -123,6 +125,8 @@ namespace Eclipse
 
     ErrorCode GraphicsEngine::Init()
     {
+        //nvmlInit();
+
         ErrorCode errorCode = InitOpenGL();
         EnableOpenGLSettings();
         DebugDrawer::Get().Init();

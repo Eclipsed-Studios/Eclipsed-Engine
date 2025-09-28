@@ -28,6 +28,7 @@ namespace Eclipse::Editor
             io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
             io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
             io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+            io.ConfigWindowsMoveFromTitleBarOnly = true;
 
             ImGuiStyle& style = ImGui::GetStyle();
             if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -47,7 +48,7 @@ namespace Eclipse::Editor
                 colors[ImGuiCol_Text] = ImVec4(1.00f, 0.95f, 0.70f, 1.00f); // Golden yellow
                 colors[ImGuiCol_TextDisabled] = ImVec4(0.55f, 0.45f, 0.25f, 1.00f);
 
-                colors[ImGuiCol_WindowBg] = ImVec4(0.03f, 0.03f, 0.03f, 1.00f); // Deep eclipse black
+                colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 1.00f); // Deep eclipse black
                 colors[ImGuiCol_ChildBg] = ImVec4(0.06f, 0.06f, 0.06f, 1.00f);
                 colors[ImGuiCol_PopupBg] = ImVec4(0.10f, 0.08f, 0.05f, 0.95f);
 

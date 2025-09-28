@@ -21,6 +21,7 @@ target_include_directories(GraphicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Exte
 
 target_link_libraries(GraphicsEngine PRIVATE OpenGL::GL)
 target_link_libraries(GraphicsEngine PRIVATE Opengl)
+target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Tools/Libs/GLFW/nvml.lib")
 
 # Organize files in filters by folder
 foreach(source_file IN LISTS GRAPHICSENGINE_SOURCES)
