@@ -26,7 +26,11 @@ namespace Eclipse::Editor
 
 	public:
 		virtual void Open() {};
+		
+		virtual void PreUpdate() {};
 		virtual void Update() {};
+		virtual void PostUpdate() {};
+
 		virtual void Close() {};
 
 	public:

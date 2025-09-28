@@ -18,6 +18,11 @@
 
 namespace Eclipse::Editor
 {
+	WindowManager::WindowManager()
+	{
+		myDebugWindow.Open();
+	}
+
 	void WindowManager::LoadLayouts()
 	{
 		for (auto entry : std::filesystem::directory_iterator(ENGINE_ASSETS_PATH "Editor/Layouts/"))
@@ -157,7 +162,9 @@ namespace Eclipse::Editor
 			{
 				std::string imguiWindowName = window->windowName + "##" + std::to_string(id);
 				ImGui::Begin(imguiWindowName.c_str(), &window->myIsOpen, window->flags);
+				window->PreUpdate();
 				window->Update();
+				window->PostUpdate();
 				ImGui::End();
 
 				++it;
@@ -166,7 +173,9 @@ namespace Eclipse::Editor
 
 		if (myShowDebugWindow)
 		{
-			DrawDebugInfoWindow();
+			myDebugWindow.PreUpdate();
+			myDebugWindow.Update();
+			myDebugWindow.PostUpdate();
 		}
 	}
 
@@ -275,35 +284,5 @@ namespace Eclipse::Editor
 
 		ImGui_Impl::ImplementImGui(Utilities::MainSingleton::GetInstance<GLFWwindow*>());
 		ImGui_Impl::NewFrame();
-	}
-
-	void WindowManager::DrawDebugInfoWindow()
-	{
-		const ImGuiViewport* viewport = ImGui::GetMainViewport();
-		ImVec2 work_pos = viewport->WorkPos;
-		ImVec2 work_size = viewport->WorkSize;
-		ImVec2 window_pos = ImVec2(work_pos.x + work_size.x, work_pos.y + work_size.y);
-		ImVec2 window_pos_pivot = ImVec2(1.0f, 1.0f);
-
-		ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
-
-		ImGui::SetNextWindowBgAlpha(0.35f);
-
-		ImGui::Begin("PerfTooltip", &myShowDebugWindow,
-			ImGuiWindowFlags_NoDecoration |
-			ImGuiWindowFlags_AlwaysAutoResize |
-			ImGuiWindowFlags_NoSavedSettings |
-			ImGuiWindowFlags_NoFocusOnAppearing |
-			ImGuiWindowFlags_NoNav);
-
-		float fps = ImGui::GetIO().Framerate;
-		float totalTime = Time::GetTotalTime();
-		int renderCalls = DebugInformationCollector::GetRenderCalls();
-
-		ImGui::Text("Render Calls: %d", renderCalls);
-		ImGui::Text("FPS: %.1f", fps);
-		ImGui::Text("Total Time: %.1f", totalTime);
-
-		ImGui::End();
 	}
 }

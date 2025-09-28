@@ -5,6 +5,7 @@
 #include "ImGui/ImGui/imgui.h"
 #include "ImGui/ImGui/imgui_impl_glfw.h"
 #include "ImGui/ImGui/imgui_impl_opengl3.h"
+#include "ImGui/ImGui/implot.h"
 
 #include <string>
 
@@ -121,6 +122,8 @@ namespace Eclipse::Editor
             ImGui_ImplOpenGL3_Init("#version 460");
 
             ImGui::LoadIniSettingsFromDisk(path.c_str());
+
+            ImPlot::CreateContext();
         }
 
         inline void NewFrame()

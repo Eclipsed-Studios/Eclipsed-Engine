@@ -46,7 +46,7 @@ namespace Eclipse
 			pixels = ResourceLoaderHelper::Load_Texture_From_Memory_STB(rawData, outResource);
 		}
 #else
-		pixels = ResourceLoaderHelper::Load_Texture_STB(resolvedPath.string().c_str(), outResource);
+		pixels = ResourceLoaderHelper::Load_Texture_STB(resolvedPath.string().c_str(), outResource, true);
 #endif
 
 		glGenTextures(1, &outResource.textureID);

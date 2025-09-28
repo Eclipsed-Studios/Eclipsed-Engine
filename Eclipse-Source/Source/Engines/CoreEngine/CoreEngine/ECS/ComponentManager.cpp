@@ -1,6 +1,7 @@
 #include "ComponentManager.h"
 
 #include "DebugLogger.h"
+#include "Profiler/Profiler_Macros.hpp"
 
 namespace Eclipse
 {
@@ -50,7 +51,11 @@ namespace Eclipse
 	void ComponentManager::UpdateComponents()
 	{
 		for (auto& component : myComponents)
+		{
+			BEGIN_PROFILE_SCOPE(component->GetComponentName());
 			component->Update();
+			END_PROFILE_SCOPE(component->GetComponentName());
+		}
 	}
 	void ComponentManager::LateUpdateComponents()
 	{

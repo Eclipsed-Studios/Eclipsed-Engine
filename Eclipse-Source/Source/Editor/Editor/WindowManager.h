@@ -3,12 +3,15 @@
 #include <unordered_map>
 
 #include "WindowRegistry.h"
+#include "Windows/DebugWindow.h"
 
 namespace Eclipse::Editor
 {
 	class WindowManager final
 	{
 	public:
+		WindowManager();
+
 		void LoadLayouts();
 
 		void OpenWindow(const std::string& name, int aId);
@@ -25,13 +28,12 @@ namespace Eclipse::Editor
 	private:
 		void OpenLayout(const char* aName);
 
-		void DrawDebugInfoWindow();
-
 		bool myShowDebugWindow = false;
 
 	private:
 		std::vector<std::string> myLayouts;
 		const std::vector<std::string> Default_Layouts = { "Default" };
 		std::unordered_map<int, AbstractWindow*> IdToWindow;
+		DebugWindow myDebugWindow;
 	};
 }
