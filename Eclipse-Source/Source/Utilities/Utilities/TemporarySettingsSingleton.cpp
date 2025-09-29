@@ -5,7 +5,7 @@
 
 namespace Eclipse
 {
-    void TemporarySettingsSingleton::SetWindowTitle(const char *aWindowTitle)
+    void TemporarySettingsSingleton::SetWindowTitle(const char* aWindowTitle)
     {
         //glfwSetWindowTitle(Utilities::MainSingleton::GetInstance<GLFWwindow *>(), aWindowTitle);
         myCreatedGameTitle = aWindowTitle;

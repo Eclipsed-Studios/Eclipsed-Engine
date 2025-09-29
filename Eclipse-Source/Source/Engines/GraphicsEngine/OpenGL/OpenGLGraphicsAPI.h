@@ -56,6 +56,8 @@ namespace Eclipse
 
 		static Math::Vector4ui ReadPixel(const Math::Vector2ui& aPos);
 
+		static void SetWindowIcon(const char* aPath);
+
 	private:
 		static inline GLFWwindow* myWindow;
 		static inline UniformVariableManager myUniformManager;

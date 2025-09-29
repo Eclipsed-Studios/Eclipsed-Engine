@@ -359,5 +359,13 @@ namespace Eclipse
 
         return Math::Vector4ui(data[0], data[1], data[2], data[3]);
     }
+
+    void GraphicsEngine::SetWindowIcon(const char* aPath)
+    {
+        GLFWimage images[1];
+        images[0].pixels = stbi_load(aPath, &images[0].width, &images[0].height, 0, 4);
+        glfwSetWindowIcon(Utilities::MainSingleton::GetInstance<GLFWwindow*>(), 1, images);
+        stbi_image_free(images[0].pixels);
+    }
 }
 
