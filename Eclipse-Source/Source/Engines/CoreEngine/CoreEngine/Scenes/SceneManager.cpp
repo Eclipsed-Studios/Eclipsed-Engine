@@ -16,7 +16,6 @@ namespace Eclipse
 			ActiveSceneName = std::filesystem::path(nameOrPath).filename().stem().string();
 		}
 
-		ActiveSceneName = nameOrPath;
 		SceneLoader::Load((SOURCE_PATH + scenePaths[nameToIdx[ActiveSceneName]]).c_str());
 	}
 
@@ -36,6 +35,13 @@ namespace Eclipse
 
 	void SceneManager::SaveScenes()
 	{
+	}
+
+	void SceneManager::SaveActiveScene()
+	{
+		if (ActiveSceneName.empty()) return;
+
+		SceneLoader::Save((SOURCE_PATH + scenePaths[nameToIdx[ActiveSceneName]]).c_str());
 	}
 
 	void SceneManager::AddScene(const std::string& aPath)

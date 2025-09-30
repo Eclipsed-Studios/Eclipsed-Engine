@@ -11,6 +11,7 @@ namespace Eclipse
 		static void ReloadActiveScene();
 
 		static void SaveScenes();
+		static void SaveActiveScene();
 
 		static void AddScene(const std::string& aPath);
 

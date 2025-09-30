@@ -85,14 +85,16 @@ namespace Eclipse::Editor
 
 		myWindowManager.Update();
 
-		if (Input::GetKeyDown(Keycode::F1))
+		static bool SaveOnce = false;
+		if (InputMapper::ReadValue("SaveScene"))
 		{
-			SceneLoader::Save(ASSET_PATH"Scenes/TestScene.scene");
+			if (!SaveOnce)
+			{
+				SaveOnce = true;
+				SceneManager::SaveActiveScene();
+			}
 		}
-		else  if (Input::GetKeyDown(Keycode::F2))
-		{
-			SceneManager::LoadScene(ASSET_PATH"Scenes/TestScene.scene");
-		}
+		else SaveOnce = false;
 
 		ImGui::PopFont();
 	}
