@@ -24,7 +24,7 @@ namespace Eclipse
         else
             myBodyRef = rigidBody->myBody;
 
-        PhysicsEngine::CreateCircleCollider(&myInternalCollider, myBodyRef, myRadius, myLayer);
+        PhysicsEngine::CreateCircleCollider(&myInternalCollider, myBodyRef, myInternalRadius, myLayer);
 
         myTransform = gameObject->GetComponent<Transform2D>();
         myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
@@ -32,7 +32,7 @@ namespace Eclipse
 
     void CircleCollider2D::EditorUpdate()
     {
-        if (LastRadius != myRealRadius || LastRadius != myRealRadius)
+        if (LastRadius != Radius || LastRadius != Radius)
         {
             OnTransformDirty();
         }
@@ -48,17 +48,17 @@ namespace Eclipse
         Transform2D* transform = gameObject->GetComponent<Transform2D>();
         Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
 
-        myRealRadius = aRadius;
-        myRadius = myRealRadius * std::max(size.x, size.y);
+        Radius = aRadius;
+        myInternalRadius = Radius * std::max(size.x, size.y);
     }
 
     void CircleCollider2D::OnTransformDirty()
     {
-        LastRadius = myRealRadius;
+        LastRadius = Radius;
         Math::Vector2f size = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
-        float radius = myRealRadius * std::max(size.x, size.y);
+        myInternalRadius = Radius * std::max(size.x, size.y);
 
-        PhysicsEngine::SetTransformCircle(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), radius, ColliderPivot * radius * 2.f);
+        PhysicsEngine::SetTransformCircle(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myInternalRadius, ColliderPivot * myInternalRadius * 2.f);
     }
 }

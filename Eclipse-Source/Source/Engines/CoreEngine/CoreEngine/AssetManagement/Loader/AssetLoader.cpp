@@ -1,5 +1,8 @@
 #include "AssetLoader.hpp"
 
+#include "rapidjson/rapidjson/document.h"
+#include "rapidjson/rapidjson/filereadstream.h"
+
 namespace Eclipse
 {
 	void AssetLoader::Init()

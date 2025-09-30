@@ -29,7 +29,7 @@ namespace Eclipse
 		};
 
 	public:
-		BASE_SELECTION(Player, 0)
+		BASE_SELECTION(Player, 5)
 
 		void Awake() override;
 		void Update() override;

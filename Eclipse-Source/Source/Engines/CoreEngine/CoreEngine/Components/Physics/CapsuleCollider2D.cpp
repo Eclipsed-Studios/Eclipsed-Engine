@@ -26,7 +26,7 @@ namespace Eclipse
             myBodyRef = rigidBody->myBody;
         }
 
-        PhysicsEngine::CreateCapsuleCollider(&myInternalCollider, myBodyRef, myRadius, myHalfHeight, myLayer);
+        PhysicsEngine::CreateCapsuleCollider(&myInternalCollider, myBodyRef, myInternalRadius, myInternalHalfHeight, myLayer);
 
         myTransform = gameObject->GetComponent<Transform2D>();
         myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
@@ -37,8 +37,8 @@ namespace Eclipse
         Transform2D* transform = gameObject->GetComponent<Transform2D>();
         Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
 
-        myRealRadius = aRadius;
-        myRadius = myRealRadius * std::max(size.x, size.y);
+        Radius = aRadius;
+        myInternalRadius = Radius * std::max(size.x, size.y);
     }
 
     void CapsuleCollider2D::SetHalfHeight(float aHalfHeight)
@@ -46,16 +46,16 @@ namespace Eclipse
         Transform2D* transform = gameObject->GetComponent<Transform2D>();
         Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
 
-        myRealHalfHeight = aHalfHeight;
-        myHalfHeight = myRealHalfHeight * size.y;
+        HalfHeight = aHalfHeight;
+        myInternalHalfHeight = HalfHeight * size.y;
     }
 
     void CapsuleCollider2D::OnTransformDirty()
     {
         Math::Vector2f size = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
-        float radius = myRealRadius * std::max(size.x, size.y);
-        float halfHeight = myRealHalfHeight * size.y;
+        float radius = Radius * std::max(size.x, size.y);
+        float halfHeight = HalfHeight * size.y;
 
         PhysicsEngine::SetTransformCapsule(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), radius, halfHeight);
     }

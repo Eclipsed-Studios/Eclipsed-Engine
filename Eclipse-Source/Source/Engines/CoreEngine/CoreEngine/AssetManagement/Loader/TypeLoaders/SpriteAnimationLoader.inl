@@ -38,39 +38,37 @@ namespace Eclipse
 
 		Document d;
 		if (d.Parse(jsonString.c_str()).HasParseError())
-		{
 			throw std::runtime_error("The json had parsing errors.");
-		}
 
-		if (d.HasMember("frames"))
+		// if (d.HasMember("frames"))
+		// {
+		// 	const Value& frames = d["frames"];
+		// 	for (const Value& frame : frames.GetArray())
+		// 	{
+		// 		Math::Rect animationFrame;
+		// 		animationFrame.Load(frame);
+
+		// 		outResource.myFrames.push_back(animationFrame);
+		// 	}
+		// }
+
+		if (!d.HasMember("animations"))
+			return;
+
+		const Value& animations = d["animations"];
+		for (const Value& animation : animations.GetArray())
 		{
-			const Value& frames = d["frames"];
-			for (const Value& frame : frames.GetArray())
-			{
-				Math::Rect animationFrame;
-				animationFrame.Load(frame);
+			const Value& nameVal = animation["name"];
+			std::string name = nameVal.GetString();
 
-				outResource.myFrames.push_back(animationFrame);
+			std::vector<unsigned>& animations = outResource.myAnimations[name];
+
+			const Value& animationsList = animation["Frames"];
+			for (const Value& animVal : animationsList.GetArray())
+			{
+				animations.push_back(animVal.GetUint());
 			}
 		}
 
-
-		if (d.HasMember("animations"))
-		{
-			const Value& animations = d["animations"];
-			for (const Value& animation : animations.GetArray())
-			{
-				const Value& nameVal = animation["name"];
-				std::string name = nameVal.GetString();
-
-				std::vector<unsigned>& animations = outResource.myAnimations[name];
-
-				const Value& animationsList = animation["animations"];
-				for (const Value& animVal : animationsList.GetArray())
-				{
-					animations.push_back(animVal.GetUint());
-				}
-			}
-		}
 	}
 }

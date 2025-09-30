@@ -69,16 +69,16 @@ namespace Eclipse::Editor
 	{
 		auto& rect = *mySelectedRectPtr;
 
-		if (aOffsetPositionScaledRight.x > rect.position.x + rect.size.x)
+		if (aOffsetPositionScaledRight.x > rect.rect.position.x + rect.rect.size.x)
 			return false;
-		if (aOffsetPositionScaledRight.x < rect.position.x)
+		if (aOffsetPositionScaledRight.x < rect.rect.position.x)
 			return false;
-		if (aOffsetPositionScaledRight.y > rect.position.y + rect.size.y)
+		if (aOffsetPositionScaledRight.y > rect.rect.position.y + rect.rect.size.y)
 			return false;
-		if (aOffsetPositionScaledRight.y < rect.position.y)
+		if (aOffsetPositionScaledRight.y < rect.rect.position.y)
 			return false;
 
-		savedPositionBeforeMove = rect.position;
+		savedPositionBeforeMove = rect.rect.position;
 		return true;
 	}
 
@@ -89,18 +89,18 @@ namespace Eclipse::Editor
 			float mouseDragDelta = ImGui::GetMouseDragDelta().x / myInspectorScale.x;
 			float positionSnappingX = roundf(mouseDragDelta);
 			float newPosition = currentPositioningX + positionSnappingX;
-			float clampedPosition = std::clamp(newPosition, 0.f, mySelectedRectPtr->position.x + mySelectedRectPtr->size.x);
+			float clampedPosition = std::clamp(newPosition, 0.f, mySelectedRectPtr->rect.position.x + mySelectedRectPtr->rect.size.x);
 			float effectiveDelta = clampedPosition - currentPositioningX;
 
 			(*myPositionEdgeScalingX) = clampedPosition;
-			mySelectedRectPtr->size.x = currentScalingX - effectiveDelta;
+			mySelectedRectPtr->rect.size.x = currentScalingX - effectiveDelta;
 		}
 		else if (myScaleEdgeScalingX)
 		{
 			float mouseDragDelta = ImGui::GetMouseDragDelta().x / myInspectorScale.x;
 			float positionSnappingX = roundf(mouseDragDelta);
 			(*myScaleEdgeScalingX) = currentScalingX + positionSnappingX;
-			(*myScaleEdgeScalingX) = std::clamp((*myScaleEdgeScalingX), 0.f, myTextureSize.x - mySelectedRectPtr->position.x);
+			(*myScaleEdgeScalingX) = std::clamp((*myScaleEdgeScalingX), 0.f, myTextureSize.x - mySelectedRectPtr->rect.position.x);
 		}
 		if (myPositionEdgeScalingY)
 		{
@@ -108,18 +108,18 @@ namespace Eclipse::Editor
 			float positionSnappingY = roundf(mouseDragDelta);
 
 			float newPosition = currentPositioningY + positionSnappingY;
-			float clampedPosition = std::clamp(newPosition, 0.f, mySelectedRectPtr->position.y + mySelectedRectPtr->size.y);
+			float clampedPosition = std::clamp(newPosition, 0.f, mySelectedRectPtr->rect.position.y + mySelectedRectPtr->rect.size.y);
 			float effectiveDelta = clampedPosition - currentPositioningY;
 
 			(*myPositionEdgeScalingY) = clampedPosition;
-			mySelectedRectPtr->size.y = currentScalingY - effectiveDelta;
+			mySelectedRectPtr->rect.size.y = currentScalingY - effectiveDelta;
 		}
 		else if (myScaleEdgeScalingY)
 		{
 			float mouseDragDelta = ImGui::GetMouseDragDelta().y / myInspectorScale.x;
 			float positionSnappingY = roundf(mouseDragDelta);
 			(*myScaleEdgeScalingY) = currentScalingY + positionSnappingY;
-			(*myScaleEdgeScalingY) = std::clamp((*myScaleEdgeScalingY), 0.f, myTextureSize.y - mySelectedRectPtr->position.y);
+			(*myScaleEdgeScalingY) = std::clamp((*myScaleEdgeScalingY), 0.f, myTextureSize.y - mySelectedRectPtr->rect.position.y);
 		}
 	}
 
@@ -196,13 +196,13 @@ namespace Eclipse::Editor
 							mySelectedRectPtr = nullptr;
 							for (auto& rect : myRects)
 							{
-								if (OffsetPositionScaledRight.x > rect.position.x + rect.size.x)
+								if (OffsetPositionScaledRight.x > rect.rect.position.x + rect.rect.size.x)
 									continue;
-								if (OffsetPositionScaledRight.x < rect.position.x)
+								if (OffsetPositionScaledRight.x < rect.rect.position.x)
 									continue;
-								if (OffsetPositionScaledRight.y > rect.position.y + rect.size.y)
+								if (OffsetPositionScaledRight.y > rect.rect.position.y + rect.rect.size.y)
 									continue;
-								if (OffsetPositionScaledRight.y < rect.position.y)
+								if (OffsetPositionScaledRight.y < rect.rect.position.y)
 									continue;
 
 								createNewRect = false;
@@ -286,8 +286,8 @@ namespace Eclipse::Editor
 
 						Rect rect;
 
-						rect.position = { inspectPosOffsetZeroX, inspectPosOffsetZeroY };
-						rect.size = { sizeDivScaleX, sizeDivScaleY };
+						rect.rect.position = { inspectPosOffsetZeroX, inspectPosOffsetZeroY };
+						rect.rect.size = { sizeDivScaleX, sizeDivScaleY };
 						rect.isSelected = false;
 
 						rect.name = std::string("Rect_") + std::to_string(myRects.size());
@@ -323,8 +323,8 @@ namespace Eclipse::Editor
 	{
 		for (auto& rect : myRects)
 		{
-			Math::Vector2f position = rect.position;
-			Math::Vector2f size = rect.size;
+			Math::Vector2f position = rect.rect.position;
+			Math::Vector2f size = rect.rect.size;
 
 			position.x *= myInspectorScale.x;
 			position.y *= myInspectorScale.y;
@@ -383,12 +383,12 @@ namespace Eclipse::Editor
 		ImGui::Text("X:");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(150.f);
-		ImGui::DragFloat("##RectEditPositionX", &mySelectedRectPtr->position.x, 1.f, 0.f, myTextureSize.x - mySelectedRectPtr->size.x);
+		ImGui::DragFloat("##RectEditPositionX", &mySelectedRectPtr->rect.position.x, 1.f, 0.f, myTextureSize.x - mySelectedRectPtr->rect.size.x);
 		ImGui::SetCursorPosX(myStartCursorPosition.x + 5.f);
 		ImGui::Text("Y:");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(150.f);
-		ImGui::DragFloat("##RectEditPositionY", &mySelectedRectPtr->position.y, 1.f, 0.f, myTextureSize.y - mySelectedRectPtr->size.y);
+		ImGui::DragFloat("##RectEditPositionY", &mySelectedRectPtr->rect.position.y, 1.f, 0.f, myTextureSize.y - mySelectedRectPtr->rect.size.y);
 
 		ImGui::SetCursorPosX(myStartCursorPosition.x + 5.f);
 		ImGui::Text("Size");
@@ -396,12 +396,12 @@ namespace Eclipse::Editor
 		ImGui::Text("X:");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(150.f);
-		ImGui::DragFloat("##RectEditSizeX", &mySelectedRectPtr->size.x, 1.f, 0.f, myTextureSize.x - mySelectedRectPtr->position.x);
+		ImGui::DragFloat("##RectEditSizeX", &mySelectedRectPtr->rect.size.x, 1.f, 0.f, myTextureSize.x - mySelectedRectPtr->rect.position.x);
 		ImGui::SetCursorPosX(myStartCursorPosition.x + 5.f);
 		ImGui::Text("Y:");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(150.f);
-		ImGui::DragFloat("##RectEditSizeY", &mySelectedRectPtr->size.y, 1.f, 0.f, myTextureSize.y - mySelectedRectPtr->position.y);
+		ImGui::DragFloat("##RectEditSizeY", &mySelectedRectPtr->rect.size.y, 1.f, 0.f, myTextureSize.y - mySelectedRectPtr->rect.position.y);
 	}
 
 	bool SpriteEditor::RectangleEdgeChoosing(Math::Vector2f aMousePosition)
@@ -410,8 +410,8 @@ namespace Eclipse::Editor
 		{
 			Rect& rect = *mySelectedRectPtr;
 
-			Math::Vector2f min = rect.position;
-			Math::Vector2f max = rect.position + rect.size;
+			Math::Vector2f min = rect.rect.position;
+			Math::Vector2f max = rect.rect.position + rect.rect.size;
 
 			float edgeSens = mouseEdgeSensetivity / myInspectorScale.x;
 
@@ -419,38 +419,38 @@ namespace Eclipse::Editor
 			float distanceFromMaxX = abs(aMousePosition.x - max.x);
 			if (distanceFromMaxX < edgeSens && isInsideY)
 			{
-				currentScalingX = rect.size.x;
-				myScaleEdgeScalingX = &rect.size.x;
+				currentScalingX = rect.rect.size.x;
+				myScaleEdgeScalingX = &rect.rect.size.x;
 				myMinEdgeScaling = 0.f;
-				myMaxEdgeScaling = static_cast<float>(myTextureSize.x) - rect.position.x;
+				myMaxEdgeScaling = static_cast<float>(myTextureSize.x) - rect.rect.position.x;
 			}
 			float distanceFromMinX = abs(aMousePosition.x - min.x);
 			if (distanceFromMinX < edgeSens && isInsideY)
 			{
-				currentPositioningX = rect.position.x;
-				currentScalingX = rect.size.x;
-				myPositionEdgeScalingX = &rect.position.x;
+				currentPositioningX = rect.rect.position.x;
+				currentScalingX = rect.rect.size.x;
+				myPositionEdgeScalingX = &rect.rect.position.x;
 				myMinEdgeScaling = 0.f;
-				myMaxEdgeScaling = rect.position.x + rect.size.x;
+				myMaxEdgeScaling = rect.rect.position.x + rect.rect.size.x;
 			}
 
 			bool isInsideX = min.x - edgeSens * 0.5f < aMousePosition.x && max.x + edgeSens * 0.5f > aMousePosition.x;
 			float distanceFromMaxY = abs(aMousePosition.y - max.y);
 			if (distanceFromMaxY < edgeSens && isInsideX)
 			{
-				currentScalingY = rect.size.y;
-				myScaleEdgeScalingY = &rect.size.y;
+				currentScalingY = rect.rect.size.y;
+				myScaleEdgeScalingY = &rect.rect.size.y;
 				myMinEdgeScaling = 0.f;
-				myMaxEdgeScaling = static_cast<float>(myTextureSize.x) - rect.position.x;
+				myMaxEdgeScaling = static_cast<float>(myTextureSize.x) - rect.rect.position.x;
 			}
 			float distanceFromMinY = abs(aMousePosition.y - min.y);
 			if (distanceFromMinY < edgeSens && isInsideX)
 			{
-				currentPositioningY = rect.position.y;
-				currentScalingY = rect.size.y;
-				myPositionEdgeScalingY = &rect.position.y;
+				currentPositioningY = rect.rect.position.y;
+				currentScalingY = rect.rect.size.y;
+				myPositionEdgeScalingY = &rect.rect.position.y;
 				myMinEdgeScaling = 0.f;
-				myMaxEdgeScaling = rect.position.x + rect.size.x;
+				myMaxEdgeScaling = rect.rect.position.x + rect.rect.size.x;
 			}
 
 			if (myPositionEdgeScalingX || myPositionEdgeScalingY || myScaleEdgeScalingX || myScaleEdgeScalingY)
@@ -474,8 +474,8 @@ namespace Eclipse::Editor
 
 			Rect& rect = *mySelectedRectPtr;
 
-			Math::Vector2f min = rect.position;
-			Math::Vector2f max = rect.position + rect.size;
+			Math::Vector2f min = rect.rect.position;
+			Math::Vector2f max = rect.rect.position + rect.rect.size;
 
 			float edgeSens = mouseEdgeSensetivity / myInspectorScale.x;
 
@@ -541,28 +541,31 @@ namespace Eclipse::Editor
 		document.ParseStream(fileReadStream);
 		fclose(fileP);
 
-		for (auto& value : document.GetObj())
+		if (!document.HasMember("Sprite Rects"))
+			return;
+
+		auto spriteRects = document["Sprite Rects"].GetArray();
+
+		for (auto& rect : spriteRects)
 		{
 			Rect newRect;
 
-			const rapidjson::Value& position = value.value["pos"];
-			const rapidjson::Value& size = value.value["size"];
+			const rapidjson::Value& position = rect["pos"];
+			const rapidjson::Value& size = rect["size"];
 
 			if (position.HasMember("x") && position["x"].IsNumber())
-				newRect.position.x = static_cast<float>(position["x"].GetFloat());
+				newRect.rect.position.x = position["x"].GetFloat();
 
 			if (position.HasMember("y") && position["y"].IsNumber())
-				newRect.position.y = static_cast<float>(position["y"].GetFloat());
+				newRect.rect.position.y = position["y"].GetFloat();
 
 			if (size.HasMember("width") && size["width"].IsNumber())
-				newRect.size.x = static_cast<float>(size["width"].GetFloat());
+				newRect.rect.size.x = size["width"].GetFloat();
 
 			if (size.HasMember("height") && size["height"].IsNumber())
-				newRect.size.y = static_cast<float>(size["height"].GetFloat());
+				newRect.rect.size.y = size["height"].GetFloat();
 
-			newRect.isSelected = false;
-
-			newRect.name = value.name.GetString();
+			newRect.name = rect["name"].GetString();
 
 			myRects.emplace_back(newRect);
 		}
@@ -575,25 +578,29 @@ namespace Eclipse::Editor
 
 		document.SetObject();
 
+		rapidjson::Value spriteRects(rapidjson::kArrayType);
+
 		for (Rect& rect : myRects)
 		{
 			rapidjson::Value minRect(rapidjson::kObjectType);
-			minRect.AddMember("x", rect.position.x, allocator);
-			minRect.AddMember("y", rect.position.y, allocator);
+			minRect.AddMember("x", rect.rect.position.x, allocator);
+			minRect.AddMember("y", rect.rect.position.y, allocator);
 
 			rapidjson::Value maxRect(rapidjson::kObjectType);
-			maxRect.AddMember("width", rect.size.x, allocator);
-			maxRect.AddMember("height", rect.size.y, allocator);
+			maxRect.AddMember("width", rect.rect.size.x, allocator);
+			maxRect.AddMember("height", rect.rect.size.y, allocator);
 
-			rapidjson::Value val(rapidjson::kObjectType);
-			val.AddMember("pos", minRect.Move(), allocator);
-			val.AddMember("size", maxRect.Move(), allocator);
+			rapidjson::Value jsonRect(rapidjson::kObjectType);
+			auto jsonString = rapidjson::StringRef(rect.name.c_str());
+			jsonRect.AddMember("name", jsonString, allocator);
 
-			rapidjson::Value strValue;
-			strValue.SetString(rect.name.c_str(), static_cast<rapidjson::SizeType>(strlen(rect.name.c_str())), allocator);
+			jsonRect.AddMember("pos", minRect.Move(), allocator);
+			jsonRect.AddMember("size", maxRect.Move(), allocator);
 
-			document.AddMember(strValue, val.Move(), allocator);
+			spriteRects.PushBack(jsonRect.Move(), allocator);
 		}
+
+		document.AddMember("Sprite Rects", spriteRects.Move(), allocator);
 
 		rapidjson::StringBuffer buffer;
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
@@ -703,13 +710,13 @@ namespace Eclipse::Editor
 			float positionSnappingX = roundf(posX / mySpriteScaleSnapping.x) * mySpriteScaleSnapping.x;
 			float positionSnappingY = roundf(posY / mySpriteScaleSnapping.y) * mySpriteScaleSnapping.y;
 
-			mySelectedRectPtr->position = { savedPositionBeforeMove.x + positionSnappingX, savedPositionBeforeMove.y + positionSnappingY };
+			mySelectedRectPtr->rect.position = { savedPositionBeforeMove.x + positionSnappingX, savedPositionBeforeMove.y + positionSnappingY };
 
-			float clampedPositionX = std::clamp(mySelectedRectPtr->position.x, 0.f, static_cast<float>(myTextureSize.x) - mySelectedRectPtr->size.x);
-			float clampedPositionY = std::clamp(mySelectedRectPtr->position.y, 0.f, static_cast<float>(myTextureSize.y) - mySelectedRectPtr->size.y);
+			float clampedPositionX = std::clamp(mySelectedRectPtr->rect.position.x, 0.f, static_cast<float>(myTextureSize.x) - mySelectedRectPtr->rect.size.x);
+			float clampedPositionY = std::clamp(mySelectedRectPtr->rect.position.y, 0.f, static_cast<float>(myTextureSize.y) - mySelectedRectPtr->rect.size.y);
 
-			mySelectedRectPtr->position.x = clampedPositionX;
-			mySelectedRectPtr->position.y = clampedPositionY;
+			mySelectedRectPtr->rect.position.x = clampedPositionX;
+			mySelectedRectPtr->rect.position.y = clampedPositionY;
 		}
 		else if (mouseIsDownLeft)
 		{

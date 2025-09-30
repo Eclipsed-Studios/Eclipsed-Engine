@@ -1,6 +1,13 @@
 {
     "Transform2D": [
         {
+            "owner": 5,
+            "id": 17,
+            "position": "AAAAAAAAAAA=",
+            "rotation": "AAAAAA==",
+            "scale": "AACAPwAAgD8="
+        },
+        {
             "owner": 1,
             "id": 1,
             "position": "AAAAAKSBGb8=",
@@ -9,7 +16,7 @@
         },
         {
             "owner": 5,
-            "id": 17,
+            "id": 40,
             "position": "AAAAAAAAAAA=",
             "rotation": "AAAAAA==",
             "scale": "AACAPwAAgD8="
@@ -20,13 +27,6 @@
             "position": "mpkZv6JFVr8=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
-        },
-        {
-            "owner": 5,
-            "id": 40,
-            "position": "AAAAAAAAAAA=",
-            "rotation": "AAAAAA==",
-            "scale": "AACAPwAAgD8="
         },
         {
             "owner": 3,
@@ -80,6 +80,22 @@
             "id": 18
         }
     ],
+    "CircleCollider2D": [
+        {
+            "owner": 1,
+            "id": 3,
+            "myLayer": "AgAAAA==",
+            "ColliderPivot": "AAAAAAAAAAA=",
+            "Radius": "fT8VPw=="
+        }
+    ],
+    "PlayerCamera": [
+        {
+            "owner": 5,
+            "id": 19,
+            "myPlayerGO": "AQAAAA=="
+        }
+    ],
     "PolygonCollider2D": [
         {
             "owner": 3,
@@ -90,23 +106,6 @@
                 "size": 4,
                 "data": "zczMveOlG73NzMy9WDk0vM3MzD38qXE9zczMPbx0Ez0="
             }
-        }
-    ],
-    "PlayerCamera": [
-        {
-            "owner": 5,
-            "id": 19,
-            "myPlayerGO": "AQAAAA=="
-        }
-    ],
-    "CircleCollider2D": [
-        {
-            "owner": 1,
-            "id": 3,
-            "myLayer": "AgAAAA==",
-            "ColliderPivot": "AAAAAAAAAAA=",
-            "myRadius": "zMzMPQ==",
-            "myRealRadius": "AACAPw=="
         }
     ],
     "AudioSource": [
@@ -153,7 +152,7 @@
         {
             "owner": 1,
             "id": 7,
-            "mySpriteSheetAnimationPath": "/Assets/Sprites/ScissorSprite/ScissorAnimation.json"
+            "mySpriteSheetAnimationPath": "/Assets/Sprites/ScissorSprite/Scissors.animation"
         }
     ],
     "GameObjects": [

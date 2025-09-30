@@ -33,9 +33,9 @@ namespace Eclipse
                 }
             }
 
-
-            const Math::Rect& rect = mySpriteSheetAnimations->GetRect(animationFramesIdx[myCurrentFrame++]);
-            mySpriteRenderer->SetSpriteRect(rect.min, rect.max);
+            const std::vector<Math::RectSizePos>& spriteRects = mySpriteRenderer->GetMaterial()->myTexture->GetSpriteRects();
+            const Math::RectSizePos& rect = spriteRects[animationFramesIdx[myCurrentFrame++]];
+            mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
         }
     }
 
@@ -45,8 +45,9 @@ namespace Eclipse
 
         mySpriteRenderer = gameObject->GetComponent<SpriteRenderer2D>();
 
-        const Math::Rect& rect = mySpriteSheetAnimations->GetRect(0);
-        mySpriteRenderer->SetSpriteRect(rect.min, rect.max);
+        const std::vector<Math::RectSizePos>& spriteRects = mySpriteRenderer->GetMaterial()->myTexture->GetSpriteRects();
+        const Math::RectSizePos& rect = spriteRects[0];
+        mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
     }
 
     void SpriteSheetAnimator2D::SetSpriteSheet(const char* aPath)

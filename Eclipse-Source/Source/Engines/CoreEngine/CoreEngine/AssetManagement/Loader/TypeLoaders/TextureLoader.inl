@@ -9,8 +9,63 @@
 #include <iterator>
 #include <fstream>
 
+#include "rapidjson/rapidjson/document.h"
+#include "rapidjson/rapidjson/filereadstream.h"
+
 namespace Eclipse
 {
+	inline void LoadSpriteRects(const rapidjson::Document& aDocument, std::vector<Math::RectSizePos>& myOutRects, Texture& outResource)
+	{
+		if (!aDocument.HasMember("Sprite Rects"))
+			return;
+
+		auto spriteRects = aDocument["Sprite Rects"].GetArray();
+
+		float textureHeight = static_cast<float>(outResource.GetTextureSize().y);
+
+		for (auto& rect : spriteRects)
+		{
+			Math::RectSizePos newRect;
+
+			const rapidjson::Value& position = rect["pos"];
+			const rapidjson::Value& size = rect["size"];
+
+			if (size.HasMember("width") && size["width"].IsNumber())
+				newRect.size.x = size["width"].GetFloat();
+
+			if (size.HasMember("height") && size["height"].IsNumber())
+				newRect.size.y = size["height"].GetFloat();
+
+			if (position.HasMember("x") && position["x"].IsNumber())
+				newRect.position.x = position["x"].GetFloat();
+
+			if (position.HasMember("y") && position["y"].IsNumber())
+				newRect.position.y = std::fmod((textureHeight - position["y"].GetFloat() + newRect.size.y), textureHeight);
+
+			myOutRects.emplace_back(newRect);
+		}
+	}
+
+	inline void LoadMetaFile(const char* aPath, Texture& outResource)
+	{
+		std::filesystem::path filePath = "../Assets";
+		filePath /= outResource.GetRelativePath();
+		filePath.replace_extension("meta");
+
+		FILE* fileP = fopen(filePath.string().c_str(), "rb");
+		if (!fileP)
+			return;
+
+		char readBuffer[32000];
+		rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
+
+		rapidjson::Document document;
+		document.ParseStream(fileReadStream);
+		fclose(fileP);
+
+		LoadSpriteRects(document, outResource.myRects, outResource);
+	}
+
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, Texture& outResource)
 	{
@@ -23,7 +78,6 @@ namespace Eclipse
 		{
 			resolvedPath = aPath;
 		}
-
 
 		outResource = Texture(resolvedPath.string().c_str());
 
@@ -70,5 +124,7 @@ namespace Eclipse
 		outResource.dimDivOne = 1.f / (static_cast<float>(outResource.height) / static_cast<float>(outResource.width));
 
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+		LoadMetaFile(aPath, outResource);
 	}
 }

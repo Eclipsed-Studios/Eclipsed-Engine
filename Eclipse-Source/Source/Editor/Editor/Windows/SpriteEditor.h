@@ -11,6 +11,8 @@
 #include "AssetManagement/Resources.h"
 #include "AssetManagement/Resources/Texture.h"
 
+#include "Math/RectSizePos.h"
+
 namespace Eclipse::Editor
 {
 	class SpriteEditor final : public AbstractWindow
@@ -99,12 +101,10 @@ namespace Eclipse::Editor
 
 		struct Rect
 		{
-			Math::Vector2f position;
-			Math::Vector2f size;
+			Math::RectSizePos rect;
 
 			std::string name;
-
-			bool isSelected;
+			bool isSelected = false;
 		};
 
 

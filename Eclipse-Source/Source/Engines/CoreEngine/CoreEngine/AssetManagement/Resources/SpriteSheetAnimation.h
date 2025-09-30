@@ -15,11 +15,10 @@ namespace Eclipse
 		BASE_RESOURCE(SpriteSheetAnimation)
 
 	public:
-		const Math::Rect& GetRect(unsigned aIdx) const;
-		std::vector<unsigned> GetAnimation(const std::string& aName) const;
+		const std::vector<unsigned>& GetAnimation(const std::string& aName) const;
 
 	private:
-		std::vector<Math::Rect> myFrames;
 		std::unordered_map<std::string, std::vector<unsigned>> myAnimations;
+		std::vector<unsigned> emptyFrames;
 	};
 }

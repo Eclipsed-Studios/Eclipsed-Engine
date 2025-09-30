@@ -4,6 +4,8 @@
 
 #include "Abstract/AbstractResource.h"
 
+#include "Math/RectSizePos.h"
+
 namespace Eclipse
 {
 	enum TextureWrapMode
@@ -35,11 +37,16 @@ namespace Eclipse
 
 		Math::Vector2i GetTextureSize() { return Math::Vector2i{ width, height }; }
 		Math::Vector2i GetTextureSizeEngineUnits() { return Math::Vector2i{ static_cast<int>(static_cast<float>(width) * 0.01f), static_cast<int>(static_cast<float>(height) * 0.01f) }; }
-		
-		Math::Vector2f GetTextureSizeNormilized() { return Math::Vector2f{ 
-			1.f, static_cast<float>(height) / width }; 
+
+		Math::Vector2f GetTextureSizeNormilized() {
+			return Math::Vector2f{
+			1.f, static_cast<float>(height) / width };
 		}
 
+		const std::vector<Math::RectSizePos>& GetSpriteRects() const { return myRects; }
+
+	public:
+		std::vector<Math::RectSizePos> myRects;
 	private:
 		int width = 1, height = 1;
 		int channels;
@@ -48,5 +55,6 @@ namespace Eclipse
 		float dimDivOne;
 
 		unsigned textureID = 0;
+
 	};
 }

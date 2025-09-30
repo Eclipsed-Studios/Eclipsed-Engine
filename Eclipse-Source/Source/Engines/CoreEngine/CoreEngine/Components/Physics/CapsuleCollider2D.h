@@ -20,11 +20,11 @@ namespace Eclipse
         void SetHalfHeight(float aHalfHeight);
 
     private:
-        SERIALIZED_FIELD(float, myRadius);
-        SERIALIZED_FIELD(float, myHalfHeight);
+        float myInternalRadius;
+        float myInternalHalfHeight;
 
-        SERIALIZED_FIELD(float, myRealRadius);
-        SERIALIZED_FIELD(float, myRealHalfHeight);
+        SERIALIZED_FIELD(float, Radius);
+        SERIALIZED_FIELD(float, HalfHeight);
 
         class Transform2D* myTransform;
     };

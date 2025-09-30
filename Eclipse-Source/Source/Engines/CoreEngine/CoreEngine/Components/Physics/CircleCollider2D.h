@@ -21,10 +21,10 @@ namespace Eclipse
         void SetRadius(float aRadius);
 
     private:
-        float LastRadius;
-        SERIALIZED_FIELD(float, myRadius);
+        float LastRadius = 0.f;
+        float myInternalRadius = 1.f;
 
-        SERIALIZED_FIELD(float, myRealRadius);
+        SERIALIZED_FIELD(float, Radius);
 
         class Transform2D* myTransform;
     };

@@ -12,17 +12,10 @@
 
 namespace Eclipse
 {
-	const Math::Rect& SpriteSheetAnimation::GetRect(unsigned aIdx) const
-	{
-		return myFrames[aIdx];
-	}
-
-	std::vector<unsigned> SpriteSheetAnimation::GetAnimation(const std::string& aName) const
+	const std::vector<unsigned>& SpriteSheetAnimation::GetAnimation(const std::string& aName) const
 	{
 		if (myAnimations.find(aName) == myAnimations.end())
-		{
-			return {};
-		}
+			return emptyFrames;
 
 		return myAnimations.at(aName);
 	}
