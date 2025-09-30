@@ -41,9 +41,4 @@ namespace Eclipse
 		SceneManager::LoadScene(0);
 #endif 
 	}
-
-	void Game::Update()
-	{
-
-	}
 	}

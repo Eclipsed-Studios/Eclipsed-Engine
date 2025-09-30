@@ -2,7 +2,7 @@ find_package(OpenGL REQUIRED)
 
 cmake_minimum_required(VERSION 3.19.2)
 
-file(READ "${CMAKE_SOURCE_DIR}/Settings/GameSettings.json" GAME_NAME_FILE)
+file(READ "${CMAKE_SOURCE_DIR}/Settings/EngineSettings.json" GAME_NAME_FILE)
 string(JSON GameJSONName GET "${GAME_NAME_FILE}" GameName)
 set(GAME_NAME "${GameJSONName}")
 

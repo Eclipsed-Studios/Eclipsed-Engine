@@ -19,8 +19,6 @@ namespace Eclipse
 		static void Update();
 		static void EndFrame();
 
-		static inline Game game;
-
 	private:
 		static void InitSubSystems();
 	};

@@ -5,8 +5,10 @@ namespace Eclipse
 	class SceneManager
 	{
 	public:
-		static void LoadScene(const std::string& name);
+		static void LoadScene(const std::string& nameOrPath);
 		static void LoadScene(unsigned idx);
+
+		static void ReloadActiveScene();
 
 		static void SaveScenes();
 
@@ -17,10 +19,10 @@ namespace Eclipse
 
 		static std::unordered_map<std::string, unsigned>& GetNameToIdx();
 		static std::vector<std::string>& GetScenePaths();
-		static std::vector<Scene>& GetLoadedScenes();
+		static const char* GetActiveScene();
 
 	private:
-		static inline std::vector<Scene> loadedScenes;
+		static inline std::string ActiveSceneName;
 
 	private:
 		static inline std::unordered_map<std::string, unsigned> nameToIdx;

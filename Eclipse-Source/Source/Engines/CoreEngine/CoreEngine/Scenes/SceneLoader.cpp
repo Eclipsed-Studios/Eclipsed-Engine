@@ -18,11 +18,6 @@
 
 namespace Eclipse
 {
-	const char* SceneLoader::GetActiveScene()
-	{
-		return myActiveScene.c_str();
-	}
-
 	void SceneLoader::Save(const char* aPath)
 	{
 		rapidjson::Document d;
@@ -137,12 +132,12 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
+		ComponentManager::Clear();
+
 		std::ifstream ifs(aPath);
 		if (!ifs.is_open()) {
 			return;
 		}
-
-		myActiveScene = aPath;
 
 		std::string jsonString((std::istreambuf_iterator<char>(ifs)),
 			std::istreambuf_iterator<char>());

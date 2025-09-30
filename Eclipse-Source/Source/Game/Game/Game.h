@@ -5,16 +5,14 @@ namespace Eclipse
     class Game
     {
     public:
-        Game() = default;
-        ~Game() = default;
+        Game() = delete;
+        ~Game() = delete;
 
-        void Init();
-        void Update();
-        void Start();
+        static void Init();
         
         #ifndef _GAME
-            bool myIsPlaying = false;
-            bool myIsPaused = false;
+            static inline bool IsPlaying = false;
+            static inline bool IsPaused = false;
         #endif
     };
 }

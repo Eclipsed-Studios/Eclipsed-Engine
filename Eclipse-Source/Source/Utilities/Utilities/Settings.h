@@ -10,7 +10,7 @@ namespace Eclipse
 		Settings(const char* aPath);
 		~Settings();
 
-	protected:
+	public:
 		template<typename T>
 		T Get(const char* aSettingName);
 
