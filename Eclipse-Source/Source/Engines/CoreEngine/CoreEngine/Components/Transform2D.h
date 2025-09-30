@@ -40,9 +40,6 @@ namespace Eclipse
 
 		void AddFunctionToRunOnDirtyUpdate(const std::function<void()>& aFunction);
 
-	protected:
-		void DrawInspector() override;
-
 	private:
 		SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, position, Math::Vector2f(0, 0));
 		SERIALIZED_FIELD_DEFAULT(float, rotation, 0);

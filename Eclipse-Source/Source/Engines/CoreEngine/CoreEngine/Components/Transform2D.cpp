@@ -78,41 +78,6 @@ namespace Eclipse
         myFunctionsToRunOnDirtyUpdate.push_back(aFunction);
     }
 
-    void Transform2D::DrawInspector()
-    {
-        std::stringstream ss;
-        ss << "##" << this;
-
-        { // Position
-            ImGui::Text("Position");
-            ImGui::SameLine();
-            if (ImGui::DragFloat2(("##Position" + ss.str()).c_str(), &position->x, 0.001f))
-            {
-                myIsDirty = true;
-            }
-        }
-
-        { // Scale
-            ImGui::Text("Scale");
-            ImGui::SameLine();
-            if (ImGui::DragFloat2(("##Scale" + ss.str()).c_str(), &scale->x, 0.1f))
-            {
-                myIsDirty = true;
-            }
-        }
-
-        { // Rotation
-            float rot = rotation * (180.f / 3.1415f);
-            ImGui::Text("Rotation");
-            ImGui::SameLine();
-            if (ImGui::DragFloat(("##Rotation" + ss.str()).c_str(), &rot, 0.01f))
-            {
-                myIsDirty = true;
-                rotation = rot * (3.1415f / 180.f);
-            }
-        }
-    }
-
     void Transform2D::EditorUpdate()
     {
         if (myIsDirty)
