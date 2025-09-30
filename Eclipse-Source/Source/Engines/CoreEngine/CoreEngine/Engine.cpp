@@ -26,15 +26,29 @@
 
 #include "Components/AudioSource.h"
 
+#include "EngineSettings.h"
+
 namespace Eclipse
 {
 	void Engine::Init()
 	{
+		EngineSettings settings(SETTINGS_PATH"coolio.json");
+
+		settings.Set("Testing", 24);
+		settings.Set("test other", "It works?");
+		settings.Set("woow", 0.0348f);
+
+
 		TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
 
 		InitSubSystems();
 
 		game.Init();
+	}
+
+	void Engine::Internal_Update()
+	{
+		//static 
 	}
 
 	void Engine::InitSubSystems()
