@@ -13,11 +13,11 @@ namespace Eclipse
 	public:
 		static void Init();
 		
+		static void Internal_Update();
+
 		static bool BeginFrame();
 		static void Update();
 		static void EndFrame();
-
-		static inline Game game;
 
 	private:
 		static void InitSubSystems();

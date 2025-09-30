@@ -18,14 +18,10 @@ namespace Eclipse
 	class SceneLoader
 	{
 	public:
-		static const char* GetActiveScene();
-
 		static void Save(const char* aPath);
 		static void Load(const char* aPath);
 
 	private:
-		static inline std::string myActiveScene;
-
 		static void LoadComponent(const std::string& componentName, const rapidjson::Value& aValue);
 		static void LoadType(Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, const rapidjson::Value& aValue);
 

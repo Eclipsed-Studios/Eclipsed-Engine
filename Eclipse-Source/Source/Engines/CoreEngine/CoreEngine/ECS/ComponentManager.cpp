@@ -27,6 +27,26 @@ namespace Eclipse
 		myComponentsToStart.clear();
 	}
 
+	void ComponentManager::Clear()
+	{
+		myComponents.clear();
+		delete myComponentData;
+
+		myComponentMemoryTracker = 0;
+		myNextGameobjectID = 1;
+		myComponentsToStart.clear();
+		
+		for (auto& [id, obj] : myEntityIdToEntity)
+		{
+			delete obj;
+		}
+
+		myEntityIdToEntity.clear();
+		myEntityIDToVectorOfComponentIDs.clear();
+
+		Init();
+	}
+
 	void ComponentManager::AwakeComponents()
 	{
 		for (auto& component : myComponentsToStart)

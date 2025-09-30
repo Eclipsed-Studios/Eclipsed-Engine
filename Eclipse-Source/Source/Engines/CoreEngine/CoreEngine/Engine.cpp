@@ -26,15 +26,23 @@
 
 #include "Components/AudioSource.h"
 
+#include "EngineSettings.h"
+
 namespace Eclipse
 {
 	void Engine::Init()
 	{
+
 		TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
 
 		InitSubSystems();
 
-		game.Init();
+		Game::Init();
+	}
+
+	void Engine::Internal_Update()
+	{
+		//static 
 	}
 
 	void Engine::InitSubSystems()
@@ -89,7 +97,7 @@ namespace Eclipse
 		ComponentManager::EditorUpdateComponents();
 
 #ifndef _GAME
-		if (game.myIsPlaying && !game.myIsPaused)
+		if (Game::IsPlaying && !Game::IsPaused)
 		{
 #endif
 			AudioManager::Update();

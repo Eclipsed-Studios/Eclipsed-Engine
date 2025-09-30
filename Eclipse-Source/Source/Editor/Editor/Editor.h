@@ -23,6 +23,8 @@ namespace Eclipse::Editor
 
         static void End();
 
+        static void DrawPlayGameButtons();
+
     private:
         static void LoadFonts();
 

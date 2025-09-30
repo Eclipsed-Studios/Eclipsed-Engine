@@ -10,7 +10,8 @@ project(Eclipse LANGUAGES CXX)
 
 
 
-add_compile_definitions(ENGINE_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/GameSettings.json\")
+add_compile_definitions(ENGINE_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/EngineSettings.json\")
+add_compile_definitions(GAME_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/GameSettings.json\")
 add_compile_definitions(ENGINE_ASSETS_PATH=\"${CMAKE_SOURCE_DIR}/EngineAssets/\")
 add_compile_definitions(ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 add_compile_definitions(SOURCE_PATH=\"${CMAKE_SOURCE_DIR}/\")

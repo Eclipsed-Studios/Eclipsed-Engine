@@ -8,6 +8,8 @@
 #include "Editor/DragAndDrop.h"
 #include "Editor/TextureIconManager.h"
 
+#include "Scenes/SceneManager.h"
+
 
 namespace Eclipse::Editor
 {
@@ -58,7 +60,8 @@ namespace Eclipse::Editor
 	{
 		switch (fifo.type)
 		{
-		case FileInfo::FileType_Scene: // Open it.
+		case FileInfo::FileType_Scene: 
+			SceneManager::LoadScene(fifo.filePath.string());
 			break;
 
 		default:
@@ -271,7 +274,6 @@ namespace Eclipse::Editor
 			if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 			{
 				Active_FilePath = entry.path();
-				print_file_id(Active_FilePath.string().c_str());
 				InspectorWindow::activeType = ActiveItemTypes_Asset;
 			}
 			else if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
