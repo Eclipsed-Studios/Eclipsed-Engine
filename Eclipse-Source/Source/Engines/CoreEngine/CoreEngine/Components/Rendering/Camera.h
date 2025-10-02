@@ -14,7 +14,7 @@ namespace Eclipse
     public:
         void OnDestroy() override;
 
-        void Awake() override;
+        void OnSceneLoaded() override;
         void Render() override;
 
         static inline class Camera* main;

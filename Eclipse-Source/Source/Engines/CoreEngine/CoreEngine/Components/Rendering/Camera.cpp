@@ -21,7 +21,7 @@ namespace Eclipse
             main = nullptr;
     }
 
-    void Camera::Awake()
+    void Camera::OnSceneLoaded()
     {
         main = this;
 

@@ -10,6 +10,12 @@ namespace Eclipse
 		myComponentData = new uint8_t[MAX_COMPONENT_MEMORY_BYTES];
 	}
 
+	void ComponentManager::OnLoadScene()
+	{
+		for (auto& component : myComponents)
+			component->OnSceneLoaded();
+	}
+
 	void ComponentManager::AwakeStartComponents()
 	{
 		if (myComponentsToStart.empty())
@@ -35,7 +41,7 @@ namespace Eclipse
 		myComponentMemoryTracker = 0;
 		myNextGameobjectID = 1;
 		myComponentsToStart.clear();
-		
+
 		for (auto& [id, obj] : myEntityIdToEntity)
 		{
 			delete obj;
@@ -118,7 +124,7 @@ namespace Eclipse
 	{
 		std::vector<Component*> components;
 
-		for(auto& component : myEntityIDToVectorOfComponentIDs.at(aGOID))
+		for (auto& component : myEntityIDToVectorOfComponentIDs.at(aGOID))
 		{
 			components.emplace_back(myComponents[component.second]);
 		}
@@ -133,7 +139,7 @@ namespace Eclipse
 
 	void ComponentManager::Destroy(GameObjectID aGOID)
 	{
-		for(auto& componentAtGO : myEntityIDToVectorOfComponentIDs.at(aGOID))
+		for (auto& componentAtGO : myEntityIDToVectorOfComponentIDs.at(aGOID))
 		{
 			Component* component = myComponents[componentAtGO.second];
 

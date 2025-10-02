@@ -17,7 +17,7 @@ namespace Eclipse
         //~Collider2D();
 
     public:
-        SERIALIZED_FIELD(Layer, myLayer);
+        SERIALIZED_FIELD_DEFAULT(Layer, myLayer, Layer::Default);
         SERIALIZED_FIELD(Math::Vector2f, ColliderPivot);
 
     protected:
@@ -29,5 +29,7 @@ namespace Eclipse
 
         // Internals
         b2BodyId myBodyRef;
+
+        bool myCreatedInternally = false;
     };
 }

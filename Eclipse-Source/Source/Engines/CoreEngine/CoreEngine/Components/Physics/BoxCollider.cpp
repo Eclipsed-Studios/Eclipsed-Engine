@@ -12,25 +12,6 @@
 
 namespace Eclipse
 {
-    void BoxCollider2D::Awake()
-    {
-        RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
-
-        if (!rigidBody)
-        {
-            myUserData = { gameObject->GetID() };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, gameObject->GetComponent<Transform2D>()->GetPosition());
-        }
-        else
-            myBodyRef = rigidBody->myBody;
-
-        SetScale(HalfExtents);
-
-        PhysicsEngine::CreateBoxCollider(&myInternalCollider, myBodyRef, myHalfExtents, myLayer);
-
-        myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
-    }
-
     void BoxCollider2D::EditorUpdate()
     {
         if (myLastHalfExtents.x != HalfExtents->x || myLastHalfExtents.y != HalfExtents->y)
@@ -46,8 +27,31 @@ namespace Eclipse
 
     void BoxCollider2D::OnComponentAdded()
     {
+        if (!myCreatedInternally)
+        {
+            OnSceneLoaded();
+        }
+    }
+
+    void BoxCollider2D::OnSceneLoaded()
+    {
         myTransform = gameObject->transform;
         SetScale(HalfExtents);
+
+        RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
+        if (!rigidBody)
+        {
+            myUserData = { gameObject->GetID() };
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, gameObject->GetComponent<Transform2D>()->GetPosition());
+        }
+        else
+            myBodyRef = rigidBody->myBody;
+
+        PhysicsEngine::CreateBoxCollider(&myInternalCollider, myBodyRef, myHalfExtents, myLayer);
+
+        myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
+
+        myCreatedInternally = true;
     }
 
     void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)

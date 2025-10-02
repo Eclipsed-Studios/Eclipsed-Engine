@@ -93,8 +93,6 @@ namespace Eclipse
         component->gameObject = myEntityIdToEntity[aGOID];
         component->myUniqueComponentID = typeIndex;
 
-        component->OnComponentAdded();
-
         myComponentsToStart.emplace_back(component);
 
         myComponents.emplace_back(component);

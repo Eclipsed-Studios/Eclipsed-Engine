@@ -169,7 +169,10 @@ namespace Eclipse
 			it++;
 		}
 
-		ComponentManager::AwakeStartComponents();
+		ComponentManager::OnLoadScene();
+		
+		// only if the game has started
+		//ComponentManager::AwakeStartComponents();
 	}
 
 	void SceneLoader::LoadComponent(const std::string& componentName, const rapidjson::Value& aValue)

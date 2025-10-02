@@ -39,7 +39,7 @@ namespace Eclipse
         }
     }
 
-    void SpriteSheetAnimator2D::Start()
+    void SpriteSheetAnimator2D::OnSceneLoaded()
     {
         SetSpriteSheet(mySpriteSheetAnimationPath->c_str());
 

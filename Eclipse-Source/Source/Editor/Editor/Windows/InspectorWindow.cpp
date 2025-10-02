@@ -94,12 +94,11 @@ namespace Eclipse::Editor
 
 		if (ImGui::BeginCombo("##ADD_COMPONENTS", "Add Component"))
 		{
-			for (auto& [name, addFunc] : ComponentRegistry::GetAddComponentMap())
+			for (auto& [name, addFunc] : ComponentRegistry::GetInspectorAddComponentMap())
 			{
 				if (ImGui::Button(name.c_str(), ImVec2(-FLT_MIN, 0)))
 				{
-					auto func = ComponentRegistry::GetAddComponent(name);
-					func(id, Component::nextComponentID);
+					addFunc(id);
 					ImGui::CloseCurrentPopup();
 				}
 			}

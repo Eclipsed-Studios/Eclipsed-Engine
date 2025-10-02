@@ -29,6 +29,7 @@ private:
 
 
 #define REGISTER_COMPONENT_CALLBACK(type) [](unsigned gameObjId, unsigned compID){ return ComponentManager::AddComponentWithID<type>(gameObjId, compID); }
+#define REGISTER_COMPONENT_CALLBACK_NORMAL(type) [](unsigned gameObjId){ return ComponentManager::AddComponent<type>(gameObjId); }
 
 
 
@@ -45,6 +46,7 @@ struct AutoRegister {																				\
 	AutoRegister() {																				\
 		using namespace Eclipse;																	\
 		ComponentRegistry::Register(stringify(type), REGISTER_COMPONENT_CALLBACK(type));			\
+		ComponentRegistry::RegisterInspector(stringify(type), REGISTER_COMPONENT_CALLBACK_NORMAL(type));		\
 	}																								\
 };																									\
 public: \

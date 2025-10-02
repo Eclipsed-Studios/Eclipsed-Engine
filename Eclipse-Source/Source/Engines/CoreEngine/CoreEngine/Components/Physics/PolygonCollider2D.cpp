@@ -15,7 +15,7 @@
 
 namespace Eclipse
 {
-    void PolygonCollider2D::Awake()
+    void PolygonCollider2D::OnSceneLoaded()
     {
         myTransform = gameObject->GetComponent<Transform2D>();
         myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });

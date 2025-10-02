@@ -37,7 +37,7 @@ namespace Eclipse
         BASE_SELECTION(SpriteRenderer2D, 0)
 
     public:
-        void Awake() override;
+        void OnSceneLoaded() override;
         void Start() override;
 
         void Render() override;

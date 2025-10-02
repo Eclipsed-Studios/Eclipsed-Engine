@@ -9,7 +9,7 @@ namespace Eclipse
 {
     typedef PhysicsEngine::Physics PhysHelper;
 
-    void RigidBody2D::Awake()
+    void RigidBody2D::OnSceneLoaded()
     {
         myRigidBodySettings.BodyType = DynamicBody;
 

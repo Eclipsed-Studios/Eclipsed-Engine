@@ -12,7 +12,7 @@
 
 namespace Eclipse
 {
-    void CapsuleCollider2D::Awake()
+    void CapsuleCollider2D::OnSceneLoaded()
     {
         RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
 

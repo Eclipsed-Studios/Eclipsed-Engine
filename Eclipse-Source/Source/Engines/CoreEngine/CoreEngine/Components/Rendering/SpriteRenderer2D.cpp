@@ -72,7 +72,7 @@ namespace Eclipse
 		myMaterial->SetTexture(myTexturePath->c_str());
 	}
 
-	void SpriteRenderer2D::Awake()
+	void SpriteRenderer2D::OnSceneLoaded()
 	{
 		if (mySprite == nullptr)
 		{

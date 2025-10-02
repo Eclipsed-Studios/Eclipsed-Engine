@@ -35,6 +35,8 @@ namespace Eclipse
 
 		static void Init();
 
+		static void OnLoadScene();
+
 		static void AwakeStartComponents();
 
 		static void AwakeComponents();

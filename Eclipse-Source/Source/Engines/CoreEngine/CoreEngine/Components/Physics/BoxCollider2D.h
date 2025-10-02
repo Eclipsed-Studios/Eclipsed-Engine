@@ -12,10 +12,8 @@ namespace Eclipse
         BASE_SELECTION(BoxCollider2D, 5)
 
     public:
-        void OnComponentAdded() override;    
-
-
-        void Awake() override;
+        void OnSceneLoaded() override;    
+        void OnComponentAdded() override;
 
         void EditorUpdate() override;
 

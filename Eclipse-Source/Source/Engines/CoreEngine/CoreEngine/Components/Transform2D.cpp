@@ -7,6 +7,10 @@
 
 namespace Eclipse
 {
+    void Transform2D::OnSceneLoaded()
+    {
+        gameObject->transform = this;
+    }
     void Transform2D::OnComponentAdded()
     {
         gameObject->transform = this;

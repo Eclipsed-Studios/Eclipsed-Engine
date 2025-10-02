@@ -75,6 +75,8 @@ namespace Eclipse
         bodyDefine.userData = aUserData;
 
         *aBody = b2CreateBody(myWorld, &bodyDefine);
+
+        // b2Body_SetType();
     }
 
     void PhysicsEngine::CreateBoxCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer)

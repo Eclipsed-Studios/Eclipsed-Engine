@@ -17,6 +17,7 @@ namespace Eclipse
 
 	public:
 
+		void OnSceneLoaded() override;
 		void OnComponentAdded() override;
 
 		void EditorUpdate() override;

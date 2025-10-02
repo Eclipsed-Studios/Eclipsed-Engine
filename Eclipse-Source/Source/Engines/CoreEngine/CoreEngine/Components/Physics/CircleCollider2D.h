@@ -12,7 +12,7 @@ namespace Eclipse
         BASE_SELECTION(CircleCollider2D, 5)
 
     public:
-        void Awake() override;
+        void OnSceneLoaded() override;
 
         void EditorUpdate() override;
 
