@@ -30,7 +30,7 @@ namespace Eclipse
         static void DrawRay(Math::Vector2f aStartPos, Math::Vector2f aDirection, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
         static void DrawArrow(Math::Vector2f aStartPos, Math::Vector2f aDirection, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
 
-        static void DrawSquare(Math::Vector2f aPosition, Math::Vector2f aHalfExtents, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
+        static void DrawSquare(Math::Vector2f aPosition, float aRotation, Math::Vector2f aHalfExtents, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
         static void DrawSquareMinMax(Math::Vector2f aMinPosition, Math::Vector2f aMaxPosition, const Math::Color& aColor = Math::Color(0, 1, 0, 1));
 
         static void DrawCircle(Math::Vector2f aPosition, float aRadius, unsigned aCircleResolution = 16, const Math::Color& aColor = Math::Color(0, 1, 0, 1));

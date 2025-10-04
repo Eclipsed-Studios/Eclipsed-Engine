@@ -103,7 +103,7 @@ namespace Eclipse
 
 	void SpriteRenderer2D::Render()
 	{
-		CommandList::Enqueue<RenderSprite2DCommand>(this);
+		CommandListManager::GetSpriteCommandList().Enqueue<RenderSprite2DCommand>(this);
 		DebugInformationCollector::UpdateRenderCalls();
 	}
 

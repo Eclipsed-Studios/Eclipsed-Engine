@@ -51,12 +51,16 @@ namespace Eclipse
         position->x = aX;
         position->y = aY;
 
+        lastPosition = position;
+
         myIsDirty = true;
     }
 
     void Transform2D::SetRotation(float aRotation)
     {
         rotation = aRotation;
+
+        lastRotation = rotation;
 
         myIsDirty = true;
     }
@@ -74,6 +78,8 @@ namespace Eclipse
         scale->x = aX;
         scale->y = aY;
 
+        lastScale = scale;
+
         myIsDirty = true;
     }
 
@@ -84,6 +90,14 @@ namespace Eclipse
 
     void Transform2D::EditorUpdate()
     {
+        if (position->x != lastPosition.x || position->y != lastPosition.y)
+            myIsDirty = true;
+        if (scale->x != lastScale.x || scale->y != lastScale.y)
+            myIsDirty = true;
+        if (lastRotation != rotation)
+            myIsDirty = true;
+
+
         if (myIsDirty)
         {
             for (auto& func : myFunctionsToRunOnDirtyUpdate)

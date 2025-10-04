@@ -159,6 +159,24 @@ namespace Eclipse
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
 
+    void PhysicsEngine::ChangeBodyType(b2BodyId& aBodyID, BodyType aBodyType)
+    {
+        b2Body_SetType(aBodyID, static_cast<b2BodyType>(aBodyType));
+    }
+
+    
+    void PhysicsEngine::ChangeLayer(b2ShapeId& aShapeID, Layer aLayer)
+    {
+        b2Filter filter;
+        filter.categoryBits = static_cast<uint64_t>(aLayer);
+
+        int layerIndex = std::countr_zero(static_cast<uint32_t>(aLayer));
+        filter.maskBits = myCollisionLayers[layerIndex];
+
+        b2Shape_SetFilter(aShapeID, filter);
+    }
+
+
     void PhysicsEngine::SetPosition(b2BodyId& aBodyID, const Math::Vector2f& aPosition)
     {
         b2Rot rotation = b2Body_GetRotation(aBodyID);

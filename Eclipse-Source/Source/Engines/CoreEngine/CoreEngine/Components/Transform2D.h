@@ -46,6 +46,10 @@ namespace Eclipse
 		SERIALIZED_FIELD_DEFAULT(float, rotation, 0);
 		SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1));
 
+		Math::Vector2f lastPosition;
+		float lastRotation;
+		Math::Vector2f lastScale;
+
 	private:
 		bool myIsDirty = true;
 		std::vector<std::function<void()>> myFunctionsToRunOnDirtyUpdate;

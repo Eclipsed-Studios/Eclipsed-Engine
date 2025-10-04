@@ -90,7 +90,7 @@ namespace Eclipse::Editor
         float aspectRatio = windowSize.y / windowSize.x;
         GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
 
-        CommandList::Execute();
+        CommandListManager::ExecuteAllCommandLists();
 
         if (windowSize.x != myLastWindowResolution.x || windowSize.y != myLastWindowResolution.y)
         {
@@ -121,7 +121,7 @@ namespace Eclipse::Editor
         float aspectRatio = (windowSize.x * myWindowResAspect.y) / windowSize.x;
         GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
 
-        CommandList::Execute();
+         CommandListManager::ExecuteAllCommandLists();
 
         if (windowSize.x != myLastWindowResolution.x || windowSize.y != myLastWindowResolution.y)
         {

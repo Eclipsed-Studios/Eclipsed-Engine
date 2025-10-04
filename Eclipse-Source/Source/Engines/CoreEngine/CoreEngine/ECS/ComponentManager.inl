@@ -12,7 +12,7 @@ namespace Eclipse
     }
 
     template <typename T>
-    inline unsigned GetComponentID()
+    inline unsigned ComponentManager::GetComponentID()
     {
         static unsigned componentID = GetUniqueComponentTypeId();
         return componentID;

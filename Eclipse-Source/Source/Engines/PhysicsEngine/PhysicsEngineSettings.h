@@ -92,4 +92,12 @@ namespace Eclipse
 		Math::Vector2f position;
 		Math::Vector2f direction;
 	};
+
+	enum class BodyType
+	{
+		Static = 0,
+		Kinematic = 1,
+		Dynamic = 2,
+		Count,
+	}
 }
