@@ -15,6 +15,10 @@ namespace Eclipse
 {
 	namespace Editor
 	{
+		class SceneWindow;
+	}
+	namespace Editor
+	{
 		class InspectorWindow;
 	}
 	namespace Reflection
@@ -29,6 +33,7 @@ namespace Eclipse
 
 	class Component
 	{
+		friend class Editor::SceneWindow;
 		friend class Editor::InspectorWindow;
 		friend class Reflection::ReflectionManager;
 
@@ -78,6 +83,7 @@ namespace Eclipse
 
 		virtual void OnDrawGizmos() {}
 
+		virtual const char* GetComponentName() { return "Component"; }
 
 	protected:
 #ifdef _EDITOR
@@ -86,7 +92,6 @@ namespace Eclipse
 
 		virtual void DrawInspector() {}
 
-		virtual const char* GetComponentName() { return "Component"; }
 
 	public:
 		GameObject* gameObject;

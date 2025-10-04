@@ -66,6 +66,9 @@ namespace Eclipse
 		template <typename T>
 		static T* AddComponentWithID(GameObjectID aGOID, unsigned aComponentID);
 
+		template <typename T>
+		static unsigned GetComponentID();
+
 		static const std::vector<Component*>& GetAllComponents();
 
 		static std::vector<Component*> GetComponents(GameObjectID aGOID);

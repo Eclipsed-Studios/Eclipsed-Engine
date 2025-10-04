@@ -10,7 +10,7 @@
         {
             "owner": 1,
             "id": 1,
-            "position": "lXMgQKSBGb8=",
+            "position": "AAAAAKSBGb8=",
             "rotation": "AAAAAA==",
             "scale": "AAAgQQAAIEE="
         },
@@ -24,21 +24,28 @@
         {
             "owner": 2,
             "id": 8,
-            "position": "MCqmPxn9lD4=",
+            "position": "mpkZv6JFVr8=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         },
         {
             "owner": 3,
             "id": 11,
-            "position": "BHieP74UdL8=",
+            "position": "mpkZP8dLN78=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         },
         {
             "owner": 4,
             "id": 14,
-            "position": "5HAfQHJLVr8=",
+            "position": "AAAAAHJLVr8=",
+            "rotation": "AAAAAA==",
+            "scale": "AADwQQAA8EE="
+        },
+        {
+            "owner": 6,
+            "id": 58,
+            "position": "t5CZP5zEIL8=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         }
@@ -52,17 +59,22 @@
         {
             "owner": 2,
             "id": 9,
-            "myTexturePath": "Assets\\Sprites\\noah1.png"
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
             "owner": 3,
             "id": 12,
-            "myTexturePath": "Assets\\Sprites\\Pink_Monster.png"
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
         },
         {
             "owner": 4,
             "id": 15,
-            "myTexturePath": "Assets\\Sprites\\noah1.png"
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 6,
+            "id": 59,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         }
     ],
     "RigidBody2D": [
@@ -80,16 +92,13 @@
             "id": 18
         }
     ],
-    "PolygonCollider2D": [
+    "CircleCollider2D": [
         {
-            "owner": 3,
-            "id": 13,
-            "myLayer": "EAAAAA==",
+            "owner": 1,
+            "id": 3,
+            "myLayer": "AgAAAA==",
             "ColliderPivot": "AAAAAAAAAAA=",
-            "myPoints": {
-                "size": 4,
-                "data": "zczMveOlG73NzMy9vHSTvM3MzD38qXE9zczMPbx0Ez0="
-            }
+            "Radius": "fT8VPw=="
         }
     ],
     "PlayerCamera": [
@@ -99,14 +108,16 @@
             "myPlayerGO": "AQAAAA=="
         }
     ],
-    "CircleCollider2D": [
+    "PolygonCollider2D": [
         {
-            "owner": 1,
-            "id": 3,
-            "myLayer": "AgAAAA==",
+            "owner": 3,
+            "id": 13,
+            "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAAAAAAAA=",
-            "myRadius": "zMzMPQ==",
-            "myRealRadius": "AACAPw=="
+            "myPoints": {
+                "size": 4,
+                "data": "zczMveOlG73NzMy9WDk0vM3MzD38qXE9zczMPbx0Ez0="
+            }
         }
     ],
     "AudioSource": [
@@ -124,15 +135,22 @@
             "owner": 2,
             "id": 10,
             "myLayer": "EAAAAA==",
-            "ColliderPivot": "AAAAAAAAAAA=",
-            "HalfExtents": "AACAPwAAgD8="
+            "ColliderPivot": "AAAAADVeej8=",
+            "HalfExtents": "d75/P83MzD0="
         },
         {
             "owner": 4,
             "id": 16,
             "myLayer": "EAAAAA==",
-            "ColliderPivot": "AAAAAHsUjj8=",
+            "ColliderPivot": "AAAAADVeej8=",
             "HalfExtents": "d75/P83MzD0="
+        },
+        {
+            "owner": 6,
+            "id": 60,
+            "myLayer": "EAAAAA==",
+            "ColliderPivot": "AAAAADVeej8=",
+            "HalfExtents": "AACAP83MzD0="
         }
     ],
     "Player": [
@@ -153,7 +171,7 @@
         {
             "owner": 1,
             "id": 7,
-            "mySpriteSheetAnimationPath": "/Assets/Sprites/ScissorSprite/ScissorAnimation.json"
+            "mySpriteSheetAnimationPath": "/Assets/Sprites/ScissorSprite/Scissors.animation"
         }
     ],
     "GameObjects": [
@@ -175,6 +193,10 @@
         },
         {
             "id": 5,
+            "name": "New GameObject"
+        },
+        {
+            "id": 6,
             "name": "New GameObject"
         }
     ]

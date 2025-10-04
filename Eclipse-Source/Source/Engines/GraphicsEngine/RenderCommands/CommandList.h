@@ -25,24 +25,24 @@ namespace Eclipse
     class CommandList
     {
     public:
-        static void Init();
+        void Init();
 
         template <class CommandClass, class ...Args>
-        static void Enqueue(Args... args);
+        void Enqueue(Args... args);
 
-        static void Enqueue(const std::function<void()>& aLambda);
+        void Enqueue(const std::function<void()>& aLambda);
 
-        static void Execute();
-        static void Reset();
+        void Execute();
+        void Reset();
 
     private:
-        static inline bool hasCommands = false;
+        bool hasCommands = false;
 
-        static inline uint8_t* myData = nullptr;
-        static inline size_t commandCursor = 0;
+        uint8_t* myData = nullptr;
+        size_t commandCursor = 0;
 
-        static inline RenderCommandBase* myRoot;
-        static inline RenderCommandBase** myLink;
+        RenderCommandBase* myRoot;
+        RenderCommandBase** myLink;
     };
 
     template <class CommandClass, class ...Args>
@@ -57,4 +57,33 @@ namespace Eclipse
         *myLink = command;
         myLink = &command->next;
     }
+
+    class CommandListManager
+    {
+    public:
+        static CommandList& GetSpriteCommandList() { return SpriteCommandList; }
+        static CommandList& GetDebugDrawCommandList() { return DebugDrawCommandList; }
+
+        static void ExecuteAllCommandLists()
+        {
+            SpriteCommandList.Execute();
+            DebugDrawCommandList.Execute();
+        }
+
+        static void InitAllCommandLists()
+        {
+            SpriteCommandList.Init();
+            DebugDrawCommandList.Init();
+        }
+
+        static void ResetAllCommandLists()
+        {
+            SpriteCommandList.Reset();
+            DebugDrawCommandList.Reset();
+        }
+
+    private:
+        static inline CommandList SpriteCommandList;
+        static inline CommandList DebugDrawCommandList;
+    };
 }

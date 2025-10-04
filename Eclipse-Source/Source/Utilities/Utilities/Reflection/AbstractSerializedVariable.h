@@ -19,6 +19,7 @@ namespace Eclipse::Reflection
 #endif
 
 	public:
+		virtual void* GetRawData() = 0;
 		virtual void* GetData() = 0;
 		virtual void ResolveTypeInfo() = 0;
 

@@ -50,22 +50,23 @@ namespace Eclipse::Reflection
 	}
 #endif
 
-
+	template<typename T>
+	inline void* SerializedVariable<T>::GetRawData()
+	{
+		return &data;
+	}
 
 	template<typename T>
 	inline void* SerializedVariable<T>::GetData()
 	{
 		if constexpr (Is_Array<T>::value)
-		{
 			return &data[0];
-		}
 
 		else if constexpr (Is_Vector<T>::value)
-		{
 			return &data[0];
-		}
 
-		else return &data;
+		else
+			return &data;
 	}
 
 	template<typename T>

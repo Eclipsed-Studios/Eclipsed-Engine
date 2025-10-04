@@ -30,6 +30,7 @@ namespace Eclipse::Reflection
 #endif
 
 	public:
+		void* GetRawData() override;
 		void* GetData() override;
 		void ResolveTypeInfo() override;
 		void Resize(const size_t& size) override;

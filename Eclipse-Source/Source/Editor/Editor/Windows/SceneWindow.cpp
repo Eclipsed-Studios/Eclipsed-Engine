@@ -17,8 +17,14 @@
 
 #include <iostream>
 
-namespace Eclipse::Editor
+#include "Reflection/Registry/ComponentRegistry.h"
+
+#include "Components/Base/Component.h"
+
+namespace Eclipse
 {
+	using namespace Editor;
+
 	void SceneWindow::ZoomToObject()
 	{
 		if (!HierarchyWindow::CurrentGameObjectID)
@@ -56,6 +62,94 @@ namespace Eclipse::Editor
 		myInspectorScale *= { zoomFactor, zoomFactor };
 	}
 
+	void SceneWindow::CopyManager()
+	{
+		for (auto& vec : myCopiedComponentsFromObjects)
+			vec.clear();
+		myCopiedComponentsFromObjects.clear();
+		if (HierarchyWindow::CurrentGameObjectID <= 0)
+			return;
+
+		std::vector<Component*> componentsOnGameobject = ComponentManager::GetComponents(HierarchyWindow::CurrentGameObjectID);
+
+		myCopiedComponentsFromObjects.emplace_back(componentsOnGameobject);
+	}
+
+	void SceneWindow::PasteManager()
+	{
+		for (auto& vec : myCopiedComponentsFromObjects)
+		{
+			if (vec.size() == 0)
+				continue;
+
+			GameObject* newGO = ComponentManager::CreateGameObject();
+			for (auto* ogComponent : vec)
+			{
+				Component* component;
+
+				// Checking if it is transform if it is then dont create a new transform from it
+				unsigned transformID = ComponentManager::GetComponentID<Transform2D>();
+				if (ogComponent->myUniqueComponentID == transformID)
+					component = ComponentManager::GetComponent<Transform2D>(newGO->GetID());
+				else
+					component = ComponentRegistry::GetAddComponent(ogComponent->GetComponentName())(*newGO, Component::nextComponentID++);
+
+
+
+				auto& reflectedVars = Reflection::ReflectionManager::GetList().at(component);
+				auto& reflectedVarsOGComponent = Reflection::ReflectionManager::GetList().at(ogComponent);
+
+				for (int i = 0; i < reflectedVars.size(); i++)
+				{
+					auto& newVariable = reflectedVars[i];
+					auto& ogVariable = reflectedVarsOGComponent[i];
+
+					newVariable->ResolveTypeInfo();
+					ogVariable->ResolveTypeInfo();
+
+					switch (ogVariable->GetType())
+					{
+					case Reflection::AbstractSerializedVariable::SerializedType_String:
+					{
+						std::string& stringRef = *reinterpret_cast<std::string*>(newVariable->GetData());
+						stringRef = *reinterpret_cast<std::string*>(ogVariable->GetData());
+					}
+					break;
+
+
+					case Reflection::AbstractSerializedVariable::SerializedType_List:
+						newVariable->Resize(ogVariable->GetCount());
+					default:
+						std::memcpy(newVariable->GetData(), ogVariable->GetData(), ogVariable->GetSizeInBytes());
+						break;
+					}
+
+				}
+			}
+
+			for (auto& component : ComponentManager::GetComponents(newGO->GetID()))
+				component->OnSceneLoaded();
+
+			HierarchyWindow::CurrentGameObjectID = newGO->GetID();
+		}
+	}
+
+	void SceneWindow::CopyPasteManager()
+	{
+		bool ctrlHeld = ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl);
+
+		if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_C))
+			CopyManager();
+		else if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_V))
+			PasteManager();
+		else if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_D))
+		{
+			CopyManager();
+			PasteManager();
+		}
+
+		// Duplicate by helf Alt + Drag is in gameobject picker function
+	}
 
 	void SceneWindow::MouseManager()
 	{
@@ -106,12 +200,24 @@ namespace Eclipse::Editor
 			return;
 
 		ImGuiIO& io = ImGui::GetIO();
+
 		ImVec2 mouseDelta = io.MouseDelta;
 		Math::Vector2f mouseDeltaECL = Math::Vector2f((mouseDelta.x / myWindowSize.x) * (myWindowSize.x / myWindowSize.y), (mouseDelta.y / myWindowSize.y) * -1.f) * (1.f / myInspectorScale) * 2.f;
 
 		int currentGO = HierarchyWindow::CurrentGameObjectID;
 		Transform2D* transform = ComponentManager::GetComponent<Transform2D>(currentGO);
-		transform->SetPosition(transform->GetPosition() + mouseDeltaECL);
+
+		mySpriteMoveVector += mouseDeltaECL;
+
+		Math::Vector2f positionSnappPosition = mySpriteMoveVector;
+		if (myIsSnapping)
+		{
+			float roundX = std::round(mySpriteMoveVector.x / mySnappingDistance) * mySnappingDistance;
+			float roundY = std::round(mySpriteMoveVector.y / mySnappingDistance) * mySnappingDistance;
+			positionSnappPosition = { roundX, roundY };
+		}
+
+		transform->SetPosition(mySpriteMouseDownPosition + positionSnappPosition);
 
 		if (ImGui::IsMouseReleased(0))
 			draggingSprite = false;
@@ -129,18 +235,48 @@ namespace Eclipse::Editor
 		int ovColor = 0;
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Int, "notOverrideColor", &ovColor);
 
-		CommandList::Execute();
+		CommandListManager::GetSpriteCommandList().Execute();
 
 		Math::Vector4ui colorValue = GraphicsEngine::ReadPixel({ windowRelativeMousePosition.x + 10, windowRelativeMousePosition.y - 8 });
 		int pickedID = colorValue.x + colorValue.y * 256 + colorValue.z * 256 * 256;
 
 		if (ImGui::IsMouseClicked(0) && HierarchyWindow::CurrentGameObjectID == pickedID && HierarchyWindow::CurrentGameObjectID)
+		{
+			if (ImGui::IsKeyDown(ImGuiKey_LeftAlt) || ImGui::IsKeyDown(ImGuiKey_RightAlt))
+			{
+				CopyManager();
+				PasteManager();
+			}
+
+			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(HierarchyWindow::CurrentGameObjectID);
+
+			if (!transform)
+				return;
+
 			draggingSprite = true;
+
+			mySpriteMouseDownPosition = transform->GetPosition();
+			mySpriteMoveVector = { 0, 0 };
+		}
 
 		HierarchyWindow::CurrentGameObjectID = pickedID;
 		InspectorWindow::activeType = ActiveItemTypes_GameObject;
 	}
 
+
+	void SceneWindow::ObjectSnappingGizmo()
+	{
+		ImGui::Checkbox("Snap##MoreSnappingIDSThatShouldBEUSED!!!ANDITISNOW:D", &myIsSnapping);
+
+		if (myIsSnapping)
+		{
+			ImGui::Dummy({ 30, 0 });
+			ImGui::SetNextItemWidth(75);
+			ImGui::DragFloat("SnappDistance##SnappingDistanceIDSCENEWINDOW", &mySnappingDistance, 0.01f);
+		}
+
+		ImGui::SetCursorPosX(0);
+	}
 
 	void SceneWindow::Update()
 	{
@@ -149,9 +285,12 @@ namespace Eclipse::Editor
 
 		if (ImGui::BeginMenuBar())
 		{
+			ObjectSnappingGizmo();
 			DrawGizmoButtons(DrawGizmo);
 			ImGui::EndMenuBar();
 		}
+
+		CopyPasteManager();
 
 		MouseManager();
 		ZoomToObject();
@@ -197,18 +336,12 @@ namespace Eclipse::Editor
 				Math::Vector2f size = mySelectedObject->spriteRectMax - mySelectedObject->spriteRectMin;
 				float aspectScale = size.y / size.x;
 
-				DebugDrawer::DrawSquare(transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), transform->GetScale() * 0.01f * 0.5f * textureScale * Math::Vector2f(1.f, aspectScale), Math::Color(1.f, 0.4f, 0.7f, 1.f));
+				DebugDrawer::DrawSquare(transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), transform->GetRotation(), transform->GetScale() * 0.01f * 0.5f * textureScale * Math::Vector2f(1.f, aspectScale), Math::Color(1.f, 0.4f, 0.7f, 1.f));
 				DebugDrawer::Get().Render();
 			}
 		}
 
-		CommandList::Execute();
-
-		// if (mySelectedObject)
-		// {
-		// 	mySelectedObject->Draw(mySelectedSpriteHighlightProgram);
-		// }
-
+		CommandListManager::ExecuteAllCommandLists();
 
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", &lastInspectorPosition);
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", &lastInspectorRotation);

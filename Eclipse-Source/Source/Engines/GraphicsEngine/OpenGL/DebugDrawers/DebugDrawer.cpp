@@ -77,13 +77,13 @@ namespace Eclipse
     }
     void DebugDrawer::Render()
     {
-        CommandList::Enqueue([&]() {
+        CommandListManager::GetDebugDrawCommandList().Enqueue([&]() {
             glUseProgram(programID);
             });
 
         for (auto& line : myLineCollection)
         {
-            CommandList::Enqueue([&, line]() {
+            CommandListManager::GetDebugDrawCommandList().Enqueue([&, line]() {
                 for (int i = 0; i < line.linePoints.size(); i++)
                 {
                     //auto& temporarySingleton = TemporarySettingsSingleton::Get();
@@ -92,7 +92,7 @@ namespace Eclipse
                     //float oneDivResY = temporarySingleton.GetOneDivResolutionY();
 
                     LineVTX vert;
-                    
+
                     std::memcpy(&vert, &line.linePoints[i], sizeof(LineVTX));
 
                     // vert.trashDataX = line.linePoints[i].x;// * oneDivResX;
@@ -174,7 +174,7 @@ namespace Eclipse
         line.linePoints.emplace_back(rightArrowCorner);
     }
 
-    void DebugDrawer::DrawSquare(Math::Vector2f aPosition, Math::Vector2f aHalfExtents, const Math::Color& aColor)
+    void DebugDrawer::DrawSquare(Math::Vector2f aPosition, float aRotation, Math::Vector2f aHalfExtents, const Math::Color& aColor)
     {
         auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
         line.color = aColor;
@@ -190,6 +190,24 @@ namespace Eclipse
 
         line.linePoints.emplace_back(aPosition + Math::Vector2f{ aHalfExtents.x, -aHalfExtents.y });
         line.linePoints.emplace_back(aPosition - aHalfExtents);
+
+        for (auto& point : line.linePoints)
+        {
+            Math::Vector2f pivot = aPosition;
+
+            float cosTheta = cos(aRotation);
+            float sinTheta = sin(aRotation);
+
+            float dx = point.x - pivot.x;
+            float dy = point.y - pivot.y;
+
+            float rotatedX = dx * cosTheta - dy * sinTheta;
+            float rotatedY = dx * sinTheta + dy * cosTheta;
+
+            point.x = rotatedX + pivot.x;
+            point.y = rotatedY + pivot.y;
+        }
+
     }
     void DebugDrawer::DrawSquareMinMax(Math::Vector2f aMinPosition, Math::Vector2f aMaxPosition, const Math::Color& aColor)
     {

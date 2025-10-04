@@ -1,5 +1,3 @@
-#define _EDITOR
-
 #ifdef _EDITOR
 #include "SpriteEditor.h"
 

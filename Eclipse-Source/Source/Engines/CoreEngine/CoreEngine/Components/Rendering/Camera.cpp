@@ -39,6 +39,6 @@ namespace Eclipse
     {
         float size = TemporarySettingsSingleton::Get().resolutionRatioGameView;
 
-        DebugDrawer::DrawSquare(gameObject->transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), Math::Vector2f(0.5f * size + 0.001f, 0.5f + 0.001f), Math::Color(0.9f, 0.9f, 0.9f, 1.f));
+        DebugDrawer::DrawSquare(gameObject->transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), gameObject->transform->GetRotation(), Math::Vector2f(0.5f * size + 0.001f, 0.5f + 0.001f), Math::Color(0.9f, 0.9f, 0.9f, 1.f));
     }
 }

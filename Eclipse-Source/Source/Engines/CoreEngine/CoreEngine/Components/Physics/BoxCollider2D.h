@@ -27,5 +27,7 @@ namespace Eclipse
         class Transform2D* myTransform;
 
         Math::Vector2f myLastHalfExtents;
+
+        int myLastLayer;
     };
 }

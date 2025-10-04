@@ -39,8 +39,8 @@ public:																								\
 virtual unsigned GetUpdatePriority() const override {return updatePriority;}						\
 inline type() = default;																			\
 virtual ~type() = default;																			\
-protected:																							\
 virtual const char* GetComponentName() override { return stringify(type); }							\
+protected:																							\
 private:																							\
 struct AutoRegister {																				\
 	AutoRegister() {																				\
