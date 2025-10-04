@@ -15,7 +15,7 @@ namespace Eclipse
 		bool hasAudioClip = myAudioClip;
 
 
-		if (Editor::DragAndDrop::BeginTarget(hasAudioClip ? myAudioClip->GetRelativePath() : "No audio clip", FileInfo::FileType_Audio))
+		if (Editor::DragAndDrop::BeginTarget(hasAudioClip ? myAudioClip->GetRelativePath() : "No audio clip", Utilities::FileInfo::FileType_Audio))
 		{
 			myAudioPath = Editor::DragAndDrop::payloadBuffer;
 			SetAudioClip(myAudioPath->c_str());
@@ -58,7 +58,7 @@ namespace Eclipse
 
 	void SpriteRenderer2D::DrawInspector()
 	{
-		if (Editor::DragAndDrop::BeginTarget(hasTexture ?  std::filesystem::relative(myTexturePath->c_str(), ASSET_PATH).string().c_str() : "No texture", FileInfo::FileType_Texture))
+		if (Editor::DragAndDrop::BeginTarget(hasTexture ?  std::filesystem::relative(myTexturePath->c_str(), ASSET_PATH).string().c_str() : "No texture", Utilities::FileInfo::FileType_Texture))
 		{
 			myTexturePath = Editor::DragAndDrop::payloadBuffer;
 			SetTexture(myTexturePath->c_str());

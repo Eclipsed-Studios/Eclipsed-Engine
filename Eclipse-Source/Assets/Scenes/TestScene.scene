@@ -1,22 +1,15 @@
 {
     "Transform2D": [
         {
-            "owner": 5,
-            "id": 17,
-            "position": "AAAAAAAAAAA=",
-            "rotation": "AAAAAA==",
-            "scale": "AACAPwAAgD8="
-        },
-        {
             "owner": 1,
             "id": 1,
-            "position": "AAAAAKSBGb8=",
+            "position": "/YMJva83xD0=",
             "rotation": "AAAAAA==",
             "scale": "AAAgQQAAIEE="
         },
         {
             "owner": 5,
-            "id": 40,
+            "id": 17,
             "position": "AAAAAAAAAAA=",
             "rotation": "AAAAAA==",
             "scale": "AACAPwAAgD8="
@@ -27,6 +20,13 @@
             "position": "mpkZv6JFVr8=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
+        },
+        {
+            "owner": 5,
+            "id": 40,
+            "position": "AAAAAAAAAAA=",
+            "rotation": "AAAAAA==",
+            "scale": "AACAPwAAgD8="
         },
         {
             "owner": 3,
@@ -92,15 +92,6 @@
             "id": 18
         }
     ],
-    "CircleCollider2D": [
-        {
-            "owner": 1,
-            "id": 3,
-            "myLayer": "AgAAAA==",
-            "ColliderPivot": "AAAAAAAAAAA=",
-            "Radius": "fT8VPw=="
-        }
-    ],
     "PlayerCamera": [
         {
             "owner": 5,
@@ -118,6 +109,15 @@
                 "size": 4,
                 "data": "zczMveOlG73NzMy9WDk0vM3MzD38qXE9zczMPbx0Ez0="
             }
+        }
+    ],
+    "CircleCollider2D": [
+        {
+            "owner": 1,
+            "id": 3,
+            "myLayer": "AgAAAA==",
+            "ColliderPivot": "AAAAAAAAAAA=",
+            "Radius": "fT8VPw=="
         }
     ],
     "AudioSource": [

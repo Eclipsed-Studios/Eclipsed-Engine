@@ -5,26 +5,28 @@
 #include <map>
 #include <functional>
 
+#include "Files/FileInfo.h"
+
 namespace Eclipse
 {
 	void AssetExporter::ExportAll()
 	{
         using namespace std::filesystem;
 
-        std::vector<FileInfo> files;
+        std::vector<Utilities::FileInfo> files;
         for (auto& entry : recursive_directory_iterator(ASSET_PATH))
         {
             if (entry.is_directory()) continue;
-            files.push_back(Resources::GetFileInfo(entry));
+            files.push_back(Utilities::FileInfo::GetFileInfo(entry));
         }
 
         std::sort(files.begin(), files.end(),
-            [](const FileInfo& a, const FileInfo& b) {
+            [](const Utilities::FileInfo& a, const Utilities::FileInfo& b) {
                 return a.type > b.type;
             });
 
         std::map<size_t, FileEntry> datas;
-        for (FileInfo& file : files)
+        for (Utilities::FileInfo& file : files)
         {
             std::ifstream in(file.filePath, std::ios::binary | std::ios::ate);
             if (!in.is_open()) continue;

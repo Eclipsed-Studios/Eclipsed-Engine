@@ -2,7 +2,7 @@
 
 namespace Eclipse::Editor
 {
-    inline bool DragAndDrop::BeginTarget(const char* text, const FileInfo::FileType_& type)
+    inline bool DragAndDrop::BeginTarget(const char* text, const Utilities::FileInfo::FileType_& type)
     {
         TextBox(text, { 5, 5 }, { 0,0,0,0 }, { 255, 255,255, 1 }, text);
 
@@ -24,7 +24,7 @@ namespace Eclipse::Editor
         return recievedData;
     }
 
-    inline void DragAndDrop::BeginSource(const char* payload, const size_t& size, const FileInfo& info)
+    inline void DragAndDrop::BeginSource(const char* payload, const size_t& size, const Utilities::FileInfo& info)
     {
         if (DragAndDrop::dnd_id.find(info.type) != DragAndDrop::dnd_id.end())
         {

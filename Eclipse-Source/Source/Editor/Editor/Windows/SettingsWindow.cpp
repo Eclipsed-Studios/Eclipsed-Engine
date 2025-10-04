@@ -34,7 +34,7 @@ namespace Eclipse::Editor
             SceneManager::SaveSceneData();
         }
 
-        if (DragAndDrop::BeginTarget("Drag scene here", FileInfo::FileType_Scene))
+        if (DragAndDrop::BeginTarget("Drag scene here", Utilities::FileInfo::FileType_Scene))
         {
             SceneManager::AddScene(DragAndDrop::payloadBuffer);
         }

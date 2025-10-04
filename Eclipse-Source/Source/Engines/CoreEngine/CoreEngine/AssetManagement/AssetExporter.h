@@ -1,13 +1,13 @@
 #pragma once
 
-#include "FileInfo.h"
+#include "Files/FileInfo.h"
 
 namespace Eclipse
 {
 	struct FileEntry
 	{
 		std::vector<unsigned char> data;
-		FileInfo info;
+		Utilities::FileInfo info;
 		size_t offset;
 	};
 

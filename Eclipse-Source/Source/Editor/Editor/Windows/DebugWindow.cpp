@@ -72,33 +72,33 @@ namespace Eclipse::Editor
 
 
 
-		if (ImPlot::BeginPlot("MemoryUsage"))
-		{
-			ImPlot::SetupAxis(ImAxis_X1, "Time (s)");
-			ImPlot::SetupAxis(ImAxis_Y1, "Memory (MB)");
+		//if (ImPlot::BeginPlot("MemoryUsage"))
+		//{
+		//	ImPlot::SetupAxis(ImAxis_X1, "Time (s)");
+		//	ImPlot::SetupAxis(ImAxis_Y1, "Memory (MB)");
 
-			ImPlot::SetNextLineStyle(ImVec4(1, 0, 0, 0.6f));
-			ImPlot::PlotLine("CPU RAM", Time.data(), physicalMemoryCounter.data(), CurrentIndex, ImPlotLineFlags_None);
+		//	ImPlot::SetNextLineStyle(ImVec4(1, 0, 0, 0.6f));
+		//	ImPlot::PlotLine("CPU RAM", Time.data(), physicalMemoryCounter.data(), CurrentIndex, ImPlotLineFlags_None);
 
-			ImPlot::SetNextLineStyle(ImVec4(0, 0, 1, 0.6f));
-			ImPlot::PlotLine("GPU RAM", Time.data(), virtualMemoryCounter.data(), CurrentIndex, ImPlotLineFlags_None);
-
-
-			for (auto& [name, data] : Profiler::ProfilerManager::GetRecords())
-			{
-				for (int i = 0; i < data.Count(); i++)
-				{
-					const Profiler::ProfileRecord& record = data.Get(i);
-
-				}
+		//	ImPlot::SetNextLineStyle(ImVec4(0, 0, 1, 0.6f));
+		//	ImPlot::PlotLine("GPU RAM", Time.data(), virtualMemoryCounter.data(), CurrentIndex, ImPlotLineFlags_None);
 
 
+		//	for (auto& [name, data] : Profiler::ProfilerManager::GetRecords())
+		//	{
+		//		for (int i = 0; i < data.Count(); i++)
+		//		{
+		//			const Profiler::ProfileRecord& record = data.Get(i);
 
-			}
+		//		}
 
 
-			ImPlot::EndPlot();
-		}
+
+		//	}
+
+
+		//	ImPlot::EndPlot();
+		//}
 
 
 
@@ -111,57 +111,57 @@ namespace Eclipse::Editor
 		float totalTime = Time::GetTotalTime();
 		int renderCalls = DebugInformationCollector::GetRenderCalls();
 
-		PROCESS_MEMORY_COUNTERS_EX pmc;
-		if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc)))
-		{
-			PhysMemUsed = pmc.WorkingSetSize / (1024 * 1024);
-			VirtuMemUsed = pmc.PrivateUsage / (1024 * 1024);
+		//PROCESS_MEMORY_COUNTERS_EX pmc;
+		//if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc)))
+		//{
+		//	PhysMemUsed = pmc.WorkingSetSize / (1024 * 1024);
+		//	VirtuMemUsed = pmc.PrivateUsage / (1024 * 1024);
 
-			physicalMemoryCounter[CurrentIndex] = PhysMemUsed;
-			virtualMemoryCounter[CurrentIndex] = VirtuMemUsed;
+		//	physicalMemoryCounter[CurrentIndex] = PhysMemUsed;
+		//	virtualMemoryCounter[CurrentIndex] = VirtuMemUsed;
 
-			Time[CurrentIndex] = totalTime;
+		//	Time[CurrentIndex] = totalTime;
 
-			CurrentIndex += 1;
-			if (CurrentIndex >= Max_Entries) CurrentIndex = 0;
-		}
+		//	CurrentIndex += 1;
+		//	if (CurrentIndex >= Max_Entries) CurrentIndex = 0;
+		//}
 
 
 
-		if (ImPlot::BeginPlot("MemoryUsage"))
-		{
-			ImPlot::SetupAxis(ImAxis_X1, "Time (s)");
-			ImPlot::SetupAxis(ImAxis_Y1, "Memory (MB)");
+		//if (ImPlot::BeginPlot("MemoryUsage"))
+		//{
+		//	ImPlot::SetupAxis(ImAxis_X1, "Time (s)");
+		//	ImPlot::SetupAxis(ImAxis_Y1, "Memory (MB)");
 
-			ImPlot::SetNextLineStyle(ImVec4(1, 0, 0, 0.6f));
-			ImPlot::PlotLine("CPU RAM", Time.data(), physicalMemoryCounter.data(), CurrentIndex, ImPlotLineFlags_None);
+		//	ImPlot::SetNextLineStyle(ImVec4(1, 0, 0, 0.6f));
+		//	ImPlot::PlotLine("CPU RAM", Time.data(), physicalMemoryCounter.data(), CurrentIndex, ImPlotLineFlags_None);
 
-			ImPlot::SetNextLineStyle(ImVec4(0, 0, 1, 0.6f));
-			ImPlot::PlotLine("GPU RAM", Time.data(), virtualMemoryCounter.data(), CurrentIndex, ImPlotLineFlags_None);
+		//	ImPlot::SetNextLineStyle(ImVec4(0, 0, 1, 0.6f));
+		//	ImPlot::PlotLine("GPU RAM", Time.data(), virtualMemoryCounter.data(), CurrentIndex, ImPlotLineFlags_None);
 
-			ImPlot::EndPlot();
-		}
+		//	ImPlot::EndPlot();
+		//}
 
-		if (ImPlot::BeginPlot("Pie"))
-		{
-			float values[] = { 30, 45, 25 };      // percentages or parts
-			const char* labels[] = { "CPU", "GPU", "Other" };
-			ImPlot::PlotPieChart(labels, values, 3, 0, 0, 10);
+		//if (ImPlot::BeginPlot("Pie"))
+		//{
+		//	float values[] = { 30, 45, 25 };      // percentages or parts
+		//	const char* labels[] = { "CPU", "GPU", "Other" };
+		//	ImPlot::PlotPieChart(labels, values, 3, 0, 0, 10);
 
-			ImPlot::EndPlot();
-		}
+		//	ImPlot::EndPlot();
+		//}
 
-		{
-			const char* components[] = { "Physics", "AI", "Rendering", "Input" };
-			float updateTimes[] = { 1.2f, 0.5f, 4.3f, 0.8f }; // ms per component
+		//{
+		//	const char* components[] = { "Physics", "AI", "Rendering", "Input" };
+		//	float updateTimes[] = { 1.2f, 0.5f, 4.3f, 0.8f }; // ms per component
 
-			if (ImPlot::BeginPlot("Component Update Times")) {
-				ImPlot::SetupAxisTicks(ImAxis_X1, nullptr, 0, components); // label each bar
-				ImPlot::SetupAxisLimits(ImAxis_Y1, 0, 10); // set max expected ms
-				ImPlot::PlotBars("Update Time", updateTimes, IM_ARRAYSIZE(updateTimes), 0.5f);
-				ImPlot::EndPlot();
-			}
-		}
+		//	if (ImPlot::BeginPlot("Component Update Times")) {
+		//		ImPlot::SetupAxisTicks(ImAxis_X1, nullptr, 0, components); // label each bar
+		//		ImPlot::SetupAxisLimits(ImAxis_Y1, 0, 10); // set max expected ms
+		//		ImPlot::PlotBars("Update Time", updateTimes, IM_ARRAYSIZE(updateTimes), 0.5f);
+		//		ImPlot::EndPlot();
+		//	}
+		//}
 
 
 

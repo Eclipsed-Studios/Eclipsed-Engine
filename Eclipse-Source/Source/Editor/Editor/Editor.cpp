@@ -32,7 +32,7 @@
 
 #include "TextureIconManager.h"
 
-#include "FileWatcher.h"
+#include "Files/FileWatcher.h"
 #include "Scenes/SceneManager.h"
 
 namespace Eclipse::Editor
@@ -55,8 +55,6 @@ namespace Eclipse::Editor
 
 		myWindowManager.Begin();
 
-		FileWatcher::Start();
-
 		//IconManager::LoadAllTextureIcons();
 		//IconManager::ExportLoadedTextures();
 
@@ -78,6 +76,8 @@ namespace Eclipse::Editor
 
 	void EditorContext::Update()
 	{
+		FileWatcher::InvokeEvents();
+
 		Engine::Update();
 		IconManager::Update();
 

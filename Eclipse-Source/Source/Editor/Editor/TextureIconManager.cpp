@@ -7,67 +7,67 @@
 
 #include <glad/glad.h>
 
-#include "FileWatcher.h"
+#include "Files/FileWatcher.h"
 
 namespace Eclipse::Editor
 {
 	void IconManager::CheckForChanges()
 	{
-		namespace fs = std::filesystem;
+		//namespace fs = std::filesystem;
 
-		auto onFileAdded = [](const std::string& path) {
-			FileInfo info = Resources::GetFileInfo(path);
-			if (info.type != FileInfo::FileType_Texture) return;
+		//auto onFileAdded = [](const std::string& path) {
+		//	FileInfo info = Resources::GetFileInfo(path);
+		//	if (info.type != FileInfo::FileType_Texture) return;
 
-			if (std::find(filesToLoad.begin(), filesToLoad.end(), path) == filesToLoad.end()) filesToLoad.push_back(path);
-			};
+		//	if (std::find(filesToLoad.begin(), filesToLoad.end(), path) == filesToLoad.end()) filesToLoad.push_back(path);
+		//	};
 
-		auto onFileRemoved = [](const std::string& path) {
-			FileInfo info = Resources::GetFileInfo(path);
-			if (info.type != FileInfo::FileType_Texture) return;
+		//auto onFileRemoved = [](const std::string& path) {
+		//	FileInfo info = Resources::GetFileInfo(path);
+		//	if (info.type != FileInfo::FileType_Texture) return;
 
-			std::string relativePath = fs::relative(path, SOURCE_PATH).generic_string();
-			size_t id = std::hash<std::string>{}(relativePath);
+		//	std::string relativePath = fs::relative(path, SOURCE_PATH).generic_string();
+		//	size_t id = std::hash<std::string>{}(relativePath);
 
-			if (loadedIcons.find(id) == loadedIcons.end()) return;
+		//	if (loadedIcons.find(id) == loadedIcons.end()) return;
 
-			loadedIcons.erase(id);
-			};
+		//	loadedIcons.erase(id);
+		//	};
 
-		FileWatcher::Subscribe(EventType::FileAdded, onFileAdded);
-		FileWatcher::Subscribe(EventType::FileRemoved, onFileRemoved);
+		//FileWatcher::Subscribe(EventType::FileAdded, onFileAdded);
+		//FileWatcher::Subscribe(EventType::FileRemoved, onFileRemoved);
 
-		int textureCounter = 0;
-		for (auto& entry : fs::recursive_directory_iterator(ASSET_PATH))
-		{
-			FileInfo info = Resources::GetFileInfo(entry);
-			if (info.type != FileInfo::FileType_Texture) continue;
+		//int textureCounter = 0;
+		//for (auto& entry : fs::recursive_directory_iterator(ASSET_PATH))
+		//{
+		//	FileInfo info = Resources::GetFileInfo(entry);
+		//	if (info.type != FileInfo::FileType_Texture) continue;
 
-			textureCounter++;
+		//	textureCounter++;
 
-			std::string relativePath = fs::relative(entry.path(), SOURCE_PATH).generic_string();
-			size_t id = std::hash<std::string>{}(relativePath);
+		//	std::string relativePath = fs::relative(entry.path(), SOURCE_PATH).generic_string();
+		//	size_t id = std::hash<std::string>{}(relativePath);
 
-			if (loadedIcons.find(id) != loadedIcons.end())
-			{
-				fs::file_time_type ftime = fs::last_write_time(entry);
+		//	if (loadedIcons.find(id) != loadedIcons.end())
+		//	{
+		//		fs::file_time_type ftime = fs::last_write_time(entry);
 
-				std::chrono::system_clock::time_point sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
-					ftime - fs::file_time_type::clock::now()
-					+ std::chrono::system_clock::now()
-				);
+		//		std::chrono::system_clock::time_point sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
+		//			ftime - fs::file_time_type::clock::now()
+		//			+ std::chrono::system_clock::now()
+		//		);
 
-				if (loadedIcons[id].lastWriteTime != std::chrono::system_clock::to_time_t(sctp))
-				{
-					filesToLoad.push_back(entry.path().string());
-					loadedIcons.erase(id);
-				}
-			}
-			else
-			{
-				filesToLoad.push_back(entry.path().string());
-			}
-		}
+		//		if (loadedIcons[id].lastWriteTime != std::chrono::system_clock::to_time_t(sctp))
+		//		{
+		//			filesToLoad.push_back(entry.path().string());
+		//			loadedIcons.erase(id);
+		//		}
+		//	}
+		//	else
+		//	{
+		//		filesToLoad.push_back(entry.path().string());
+		//	}
+		//}
 	}
 
 	void IconManager::Update()
@@ -155,8 +155,8 @@ namespace Eclipse::Editor
 		std::vector<std::string> texturesPathsToLoad;
 		for (const fs::directory_entry& entry : fs::recursive_directory_iterator(ASSET_PATH))
 		{
-			FileInfo info = Resources::GetFileInfo(entry);
-			if (info.type != FileInfo::FileType_Texture) continue;
+			Utilities::FileInfo info = Utilities::FileInfo::GetFileInfo(entry);
+			if (info.type != Utilities::FileInfo::FileType_Texture) continue;
 
 			texturesPathsToLoad.push_back(entry.path().string());
 		}
@@ -171,7 +171,7 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		std::string relativePath = fs::relative(path, SOURCE_PATH).generic_string();
+		std::string relativePath = fs::relative(path, ASSET_PATH).generic_string();
 
 		size_t id = std::hash<std::string>{}(relativePath);
 
@@ -274,12 +274,9 @@ namespace Eclipse::Editor
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	const IconData& IconManager::GetIcon(const std::string& path)
+	const IconData& IconManager::GetIcon(const Utilities::FileInfo& fileInfo)
 	{
-		namespace fs = std::filesystem;
-
-		std::string relative = fs::relative(path, SOURCE_PATH).generic_string();
-		size_t id = std::hash<std::string>{}(relative);
+		size_t id = std::hash<std::string>{}(fileInfo.relativeFilePath.generic_string());
 
 		if (loadedIcons.find(id) == loadedIcons.end()) return{};
 

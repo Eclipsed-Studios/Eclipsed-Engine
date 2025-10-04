@@ -27,7 +27,7 @@ namespace Eclipse::Editor
 
 		static void CreateOpenGLTextureFromData(IconData& data);
 
-		static const IconData& GetIcon(const std::string& path);
+		static const IconData& GetIcon(const Utilities::FileInfo& fileInfo);
 
 	private:
 		static inline std::vector<std::string> filesToLoad;

@@ -111,8 +111,8 @@ namespace Eclipse::Editor
 	{
 		ImGui::Text(AssetWindow::Active_FilePath.filename().string().c_str());
 
-		FileInfo info = Resources::GetFileInfo(AssetWindow::Active_FilePath);
-		if (info.type == FileInfo::FileType_Texture)
+		Utilities::FileInfo info = Utilities::FileInfo::GetFileInfo(AssetWindow::Active_FilePath);
+		if (info.type == Utilities::FileInfo::FileType_Texture)
 			DrawTextureAssetInspector();
 		
 	}
