@@ -99,5 +99,5 @@ namespace Eclipse
 		Kinematic = 1,
 		Dynamic = 2,
 		Count,
-	}
+	};
 }
