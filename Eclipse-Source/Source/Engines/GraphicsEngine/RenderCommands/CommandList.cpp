@@ -30,6 +30,7 @@ namespace Eclipse
 
     void CommandList::Reset()
     {
+        hasCommands = false;
         std::memset(myData, 0, commandCursor);
         commandCursor = 0;
 

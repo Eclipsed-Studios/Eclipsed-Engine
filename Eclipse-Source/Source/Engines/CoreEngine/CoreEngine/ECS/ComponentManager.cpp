@@ -139,15 +139,39 @@ namespace Eclipse
 
 	void ComponentManager::Destroy(GameObjectID aGOID)
 	{
+		std::vector<int> componentsToRemove;
+
 		for (auto& componentAtGO : myEntityIDToVectorOfComponentIDs.at(aGOID))
 		{
 			Component* component = myComponents[componentAtGO.second];
 
 			component->OnDestroy();
 			component->~Component();
+
+			componentsToRemove.emplace_back(componentAtGO.second);
 		}
 
-		myEntityIDToVectorOfComponentIDs.erase(aGOID);
+		int sizeOfComponents = myComponents.size();
+		int sizeOfComponentsRemove = componentsToRemove.size();
+		int sizeAfterRemoval = (sizeOfComponents - sizeOfComponentsRemove);
+		for (int i = 0; i < sizeOfComponentsRemove; i++)
+		{
+			int componentIndex = componentsToRemove[i];
+
+			if (componentIndex >= sizeAfterRemoval)
+			{
+				myComponents.insert(myComponents.begin() + sizeAfterRemoval, myComponents[sizeOfComponents - 1 - i]);
+				sizeAfterRemoval++;
+			}
+			else
+				myComponents[componentIndex] = myComponents[sizeOfComponents - 1 - i];
+		}
+
+		myComponents.resize(sizeAfterRemoval);
+
+		SortComponents();
+
+		int i = 0;
 	}
 
 	GameObject* ComponentManager::CreateGameObject()
