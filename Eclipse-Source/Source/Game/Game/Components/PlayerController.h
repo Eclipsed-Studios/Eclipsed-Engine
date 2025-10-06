@@ -1,14 +1,12 @@
 #pragma once
 
 #include "Components/Base/BaseComponent.h"
-#include <string>
- 
 
 namespace Eclipse
 {
-	class PlayerMovement : public Component
+	class PlayerController : public Component
 	{
-		BASE_SELECTION(PlayerMovement, 0)
+		BASE_SELECTION(PlayerController, 0)
 
 	public:
 		void Awake() override;

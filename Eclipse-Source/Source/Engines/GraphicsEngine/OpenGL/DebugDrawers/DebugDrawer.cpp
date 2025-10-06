@@ -149,23 +149,24 @@ namespace Eclipse
         line.linePoints.emplace_back(aStartPos);
         line.linePoints.emplace_back(aStartPos + aDirection);
     }
-    void DebugDrawer::DrawArrow(Math::Vector2f aStartPos, Math::Vector2f aDirection, const Math::Color& aColor)
+    void DebugDrawer::DrawArrow(Math::Vector2f aStartPos, Math::Vector2f aDirection, float aLineLength, float anArrowSpan, const Math::Color& aColor)
     {
         auto& line = DebugDrawer::Get().myLineCollection.emplace_back();
         line.color = aColor;
 
-        Math::Vector2f endPosition = aStartPos + aDirection;
+        aDirection.Normalize();
+
+        Math::Vector2f endPosition = aStartPos + aDirection * aLineLength;
 
         line.linePoints.emplace_back(aStartPos);
         line.linePoints.emplace_back(endPosition);
 
-        Math::Vector2f directionNormalized = aDirection.Normalized();
-        Math::Vector2f arrowCornersStart = endPosition - directionNormalized * 30.f;
+        Math::Vector2f arrowCornersStart = endPosition - aDirection * anArrowSpan;
 
-        Math::Vector2f rightVector = Math::Vector2f(directionNormalized.y, -directionNormalized.x);
+        Math::Vector2f rightVector = Math::Vector2f(aDirection.y, -aDirection.x);
 
-        Math::Vector2f rightArrowCorner = arrowCornersStart + rightVector * 30.f;
-        Math::Vector2f leftArrowCorner = arrowCornersStart - rightVector * 30.f;
+        Math::Vector2f rightArrowCorner = arrowCornersStart + rightVector * anArrowSpan;
+        Math::Vector2f leftArrowCorner = arrowCornersStart - rightVector * anArrowSpan;
 
         line.linePoints.emplace_back(endPosition);
         line.linePoints.emplace_back(leftArrowCorner);

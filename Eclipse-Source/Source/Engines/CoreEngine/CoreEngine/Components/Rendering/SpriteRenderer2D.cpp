@@ -72,6 +72,15 @@ namespace Eclipse
 		myMaterial->SetTexture(myTexturePath->c_str());
 	}
 
+	void SpriteRenderer2D::OnDestroy()
+	{
+		delete mySprite;
+		delete myMaterial;
+
+		myMaterial = nullptr;
+		mySprite = nullptr;
+	}
+
 	void SpriteRenderer2D::OnSceneLoaded()
 	{
 		if (mySprite == nullptr)

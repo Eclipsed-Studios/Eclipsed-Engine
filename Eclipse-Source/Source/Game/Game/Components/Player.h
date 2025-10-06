@@ -15,7 +15,7 @@ namespace Eclipse
 
 	class Player : public Component
 	{
-		friend class PlayerMovement;
+		friend class PlayerController;
 
 	private:
 		enum States : int

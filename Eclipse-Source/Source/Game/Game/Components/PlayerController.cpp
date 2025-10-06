@@ -1,6 +1,4 @@
-#include "PlayerMovement.h"
-
-#include "ECS/ComponentManager.h"
+#include "PlayerController.h"
 
 #include "Components/Physics/RigidBody2D.h"
 #include "Components/Player.h"
@@ -11,14 +9,14 @@
 
 namespace Eclipse
 {
-	void PlayerMovement::Awake()
+	void PlayerController::Awake()
 	{
 		myRigidBody = gameObject->GetComponent<RigidBody2D>();
 		myTransform = gameObject->GetComponent<Transform2D>();
 		myPlayer = gameObject->GetComponent<Player>();
 	}
 
-	void PlayerMovement::Update()
+	void PlayerController::Update()
 	{
 		if (!myPlayer) return;
 

@@ -157,13 +157,25 @@ namespace Eclipse
 			ImVec2 mousePos = ImGui::GetMousePos();
 			ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
 
-			windowRelativeMousePosition = { static_cast<unsigned>((mousePos.x - cursorScreenPos.x)), static_cast<unsigned>(myWindowSize.y - (mousePos.y - cursorScreenPos.y)) };
+			// cursorScreenPos.x -= 8;
+			// cursorScreenPos.y -= 8;
+
+			float mousePosX = mousePos.x - cursorScreenPos.x;
+			float mousePosY = myWindowSize.y - (mousePos.y - cursorScreenPos.y);
+
+			windowRelativeMousePosition = { static_cast<unsigned>(mousePosX), static_cast<unsigned>(mousePosY) };
 
 			normalizedMousePosition.x = windowRelativeMousePosition.x / myWindowSize.x;
 			normalizedMousePosition.y = windowRelativeMousePosition.y / myWindowSize.y;
 
 			normalizedMousePosition.x = normalizedMousePosition.x * 2.f - 1;
 			normalizedMousePosition.y = normalizedMousePosition.y * 2.f - 1;
+
+			if (ImGui::IsMouseClicked(0))
+			{
+				int i = 0;
+			}
+
 		}
 
 		if (ImGui::IsWindowHovered())
@@ -229,6 +241,8 @@ namespace Eclipse
 			return;
 		if (!ImGui::IsWindowHovered())
 			return;
+		if (myGizmoMoveY || myGizmoMoveX)
+			return;
 
 		GraphicsEngine::ClearCurrentSceneBuffer(0, 0, 0);
 
@@ -240,7 +254,7 @@ namespace Eclipse
 		Math::Vector4ui colorValue = GraphicsEngine::ReadPixel({ windowRelativeMousePosition.x + 10, windowRelativeMousePosition.y - 8 });
 		int pickedID = colorValue.x + colorValue.y * 256 + colorValue.z * 256 * 256;
 
-		if (ImGui::IsMouseClicked(0) && HierarchyWindow::CurrentGameObjectID == pickedID && HierarchyWindow::CurrentGameObjectID)
+		if (HierarchyWindow::CurrentGameObjectID == pickedID && HierarchyWindow::CurrentGameObjectID)
 		{
 			if (ImGui::IsKeyDown(ImGuiKey_LeftAlt) || ImGui::IsKeyDown(ImGuiKey_RightAlt))
 			{
@@ -278,6 +292,51 @@ namespace Eclipse
 		ImGui::SetCursorPosX(0);
 	}
 
+	void SceneWindow::GizmoManager(Transform2D* aTransform)
+	{
+		Math::Vector2f transformPos = aTransform->GetPosition();
+		Math::Vector2f position = aTransform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f);
+
+		if (myGizmoMoveY)
+			DebugDrawer::DrawArrow(position, Math::Vector2f(0, 1.f), 0.2f, 0.04f, Math::Color(0.2f, 1, 0.2f, 1));
+		else
+			DebugDrawer::DrawArrow(position, Math::Vector2f(0, 1.f), 0.2f, 0.04f, Math::Color(0, 1, 0, 1));
+
+		if (myGizmoMoveX)
+			DebugDrawer::DrawArrow(position, Math::Vector2f(1.f, 0.f), 0.2f, 0.04f, Math::Color(1, 0.2f, 0.2f, 1));
+		else
+			DebugDrawer::DrawArrow(position, Math::Vector2f(1.f, 0.f), 0.2f, 0.04f, Math::Color(1, 0, 0, 1));
+
+		if (ImGui::IsMouseClicked(0))
+		{
+			float transformedGOPositionX = position.x - myInspectorPosition.x;
+			float transformedGOPositionY = position.y - myInspectorPosition.y;
+
+			float aspectRatio = myWindowSize.y / myWindowSize.x;
+
+			float normMousePosX = windowRelativeMousePosition.x / myWindowSize.x;
+			float normMousePosY = windowRelativeMousePosition.y / myWindowSize.y;
+
+			float transformedMousePositionX = normMousePosX;
+			float transformedMousePositionY = normMousePosY;
+
+			float mouseXDistance = transformedGOPositionX - transformedMousePositionX;
+			float mouseYDistance = transformedGOPositionY - transformedMousePositionY;
+
+			float absXPos = std::abs(mouseXDistance);
+			float absYPos = std::abs(mouseYDistance);
+
+			if (absXPos < 0.1f)
+			{
+				myGizmoMoveY = true;
+			}
+			if (absYPos < 0.1f)
+			{
+				myGizmoMoveX = true;
+			}
+		}
+	}
+
 	void SceneWindow::Update()
 	{
 		ImVec2 windowSize = ImGui::GetWindowSize();
@@ -294,6 +353,27 @@ namespace Eclipse
 
 		MouseManager();
 		ZoomToObject();
+
+		if (HierarchyWindow::CurrentGameObjectID)
+		{
+			mySelectedObject = GetComp(SpriteRenderer2D, HierarchyWindow::CurrentGameObjectID);
+
+			if (mySelectedObject && mySelectedObject->GetMaterial())
+			{
+				Transform2D* transform = GetComp(Transform2D, HierarchyWindow::CurrentGameObjectID);
+
+				DebugDrawer::Get().Begin();
+				Math::Vector2f textureScale = mySelectedObject->GetMaterial()->myTexture->GetTextureSizeNormilized();
+				Math::Vector2f size = mySelectedObject->spriteRectMax - mySelectedObject->spriteRectMin;
+				float aspectScale = size.y / size.x;
+
+				DebugDrawer::DrawSquare(transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), transform->GetRotation(), transform->GetScale() * 0.01f * 0.5f * textureScale * Math::Vector2f(1.f, aspectScale), Math::Color(1.f, 0.4f, 0.7f, 1.f));
+
+				//GizmoManager(transform);
+
+				DebugDrawer::Get().Render();
+			}
+		}
 
 		GraphicsEngine::BindFrameBuffer(mySceneFrameBuffer);
 
@@ -322,25 +402,6 @@ namespace Eclipse
 
 		GraphicsEngine::ClearCurrentSceneBuffer();
 
-
-		if (HierarchyWindow::CurrentGameObjectID)
-		{
-			mySelectedObject = GetComp(SpriteRenderer2D, HierarchyWindow::CurrentGameObjectID);
-
-			if (mySelectedObject && mySelectedObject->GetMaterial())
-			{
-				Transform2D* transform = GetComp(Transform2D, HierarchyWindow::CurrentGameObjectID);
-
-				DebugDrawer::Get().Begin();
-				Math::Vector2f textureScale = mySelectedObject->GetMaterial()->myTexture->GetTextureSizeNormilized();
-				Math::Vector2f size = mySelectedObject->spriteRectMax - mySelectedObject->spriteRectMin;
-				float aspectScale = size.y / size.x;
-
-				DebugDrawer::DrawSquare(transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), transform->GetRotation(), transform->GetScale() * 0.01f * 0.5f * textureScale * Math::Vector2f(1.f, aspectScale), Math::Color(1.f, 0.4f, 0.7f, 1.f));
-				DebugDrawer::Get().Render();
-			}
-		}
-
 		CommandListManager::ExecuteAllCommandLists();
 
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", &lastInspectorPosition);
@@ -367,6 +428,8 @@ namespace Eclipse
 			GameObject currentObject = HierarchyWindow::CurrentGameObjectID;
 			if (currentObject > 0)
 				ComponentManager::Destroy(currentObject);
+
+			HierarchyWindow::CurrentGameObjectID = 0;
 		}
 	}
 

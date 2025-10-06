@@ -11,6 +11,7 @@
 namespace Eclipse
 {
 	class Component;
+	class Transform2D;
 
 	namespace Editor
 	{
@@ -18,8 +19,8 @@ namespace Eclipse
 		{
 			BASE_SELECTION(SceneWindow, "Scene")
 
-		public:
-
+		private:
+			void GizmoManager(Transform2D* aTransform);
 			void CopyManager();
 			void PasteManager();
 
@@ -34,6 +35,7 @@ namespace Eclipse
 			void MouseManager();
 			void SpriteDragging();
 
+		public:
 			void Update() override;
 			void Open() override;
 
@@ -65,6 +67,10 @@ namespace Eclipse
 		private:
 			bool myIsSnapping = false;
 			float mySnappingDistance = 0.01f;
+
+		private:
+			bool myGizmoMoveX = false;
+			bool myGizmoMoveY = false;
 
 		private:
 

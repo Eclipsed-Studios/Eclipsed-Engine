@@ -105,7 +105,7 @@ namespace Eclipse
 		static inline unsigned nextComponentID = 0;
 
 	protected:
-		// IFDEF EDITOR
+		// IF DEF EDITOR
 		bool myInspectorWasDrawn = false;
 	};
 }

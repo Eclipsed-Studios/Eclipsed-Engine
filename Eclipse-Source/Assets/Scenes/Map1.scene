@@ -141,7 +141,7 @@
             "id": 5
         }
     ],
-    "PlayerMovement": [
+    "PlayerController": [
         {
             "owner": 1,
             "id": 6,
