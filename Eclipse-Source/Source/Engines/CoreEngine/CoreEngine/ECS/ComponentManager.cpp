@@ -151,27 +151,57 @@ namespace Eclipse
 			componentsToRemove.emplace_back(componentAtGO.second);
 		}
 
-		int sizeOfComponents = myComponents.size();
-		int sizeOfComponentsRemove = componentsToRemove.size();
-		int sizeAfterRemoval = (sizeOfComponents - sizeOfComponentsRemove);
-		for (int i = 0; i < sizeOfComponentsRemove; i++)
+int sizeOfComponents = myComponents.size();
+int sizeOfComponentsRemove = componentsToRemove.size();
+int sizeAfterRemoval = (sizeOfComponents - sizeOfComponentsRemove);
+
+std::vector<bool> used(sizeOfComponents, false);
+
+for (int i = 0; i < sizeOfComponentsRemove; i++)
+{
+	int componentIndex = componentsToRemove[i];
+	int replaceIndex = sizeOfComponents - 1 - i;
+
+	// if (sizeOfComponents - 1 - i) == to any of componentsToRemove then go back until that is not true anymore
+	bool found;
+	do
+	{
+		found = false;
+		for (int j = 0; j < sizeOfComponentsRemove; j++)
 		{
-			int componentIndex = componentsToRemove[i];
-
-			if (componentIndex >= sizeAfterRemoval)
+			if (replaceIndex == componentsToRemove[j] || used[replaceIndex])
 			{
-				myComponents.insert(myComponents.begin() + sizeAfterRemoval, myComponents[sizeOfComponents - 1 - i]);
-				sizeAfterRemoval++;
+				replaceIndex--; // go back
+				found = true;
+				break;
 			}
-			else
-				myComponents[componentIndex] = myComponents[sizeOfComponents - 1 - i];
 		}
+	} while (found && replaceIndex >= 0);
 
-		myComponents.resize(sizeAfterRemoval);
+	// if we didn’t find a valid replace index, skip this removal entirely
+	if (replaceIndex < 0)
+		continue;
 
-		SortComponents();
+	// mark as used so we don’t reuse it again later
+	used[replaceIndex] = true;
 
-		int i = 0;
+	if (componentIndex > sizeAfterRemoval)
+	{
+		myComponents.insert(myComponents.begin() + sizeAfterRemoval, myComponents[replaceIndex]);
+		sizeAfterRemoval++;
+	}
+	else
+	{
+		myComponents[componentIndex] = myComponents[replaceIndex];
+	}
+}
+
+myComponents.resize(sizeAfterRemoval);
+
+SortComponents();
+
+int i = 0;
+
 	}
 
 	GameObject* ComponentManager::CreateGameObject()

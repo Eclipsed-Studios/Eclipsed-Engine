@@ -9,21 +9,29 @@ namespace Eclipse
 {
     typedef PhysicsEngine::Physics PhysHelper;
 
+    void RigidBody2D::OnComponentAdded()
+    {
+        OnSceneLoaded();
+    }
+
     void RigidBody2D::OnSceneLoaded()
     {
-        myRigidBodySettings.BodyType = DynamicBody;
+        if (!bodyHasBeenCreated)
+        {
+            myRigidBodySettings.BodyType = DynamicBody;
 
-        myTransform = gameObject->GetComponent<Transform2D>();
+            myTransform = gameObject->GetComponent<Transform2D>();
 
-        const Math::Vector2f& startPosition = myTransform->GetPosition();
-        PhysicsEngine::CreateRigidBody(&myBody, &myUserData, BodyType, LockRotation.Get(), LockXPos.Get(), LockYPos.Get(), startPosition);
-        bodyHasBeenCreated = true;
+            const Math::Vector2f& startPosition = myTransform->GetPosition();
+            PhysicsEngine::CreateRigidBody(&myBody, &myUserData, BodyType, LockRotation.Get(), LockXPos.Get(), LockYPos.Get(), startPosition);
+            bodyHasBeenCreated = true;
 
-        myUserData = { gameObject->GetID() };
+            myUserData = { gameObject->GetID() };
 
-        myTransform->AddFunctionToRunOnDirtyUpdate([&](){
-            PhysicsEngine::SetTransform(myBody, myTransform->GetPosition(), myTransform->GetRotation());
-        });
+            myTransform->AddFunctionToRunOnDirtyUpdate([&]() {
+                PhysicsEngine::SetTransform(myBody, myTransform->GetPosition(), myTransform->GetRotation());
+                });
+        }
     }
 
     void RigidBody2D::EarlyUpdate()

@@ -9,11 +9,44 @@
 
 namespace Eclipse
 {
-    // void Collider2D::EditorUpdate()
-    // {
-    //     if (myLastColliderPivot.x != ColliderPivot->x || myLastColliderPivot.y != ColliderPivot->y)
-    //     {
-    //         PhysicsEngine::SetTransform(myBodyRef, gameObject->transform->GetPosition(), gameObject->transform->GetRotation(), ColliderPivot);
-    //     }
-    // }
+    void Collider2D::OnComponentAdded()
+    {
+        OnSceneLoaded();
+    }
+
+    void Collider2D::OnSceneLoaded()
+    {
+        if (!myCreatedInternally)
+        {
+            myTransform = gameObject->transform;
+
+            myLastLayer = static_cast<int>(myLayer->value);
+
+            RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
+            if (!rigidBody)
+            {
+                myUserData = { gameObject->GetID() };
+                PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, myTransform->GetPosition());
+            }
+            else
+                myBodyRef = rigidBody->myBody;
+
+            myCreatedInternally = true;
+
+            myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
+
+            CreateCollider();
+        }
+    }
+
+    void Collider2D::EditorUpdate()
+    {
+        DeltaChanges();
+
+        if (myLastLayer != static_cast<int>(myLayer->value))
+        {
+            myLastLayer = myLayer->value;
+            PhysicsEngine::ChangeLayer(myInternalCollider, myLayer);
+        }
+    }
 }

@@ -12,7 +12,7 @@ namespace Eclipse
         BASE_SELECTION(CapsuleCollider2D, 5)
 
     public:
-        void OnSceneLoaded() override;
+        void CreateCollider() override;
 
         void OnTransformDirty();
 
@@ -25,7 +25,5 @@ namespace Eclipse
 
         SERIALIZED_FIELD(float, Radius);
         SERIALIZED_FIELD(float, HalfHeight);
-
-        class Transform2D* myTransform;
     };
 }

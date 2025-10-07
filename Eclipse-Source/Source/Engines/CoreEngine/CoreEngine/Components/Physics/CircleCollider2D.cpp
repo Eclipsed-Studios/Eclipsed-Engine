@@ -12,25 +12,12 @@
 
 namespace Eclipse
 {
-    void CircleCollider2D::OnSceneLoaded()
+    void CircleCollider2D::CreateCollider()
     {
-        RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
-
-        if (!rigidBody)
-        {
-            myUserData = { gameObject->GetID() };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, gameObject->GetComponent<Transform2D>()->GetPosition());
-        }
-        else
-            myBodyRef = rigidBody->myBody;
-
         PhysicsEngine::CreateCircleCollider(&myInternalCollider, myBodyRef, myInternalRadius, myLayer);
-
-        myTransform = gameObject->GetComponent<Transform2D>();
-        myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
     }
 
-    void CircleCollider2D::EditorUpdate()
+    void CircleCollider2D::DeltaChanges()
     {
         if (LastRadius != Radius || LastRadius != Radius)
         {

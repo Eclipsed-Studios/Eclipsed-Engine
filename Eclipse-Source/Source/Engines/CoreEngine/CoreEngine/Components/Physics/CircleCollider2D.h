@@ -12,11 +12,11 @@ namespace Eclipse
         BASE_SELECTION(CircleCollider2D, 5)
 
     public:
-        void OnSceneLoaded() override;
+        void CreateCollider() override;
 
-        void EditorUpdate() override;
+        void DeltaChanges() override;
 
-        void OnTransformDirty();
+        void OnTransformDirty() override;
 
         void SetRadius(float aRadius);
 
@@ -24,8 +24,6 @@ namespace Eclipse
         float LastRadius = 0.f;
         float myInternalRadius = 1.f;
 
-        SERIALIZED_FIELD(float, Radius);
-
-        class Transform2D* myTransform;
+        SERIALIZED_FIELD_DEFAULT(float, Radius, 1.f);
     };
 }
