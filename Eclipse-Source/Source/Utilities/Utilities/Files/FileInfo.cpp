@@ -89,4 +89,8 @@ namespace Eclipse::Utilities
 
 		return info;
 	}
+	void FileInfo::SetRelativePath(const std::filesystem::path& rel)
+	{
+		relativeFilePath = std::filesystem::relative(filePath, rel);
+	}
 }

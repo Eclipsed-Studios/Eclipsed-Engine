@@ -41,7 +41,7 @@ namespace Eclipse::Editor
 	private:
 		void DrawExplorerEntry(float windowWidth, const Utilities::FileInfo& file);
 		void AssetEntry(float windowWidth, const Utilities::FileInfo& file);
-		void DirectoryEntry(float windowWidth, Utilities::Directory* directory);
+		void DirectoryEntry(float windowWidth, Utilities::FileNode* directory);
 		void DrawAssetExplorer(float width);
 
 
@@ -58,6 +58,6 @@ namespace Eclipse::Editor
 
 		Utilities::DirectoryTree dirTree;
 		Utilities::FileInfo* Active_Path = nullptr;
-		Utilities::Directory* activeDir = nullptr;
+		Utilities::FileNode* activeDir = nullptr;
 	};
 }

@@ -15,10 +15,10 @@ namespace Eclipse::Editor
 {
 	void AssetWindow::Open()
 	{
-		dirTree = Utilities::DirectoryTree(ASSET_PATH);
-		Active_Path = &dirTree.GetDirectoryFromPath(ASSET_PATH)->path;
+		//dirTree = Utilities::DirectoryTree(ASSET_PATH);
+		//Active_Path = &dirTree.GetDirectoryFromPath(ASSET_PATH)->path;
 
-		activeDir = dirTree.GetDirectoryFromPath(Active_Path->filePath);
+		//activeDir = dirTree.GetDirectoryFromPath(Active_Path->filePath);
 
 		FileWatcher::Subscribe(ASSET_PATH, [this](const FileWatcherEvent& e) {HandleFileChanges(e);});
 
@@ -27,7 +27,7 @@ namespace Eclipse::Editor
 
 	void AssetWindow::Update()
 	{
-		using namespace std::filesystem;
+		/*using namespace std::filesystem;
 
 		if (Input::GetMouseDown(Keycode::MOUSE_BACK_BUTTON))
 		{
@@ -52,69 +52,69 @@ namespace Eclipse::Editor
 
 		DrawAssetExplorer(customWidth);
 
-		ImGui::EndChild();
+		ImGui::EndChild();*/
 	}
 
 
 
 	void AssetWindow::DrawAssetHiearchy(const char* path)
 	{
-		using namespace std::filesystem;
+		//using namespace std::filesystem;
 
-		static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_DrawLinesFull | ImGuiTreeNodeFlags_DrawLinesToNodes;
+		//static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_DrawLinesFull | ImGuiTreeNodeFlags_DrawLinesToNodes;
 
-		
+		//
 
-		ImGui::Text("I dont have the energy to");
-		ImGui::Text("fix this recursive");
-		ImGui::Text("piece of shit.");
-		ImGui::Text(ICON_FA_HAND_MIDDLE_FINGER);
-
-
-		//std::vector<directory_entry> entries = GetDirectoryEntries(path, true);
+		//ImGui::Text("I dont have the energy to");
+		//ImGui::Text("fix this recursive");
+		//ImGui::Text("piece of shit.");
+		//ImGui::Text(ICON_FA_HAND_MIDDLE_FINGER);
 
 
-		//for (auto& entry : entries)
-		//{
-		//	if (entry.is_directory())
-		//	{
-		//		if (ImGui::TreeNodeEx((std::string(ICON_FA_FOLDER " ") + entry.path().filename().stem().string()).c_str(), base_flags))
-		//		{
-		//			DrawAssetHiearchy(entry.path().string().c_str());
-		//			ImGui::TreePop();
-		//		}
-		//	}
-		//	else
-		//	{
-		//		FileInfo info = Resources::GetFileInfo(entry);
-		//		//ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-		//		//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
-		//		//ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
+		////std::vector<directory_entry> entries = GetDirectoryEntries(path, true);
 
-		//		ImGui::Button((std::string(info.GetIcon()) + std::string(" ") + entry.path().filename().stem().string()).c_str());
 
-		//		//ImGui::PopStyleColor(3);
+		////for (auto& entry : entries)
+		////{
+		////	if (entry.is_directory())
+		////	{
+		////		if (ImGui::TreeNodeEx((std::string(ICON_FA_FOLDER " ") + entry.path().filename().stem().string()).c_str(), base_flags))
+		////		{
+		////			DrawAssetHiearchy(entry.path().string().c_str());
+		////			ImGui::TreePop();
+		////		}
+		////	}
+		////	else
+		////	{
+		////		FileInfo info = Resources::GetFileInfo(entry);
+		////		//ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+		////		//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
+		////		//ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
 
-		//		std::string relativePath = std::filesystem::relative(entry, SOURCE_PATH).string();
+		////		ImGui::Button((std::string(info.GetIcon()) + std::string(" ") + entry.path().filename().stem().string()).c_str());
 
-		//		DragAndDrop::BeginSource(relativePath.c_str(), relativePath.size(), info);
+		////		//ImGui::PopStyleColor(3);
 
-		//		if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
-		//		{
-		//			Hiearchy_Active_FilePath = entry;
-		//			ImGui::OpenPopup("AssetContextHiearchyMenu");
-		//		}
+		////		std::string relativePath = std::filesystem::relative(entry, SOURCE_PATH).string();
 
-		//		CheckFileClicked(entry);
-		//	}
-		//}
+		////		DragAndDrop::BeginSource(relativePath.c_str(), relativePath.size(), info);
 
-		DrawContextMenu("AssetContextHiearchyMenu", Active_Path->relativeFilePath);
+		////		if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+		////		{
+		////			Hiearchy_Active_FilePath = entry;
+		////			ImGui::OpenPopup("AssetContextHiearchyMenu");
+		////		}
+
+		////		CheckFileClicked(entry);
+		////	}
+		////}
+
+		//DrawContextMenu("AssetContextHiearchyMenu", Active_Path->relativeFilePath);
 	}
 
 	void AssetWindow::DrawAssetExplorer(float width)
 	{
-		namespace fs = std::filesystem;
+		/*namespace fs = std::filesystem;
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
@@ -173,7 +173,7 @@ namespace Eclipse::Editor
 			}
 		}
 
-		ImGui::PopStyleColor(3);
+		ImGui::PopStyleColor(3);*/
 	}
 
 
@@ -190,7 +190,7 @@ namespace Eclipse::Editor
 
 	void AssetWindow::DrawContextMenu(const std::string& key, std::filesystem::path& aPath)
 	{
-		if (ImGui::BeginPopup(key.c_str()))
+		/*if (ImGui::BeginPopup(key.c_str()))
 		{
 			if (ImGui::MenuItem("Open in file explorer"))
 			{
@@ -222,22 +222,22 @@ namespace Eclipse::Editor
 			}
 
 			ImGui::EndPopup();
-		}
+		}*/
 	}
 
 	bool AssetWindow::CheckFileClicked()
 	{
-		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+		/*if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		{
 			return true;
 		}
-
+		*/
 		return false;
 	}
 
 	void AssetWindow::DrawExplorerEntry(float windowWidth, const Utilities::FileInfo& file)
 	{
-		const float width = windowWidth + ImGui::GetWindowPos().x - scrollBarWidth * 2;
+		/*const float width = windowWidth + ImGui::GetWindowPos().x - scrollBarWidth * 2;
 		const float buttonSize = 100.0f * myButtonSizeMultiplier;
 		const float padding = ImGui::GetStyle().ItemSpacing.x;
 
@@ -358,36 +358,36 @@ namespace Eclipse::Editor
 		if (currentWidth + buttonSize + padding < width)
 		{
 			ImGui::SameLine();
-		}
+		}*/
 	}
 
 	void AssetWindow::AssetEntry(float windowWidth, const Utilities::FileInfo& file)
 	{
-		DrawExplorerEntry(windowWidth, file);
+		/*DrawExplorerEntry(windowWidth, file);
 
 		if (CheckFileClicked())
 		{
 			Active_FilePath = file.filePath;
 			OpenFile(Utilities::FileInfo::GetFileInfo(std::string(ASSET_PATH) + file.relativeFilePath.generic_string()));
-		}
+		}*/
 	}
 
-	void AssetWindow::DirectoryEntry(float windowWidth, Utilities::Directory* directory)
+	void AssetWindow::DirectoryEntry(float windowWidth, Utilities::FileNode* directory)
 	{
-		DrawExplorerEntry(windowWidth, directory->path);
+		/*DrawExplorerEntry(windowWidth, directory->path);
 
 		if (CheckFileClicked())
 		{
 			Active_Path = &directory->path;
 
 			activeDir = dirTree.GetDirectoryFromPath(Active_Path->filePath);
-		}
+		}*/
 	}
 
 
 	void AssetWindow::OpenFile(const Utilities::FileInfo& fifo)
 	{
-		switch (fifo.type)
+		/*switch (fifo.type)
 		{
 		case Utilities::FileInfo::FileType_Scene:
 			SceneManager::LoadScene(fifo.filePath.string());
@@ -396,7 +396,7 @@ namespace Eclipse::Editor
 		default:
 			system(fifo.filePath.string().c_str());
 			break;
-		}
+		}*/
 	}
 
 	void AssetWindow::HandleFileChanges(const FileWatcherEvent& event)

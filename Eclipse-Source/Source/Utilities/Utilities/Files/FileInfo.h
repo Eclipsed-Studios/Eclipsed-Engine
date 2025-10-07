@@ -44,6 +44,7 @@ namespace Eclipse::Utilities
 		const char* GetIcon() const;
 
 		static FileInfo GetFileInfo(const std::filesystem::path& aPath);
+		void SetRelativePath(const std::filesystem::path& rel);
 
 	};
 }

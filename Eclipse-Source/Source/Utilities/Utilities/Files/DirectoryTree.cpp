@@ -4,82 +4,82 @@ namespace Eclipse::Utilities
 {
 	namespace fs = std::filesystem;
 
-
-	DirectoryTree::DirectoryTree(const fs::path& iteration_path)
+	DirectoryTree::DirectoryTree(const std::filesystem::path& path)
 	{
-		CreateRoot(iteration_path);
-		Internal_IterateItems(iteration_path, rootDirectory, nullptr);
+		Internal_SetupRoot(path);
+		Internal_BuildChildren(root);
 	}
 
-	const Directory* DirectoryTree::GetRoot() const { return rootDirectory.get(); }
-	Directory* DirectoryTree::GetRoot() { return rootDirectory.get(); }
-
-	const Directory* DirectoryTree::GetDirectoryFromPath(const fs::path& directory_path) const
+	void DirectoryTree::Internal_SetupRoot(const std::filesystem::path& path)
 	{
-		return Internal_FindDirectoryIterator(directory_path, rootDirectory);
+		root = std::make_unique<FileNode>();
+		root->info = Utilities::FileInfo::GetFileInfo(path);
+		root->isDirectory = root->info.type == Utilities::FileInfo::FileStatus_Directory;
 	}
 
-	Directory* DirectoryTree::GetDirectoryFromPath(const fs::path& directory_path)
+	void DirectoryTree::Internal_BuildChildren(std::unique_ptr<FileNode>& node) const
 	{
-		return Internal_FindDirectoryIterator(directory_path, rootDirectory);
-	}
+		namespace fs = std::filesystem;
 
-	const FileInfo& DirectoryTree::GetRootPath() const
-	{
-		return rootDirectory->path;
-	}
-
-	void DirectoryTree::Internal_IterateItems(const fs::path& start_path, std::shared_ptr<Directory>& current_tree_node, std::shared_ptr<Directory> last_tree_node)
-	{
-		current_tree_node->path = FileInfo::GetFileInfo(start_path);
-		current_tree_node->path.relativeFilePath = fs::relative(start_path, SOURCE_PATH).lexically_normal();
-
-
-		for (const fs::directory_entry& entry : fs::directory_iterator(start_path))
+		for (const fs::directory_entry& entry : fs::directory_iterator(node->info.filePath))
 		{
-			FileInfo info = FileInfo::GetFileInfo(entry);
-			info.relativeFilePath = fs::relative(entry.path(), ASSET_PATH).lexically_normal();
+			std::unique_ptr<FileNode> child = std::make_unique<FileNode>();
+			child->info = Utilities::FileInfo::GetFileInfo(entry);
+			child->info.SetRelativePath(ASSET_PATH);
 
-			if (info.type == FileInfo::FileType_Directory)
+			if (entry.is_directory())
 			{
-				current_tree_node->subDirectories.emplace_back(std::make_shared<Directory>());
-				Internal_IterateItems(entry, current_tree_node->subDirectories.back(), current_tree_node);
+				child->isDirectory = true;
 			}
-			else
+
+
+			if (child->isDirectory)
 			{
-				current_tree_node->files.emplace_back(info);
+				Internal_BuildChildren(child);
 			}
+
+			node->children.push_back(std::move(child));
 		}
 
+		std::sort(node->children.begin(), node->children.end(),
+			[](const std::unique_ptr<FileNode>& a, const std::unique_ptr<FileNode>& b)
+			{
+				if (a->isDirectory != b->isDirectory)
+					return a->isDirectory > b->isDirectory;
+
+				if (a->info.type != b->info.type)
+					return a->info.type > b->info.type;
+
+				return a->info.filePath.filename() < b->info.filePath.filename();
+			});
 	}
 
-	Directory* DirectoryTree::Internal_FindDirectoryIterator(const fs::path& directory_path, const std::shared_ptr<Directory>& node) const
+	FileNode* DirectoryTree::Internal_GetNode(const std::filesystem::path& path, std::unique_ptr<FileNode>& node)
 	{
-		if (!node) return nullptr;
-
-		auto normalize = [](const fs::path& p) -> std::string {
-			return p.lexically_normal().generic_string() + "/";
-			};
-
-		std::string target = normalize(directory_path);
-
-		if (fs::equivalent(node->path.filePath, target)) 
-		{
+		if (std::filesystem::equivalent(node->info.filePath, path))
 			return node.get();
-		}
 
-		for (const auto& dir : node->subDirectories) 
+		for (auto& child : node->children)
 		{
-			Directory* found = Internal_FindDirectoryIterator(directory_path, dir);
-			if (found) return found;
+			if (auto result = Internal_GetNode(path, child))
+				return result;
 		}
 
 		return nullptr;
 	}
 
-	void DirectoryTree::CreateRoot(const std::filesystem::path& directory_path)
+	FileNode* DirectoryTree::GetRoot()
 	{
-		rootDirectory = std::make_shared<Directory>();
-		rootDirectory->path = FileInfo::GetFileInfo(directory_path);
+		return root.get();
+	}
+	
+	const FileNode* DirectoryTree::GetRoot() const
+	{
+		return root.get();
+	}
+
+	FileNode* DirectoryTree::GetNode(const std::filesystem::path& path)
+	{
+		return Internal_GetNode(path, root);
 	}
 }
