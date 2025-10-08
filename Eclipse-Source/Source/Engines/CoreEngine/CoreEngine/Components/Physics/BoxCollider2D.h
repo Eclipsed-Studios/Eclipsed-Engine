@@ -12,22 +12,18 @@ namespace Eclipse
         BASE_SELECTION(BoxCollider2D, 5)
 
     public:
-        void OnSceneLoaded() override;    
-        void OnComponentAdded() override;
+        void CreateCollider() override;
 
-        void EditorUpdate() override;
+        void DeltaChanges() override;
 
-        void OnTransformDirty();
+        void OnTransformDirty() override;
 
         void SetScale(const Math::Vector2f& aHalfExtents);
 
     private:
         Math::Vector2f myHalfExtents;
         SERIALIZED_FIELD_DEFAULT(Math::Vector2f, HalfExtents, Math::Vector2f(0.5f, 0.5f));
-        class Transform2D* myTransform;
 
         Math::Vector2f myLastHalfExtents;
-
-        int myLastLayer;
     };
 }

@@ -13,7 +13,7 @@ namespace Eclipse
         BASE_SELECTION(PolygonCollider2D, 5)
 
     public:
-        void OnSceneLoaded() override;
+        void CreateCollider() override;
 
         void EditorUpdate() override;
 
@@ -24,7 +24,5 @@ namespace Eclipse
     private:
         SERIALIZED_FIELD(std::vector<Math::Vector2f>, myPoints);
         std::vector<Math::Vector2f> myLastPoints;
-
-        class Transform2D* myTransform;
     };
 }

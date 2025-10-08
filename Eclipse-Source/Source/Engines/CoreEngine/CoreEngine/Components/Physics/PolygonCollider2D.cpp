@@ -15,24 +15,9 @@
 
 namespace Eclipse
 {
-    void PolygonCollider2D::OnSceneLoaded()
+    void PolygonCollider2D::CreateCollider()
     {
-        myTransform = gameObject->GetComponent<Transform2D>();
-        myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
-
-        RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
-
-        if (!rigidBody)
-        {
-            myUserData = { gameObject->GetID() };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, gameObject->GetComponent<Transform2D>()->GetPosition());
-        }
-        else
-            myBodyRef = rigidBody->myBody;
-
         PhysicsEngine::CreatePolygonCollider(&myInternalCollider, myBodyRef, myPoints, myLayer);
-
-        OnTransformDirty();
     }
 
     void PolygonCollider2D::AddPoint(const Math::Vector2f& aPoint)

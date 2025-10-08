@@ -25,7 +25,9 @@ namespace Eclipse
 
         friend class PolygonCollider2D;
 
+        void OnComponentAdded() override;
         void OnSceneLoaded() override;
+        
         void EarlyUpdate() override;
 
         void AddForce(const Math::Vector2f& aVelocity);
