@@ -17,7 +17,6 @@
 #include "Editor/Windows/InputEditorWindow.h"
 #include "Editor/Windows/InspectorWindow.h"
 #include "Editor/Windows/SettingsWindow.h"
-#include "Editor/Windows/NewAssetWindow.h"
 
 // ------------- Window Base Includes ------------------
 #include "Editor/WindowManager.h"

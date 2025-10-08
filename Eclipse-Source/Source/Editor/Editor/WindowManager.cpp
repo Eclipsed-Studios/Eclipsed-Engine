@@ -36,6 +36,8 @@ namespace Eclipse::Editor
 	void WindowManager::OpenWindow(const std::string& name, int aId)
 	{
 		AbstractWindow* window = static_cast<AbstractWindow*>(WindowRegistry::GetWindow(name));
+		if (window == nullptr) return;
+
 		AbstractWindow* newWindow = window->GetNewWindow(aId);
 
 		newWindow->Open();

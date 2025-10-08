@@ -1,63 +1,54 @@
+#ifdef _EDITOR
 #pragma once
 
 #include "WindowBase.h"
 
-#include <filesystem>
-
-#include "AssetManagement/Resources.h"
-#include "Files/FileWatcher.h"
 #include "Files/DirectoryTree.h"
-
+#include "Editor/ContextMenus/AssetWindowContextMenu.h"
 
 namespace Eclipse::Editor
 {
-//	struct Directory {
-//		std::vector<std::shared_ptr<Directory>> directories;
-//		std::vector<Utilities::FileInfo*> files;
-//		Utilities::FileInfo* currentPath;
-//		std::shared_ptr<Directory> parent = nullptr;
-//	};
-
 	class AssetWindow final : public AbstractWindow
 	{
-		EDITOR_WINDOW_BASE_2(AssetWindow, "Assets")
+		BASE_SELECTION(AssetWindow, "Assets")
 
 	public:
-		void Open() override;
-		void Update() override;
+		void Open();
+
+		void Update();
+
+	private:
+
+		void DrawAssetView();
 
 		void OpenFile(const Utilities::FileInfo& fifo);
 
-
 	private:
-		void HandleFileChanges(const FileWatcherEvent& event);
-
-		void DrawAssetHiearchy(const char* path);
-
-		void DrawContextMenu(const std::string& key, std::filesystem::path& aPath);
-
+		bool CheckFileDoubleClicked();
 		bool CheckFileClicked();
 
+		void DrawAssetViewBreadcrumb();
+
+		void DrawAssetViewEntry(const Utilities::FileNode* parent);
+		void CheckAssetViewEntryClicked(const Utilities::FileNode* parent);
+
 	private:
-		void DrawExplorerEntry(float windowWidth, const Utilities::FileInfo& file);
-		void AssetEntry(float windowWidth, const Utilities::FileInfo& file);
-		void DirectoryEntry(float windowWidth, Utilities::FileNode* directory);
-		void DrawAssetExplorer(float width);
-
-
-	public:
-		static inline std::filesystem::path Active_FilePath;
-		static inline std::filesystem::path Hiearchy_Active_FilePath;
-
 		static inline float folderStructureWidth = 200.f;
 		static inline float scrollBarWidth = 15.f;
 
 		float myButtonSizeMultiplier = 1.f;
+		unsigned entryIndex = 0;
+		static inline int ActiveEntryIndex = -1;
 
-		std::string myPayloadStr;
-
+	private:
 		Utilities::DirectoryTree dirTree;
-		Utilities::FileInfo* Active_Path = nullptr;
-		Utilities::FileNode* activeDir = nullptr;
+
+		Utilities::FileNode* ActiveNode;
+
+		AssetWindowContextMenu ctxMenu{};
+
+	public:
+		static inline std::filesystem::path ActivePath;
 	};
 }
+#endif

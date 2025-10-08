@@ -109,9 +109,9 @@ namespace Eclipse::Editor
 
 	void InspectorWindow::DrawAssetInspector()
 	{
-		ImGui::Text(AssetWindow::Active_FilePath.filename().string().c_str());
+		ImGui::Text(AssetWindow::ActivePath.filename().string().c_str());
 
-		Utilities::FileInfo info = Utilities::FileInfo::GetFileInfo(AssetWindow::Active_FilePath);
+		Utilities::FileInfo info = Utilities::FileInfo::GetFileInfo(AssetWindow::ActivePath);
 		if (info.type == Utilities::FileInfo::FileType_Texture)
 			DrawTextureAssetInspector();
 		
@@ -121,7 +121,7 @@ namespace Eclipse::Editor
 	{
 		if (ImGui::Button("Open Editor"))
 		{
-			SpriteEditor::SetTexture(AssetWindow::Active_FilePath.string().c_str());
+			SpriteEditor::SetTexture(AssetWindow::ActivePath.string().c_str());
 		}
 	}
 }

@@ -20,6 +20,7 @@
 #include "Reflection/Registry/ComponentRegistry.h"
 
 #include "Components/Base/Component.h"
+#include "Components/Rendering/SpriteRenderer2D.h"
 
 namespace Eclipse
 {

@@ -12,6 +12,7 @@ namespace Eclipse
 {
 	class Component;
 	class Transform2D;
+	class SpriteRenderer2D;
 
 	namespace Editor
 	{
