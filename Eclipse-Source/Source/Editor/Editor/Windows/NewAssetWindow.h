@@ -4,6 +4,7 @@
 #include "WindowBase.h"
 
 #include "Files/DirectoryTree.h"
+#include "Editor/ContextMenus/AssetWindowContextMenu.h"
 
 namespace Eclipse::Editor
 {
@@ -20,12 +21,13 @@ namespace Eclipse::Editor
 		
 		void DrawAssetView();
 
-
+		void OpenFile(const Utilities::FileInfo& fifo);
 
 	private:
+		bool CheckFileDoubleClicked();
 		bool CheckFileClicked();
 
-		void D();
+		void DrawAssetViewBreadcrumb();
 
 		void DrawAssetViewEntry(const Utilities::FileNode* parent);
 		void CheckAssetViewEntryClicked(const Utilities::FileNode* parent);
@@ -35,12 +37,16 @@ namespace Eclipse::Editor
 		static inline float scrollBarWidth = 15.f;
 
 		float myButtonSizeMultiplier = 1.f;
+		unsigned entryIndex = 0;
+		static inline int ActiveEntryIndex = -1;
 
 	private:
 		Utilities::DirectoryTree dirTree;
 
 		Utilities::FileNode* ActiveNode;
-		std::filesystem::path ActivePath;
+		static inline std::filesystem::path ActivePath;
+
+		AssetWindowContextMenu ctxMenu{};
 	};
 }
 #endif

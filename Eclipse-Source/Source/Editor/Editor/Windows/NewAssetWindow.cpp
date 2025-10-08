@@ -3,6 +3,8 @@
 #include "NewAssetWindow.h"
 #include "Editor/TextureIconManager.h"
 
+#include "Scenes/SceneManager.h"
+
 namespace Eclipse::Editor
 {
 	void NewAssetWindow::Open()
@@ -15,11 +17,22 @@ namespace Eclipse::Editor
 	{
 		DrawAssetView();
 
+		ctxMenu.Draw();
+	}
+
+	bool NewAssetWindow::CheckFileDoubleClicked()
+	{
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	bool NewAssetWindow::CheckFileClicked()
 	{
-		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left) || ImGui::IsMouseDown(ImGuiMouseButton_Right))
 		{
 			return true;
 		}
@@ -40,7 +53,7 @@ namespace Eclipse::Editor
 
 
 #pragma region -- ASSET VIEW
-	void NewAssetWindow::D()
+	void NewAssetWindow::DrawAssetViewBreadcrumb()
 	{
 		namespace fs = std::filesystem;
 
@@ -68,16 +81,7 @@ namespace Eclipse::Editor
 			if (ImGui::Button(path.string().c_str()))
 			{
 				fs::path wantedPath(pathCombiner);
-
-				fs::path current = ActiveNode->info.filePath;
-				fs::path wanted = wantedPath;
-
-				while (current != wanted)
-				{
-					current = current.parent_path();
-				}
-
-				ActiveNode = dirTree.GetNode(current);
+				ActiveNode = dirTree.GetNode(wantedPath);
 			}
 		}
 	}
@@ -91,17 +95,27 @@ namespace Eclipse::Editor
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0));
 
-		D();
+		DrawAssetViewBreadcrumb();
 
 		ImGui::Separator();
 
 		for (std::unique_ptr<Utilities::FileNode>& node : ActiveNode->children)
 		{
 			CheckAssetViewEntryClicked(node.get());
+			entryIndex++;
 		}
 
 		ImGui::PopStyleColor(3);
 		ImGui::EndChild();
+
+		if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+		{
+			ActivePath = "";
+			ctxMenu.SetActivePath(ActivePath);
+			ActiveEntryIndex = -1;
+		}
+
+		entryIndex = 0;
 	}
 
 	void NewAssetWindow::DrawAssetViewEntry(const Utilities::FileNode* node)
@@ -122,7 +136,7 @@ namespace Eclipse::Editor
 		ImVec2 buttonSizeVec(buttonSize, buttonSize);
 
 		ImColor col(200, 200, 200, 255);
-		if (!ActivePath.empty() && std::filesystem::equivalent(ActivePath, node->info.filePath))
+		if (!ActivePath.empty() && entryIndex == ActiveEntryIndex)
 		{
 			col = ImColor(150, 150, 255, 255);
 		}
@@ -213,15 +227,13 @@ namespace Eclipse::Editor
 
 		ImGui::PopID();
 
-		if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+		if (ImGui::IsItemHovered() && (ImGui::IsMouseReleased(ImGuiMouseButton_Left) || ImGui::IsMouseClicked(ImGuiMouseButton_Right)))
 		{
 			ActivePath = node->info.filePath;
 			InspectorWindow::activeType = ActiveItemTypes_Asset;
-		}
-		else if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
-		{
-			ActivePath = node->info.filePath;
-			ImGui::OpenPopup("AssetContextMenu");
+			ActiveEntryIndex = entryIndex;
+
+			ctxMenu.SetActivePath(ActivePath);
 		}
 
 		float currentWidth = ImGui::GetItemRectMax().x;
@@ -236,14 +248,33 @@ namespace Eclipse::Editor
 	{
 		DrawAssetViewEntry(node);
 
-		bool isClicked = CheckFileClicked();
-		if (isClicked && node->isDirectory)
+		if (!CheckFileDoubleClicked()) return;
+
+		if (node->isDirectory)
 		{
 			ActivePath = node->info.filePath;
 			ActiveNode = dirTree.GetNode(node->info.filePath);
 		}
-
+		else
+		{
+			ActivePath = node->info.filePath;
+			OpenFile(node->info);
+		}
 	}
 #pragma endregion
+
+	void NewAssetWindow::OpenFile(const Utilities::FileInfo& fifo)
+	{
+		switch (fifo.type)
+		{
+		case Utilities::FileInfo::FileType_Scene:
+			SceneManager::LoadScene(fifo.filePath.string());
+			break;
+
+		default:
+			system(fifo.filePath.string().c_str());
+			break;
+		}
+	}
 }
 #endif

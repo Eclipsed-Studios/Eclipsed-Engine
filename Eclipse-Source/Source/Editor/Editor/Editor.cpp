@@ -42,14 +42,14 @@ namespace Eclipse::Editor
 		DebugLogger::OverwriteDefaultCoutBuffer();
 		MetaFileRegistry::Load();
 
-		PlatformIntegration::Discord::SetupWithID(1422240339586060400);
-		PlatformIntegration::Discord::SetLargeImage("eclipsemoon");
+		//PlatformIntegration::Discord::SetupWithID(1422240339586060400);
+		//PlatformIntegration::Discord::SetLargeImage("eclipsemoon");
 
 		Engine::Init();
 
 		myWindow = Utilities::MainSingleton::GetInstance<GLFWwindow*>();
 
-		GraphicsEngine::SetWindowIcon(ASSET_PATH"Icons/EclipseMoonNoBG.png");
+		//GraphicsEngine::SetWindowIcon(ASSET_PATH"Icons/EclipseMoonNoBG.png");
 
 		ImGui_Impl::ImplementImGui(myWindow);
 

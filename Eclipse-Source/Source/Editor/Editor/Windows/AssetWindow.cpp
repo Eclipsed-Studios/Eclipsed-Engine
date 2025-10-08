@@ -20,7 +20,7 @@ namespace Eclipse::Editor
 
 		//activeDir = dirTree.GetDirectoryFromPath(Active_Path->filePath);
 
-		FileWatcher::Subscribe(ASSET_PATH, [this](const FileWatcherEvent& e) {HandleFileChanges(e);});
+		//FileWatcher::Subscribe(ASSET_PATH, [this](const FileWatcherEvent& e) {HandleFileChanges(e);});
 
 		flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
 	}
