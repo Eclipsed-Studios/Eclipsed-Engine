@@ -50,6 +50,9 @@ namespace Eclipse
         // Complex
         static void CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
 
+        static void DeleteShape(b2ShapeId* aShape);
+        static void DeleteBody(b2BodyId* aBody);
+        
         static void ChangeLayer(b2ShapeId& aShapeID, Layer aLayer);
         static void ChangeBodyType(b2BodyId& aBodyID, BodyType aBodyType);
 
@@ -71,9 +74,12 @@ namespace Eclipse
 
         static void SetGravity(const Math::Vector2f& aGravity);
 
+        static void InitWorld();
         static void Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw);
         static void Update();
+        static void CleanUp();
         static void DrawPhysicsObjects();
+
 
         static void CheckCollisions();
 
@@ -93,5 +99,7 @@ namespace Eclipse
         static inline b2DebugDraw myDebugDraw;
         static inline bool myDrawDebugShapes = true;
         static inline bool myDrawQueries = false;
+
+        static inline bool myHasCreatedWorld;
     };
 }

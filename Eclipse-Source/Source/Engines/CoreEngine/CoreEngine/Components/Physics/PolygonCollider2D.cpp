@@ -30,7 +30,7 @@ namespace Eclipse
         myPoints->emplace_back(scale);
     }
 
-    void PolygonCollider2D::EditorUpdate()
+    void PolygonCollider2D::DeltaChanges()
     {
         if (myLastPoints.empty() || memcmp(&myPoints->data()->x, &myLastPoints.data()->x, myPoints->size() * sizeof(Math::Vector2f)))
         {

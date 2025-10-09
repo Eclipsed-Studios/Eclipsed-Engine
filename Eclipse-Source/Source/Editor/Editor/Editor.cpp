@@ -42,8 +42,8 @@ namespace Eclipse::Editor
 		DebugLogger::OverwriteDefaultCoutBuffer();
 		MetaFileRegistry::Load();
 
-		//PlatformIntegration::Discord::SetupWithID(1422240339586060400);
-		//PlatformIntegration::Discord::SetLargeImage("eclipsemoon");
+		PlatformIntegration::Discord::SetupWithID(1425504148681658383);
+		PlatformIntegration::Discord::SetLargeImage("eclipsemoonnobg");
 
 		Engine::Init();
 
@@ -129,15 +129,10 @@ namespace Eclipse::Editor
 		{
 			if (ImGui::Button(ICON_FA_PLAY) || Input::GetKeyDown(Keycode::F5))
 			{
-				if (Game::IsPaused)
-				{
-					Game::IsPaused = false;
-				}
-				else
-				{
-					Game::IsPlaying = true;
-					Game::IsPaused = false;
-				}
+				Game::IsPlaying = true;
+				Game::IsPaused = false;
+
+				SceneLoader::Save(SceneManager::GetActiveScene());
 
 				ImGui::End();
 				return;

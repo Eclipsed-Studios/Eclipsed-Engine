@@ -30,6 +30,15 @@ namespace Eclipse
 
     void CommandList::Reset()
     {
+        if (hasCommands)
+        {
+            while (myRoot)
+            {
+                myRoot->~RenderCommandBase();
+                myRoot = myRoot->next;
+            }
+        }
+
         hasCommands = false;
         std::memset(myData, 0, commandCursor);
         commandCursor = 0;

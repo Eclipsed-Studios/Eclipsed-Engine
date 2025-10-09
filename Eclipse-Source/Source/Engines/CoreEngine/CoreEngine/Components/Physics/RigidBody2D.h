@@ -25,6 +25,8 @@ namespace Eclipse
 
         friend class PolygonCollider2D;
 
+        void OnDestroy() override;
+
         void OnComponentAdded() override;
         void OnSceneLoaded() override;
         

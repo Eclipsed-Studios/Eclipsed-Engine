@@ -80,4 +80,9 @@ namespace Eclipse::Reflection
 	{
 		return registeredVariables;
 	}
+
+	void ReflectionManager::ClearList()
+	{
+		registeredVariables.clear();
+	}
 }

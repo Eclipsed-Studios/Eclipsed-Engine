@@ -29,5 +29,7 @@ namespace Eclipse::Reflection
 #endif
 
 		static CompToTypeList& GetList();
+
+		static void ClearList();
 	};
 }

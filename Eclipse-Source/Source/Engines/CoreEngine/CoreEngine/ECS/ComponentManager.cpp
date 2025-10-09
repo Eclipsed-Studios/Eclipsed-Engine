@@ -35,6 +35,9 @@ namespace Eclipse
 
 	void ComponentManager::Clear()
 	{
+		for(auto& component : myComponents)
+			component->OnDestroy();
+
 		myComponents.clear();
 		delete myComponentData;
 

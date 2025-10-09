@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef _EDITOR
+
 #include <vector>
 #include <unordered_map>
 
@@ -32,3 +34,5 @@ namespace Eclipse::Editor
 		};
 	};
 }
+
+#endif

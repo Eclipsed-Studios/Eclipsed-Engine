@@ -148,7 +148,7 @@
         {
             "owner": 6,
             "id": 60,
-            "myLayer": "AQAAAA==",
+            "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAADVeej8=",
             "HalfExtents": "AACAP83MzD0="
         }
@@ -159,19 +159,19 @@
             "id": 5
         }
     ],
-    "PlayerMovement": [
-        {
-            "owner": 1,
-            "id": 6,
-            "myJumpStrength": "AAAAQA==",
-            "myMovementSpeed": "zczMPg=="
-        }
-    ],
     "SpriteSheetAnimator2D": [
         {
             "owner": 1,
             "id": 7,
             "mySpriteSheetAnimationPath": "/Assets/Sprites/ScissorSprite/Scissors.animation"
+        }
+    ],
+    "PlayerController": [
+        {
+            "owner": 1,
+            "id": 167,
+            "myJumpStrength": "AAAAQA==",
+            "myMovementSpeed": "zczMPg=="
         }
     ],
     "GameObjects": [

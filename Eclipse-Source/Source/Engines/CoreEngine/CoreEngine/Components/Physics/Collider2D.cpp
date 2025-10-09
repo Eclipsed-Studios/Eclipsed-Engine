@@ -9,6 +9,22 @@
 
 namespace Eclipse
 {
+    void Collider2D::OnDestroy()
+    {
+        auto rigidBody = gameObject->GetComponent<RigidBody2D>();
+        if (!rigidBody)
+        {
+            PhysicsEngine::DeleteShape(&myInternalCollider);
+            PhysicsEngine::DeleteBody(&myBodyRef);
+        }
+        else if (rigidBody->bodyHasBeenCreated)
+        {
+            PhysicsEngine::DeleteShape(&myInternalCollider);
+        }
+
+        myCreatedInternally = false;
+    }
+
     void Collider2D::OnComponentAdded()
     {
         OnSceneLoaded();

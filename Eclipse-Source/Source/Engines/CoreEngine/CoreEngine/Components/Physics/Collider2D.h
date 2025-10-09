@@ -17,6 +17,8 @@ namespace Eclipse
         //~Collider2D();
 
     public:
+        void OnDestroy();
+
         void OnComponentAdded() override;
         void OnSceneLoaded() override;
 

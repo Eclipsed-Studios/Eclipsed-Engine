@@ -9,6 +9,12 @@ namespace Eclipse
 {
     typedef PhysicsEngine::Physics PhysHelper;
 
+    void RigidBody2D::OnDestroy()
+    {
+        PhysicsEngine::DeleteBody(&myBody);
+        bodyHasBeenCreated = false;
+    }
+
     void RigidBody2D::OnComponentAdded()
     {
         OnSceneLoaded();

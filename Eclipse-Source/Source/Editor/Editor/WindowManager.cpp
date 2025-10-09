@@ -128,7 +128,8 @@ namespace Eclipse::Editor
 			{
 				AssetExporter::ExportAll();
 				std::string cmd = "cd \"" SOURCE "Tools"  "\" && build-game.bat";
-				int result = system(cmd.c_str());
+
+				int result = system(("start cmd /K \"" + cmd + "\"").c_str());
 
 				if (result != 0)
 				{

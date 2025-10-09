@@ -4,7 +4,7 @@ class RenderCommandBase
 {
 public:
     RenderCommandBase() = default;
-    ~RenderCommandBase() = default;
+    virtual ~RenderCommandBase() = default;
 
     virtual void Execute() = 0;
 

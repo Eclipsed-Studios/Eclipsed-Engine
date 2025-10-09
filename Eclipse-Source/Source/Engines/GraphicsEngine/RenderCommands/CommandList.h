@@ -12,10 +12,11 @@ namespace Eclipse
     class LambdaCommand : public RenderCommandBase
     {
     public:
-        LambdaCommand(std::function<void()>&& aLambda) : myLamdaCommand(std::move(aLambda))
+        LambdaCommand(std::function<void()>&& aLambda) : myLamdaCommand(aLambda)
         {
 
         }
+        ~LambdaCommand() override = default;
 
         void Execute() override { myLamdaCommand(); };
 
@@ -50,6 +51,8 @@ namespace Eclipse
     {
         hasCommands = true;
         const size_t commandSize = sizeof(CommandClass);
+
+        assert((commandCursor + commandSize) <= MAXCOMMANDALLOCATION && "This encue will make the array overflow with data so you need to make smaller commands or increase MAXCOMMANDALLOCATION :)");
 
         RenderCommandBase* command = reinterpret_cast<RenderCommandBase*>(myData + commandCursor);
         commandCursor += commandSize;

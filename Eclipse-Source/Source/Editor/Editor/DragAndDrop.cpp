@@ -1,3 +1,5 @@
+#ifdef _EDITOR
+
 #include "DragAndDrop.h"
 
 namespace Eclipse::Editor
@@ -80,3 +82,5 @@ namespace Eclipse::Editor
         return clicked;
     }
 }
+
+#endif

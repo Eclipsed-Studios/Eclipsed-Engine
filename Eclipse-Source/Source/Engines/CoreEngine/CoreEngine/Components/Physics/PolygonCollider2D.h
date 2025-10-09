@@ -15,11 +15,11 @@ namespace Eclipse
     public:
         void CreateCollider() override;
 
-        void EditorUpdate() override;
+        void DeltaChanges() override;
 
         void AddPoint(const Math::Vector2f& aPoint);
         
-        void OnTransformDirty();
+        void OnTransformDirty() override;
 
     private:
         SERIALIZED_FIELD(std::vector<Math::Vector2f>, myPoints);

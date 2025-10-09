@@ -159,12 +159,24 @@ namespace Eclipse
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
     }
 
+    void PhysicsEngine::DeleteBody(b2BodyId* aBody)
+    {
+        b2DestroyBody(*aBody);
+        *aBody = b2BodyId();
+    }
+
+    void PhysicsEngine::DeleteShape(b2ShapeId* aShape)
+    {
+        b2DestroyShape(*aShape, false);
+        *aShape = b2ShapeId();
+    }
+
+
     void PhysicsEngine::ChangeBodyType(b2BodyId& aBodyID, BodyType aBodyType)
     {
         b2Body_SetType(aBodyID, static_cast<b2BodyType>(aBodyType));
     }
 
-    
     void PhysicsEngine::ChangeLayer(b2ShapeId& aShapeID, Layer aLayer)
     {
         b2Filter filter;
@@ -327,22 +339,28 @@ namespace Eclipse
             aCollisionLayers[i] = layers[i].GetInt();
     }
 
-    void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
+    void PhysicsEngine::InitWorld()
     {
-        LoadLayersFromJSON(myCollisionLayers);
-
-        mySubstepCount = aSubstepCount;
-        myGravity = aGravity;
-
         b2WorldDef worldDef;
         worldDef = b2DefaultWorldDef();
         worldDef.gravity = b2Vec2(myGravity.x, myGravity.y);
 
         myWorld = b2CreateWorld(&worldDef);
 
+        b2World_SetCustomFilterCallback(myWorld, CustomFilterFunction, (void*)0);
+
+        myHasCreatedWorld = true;
+    }
+
+    void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
+    {
+        LoadLayersFromJSON(myCollisionLayers);
+
+        mySubstepCount = aSubstepCount;
+        myGravity = aGravity;
         myDebugDraw = std::move(aDebugdraw);
 
-        b2World_SetCustomFilterCallback(myWorld, CustomFilterFunction, (void*)0);
+        InitWorld();
     }
 
     bool& PhysicsEngine::GetDebugDraw()
@@ -372,6 +390,14 @@ namespace Eclipse
         }
 
         return myDrawDebugShapes;
+    }
+
+    void PhysicsEngine::CleanUp()
+    {
+        if (myHasCreatedWorld)
+            b2DestroyWorld(myWorld);
+
+        myHasCreatedWorld = false;
     }
 
     void PhysicsEngine::Update()

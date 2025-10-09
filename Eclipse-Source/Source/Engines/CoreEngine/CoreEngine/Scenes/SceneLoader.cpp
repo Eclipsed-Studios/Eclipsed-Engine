@@ -133,6 +133,10 @@ namespace Eclipse
 		using namespace rapidjson;
 
 		ComponentManager::Clear();
+		Reflection::ReflectionManager::ClearList();
+
+		PhysicsEngine::CleanUp();
+		PhysicsEngine::InitWorld();
 
 		std::ifstream ifs(aPath);
 		if (!ifs.is_open()) {
