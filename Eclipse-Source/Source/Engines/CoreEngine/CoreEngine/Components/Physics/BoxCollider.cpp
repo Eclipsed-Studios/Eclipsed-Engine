@@ -8,8 +8,6 @@
 
 #include "ECS/ComponentManager.h"
 
-#include "TemporarySettingsSingleton.h"
-
 namespace Eclipse
 {
     void BoxCollider2D::DeltaChanges()

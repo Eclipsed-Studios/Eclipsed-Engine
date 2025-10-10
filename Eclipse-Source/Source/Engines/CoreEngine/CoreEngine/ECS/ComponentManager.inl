@@ -2,7 +2,6 @@
 
 #include <algorithm>
 
-#include "DebugLogger.h"
 namespace Eclipse
 {
     inline unsigned GetUniqueComponentTypeId()

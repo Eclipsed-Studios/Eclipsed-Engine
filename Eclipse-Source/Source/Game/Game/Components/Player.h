@@ -4,8 +4,6 @@
 
 #include "PlayerStateMachine.h"
 
-#include "BitMask.hpp"
-
 namespace Eclipse
 {
 	enum PlayerBitmaskIndex {

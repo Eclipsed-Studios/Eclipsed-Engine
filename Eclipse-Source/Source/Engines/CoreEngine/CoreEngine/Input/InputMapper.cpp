@@ -7,8 +7,6 @@
 
 #include "Input/Input.h"
 
-#include "DebugLogger.h"
-
 #include <iostream>
 #include <fstream>
 
@@ -16,8 +14,6 @@
 #include "rapidjson/rapidjson/writer.h"
 #include "rapidjson/rapidjson/stringbuffer.h"
 #include "rapidjson/rapidjson/filewritestream.h"
-
-#include "defines.h"
 
 namespace Eclipse
 {

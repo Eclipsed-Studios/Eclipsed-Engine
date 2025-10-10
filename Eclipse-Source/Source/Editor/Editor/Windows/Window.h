@@ -1,10 +1,8 @@
 #pragma once
 
 #include <string>
-#include "Random.h"
 
 #include "ImGui/ImGui/imgui.h"
-#include "defines.h"
 #include "Editor/WindowRegistry.h"
 
 #include "Font-Awesome/7/IconsFontAwesome7.h"
@@ -48,4 +46,4 @@ namespace Eclipse::Editor
 	};
 }
 
-#include "MacroOverloadSelector_Undef.h"
+#include "Macros/MacroOverloadSelector_Undef.h"

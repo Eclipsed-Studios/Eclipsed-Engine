@@ -1,8 +1,6 @@
 #include "PhysicsDebugDrawer.h"
 #include "DebugDrawer.h"
 
-#include "TemporarySettingsSingleton.h"
-
 using namespace Eclipse;
 
 void PhysicsDebugDrawer::DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)

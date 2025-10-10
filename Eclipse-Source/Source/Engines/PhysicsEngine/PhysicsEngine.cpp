@@ -1,8 +1,6 @@
 #include "PhysicsEngine.h"
 #include <box2d/box2d.h>
 
-#include "Timer.h"
-
 #include "rapidjson/rapidjson/rapidjson.h"
 #include "rapidjson/rapidjson/document.h"
 #include "rapidjson/rapidjson/filereadstream.h"

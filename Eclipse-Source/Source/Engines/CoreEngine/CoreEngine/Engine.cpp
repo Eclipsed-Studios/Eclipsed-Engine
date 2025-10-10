@@ -7,16 +7,11 @@
 #include "OpenGL/DebugDrawers/PhysicsDebugDrawer.h"
 #endif
 
-#include "Timer.h"
 #include "Input/Input.h"
 #include "Input/InputMapper.h"
 
-#include "MainSingleton.h"
-#include "Debug/DebugInformationCollector.h"
-
 #include "ECS/ComponentManager.h"
 #include "PlatformIntegration/IntegrationManager.h"
-#include "SettingsManager.h"
 #include "Audio/AudioManager.h"
 
 #include <iostream>

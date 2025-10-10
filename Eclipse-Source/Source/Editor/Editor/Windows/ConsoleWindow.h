@@ -1,7 +1,11 @@
 #pragma once
 
 #include "WindowBase.h"
-#include <DebugLogger.h>
+
+namespace Eclipse
+{
+	struct Message;
+}
 
 namespace Eclipse::Editor
 {

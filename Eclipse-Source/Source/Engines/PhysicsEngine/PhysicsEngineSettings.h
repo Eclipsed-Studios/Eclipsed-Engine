@@ -5,8 +5,6 @@
 
 #include <string>
 
-#include "defines.h"
-
 #include "Reflection/SerializedEnum.hpp"
 #include <string>
 #include <unordered_map>

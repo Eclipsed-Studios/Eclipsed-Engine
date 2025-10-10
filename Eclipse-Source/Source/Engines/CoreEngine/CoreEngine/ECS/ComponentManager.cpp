@@ -1,6 +1,5 @@
 #include "ComponentManager.h"
 
-#include "DebugLogger.h"
 #include "Profiler/Profiler_Macros.hpp"
 
 namespace Eclipse

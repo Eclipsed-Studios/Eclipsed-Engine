@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Settings.h"
-
 namespace Eclipse
 {
 	class EngineSettings : public Settings

@@ -4,8 +4,6 @@
 
 #include "ECS/ComponentManager.h"
 
-#include "TemporarySettingsSingleton.h"
-
 #include "Input/InputMapper.h"
 #include "Input/Input.h"
 

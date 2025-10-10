@@ -4,8 +4,6 @@
 #include "rapidjson/rapidjson/stringbuffer.h"
 #include "rapidjson/rapidjson/filewritestream.h"
 
-#include "defines.h"
-
 #include "Keycodes.h"
 #include "Input.h"
 

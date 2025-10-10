@@ -1,7 +1,5 @@
 #pragma once
 
-#include "RingBuffer.h"
-
 #define MAX_PROFILER_RECORDS 2000
 
 

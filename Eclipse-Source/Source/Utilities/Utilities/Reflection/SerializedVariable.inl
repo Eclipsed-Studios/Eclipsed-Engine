@@ -2,8 +2,6 @@
 
 #include "ReflectionTypeChecks.h"
 #include "SerializedEnum.hpp"
-#include "DebugLogger.h"
-
 #include "ImGui/ImGui/imgui.h"
 
 #include "Math/Math.h"

@@ -1,7 +1,6 @@
 #include "Transform2D.h"
 
 #include "ImGui/ImGui/imgui.h"
-#include "TemporarySettingsSingleton.h"
 
 #include <sstream>
 

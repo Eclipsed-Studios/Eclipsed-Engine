@@ -2,8 +2,6 @@
 
 #include "GLFW/glfw3.h"
 
-#include "MainSingleton.h"
-
 #include "InputMapper.h"
 
 namespace Eclipse

@@ -1,17 +1,11 @@
 #ifdef _EDITOR
 #include "Editor.h"
 
-#include "MainSingleton.h"
-
 #include "Engine.h"
 #include "ImGui/ImGui_Impl.h"
 #include "PlatformIntegration/DiscordIntegration.h"
 
-#include "SettingsManager.h"
-
 #include "AssetManagement/MetaFileRegistry.h"
-
-#include "defines.h"
 
 #include "PhysicsEngine.h"
 #include "PhysicsEngineSettings.h"
@@ -114,7 +108,6 @@ namespace Eclipse::Editor
 	{
 		MetaFileRegistry::Save();
 		myWindowManager.End();
-		SettingsManager::Save();
 	}
 
 	void EditorContext::DrawPlayGameButtons()

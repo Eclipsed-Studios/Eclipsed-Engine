@@ -2,10 +2,6 @@
 
 #include "ImGui/imgui.h"
 
-#include "Timer.h"
-
-#include "Debug/DebugInformationCollector.h"
-
 #include "rapidjson/rapidjson/document.h"
 #include "rapidjson/rapidjson/writer.h"
 #include "rapidjson/rapidjson/stringbuffer.h"

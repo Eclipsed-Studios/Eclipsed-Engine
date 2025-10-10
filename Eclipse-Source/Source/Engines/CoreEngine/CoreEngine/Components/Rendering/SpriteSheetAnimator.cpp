@@ -2,7 +2,6 @@
 
 #include "SpriteRenderer2D.h"
 
-#include "Timer.h"
 #include "ECS/ComponentManager.h"
 
 namespace Eclipse

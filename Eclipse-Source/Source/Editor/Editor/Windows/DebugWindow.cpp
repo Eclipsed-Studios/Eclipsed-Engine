@@ -1,7 +1,6 @@
 #include "ConsoleWindow.h"
 
 #include <ImGui/imgui.h>
-#include <DebugLogger.h>
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"

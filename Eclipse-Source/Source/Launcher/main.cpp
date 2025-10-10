@@ -5,8 +5,6 @@
 #define LEAN_AND_MEAN
 #include <windows.h>
 
-#include "TemporarySettingsSingleton.h"
-
 #include <chrono>
 
 using namespace Eclipse;

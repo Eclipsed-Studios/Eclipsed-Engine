@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 namespace Eclipse
 {
     enum class ErrorCode : int

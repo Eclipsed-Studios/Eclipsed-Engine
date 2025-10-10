@@ -5,6 +5,7 @@
 #include <functional>
 #include <thread>
 #include <mutex>
+#include <Windows.h>
 
 namespace Eclipse::Editor
 {

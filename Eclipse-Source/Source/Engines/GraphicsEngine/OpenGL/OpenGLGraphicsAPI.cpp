@@ -6,9 +6,6 @@
 
 #include <stdio.h>
 
-#include "TemporarySettingsSingleton.h"
-#include "MainSingleton.h"
-
 #include <iostream>
 
 #include "Math/Vector/Vector2.h"

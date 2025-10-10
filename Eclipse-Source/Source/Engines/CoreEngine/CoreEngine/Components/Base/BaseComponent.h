@@ -5,7 +5,6 @@
 
 #include "ECS/ComponentManager.h"
 
-#include "defines.h"
 #include "Component.h"
 
 #pragma warning (push)
@@ -13,7 +12,7 @@
 #define BASE_MACRO_NAME COMPONENT_BASE
 #pragma warning(pop)
 
-#include "MacroOverloadSelector.h"
+#include "Macros/MacroOverloadSelector.h"
 
 #define COMPONENT_FRIEND_CLASS         \
 friend class Editor::InspectorWindow;  \
@@ -39,14 +38,14 @@ public:																								\
 virtual unsigned GetUpdatePriority() const override {return updatePriority;}						\
 inline type() = default;																			\
 virtual ~type() = default;																			\
-virtual const char* GetComponentName() override { return stringify(type); }							\
+virtual const char* GetComponentName() override { return #type; }							\
 protected:																							\
 private:																							\
 struct AutoRegister {																				\
 	AutoRegister() {																				\
 		using namespace Eclipse;																	\
-		ComponentRegistry::Register(stringify(type), REGISTER_COMPONENT_CALLBACK(type));			\
-		ComponentRegistry::RegisterInspector(stringify(type), REGISTER_COMPONENT_CALLBACK_NORMAL(type));		\
+		ComponentRegistry::Register(#type, REGISTER_COMPONENT_CALLBACK(type));			\
+		ComponentRegistry::RegisterInspector(#type, REGISTER_COMPONENT_CALLBACK_NORMAL(type));		\
 	}																								\
 };																									\
 public: \
@@ -61,7 +60,7 @@ public:																		\
     inline type() = default;										\
 virtual ~type() = default;													\
 protected:																	\
-virtual const char* GetComponentName() override { return stringify(type); }	\
+virtual const char* GetComponentName() override { return #type; }	\
 private:
 
 

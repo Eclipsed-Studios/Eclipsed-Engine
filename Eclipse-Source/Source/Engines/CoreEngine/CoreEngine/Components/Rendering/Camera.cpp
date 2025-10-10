@@ -6,8 +6,6 @@
 
 #include "Components/Transform2D.h"
 
-#include "Timer.h"
-
 #include "Input/InputMapper.h"
 #include "Input/Input.h"
 

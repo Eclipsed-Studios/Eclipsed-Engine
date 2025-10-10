@@ -10,8 +10,6 @@
 #include "Components/Rendering/SpriteSheetAnimator.h"
 #include "Components/Transform2D.h"
 
-#include "Timer.h"
-
 namespace Eclipse
 {
 	void Player::Awake()

@@ -5,11 +5,7 @@
 #include "AssetManagement/Resources/Shaders/Shader.h"
 #include "Sprite.h"
 
-#include "TemporarySettingsSingleton.h"
-
 #include "AssetManagement/Resources/Texture.h"
-
-#include "Debug/DebugInformationCollector.h"
 
 #include "OpenGL/OpenGLGraphicsAPI.h"
 #include "RenderCommands/CommandList.h"

@@ -5,8 +5,6 @@
 #include "Math/Vector/Vector2.h"
 #include "glad/glad.h"
 
-#include "TemporarySettingsSingleton.h"
-
 #include "RenderCommands/CommandList.h"
 
 static const char* vtxShaderSource =

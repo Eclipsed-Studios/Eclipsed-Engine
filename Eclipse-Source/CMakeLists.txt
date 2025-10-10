@@ -49,9 +49,9 @@ foreach(target Editor Launcher CoreEngine GraphicsEngine PhysicsEngine Game Util
     )
 
     if (MSVC)
-        target_compile_options(${target} PRIVATE /FI ${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/ForceInclude.h)
+        target_compile_options(${target} PRIVATE /FI ${CMAKE_SOURCE_DIR}/Source/Utilities/pch.h)
     else()
-        target_compile_options(${target} PRIVATE -include ${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/ForceInclude.h)
+        target_compile_options(${target} PRIVATE -include ${CMAKE_SOURCE_DIR}/Source/Utilities/pch.h)
     endif()
 endforeach()
 

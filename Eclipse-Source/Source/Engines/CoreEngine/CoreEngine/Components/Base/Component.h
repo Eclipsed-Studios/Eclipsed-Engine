@@ -4,7 +4,6 @@
 #include "Interfaces/Serializable.h"
 #include <string>
 
-#include "defines.h"
 #include "Reflection/Registry/ComponentRegistry.h"
 
 #include "Reflection/Reflection.h"

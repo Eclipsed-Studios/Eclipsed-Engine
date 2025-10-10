@@ -8,8 +8,6 @@
 
 #include "ECS/ComponentManager.h"
 
-#include "TemporarySettingsSingleton.h"
-
 #include "Components/Rendering/SpriteRenderer2D.h"
 #include "AssetManagement/Resources/Texture.h"
 
