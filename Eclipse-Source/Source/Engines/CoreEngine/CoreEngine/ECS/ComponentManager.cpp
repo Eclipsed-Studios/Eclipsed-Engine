@@ -35,7 +35,7 @@ namespace Eclipse
 
 	void ComponentManager::Clear()
 	{
-		for(auto& component : myComponents)
+		for (auto& component : myComponents)
 			component->OnDestroy();
 
 		myComponents.clear();
@@ -154,56 +154,57 @@ namespace Eclipse
 			componentsToRemove.emplace_back(componentAtGO.second);
 		}
 
-int sizeOfComponents = myComponents.size();
-int sizeOfComponentsRemove = componentsToRemove.size();
-int sizeAfterRemoval = (sizeOfComponents - sizeOfComponentsRemove);
+		int sizeOfComponents = myComponents.size();
+		int sizeOfComponentsRemove = componentsToRemove.size();
+		int sizeAfterRemoval = (sizeOfComponents - sizeOfComponentsRemove);
 
-std::vector<bool> used(sizeOfComponents, false);
+		std::vector<bool> used(sizeOfComponents, false);
 
-for (int i = 0; i < sizeOfComponentsRemove; i++)
-{
-	int componentIndex = componentsToRemove[i];
-	int replaceIndex = sizeOfComponents - 1 - i;
-
-	// if (sizeOfComponents - 1 - i) == to any of componentsToRemove then go back until that is not true anymore
-	bool found;
-	do
-	{
-		found = false;
-		for (int j = 0; j < sizeOfComponentsRemove; j++)
+		for (int i = 0; i < sizeOfComponentsRemove; i++)
 		{
-			if (replaceIndex == componentsToRemove[j] || used[replaceIndex])
+			int componentIndex = componentsToRemove[i];
+			int replaceIndex = sizeOfComponents - 1 - i;
+
+			// if (sizeOfComponents - 1 - i) == to any of componentsToRemove then go back until that is not true anymore
+			bool found;
+			do
 			{
-				replaceIndex--; // go back
-				found = true;
-				break;
+				found = false;
+				for (int j = 0; j < sizeOfComponentsRemove; j++)
+				{
+					if (replaceIndex == componentsToRemove[j] || used[replaceIndex])
+					{
+						replaceIndex--;
+						found = true;
+						break;
+					}
+				}
+			} while (found && replaceIndex >= 0);
+
+			if (replaceIndex < 0)
+				continue;
+
+			used[replaceIndex] = true;
+
+			if (componentIndex > sizeAfterRemoval)
+			{
+				myComponents.insert(myComponents.begin() + sizeAfterRemoval, myComponents[replaceIndex]);
+				sizeAfterRemoval++;
+			}
+			else
+			{
+				myComponents[componentIndex] = myComponents[replaceIndex];
 			}
 		}
-	} while (found && replaceIndex >= 0);
 
-	// if we didn’t find a valid replace index, skip this removal entirely
-	if (replaceIndex < 0)
-		continue;
+		myComponents.resize(sizeAfterRemoval);
 
-	// mark as used so we don’t reuse it again later
-	used[replaceIndex] = true;
+		SortComponents();
 
-	if (componentIndex > sizeAfterRemoval)
-	{
-		myComponents.insert(myComponents.begin() + sizeAfterRemoval, myComponents[replaceIndex]);
-		sizeAfterRemoval++;
-	}
-	else
-	{
-		myComponents[componentIndex] = myComponents[replaceIndex];
-	}
-}
+		delete myEntityIdToEntity.at(aGOID);
+		myEntityIdToEntity.erase(aGOID);
 
-myComponents.resize(sizeAfterRemoval);
-
-SortComponents();
-
-int i = 0;
+		int i = 0;
 
 	}
 
