@@ -8,9 +8,9 @@
 #include "rapidjson/rapidjson/filewritestream.h"
 #include <fstream>
 
-#include "Windows/Window.h"
+#include "Editor/Windows/WindowTypes/Window.h"
 
-#include "ImGui/ImGui_Impl.h"
+#include "Editor/ImGui/ImGui_Impl.h"
 
 namespace Eclipse::Editor
 {

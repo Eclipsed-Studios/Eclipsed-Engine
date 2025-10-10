@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Window.h"
-#include "WindowBase.h"
+#include "Editor/Windows/WindowBase.h"
+
 
 #include "RenderingWindow.h"
 #include "Math/Vector/Vector2.h"

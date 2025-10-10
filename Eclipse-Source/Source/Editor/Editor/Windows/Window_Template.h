@@ -8,7 +8,8 @@ namespace Eclipse::Editor
 {
 	class TemplateWindow final : public AbstractWindow
 	{
-		BASE_SELECTION(TemplateWindow, "TemplateWindow");
+		// UnComment this
+		//BASE_SELECTION(TemplateWindow, "TemplateWindow");
 
 	public:
 		void Open() override {};

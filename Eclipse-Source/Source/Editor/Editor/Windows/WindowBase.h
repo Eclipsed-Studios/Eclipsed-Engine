@@ -1,7 +1,8 @@
 #ifndef _WINDOW_BASE_H
 #define _WINDOW_BASE_H
 
-#include "Window.h"	
+#include "WindowTypes/Window.h"	
+#include "Editor/Windows/WindowRegistry.h"
 
 /**
 * @brief BASE_SELECTION will do different things depending on the amount of arguments passed.

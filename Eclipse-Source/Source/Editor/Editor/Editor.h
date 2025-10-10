@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef _EDITOR
-#include "WindowManager.h"
+#include "Windows/WindowManager.h"
 
 #include "ErrorCodes.h"
 
