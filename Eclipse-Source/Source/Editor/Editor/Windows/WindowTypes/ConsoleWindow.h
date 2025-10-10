@@ -1,6 +1,7 @@
 #pragma once
 
-#include "WindowBase.h"
+#include "Editor/Windows/WindowBase.h"
+
 
 namespace Eclipse
 {

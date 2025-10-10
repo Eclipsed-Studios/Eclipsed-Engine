@@ -1,7 +1,7 @@
 #ifdef _EDITOR
 #pragma once
 
-#include "WindowBase.h"
+#include "Editor/Windows/WindowBase.h"
 #include "RenderingWindow.h"
 
 #include "Math/Vector/Vector2.h"

@@ -10,6 +10,7 @@ namespace Eclipse::Utilities
 		FileInfo info;
 		std::vector<std::unique_ptr<FileNode>> children;
 		bool isDirectory = false;
+		bool isOpen = false;
 	};
 
 	class DirectoryTree final

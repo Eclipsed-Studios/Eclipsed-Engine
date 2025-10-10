@@ -1,6 +1,6 @@
 #include "WindowRegistry.h"
 
-#include "Editor/Windows/Window.h"
+#include "Editor/Windows/WindowTypes/Window.h"
 
 namespace Eclipse::Editor
 {

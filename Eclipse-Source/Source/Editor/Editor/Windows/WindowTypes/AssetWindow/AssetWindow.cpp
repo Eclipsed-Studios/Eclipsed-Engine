@@ -1,7 +1,7 @@
 #ifdef _EDITOR
 
 #include "AssetWindow.h"
-#include "Editor/TextureIconManager.h"
+#include "Editor/Common/TextureIconManager.h"
 
 #include "Scenes/SceneManager.h"
 
@@ -10,11 +10,13 @@ namespace Eclipse::Editor
 	void AssetWindow::Open()
 	{
 		dirTree = Utilities::DirectoryTree(ASSET_PATH);
-		ActiveNode = dirTree.GetRoot();
+		Active_View_Node = dirTree.GetRoot();
 	}
 
 	void AssetWindow::Update()
 	{
+		DrawAssetHierachy();
+		ImGui::SameLine();
 		DrawAssetView();
 
 		ctxMenu.Draw();
@@ -43,7 +45,48 @@ namespace Eclipse::Editor
 
 #pragma region -- ASSET TREE VIEW
 
+	void AssetWindow::DrawAssetHierachy()
+	{
+		ImGui::BeginChild("FolderStructure", ImVec2(folderStructureWidth, ImGui::GetContentRegionAvail().y), true);
 
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+
+		static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_DrawLinesFull | ImGuiTreeNodeFlags_DrawLinesToNodes | ImGuiTreeNodeFlags_DefaultOpen;
+		if (ImGui::TreeNodeEx(ICON_FA_FOLDER " Assets", base_flags))
+		{
+			Utilities::FileNode* startNode = dirTree.GetNode(ASSET_PATH);
+
+			DrawAssetHierachyEntry(startNode);
+			ImGui::TreePop();
+		}
+
+		ImGui::PopStyleColor();
+
+		ImGui::EndChild();
+	}
+
+	void AssetWindow::DrawAssetHierachyEntry(Utilities::FileNode* node)
+	{
+		namespace fs = std::filesystem;
+
+		static ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_DrawLinesFull | ImGuiTreeNodeFlags_DrawLinesToNodes;
+
+		for (std::unique_ptr<Utilities::FileNode>& child : node->children)
+		{
+			std::string name = child->info.filePath.filename().string();
+			std::string icon = child->info.GetIcon();
+
+			if (child->isDirectory && ImGui::TreeNodeEx((ICON_FA_FOLDER " " + name).c_str(), node_flags))
+			{
+				DrawAssetHierachyEntry(child.get());
+				ImGui::TreePop();
+			}
+			else if (!child->isDirectory && ImGui::Button((icon + " " + name).c_str()))
+			{
+				Active_Hierarchy_Node = dirTree.GetNode(child->info.filePath);
+			}
+		}
+	}
 
 #pragma endregion
 
@@ -58,7 +101,7 @@ namespace Eclipse::Editor
 		namespace fs = std::filesystem;
 
 		std::string pathCombiner = ASSET_PATH;
-		fs::path p = std::string("Assets/") + ActiveNode->info.relativeFilePath.string();
+		fs::path p = std::string("Assets/") + Active_View_Node->info.relativeFilePath.string();
 		for (auto& path : p)
 		{
 			if (path.empty()) return;
@@ -81,7 +124,7 @@ namespace Eclipse::Editor
 			if (ImGui::Button(path.string().c_str()))
 			{
 				fs::path wantedPath(pathCombiner);
-				ActiveNode = dirTree.GetNode(wantedPath);
+				Active_View_Node = dirTree.GetNode(wantedPath);
 			}
 		}
 	}
@@ -99,11 +142,15 @@ namespace Eclipse::Editor
 
 		ImGui::Separator();
 
-		for (std::unique_ptr<Utilities::FileNode>& node : ActiveNode->children)
+		ImGui::Indent(10.f);
+
+		for (std::unique_ptr<Utilities::FileNode>& node : Active_View_Node->children)
 		{
 			CheckAssetViewEntryClicked(node.get());
 			entryIndex++;
 		}
+
+		ImGui::Unindent(10.f);
 
 		ImGui::PopStyleColor(3);
 		ImGui::EndChild();
@@ -120,7 +167,7 @@ namespace Eclipse::Editor
 
 	void AssetWindow::DrawAssetViewEntry(const Utilities::FileNode* node)
 	{
-		float customWidth = ImGui::GetWindowWidth() - folderStructureWidth + scrollBarWidth;
+		float customWidth = ImGui::GetWindowWidth() + scrollBarWidth;
 
 		const float width = customWidth + ImGui::GetWindowPos().x - scrollBarWidth * 2;
 		const float buttonSize = 100.0f * myButtonSizeMultiplier;
@@ -135,12 +182,8 @@ namespace Eclipse::Editor
 
 		ImVec2 buttonSizeVec(buttonSize, buttonSize);
 
-		ImColor col(200, 200, 200, 255);
-		if (!ActivePath.empty() && entryIndex == ActiveEntryIndex)
-		{
-			col = ImColor(150, 150, 255, 255);
-		}
-
+		ImColor col(1.f, 1.f, 1.f, 1.f);
+		if (!ActivePath.empty() && entryIndex == ActiveEntryIndex) col = ImColor(1.00f, 0.75f, 0.30f, 1.00f);
 
 		ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
 		ImGui::PushStyleColor(ImGuiCol_Text, col.Value);
@@ -208,6 +251,18 @@ namespace Eclipse::Editor
 
 		ImVec2 min = ImGui::GetItemRectMin();
 		ImVec2 max = ImGui::GetItemRectMax();
+		if (entryIndex == ActiveEntryIndex)
+		{
+			ImGui::GetWindowDrawList()->AddRect(min, max, ImColor(1.00f, 0.75f, 0.30f, 1.00f), 6.f);
+			ImGui::GetWindowDrawList()->AddRectFilled(min, max, ImColor(1.00f, 0.75f, 0.30f, 0.2f), 6.f);
+		}
+
+		if (ImGui::IsItemHovered())
+		{
+			ImGui::GetWindowDrawList()->AddRect(min, max, ImColor(0.95f, 0.60f, 0.20f, 0.85f), 6.f);
+			ImGui::GetWindowDrawList()->AddRectFilled(min, max, ImColor(0.95f, 0.60f, 0.20f, 0.2f), 6.f);
+		}
+
 		ImVec2 center = ImVec2((min.x + max.x) * 0.5f, (min.y + max.y) * 0.5f);
 
 		ImGui::PushFont(Editor::EditorContext::fontTiny);
@@ -217,7 +272,7 @@ namespace Eclipse::Editor
 			Editor::EditorContext::fontTiny,
 			0.0f,
 			ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 6),
-			IM_COL32(255, 255, 255, 255),
+			col,
 			label.c_str()
 		);
 
@@ -253,7 +308,7 @@ namespace Eclipse::Editor
 		if (node->isDirectory)
 		{
 			ActivePath = node->info.filePath;
-			ActiveNode = dirTree.GetNode(node->info.filePath);
+			Active_View_Node = dirTree.GetNode(node->info.filePath);
 		}
 		else
 		{

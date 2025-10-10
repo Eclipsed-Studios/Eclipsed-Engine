@@ -24,7 +24,7 @@
 #include "AssetManagement/MetaFileRegistry.h"
 #include "AssetManagement/AssetExporter.h"
 
-#include "TextureIconManager.h"
+#include "Editor/Common/TextureIconManager.h"
 
 #include "Files/FileWatcher.h"
 #include "Scenes/SceneManager.h"

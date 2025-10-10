@@ -1,10 +1,10 @@
 #ifdef _EDITOR
 #pragma once
 
-#include "WindowBase.h"
+#include "Editor/Windows/WindowBase.h"
 
 #include "Files/DirectoryTree.h"
-#include "Editor/ContextMenus/AssetWindowContextMenu.h"
+#include "Editor/Windows/WindowTypes/AssetWindow/AssetWindowContextMenu.h"
 
 namespace Eclipse::Editor
 {
@@ -20,6 +20,9 @@ namespace Eclipse::Editor
 	private:
 
 		void DrawAssetView();
+		void DrawAssetHierachy();
+		void DrawAssetHierachyEntry(Utilities::FileNode* node);
+
 
 		void OpenFile(const Utilities::FileInfo& fifo);
 
@@ -33,7 +36,7 @@ namespace Eclipse::Editor
 		void CheckAssetViewEntryClicked(const Utilities::FileNode* parent);
 
 	private:
-		static inline float folderStructureWidth = 200.f;
+		static inline float folderStructureWidth = 215.f;
 		static inline float scrollBarWidth = 15.f;
 
 		float myButtonSizeMultiplier = 1.f;
@@ -43,7 +46,8 @@ namespace Eclipse::Editor
 	private:
 		Utilities::DirectoryTree dirTree;
 
-		Utilities::FileNode* ActiveNode;
+		Utilities::FileNode* Active_View_Node;
+		Utilities::FileNode* Active_Hierarchy_Node;
 
 		AssetWindowContextMenu ctxMenu{};
 

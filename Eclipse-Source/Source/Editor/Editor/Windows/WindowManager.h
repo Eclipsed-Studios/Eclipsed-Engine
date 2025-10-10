@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 #include "WindowRegistry.h"
-#include "Windows/DebugWindow.h"
+#include "WindowTypes/DebugWindow.h"
 
 namespace Eclipse::Editor
 {

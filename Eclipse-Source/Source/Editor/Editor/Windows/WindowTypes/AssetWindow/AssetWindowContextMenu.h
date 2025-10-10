@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractContextMenu.h"
+#include "Editor/Windows/AbstractContextMenu.h"
 
 namespace Eclipse::Editor 
 {

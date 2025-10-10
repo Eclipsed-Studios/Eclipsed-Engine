@@ -8,23 +8,23 @@
 #include "Editor/ImGui/imgui_impl.h"
 
 // ------------- Window Includes ------------------
-#include "Editor/Windows/AssetWindow.h"
-#include "Editor/Windows/SceneWindow.h"
-#include "Editor/Windows/GameWindow.h"
-#include "Editor/Windows/ConsoleWindow.h"
-#include "Editor/Windows/DebugWindow.h"
-#include "Editor/Windows/HierarchyWindow.h"
-#include "Editor/Windows/InputEditorWindow.h"
-#include "Editor/Windows/InspectorWindow.h"
-#include "Editor/Windows/SettingsWindow.h"
+#include "Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
+#include "Editor/Windows/WindowTypes/SceneWindow.h"
+#include "Editor/Windows/WindowTypes/GameWindow.h"
+#include "Editor/Windows/WindowTypes/ConsoleWindow.h"
+#include "Editor/Windows/WindowTypes/DebugWindow.h"
+#include "Editor/Windows/WindowTypes/HierarchyWindow.h"
+#include "Editor/Windows/WindowTypes/InputEditorWindow.h"
+#include "Editor/Windows/WindowTypes/InspectorWindow.h"
+#include "Editor/Windows/WindowTypes/SettingsWindow.h"
 
 // ------------- Window Base Includes ------------------
-#include "Editor/WindowManager.h"
-#include "Editor/WindowRegistry.h"
+#include "Editor/Windows/WindowManager.h"
+#include "Editor/Windows/WindowRegistry.h"
 
-#include "Editor/Windows/Window.h"
+#include "Editor/Windows/WindowTypes/Window.h"
 #include "Editor/Windows/Window_Template.h"
 
 // ------------- Editor Includes ------------------
-#include "Editor/DragAndDrop.h"
+#include "Editor/Common/DragAndDrop.h"
 #include "Editor/Editor.h"

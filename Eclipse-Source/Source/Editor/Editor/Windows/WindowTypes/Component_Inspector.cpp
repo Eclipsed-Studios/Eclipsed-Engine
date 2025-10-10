@@ -1,6 +1,6 @@
 #include "InspectorWindow.h"
 
-#include "Editor/DragAndDrop.h"
+#include "Editor/Common/DragAndDrop.h"
 
 #include "Components/AudioSource.h"
 #include "Components/Rendering/SpriteRenderer2D.h"
