@@ -38,7 +38,7 @@ namespace Eclipse::Editor
 				do
 				{
 					std::wstring fileName(info->FileName, info->FileNameLength / sizeof(WCHAR));
-					std::string pathString(fileName.begin(), fileName.end());
+					std::string pathString(std::filesystem::path(fileName).string());
 					pathString.insert(0, ASSET_PATH);
 
 					aDir.events.push_back({ pathString, (int)info->Action });

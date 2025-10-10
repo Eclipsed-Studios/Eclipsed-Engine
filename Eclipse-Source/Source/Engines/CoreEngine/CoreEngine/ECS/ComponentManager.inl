@@ -41,7 +41,10 @@ namespace Eclipse
     {
         uint8_t* base = static_cast<uint8_t*>(myComponentData);
         uint8_t* ptrToComponent = base + myComponentMemoryTracker;
-        myComponentMemoryTracker += sizeof(T);
+        size_t sizeOfNewComponent = sizeof(T);
+        myComponentMemoryTracker += sizeOfNewComponent;
+
+        assert(myComponentMemoryTracker <= MAX_COMPONENT_MEMORY_BYTES && "MAX_COMPONENT_MEMORY_BYTES needs to be increased to add more components");
 
         RegisteredTypeIndex typeIndex = GetComponentID<T>();
 

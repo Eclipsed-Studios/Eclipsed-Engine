@@ -65,7 +65,7 @@ namespace Eclipse
 		Time::Init();
 		Input::Init();
 		ComponentManager::Init();
-		AudioManager::Init();
+		//AudioManager::Init();
 
 		SceneManager::LoadSceneData();
 
@@ -95,7 +95,7 @@ namespace Eclipse
 		if (Game::IsPlaying && !Game::IsPaused)
 		{
 #endif
-			AudioManager::Update();
+			//AudioManager::Update();
 			PhysicsEngine::Update();
 
 			ComponentManager::AwakeStartComponents();

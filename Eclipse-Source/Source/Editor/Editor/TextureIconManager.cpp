@@ -278,7 +278,7 @@ namespace Eclipse::Editor
 	{
 		size_t id = std::hash<std::string>{}(fileInfo.relativeFilePath.generic_string());
 
-		if (loadedIcons.find(id) == loadedIcons.end()) return{};
+		if (loadedIcons.find(id) == loadedIcons.end()) return emptyInternalIconData;
 
 
 		return loadedIcons[id];

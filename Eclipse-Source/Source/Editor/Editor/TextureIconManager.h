@@ -36,5 +36,8 @@ namespace Eclipse::Editor
 
 		static inline const char* IconBundleFilePath = ENGINE_ASSETS_PATH "Icons.bundle";
 		static inline std::unordered_map<size_t, IconData> loadedIcons;
+
+	private:
+		static inline IconData emptyInternalIconData = {};
 	};
 }
