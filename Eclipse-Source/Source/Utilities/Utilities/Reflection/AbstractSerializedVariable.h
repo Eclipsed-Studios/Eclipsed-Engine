@@ -11,6 +11,8 @@ namespace Eclipse::Reflection
 
 	public:
 
+		virtual ~AbstractSerializedVariable();
+
 #ifdef _EDITOR
 		AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector);
 		virtual void DrawInspector() = 0;

@@ -4,6 +4,11 @@
 
 namespace Eclipse::Reflection
 {
+	AbstractSerializedVariable::~AbstractSerializedVariable()
+	{
+		ReflectionManager::UnregisterVariable(this);
+	}
+
 #ifdef _EDITOR
 	AbstractSerializedVariable::AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
 		: name(aName), pComponent(aCompPtr), canDrawInspector(drawInspector)
