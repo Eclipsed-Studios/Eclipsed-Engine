@@ -16,14 +16,14 @@ namespace Eclipse
 			ActiveSceneName = std::filesystem::path(nameOrPath).filename().stem().string();
 		}
 
-		SceneLoader::Load((SOURCE_PATH + scenePaths[nameToIdx[ActiveSceneName]]).c_str());
+		SceneLoader::Load((ASSET_PATH + scenePaths[nameToIdx[ActiveSceneName]]).c_str());
 	}
 
 	void SceneManager::LoadScene(unsigned idx)
 	{
 		if (scenePaths.empty()) return;
 
-		SceneLoader::Load((SOURCE_PATH + scenePaths[idx]).c_str());
+		SceneLoader::Load((ASSET_PATH + scenePaths[idx]).c_str());
 
 		ActiveSceneName = std::filesystem::path(scenePaths[idx]).filename().stem().string();
 	}

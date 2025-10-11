@@ -150,6 +150,8 @@ namespace Eclipse
 		Document d;
 		d.Parse(jsonString.c_str());
 
+		if (!d.HasMember("GameObjects")) return;
+
 		const Value& objs = d["GameObjects"];
 		{
 			for (const Value& obj : objs.GetArray())
