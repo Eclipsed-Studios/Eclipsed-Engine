@@ -4,7 +4,7 @@
 
 namespace Eclipse
 {
-    void Sprite::Init()
+    Sprite::Sprite()
     {
         glGenVertexArrays(1, &mySpriteBuffer);
         glBindVertexArray(mySpriteBuffer);

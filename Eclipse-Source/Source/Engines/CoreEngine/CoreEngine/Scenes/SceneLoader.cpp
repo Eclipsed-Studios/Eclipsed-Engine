@@ -15,6 +15,8 @@
 
 #include "Components/Base/Component.h"
 
+#include "RenderCommands/CommandList.h"
+
 namespace Eclipse
 {
 	void SceneLoader::Save(const char* aPath)
@@ -130,6 +132,8 @@ namespace Eclipse
 	void SceneLoader::Load(const char* aPath)
 	{
 		using namespace rapidjson;
+
+		CommandListManager::ResetAllCommandLists();
 
 		ComponentManager::Clear();
 		Reflection::ReflectionManager::ClearList();

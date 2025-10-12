@@ -5,11 +5,16 @@ namespace Eclipse
     class Sprite
     {
     public:
-        Sprite() = default;
+        Sprite();
         ~Sprite() = default;
 
         void Render();
-        void Init();
+
+        static Sprite& Get()
+        {
+            static Sprite instance;
+            return instance;
+        }
 
     private:
         

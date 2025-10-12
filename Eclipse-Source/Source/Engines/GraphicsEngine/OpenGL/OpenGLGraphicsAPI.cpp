@@ -1,5 +1,7 @@
 #include "OpenGLGraphicsAPI.h"
 
+#include "TextManager.h"
+
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
@@ -22,8 +24,6 @@
 
 namespace Eclipse
 {
-
-
     static std::vector<std::function<void()>> resolutionChangeCallbackFunctions;
 
     void SetWindowDimenstion()
@@ -58,7 +58,6 @@ namespace Eclipse
         fprintf(stderr, "Error: %s\n", description);
     }
 
-    // Window creation
     ErrorCode GraphicsEngine::CreateWindow()
     {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
@@ -73,8 +72,6 @@ namespace Eclipse
 
         if (!myWindow)
             return ErrorCode::GLFW_WINDOW_FAILED_TO_CREATE;
-
-        // Set context to current context
 
         glfwMakeContextCurrent(myWindow);
 
@@ -127,6 +124,7 @@ namespace Eclipse
         ErrorCode errorCode = InitOpenGL();
         EnableOpenGLSettings();
         DebugDrawer::Get().Init();
+        TextManager::Get().Init();
 
         myClearColor.r = 0.4314f;
         myClearColor.g = 0.1804f;
