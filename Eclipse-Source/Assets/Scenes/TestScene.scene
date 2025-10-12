@@ -1,6 +1,27 @@
 {
     "Transform2D": [
         {
+            "owner": 42,
+            "id": 378,
+            "position": "hF3mP5zEIL8=",
+            "rotation": "AAAAAA==",
+            "scale": "AADwQQAA8EE="
+        },
+        {
+            "owner": 12,
+            "id": 193,
+            "position": "KJUZQJzEIL8=",
+            "rotation": "AAAAAA==",
+            "scale": "AADwQQAA8EE="
+        },
+        {
+            "owner": 1,
+            "id": 1,
+            "position": "/YMJva83xD0=",
+            "rotation": "AAAAAA==",
+            "scale": "AAAgQQAAIEE="
+        },
+        {
             "owner": 58,
             "id": 458,
             "position": "hF3mP5zEIL8=",
@@ -15,25 +36,18 @@
             "scale": "AACAPwAAgD8="
         },
         {
-            "owner": 12,
-            "id": 193,
-            "position": "KJUZQJzEIL8=",
+            "owner": 2,
+            "id": 8,
+            "position": "mpkZv6JFVr8=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         },
         {
-            "owner": 42,
-            "id": 378,
-            "position": "hF3mP5zEIL8=",
+            "owner": 35,
+            "id": 343,
+            "position": "mpmZP8dLN78=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
-        },
-        {
-            "owner": 1,
-            "id": 1,
-            "position": "/YMJva83xD0=",
-            "rotation": "AAAAAA==",
-            "scale": "AAAgQQAAIEE="
         },
         {
             "owner": 5,
@@ -50,29 +64,15 @@
             "scale": "AADwQQAA8EE="
         },
         {
-            "owner": 35,
-            "id": 343,
+            "owner": 3,
+            "id": 11,
             "position": "mpmZP8dLN78=",
-            "rotation": "AAAAAA==",
-            "scale": "AADwQQAA8EE="
-        },
-        {
-            "owner": 2,
-            "id": 8,
-            "position": "mpkZv6JFVr8=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         },
         {
             "owner": 20,
             "id": 268,
-            "position": "mpmZP8dLN78=",
-            "rotation": "AAAAAA==",
-            "scale": "AADwQQAA8EE="
-        },
-        {
-            "owner": 3,
-            "id": 11,
             "position": "mpmZP8dLN78=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
@@ -92,23 +92,16 @@
             "scale": "AADwQQAA8EE="
         },
         {
-            "owner": 38,
-            "id": 358,
-            "position": "hF3mP5zEIL8=",
-            "rotation": "AAAAAA==",
-            "scale": "AADwQQAA8EE="
-        },
-        {
             "owner": 8,
             "id": 173,
-            "position": "mpmZv8dLN78=",
+            "position": "jO+Nv/f4WD8=",
             "rotation": "AAAAAA==",
             "scale": "AADwwQAA8EE="
         },
         {
-            "owner": 29,
-            "id": 313,
-            "position": "mpmZP8dLN78=",
+            "owner": 38,
+            "id": 358,
+            "position": "hF3mP5zEIL8=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         },
@@ -120,16 +113,16 @@
             "scale": "AADwQQAA8EE="
         },
         {
-            "owner": 10,
-            "id": 183,
-            "position": "DJ4ZwJzEIL8=",
+            "owner": 29,
+            "id": 313,
+            "position": "mpmZP8dLN78=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         },
         {
-            "owner": 55,
-            "id": 443,
-            "position": "hF3mP5zEIL8=",
+            "owner": 10,
+            "id": 183,
+            "position": "DJ4ZwJzEIL8=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         },
@@ -141,9 +134,9 @@
             "scale": "AADwQQAA8EE="
         },
         {
-            "owner": 33,
-            "id": 333,
-            "position": "mpmZP8dLN78=",
+            "owner": 55,
+            "id": 443,
+            "position": "hF3mP5zEIL8=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         },
@@ -155,6 +148,20 @@
             "scale": "AADwQQAA8EE="
         },
         {
+            "owner": 33,
+            "id": 333,
+            "position": "mpmZP8dLN78=",
+            "rotation": "AAAAAA==",
+            "scale": "AADwQQAA8EE="
+        },
+        {
+            "owner": 14,
+            "id": 238,
+            "position": "mpmZP8dLN78=",
+            "rotation": "AAAAAA==",
+            "scale": "AADwQQAA8EE="
+        },
+        {
             "owner": 41,
             "id": 373,
             "position": "hF3mP5zEIL8=",
@@ -162,8 +169,8 @@
             "scale": "AADwQQAA8EE="
         },
         {
-            "owner": 14,
-            "id": 238,
+            "owner": 15,
+            "id": 243,
             "position": "mpmZP8dLN78=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
@@ -176,8 +183,8 @@
             "scale": "AADwQQAA8EE="
         },
         {
-            "owner": 15,
-            "id": 243,
+            "owner": 16,
+            "id": 248,
             "position": "mpmZP8dLN78=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
@@ -190,8 +197,8 @@
             "scale": "AADwQQAA8EE="
         },
         {
-            "owner": 16,
-            "id": 248,
+            "owner": 17,
+            "id": 253,
             "position": "mpmZP8dLN78=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
@@ -200,13 +207,6 @@
             "owner": 54,
             "id": 438,
             "position": "hF3mP5zEIL8=",
-            "rotation": "AAAAAA==",
-            "scale": "AADwQQAA8EE="
-        },
-        {
-            "owner": 17,
-            "id": 253,
-            "position": "mpmZP8dLN78=",
             "rotation": "AAAAAA==",
             "scale": "AADwQQAA8EE="
         },
@@ -500,91 +500,6 @@
     ],
     "SpriteRenderer2D": [
         {
-            "owner": 3,
-            "id": 12,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 45,
-            "id": 395,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 41,
-            "id": 375,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 30,
-            "id": 320,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 4,
-            "id": 15,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 62,
-            "id": 480,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 8,
-            "id": 175,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 31,
-            "id": 325,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 11,
-            "id": 190,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 42,
-            "id": 380,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 6,
-            "id": 59,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 12,
-            "id": 195,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 18,
-            "id": 260,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 20,
-            "id": 270,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 28,
-            "id": 310,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 7,
-            "id": 170,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 27,
-            "id": 305,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
             "owner": 52,
             "id": 430,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
@@ -600,19 +515,24 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
         },
         {
+            "owner": 53,
+            "id": 435,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
             "owner": 9,
             "id": 180,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
-            "owner": 1,
-            "id": 2,
-            "myTexturePath": "Assets/Sprites/ScissorSprite/Scissors.png"
-        },
-        {
             "owner": 19,
             "id": 265,
             "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 1,
+            "id": 2,
+            "myTexturePath": "Assets/Sprites/ScissorSprite/Scissors.png"
         },
         {
             "owner": 56,
@@ -625,18 +545,8 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
-            "owner": 25,
-            "id": 295,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 34,
-            "id": 340,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 29,
-            "id": 315,
+            "owner": 33,
+            "id": 335,
             "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
         },
         {
@@ -650,13 +560,8 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
         },
         {
-            "owner": 17,
-            "id": 255,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 55,
-            "id": 445,
+            "owner": 70,
+            "id": 520,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
@@ -675,14 +580,94 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
-            "owner": 40,
-            "id": 370,
+            "owner": 41,
+            "id": 375,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 8,
+            "id": 175,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 62,
+            "id": 480,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 31,
+            "id": 325,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 11,
+            "id": 190,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 6,
+            "id": 59,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 42,
+            "id": 380,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 18,
+            "id": 260,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 12,
+            "id": 195,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 28,
+            "id": 310,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 27,
+            "id": 305,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 7,
+            "id": 170,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 63,
+            "id": 485,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 37,
+            "id": 355,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
         },
         {
             "owner": 10,
             "id": 185,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 40,
+            "id": 370,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 69,
+            "id": 515,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 20,
+            "id": 270,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
         },
         {
             "owner": 49,
@@ -695,13 +680,18 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
-            "owner": 33,
-            "id": 335,
+            "owner": 67,
+            "id": 505,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 25,
+            "id": 295,
             "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
         },
         {
-            "owner": 21,
-            "id": 275,
+            "owner": 34,
+            "id": 340,
             "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
         },
         {
@@ -715,8 +705,28 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
-            "owner": 46,
-            "id": 400,
+            "owner": 17,
+            "id": 255,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 55,
+            "id": 445,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 29,
+            "id": 315,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 3,
+            "id": 12,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 45,
+            "id": 395,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
@@ -740,44 +750,14 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
-            "owner": 36,
-            "id": 350,
+            "owner": 4,
+            "id": 15,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 30,
+            "id": 320,
             "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 24,
-            "id": 290,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 63,
-            "id": 485,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 37,
-            "id": 355,
-            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
-        },
-        {
-            "owner": 64,
-            "id": 490,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 13,
-            "id": 200,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 65,
-            "id": 495,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 57,
-            "id": 455,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
             "owner": 50,
@@ -800,13 +780,13 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
-            "owner": 67,
-            "id": 505,
+            "owner": 39,
+            "id": 365,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
-            "owner": 39,
-            "id": 365,
+            "owner": 46,
+            "id": 400,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
@@ -820,18 +800,13 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
+            "owner": 21,
+            "id": 275,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
             "owner": 60,
             "id": 470,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 69,
-            "id": 515,
-            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
-        },
-        {
-            "owner": 53,
-            "id": 435,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
@@ -840,8 +815,33 @@
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         },
         {
-            "owner": 70,
-            "id": 520,
+            "owner": 24,
+            "id": 290,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 64,
+            "id": 490,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 36,
+            "id": 350,
+            "myTexturePath": "Assets\\Sprites\\Environment\\012.png"
+        },
+        {
+            "owner": 13,
+            "id": 200,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 65,
+            "id": 495,
+            "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
+        },
+        {
+            "owner": 57,
+            "id": 455,
             "myTexturePath": "Assets\\Sprites\\Environment\\014.png"
         }
     ],
@@ -858,15 +858,6 @@
         {
             "owner": 5,
             "id": 18
-        }
-    ],
-    "CircleCollider2D": [
-        {
-            "owner": 1,
-            "id": 3,
-            "myLayer": "AgAAAA==",
-            "ColliderPivot": "AAAAAAAAAAA=",
-            "Radius": "fT8VPw=="
         }
     ],
     "PlayerCamera": [
@@ -888,16 +879,6 @@
             }
         },
         {
-            "owner": 20,
-            "id": 268,
-            "myLayer": "EAAAAA==",
-            "ColliderPivot": "AAAAAAAAAAA=",
-            "myPoints": {
-                "size": 4,
-                "data": "zczMveOlG73NzMy9WDk0vM3MzD38qXE9zczMPbx0Ez0="
-            }
-        },
-        {
             "owner": 36,
             "id": 348,
             "myLayer": "EAAAAA==",
@@ -908,8 +889,8 @@
             }
         },
         {
-            "owner": 21,
-            "id": 273,
+            "owner": 20,
+            "id": 268,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAAAAAAAA=",
             "myPoints": {
@@ -920,6 +901,16 @@
         {
             "owner": 37,
             "id": 353,
+            "myLayer": "EAAAAA==",
+            "ColliderPivot": "AAAAAAAAAAA=",
+            "myPoints": {
+                "size": 4,
+                "data": "zczMveOlG73NzMy9WDk0vM3MzD38qXE9zczMPbx0Ez0="
+            }
+        },
+        {
+            "owner": 21,
+            "id": 273,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAAAAAAAA=",
             "myPoints": {
@@ -1018,8 +1009,8 @@
             }
         },
         {
-            "owner": 15,
-            "id": 243,
+            "owner": 28,
+            "id": 308,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAAAAAAAA=",
             "myPoints": {
@@ -1028,8 +1019,8 @@
             }
         },
         {
-            "owner": 28,
-            "id": 308,
+            "owner": 15,
+            "id": 243,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAAAAAAAA=",
             "myPoints": {
@@ -1138,6 +1129,15 @@
             }
         }
     ],
+    "CircleCollider2D": [
+        {
+            "owner": 1,
+            "id": 3,
+            "myLayer": "AgAAAA==",
+            "ColliderPivot": "AAAAAAAAAAA=",
+            "Radius": "fT8VPw=="
+        }
+    ],
     "AudioSource": [
         {
             "owner": 1,
@@ -1150,6 +1150,13 @@
     ],
     "BoxCollider2D": [
         {
+            "owner": 4,
+            "id": 16,
+            "myLayer": "EAAAAA==",
+            "ColliderPivot": "AAAAADVeej8=",
+            "HalfExtents": "d75/P83MzD0="
+        },
+        {
             "owner": 67,
             "id": 503,
             "myLayer": "EAAAAA==",
@@ -1159,13 +1166,6 @@
         {
             "owner": 7,
             "id": 168,
-            "myLayer": "EAAAAA==",
-            "ColliderPivot": "AAAAADVeej8=",
-            "HalfExtents": "d75/P83MzD0="
-        },
-        {
-            "owner": 4,
-            "id": 16,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAADVeej8=",
             "HalfExtents": "d75/P83MzD0="
@@ -1213,15 +1213,15 @@
             "HalfExtents": "AACAP83MzD0="
         },
         {
-            "owner": 69,
-            "id": 513,
+            "owner": 40,
+            "id": 368,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAADVeej8=",
             "HalfExtents": "AACAP83MzD0="
         },
         {
-            "owner": 40,
-            "id": 368,
+            "owner": 69,
+            "id": 513,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAADVeej8=",
             "HalfExtents": "AACAP83MzD0="
@@ -1234,15 +1234,15 @@
             "HalfExtents": "AACAP83MzD0="
         },
         {
-            "owner": 12,
-            "id": 193,
+            "owner": 42,
+            "id": 378,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAADVeej8=",
             "HalfExtents": "AACAP83MzD0="
         },
         {
-            "owner": 42,
-            "id": 378,
+            "owner": 12,
+            "id": 193,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAADVeej8=",
             "HalfExtents": "AACAP83MzD0="
@@ -1262,15 +1262,15 @@
             "HalfExtents": "AACAP83MzD0="
         },
         {
-            "owner": 64,
-            "id": 488,
+            "owner": 10,
+            "id": 183,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAADVeej8=",
             "HalfExtents": "AACAP83MzD0="
         },
         {
-            "owner": 10,
-            "id": 183,
+            "owner": 64,
+            "id": 488,
             "myLayer": "EAAAAA==",
             "ColliderPivot": "AAAAADVeej8=",
             "HalfExtents": "AACAP83MzD0="

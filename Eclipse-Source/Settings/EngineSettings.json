@@ -13,14 +13,14 @@
     },
     "scenes": [
         {
-            "name": "SimonsScene",
-            "relativePath": "Assets\\Scenes\\SimonsScene.scene",
-            "idx": 1
+            "name": "TestScene",
+            "relativePath": "Scenes\\TestScene.scene",
+            "idx": 0
         },
         {
-            "name": "TestScene",
-            "relativePath": "Assets\\Scenes\\TestScene.scene",
-            "idx": 0
+            "name": "Map1",
+            "relativePath": "Scenes\\Map1.scene",
+            "idx": 1
         }
     ]
 }

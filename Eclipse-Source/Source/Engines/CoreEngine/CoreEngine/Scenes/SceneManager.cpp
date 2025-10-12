@@ -41,7 +41,7 @@ namespace Eclipse
 	{
 		if (ActiveSceneName.empty()) return;
 
-		SceneLoader::Save((SOURCE_PATH + scenePaths[nameToIdx[ActiveSceneName]]).c_str());
+		SceneLoader::Save((ASSET_PATH + scenePaths[nameToIdx[ActiveSceneName]]).c_str());
 	}
 
 	void SceneManager::AddScene(const std::string& aPath)
