@@ -58,34 +58,19 @@ namespace Eclipse
 			myMaterial = new Material();
 		}
 
-		if (mySprite == nullptr)
-		{
-			mySprite = new Sprite();
-			mySprite->Init();
-		}
-
 		hasTexture = true;
 		myMaterial->SetTexture(myTexturePath->c_str());
 	}
 
 	void SpriteRenderer2D::OnDestroy()
 	{
-		delete mySprite;
 		delete myMaterial;
 
 		myMaterial = nullptr;
-		mySprite = nullptr;
 	}
 
 	void SpriteRenderer2D::OnSceneLoaded()
 	{
-		if (mySprite == nullptr)
-		{
-			mySprite = new Sprite();
-		}
-
-		mySprite->Init();
-
 		if (myMaterial == nullptr)
 		{
 			myMaterial = new Material();
@@ -115,8 +100,6 @@ namespace Eclipse
 	void SpriteRenderer2D::Draw(unsigned aProgramID)
 	{
 		if (!myMaterial)
-			return;
-		if (!mySprite)
 			return;
 
 		Math::Vector2f position = gameObject->transform->GetPosition();
@@ -152,8 +135,6 @@ namespace Eclipse
 
 		GraphicsEngine::SetGlobalUniforms(shaderID);
 
-		GraphicsEngine::SetGlobalUniforms(shaderID);
-
-		mySprite->Render();
+		Sprite::Get().Render();
 	}
 }

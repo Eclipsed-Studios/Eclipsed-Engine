@@ -16,14 +16,15 @@ target_compile_definitions(GraphicsEngine PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DI
 
 # Include Directories
 target_include_directories(GraphicsEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(GraphicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
 target_include_directories(GraphicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
+target_include_directories(GraphicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
+target_include_directories(GraphicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
 
 target_link_libraries(GraphicsEngine PRIVATE OpenGL::GL)
 target_link_libraries(GraphicsEngine PRIVATE Opengl)
+target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Tools/Libs/FreeType/freetyped.lib")
 target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Tools/Libs/GLFW/nvml.lib")
 
-# Organize files in filters by folder
 foreach(source_file IN LISTS GRAPHICSENGINE_SOURCES)
     file(RELATIVE_PATH source_path "${CMAKE_CURRENT_SOURCE_DIR}" "${source_file}")
     get_filename_component(source_group "${source_path}" PATH)
