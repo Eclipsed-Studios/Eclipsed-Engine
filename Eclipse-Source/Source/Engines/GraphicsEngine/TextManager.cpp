@@ -72,6 +72,8 @@ namespace Eclipse
             font.myCharTexture.emplace(characterChar, character);
         }
 
+        font.maxCharHeight = (float)(face->max_advance_height >> 6) * 0.01f;
+
         std::stringstream fontKeyStream;
         fontKeyStream << aFontPath;
         fontKeyStream << fontSize;

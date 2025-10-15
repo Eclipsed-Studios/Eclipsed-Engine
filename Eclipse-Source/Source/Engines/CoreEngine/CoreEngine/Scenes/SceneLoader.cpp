@@ -39,9 +39,9 @@ namespace Eclipse
 			rapidjson::Value value(rapidjson::kObjectType);
 
 			value.AddMember("owner", pComp->gameObject->GetID(), alloc);
-			value.AddMember("id", pComp->myComponentID, alloc);
+			value.AddMember("id", pComp->myInstanceComponentID, alloc);
 
-			components[compName][pComp->myComponentID] = value;
+			components[compName][pComp->myInstanceComponentID] = value;
 		}
 
 
@@ -52,7 +52,7 @@ namespace Eclipse
 			{
 				std::string compName = var->GetComponent()->GetComponentName();
 				Component* pComp = var->GetComponent();
-				rapidjson::Value& val = components[compName][pComp->myComponentID];
+				rapidjson::Value& val = components[compName][pComp->myInstanceComponentID];
 
 				WriteMember(val, var, alloc);
 			}
@@ -208,7 +208,7 @@ namespace Eclipse
 
 			for (auto* var : varList)
 			{
-				if (pComp->myComponentID == id) LoadType(var, val);
+				if (pComp->myInstanceComponentID == id) LoadType(var, val);
 			}
 		}
 	}

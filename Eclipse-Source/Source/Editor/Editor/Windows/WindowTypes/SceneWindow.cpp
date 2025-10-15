@@ -90,7 +90,7 @@ namespace Eclipse
 
 				// Checking if it is transform if it is then dont create a new transform from it
 				unsigned transformID = ComponentManager::GetComponentID<Transform2D>();
-				if (ogComponent->myUniqueComponentID == transformID)
+				if (ogComponent->myComponentComponentID == transformID)
 					component = ComponentManager::GetComponent<Transform2D>(newGO->GetID());
 				else
 					component = ComponentRegistry::GetAddComponent(ogComponent->GetComponentName())(*newGO, Component::nextComponentID++);
@@ -368,7 +368,7 @@ namespace Eclipse
 				Math::Vector2f size = mySelectedObject->spriteRectMax - mySelectedObject->spriteRectMin;
 				float aspectScale = size.y / size.x;
 
-				DebugDrawer::DrawSquare(transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), transform->GetRotation(), transform->GetScale() * 0.01f * 0.5f * textureScale * Math::Vector2f(1.f, aspectScale), Math::Color(1.f, 0.4f, 0.7f, 1.f));
+				DebugDrawer::DrawSquare(transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f), transform->GetRotation(), transform->GetScale() * 0.005f * 0.5f * textureScale * Math::Vector2f(1.f, aspectScale), Math::Color(1.f, 0.4f, 0.7f, 1.f));
 
 				//GizmoManager(transform);
 

@@ -56,7 +56,7 @@ namespace Eclipse
         T* component = new(ptrToComponent)T();
         component->SetComponentID();
         component->gameObject = myEntityIdToEntity[aGOID];
-        component->myUniqueComponentID = typeIndex;
+        component->myComponentComponentID = typeIndex;
 
         component->OnComponentAdded();
 
@@ -93,7 +93,7 @@ namespace Eclipse
         T* component = new(ptrToComponent)T();
         component->SetComponentID(aComponentID);
         component->gameObject = myEntityIdToEntity[aGOID];
-        component->myUniqueComponentID = typeIndex;
+        component->myComponentComponentID = typeIndex;
 
         myComponentsToStart.emplace_back(component);
 

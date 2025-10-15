@@ -2,6 +2,8 @@
 
 uniform sampler2D TextTexture;
 
+uniform vec4 color;
+
 // Ins
 in vec2 outTexCoord;
 
@@ -10,7 +12,7 @@ out vec4 frag_colour;
 
 void main() 
 {
-   vec4 textureAlbedo = texture(TextTexture, outTexCoord);
+   float textureAlbedoR = texture(TextTexture, outTexCoord).r;
 
-   frag_colour = vec4(textureAlbedo.r, textureAlbedo.r, textureAlbedo.r, textureAlbedo.r);
+   frag_colour = vec4(color.r, color.g, color.b, textureAlbedoR * color.a);
 }

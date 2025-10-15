@@ -115,7 +115,7 @@ namespace Eclipse
 			Component* comp = myComponents[i];
 
 			auto& mapOfComponentsGO = myEntityIDToVectorOfComponentIDs[comp->gameObject->GetID()];
-			RegisteredTypeIndex index = comp->myUniqueComponentID;
+			RegisteredTypeIndex index = comp->myComponentComponentID;
 
 			mapOfComponentsGO[index] = static_cast<ComponentIndex>(i);
 		}

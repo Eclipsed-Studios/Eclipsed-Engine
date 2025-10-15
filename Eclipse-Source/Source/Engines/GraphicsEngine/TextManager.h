@@ -20,6 +20,7 @@ namespace Eclipse
     struct Font
     {
         std::unordered_map<char, Character> myCharTexture;
+        float maxCharHeight;
         unsigned size;
     };
 
@@ -42,9 +43,13 @@ namespace Eclipse
             std::string fontKey = fontKeyStream.str();
 
             if (myFontMap.find(fontKey) == myFontMap.end())
+            {
                 CreateFont(aFontPath, fontSize);
+                return myFontMap.at(fontKey);
+            }
+            else
+                return myFontMap.at(fontKey);
 
-            return myFontMap.at(fontKey);
         }
 
         static TextManager& Get()

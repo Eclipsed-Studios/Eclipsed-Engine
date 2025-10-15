@@ -43,10 +43,10 @@ namespace Eclipse
 		Component() = default;
 		virtual ~Component() = default;
 
-		void SetComponentID() { myComponentID = ++nextComponentID; }
+		void SetComponentID() { myInstanceComponentID = ++nextComponentID; }
 		void SetComponentID(unsigned compID)
 		{
-			myComponentID = compID;
+			myInstanceComponentID = compID;
 
 			if (nextComponentID <= compID)
 			{
@@ -96,11 +96,11 @@ namespace Eclipse
 		GameObject* gameObject;
 
 	protected:
-		unsigned myComponentID = 0;
+		unsigned myInstanceComponentID = 0;
 		unsigned myComponentIndex = 0;
 
 	private:
-		RegisteredTypeIndex myUniqueComponentID;
+		RegisteredTypeIndex myComponentComponentID;
 		static inline unsigned nextComponentID = 0;
 
 	protected:

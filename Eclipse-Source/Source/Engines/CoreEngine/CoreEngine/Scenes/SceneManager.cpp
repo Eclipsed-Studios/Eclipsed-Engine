@@ -76,6 +76,8 @@ namespace Eclipse
 		{
 			Value& val = d["scenes"].GetArray();
 
+			scenePaths.resize(val.Size());
+
 			for (SizeType i = 0; i < val.Size(); i++)
 			{
 				const Value& sceneObj = val[i];
@@ -87,7 +89,7 @@ namespace Eclipse
 				nameToIdx[name] = idx;
 
 				if (scenePaths.empty()) scenePaths.push_back(relativePath);
-				else scenePaths.insert(scenePaths.begin() + idx, relativePath);
+				else scenePaths[idx] = relativePath;
 			}
 		}
 	}
