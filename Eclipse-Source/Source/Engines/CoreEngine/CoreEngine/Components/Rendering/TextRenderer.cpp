@@ -303,11 +303,14 @@ namespace Eclipse
 
 	void TextRenderer::OnDrawGizmos()
 	{
-		const Math::Vector2f& position = gameObject->transform->GetPosition();
-		float rotation = gameObject->transform->GetRotation();
-		const Math::Vector2f& scale = gameObject->transform->GetScale() * myRect;
+		if (drawRectGizmos)
+		{
+			const Math::Vector2f& position = gameObject->transform->GetPosition();
+			float rotation = gameObject->transform->GetRotation();
+			const Math::Vector2f& scale = gameObject->transform->GetScale() * myRect;
 
-		DebugDrawer::DrawSquare(position * 0.5f + Math::Vector2f(0.5f, 0.5f), rotation, scale * 0.5f, Math::Color(0.7f, 0.7f, 0.7f, 1.f));
+			DebugDrawer::DrawSquare(position * 0.5f + Math::Vector2f(0.5f, 0.5f), rotation, scale * 0.5f, Math::Color(0.7f, 0.7f, 0.7f, 1.f));
+		}
 	}
 
 	void TextRenderer::Draw()
@@ -341,17 +344,17 @@ namespace Eclipse
 			char character = textInConstChar[i];
 			if (character == ' ')
 			{
-				lineOffsets.back() += scale.x * 0.5f;
+				lineOffsets.back() += scale.x * 0.5f * myCharacterSpacing;
 				continue;
 			}
 			else if (character == '\n')
 			{
-				lineOffsets.emplace_back(0);
+				lineOffsets.emplace_back(0.f);
 				continue;
 			}
 			Character& characterFace = font.myCharTexture.at(character);
 			float convertedAdvance = (float)(characterFace.advance >> 6) * 0.01f * scale.x;;
-			lineOffsets.back() += convertedAdvance * 0.5f * myTextAlignment;
+			lineOffsets.back() += convertedAdvance * 0.5f * myTextAlignment * myCharacterSpacing;
 		}
 
 		if (myTextAlignment == 0 || myTextAlignment == 3)
@@ -417,7 +420,7 @@ namespace Eclipse
 			if (myTextAlignment == 0)
 				lineOffset = 0;
 			else
-				lineOffset = lineOffsets[currentLineCount];
+				lineOffset = lineOffsets[currentLineCount] - scale.x * myCharacterSpacing;
 
 
 			Math::Vector2f characterSpecificOffset = textOffset;

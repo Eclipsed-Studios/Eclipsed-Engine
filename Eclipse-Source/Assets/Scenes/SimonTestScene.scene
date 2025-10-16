@@ -3,10 +3,10 @@
         {
             "owner": 1,
             "id": 1536,
-            "myText": "RPS GAME\nLove  IT OR DIE",
+            "myText": "RPS GAME",
             "myTextColor": "",
             "myFontPath": "../EngineAssets\\Fonts/ARIAL.ttf",
-            "myFontSize": "igIAAA==",
+            "myFontSize": "mgIAAA==",
             "myRect": "ZDsOQgIroEE=",
             "myCharacterSpacing": "AACAPw==",
             "myEnterSpacing": "AACAPw==",
@@ -16,18 +16,18 @@
     ],
     "Transform2D": [
         {
-            "owner": 1,
-            "id": 1535,
-            "position": "AAAAAAAAAAA=",
-            "rotation": "AAAAAA==",
-            "scale": "zcxMPc3MTD0="
-        },
-        {
             "owner": 2,
             "id": 1538,
             "position": "AAAAAAAAAAA=",
             "rotation": "AAAAAA==",
             "scale": "AACAPwAAgD8="
+        },
+        {
+            "owner": 1,
+            "id": 1535,
+            "position": "AAAAANej8D4=",
+            "rotation": "AAAAAA==",
+            "scale": "zcxMPc3MTD0="
         }
     ],
     "Camera": [

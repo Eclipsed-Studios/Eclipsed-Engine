@@ -21,5 +21,7 @@ namespace Eclipse
         static inline class Camera* main;
 
         bool created;
+
+        static inline bool drawCameraGizmos = true;
     };
 }

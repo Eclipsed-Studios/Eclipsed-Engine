@@ -1,4 +1,8 @@
 #include "RenderingWindow.h"
+
+#include "Components/Rendering/TextRenderer.h"
+#include "Components/Rendering/Camera.h"
+
 namespace Eclipse::Editor
 {
 	void BaseRenderingWindow::DrawGizmoPopup()
@@ -6,6 +10,11 @@ namespace Eclipse::Editor
 		ImGui::SetNextWindowSize(ImVec2(300, 400), ImGuiCond_Always);
 		if (ImGui::BeginPopup("GizmoPicker", NULL))
 		{
+			if (ImGui::CollapsingHeader("Rects"))
+			{
+				ImGui::Checkbox("Draw Text Renderer Rects##DrawTextRenderDebugLines", &TextRenderer::drawRectGizmos);
+				ImGui::Checkbox("Draw Camera Gizmos##DrawCameraGizmosDebugLines", &Camera::drawCameraGizmos);
+			}
 			if (ImGui::CollapsingHeader("Physics"))
 			{
 				ImGui::Indent(20.f);

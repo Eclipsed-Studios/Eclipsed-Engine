@@ -54,6 +54,8 @@ namespace Eclipse
 
         int myLastFontSize = 48;
 
+        static inline bool drawRectGizmos = false;
+
     private:
         class Font* myFont;
         TextMaterial* myMaterial;
