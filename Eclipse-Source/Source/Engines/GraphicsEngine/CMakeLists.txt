@@ -15,10 +15,10 @@ target_precompile_headers(GraphicsEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch
 target_compile_definitions(GraphicsEngine PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 
 # Include Directories
-target_include_directories(GraphicsEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(GraphicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
-target_include_directories(GraphicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
-target_include_directories(GraphicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
+target_include_directories(GraphicsEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
+target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
+target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
 
 target_link_libraries(GraphicsEngine PRIVATE OpenGL::GL)
 target_link_libraries(GraphicsEngine PRIVATE Opengl)

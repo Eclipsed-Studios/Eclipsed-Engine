@@ -10,12 +10,12 @@ file(GLOB_RECURSE UTILITIES_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
 )
 
-add_library(Utilities STATIC ${UTILITIES_SOURCES})
+add_library(Utilities STATIC ${UTILITIES_ROOT})
 
 target_precompile_headers(Utilities PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
-target_include_directories(Utilities PUBLIC "${UTILITIES_ROOT}")
-target_include_directories(Utilities PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
+target_include_directories(Utilities PRIVATE "${UTILITIES_ROOT}")
+target_include_directories(Utilities PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
 target_include_directories(Utilities PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/rapidjson)
 
 target_include_directories(Utilities PUBLIC ${DiscordSDK_SOURCES})
