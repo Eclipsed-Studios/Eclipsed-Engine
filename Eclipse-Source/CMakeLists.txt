@@ -10,12 +10,6 @@ set(CMAKE_UNITY_BUILD ON)
 
 project(Eclipsed-Engine LANGUAGES CXX)
 
-# ---- Utilities
-add_subdirectory(Source/Utilities)
-
-include_directories("${CMAKE_SOURCE_DIR}/Source/Utilities")
-link_libraries(Utilities)
-
 # ---- Externals
 add_subdirectory(Source/Externals/DiscordSDK)
 add_subdirectory(Source/Externals/fmod)
@@ -25,6 +19,12 @@ add_subdirectory(Source/Externals/OpenGL)
 add_subdirectory(Source/Externals/SDL3)
 add_subdirectory(Source/Externals/stb_image)
 add_subdirectory(Source/Externals/Font-Awesome)
+
+# ---- Utilities
+add_subdirectory(Source/Utilities)
+
+include_directories("${CMAKE_SOURCE_DIR}/Source/Utilities")
+link_libraries(Utilities)
 
 # ---- Engines
 add_subdirectory(Source/Engines/GraphicsEngine)
