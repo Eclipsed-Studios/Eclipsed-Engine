@@ -28,3 +28,16 @@ function(AddUnityTargetLIB TARGET_NAME)
 
     target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 endfunction()
+
+
+function(AddFilesToFolders SOURCES REL_PATH)
+    foreach(source_file IN LISTS SOURCES)
+        file(RELATIVE_PATH source_path "${REL_PATH}" "${source_file}")
+        get_filename_component(source_group "${source_path}" PATH)
+        if(NOT source_group STREQUAL "")
+            source_group("${source_group}" FILES "${source_file}")
+        else()
+            source_group("" FILES "${source_file}")
+        endif()
+    endforeach()
+endfunction()

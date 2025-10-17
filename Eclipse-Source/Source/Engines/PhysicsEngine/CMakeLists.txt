@@ -1,36 +1,30 @@
 cmake_minimum_required(VERSION 3.19.2)
 
-set(PHYSENGINE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 
-file(GLOB_RECURSE PHYSENGINE_SOURCES
-    "${PHYSENGINE_ROOT}/*.cpp"
-    "${PHYSENGINE_ROOT}/*.h"
-    "${PHYSENGINE_ROOT}/*.hpp"
-    "${PHYSENGINE_ROOT}/*.inl"
+set(PHYSICS_ENGINE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/PhysicsEngine")
+
+file(GLOB_RECURSE PHYSICS_ENGINE_SOURCES
+    "${PHYSICS_ENGINE_ROOT}/*.cpp"
+    "${PHYSICS_ENGINE_ROOT}/*.h"
+    "${PHYSICS_ENGINE_ROOT}/*.hpp"
+    "${PHYSICS_ENGINE_ROOT}/*.inl"
     "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
-)
+    )
+    
+add_library(PhysicsEngine STATIC ${PHYSICS_ENGINE_SOURCES})
+AddFilesToFolders("${PHYSICS_ENGINE_SOURCES}" "${PHYSICS_ENGINE_ROOT}")
 
-add_library(PhysicsEngine STATIC ${PHYSENGINE_SOURCES})
-
-target_precompile_headers(PhysicsEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
-
-target_include_directories(PhysicsEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals/)
-
-target_link_directories(PhysicsEngine PUBLIC "${CMAKE_SOURCE_DIR}/Tools/Libs/box2d")
-target_link_libraries(PhysicsEngine PUBLIC debug box2d-d)
-target_link_libraries(PhysicsEngine PUBLIC optimized box2d)
-
-target_include_directories(PhysicsEngine PUBLIC "${PHYSENGINE_ROOT}")
-
-
-foreach(source_file IN LISTS PHYSENGINE_SOURCES)
-    file(RELATIVE_PATH source_path "${PHYSENGINE_ROOT}" "${source_file}")
-    get_filename_component(source_group "${source_path}" PATH)
-    if(NOT source_group STREQUAL "")
-        source_group("${source_group}" FILES "${source_file}")
-    else()
-        source_group("" FILES "${source_file}")
-    endif()
-endforeach()
+target_precompile_headers(PhysicsEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 set_target_properties(PhysicsEngine PROPERTIES FOLDER "Engines")
+
+
+# ---- Physics Engine
+target_include_directories(PhysicsEngine PRIVATE "${PHYSENGINE_ROOT}")
+
+
+# ---- Box2D
+target_link_directories(PhysicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Tools/Libs/box2d")
+target_link_libraries(PhysicsEngine PRIVATE debug box2d-d)
+target_link_libraries(PhysicsEngine PRIVATE optimized box2d)

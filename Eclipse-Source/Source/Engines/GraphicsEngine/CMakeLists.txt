@@ -2,36 +2,28 @@ find_package(OpenGL REQUIRED)
 
 cmake_minimum_required(VERSION 3.19.2)
 
-file(GLOB_RECURSE GRAPHICSENGINE_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
-)
+include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSOurces/GraphicsEngine-Sources.cmake")
 
-add_library(GraphicsEngine STATIC ${GRAPHICSENGINE_SOURCES})
+add_library(GraphicsEngine STATIC ${GRAPHICS_ENGINE_SOURCES})
+AddFilesToFolders("${GRAPHICSENGINE_SOURCES}" "${GRAPHICS_ENGINE_ROOT}")
 
-target_precompile_headers(GraphicsEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
-
-target_compile_definitions(GraphicsEngine PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
-
-# Include Directories
-target_include_directories(GraphicsEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
-target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
-target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
-
-target_link_libraries(GraphicsEngine PRIVATE OpenGL::GL)
-target_link_libraries(GraphicsEngine PRIVATE Opengl)
-target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Tools/Libs/FreeType/freetyped.lib")
-target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Tools/Libs/GLFW/nvml.lib")
-
-foreach(source_file IN LISTS GRAPHICSENGINE_SOURCES)
-    file(RELATIVE_PATH source_path "${CMAKE_CURRENT_SOURCE_DIR}" "${source_file}")
-    get_filename_component(source_group "${source_path}" PATH)
-    if(source_group STREQUAL "")
-        set(source_group "Root")
-    endif()
-    source_group("${source_group}" FILES "${source_file}")
-endforeach()
+target_precompile_headers(GraphicsEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 set_target_properties(GraphicsEngine PROPERTIES FOLDER "Engines")
+
+
+# ---- Graphics Engine
+target_include_directories(GraphicsEngine PRIVATE ${GRAPHICS_ENGINE_ROOT})
+
+
+# ---- Freetype
+target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
+target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Tools/Libs/FreeType/freetyped.lib")
+
+
+# ---- OpenGL and GLFW
+target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
+target_link_libraries(GraphicsEngine PRIVATE OpenGL::GL)
+target_link_libraries(GraphicsEngine PRIVATE Opengl)
+target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Tools/Libs/GLFW/nvml.lib")
