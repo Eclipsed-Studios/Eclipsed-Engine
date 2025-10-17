@@ -20,6 +20,13 @@ add_subdirectory(Source/Externals/SDL3)
 add_subdirectory(Source/Externals/stb_image)
 add_subdirectory(Source/Externals/Font-Awesome)
 
+add_compile_definitions(ENGINE_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/EngineSettings.json\")
+add_compile_definitions(GAME_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/GameSettings.json\")
+add_compile_definitions(ENGINE_ASSETS_PATH=\"${CMAKE_SOURCE_DIR}/EngineAssets/\")
+add_compile_definitions(ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
+add_compile_definitions(SOURCE_PATH=\"${CMAKE_SOURCE_DIR}/\")
+add_compile_definitions(SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/\")
+
 # ---- Utilities
 add_subdirectory(Source/Utilities)
 
