@@ -24,7 +24,11 @@ target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
+
+if(EDITOR)
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
+    target_link_libraries(Launcher PRIVATE Editor)
+endif()
 
 set_target_properties(Launcher PROPERTIES
 RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
@@ -54,7 +58,7 @@ target_link_libraries(Launcher PRIVATE GraphicsEngine)
 target_link_libraries(Launcher PRIVATE CoreEngine)
 target_link_libraries(Launcher PRIVATE PhysicsEngine)
 target_link_libraries(Launcher PRIVATE FMOD)
-target_link_libraries(Launcher PRIVATE Editor)
+
 find_package(OpenGL REQUIRED)
 target_link_libraries(Launcher PRIVATE OpenGL::GL)
 target_link_libraries(Launcher PRIVATE Opengl)
