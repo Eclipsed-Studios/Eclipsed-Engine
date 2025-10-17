@@ -1,4 +1,4 @@
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 #pragma once
 
 #include "Editor/Windows/WindowBase.h"

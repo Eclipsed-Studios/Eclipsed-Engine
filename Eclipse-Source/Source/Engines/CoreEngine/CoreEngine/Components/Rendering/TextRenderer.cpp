@@ -1,12 +1,12 @@
 #include "TextRenderer.h"
 
-#include "RenderCommands/CommandList.h"
+#include "GraphicsEngine/RenderCommands/RenderCommand.h"
 
 #include "AssetManagement/Resources/Shaders/Shader.h"
-#include "TextSprite.h"
-#include "OpenGL/OpenGLGraphicsAPI.h"
+#include "GraphicsEngine/TextSprite.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
-#include "TextManager.h"
+#include "GraphicsEngine/TextManager.h"
 
 namespace Eclipse
 {

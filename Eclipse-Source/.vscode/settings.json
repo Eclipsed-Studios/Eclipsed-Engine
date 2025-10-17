@@ -114,7 +114,8 @@
     "slist": "cpp",
     "numbers": "cpp",
     "semaphore": "cpp",
-    "*.rh": "cpp"
+    "*.rh": "cpp",
+    "khrplatform.h": "c"
   },
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "C_Cpp.errorSquiggles": "disabled"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Collider2D.h"
-#include <Math/Vector/Vector2.h>
+#include <Utilities/Math/Vector/Vector2.h>
 #include "ECS/ComponentManager.h"
 
 #include <vector>

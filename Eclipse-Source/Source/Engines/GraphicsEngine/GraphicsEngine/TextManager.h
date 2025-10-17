@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_map>
-#include "Math/Math.h"
+#include "Utilities/Math/Vector/Vector2.h"
 
 #undef CreateFont
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <initializer_list>
-#include "Reflection/Variable_Reflection_Macros.h"
+#include "Utilities/Reflection/Variable_Reflection_Macros.h"
 
 namespace Eclipse::Math
 {

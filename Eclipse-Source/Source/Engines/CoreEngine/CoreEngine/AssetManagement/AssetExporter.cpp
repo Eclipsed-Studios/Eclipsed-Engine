@@ -5,7 +5,7 @@
 #include <map>
 #include <functional>
 
-#include "Files/FileInfo.h"
+#include "Utilities/Files/FileInfo.h"
 
 namespace Eclipse
 {

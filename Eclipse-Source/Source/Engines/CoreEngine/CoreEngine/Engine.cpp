@@ -1,21 +1,21 @@
 #include "Engine.h"
 
-#include "PhysicsEngine.h"
-#include "OpenGL/OpenGLGraphicsAPI.h"
+#include "PhysicsEngine/PhysicsEngine.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
-#ifdef _EDITOR
-#include "OpenGL/DebugDrawers/PhysicsDebugDrawer.h"
+#ifdef ECLIPSED_EDITOR
+#include "PhysicsDebugDrawer/PhysicsDebugDrawer.h"
 #endif
 
 #include "Input/Input.h"
 #include "Input/InputMapper.h"
 
 #include "ECS/ComponentManager.h"
-#include "PlatformIntegration/IntegrationManager.h"
+#include "Utilities/PlatformIntegration/IntegrationManager.h"
 #include "Audio/AudioManager.h"
 
 #include <iostream>
-#include "Reflection/Reflection.h"
+#include "Utilities/Reflection/Reflection.h"
 #include "Scenes/SceneLoader.h"
 #include "Scenes/SceneManager.h"
 
@@ -32,7 +32,7 @@ namespace Eclipse
 
 		InitSubSystems();
 
-		Game::Init();
+		//Game::Init();
 	}
 
 	void Engine::Internal_Update()
@@ -92,7 +92,7 @@ namespace Eclipse
 		ComponentManager::EditorUpdateComponents();
 
 #ifndef _GAME
-		if (Game::IsPlaying && !Game::IsPaused)
+		//if (Game::IsPlaying && !Game::IsPaused)
 		{
 #endif
 			//AudioManager::Update();

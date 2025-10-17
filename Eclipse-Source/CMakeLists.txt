@@ -1,6 +1,3 @@
-option(EDITOR "Enable the editor" ON)
-
-
 cmake_minimum_required(VERSION "3.19.2")
 
 set(CMAKE_CXX_STANDARD 20)
@@ -21,6 +18,8 @@ add_subdirectory(Source/Externals/OpenGL)
 add_subdirectory(Source/Externals/SDL3)
 add_subdirectory(Source/Externals/stb_image)
 add_subdirectory(Source/Externals/Font-Awesome)
+
+include_directories("${CMAKE_SOURCE_DIR}/Source/Externals")
 
 add_compile_definitions(ENGINE_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/EngineSettings.json\")
 add_compile_definitions(GAME_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/GameSettings.json\")
@@ -65,8 +64,6 @@ if (MSVC)
 else()
     add_compile_options(-include ${CMAKE_SOURCE_DIR}/Source/Utilities/pch.h)
 endif()
-
-
 
 
 

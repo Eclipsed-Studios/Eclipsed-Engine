@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 
 #include <vector>
 #include <unordered_map>

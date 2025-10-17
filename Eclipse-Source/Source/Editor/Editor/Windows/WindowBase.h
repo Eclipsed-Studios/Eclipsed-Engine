@@ -29,7 +29,7 @@ public:                                                                         
     }                                                                              \
 private:
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 #define EDITOR_WINDOW_BASE_2(type, name)                                           \
 public:                                                                             \
     const size_t typeID = std::hash<std::string>{}(#type);                          \

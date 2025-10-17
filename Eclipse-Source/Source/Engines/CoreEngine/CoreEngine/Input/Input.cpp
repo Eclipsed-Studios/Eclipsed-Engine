@@ -1,6 +1,6 @@
 #include "Input.h"
 
-#include "GLFW/glfw3.h"
+#include "OpenGL/GLFW/glfw3.h"
 
 #include "InputMapper.h"
 

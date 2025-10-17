@@ -1,6 +1,6 @@
 #pragma once
 
-#include "box2d/types.h"
+#include "box2d/box2d.h"
 
 class PhysicsDebugDrawer
 {

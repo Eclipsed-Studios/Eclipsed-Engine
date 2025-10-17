@@ -1,19 +1,18 @@
 #pragma once
 
 #include <vector>
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/Vector/Vector2.h"
 
 #include <string>
 
-#include "Reflection/SerializedEnum.hpp"
-#include <string>
+#include "Utilities/Reflection/SerializedEnum.hpp"
 #include <unordered_map>
-#define MAX_LAYERS 16
-
 #include <array>
 
 
 
+
+#define MAX_LAYERS 16
 namespace Eclipse
 {
 	constexpr int layerCount = 8;

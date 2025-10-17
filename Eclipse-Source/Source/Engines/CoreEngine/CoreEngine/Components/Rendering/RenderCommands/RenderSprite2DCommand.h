@@ -1,10 +1,10 @@
 #pragma once
 
-#include "RenderCommands/RenderCommand.h"
+#include "GraphicsEngine/RenderCommands/RenderCommand.h"
 
 
 
-// HOW THE FUCK IS THIS A COMPONENT (Asked in a nice way) ITS FINE... (HE SAID CALMLY)
+// HOW THE FUCK IS THIS A COMPONENT (Asked in a nice way) ITS FINE... (HE SAID CALMLY!)
 
 
 

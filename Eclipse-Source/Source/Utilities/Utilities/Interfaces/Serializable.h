@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rapidjson/rapidjson/document.h"
+#include "../Externals/rapidjson/rapidjson/document.h"
 
 namespace Eclipse
 {

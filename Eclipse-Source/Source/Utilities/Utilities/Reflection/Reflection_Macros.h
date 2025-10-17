@@ -5,7 +5,7 @@
 #include "Reflection.h"
 #include "SerializedVariable.h"
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 
 #define SERIALIZED_FIELD_DEFAULT(Type, Name, DefaultValue) Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, DefaultValue}
 #define SERIALIZED_FIELD(Type, Name) Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true}

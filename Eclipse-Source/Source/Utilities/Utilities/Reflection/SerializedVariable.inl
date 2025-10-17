@@ -4,13 +4,13 @@
 #include "SerializedEnum.hpp"
 #include "ImGui/ImGui/imgui.h"
 
-#include "Math/Math.h"
-#include "Reflection/ReflectionTypeChecks.h"
+#include "Utilities/Math/Math.h"
+#include "Utilities/Reflection/ReflectionTypeChecks.h"
 
 namespace Eclipse::Reflection
 {
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector)
@@ -124,7 +124,7 @@ namespace Eclipse::Reflection
 	}
 
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 	template<typename T>
 	bool ComboEnum(const char* label, T& e) {
 		unsigned currentIndex = static_cast<unsigned>(e);

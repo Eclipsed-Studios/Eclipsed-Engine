@@ -1,4 +1,4 @@
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 #include "InspectorWindow.h"
 #include "HierarchyWindow.h"
 

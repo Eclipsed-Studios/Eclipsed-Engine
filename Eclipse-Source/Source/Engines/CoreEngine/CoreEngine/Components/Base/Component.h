@@ -1,13 +1,13 @@
 #pragma once
 
 #include "BaseComponent.h"
-#include "Interfaces/Serializable.h"
+#include "Utilities/Interfaces/Serializable.h"
 #include <string>
 
-#include "Reflection/Registry/ComponentRegistry.h"
+#include "Utilities/Reflection/Registry/ComponentRegistry.h"
 
-#include "Reflection/Reflection.h"
-#include "Reflection/Reflection_Macros.h"
+#include "Utilities/Reflection/Reflection.h"
+#include "Utilities/Reflection/Reflection_Macros.h"
 #include "GameObject.h"
 
 namespace Eclipse
@@ -85,7 +85,7 @@ namespace Eclipse
 		virtual const char* GetComponentName() { return "Component"; }
 
 	protected:
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 		void UpdateInspector() { Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); DrawInspector(); }
 #endif
 

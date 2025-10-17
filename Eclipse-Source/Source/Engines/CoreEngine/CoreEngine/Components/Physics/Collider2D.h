@@ -3,8 +3,11 @@
 #include "Components/Base/BaseComponent.h"
 
 #include "box2d/id.h"
-#include "PhysicsEngineSettings.h"
 #include "ECS/ComponentManager.h"
+
+#include "Utilities/Reflection/Reflection_Macros.h"
+
+#include "PhysicsEngine/PhysicsEngineSettings.h"
 
 struct b2Polygon;
 namespace Eclipse

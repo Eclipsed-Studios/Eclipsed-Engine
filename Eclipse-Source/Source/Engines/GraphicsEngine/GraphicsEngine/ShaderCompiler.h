@@ -1,7 +1,5 @@
 #pragma once
 
-#include "glad/glad.h"
-
 namespace Eclipse
 {
     enum class ShaderType

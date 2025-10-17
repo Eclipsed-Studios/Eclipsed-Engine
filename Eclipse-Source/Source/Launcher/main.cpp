@@ -9,7 +9,7 @@
 
 using namespace Eclipse;
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 
 #include "Editor/Editor.h"
 

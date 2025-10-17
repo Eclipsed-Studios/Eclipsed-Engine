@@ -1,24 +1,15 @@
 #include "OpenGLGraphicsAPI.h"
 
-#include "TextManager.h"
-
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
-#include "glad/glad.h"
-
 #include <stdio.h>
-
 #include <iostream>
 
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/Vector/Vector2.h"
 
+#include "TextManager.h"
 #include "DebugDrawers/DebugDrawer.h"
-
 #include "RenderCommands/CommandList.h"
 
 #include "stb_image/stb_image.h"
-
-//#include <nvml.h>
 
 #undef CreateWindow
 
@@ -142,6 +133,29 @@ namespace Eclipse
         CommandListManager::InitAllCommandLists();
 
         return errorCode;
+    }
+
+    void GraphicsEngine::CreateOpenGLTexture(unsigned& textureID, Math::Vector2f& spriteDivOne, float& dimDivOne, int channels, int width, int height, unsigned char* aPixels)
+    {
+        glGenTextures(1, &textureID);
+        glBindTexture(GL_TEXTURE_2D, textureID);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, 0x2901);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, 0x2901);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
+
+        int rgbTypeOffset = 3 - channels;
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - rgbTypeOffset, width, height, 0, GL_RGB - rgbTypeOffset, GL_UNSIGNED_BYTE, aPixels);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+
+        spriteDivOne = { 1.0f / static_cast<float>(width), 1.0f / static_cast<float>(height) };
+        dimDivOne = 1.f / (static_cast<float>(height) / static_cast<float>(width));
+
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     void GraphicsEngine::BeginFrame()

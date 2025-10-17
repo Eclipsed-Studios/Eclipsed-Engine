@@ -1,10 +1,6 @@
 #include <AssetManagement/Loader/AssetLoader.hpp>
 
 #include <AssetManagement/Resources/AudioClip.h>
-#include "AssetManagement/Loader/ResourceLoaderHelper.h"
-
-#include <glad/glad.h>
-
 #include "Audio/AudioManager.h"
 
 namespace Eclipse

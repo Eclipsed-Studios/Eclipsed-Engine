@@ -1,10 +1,9 @@
 #pragma once
 
+#include "Utilities/Interfaces/Serializable.h"
+
 #include <initializer_list>
-
-#include "Interfaces/Serializable.h"
-
-#include "Math/Vector/Vector4.h"
+#include "Utilities/Math/Vector/Vector4.h"
 
 namespace Eclipse::Math
 {

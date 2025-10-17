@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Base/BaseComponent.h"
-
-#include "ECS/ComponentManager.h"
-
-#include <Math/Vector/Vector2.h>
-
 #include <vector>
 #include <functional>
+
+#include "ECS/ComponentManager.h"
+#include "Base/BaseComponent.h"
+
+#include <Utilities/Math/Vector/Vector2.h>
 
 namespace Eclipse
 {

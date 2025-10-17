@@ -1,10 +1,10 @@
 #include "DebugDrawer.h"
 
+#include <glad/glad.h>
+
+#include "Utilities/Math/Vector/Vector2.h"
+
 #include "OpenGL/OpenGLGraphicsAPI.h"
-
-#include "Math/Vector/Vector2.h"
-#include "glad/glad.h"
-
 #include "RenderCommands/CommandList.h"
 
 static const char* vtxShaderSource =

@@ -2,13 +2,13 @@
 
 #include "Components/Base/BaseComponent.h"
 
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/Vector/Vector2.h"
 
 #include "ECS/ComponentManager.h"
 
 #include "box2d/id.h"
 
-#include "../PhysicsEngine/PhysicsEngineSettings.h"
+#include "PhysicsEngine/PhysicsEngineSettings.h"
 
 namespace Eclipse
 {

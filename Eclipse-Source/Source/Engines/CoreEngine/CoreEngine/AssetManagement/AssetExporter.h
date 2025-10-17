@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Files/FileInfo.h"
+#include "Utilities/Files/FileInfo.h"
 
 namespace Eclipse
 {

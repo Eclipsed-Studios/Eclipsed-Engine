@@ -1,4 +1,4 @@
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 #include "SceneWindow.h"
 
 #include "ImGui/imgui.h"

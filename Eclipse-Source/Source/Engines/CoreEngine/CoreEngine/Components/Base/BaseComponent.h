@@ -1,7 +1,7 @@
 #ifndef _BASECOMPONENT
 #define _BASECOMPONENT
 
-#include "Reflection/Registry/ComponentRegistry.h"
+#include "Utilities/Reflection/Registry/ComponentRegistry.h"
 
 #include "ECS/ComponentManager.h"
 
@@ -12,7 +12,7 @@
 #define BASE_MACRO_NAME COMPONENT_BASE
 #pragma warning(pop)
 
-#include "Macros/MacroOverloadSelector.h"
+#include "Utilities/Macros/MacroOverloadSelector.h"
 
 #define COMPONENT_FRIEND_CLASS         \
 friend class Editor::InspectorWindow;  \

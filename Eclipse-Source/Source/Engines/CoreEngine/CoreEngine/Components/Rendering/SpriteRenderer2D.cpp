@@ -3,14 +3,16 @@
 #include "Components/Transform2D.h"
 
 #include "AssetManagement/Resources/Shaders/Shader.h"
-#include "Sprite.h"
+#include "GraphicsEngine/Sprite.h"
 
 #include "AssetManagement/Resources/Texture.h"
 
-#include "OpenGL/OpenGLGraphicsAPI.h"
-#include "RenderCommands/CommandList.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+#include "GraphicsEngine/RenderCommands/CommandList.h"
 
 #include "RenderCommands/RenderSprite2DCommand.h"
+
+#include "OpenGL/glad/glad.h"
 
 namespace Eclipse
 {

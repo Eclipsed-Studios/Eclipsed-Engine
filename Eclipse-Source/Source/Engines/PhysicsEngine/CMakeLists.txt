@@ -21,7 +21,7 @@ set_target_properties(PhysicsEngine PROPERTIES FOLDER "Engines")
 
 
 # ---- Physics Engine
-target_include_directories(PhysicsEngine PRIVATE "${PHYSENGINE_ROOT}")
+target_include_directories(PhysicsEngine PRIVATE "${PHYSICS_ENGINE_ROOT}")
 
 
 # ---- Box2D

@@ -24,7 +24,7 @@ namespace Eclipse::Reflection
 		static void RegisterVariable(AbstractSerializedVariable* ptr);
 		static void UnregisterVariable(AbstractSerializedVariable* ptr);
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 		static void DrawInspector(Component* aComp, const char* name);
 #endif
 

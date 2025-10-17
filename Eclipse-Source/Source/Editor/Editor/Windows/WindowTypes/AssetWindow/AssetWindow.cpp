@@ -1,4 +1,4 @@
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 
 #include "AssetWindow.h"
 #include "Editor/Common/TextureIconManager.h"

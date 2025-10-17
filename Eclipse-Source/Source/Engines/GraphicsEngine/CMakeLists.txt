@@ -14,7 +14,7 @@ set_target_properties(GraphicsEngine PROPERTIES FOLDER "Engines")
 
 
 # ---- Graphics Engine
-target_include_directories(GraphicsEngine PRIVATE ${GRAPHICS_ENGINE_ROOT})
+target_include_directories(GraphicsEngine PRIVATE ${GRAPHICS_ENGINE_ROOT}/GraphicsEngine)
 
 
 # ---- Freetype

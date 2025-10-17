@@ -1,13 +1,15 @@
 #pragma once
 
 #include "PhysicsEngineSettings.h"
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/Vector/Vector2.h"
 
 #include "box2d/id.h"
 #include "box2d/types.h"
 
 #include <vector>
 #include <functional>
+
+#include <array>
 
 namespace Eclipse
 {

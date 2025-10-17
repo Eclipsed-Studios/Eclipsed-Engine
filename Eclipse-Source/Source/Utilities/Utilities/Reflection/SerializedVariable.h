@@ -1,5 +1,7 @@
 #pragma once
 
+	#define ECLIPSED_EDITOR
+
 #include "AbstractSerializedVariable.h"
 
 namespace Eclipse::Reflection
@@ -8,7 +10,8 @@ namespace Eclipse::Reflection
 	class SerializedVariable final : public AbstractSerializedVariable
 	{
 	public:
-#ifdef _EDITOR
+
+#ifdef ECLIPSED_EDITOR
 		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector);
 		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue);
 
@@ -19,7 +22,7 @@ namespace Eclipse::Reflection
 		SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue);
 #endif
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 		void DrawInspector() override;
 
 		template<typename U>
@@ -56,7 +59,7 @@ namespace Eclipse::Reflection
 	private:
 		T data;
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 		T myMin, myMax;
 		bool hasMinMax = false;
 

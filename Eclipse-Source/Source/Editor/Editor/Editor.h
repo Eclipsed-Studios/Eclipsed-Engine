@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 #include "Windows/WindowManager.h"
 
 #include "ErrorCodes.h"

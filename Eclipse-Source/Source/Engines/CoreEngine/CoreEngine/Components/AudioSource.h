@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Components/Base/BaseComponent.h"
-
-#include "ECS/ComponentManager.h"
-
-#include <Math/Vector/Vector2.h>
-
 #include <vector>
 #include <functional>
+
+#include "Components/Base/BaseComponent.h"
+#include "ECS/ComponentManager.h"
+
+#include <Utilities/Math/Vector/Vector2.h>
 
 #include "AssetManagement/ResourcePointer.h"
 #include "AssetManagement/Resources/AudioClip.h"

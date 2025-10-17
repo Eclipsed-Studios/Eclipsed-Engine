@@ -38,7 +38,7 @@ namespace Eclipse::Reflection
 		}
 	}
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 
 	void ReflectionManager::DrawInspector(Component* aComp, const char* name)
 	{

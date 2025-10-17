@@ -2,7 +2,7 @@
 
 #include "Components/Base/BaseComponent.h"
 
-#include "Math/Rect.h"
+#include "Utilities/Math/Rect.h"
 
 #include "ECS/ComponentManager.h"
 

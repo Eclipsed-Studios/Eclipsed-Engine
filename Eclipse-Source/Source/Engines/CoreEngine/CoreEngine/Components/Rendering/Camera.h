@@ -2,7 +2,7 @@
 
 #include "Components/Base/BaseComponent.h"
 
-#include "Math/Math.h"
+#include "Utilities/Math/Math.h"
 #include "ECS/ComponentManager.h"
 
 namespace Eclipse

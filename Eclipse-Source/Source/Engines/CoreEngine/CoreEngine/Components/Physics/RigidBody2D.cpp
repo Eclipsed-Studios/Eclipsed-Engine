@@ -1,6 +1,6 @@
 #include "RigidBody2D.h"
 
-#include "../PhysicsEngine/PhysicsEngine.h"
+#include "PhysicsEngine/PhysicsEngine.h"
 
 #include "ECS/ComponentManager.h"
 #include "Components/Transform2D.h"

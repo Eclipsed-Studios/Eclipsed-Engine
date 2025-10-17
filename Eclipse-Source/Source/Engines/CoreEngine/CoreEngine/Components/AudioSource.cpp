@@ -1,8 +1,5 @@
 #include "AudioSource.h"
 
-#include "Editor/ImGui/ImGui_Impl.h"
-#include <sstream>
-
 namespace Eclipse
 {
 	void AudioSource::Awake()

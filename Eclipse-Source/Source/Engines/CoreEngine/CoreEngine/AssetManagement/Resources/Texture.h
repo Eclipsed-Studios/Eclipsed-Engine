@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/RectSizePos.h"
+#include "Utilities/Math/Vector/Vector2.h"
 
 #include "Abstract/AbstractResource.h"
-
-#include "Math/RectSizePos.h"
 
 namespace Eclipse
 {

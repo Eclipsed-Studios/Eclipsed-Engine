@@ -3,14 +3,14 @@
 #include <AssetManagement/Resources/Texture.h>
 #include "AssetManagement/Loader/ResourceLoaderHelper.h"
 
-#include <glad/glad.h>
-
 #include <iomanip> 
 #include <iterator>
 #include <fstream>
 
 #include "rapidjson/rapidjson/document.h"
 #include "rapidjson/rapidjson/filereadstream.h"
+
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
 namespace Eclipse
 {
@@ -102,29 +102,10 @@ namespace Eclipse
 #else
 		pixels = ResourceLoaderHelper::Load_Texture_STB(resolvedPath.string().c_str(), outResource, true);
 #endif
-
-		glGenTextures(1, &outResource.textureID);
-		glBindTexture(GL_TEXTURE_2D, outResource.textureID);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, TextureWrapMode::Repeat);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, TextureWrapMode::Repeat);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, SamplingType::Bilinear);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, SamplingType::Bilinear);
-
-		int rgbTypeOffset = 3 - outResource.channels;
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - rgbTypeOffset, outResource.width,
-			outResource.height, 0, GL_RGB - rgbTypeOffset, GL_UNSIGNED_BYTE, pixels);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
+		
+		GraphicsEngine::CreateOpenGLTexture(outResource.textureID, outResource.spriteDimDivOne, outResource.dimDivOne, outResource.channels, outResource.width, outResource.height, pixels);
+		
 		ResourceLoaderHelper::FreeData_STB(pixels);
-
-		outResource.spriteDimDivOne = { 1.0f / static_cast<float>(outResource.width), 1.0f / static_cast<float>(outResource.height) };
-		outResource.dimDivOne = 1.f / (static_cast<float>(outResource.height) / static_cast<float>(outResource.width));
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-
 		LoadMetaFile(aPath, outResource);
 	}
 }

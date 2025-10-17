@@ -1,5 +1,6 @@
 #include "PhysicsDebugDrawer.h"
-#include "DebugDrawer.h"
+
+#include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
 
 using namespace Eclipse;
 

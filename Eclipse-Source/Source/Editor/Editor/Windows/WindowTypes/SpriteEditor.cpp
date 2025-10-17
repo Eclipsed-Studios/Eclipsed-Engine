@@ -1,4 +1,4 @@
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 #include "SpriteEditor.h"
 
 #include "ImGui/imgui.h"

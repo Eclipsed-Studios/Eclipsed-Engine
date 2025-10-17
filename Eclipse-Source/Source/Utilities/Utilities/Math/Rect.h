@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Vector/Vector2.h"
-
-#include "Interfaces/Serializable.h"
+#include "Utilities/Interfaces/Serializable.h"
 
 namespace Eclipse::Math
 {

@@ -1,16 +1,14 @@
 #pragma once
 
-#include "ErrorCodes.h"
-
 #include <vector>
-#include "Math/Math.h"
-
-#include "UniformVariableManager.h"
-
-#include "Math/Color.h"
-
 #include <functional>
 
+#include "Utilities/ErrorCodes.h"
+
+#include "Utilities/Math/Math.h"
+#include "Utilities/Math/Color.h"
+
+#include "UniformVariableManager.h"
 #include "GPUInfo.h"
 
 #undef CreateWindow
@@ -57,6 +55,8 @@ namespace Eclipse
 		static Math::Vector4ui ReadPixel(const Math::Vector2ui& aPos);
 
 		static void SetWindowIcon(const char* aPath);
+
+		static void CreateOpenGLTexture(unsigned& textureID, Math::Vector2f& spriteDivOne, float& dimDivOne, int channels, int width, int height, unsigned char* aPixels);
 
 	private:
 		static inline GLFWwindow* myWindow;

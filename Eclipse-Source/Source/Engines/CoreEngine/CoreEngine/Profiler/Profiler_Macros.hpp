@@ -2,7 +2,7 @@
 #define PROFILER_MACROS_H
 
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 
 #include "Profiler.h"
 

@@ -2,7 +2,7 @@
 
 #include <bitset>
 
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/Vector/Vector2.h"
 #include "Keycodes.h"
 
 struct GLFWwindow;

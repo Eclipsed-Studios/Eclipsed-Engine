@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-#include "OpenGL/OpenGLGraphicsAPI.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
 #include "ECS/ComponentManager.h"
 
@@ -9,7 +9,7 @@
 #include "Input/InputMapper.h"
 #include "Input/Input.h"
 
-#include "OpenGL/DebugDrawers/DebugDrawer.h"
+#include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
 
 namespace Eclipse
 {

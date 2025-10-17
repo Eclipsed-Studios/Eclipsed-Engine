@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-#include "glad/glad.h"
+#include "OpenGL/glad/glad.h"
 #include <AssetManagement/Resources.h>
 
 namespace Eclipse

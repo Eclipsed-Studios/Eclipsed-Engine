@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Abstract/AbstractResource.h"
-#include "Math/Color.h"
+//#include "Abstract/AbstractResource.h"
+//#include "Utilities/Math/Color.h"
 
 namespace Eclipse
 {

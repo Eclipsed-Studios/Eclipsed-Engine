@@ -4,7 +4,7 @@
 #include <AssetManagement/Resources/Shaders/Shader.h>
 #include <AssetManagement/Resources/Shaders/VertexShader.h>
 
-#include <ShaderCompiler.h>
+#include <GraphicsEngine/ShaderCompiler.h>
 
 namespace Eclipse
 {

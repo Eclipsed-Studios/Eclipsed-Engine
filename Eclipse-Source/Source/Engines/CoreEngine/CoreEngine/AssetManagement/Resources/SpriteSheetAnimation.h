@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Abstract/AbstractResource.h"
-
-#include "Math/Rect.h"
-
 #include <vector>
 #include <unordered_map>
+
+#include "Utilities/Math/Rect.h"
+#include "Abstract/AbstractResource.h"
 
 namespace Eclipse
 {

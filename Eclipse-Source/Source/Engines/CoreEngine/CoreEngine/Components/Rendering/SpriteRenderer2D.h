@@ -6,9 +6,9 @@
 #include "ECS/ComponentManager.h"
 
 #include "AssetManagement/Resources.h"
-#include "Math/Color.h"
 
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/Vector/Vector2.h"
+#include "Utilities/Math/Color.h"
 
 namespace Eclipse
 {

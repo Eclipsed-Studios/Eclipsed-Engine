@@ -4,7 +4,7 @@
 
 #include "ECS/ComponentManager.h"
 
-#include "PhysicsEngine.h"
+#include "PhysicsEngine/PhysicsEngine.h"
 #include "Components/Transform2D.h"
 
 namespace Eclipse

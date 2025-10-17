@@ -1,11 +1,9 @@
 #pragma once
 
 #include <vector>
-#include <utility>
 
-#include "Math/Vector/Vector2.h"
-
-#include "Math/Color.h"
+#include "Utilities/Math/Vector/Vector2.h"
+#include "Utilities/Math/Color.h"
 
 namespace Eclipse
 {

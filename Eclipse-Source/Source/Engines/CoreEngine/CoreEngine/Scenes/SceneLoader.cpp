@@ -8,14 +8,16 @@
 
 #include <fstream>
 
-#include "Reflection/Reflection.h"
-#include "Reflection/SerializedVariable.h"
+#include "Utilities/Reflection/Reflection.h"
+#include "Utilities/Reflection/SerializedVariable.h"
 
-#include "ChatGPT_Dump/Base64.hpp"
+#include "Utilities/ChatGPT_Dump/Base64.hpp"
 
 #include "Components/Base/Component.h"
 
-#include "RenderCommands/CommandList.h"
+#include "GraphicsEngine/RenderCommands/CommandList.h"
+
+#include "PhysicsEngine/PhysicsEngine.h"
 
 namespace Eclipse
 {

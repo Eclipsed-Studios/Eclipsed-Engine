@@ -13,7 +13,7 @@ namespace Eclipse::Reflection
 
 		virtual ~AbstractSerializedVariable();
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 		AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector);
 		virtual void DrawInspector() = 0;
 #else
@@ -64,7 +64,7 @@ namespace Eclipse::Reflection
 		unsigned sizePerElement = 0;
 		unsigned count = 1;
 
-#ifdef _EDITOR
+#ifdef ECLIPSED_EDITOR
 		std::string GetNameID() const;
 
 		const char* nameID = "";

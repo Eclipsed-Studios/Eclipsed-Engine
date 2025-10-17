@@ -3,8 +3,9 @@
 #include <unordered_map>
 #include <string>
 
-#include "Math/Math.h"
-
+#include "Utilities/Math/Vector/Vector2.h"
+//#include "Utilities/Math/Vector/Vector3.h"
+#include "Utilities/Math/Vector/Vector4.h"
 
 namespace Eclipse
 {

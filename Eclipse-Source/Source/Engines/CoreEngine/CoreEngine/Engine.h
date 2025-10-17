@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Game.h"
-
 namespace Eclipse
 {
 	class Engine
