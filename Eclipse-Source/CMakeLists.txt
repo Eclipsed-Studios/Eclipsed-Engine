@@ -10,6 +10,8 @@ set(CMAKE_UNITY_BUILD ON)
 
 project(Eclipsed-Engine LANGUAGES CXX)
 
+add_compile_definitions(LEAN_AND_MEAN)
+
 # ---- Externals
 add_subdirectory(Source/Externals/DiscordSDK)
 add_subdirectory(Source/Externals/fmod)
@@ -27,6 +29,12 @@ add_compile_definitions(ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 add_compile_definitions(SOURCE_PATH=\"${CMAKE_SOURCE_DIR}/\")
 add_compile_definitions(SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/\")
 
+# ---- Editor
+if(EDITOR)
+    add_compile_definitions(ECLIPSED_EDITOR)
+    add_subdirectory(Source/Editor)
+endif()
+
 # ---- Utilities
 add_subdirectory(Source/Utilities)
 
@@ -37,11 +45,6 @@ link_libraries(Utilities)
 add_subdirectory(Source/Engines/GraphicsEngine)
 add_subdirectory(Source/Engines/CoreEngine)
 add_subdirectory(Source/Engines/PhysicsEngine)
-
-# ---- Editor
-if(EDITOR)
-    add_subdirectory(Source/Editor)
-endif()
 
 # ---- Launcher
 add_subdirectory(Source/Launcher)
@@ -55,11 +58,6 @@ make_directory("${CMAKE_SOURCE_DIR}/Bin")
 file(GLOB DLLs "${CMAKE_SOURCE_DIR}/Tools/DLLs/*")
 file(COPY ${DLLs} DESTINATION "${CMAKE_SOURCE_DIR}/Bin")
 
-add_compile_definitions(LEAN_AND_MEAN)
-
-if(EDITOR)
-    add_compile_definitions(ECLIPSED_EDITOR)
-endif()
 
 
 if (MSVC)
