@@ -9,6 +9,8 @@ project(Eclipsed-Engine LANGUAGES CXX)
 
 add_compile_definitions(LEAN_AND_MEAN)
 
+
+
 # ---- Externals
 add_subdirectory(Source/Externals/DiscordSDK)
 add_subdirectory(Source/Externals/fmod)
@@ -28,11 +30,7 @@ add_compile_definitions(ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
 add_compile_definitions(SOURCE_PATH=\"${CMAKE_SOURCE_DIR}/\")
 add_compile_definitions(SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/\")
 
-# ---- Editor
-if(EDITOR)
-    add_compile_definitions(ECLIPSED_EDITOR)
-    add_subdirectory(Source/Editor)
-endif()
+
 
 # ---- Utilities
 add_subdirectory(Source/Utilities)
@@ -40,13 +38,36 @@ add_subdirectory(Source/Utilities)
 include_directories("${CMAKE_SOURCE_DIR}/Source/Utilities")
 link_libraries(Utilities)
 
+
+
+
+# ---- Editor
+if(EDITOR)
+    add_compile_definitions(ECLIPSED_EDITOR)
+    add_subdirectory(Source/Editor)
+endif()
+
+
+
 # ---- Engines
 add_subdirectory(Source/Engines/GraphicsEngine)
 add_subdirectory(Source/Engines/CoreEngine)
 add_subdirectory(Source/Engines/PhysicsEngine)
 
+
+
 # ---- Launcher
 add_subdirectory(Source/Launcher)
+
+
+
+# ---- Game
+add_subdirectory(Source/Game)
+
+
+
+
+
 
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -70,9 +91,11 @@ endif()
 
 
 # Move to editor
+if(EDITOR)
 set_target_properties(Editor PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
 )
+endif()
 
 # Move to launcher
 set_target_properties(Launcher PROPERTIES
