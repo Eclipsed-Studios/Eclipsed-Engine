@@ -33,19 +33,20 @@ add_compile_definitions(SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/\")
 
 
 
-# ---- Editor
-if(EDITOR)
-    add_compile_definitions(ECLIPSED_EDITOR)
-    add_subdirectory(Source/Editor)
-endif()
-
-
-
 # ---- Utilities
 add_subdirectory(Source/Utilities)
 
 include_directories("${CMAKE_SOURCE_DIR}/Source/Utilities")
 link_libraries(Utilities)
+
+
+
+
+# ---- Editor
+if(EDITOR)
+    add_compile_definitions(ECLIPSED_EDITOR)
+    add_subdirectory(Source/Editor)
+endif()
 
 
 
