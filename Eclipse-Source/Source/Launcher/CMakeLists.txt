@@ -26,8 +26,6 @@ target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/Co
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
 
-target_compile_definitions(Launcher PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
-
 set_target_properties(Launcher PROPERTIES
 RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
 RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/Bin"
