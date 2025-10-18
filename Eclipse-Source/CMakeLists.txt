@@ -26,7 +26,6 @@ add_subdirectory(Source/Externals/SDL3)
 add_subdirectory(Source/Externals/stb_image)
 add_subdirectory(Source/Externals/Font-Awesome)
 
-include_directories("${CMAKE_SOURCE_DIR}/Source/")
 include_directories("${CMAKE_SOURCE_DIR}/Source/Externals")
 
 add_compile_definitions(ENGINE_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/EngineSettings.json\")
