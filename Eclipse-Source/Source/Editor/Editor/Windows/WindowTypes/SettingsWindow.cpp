@@ -1,6 +1,7 @@
 #include "SettingsWindow.h"
 
 #include "ImGui/imgui.h"
+#include "../PhysicsEngine/PhysicsEngine/PhysicsEngine.h"
 #include "../PhysicsEngine/PhysicsEngine/PhysicsEngineSettings.h"
 
 #include "Utilities/Math/Math.h"
@@ -10,6 +11,9 @@
 #include <rapidjson/rapidjson/prettywriter.h>
 
 #include "../CoreEngine/CoreEngine/Scenes/SceneManager.h"
+
+#include "Common/DragAndDrop.h"
+#include "Utilities/Files/FileInfo.h"
 
 namespace Eclipse::Editor
 {

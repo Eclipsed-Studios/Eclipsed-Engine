@@ -1,7 +1,7 @@
 #include "PlayerCamera.h"
 
-#include "ECS/ComponentManager.h"
-#include "Components/Transform2D.h"
+#include "CoreEngine/ECS/ComponentManager.h"
+#include "CoreEngine/Components/Transform2D.h"
 
 namespace Eclipse
 {

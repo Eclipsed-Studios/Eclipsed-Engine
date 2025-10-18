@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Components/Base/BaseComponent.h"
+#include "CoreEngine/Components/Base/BaseComponent.h"
 
 
 namespace Eclipse

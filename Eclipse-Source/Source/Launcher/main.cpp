@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "ErrorCodes.h"
+#include "Utilities/ErrorCodes.h"
 
 #define LEAN_AND_MEAN
 #include <windows.h>

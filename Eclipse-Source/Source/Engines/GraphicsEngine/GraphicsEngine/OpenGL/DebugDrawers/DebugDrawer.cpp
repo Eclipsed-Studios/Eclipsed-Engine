@@ -4,8 +4,8 @@
 
 #include "Utilities/Math/Vector/Vector2.h"
 
-#include "OpenGL/OpenGLGraphicsAPI.h"
-#include "RenderCommands/CommandList.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+#include "GraphicsEngine/RenderCommands/CommandList.h"
 
 static const char* vtxShaderSource =
 "#version 460 core\n"

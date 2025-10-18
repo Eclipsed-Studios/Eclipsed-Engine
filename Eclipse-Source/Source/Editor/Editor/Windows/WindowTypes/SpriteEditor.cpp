@@ -2,14 +2,14 @@
 #include "SpriteEditor.h"
 
 #include "ImGui/imgui.h"
-#include "PhysicsEngine.h"
-#include "PhysicsEngineSettings.h"
+#include "PhysicsEngine/PhysicsEngine.h"
+#include "PhysicsEngine/PhysicsEngineSettings.h"
 
-#include "Math/Math.h"
+#include "Utilities/Math/Math.h"
 
-#include "Input/Input.h"
+#include "CoreEngine/Input/Input.h"
 
-#include "AssetManagement/Resources.h"
+#include "CoreEngine/AssetManagement/Resources.h"
 
 #include <iostream>
 
@@ -17,6 +17,8 @@
 
 #include "rapidjson/rapidjson/prettywriter.h"
 #include "rapidjson/rapidjson/stringbuffer.h"
+
+#include "OpenGL/GLFW/glfw3.h"
 
 #undef min
 

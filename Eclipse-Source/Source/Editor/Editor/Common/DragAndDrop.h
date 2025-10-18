@@ -12,12 +12,12 @@ namespace Eclipse::Editor
 	class DragAndDrop
 	{
 	public:
-		static inline bool BeginTarget(const char* text, const Utilities::FileInfo::FileType_& type);
+		static bool BeginTarget(const char* text, const Utilities::FileInfo::FileType_& type);
 
-		static inline void BeginSource(const char* payload, const size_t& size, const Utilities::FileInfo& info);
+		static void BeginSource(const char* payload, const size_t& size, const Utilities::FileInfo& info);
 
 	private:
-		static inline bool TextBox(const char* text, Math::Vector2f padding, const Math::Color& aBgColor, const Math::Color& aBorderColor, const char* id);
+		static bool TextBox(const char* text, Math::Vector2f padding, const Math::Color& aBgColor, const Math::Color& aBorderColor, const char* id);
 
 
 	public:

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Components/Base/BaseComponent.h"
+#include "CoreEngine/Components/Base/BaseComponent.h"
 
 #include "Utilities/Math/Vector/Vector2.h"
 
-#include "ECS/ComponentManager.h"
+#include "CoreEngine/ECS/ComponentManager.h"
 
 #include "box2d/id.h"
 

@@ -1,14 +1,14 @@
 #include "Player.h"
 
-#include "Input/InputMapper.h"
-#include "Input/Input.h"
+#include "CoreEngine/Input/InputMapper.h"
+#include "CoreEngine/Input/Input.h"
 
-#include "ECS/ComponentManager.h"
+#include "CoreEngine/ECS/ComponentManager.h"
 
-#include "Components/Physics/RigidBody2D.h"
-#include "Components/Rendering/SpriteRenderer2D.h"
-#include "Components/Rendering/SpriteSheetAnimator.h"
-#include "Components/Transform2D.h"
+#include "CoreEngine/Components/Physics/RigidBody2D.h"
+#include "CoreEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "CoreEngine/Components/Rendering/SpriteSheetAnimator.h"
+#include "CoreEngine/Components/Transform2D.h"
 
 namespace Eclipse
 {

@@ -13,14 +13,21 @@ file(GLOB_RECURSE GAME_SOURCES
 
 add_library(Game STATIC ${GAME_SOURCES})
 
-target_compile_definitions(Game PRIVATE ASSET_PATH=\"${CMAKE_SOURCE_DIR}/Assets/\")
+target_include_directories(Game PRIVATE ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine)
+target_link_libraries(Game PRIVATE CoreEngine)
+
+target_include_directories(Game PRIVATE ${CMAKE_SOURCE_DIR}/Source/Engines/GraphicsEngine)
+target_link_libraries(Game PRIVATE GraphicsEngine)
+
+target_include_directories(Game PRIVATE ${CMAKE_SOURCE_DIR}/Source/Engines/PhysicsEngine)
+target_link_libraries(Game PRIVATE PhysicsEngine)
+
+target_include_directories(Game PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals) 
+target_include_directories(Game PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/fmod)  # REMOVE WHEN AUDIO ENGINE IS ADDED
+target_link_libraries(Game PRIVATE FMOD)
 
 target_include_directories(Game PUBLIC ${GAME_ROOT})
-target_include_directories(Game PUBLIC ${CMAKE_SOURCE_DIR}/Source/Utilities/Utilities/)
-target_include_directories(Game PUBLIC ${COREENGINE_ROOT})
 
-target_link_libraries(Game PUBLIC PhysicsEngine)
-target_link_libraries(Game PUBLIC CoreEngine)
 
 foreach(source_file IN LISTS GAME_SOURCES)
     file(RELATIVE_PATH source_path "${GAME_ROOT}" "${source_file}")

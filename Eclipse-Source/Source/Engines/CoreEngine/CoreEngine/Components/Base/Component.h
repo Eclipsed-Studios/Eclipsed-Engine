@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseComponent.h"
+//#include "BaseComponent.h"
 #include "Utilities/Interfaces/Serializable.h"
 #include <string>
 
@@ -8,7 +8,6 @@
 
 #include "Utilities/Reflection/Reflection.h"
 #include "Utilities/Reflection/Reflection_Macros.h"
-#include "CoreEngine/GameObject.h"
 
 namespace Eclipse
 {
@@ -30,6 +29,8 @@ namespace Eclipse
 {
 	typedef unsigned RegisteredTypeIndex;
 
+	class GameObject;
+	class ComponentManager;
 	class Component
 	{
 		friend class Editor::SceneWindow;

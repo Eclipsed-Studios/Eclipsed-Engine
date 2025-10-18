@@ -29,6 +29,9 @@
 
 #include "../GraphicsEngine/GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
+#include "Game/Game.h"
+#include "CoreEngine/Input/Input.h"
+
 namespace Eclipse::Editor
 {
 	ErrorCode EditorContext::Init()
@@ -43,7 +46,7 @@ namespace Eclipse::Editor
 
 		myWindow = Utilities::MainSingleton::GetInstance<GLFWwindow*>();
 
-		//GraphicsEngine::SetWindowIcon(ASSET_PATH"Icons/EclipseMoonNoBG.png");
+		GraphicsEngine::SetWindowIcon(ASSET_PATH"Icons/EclipseMoonNoBG.png");
 
 		ImGui_Impl::ImplementImGui(myWindow);
 
@@ -118,38 +121,38 @@ namespace Eclipse::Editor
 
 		ImGui::Begin("TestGameButons", (bool*)1, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
 
-		// if (!Game::IsPlaying || Game::IsPaused)
-		// {
-		// 	if (ImGui::Button(ICON_FA_PLAY) || Input::GetKeyDown(Keycode::F5))
-		// 	{
-		// 		Game::IsPlaying = true;
-		// 		Game::IsPaused = false;
+		 if (!Game::IsPlaying || Game::IsPaused)
+		 {
+		 	if (ImGui::Button(ICON_FA_PLAY) || Input::GetKeyDown(Keycode::F5))
+		 	{
+		 		Game::IsPlaying = true;
+		 		Game::IsPaused = false;
 
-		// 		SceneLoader::Save(SceneManager::GetActiveScene());
+		 		SceneLoader::Save(SceneManager::GetActiveScene());
 
-		// 		ImGui::End();
-		// 		return;
-		// 	}
-		// }
+		 		ImGui::End();
+		 		return;
+		 	}
+		 }
 
 
-		// if (Game::IsPlaying)
-		// {
-		// 	if (!Game::IsPaused)
-		// 	{
-		// 		if (ImGui::Button(ICON_FA_PAUSE))
-		// 			Game::IsPaused = !Game::IsPaused;
-		// 	}
+		 if (Game::IsPlaying)
+		 {
+		 	if (!Game::IsPaused)
+		 	{
+		 		if (ImGui::Button(ICON_FA_PAUSE))
+		 			Game::IsPaused = !Game::IsPaused;
+		 	}
 
-		// 	ImGui::SameLine();
-		// 	if (ImGui::Button(ICON_FA_STOP))
-		// 	{
-		// 		Game::IsPlaying = false;
-		// 		Game::IsPaused = false;
+		 	ImGui::SameLine();
+		 	if (ImGui::Button(ICON_FA_STOP))
+		 	{
+		 		Game::IsPlaying = false;
+		 		Game::IsPaused = false;
 
-		// 		SceneManager::ReloadActiveScene();
-		// 	}
-		// }
+		 		SceneManager::ReloadActiveScene();
+		 	}
+		 }
 
 		ImVec2 buttonsWindowSize = ImGui::GetWindowSize();
 		ImGui::SetWindowPos(ImVec2(windowPosition.x + windowSizeX - buttonsWindowSize.x * 0.5f, windowPosition.y));

@@ -10,6 +10,12 @@ project(Eclipsed-Engine LANGUAGES CXX)
 add_compile_definitions(LEAN_AND_MEAN)
 
 
+option(EDITOR "Enable the editor" ON)
+
+if(EDITOR)
+    add_compile_definitions(ECLIPSED_EDITOR)
+endif()
+
 
 # ---- Externals
 add_subdirectory(Source/Externals/DiscordSDK)
@@ -43,7 +49,6 @@ link_libraries(Utilities)
 
 # ---- Editor
 if(EDITOR)
-    add_compile_definitions(ECLIPSED_EDITOR)
     add_subdirectory(Source/Editor)
 endif()
 

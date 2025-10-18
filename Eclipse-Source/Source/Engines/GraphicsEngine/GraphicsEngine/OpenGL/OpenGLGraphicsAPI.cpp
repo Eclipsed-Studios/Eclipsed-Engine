@@ -5,9 +5,9 @@
 
 #include "Utilities/Math/Vector/Vector2.h"
 
-#include "TextManager.h"
+#include "GraphicsEngine/TextManager.h"
 #include "DebugDrawers/DebugDrawer.h"
-#include "RenderCommands/CommandList.h"
+#include "GraphicsEngine/RenderCommands/CommandList.h"
 
 #include "stb_image/stb_image.h"
 

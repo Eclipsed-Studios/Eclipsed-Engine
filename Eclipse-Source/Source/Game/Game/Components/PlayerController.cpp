@@ -1,11 +1,11 @@
 #include "PlayerController.h"
 
-#include "Components/Physics/RigidBody2D.h"
+#include "CoreEngine/Components/Physics/RigidBody2D.h"
 #include "Components/Player.h"
-#include "Components/Transform2D.h"
+#include "CoreEngine/Components/Transform2D.h"
 
-#include "PhysicsEngine.h"
-#include "Input/InputMapper.h"
+#include "PhysicsEngine/PhysicsEngine.h"
+#include "CoreEngine/Input/InputMapper.h"
 
 namespace Eclipse
 {

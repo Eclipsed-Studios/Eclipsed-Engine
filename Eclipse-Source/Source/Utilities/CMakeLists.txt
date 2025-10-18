@@ -19,7 +19,7 @@ target_include_directories(Utilities PRIVATE ${CMAKE_SOURCE_DIR}/Source/External
 target_include_directories(Utilities PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/rapidjson)
 
 target_include_directories(Utilities PUBLIC ${DiscordSDK_SOURCES})
-target_link_libraries(Utilities PRIVATE DiscordSDK)
+target_link_libraries(Utilities PUBLIC DiscordSDK)
 
 foreach(source_file IN LISTS UTILITIES_SOURCES)
     file(RELATIVE_PATH source_path "${UTILITIES_ROOT}" "${source_file}")

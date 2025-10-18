@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../CoreEngine/CoreEngine/Components/Base/Component.h"
-#include "../CoreEngine/CoreEngine/GameObject.h"
+#include "CoreEngine/Components/Base/Component.h"
+#include "CoreEngine/GameObject.h"
 
 #include <vector>
 #include <string>
@@ -24,6 +24,7 @@ namespace Eclipse
 	typedef unsigned ComponentIndex;
 
 	class GameObject;
+	class Component;
 	class ComponentManager
 	{
 		friend class Editor::HierarchyWindow;

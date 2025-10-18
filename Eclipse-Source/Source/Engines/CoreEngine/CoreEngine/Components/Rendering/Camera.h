@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Components/Base/BaseComponent.h"
+#include "CoreEngine/Components/Base/BaseComponent.h"
 
 #include "Utilities/Math/Math.h"
-#include "ECS/ComponentManager.h"
+#include "CoreEngine/ECS/ComponentManager.h"
 
 namespace Eclipse
 {

@@ -2,12 +2,12 @@
 #include "HierarchyWindow.h"
 
 #include "ImGui/imgui.h"
-#include "ECS/ComponentManager.h"
-#include "Components/Transform2D.h"
+#include "CoreEngine/ECS/ComponentManager.h"
+#include "CoreEngine/Components/Transform2D.h"
 
-#include "Input/Input.h"
+#include "CoreEngine/Input/Input.h"
 
-#include "ECS/ECS.hpp"
+#include "CoreEngine/ECS/ECS.hpp"
 
 namespace Eclipse::Editor
 {

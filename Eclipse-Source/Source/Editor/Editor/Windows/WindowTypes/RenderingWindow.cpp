@@ -1,7 +1,9 @@
 #include "RenderingWindow.h"
 
-#include "Components/Rendering/TextRenderer.h"
-#include "Components/Rendering/Camera.h"
+#include "CoreEngine/Components/Rendering/TextRenderer.h"
+#include "CoreEngine/Components/Rendering/Camera.h"
+
+#include "PhysicsEngine/PhysicsEngine.h"
 
 namespace Eclipse::Editor
 {

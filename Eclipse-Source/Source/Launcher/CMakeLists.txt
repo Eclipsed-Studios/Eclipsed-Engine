@@ -12,8 +12,6 @@ file(GLOB_RECURSE LAUNCHER_SOURCES
 
 add_executable(Launcher "${LAUNCHER_ROOT}/main.cpp")
 
-message(STATUS "Game Name: ${GAME_NAME}")
-
 target_include_directories(Launcher PUBLIC ${OPENGL_SOURCES})
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 
@@ -26,8 +24,8 @@ target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/Co
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
 
 if(EDITOR)
-target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
-    target_link_libraries(Launcher PRIVATE Editor)
+    target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
+    target_link_libraries(Launcher PUBLIC Editor)
 endif()
 
 set_target_properties(Launcher PROPERTIES
@@ -54,6 +52,7 @@ foreach(source_file IN LISTS LAUNCHER_SOURCES)
 endforeach()
 
 
+target_link_libraries(Launcher PRIVATE Editor)
 target_link_libraries(Launcher PRIVATE GraphicsEngine)
 target_link_libraries(Launcher PRIVATE CoreEngine)
 target_link_libraries(Launcher PRIVATE PhysicsEngine)

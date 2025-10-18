@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Components/Base/BaseComponent.h"
+#include "CoreEngine/Components/Base/BaseComponent.h"
 
-#include "AssetManagement/Resources/SpriteSheetAnimation.h"
-#include "AssetManagement/ResourcePointer.h"
-#include "ECS/ComponentManager.h"
+#include "CoreEngine/AssetManagement/Resources/SpriteSheetAnimation.h"
+#include "CoreEngine/AssetManagement/ResourcePointer.h"
+#include "CoreEngine/ECS/ComponentManager.h"
 
 namespace Eclipse
 {

@@ -1,6 +1,6 @@
 #include "Game.h"
 
-#include "Scenes/SceneManager.h"
+#include "CoreEngine/Scenes/SceneManager.h"
 
 namespace Eclipse
 {

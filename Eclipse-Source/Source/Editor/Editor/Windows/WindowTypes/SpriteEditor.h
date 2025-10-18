@@ -5,12 +5,12 @@
 
 #include "RenderingWindow.h"
 
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/Vector/Vector2.h"
 
-#include "AssetManagement/Resources.h"
-#include "AssetManagement/Resources/Texture.h"
+#include "CoreEngine/AssetManagement/Resources.h"
+#include "CoreEngine/AssetManagement/Resources/Texture.h"
 
-#include "Math/RectSizePos.h"
+#include "Utilities/Math/RectSizePos.h"
 
 namespace Eclipse::Editor
 {

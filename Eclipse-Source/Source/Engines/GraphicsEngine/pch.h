@@ -5,11 +5,11 @@
 #include <map>
 
 //----------- Debug Drawers ------------
-#include "OpenGL/DebugDrawers/DebugDrawer.h"
+#include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
 
 //----------- OpenGL Graphics API Includes ------------
-#include "OpenGL/OpenGLGraphicsAPI.h"
-#include "OpenGL/UniformVariableManager.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+#include "GraphicsEngine/OpenGL/UniformVariableManager.h"
 
 //----------- Glad Includes ------------
 #include "glad/glad.h"
@@ -21,8 +21,8 @@
 #include "KHR/khrplatform.h"
 
 //----------- General Graphics API Includes ------------
-#include "AbstractGraphicsAPI.h"
-#include "ShaderCompiler.h"
+#include "GraphicsEngine/AbstractGraphicsAPI.h"
+#include "GraphicsEngine/ShaderCompiler.h"
 
 // #include "GLFW/glfw3.h"
 

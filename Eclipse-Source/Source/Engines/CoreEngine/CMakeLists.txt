@@ -27,14 +27,14 @@ target_include_directories(CoreEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # ---- GraphicsEngine
 include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/GraphicsEngine-Sources.cmake")
-target_include_directories(CoreEngine PRIVATE ${GRAPHICS_ENGINE_ROOT})
-target_link_libraries(CoreEngine PRIVATE GraphicsEngine)
+target_include_directories(CoreEngine PUBLIC ${GRAPHICS_ENGINE_ROOT})
+target_link_libraries(CoreEngine PUBLIC GraphicsEngine)
 
 
 # ---- Physics Engine
 include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/PhysicsEngine-Sources.cmake")
-target_include_directories(CoreEngine PRIVATE ${PHYSICS_ENGINE_ROOT})
-target_link_libraries(CoreEngine PRIVATE PhysicsEngine)
+target_include_directories(CoreEngine PUBLIC ${PHYSICS_ENGINE_ROOT})
+target_link_libraries(CoreEngine PUBLIC PhysicsEngine)
 
 
 # ---- Externals
