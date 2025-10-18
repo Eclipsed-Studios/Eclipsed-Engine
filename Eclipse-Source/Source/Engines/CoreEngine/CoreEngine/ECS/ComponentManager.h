@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Components/Base/Component.h"
+#include "../CoreEngine/CoreEngine/Components/Base/Component.h"
+#include "../CoreEngine/CoreEngine/GameObject.h"
 
 #include <vector>
 #include <string>
@@ -95,7 +96,7 @@ namespace Eclipse
 
 		// Gameobject to components
 		static inline std::unordered_map<GameObjectID, GameObject*> myEntityIdToEntity;
-		static inline std::unordered_map<GameObjectID, std::unordered_map<RegisteredTypeIndex, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
+		static inline std::unordered_map<GameObjectID, std::unordered_map<unsigned, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
 	};
 }
 

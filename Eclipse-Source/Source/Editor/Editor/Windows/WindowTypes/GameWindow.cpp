@@ -1,14 +1,13 @@
 #include "GameWindow.h"
 
 #include "ImGui/imgui.h"
-#include "PhysicsEngine.h"
-#include "PhysicsEngineSettings.h"
 
-#include "Math/Math.h"
+#include "Utilities/Math/Math.h"
 
-#include "OpenGL/OpenGLGraphicsAPI.h"
+#include "../GraphicsEngine/GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+#include "../GraphicsEngine/GraphicsEngine/RenderCommands/CommandList.h"
 
-#include "RenderCommands/CommandList.h"
+#include "../CoreEngine/CoreEngine/Components/Rendering/Camera.h"
 
 #include <array>
 

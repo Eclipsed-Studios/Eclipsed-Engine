@@ -1,8 +1,8 @@
 #pragma once
 
-#include "AssetManagement/Resources/Scene.h"
+#include "../CoreEngine/CoreEngine/AssetManagement/Resources/Scene.h"
 
-#include "Components/Transform2D.h"
+#include "../CoreEngine/CoreEngine/Components/Transform2D.h"
 
 #include "rapidjson/rapidjson/document.h"
 

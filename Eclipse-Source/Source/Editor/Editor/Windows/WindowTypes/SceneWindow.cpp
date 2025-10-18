@@ -2,25 +2,29 @@
 #include "SceneWindow.h"
 
 #include "ImGui/imgui.h"
-#include "PhysicsEngine.h"
-#include "PhysicsEngineSettings.h"
 
-#include "Math/Math.h"
+#include "Utilities/Math/Math.h"
 
-#include "OpenGL/OpenGLGraphicsAPI.h"
+#include "../GraphicsEngine/GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+#include "../GraphicsEngine/GraphicsEngine/RenderCommands/CommandList.h"
 
-#include "RenderCommands/CommandList.h"
+#include "CoreEngine/Input/Input.h"
 
-#include "Input/Input.h"
-
-#include "RenderCommands/RenderCommand.h"
+#include "../GraphicsEngine/GraphicsEngine/RenderCommands/RenderCommand.h"
 
 #include <iostream>
 
-#include "Reflection/Registry/ComponentRegistry.h"
+#include "Utilities/Reflection/Registry/ComponentRegistry.h"
 
-#include "Components/Base/Component.h"
-#include "Components/Rendering/SpriteRenderer2D.h"
+#include "CoreEngine/Components/Base/Component.h"
+#include "CoreEngine/Components/Rendering/SpriteRenderer2D.h"
+
+#include "../CoreEngine/CoreEngine/Input/InputMapper.h"
+#include "../CoreEngine/CoreEngine/Components/Transform2D.h"
+
+#include "../GraphicsEngine/GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
+
+#include "OpenGL/glad/glad.h"
 
 namespace Eclipse
 {

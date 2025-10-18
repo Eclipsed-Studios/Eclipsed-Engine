@@ -1,33 +1,33 @@
 #ifdef ECLIPSED_EDITOR
 #include "Editor.h"
 
-#include "Engine.h"
+#include "CoreEngine/Engine.h"
 #include "ImGui/ImGui_Impl.h"
-#include "PlatformIntegration/DiscordIntegration.h"
+#include "Utilities/PlatformIntegration/DiscordIntegration.h"
 
-#include "AssetManagement/MetaFileRegistry.h"
+#include "CoreEngine/AssetManagement/MetaFileRegistry.h"
 
-#include "PhysicsEngine.h"
-#include "PhysicsEngineSettings.h"
-
-#include "Math/Math.h"
+#include "Utilities/Math/Math.h"
 
 #include <fstream>
 #include <rapidjson/rapidjson/stringbuffer.h>
 #include <rapidjson/rapidjson/prettywriter.h>
 
-#include "Scenes/SceneLoader.h"
-#include <iostream>
+#include "CoreEngine/Scenes/SceneLoader.h"
 
 #include "Font-Awesome/7/IconsFontAwesome7.h"
 
-#include "AssetManagement/MetaFileRegistry.h"
-#include "AssetManagement/AssetExporter.h"
+#include "CoreEngine/AssetManagement/MetaFileRegistry.h"
+#include "CoreEngine/AssetManagement/AssetExporter.h"
 
 #include "Editor/Common/TextureIconManager.h"
 
-#include "Files/FileWatcher.h"
-#include "Scenes/SceneManager.h"
+#include "Utilities/Files/FileWatcher.h"
+#include "../CoreEngine/CoreEngine/Scenes/SceneManager.h"
+
+#include "CoreEngine/Input/InputMapper.h"
+
+#include "../GraphicsEngine/GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
 namespace Eclipse::Editor
 {
@@ -118,38 +118,38 @@ namespace Eclipse::Editor
 
 		ImGui::Begin("TestGameButons", (bool*)1, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
 
-		if (!Game::IsPlaying || Game::IsPaused)
-		{
-			if (ImGui::Button(ICON_FA_PLAY) || Input::GetKeyDown(Keycode::F5))
-			{
-				Game::IsPlaying = true;
-				Game::IsPaused = false;
+		// if (!Game::IsPlaying || Game::IsPaused)
+		// {
+		// 	if (ImGui::Button(ICON_FA_PLAY) || Input::GetKeyDown(Keycode::F5))
+		// 	{
+		// 		Game::IsPlaying = true;
+		// 		Game::IsPaused = false;
 
-				SceneLoader::Save(SceneManager::GetActiveScene());
+		// 		SceneLoader::Save(SceneManager::GetActiveScene());
 
-				ImGui::End();
-				return;
-			}
-		}
+		// 		ImGui::End();
+		// 		return;
+		// 	}
+		// }
 
 
-		if (Game::IsPlaying)
-		{
-			if (!Game::IsPaused)
-			{
-				if (ImGui::Button(ICON_FA_PAUSE))
-					Game::IsPaused = !Game::IsPaused;
-			}
+		// if (Game::IsPlaying)
+		// {
+		// 	if (!Game::IsPaused)
+		// 	{
+		// 		if (ImGui::Button(ICON_FA_PAUSE))
+		// 			Game::IsPaused = !Game::IsPaused;
+		// 	}
 
-			ImGui::SameLine();
-			if (ImGui::Button(ICON_FA_STOP))
-			{
-				Game::IsPlaying = false;
-				Game::IsPaused = false;
+		// 	ImGui::SameLine();
+		// 	if (ImGui::Button(ICON_FA_STOP))
+		// 	{
+		// 		Game::IsPlaying = false;
+		// 		Game::IsPaused = false;
 
-				SceneManager::ReloadActiveScene();
-			}
-		}
+		// 		SceneManager::ReloadActiveScene();
+		// 	}
+		// }
 
 		ImVec2 buttonsWindowSize = ImGui::GetWindowSize();
 		ImGui::SetWindowPos(ImVec2(windowPosition.x + windowSizeX - buttonsWindowSize.x * 0.5f, windowPosition.y));

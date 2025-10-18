@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Components/Base/BaseComponent.h"
+#include "CoreEngine/Components/Base/BaseComponent.h"
 
 #include <string>
-#include "ECS/ComponentManager.h"
+#include "CoreEngine/ECS/ComponentManager.h"
 
-#include "AssetManagement/Resources.h"
+#include "../CoreEngine/CoreEngine/AssetManagement/Resources.h"
 
 #include "Utilities/Math/Vector/Vector2.h"
 #include "Utilities/Math/Color.h"

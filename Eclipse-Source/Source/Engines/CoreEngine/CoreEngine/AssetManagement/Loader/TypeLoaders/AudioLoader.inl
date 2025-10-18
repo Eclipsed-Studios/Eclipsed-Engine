@@ -1,7 +1,7 @@
-#include <AssetManagement/Loader/AssetLoader.hpp>
+#include <../CoreEngine/CoreEngine/AssetManagement/Loader/AssetLoader.hpp>
 
-#include <AssetManagement/Resources/AudioClip.h>
-#include "Audio/AudioManager.h"
+#include <../CoreEngine/CoreEngine/AssetManagement/Resources/AudioClip.h>
+#include "../CoreEngine/CoreEngine/Audio/AudioManager.h"
 
 namespace Eclipse
 {

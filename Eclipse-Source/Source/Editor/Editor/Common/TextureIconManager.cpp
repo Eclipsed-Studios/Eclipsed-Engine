@@ -3,11 +3,11 @@
 #include <filesystem>
 #include <fstream>
 
-#include "AssetManagement/Loader/ResourceLoaderHelper.h"
+#include "CoreEngine/AssetManagement/Loader/ResourceLoaderHelper.h"
 
-#include <glad/glad.h>
+#include <OpenGL/glad/glad.h>
 
-#include "Files/FileWatcher.h"
+#include "Utilities/Files/FileWatcher.h"
 
 namespace Eclipse::Editor
 {

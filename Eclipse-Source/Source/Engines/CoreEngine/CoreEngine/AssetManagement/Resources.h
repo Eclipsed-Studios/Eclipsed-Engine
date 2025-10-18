@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ResourcePointer.h"
-#include "AssetManagement/Loader/AssetLoader.hpp"
+#include "CoreEngine/AssetManagement/Loader/AssetLoader.hpp"
 #include "ResourceList.h"
 
 #include <typeindex>

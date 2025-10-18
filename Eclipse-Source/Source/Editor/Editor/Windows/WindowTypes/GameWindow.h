@@ -5,7 +5,7 @@
 
 
 #include "RenderingWindow.h"
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/Vector/Vector2.h"
 
 namespace Eclipse::Editor
 {

@@ -3,7 +3,7 @@
 #include "fmod/fmod.h"
 #include "fmod/fmod.hpp"
 
-#include "AssetManagement/Resources/AudioClip.h"
+#include "../CoreEngine/CoreEngine/AssetManagement/Resources/AudioClip.h"
 
 namespace Eclipse
 {

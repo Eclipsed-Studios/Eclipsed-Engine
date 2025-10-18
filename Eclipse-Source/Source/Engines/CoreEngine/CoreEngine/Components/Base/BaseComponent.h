@@ -3,7 +3,7 @@
 
 #include "Utilities/Reflection/Registry/ComponentRegistry.h"
 
-#include "ECS/ComponentManager.h"
+#include "CoreEngine/ECS/ComponentManager.h"
 
 #include "Component.h"
 

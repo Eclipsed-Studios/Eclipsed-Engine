@@ -46,7 +46,7 @@ namespace Eclipse
 
         assert(myComponentMemoryTracker <= MAX_COMPONENT_MEMORY_BYTES && "MAX_COMPONENT_MEMORY_BYTES needs to be increased to add more components");
 
-        RegisteredTypeIndex typeIndex = GetComponentID<T>();
+        unsigned typeIndex = GetComponentID<T>();
 
         if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
         {
@@ -83,7 +83,7 @@ namespace Eclipse
         uint8_t* ptrToComponent = base + myComponentMemoryTracker;
         myComponentMemoryTracker += sizeof(T);
 
-        RegisteredTypeIndex typeIndex = GetComponentID<T>();
+        unsigned typeIndex = GetComponentID<T>();
 
         if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
         {

@@ -2,15 +2,15 @@
 
 #include <ImGui/imgui.h>
 
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+#include "OpenGL/glad/glad.h"
+#include "OpenGL/GLFW/glfw3.h"
 #include <psapi.h>
 #include <windows.h>
 #include <iostream>
 
 #include "ImGui/implot.h"
 
-#include "Profiler/Profiler.h"
+#include "../CoreEngine/CoreEngine/Profiler/Profiler.h"
 
 namespace Eclipse::Editor
 {

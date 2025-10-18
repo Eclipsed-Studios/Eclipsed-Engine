@@ -1,15 +1,15 @@
 #include "SettingsWindow.h"
 
 #include "ImGui/imgui.h"
-#include "PhysicsEngineSettings.h"
+#include "../PhysicsEngine/PhysicsEngine/PhysicsEngineSettings.h"
 
-#include "Math/Math.h"
+#include "Utilities/Math/Math.h"
 
 #include <fstream>
 #include <rapidjson/rapidjson/stringbuffer.h>
 #include <rapidjson/rapidjson/prettywriter.h>
 
-#include "Scenes/SceneManager.h"
+#include "../CoreEngine/CoreEngine/Scenes/SceneManager.h"
 
 namespace Eclipse::Editor
 {

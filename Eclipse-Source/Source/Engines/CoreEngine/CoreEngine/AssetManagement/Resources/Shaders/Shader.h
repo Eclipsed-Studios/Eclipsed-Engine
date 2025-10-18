@@ -1,8 +1,8 @@
 #pragma once
 
-#include <AssetManagement/Resources/Shaders/PixelShader.h>
-#include <AssetManagement/Resources/Shaders/VertexShader.h>
-#include <AssetManagement/ResourcePointer.h>
+#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Shaders/PixelShader.h>
+#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Shaders/VertexShader.h>
+#include <../CoreEngine/CoreEngine/AssetManagement/ResourcePointer.h>
 
 namespace Eclipse
 {

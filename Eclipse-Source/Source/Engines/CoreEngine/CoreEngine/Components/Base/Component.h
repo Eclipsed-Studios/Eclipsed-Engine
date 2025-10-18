@@ -8,7 +8,7 @@
 
 #include "Utilities/Reflection/Reflection.h"
 #include "Utilities/Reflection/Reflection_Macros.h"
-#include "GameObject.h"
+#include "CoreEngine/GameObject.h"
 
 namespace Eclipse
 {

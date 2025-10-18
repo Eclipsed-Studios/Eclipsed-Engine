@@ -4,7 +4,7 @@
 #include "Editor/Windows/WindowBase.h"
 #include "RenderingWindow.h"
 
-#include "Math/Vector/Vector2.h"
+#include "Utilities/Math/Vector/Vector2.h"
 
 #include <vector>
 

@@ -1,10 +1,10 @@
-#include <AssetManagement/Loader/AssetLoader.hpp>
+#include <../CoreEngine/CoreEngine/AssetManagement/Loader/AssetLoader.hpp>
 
-#include <AssetManagement/Resources/Shaders/PixelShader.h>
-#include <AssetManagement/Resources/Shaders/Shader.h>
-#include <AssetManagement/Resources/Shaders/VertexShader.h>
+#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Shaders/PixelShader.h>
+#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Shaders/Shader.h>
+#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Shaders/VertexShader.h>
 
-#include <GraphicsEngine/ShaderCompiler.h>
+#include <../GraphicsEngine/GraphicsEngine/ShaderCompiler.h>
 
 namespace Eclipse
 {

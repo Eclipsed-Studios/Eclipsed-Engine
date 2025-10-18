@@ -3,7 +3,7 @@
 
 #include "Editor/Windows/WindowBase.h"
 
-#include "Files/DirectoryTree.h"
+#include "Utilities/Files/DirectoryTree.h"
 #include "Editor/Windows/WindowTypes/AssetWindow/AssetWindowContextMenu.h"
 
 namespace Eclipse::Editor

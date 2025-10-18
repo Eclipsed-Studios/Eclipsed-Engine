@@ -3,7 +3,7 @@
 #include <vector>
 #include <functional>
 
-#include "ECS/ComponentManager.h"
+#include "../CoreEngine/CoreEngine/ECS/ComponentManager.h"
 #include "Base/BaseComponent.h"
 
 #include <Utilities/Math/Vector/Vector2.h>

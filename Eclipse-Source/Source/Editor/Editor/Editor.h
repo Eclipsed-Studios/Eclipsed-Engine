@@ -3,7 +3,7 @@
 #ifdef ECLIPSED_EDITOR
 #include "Windows/WindowManager.h"
 
-#include "ErrorCodes.h"
+#include "Utilities/ErrorCodes.h"
 
 #include <string>
 

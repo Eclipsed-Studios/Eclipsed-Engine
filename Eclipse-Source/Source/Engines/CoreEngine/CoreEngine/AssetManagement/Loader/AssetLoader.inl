@@ -1,4 +1,4 @@
-#include <AssetManagement/Loader/AssetLoader.hpp>
+#include <../CoreEngine/CoreEngine/AssetManagement/Loader/AssetLoader.hpp>
 
 #include <filesystem>
 #include <algorithm>

@@ -5,9 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
-#include "Math/Math.h"
-
-#include "ImGui/ImGui/imgui.h"
+#include "Utilities/Math/Math.h"
 
 namespace Eclipse::Editor
 {
