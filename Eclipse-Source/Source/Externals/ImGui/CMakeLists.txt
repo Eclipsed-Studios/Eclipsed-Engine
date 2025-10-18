@@ -17,6 +17,6 @@ target_include_directories(ImGui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_include_directories(ImGui PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
 
-set_target_properties(ImGui PROPERTIES UNITY_BUILD OFF UNITY_BUILD_BATCH_SIZE 100)
+set_target_properties(ImGui PROPERTIES UNITY_BUILD OFF)
  
 set_target_properties(ImGui PROPERTIES FOLDER "Externals")

@@ -1,7 +1,6 @@
 #pragma once
 
 #define GLFW_EXPOSE_NATIVE_WIN32
-
 #include "ImGui/ImGui/imgui.h"
 #include "ImGui/ImGui/imgui_impl_glfw.h"
 #include "ImGui/ImGui/imgui_impl_opengl3.h"

@@ -5,12 +5,12 @@
 
 #include "Utilities/Math/Math.h"
 
-#include "../GraphicsEngine/GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
-#include "../GraphicsEngine/GraphicsEngine/RenderCommands/CommandList.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+#include "GraphicsEngine/RenderCommands/CommandList.h"
 
 #include "CoreEngine/Input/Input.h"
 
-#include "../GraphicsEngine/GraphicsEngine/RenderCommands/RenderCommand.h"
+#include "GraphicsEngine/RenderCommands/RenderCommand.h"
 
 #include <iostream>
 
@@ -19,10 +19,10 @@
 #include "CoreEngine/Components/Base/Component.h"
 #include "CoreEngine/Components/Rendering/SpriteRenderer2D.h"
 
-#include "../CoreEngine/CoreEngine/Input/InputMapper.h"
-#include "../CoreEngine/CoreEngine/Components/Transform2D.h"
+#include "CoreEngine/Input/InputMapper.h"
+#include "CoreEngine/Components/Transform2D.h"
 
-#include "../GraphicsEngine/GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
+#include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
 
 #include "OpenGL/glad/glad.h"
 

@@ -61,3 +61,5 @@ target_link_libraries(Editor PRIVATE FMOD)
 target_link_libraries(Editor PRIVATE OpenGL::GL)
 target_link_libraries(Editor PRIVATE Opengl)
 target_link_libraries(Editor PRIVATE ImGui)
+
+set_target_properties(Editor PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)

@@ -1,7 +1,5 @@
 #pragma once
 
-	#define ECLIPSED_EDITOR
-
 #include "AbstractSerializedVariable.h"
 
 namespace Eclipse::Reflection

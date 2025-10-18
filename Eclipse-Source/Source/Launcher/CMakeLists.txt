@@ -62,3 +62,5 @@ find_package(OpenGL REQUIRED)
 target_link_libraries(Launcher PRIVATE OpenGL::GL)
 target_link_libraries(Launcher PRIVATE Opengl)
 target_link_libraries(Launcher PRIVATE ImGui)
+
+set_target_properties(Launcher PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)

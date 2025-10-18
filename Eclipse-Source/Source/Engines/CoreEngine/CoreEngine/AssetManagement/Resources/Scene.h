@@ -1,8 +1,8 @@
 #pragma once 
 
-#include "../CoreEngine/CoreEngine/AssetManagement/Resources/Abstract/AbstractResource.h"
+#include "CoreEngine/AssetManagement/Resources/Abstract/AbstractResource.h"
 
-#include "../CoreEngine/CoreEngine/ECS/ComponentManager.h"
+#include "CoreEngine/ECS/ComponentManager.h"
 
 namespace Eclipse
 {

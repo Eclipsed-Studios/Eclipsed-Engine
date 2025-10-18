@@ -44,3 +44,5 @@ target_include_directories(CoreEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externa
 target_link_libraries(CoreEngine PRIVATE FMOD)
 
 target_include_directories(CoreEngine PRIVATE ${PLATFORMINTEGRATION_SOURCES})
+
+set_target_properties(CoreEngine PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)

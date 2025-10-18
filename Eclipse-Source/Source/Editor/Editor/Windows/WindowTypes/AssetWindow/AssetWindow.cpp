@@ -3,7 +3,7 @@
 #include "AssetWindow.h"
 #include "Editor/Common/TextureIconManager.h"
 
-#include "../CoreEngine/CoreEngine/Scenes/SceneManager.h"
+#include "CoreEngine/Scenes/SceneManager.h"
 
 namespace Eclipse::Editor
 {

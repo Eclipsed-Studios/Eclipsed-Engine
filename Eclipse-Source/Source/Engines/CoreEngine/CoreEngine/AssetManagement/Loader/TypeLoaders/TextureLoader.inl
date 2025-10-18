@@ -1,7 +1,7 @@
-#include <../CoreEngine/CoreEngine/AssetManagement/Loader/AssetLoader.hpp>
+#include <CoreEngine/AssetManagement/Loader/AssetLoader.hpp>
 
-#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Texture.h>
-#include "../CoreEngine/CoreEngine/AssetManagement/Loader/ResourceLoaderHelper.h"
+#include <CoreEngine/AssetManagement/Resources/Texture.h>
+#include "CoreEngine/AssetManagement/Loader/ResourceLoaderHelper.h"
 
 #include <iomanip> 
 #include <iterator>
@@ -10,7 +10,7 @@
 #include "rapidjson/rapidjson/document.h"
 #include "rapidjson/rapidjson/filereadstream.h"
 
-#include "../GraphicsEngine/GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
 namespace Eclipse
 {

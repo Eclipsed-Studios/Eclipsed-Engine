@@ -24,7 +24,5 @@
 #include "GraphicsEngine/AbstractGraphicsAPI.h"
 #include "GraphicsEngine/ShaderCompiler.h"
 
-// #include "GLFW/glfw3.h"
-
 // #define LEAN_AND_MEAN
 // #include <Windows.h>

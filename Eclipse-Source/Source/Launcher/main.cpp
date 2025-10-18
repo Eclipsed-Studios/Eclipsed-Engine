@@ -2,7 +2,6 @@
 
 #include "Utilities/ErrorCodes.h"
 
-#define LEAN_AND_MEAN
 #include <windows.h>
 
 #include <chrono>

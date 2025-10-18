@@ -38,3 +38,5 @@ foreach(source_file IN LISTS GAME_SOURCES)
         source_group("" FILES "${source_file}")
     endif()
 endforeach()
+
+set_target_properties(Game PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)

@@ -16,7 +16,6 @@ if(EDITOR)
     add_compile_definitions(ECLIPSED_EDITOR)
 endif()
 
-
 # ---- Externals
 add_subdirectory(Source/Externals/DiscordSDK)
 add_subdirectory(Source/Externals/fmod)
@@ -27,6 +26,7 @@ add_subdirectory(Source/Externals/SDL3)
 add_subdirectory(Source/Externals/stb_image)
 add_subdirectory(Source/Externals/Font-Awesome)
 
+include_directories("${CMAKE_SOURCE_DIR}/Source/")
 include_directories("${CMAKE_SOURCE_DIR}/Source/Externals")
 
 add_compile_definitions(ENGINE_SETTINGS_PATH=\"${CMAKE_SOURCE_DIR}/Settings/EngineSettings.json\")
@@ -106,17 +106,3 @@ endif()
 set_target_properties(Launcher PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
 )
-
-
-
-
-
-
-# set_target_properties(CoreEngine PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
-
-# set_target_properties(GraphicsEngine PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
-# set_target_properties(Editor PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
-# set_target_properties(Launcher PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
-# set_target_properties(PhysicsEngine PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
-# set_target_properties(Game PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
-# set_target_properties(Utilities PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)

@@ -5,15 +5,15 @@
 #include <typeindex>
 #include <stdexcept>
 
-#include "../CoreEngine/CoreEngine/AssetManagement/Resources.h"
+#include "CoreEngine/AssetManagement/Resources.h"
 
 
-#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Texture.h>
-#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Shaders/PixelShader.h>
-#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Shaders/VertexShader.h>
-#include <../CoreEngine/CoreEngine/AssetManagement/Resources/SpriteSheetAnimation.h>
+#include <CoreEngine/AssetManagement/Resources/Texture.h>
+#include <CoreEngine/AssetManagement/Resources/Shaders/PixelShader.h>
+#include <CoreEngine/AssetManagement/Resources/Shaders/VertexShader.h>
+#include <CoreEngine/AssetManagement/Resources/SpriteSheetAnimation.h>
 
-#include "../CoreEngine/CoreEngine/AssetManagement/AssetExporter.h"
+#include "CoreEngine/AssetManagement/AssetExporter.h"
 
 namespace Eclipse
 {

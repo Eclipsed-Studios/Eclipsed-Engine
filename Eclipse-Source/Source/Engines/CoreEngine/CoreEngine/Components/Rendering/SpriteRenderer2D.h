@@ -5,7 +5,7 @@
 #include <string>
 #include "CoreEngine/ECS/ComponentManager.h"
 
-#include "../CoreEngine/CoreEngine/AssetManagement/Resources.h"
+#include "CoreEngine/AssetManagement/Resources.h"
 
 #include "Utilities/Math/Vector/Vector2.h"
 #include "Utilities/Math/Color.h"

@@ -23,11 +23,11 @@
 #include "Editor/Common/TextureIconManager.h"
 
 #include "Utilities/Files/FileWatcher.h"
-#include "../CoreEngine/CoreEngine/Scenes/SceneManager.h"
+#include "CoreEngine/Scenes/SceneManager.h"
 
 #include "CoreEngine/Input/InputMapper.h"
 
-#include "../GraphicsEngine/GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
 #include "Game/Game.h"
 #include "CoreEngine/Input/Input.h"

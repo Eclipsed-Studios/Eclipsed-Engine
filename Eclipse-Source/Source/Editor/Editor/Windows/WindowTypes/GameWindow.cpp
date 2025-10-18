@@ -4,10 +4,10 @@
 
 #include "Utilities/Math/Math.h"
 
-#include "../GraphicsEngine/GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
-#include "../GraphicsEngine/GraphicsEngine/RenderCommands/CommandList.h"
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+#include "GraphicsEngine/RenderCommands/CommandList.h"
 
-#include "../CoreEngine/CoreEngine/Components/Rendering/Camera.h"
+#include "CoreEngine/Components/Rendering/Camera.h"
 
 #include <array>
 

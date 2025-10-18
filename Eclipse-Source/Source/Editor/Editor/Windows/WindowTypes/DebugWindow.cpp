@@ -10,7 +10,7 @@
 
 #include "ImGui/implot.h"
 
-#include "../CoreEngine/CoreEngine/Profiler/Profiler.h"
+#include "CoreEngine/Profiler/Profiler.h"
 
 namespace Eclipse::Editor
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <../CoreEngine/CoreEngine/AssetManagement/Resources/Abstract/AbstractResource.h>
+#include <CoreEngine/AssetManagement/Resources/Abstract/AbstractResource.h>
 
 namespace Eclipse
 {
