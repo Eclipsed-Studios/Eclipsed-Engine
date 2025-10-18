@@ -10,7 +10,7 @@ file(GLOB_RECURSE UTILITIES_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
 )
 
-add_library(Utilities STATIC ${UTILITIES_ROOT})
+add_library(Utilities STATIC ${UTILITIES_SOURCES})
 
 target_precompile_headers(Utilities PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 

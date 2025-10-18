@@ -13,7 +13,7 @@ file(GLOB_RECURSE EDITOR_SOURCES
     "${EDITOR_ROOT}/*.h"
     "${EDITOR_ROOT}/*.hpp"
     "${EDITOR_ROOT}/*.inl"
-    "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/pch.h" 
 )
 
 add_library(Editor STATIC ${EDITOR_SOURCES})

@@ -22,6 +22,7 @@ set_target_properties(CoreEngine PROPERTIES FOLDER "Engines")
 
 # ---- CoreEngine
 target_include_directories(CoreEngine PRIVATE ${CORE_ENGINE_ROOT})
+target_include_directories(CoreEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 # ---- GraphicsEngine
