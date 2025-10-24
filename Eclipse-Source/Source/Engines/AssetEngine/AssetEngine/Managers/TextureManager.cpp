@@ -2,7 +2,7 @@
 
 #include "AssetEngine/AssetBinaryLoader/TypeLoaders/Texture/TextureLoader.h"
 
-namespace Eclipse
+namespace Eclipse::Assets
 {
 	Textures TextureManager::Get(const size_t& id)
 	{

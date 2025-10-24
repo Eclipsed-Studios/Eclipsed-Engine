@@ -58,7 +58,10 @@ namespace Eclipse
 
 	void SpriteRenderer2D::DrawInspector()
 	{
-		if (Editor::DragAndDrop::BeginTarget(hasTexture ?  std::filesystem::relative(myTexturePath->c_str(), ASSET_PATH).string().c_str() : "No texture", Utilities::FileInfo::FileType_Texture))
+		ImGui::Text("Texture");
+		ImGui::SameLine();
+
+		if (Editor::DragAndDrop::BeginTarget(hasTexture ? myTexturePath->c_str() : "No texture", Utilities::FileInfo::FileType_Texture))
 		{
 			myTexturePath = Editor::DragAndDrop::payloadBuffer;
 			SetTexture(myTexturePath->c_str());

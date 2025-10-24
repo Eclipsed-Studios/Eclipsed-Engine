@@ -5,92 +5,92 @@
 
 namespace Eclipse::Assets
 {
-	std::vector<std::filesystem::path> AssetScanner::FindModifiedAssets()
+	std::vector<AssetScannerEntry> AssetScanner::FindModifiedAssets()
 	{
 		namespace fs = std::filesystem;
 
-		std::vector<std::filesystem::path> assetList;
-
-		for (auto& entry : fs::recursive_directory_iterator(PathManager::GetAssetDir()))
-		{
-			if (fs::is_directory(entry)) continue;
-
-			size_t lastModTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::filesystem::last_write_time(entry).time_since_epoch()).count();
-			fs::path relPath = fs::relative(entry, PathManager::GetAssetDir());
-
-			if (AssetRegistry::GetInstance().IsRegistered(relPath))
+		std::vector<AssetScannerEntry> assetList;
+		{ // Project assets
+			for (auto& entry : fs::recursive_directory_iterator(PathManager::GetAssetDir()))
 			{
-				AssetRegistryEntry entry = AssetRegistry::GetInstance().GetRegisteredAsset(relPath);
+				if (fs::is_directory(entry)) continue;
 
-				if (lastModTime > entry.lastModified)
+				size_t lastModTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::filesystem::last_write_time(entry).time_since_epoch()).count();
+				fs::path relPath = fs::relative(entry, PathManager::GetAssetDir());
+
+				if (AssetRegistry::GetInstance().IsRegistered(relPath))
 				{
-					assetList.push_back(relPath);
-					continue;
+					AssetRegistryEntry regEntry = AssetRegistry::GetInstance().GetRegisteredAsset(relPath);
+
+					if (lastModTime > regEntry.lastModified)
+					{
+						assetList.push_back({ entry.path(), relPath });
+						continue;
+					}
+				}
+
+				if (AssetRegistry::GetInstance().IsRegistered(relPath)) continue;
+				assetList.push_back({ entry.path(), relPath });
+			}
+
+			std::vector<size_t> assetsToRemove;
+			for (auto& [id, data] : AssetRegistry::GetInstance().GetRegisteredAssets())
+			{
+				if (!fs::exists(data.path))
+				{
+					fs::path fullPath = PathManager::GetCookedAssetsDir() / (std::to_string(id) + ".asset");
+					fs::remove(fullPath);
+
+					assetsToRemove.push_back(id);
 				}
 			}
 
-			if (AssetRegistry::GetInstance().IsRegistered(relPath)) continue;
-			assetList.push_back(relPath);
-		}
-
-		std::vector<size_t> assetsToRemove;
-		for (auto& [id, data] : AssetRegistry::GetInstance().GetRegisteredAssets())
-		{
-			if (!fs::exists(PathManager::GetAssetDir() / data.path))
+			for (auto& id : assetsToRemove)
 			{
-				fs::path fullPath = PathManager::GetCookedAssetsDir() / (std::to_string(id) + ".asset");
-				fs::remove(fullPath);
-
-				assetsToRemove.push_back(id);
+				AssetRegistry::GetInstance().UnregisterAsset(id);
 			}
 		}
 
-		for (auto& id : assetsToRemove)
-		{
-			AssetRegistry::GetInstance().UnregisterAsset(id);
-		}
 
-		return assetList;
-	}
+		{ // Engine assets
+			for (auto& entry : fs::recursive_directory_iterator(PathManager::GetEngineAssets()))
+			{
+				if (fs::is_directory(entry)) continue;
 
-	std::vector<std::filesystem::path> AssetScanner::FindNewAssets()
-	{
-		namespace fs = std::filesystem;
+				size_t lastModTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::filesystem::last_write_time(entry).time_since_epoch()).count();
+				fs::path relPath = fs::relative(entry, PathManager::GetEngineAssets());
 
-		std::vector<std::filesystem::path> assetList;
+				if (AssetRegistry::GetInstance().IsRegistered(relPath))
+				{
+					AssetRegistryEntry regEntry = AssetRegistry::GetInstance().GetRegisteredAsset(relPath);
 
-		fs::path path = PathManager::GetAssetDir();
-		for (auto& entry : fs::recursive_directory_iterator(PathManager::GetAssetDir()))
-		{
-			if (fs::is_directory(entry)) continue;
+					if (lastModTime > regEntry.lastModified)
+					{
+						assetList.push_back({ entry.path(), relPath });
+						continue;
+					}
+				}
 
-			fs::path relPath = fs::relative(entry, PathManager::GetAssetDir());
-			if (AssetRegistry::GetInstance().IsRegistered(relPath)) continue;
+				if (AssetRegistry::GetInstance().IsRegistered(relPath)) continue;
+				assetList.push_back({ entry.path(), relPath });
+			}
 
-			assetList.push_back(relPath);
-		}
+			std::vector<size_t> assetsToRemove;
+			for (auto& [id, data] : AssetRegistry::GetInstance().GetRegisteredAssets())
+			{
+				if (!fs::exists(data.path))
+				{
+					fs::path fullPath = PathManager::GetCookedAssetsDir() / (std::to_string(id) + ".asset");
+					fs::remove(fullPath);
 
-		return assetList;
-	}
+					assetsToRemove.push_back(id);
+				}
+			}
 
-	std::vector<std::filesystem::path> AssetScanner::FindChangedAssets()
-	{
-		namespace fs = std::filesystem;
-
-		std::vector<std::filesystem::path> assetList;
-
-		fs::path path = PathManager::GetAssetDir();
-		for (auto& entry : fs::recursive_directory_iterator(PathManager::GetAssetDir()))
-		{
-			if (fs::is_directory(entry)) continue;
-
-			size_t lastModTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::filesystem::last_write_time(PathManager::GetAssetDir() / path).time_since_epoch()).count();
-			fs::path relPath = fs::relative(entry, PathManager::GetAssetDir());
-			AssetRegistryEntry entry = AssetRegistry::GetInstance().GetRegisteredAsset(relPath);
-
-			if (lastModTime < entry.lastModified) continue;
-
-			assetList.push_back(relPath);
+			for (auto& id : assetsToRemove)
+			{
+				AssetRegistry::GetInstance().UnregisterAsset(id);
+			}
 		}
 
 		return assetList;

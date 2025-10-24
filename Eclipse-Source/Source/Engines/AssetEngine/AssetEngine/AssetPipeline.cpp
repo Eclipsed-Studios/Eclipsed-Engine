@@ -5,6 +5,7 @@
 #include "AssetCooker/AssetCooker.h"
 #include "CookedAssetWriter.h"
 #include "AssetRegistry.h"
+#include "PathManager.h"
 
 /*
 void AssetPipeline::Run()
@@ -24,13 +25,16 @@ namespace Eclipse::Assets
 {
 	void AssetPipeline::Init()
 	{
+		if (!PathManager::ProjectSet()) return;
+
 		AssetRegistry::GetInstance().Load();
-		for (std::filesystem::path& asset : AssetScanner::FindModifiedAssets())
+		for (AssetScannerEntry& asset : AssetScanner::FindModifiedAssets())
 		{
-			std::string pathString = asset.generic_string();
+			std::string fullpath = asset.fullPath.generic_string();
+			std::string relpath = asset.relPath.generic_string();
 
 			ImportedAsset imported;
-			AssetImporter::Import(pathString.c_str(), imported);
+			AssetImporter::Import(fullpath.c_str(), relpath.c_str(), imported);
 
 			if (!imported.succesful) continue;
 			

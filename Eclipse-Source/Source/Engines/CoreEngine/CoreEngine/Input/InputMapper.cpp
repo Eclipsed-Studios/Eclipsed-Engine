@@ -15,6 +15,8 @@
 #include "rapidjson/rapidjson/stringbuffer.h"
 #include "rapidjson/rapidjson/filewritestream.h"
 
+#include "AssetEngine/PathManager.h"
+
 namespace Eclipse
 {
 	void InputMapper::Save()
@@ -39,7 +41,7 @@ namespace Eclipse
 		Writer<StringBuffer> writer(buffer);
 		d.Accept(writer);
 
-		std::ofstream ofs(ASSET_PATH"inputmap.json");
+		std::ofstream ofs(PathManager::GetProjectRoot() / "Settings/InputMap.json");
 		ofs << buffer.GetString();
 		ofs.close();
 	}
@@ -48,7 +50,7 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
-		std::ifstream ifs(ASSET_PATH "inputmap.json");
+		std::ifstream ifs(PathManager::GetProjectRoot() / "Settings/InputMap.json");
 		if (!ifs.is_open()) {
 			Save();
 		}

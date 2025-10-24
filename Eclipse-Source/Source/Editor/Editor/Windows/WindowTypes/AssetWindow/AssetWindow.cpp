@@ -4,12 +4,14 @@
 #include "Editor/Common/TextureIconManager.h"
 
 #include "CoreEngine/Scenes/SceneManager.h"
+#include "AssetEngine/PathManager.h"
+#include "Editor/EditorUIManager.h"
 
 namespace Eclipse::Editor
 {
 	void AssetWindow::Open()
 	{
-		dirTree = Utilities::DirectoryTree(ASSET_PATH);
+		dirTree = Utilities::DirectoryTree(PathManager::GetAssetDir());
 		Active_View_Node = dirTree.GetRoot();
 	}
 
@@ -20,6 +22,11 @@ namespace Eclipse::Editor
 		DrawAssetView();
 
 		ctxMenu.Draw();
+	}
+
+	void AssetWindow::LoadAssets()
+	{
+
 	}
 
 	bool AssetWindow::CheckFileDoubleClicked()
@@ -54,7 +61,7 @@ namespace Eclipse::Editor
 		static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_DrawLinesFull | ImGuiTreeNodeFlags_DrawLinesToNodes | ImGuiTreeNodeFlags_DefaultOpen;
 		if (ImGui::TreeNodeEx(ICON_FA_FOLDER " Assets", base_flags))
 		{
-			Utilities::FileNode* startNode = dirTree.GetNode(ASSET_PATH);
+			Utilities::FileNode* startNode = dirTree.GetNode(PathManager::GetAssetDir());
 
 			DrawAssetHierachyEntry(startNode);
 			ImGui::TreePop();
@@ -100,7 +107,7 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		std::string pathCombiner = ASSET_PATH;
+		std::string pathCombiner = PathManager::GetAssetDir().generic_string();
 		fs::path p = std::string("Assets/") + Active_View_Node->info.relativeFilePath.string();
 		for (auto& path : p)
 		{
@@ -112,7 +119,7 @@ namespace Eclipse::Editor
 
 				ImVec2 pos = ImGui::GetCursorPos();
 				ImGui::SetCursorPos(ImVec2(pos.x, pos.y - 2));
-				ImGui::PushFont(EditorContext::fontMedium);
+				ImGui::PushFont(EditorUIManager::FontMedium);
 				ImGui::Text(">");
 				ImGui::PopFont();
 
@@ -185,7 +192,7 @@ namespace Eclipse::Editor
 		ImColor col(1.f, 1.f, 1.f, 1.f);
 		if (!ActivePath.empty() && entryIndex == ActiveEntryIndex) col = ImColor(1.00f, 0.75f, 0.30f, 1.00f);
 
-		ImGui::PushFont(Editor::EditorContext::fontExtraLarge);
+		ImGui::PushFont(EditorUIManager::FontExtraLarge);
 		ImGui::PushStyleColor(ImGuiCol_Text, col.Value);
 
 		if (node->info.type == Utilities::FileInfo::FileType_Texture)
@@ -265,11 +272,11 @@ namespace Eclipse::Editor
 
 		ImVec2 center = ImVec2((min.x + max.x) * 0.5f, (min.y + max.y) * 0.5f);
 
-		ImGui::PushFont(Editor::EditorContext::fontTiny);
+		ImGui::PushFont(EditorUIManager::FontTiny);
 		ImVec2 textSize = ImGui::CalcTextSize(label.c_str());
 		const char* end = label.c_str() + 10;
 		ImGui::GetWindowDrawList()->AddText(
-			Editor::EditorContext::fontTiny,
+			EditorUIManager::FontTiny,
 			0.0f,
 			ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 6),
 			col,

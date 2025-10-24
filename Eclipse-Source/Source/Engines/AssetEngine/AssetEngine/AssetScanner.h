@@ -5,11 +5,15 @@
 
 namespace Eclipse::Assets
 {
+	struct AssetScannerEntry
+	{
+		std::filesystem::path fullPath;
+		std::filesystem::path relPath;
+	};
+
 	class AssetScanner final
 	{
 	public:
-		static std::vector<std::filesystem::path> FindModifiedAssets();
-		static std::vector<std::filesystem::path> FindNewAssets();
-		static std::vector<std::filesystem::path> FindChangedAssets();
+		static std::vector<AssetScannerEntry> FindModifiedAssets();
 	};
 }

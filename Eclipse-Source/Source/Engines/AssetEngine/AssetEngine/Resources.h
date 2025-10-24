@@ -3,8 +3,9 @@
 #include "AssetEngine/AssetRegistry.h"
 
 #include "AssetEngine/Managers/TextureManager.h"
+#include "AssetEngine/PathManager.h"
 
-namespace Eclipse
+namespace Eclipse::Assets
 {
 	class Resourcess
 	{
@@ -21,6 +22,12 @@ namespace Eclipse
 	template<typename T>
 	T Resourcess::Get(const char* path)
 	{
+		std::filesystem::path resolvedPath = path;
+		if (std::filesystem::path(path).is_absolute())
+		{
+			resolvedPath = std::filesystem::relative(path, PathManager::GetAssetDir());
+		}
+
 		Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
 
 		if (!registry.IsRegistered(path)) return {};

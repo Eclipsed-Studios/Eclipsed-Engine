@@ -18,7 +18,7 @@ namespace Eclipse::Assets
 		~AssetRegistry() = default;
 
 	public:
-		void RegisterAsset(const std::filesystem::path& path, AssetType type);
+		void RegisterAsset(const std::filesystem::path& fullPath, const std::filesystem::path& relativePath, AssetType type);
 		void UnregisterAsset(const size_t& id);
 
 		const AssetRegistryEntry& GetRegisteredAsset(const size_t& id);

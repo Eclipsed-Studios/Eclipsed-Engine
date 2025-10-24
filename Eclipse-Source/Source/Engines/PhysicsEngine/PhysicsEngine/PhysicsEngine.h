@@ -88,6 +88,8 @@ namespace Eclipse
         static bool& GetDebugDraw();
         static bool& GetDebugDrawShapes(DebugDrawTypes aType);
 
+        static void LoadLayers();
+
         static inline std::function<void(UserData&)> myBeginContactCallback;
         static inline std::function<void(UserData&)> myEndContactCallback;
 

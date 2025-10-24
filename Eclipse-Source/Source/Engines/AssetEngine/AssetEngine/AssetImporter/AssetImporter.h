@@ -9,23 +9,8 @@ namespace Eclipse::Assets
 {
 	class AssetImporter
 	{
-	private:
-		static inline std::unordered_map<std::string, AssetType> extensionToAssetType =
-		{
-			{".png",  AssetType::Texture},
-			{".jpg",  AssetType::Texture},
-			{".jpeg", AssetType::Texture},
-			{".bmp",  AssetType::Texture},
-			{".tga",  AssetType::Texture},
-			{".psd",  AssetType::Texture},
-			{".gif",  AssetType::Texture},
-			{".hdr",  AssetType::Texture},
-			{".pic",  AssetType::Texture},
-			{".pnm",  AssetType::Texture}
-		};
-
 	public:
-		static void Import(const char* path, ImportedAsset& outAsset);
+		static void Import(const char* path, const char* rel, ImportedAsset& outAsset);
 
 	private:
 		static inline TextureImporter textureImporter{};

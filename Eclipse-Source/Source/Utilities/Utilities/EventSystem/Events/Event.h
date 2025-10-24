@@ -2,6 +2,7 @@
 
 #include <type_traits>
 #include "BaseEvent.h"
+#include <functional>
 
 namespace Eclipse
 {

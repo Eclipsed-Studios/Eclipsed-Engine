@@ -2,12 +2,16 @@
 
 #include <filesystem>
 
+#include "Utilities/EventSystem/Events/Event.h"
+
 namespace Eclipse
 {
 	class PathManager
 	{
 	public:
-		static void Init(const std::filesystem::path& projectRootPath);
+		static void Init(const std::string& projectPath);
+
+		static bool ProjectSet();
 
 	public:
 		// Core directories
@@ -21,6 +25,9 @@ namespace Eclipse
 		static std::filesystem::path GetRelCacheDir() { return cacheDir; }
 		static std::filesystem::path GetRelCookedAssetsDir() { return cacheDir / cookedAssetsDir; }
 		static std::filesystem::path GetRelConfigDir() { return settingsDir; }
+		static std::filesystem::path GetEngineRoot() { return engineSourceRoot; }
+		static std::filesystem::path GetEngineAssets() { return engineSourceRoot / "EngineAssets"; }
+		static std::filesystem::path GetEngineLocal() { return engineSourceRoot / "Local"; }
 
 		// Helpers
 		static std::filesystem::path GetRawAssetPath(const std::filesystem::path& assetPath);
@@ -35,5 +42,8 @@ namespace Eclipse
 		static inline std::filesystem::path cacheDir = "Cache";
 		static inline std::filesystem::path cookedAssetsDir = cacheDir / "CookedAssets";
 		static inline std::filesystem::path settingsDir = "Settings";
+
+	public:
+		static inline Event OnProjectSet;
 	};
 }

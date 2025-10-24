@@ -199,7 +199,7 @@ namespace Eclipse::Editor
 
     void GameSettingsWindow::SaveLayerEditToJSON()
     {
-        std::string filePath = ASSET_PATH "CollisionLayers.json";
+        std::string filePath = (PathManager::GetProjectRoot() / "Settings/CollisionLayers.json").generic_string();
         rapidjson::Document document;
         document.SetObject();
         auto& allocator = document.GetAllocator();

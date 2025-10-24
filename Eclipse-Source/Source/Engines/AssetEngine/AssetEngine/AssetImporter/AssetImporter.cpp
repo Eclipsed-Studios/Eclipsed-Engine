@@ -13,9 +13,11 @@
 #include <iterator>
 #include <fstream>
 
+#include "AssetEngine/SupportedTypes.h"
+
 namespace Eclipse::Assets
 {
-	void AssetImporter::Import(const char* path, ImportedAsset& outAsset)
+	void AssetImporter::Import(const char* path, const char* rel, ImportedAsset& outAsset)
 	{
 		const std::string extension = std::filesystem::path(path).extension().generic_string();
 
@@ -27,7 +29,7 @@ namespace Eclipse::Assets
 		outAsset.type = type;
 		outAsset.succesful = true;
 
-		AssetRegistry::GetInstance().RegisterAsset(path, AssetType::Texture);
+		AssetRegistry::GetInstance().RegisterAsset(path, rel, AssetType::Texture);
 
 
 		switch (type)

@@ -15,9 +15,14 @@ namespace Eclipse
 
 		static bool BeginFrame();
 		static void Update();
+		static void Render();
 		static void EndFrame();
 
 	private:
 		static void InitSubSystems();
+
+
+	public:
+		static inline bool ShouldClose = false;
 	};
 }

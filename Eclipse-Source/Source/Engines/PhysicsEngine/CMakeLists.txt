@@ -20,6 +20,13 @@ target_precompile_headers(PhysicsEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch
 set_target_properties(PhysicsEngine PROPERTIES FOLDER "Engines")
 
 
+# ---- AssetEngine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/AssetEngine-Sources.cmake")
+target_include_directories(PhysicsEngine PUBLIC ${ASSET_ENGINE_ROOT})
+target_link_libraries(PhysicsEngine PUBLIC AssetEngine)
+
+
+
 # ---- Physics Engine
 target_include_directories(PhysicsEngine PRIVATE ${PHYSICS_ENGINE_ROOT})
 target_include_directories(PhysicsEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

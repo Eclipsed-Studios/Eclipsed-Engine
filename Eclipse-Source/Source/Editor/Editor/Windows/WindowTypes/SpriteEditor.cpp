@@ -20,6 +20,9 @@
 
 #include "OpenGL/GLFW/glfw3.h"
 
+#include "AssetEngine/Assets/Texture.h"
+#include "AssetEngine/Resources.h"
+
 #undef min
 
 namespace Eclipse::Editor
@@ -777,7 +780,7 @@ namespace Eclipse::Editor
 
 	void SpriteEditor::SetTexture(const char* aPath)
 	{
-		myTexture = Resources::Get<Texture>(aPath);
+		Textures t = Assets::Resourcess::Get<Textures>(aPath);
 
 		Load();
 

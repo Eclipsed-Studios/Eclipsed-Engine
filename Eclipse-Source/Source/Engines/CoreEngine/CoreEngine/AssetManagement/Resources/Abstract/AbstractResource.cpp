@@ -1,6 +1,7 @@
 #include "AbstractResource.h"
 
 #include <filesystem>
+#include "AssetEngine/PathManager.h"
 
 namespace Eclipse
 {
@@ -9,7 +10,7 @@ namespace Eclipse
 
 	AbstractResource::AbstractResource(const char* path) 
 	{
-		relativePath = std::filesystem::relative(path, ASSET_PATH).string();
+		relativePath = std::filesystem::relative(path, PathManager::GetAssetDir()).string();
 		id = std::hash<std::string>{}(relativePath);
 	}
 

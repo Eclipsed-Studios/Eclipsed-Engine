@@ -52,34 +52,47 @@ namespace Eclipse::Editor
 
         float availableWidth = ImGui::GetContentRegionAvail().x;
         float maxWidth = availableWidth > 50.0f ? availableWidth : 50.0f;
-        ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + maxWidth - padding.x);
 
-        ImVec2 textSize = ImGui::CalcTextSize(text, nullptr, false, maxWidth - padding.x * 2.0f);
-        ImVec2 boxSize = ImVec2(maxWidth, textSize.y + padding.y * 2.0f);
+        // Fixed height for your box
+        const float boxHeight = ImGui::GetTextLineHeightWithSpacing() + padding.y * 2.0f;
+
+        // Calculate box size
+        ImVec2 boxSize(maxWidth, boxHeight);
         ImVec2 pos = ImGui::GetCursorScreenPos();
 
+        // Draw background
         ImGui::GetWindowDrawList()->AddRectFilled(
             pos, ImVec2(pos.x + boxSize.x, pos.y + boxSize.y),
             ImGui::GetColorU32({ aBgColor.r, aBgColor.g, aBgColor.b, 1.f }));
 
+        // Draw border
         ImGui::GetWindowDrawList()->AddRect(
             pos, ImVec2(pos.x + boxSize.x, pos.y + boxSize.y),
             ImGui::GetColorU32({ aBorderColor.r, aBorderColor.g, aBorderColor.b, 1.f }),
             0.0f, ImDrawFlags_RoundCornersNone, 1.5f);
 
+        // Hit box
         ImGui::SetCursorScreenPos(pos);
         bool clicked = ImGui::InvisibleButton("##hitbox", boxSize);
 
-        ImGui::GetWindowDrawList()->AddText(
-            ImVec2(pos.x + padding.x, pos.y + padding.y),
-            ImGui::GetColorU32(ImGuiCol_Text), text);
+        // Clip text so it doesn’t overflow the box
+        ImVec2 textPos(pos.x + padding.x, pos.y + padding.y);
+        ImVec2 clipMax(pos.x + boxSize.x - padding.x, pos.y + boxSize.y - padding.y);
 
+        ImGui::GetWindowDrawList()->PushClipRect(textPos, clipMax, true);
+        ImGui::GetWindowDrawList()->AddText(
+            textPos,
+            ImGui::GetColorU32(ImGuiCol_Text),
+            text);
+        ImGui::GetWindowDrawList()->PopClipRect();
+
+        // Advance cursor below box
         ImGui::SetCursorScreenPos(ImVec2(pos.x, pos.y + boxSize.y));
 
-        ImGui::PopTextWrapPos();
         ImGui::PopID();
 
         return clicked;
+
     }
 }
 

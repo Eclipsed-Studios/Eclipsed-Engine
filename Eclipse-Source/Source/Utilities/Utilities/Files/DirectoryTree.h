@@ -33,5 +33,6 @@ namespace Eclipse::Utilities
 
 	private:
 		std::unique_ptr<FileNode> root = nullptr;
+		std::filesystem::path relativePath;
 	};
 }

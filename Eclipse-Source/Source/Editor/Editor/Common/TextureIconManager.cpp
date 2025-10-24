@@ -9,65 +9,15 @@
 
 #include "Utilities/Files/FileWatcher.h"
 
+#include "AssetEngine/PathManager.h"
+#include "Utilities/Files/FileInfo.h"
+#include "CoreEngine/AssetManagement/Resources.h"
+
 namespace Eclipse::Editor
 {
 	void IconManager::CheckForChanges()
 	{
-		//namespace fs = std::filesystem;
 
-		//auto onFileAdded = [](const std::string& path) {
-		//	FileInfo info = Resources::GetFileInfo(path);
-		//	if (info.type != FileInfo::FileType_Texture) return;
-
-		//	if (std::find(filesToLoad.begin(), filesToLoad.end(), path) == filesToLoad.end()) filesToLoad.push_back(path);
-		//	};
-
-		//auto onFileRemoved = [](const std::string& path) {
-		//	FileInfo info = Resources::GetFileInfo(path);
-		//	if (info.type != FileInfo::FileType_Texture) return;
-
-		//	std::string relativePath = fs::relative(path, SOURCE_PATH).generic_string();
-		//	size_t id = std::hash<std::string>{}(relativePath);
-
-		//	if (loadedIcons.find(id) == loadedIcons.end()) return;
-
-		//	loadedIcons.erase(id);
-		//	};
-
-		//FileWatcher::Subscribe(EventType::FileAdded, onFileAdded);
-		//FileWatcher::Subscribe(EventType::FileRemoved, onFileRemoved);
-
-		//int textureCounter = 0;
-		//for (auto& entry : fs::recursive_directory_iterator(ASSET_PATH))
-		//{
-		//	FileInfo info = Resources::GetFileInfo(entry);
-		//	if (info.type != FileInfo::FileType_Texture) continue;
-
-		//	textureCounter++;
-
-		//	std::string relativePath = fs::relative(entry.path(), SOURCE_PATH).generic_string();
-		//	size_t id = std::hash<std::string>{}(relativePath);
-
-		//	if (loadedIcons.find(id) != loadedIcons.end())
-		//	{
-		//		fs::file_time_type ftime = fs::last_write_time(entry);
-
-		//		std::chrono::system_clock::time_point sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
-		//			ftime - fs::file_time_type::clock::now()
-		//			+ std::chrono::system_clock::now()
-		//		);
-
-		//		if (loadedIcons[id].lastWriteTime != std::chrono::system_clock::to_time_t(sctp))
-		//		{
-		//			filesToLoad.push_back(entry.path().string());
-		//			loadedIcons.erase(id);
-		//		}
-		//	}
-		//	else
-		//	{
-		//		filesToLoad.push_back(entry.path().string());
-		//	}
-		//}
 	}
 
 	void IconManager::Update()
@@ -79,8 +29,7 @@ namespace Eclipse::Editor
 			const std::string path(it->c_str());
 			if (IsFileReady(path))
 			{
-
-				std::string relativePath = fs::relative(path, SOURCE_PATH).generic_string();
+				std::string relativePath = fs::relative(path, PathManager::GetProjectRoot()).generic_string();
 
 				size_t id = std::hash<std::string>{}(relativePath);
 
@@ -112,7 +61,7 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		std::ifstream in(IconBundleFilePath, std::ios::binary);
+		std::ifstream in(PathManager::GetCacheDir() / IconBundleFilePath, std::ios::binary);
 
 		int count = 0;
 		in.read(reinterpret_cast<char*>(&count), sizeof(int));
@@ -153,7 +102,7 @@ namespace Eclipse::Editor
 		namespace fs = std::filesystem;
 
 		std::vector<std::string> texturesPathsToLoad;
-		for (const fs::directory_entry& entry : fs::recursive_directory_iterator(ASSET_PATH))
+		for (const fs::directory_entry& entry : fs::recursive_directory_iterator(PathManager::GetAssetDir()))
 		{
 			Utilities::FileInfo info = Utilities::FileInfo::GetFileInfo(entry);
 			if (info.type != Utilities::FileInfo::FileType_Texture) continue;
@@ -171,7 +120,7 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		std::string relativePath = fs::relative(path, ASSET_PATH).generic_string();
+		std::string relativePath = fs::relative(path, PathManager::GetAssetDir()).generic_string();
 
 		size_t id = std::hash<std::string>{}(relativePath);
 
@@ -225,7 +174,7 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		std::ofstream out(IconBundleFilePath, std::ios::binary);
+		std::ofstream out(PathManager::GetCacheDir() / IconBundleFilePath, std::ios::binary);
 
 		const int count = (int)loadedIcons.size();
 		out.write(reinterpret_cast<const char*>(&count), sizeof(int));

@@ -13,6 +13,8 @@
 
 #include "AssetEngine/AssetImporter/Helpers/STB_Helper.h"
 
+#include "AssetEngine/PathManager.h"
+
 namespace Eclipse
 {
 	inline void LoadSpriteRects(const rapidjson::Document& aDocument, std::vector<Math::RectSizePos>& myOutRects, Texture& outResource)
@@ -73,7 +75,7 @@ namespace Eclipse
 		std::filesystem::path resolvedPath = aPath;
 		if (resolvedPath.is_relative())
 		{
-			resolvedPath = std::filesystem::current_path().parent_path().generic_string() + "/" + resolvedPath.string();
+			resolvedPath = PathManager::GetAssetDir().generic_string() + "/" + resolvedPath.string();
 		}
 		else if (resolvedPath.is_absolute())
 		{
@@ -82,7 +84,7 @@ namespace Eclipse
 
 		outResource = Texture(resolvedPath.string().c_str());
 
-		std::ifstream in(SOURCE_PATH "Bin/assets.bundle", std::ios::binary);
+		//std::ifstream in(SOURCE_PATH "Bin/assets.bundle", std::ios::binary);
 
 		unsigned char* pixels = nullptr;
 		size_t id = std::hash<std::string>{}(std::filesystem::path(aPath).generic_string());

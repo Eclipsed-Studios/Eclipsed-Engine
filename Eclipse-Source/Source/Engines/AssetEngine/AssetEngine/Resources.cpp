@@ -1,6 +1,6 @@
 #include "Resources.h"
 
-namespace Eclipse
+namespace Eclipse::Assets
 {
 	void Resourcess::Update()
 	{

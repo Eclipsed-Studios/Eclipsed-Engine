@@ -30,14 +30,20 @@ namespace Eclipse
 {
 	void Engine::Init()
 	{
-		TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
+		TemporarySettingsSingleton::Get().Init((PathManager::GetEngineLocal() / "EngineSettings.json").generic_string());
 
 		InitSubSystems();
 	}
 
 	void Engine::Internal_Update()
 	{
-		//static 
+		PhysicsEngine::Update();
+
+		ComponentManager::AwakeStartComponents();
+
+		ComponentManager::EarlyUpdateComponents();
+		ComponentManager::UpdateComponents();
+		ComponentManager::LateUpdateComponents();
 	}
 
 	void Engine::InitSubSystems()
@@ -62,8 +68,9 @@ namespace Eclipse
 				};
 		}
 
+		PathManager::OnProjectSet += Input::Init;
+
 		Time::Init();
-		Input::Init();
 		ComponentManager::Init();
 		//AudioManager::Init();
 
@@ -75,7 +82,7 @@ namespace Eclipse
 
 	bool Engine::BeginFrame()
 	{
-		//Resourcess::Update();
+		Assets::Resourcess::Update();
 		GraphicsEngine::BeginFrame();
 		int shouldCloseWindow = GraphicsEngine::ShouldWindowClose();
 
@@ -92,27 +99,16 @@ namespace Eclipse
 		Input::Update();
 
 		ComponentManager::EditorUpdateComponents();
+		//AudioManager::Update();
+	}
 
-#ifndef _GAME
-		//if (Game::IsPlaying && !Game::IsPaused)
-		{
-#endif
-			//AudioManager::Update();
-			PhysicsEngine::Update();
-
-			ComponentManager::AwakeStartComponents();
-
-			ComponentManager::EarlyUpdateComponents();
-			ComponentManager::UpdateComponents();
-			ComponentManager::LateUpdateComponents();
-#ifndef _GAME
-		}
-#endif
-
+	void Engine::Render()
+	{
 		PhysicsEngine::DrawPhysicsObjects();
 		ComponentManager::RenderComponents();
 		GraphicsEngine::Render();
 	}
+
 	void Engine::EndFrame()
 	{
 		GraphicsEngine::EndFrame();

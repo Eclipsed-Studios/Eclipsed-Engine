@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.19.2)
 
-file(READ "${CMAKE_SOURCE_DIR}/Settings/EngineSettings.json" GAME_NAME_FILE)
-string(JSON GameJSONName GET "${GAME_NAME_FILE}" GameName)
-set(GAME_NAME "${GameJSONName}")
+# file(READ "${CMAKE_SOURCE_DIR}/Settings/EngineSettings.json" GAME_NAME_FILE)
+# string(JSON GameJSONName GET "${GAME_NAME_FILE}" GameName)
+set(GAME_NAME "Eclipsed Engine")
 
 set(LAUNCHER_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 

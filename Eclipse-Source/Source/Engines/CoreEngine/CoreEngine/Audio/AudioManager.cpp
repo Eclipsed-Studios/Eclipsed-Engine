@@ -1,7 +1,7 @@
 #include "AudioManager.h"
 
 #include "fmod/fmod/fmod.hpp"
-
+#include "AssetEngine/PathManager.h"
 
 namespace Eclipse
 {
@@ -27,7 +27,7 @@ namespace Eclipse
     {
         FMOD_MODE mode = true ? FMOD_LOOP_NORMAL : FMOD_DEFAULT;
 
-        std::string path = ASSET_PATH + std::string(anAudioClip.GetRelativePath());
+        std::string path = (PathManager::GetAssetDir() / std::string(anAudioClip.GetRelativePath())).generic_string();
         mySystem->createSound(path.c_str(), mode, nullptr, &anAudioClip.mySound);
     }
 

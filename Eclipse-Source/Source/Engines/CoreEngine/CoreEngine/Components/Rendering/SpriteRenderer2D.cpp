@@ -14,12 +14,15 @@
 
 #include "OpenGL/glad/glad.h"
 
+#include "AssetEngine/PathManager.h"
+
 namespace Eclipse
 {
 	Material::Material()
 	{
 		myShader = new Shader();
-		myShader->Create(ASSET_PATH "Shaders/DefaultSpritePixelShader.glsl", ASSET_PATH "Shaders/DefaultSpriteVertexShader.glsl");
+		myShader->Create((PathManager::GetEngineAssets() / "Default/Shaders/DefaultSpritePixelShader.glsl").generic_string().c_str(),
+			(PathManager::GetEngineAssets() / "Default/Shaders/DefaultSpriteVertexShader.glsl").generic_string().c_str());
 
 		myTexture = Resources::Get<Texture>("Assets/Default_Texture.png");
 	}

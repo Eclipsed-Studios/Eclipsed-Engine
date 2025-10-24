@@ -16,6 +16,7 @@ namespace Eclipse::Editor
 		void Open();
 
 		void Update();
+		void LoadAssets();
 
 	private:
 

@@ -79,17 +79,17 @@ namespace Eclipse::Assets
 		ofs.close();
 	}
 
-	void AssetRegistry::RegisterAsset(const std::filesystem::path& path, AssetType type)
+	void AssetRegistry::RegisterAsset(const std::filesystem::path& fullPath, const std::filesystem::path& relativePath, AssetType type)
 	{
-		if (std::filesystem::is_directory(path)) return;
+		if (std::filesystem::is_directory(fullPath)) return;
 
-		size_t id = GetIdFromPath(path);
+		size_t id = GetIdFromPath(relativePath);
 
 		AssetRegistryEntry entry;
 
-		size_t lastModTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::filesystem::last_write_time(PathManager::GetAssetDir() / path).time_since_epoch()).count();
+		size_t lastModTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::filesystem::last_write_time(fullPath).time_since_epoch()).count();
 		entry.lastModified = lastModTime;
-		entry.path = path;
+		entry.path = fullPath;
 		entry.type = (int)type;
 
 		registeredAssets[id] = entry;

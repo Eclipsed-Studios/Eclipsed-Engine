@@ -36,39 +36,51 @@
 #include "AssetEngine/AssetPipeline.h"
 #include "AssetEngine/PathManager.h"
 
+#include "Editor/EditorProjectManager.h"
+
 namespace Eclipse::Editor
 {
 	ErrorCode EditorContext::Init()
 	{
 		DebugLogger::OverwriteDefaultCoutBuffer();
-		MetaFileRegistry::Load();
 
 		//PlatformIntegration::Discord::SetupWithID(1425504148681658383);
 		//PlatformIntegration::Discord::SetLargeImage("eclipsemoonnobg");
 
-		PathManager::Init("F:/Projects/RPS-Project");
+		EditorProjectManager pm;
 
-		Assets::AssetPipeline::Init();
-		Engine::Init();
+		PathManager::Init(pm.LoadOrSelectProject());
+
+		PathManager::OnProjectSet += IconManager::LoadIconsFile;
+
+		//InitPaths(); // Init default paths
+		Engine::Init(); // Init the game engine
+
+
+
 
 		myWindow = Utilities::MainSingleton::GetInstance<GLFWwindow*>();
 
-		GraphicsEngine::SetWindowIcon(ASSET_PATH"Icons/EclipseMoonNoBG.png");
+		GraphicsEngine::SetWindowIcon((PathManager::GetEngineAssets() / "Icons/EclipseMoonNoBG.png").generic_string().c_str());
 
 		ImGui_Impl::ImplementImGui(myWindow);
 
 		myWindowManager.Begin();
 
-		//IconManager::LoadAllTextureIcons();
-		//IconManager::ExportLoadedTextures();
+		
 
-		IconManager::LoadIconsFile();
-		IconManager::CheckForChanges();
 
 		LoadFonts();
 
 		return ErrorCode::SUCCESS;
 	}
+
+
+	void EditorContext::InitPaths()
+	{
+
+	}
+
 
 	bool EditorContext::BeginFrame()
 	{
@@ -116,7 +128,6 @@ namespace Eclipse::Editor
 
 	void EditorContext::End()
 	{
-		MetaFileRegistry::Save();
 		myWindowManager.End();
 	}
 
@@ -167,6 +178,8 @@ namespace Eclipse::Editor
 		ImGui::End();
 	}
 
+
+
 	void EditorContext::LoadFonts()
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -176,30 +189,35 @@ namespace Eclipse::Editor
 		icons_config.MergeMode = true;
 		icons_config.PixelSnapH = true;
 
-		fontTiny = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 12.0f);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-solid-900.otf", 12.0f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-brands-400.otf", 12.0f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-regular-400.otf", 12.0f, &icons_config, icons_ranges);
+		std::string arial = (PathManager::GetEngineAssets() / "Fonts/ARIAL.TTF").generic_string();
+		std::string faSolid900 = (PathManager::GetEngineAssets() / "Fonts/FontAwesome/7/fa-solid-900.otf").generic_string();
+		std::string faBrands400 = (PathManager::GetEngineAssets() / "Fonts/FontAwesome/7/fa-brands-400.otf").generic_string();
+		std::string faRegular400 = (PathManager::GetEngineAssets() / "Fonts/FontAwesome/7/fa-regular-400.otf").generic_string();
 
-		fontSmall = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 16.0f);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-solid-900.otf", 16.0f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-brands-400.otf", 16.0f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-regular-400.otf", 16.0f, &icons_config, icons_ranges);
+		fontTiny = io.Fonts->AddFontFromFileTTF(arial.c_str(), 12.0f);
+		io.Fonts->AddFontFromFileTTF(faSolid900.c_str(), 12.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faBrands400.c_str(), 12.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faRegular400.c_str(), 12.0f, &icons_config, icons_ranges);
 
-		fontMedium = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 20.0f);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-solid-900.otf", 20.0f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-brands-400.otf", 20.0f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-regular-400.otf", 20.0f, &icons_config, icons_ranges);
+		fontSmall = io.Fonts->AddFontFromFileTTF(arial.c_str(), 16.0f);
+		io.Fonts->AddFontFromFileTTF(faSolid900.c_str(), 16.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faBrands400.c_str(), 16.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faRegular400.c_str(), 16.0f, &icons_config, icons_ranges);
 
-		fontLarge = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 32.0f);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-solid-900.otf", 32.0f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-brands-400.otf", 32.0f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-regular-400.otf", 32.0f, &icons_config, icons_ranges);
+		fontMedium = io.Fonts->AddFontFromFileTTF(arial.c_str(), 20.0f);
+		io.Fonts->AddFontFromFileTTF(faSolid900.c_str(), 20.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faBrands400.c_str(), 20.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faRegular400.c_str(), 20.0f, &icons_config, icons_ranges);
 
-		fontExtraLarge = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/ARIAL.TTF", 70.0f);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-solid-900.otf", 70.f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-brands-400.otf", 70.f, &icons_config, icons_ranges);
-		io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH"Fonts/FontAwesome/7/fa-regular-400.otf", 70.f, &icons_config, icons_ranges);
+		fontLarge = io.Fonts->AddFontFromFileTTF(arial.c_str(), 32.0f);
+		io.Fonts->AddFontFromFileTTF(faSolid900.c_str(), 32.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faBrands400.c_str(), 32.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faRegular400.c_str(), 32.0f, &icons_config, icons_ranges);
+
+		fontExtraLarge = io.Fonts->AddFontFromFileTTF(arial.c_str(), 70.0f);
+		io.Fonts->AddFontFromFileTTF(faSolid900.c_str(), 70.f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faBrands400.c_str(), 70.f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faRegular400.c_str(), 70.f, &icons_config, icons_ranges);
 
 		io.Fonts->Build();
 

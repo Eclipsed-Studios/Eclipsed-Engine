@@ -21,7 +21,7 @@ namespace Eclipse::Editor
 
 	void WindowManager::LoadLayouts()
 	{
-		for (auto entry : std::filesystem::directory_iterator(ENGINE_ASSETS_PATH "Editor/Layouts/"))
+		for (auto entry : std::filesystem::directory_iterator(PathManager::GetEngineAssets() / "Editor/Layouts/"))
 		{
 			
 
@@ -43,6 +43,17 @@ namespace Eclipse::Editor
 	{
 		if (ImGui::BeginMainMenuBar())
 		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Select Project"))
+				{
+					//PathManager::SelectProject();
+				}
+
+				ImGui::EndMenu();
+			}
+
+
 			if (ImGui::BeginMenu("Windows"))
 			{
 				for (const auto& [name, window] : WindowRegistry::GetWindows())
@@ -107,11 +118,11 @@ namespace Eclipse::Editor
 				{
 					if (ImGui::MenuItem("Default"))
 					{
-						ImGui::SaveIniSettingsToDisk(ENGINE_ASSETS_PATH "Editor/Layouts/Default.ini");
+						ImGui::SaveIniSettingsToDisk((PathManager::GetEngineAssets() / "Editor/Layouts/Default.ini").generic_string().c_str());
 					}
 					if (ImGui::MenuItem("Testing"))
 					{
-						ImGui::SaveIniSettingsToDisk(ENGINE_ASSETS_PATH "Editor/Layouts/Testing.ini");
+						ImGui::SaveIniSettingsToDisk((PathManager::GetEngineAssets() / "Editor/Layouts/Testing.ini").generic_string().c_str());
 					}
 
 					ImGui::EndMenu();
@@ -184,7 +195,7 @@ namespace Eclipse::Editor
 
 		using namespace rapidjson;
 
-		std::ifstream ifs(SETTINGS_PATH"editor.json");
+		std::ifstream ifs(PathManager::GetEngineLocal() / "editor.json");
 		if (!ifs.is_open()) {
 
 		}
@@ -246,7 +257,7 @@ namespace Eclipse::Editor
 		Writer<StringBuffer> writer(buffer);
 		d.Accept(writer);
 
-		std::ofstream ofs(SETTINGS_PATH"editor.json");
+		std::ofstream ofs(PathManager::GetConfigDir() / "editor.json");
 		ofs << buffer.GetString();
 		ofs.close();
 	}

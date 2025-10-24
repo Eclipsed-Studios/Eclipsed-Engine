@@ -34,7 +34,7 @@ namespace Eclipse::Editor
 		static inline char buffer[1024];
 		static inline DWORD bytesReturned;
 
-		static inline const char* IconBundleFilePath = ENGINE_ASSETS_PATH "Icons.bundle";
+		static inline const char* IconBundleFilePath = "Icons.bundle";
 		static inline std::unordered_map<size_t, IconData> loadedIcons;
 
 	private:

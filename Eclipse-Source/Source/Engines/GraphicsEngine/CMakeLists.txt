@@ -18,6 +18,12 @@ target_include_directories(GraphicsEngine PRIVATE ${GRAPHICS_ENGINE_ROOT})
 target_include_directories(GraphicsEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 
+# ---- AssetEngine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/AssetEngine-Sources.cmake")
+target_include_directories(GraphicsEngine PUBLIC ${ASSET_ENGINE_ROOT})
+target_link_libraries(GraphicsEngine PUBLIC AssetEngine)
+
+
 # ---- Freetype
 target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
 target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Tools/Libs/FreeType/freetyped.lib")

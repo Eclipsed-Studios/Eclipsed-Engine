@@ -8,5 +8,7 @@ namespace Eclipse
 	class Textures final
 	{
 		ASSET_IMPL(Textures, Assets::TextureHandle, TextureManager)
+
+	public:
 	};
 }

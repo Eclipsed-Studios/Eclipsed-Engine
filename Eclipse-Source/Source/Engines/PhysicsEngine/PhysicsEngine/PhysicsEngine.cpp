@@ -6,6 +6,8 @@
 #include "rapidjson/rapidjson/document.h"
 #include "rapidjson/rapidjson/filereadstream.h"
 
+#include "AssetEngine/PathManager.h"
+
 #undef min
 namespace Eclipse
 {
@@ -323,7 +325,8 @@ namespace Eclipse
 
     void LoadLayersFromJSON(std::array<uint64_t, MAX_LAYERS>& aCollisionLayers)
     {
-        const char* layerPath = ASSET_PATH"CollisionLayers.json";
+        std::string sPath = (PathManager::GetProjectRoot() / "Settings/CollisionLayers.json").generic_string();
+        const char* layerPath = sPath.c_str();
 
         FILE* fileP = fopen(layerPath, "rb");
         char readBuffer[2048];
@@ -353,7 +356,7 @@ namespace Eclipse
 
     void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
     {
-        LoadLayersFromJSON(myCollisionLayers);
+        PathManager::OnProjectSet += LoadLayers;
 
         mySubstepCount = aSubstepCount;
         myGravity = aGravity;
@@ -389,6 +392,11 @@ namespace Eclipse
         }
 
         return myDrawDebugShapes;
+    }
+
+    void PhysicsEngine::LoadLayers()
+    {
+        LoadLayersFromJSON(myCollisionLayers);
     }
 
     void PhysicsEngine::CleanUp()

@@ -6,6 +6,7 @@
 #include "ImGui/ImGui/imgui_impl_opengl3.h"
 #include "ImGui/ImGui/implot.h"
 
+#include "AssetEngine/PathManager.h"
 #include <string>
 
 namespace Eclipse::Editor
@@ -20,7 +21,7 @@ namespace Eclipse::Editor
             ImGui::CreateContext();
             ImGui::StyleColorsDark();
 
-            std::string path = ENGINE_ASSETS_PATH "Editor/Layouts/" + currentEditorLayout + ".ini";
+            std::string path = (PathManager::GetEngineAssets() / "Editor/Layouts/").generic_string() + currentEditorLayout + ".ini";
 
             ImGuiIO& io = ImGui::GetIO();
             io.IniFilename = NULL;
@@ -115,7 +116,7 @@ namespace Eclipse::Editor
             }
 
             //io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/Quicksand-Medium.ttf", 16);
-            io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/ARIAL.TTF", 16);
+            io.FontDefault = io.Fonts->AddFontFromFileTTF((PathManager::GetEngineAssets() / "Fonts/ARIAL.TTF").generic_string().c_str(), 16);
 
             ImGui_ImplGlfw_InitForOpenGL(aWindow, true);
             ImGui_ImplOpenGL3_Init("#version 460");

@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "Editor/EditorApplication.h"
+#include "Editor/Editor.h"
+
 #include "Utilities/ErrorCodes.h"
 
 #include <windows.h>
@@ -8,9 +11,6 @@
 
 using namespace Eclipse;
 
-#ifdef ECLIPSED_EDITOR
-
-#include "Editor/Editor.h"
 
 static ErrorCode Init()
 {
@@ -40,54 +40,17 @@ static void End()
     Editor::EditorContext::End();
 }
 
-#elif _GAME
-
-#include "Engine.h"
-
-static ErrorCode Init()
-{
-    Engine::Init();
-
-    return ErrorCode::SUCCESS;
-}
-
-static int BeginFrame()
-{
-    return Engine::BeginFrame();
-}
-
-static void Update()
-{
-    Engine::Update();
-}
-
-static void EndFrame()
-{
-    Engine::EndFrame();
-}
-
-static void End()
-{
-    // End the engine.
-}
-
-#endif
 
 int main()
 {
     HWND console = GetConsoleWindow();
     ShowWindow(console, SW_HIDE);
 
-    ErrorCode result = Init();
+    Editor::EditorApplication editorApplication;
 
-    if (result != ErrorCode::SUCCESS)
-        return 1;
+    editorApplication.Init();
 
-    while (BeginFrame())
-    {
-        Update();
-        EndFrame();
-    }
+    while (editorApplication.Update());
 
-    End();
+    editorApplication.Shutdown();
 }

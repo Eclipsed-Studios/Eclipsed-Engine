@@ -5,6 +5,8 @@
 
 #include "SceneLoader.h"
 
+#include "AssetEngine/PathManager.h"
+
 namespace Eclipse
 {
 	void SceneManager::LoadScene(const std::string& nameOrPath)
@@ -16,14 +18,14 @@ namespace Eclipse
 			ActiveSceneName = std::filesystem::path(nameOrPath).filename().stem().string();
 		}
 
-		SceneLoader::Load((ASSET_PATH + scenePaths[nameToIdx[ActiveSceneName]]).c_str());
+		SceneLoader::Load((PathManager::GetAssetDir() / scenePaths[nameToIdx[ActiveSceneName]]).generic_string().c_str());
 	}
 
 	void SceneManager::LoadScene(unsigned idx)
 	{
 		if (scenePaths.empty()) return;
 
-		SceneLoader::Load((ASSET_PATH + scenePaths[idx]).c_str());
+		SceneLoader::Load((PathManager::GetAssetDir() / scenePaths[idx]).generic_string().c_str());
 
 		ActiveSceneName = std::filesystem::path(scenePaths[idx]).filename().stem().string();
 	}
@@ -41,12 +43,12 @@ namespace Eclipse
 	{
 		if (ActiveSceneName.empty()) return;
 
-		SceneLoader::Save((ASSET_PATH + scenePaths[nameToIdx[ActiveSceneName]]).c_str());
+		SceneLoader::Save((PathManager::GetAssetDir() / scenePaths[nameToIdx[ActiveSceneName]]).generic_string().c_str());
 	}
 
 	void SceneManager::AddScene(const std::string& aPath)
 	{
-		std::filesystem::path path = SOURCE_PATH + aPath;
+		std::filesystem::path path = aPath;
 
 		std::string name = path.filename().stem().string();
 		nameToIdx[name] = (unsigned)scenePaths.size();
@@ -57,7 +59,7 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
-		std::ifstream in(ENGINE_SETTINGS_PATH);
+		std::ifstream in(PathManager::GetEngineLocal() / "EngineSettings.json");
 
 		std::string jsonString((std::istreambuf_iterator<char>(in)),
 			std::istreambuf_iterator<char>());
@@ -98,7 +100,7 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
-		std::ifstream in(ENGINE_SETTINGS_PATH);
+		std::ifstream in(PathManager::GetEngineAssets());
 
 		std::string jsonString((std::istreambuf_iterator<char>(in)),
 			std::istreambuf_iterator<char>());
@@ -135,7 +137,7 @@ namespace Eclipse
 		PrettyWriter<StringBuffer> writer(buffer);
 		d.Accept(writer);
 
-		std::ofstream ofs(ENGINE_SETTINGS_PATH);
+		std::ofstream ofs(PathManager::GetEngineAssets());
 		ofs << buffer.GetString();
 		ofs.close();
 	}

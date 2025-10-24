@@ -4,7 +4,7 @@ namespace Eclipse::Utilities
 {
 	namespace fs = std::filesystem;
 
-	DirectoryTree::DirectoryTree(const std::filesystem::path& path)
+	DirectoryTree::DirectoryTree(const std::filesystem::path& path) : relativePath(path)
 	{
 		Internal_SetupRoot(path);
 		Internal_BuildChildren(root);
@@ -25,7 +25,7 @@ namespace Eclipse::Utilities
 		{
 			std::unique_ptr<FileNode> child = std::make_unique<FileNode>();
 			child->info = Utilities::FileInfo::GetFileInfo(entry);
-			child->info.SetRelativePath(ASSET_PATH);
+			child->info.SetRelativePath(relativePath);
 
 			if (entry.is_directory())
 			{

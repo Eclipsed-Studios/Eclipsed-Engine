@@ -5,7 +5,7 @@
 #include "AssetEngine/Assets/Texture.h"
 
 
-namespace Eclipse
+namespace Eclipse::Assets
 {
 	class TextureManager final : public AssetManager<class Textures, class Assets::TextureHandle>
 	{
