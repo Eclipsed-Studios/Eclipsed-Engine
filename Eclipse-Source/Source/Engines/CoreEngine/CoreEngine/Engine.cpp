@@ -23,16 +23,16 @@
 
 #include "EngineSettings.h"
 
+#include "AssetEngine/Resources.h"
+#include "AssetEngine/Assets/Texture.h"
+
 namespace Eclipse
 {
 	void Engine::Init()
 	{
-
 		TemporarySettingsSingleton::Get().Init(ENGINE_SETTINGS_PATH);
 
 		InitSubSystems();
-
-		//Game::Init();
 	}
 
 	void Engine::Internal_Update()
@@ -75,11 +75,13 @@ namespace Eclipse
 
 	bool Engine::BeginFrame()
 	{
+		//Resourcess::Update();
 		GraphicsEngine::BeginFrame();
 		int shouldCloseWindow = GraphicsEngine::ShouldWindowClose();
 
 		return !shouldCloseWindow;
 	}
+
 	void Engine::Update()
 	{
 		DebugInformationCollector::ResetRenderCalls();

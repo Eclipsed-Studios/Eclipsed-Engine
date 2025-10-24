@@ -25,6 +25,12 @@ target_include_directories(CoreEngine PRIVATE ${CORE_ENGINE_ROOT})
 target_include_directories(CoreEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 
+# ---- AssetEngine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/AssetEngine-Sources.cmake")
+target_include_directories(CoreEngine PUBLIC ${ASSET_ENGINE_ROOT})
+target_link_libraries(CoreEngine PUBLIC AssetEngine)
+
+
 # ---- GraphicsEngine
 include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/GraphicsEngine-Sources.cmake")
 target_include_directories(CoreEngine PUBLIC ${GRAPHICS_ENGINE_ROOT})

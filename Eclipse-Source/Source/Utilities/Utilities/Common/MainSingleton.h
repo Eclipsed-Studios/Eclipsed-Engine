@@ -46,6 +46,8 @@ namespace Eclipse::Utilities
 		throw std::runtime_error("Singleton not registered.");
 	}
 
+
+
 	template<typename T>
 	inline T* MainSingleton::GetInstancePtr()
 	{

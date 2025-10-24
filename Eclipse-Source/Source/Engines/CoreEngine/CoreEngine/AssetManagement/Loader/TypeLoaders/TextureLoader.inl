@@ -1,7 +1,6 @@
 #include <CoreEngine/AssetManagement/Loader/AssetLoader.hpp>
 
 #include <CoreEngine/AssetManagement/Resources/Texture.h>
-#include "CoreEngine/AssetManagement/Loader/ResourceLoaderHelper.h"
 
 #include <iomanip> 
 #include <iterator>
@@ -11,6 +10,8 @@
 #include "rapidjson/rapidjson/filereadstream.h"
 
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+
+#include "AssetEngine/AssetImporter/Helpers/STB_Helper.h"
 
 namespace Eclipse
 {
@@ -100,12 +101,12 @@ namespace Eclipse
 			pixels = ResourceLoaderHelper::Load_Texture_From_Memory_STB(rawData, outResource);
 		}
 #else
-		pixels = ResourceLoaderHelper::Load_Texture_STB(resolvedPath.string().c_str(), outResource, true);
+		pixels = Assets::STB_Helper::Load_Texture_STB(resolvedPath.string().c_str(), outResource.width, outResource.height, outResource.channels, true);
 #endif
 		
 		GraphicsEngine::CreateOpenGLTexture(outResource.textureID, outResource.spriteDimDivOne, outResource.dimDivOne, outResource.channels, outResource.width, outResource.height, pixels);
 		
-		ResourceLoaderHelper::FreeData_STB(pixels);
+		Assets::STB_Helper::FreeData_STB(pixels);
 		LoadMetaFile(aPath, outResource);
 	}
 }

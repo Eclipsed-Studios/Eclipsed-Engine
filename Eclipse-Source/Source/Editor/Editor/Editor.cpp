@@ -32,6 +32,10 @@
 #include "Game/Game.h"
 #include "CoreEngine/Input/Input.h"
 
+#include "AssetEngine/AssetImporter/AssetImporter.h"
+#include "AssetEngine/AssetPipeline.h"
+#include "AssetEngine/PathManager.h"
+
 namespace Eclipse::Editor
 {
 	ErrorCode EditorContext::Init()
@@ -39,9 +43,12 @@ namespace Eclipse::Editor
 		DebugLogger::OverwriteDefaultCoutBuffer();
 		MetaFileRegistry::Load();
 
-		PlatformIntegration::Discord::SetupWithID(1425504148681658383);
-		PlatformIntegration::Discord::SetLargeImage("eclipsemoonnobg");
+		//PlatformIntegration::Discord::SetupWithID(1425504148681658383);
+		//PlatformIntegration::Discord::SetLargeImage("eclipsemoonnobg");
 
+		PathManager::Init("F:/Projects/RPS-Project");
+
+		Assets::AssetPipeline::Init();
 		Engine::Init();
 
 		myWindow = Utilities::MainSingleton::GetInstance<GLFWwindow*>();

@@ -8,7 +8,6 @@
 #include "AssetManagement/Resources.h"
 
 #include "AssetManagement/Loader/AssetLoader.hpp"
-#include "AssetManagement/Loader/ResourceLoaderHelper.h"
 
 // ------------- Assets includes ------------------
 #include "AssetManagement/Resources/Abstract/AbstractResource.h"

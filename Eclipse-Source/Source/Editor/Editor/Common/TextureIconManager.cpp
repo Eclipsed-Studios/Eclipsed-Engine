@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <fstream>
 
-#include "CoreEngine/AssetManagement/Loader/ResourceLoaderHelper.h"
+#include "AssetEngine/AssetImporter/Helpers/STB_Helper.h"
 
 #include <OpenGL/glad/glad.h>
 
@@ -190,7 +190,7 @@ namespace Eclipse::Editor
 
 		{ // Load texture
 			int width = 0, height = 0;
-			unsigned char* pixels = ResourceLoaderHelper::Load_Texture_STB(path.string().c_str(), width, height, data.channels);
+			unsigned char* pixels = Assets::STB_Helper::Load_Texture_STB(path.string().c_str(), width, height, data.channels);
 			if (!pixels)
 			{
 				loadedIcons.erase(id);
@@ -208,13 +208,13 @@ namespace Eclipse::Editor
 				data.width = (float)width / (float)height * 128.f;
 			}
 
-			unsigned char* resizedPixels = ResourceLoaderHelper::Resize_STB(pixels, width, height, data.width, data.height, data.channels);
+			unsigned char* resizedPixels = Assets::STB_Helper::Resize_STB(pixels, width, height, data.width, data.height, data.channels);
 
 			const int size = data.width * data.height * data.channels;
 			data.data.resize(size);
 			memcpy(data.data.data(), resizedPixels, size);
 
-			ResourceLoaderHelper::FreeData_STB(resizedPixels);
+			Assets::STB_Helper::FreeData_STB(resizedPixels);
 		}
 
 		CreateOpenGLTextureFromData(data);
