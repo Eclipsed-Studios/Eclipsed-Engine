@@ -38,6 +38,8 @@ namespace Eclipse
 		static bool GetMouseUp(Keycode::Scancode aKey);
 
 
+		static const Math::Vector2i& GetGameMousePos();
+
 		static const Math::Vector2i& GetMousePos();
 		static const Math::Vector2i& GetMouseDeltaPos();
 
@@ -51,6 +53,9 @@ namespace Eclipse
 	public:
 		static void Init();
 		static void Update();
+
+		// This is used when in editor
+		static void SetGamePosition(const Math::Vector2i& aPosition);
 
 	private:
 		static void OnKey_Callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -68,6 +73,8 @@ namespace Eclipse
 
 		static inline std::bitset<MAX_KEYS> pressedThisFrame;
 		static inline std::bitset<MAX_KEYS> releasedThisFrame;
+
+		static inline Math::Vector2i currentGamePos;
 
 		static inline Math::Vector2i currentPos;
 		static inline Math::Vector2i lastPos;

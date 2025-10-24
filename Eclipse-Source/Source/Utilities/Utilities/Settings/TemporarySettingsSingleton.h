@@ -84,6 +84,7 @@ namespace Eclipse
         //     ImFont* iconFont;
 
         float resolutionRatioGameView = 1;
+        Math::Vector2f gameWindowResolution = {1920, 1080};
     private:
         std::string myGameName;
 

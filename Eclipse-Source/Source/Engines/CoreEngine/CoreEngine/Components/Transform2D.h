@@ -12,7 +12,7 @@ namespace Eclipse
 {
 	class Transform2D : public Component
 	{
-		BASE_SELECTION(Transform2D, UINT_MAX)
+		BASE_SELECTION(Transform2D, UINT_MAX / 2)
 
 	public:
 

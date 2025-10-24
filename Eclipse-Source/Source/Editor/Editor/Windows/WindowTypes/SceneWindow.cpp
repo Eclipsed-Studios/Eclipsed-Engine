@@ -18,6 +18,7 @@
 
 #include "CoreEngine/Components/Base/Component.h"
 #include "CoreEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "CoreEngine/Components/UI/Canvas.h"
 
 #include "CoreEngine/Input/InputMapper.h"
 #include "CoreEngine/Components/Transform2D.h"
@@ -25,6 +26,7 @@
 #include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
 
 #include "OpenGL/glad/glad.h"
+
 
 namespace Eclipse
 {
@@ -67,7 +69,7 @@ namespace Eclipse
 		myInspectorScale *= { zoomFactor, zoomFactor };
 	}
 
-	void SceneWindow::CopyManager()
+	void SceneWindow::Copy()
 	{
 		for (auto& vec : myCopiedComponentsFromObjects)
 			vec.clear();
@@ -80,28 +82,25 @@ namespace Eclipse
 		myCopiedComponentsFromObjects.emplace_back(componentsOnGameobject);
 	}
 
-	void SceneWindow::PasteManager()
+	void SceneWindow::Paste()
 	{
 		for (auto& vec : myCopiedComponentsFromObjects)
 		{
 			if (vec.size() == 0)
 				continue;
 
-			GameObject* newGO = ComponentManager::CreateGameObject();
+			GameObject* newGO = ComponentManager::CreateGameObjectNoTransform();
 			for (auto* ogComponent : vec)
 			{
 				Component* component;
 
-				// Checking if it is transform if it is then dont create a new transform from it
-				unsigned transformID = ComponentManager::GetComponentID<Transform2D>();
-				if (ogComponent->myComponentComponentID == transformID)
-					component = ComponentManager::GetComponent<Transform2D>(newGO->GetID());
-				else
-					component = ComponentRegistry::GetAddComponent(ogComponent->GetComponentName())(*newGO, Component::nextComponentID++);
+				component = ComponentRegistry::GetAddComponent(ogComponent->GetComponentName())(*newGO, Component::nextComponentID++);
 
+				auto& reflectedList = Reflection::ReflectionManager::GetList();
+				if (reflectedList.find(component) == reflectedList.end())
+					continue;
 
-
-				auto& reflectedVars = Reflection::ReflectionManager::GetList().at(component);
+				auto& reflectedVars = reflectedList.at(component);
 				auto& reflectedVarsOGComponent = Reflection::ReflectionManager::GetList().at(ogComponent);
 
 				for (int i = 0; i < reflectedVars.size(); i++)
@@ -141,16 +140,19 @@ namespace Eclipse
 
 	void SceneWindow::CopyPasteManager()
 	{
+		if (ImGui::IsAnyItemActive())
+			return;
+
 		bool ctrlHeld = ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl);
 
 		if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_C))
-			CopyManager();
+			Copy();
 		else if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_V))
-			PasteManager();
+			Paste();
 		else if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_D))
 		{
-			CopyManager();
-			PasteManager();
+			Copy();
+			Paste();
 		}
 
 		// Duplicate by helf Alt + Drag is in gameobject picker function
@@ -263,8 +265,8 @@ namespace Eclipse
 		{
 			if (ImGui::IsKeyDown(ImGuiKey_LeftAlt) || ImGui::IsKeyDown(ImGuiKey_RightAlt))
 			{
-				CopyManager();
-				PasteManager();
+				Copy();
+				Paste();
 			}
 
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(HierarchyWindow::CurrentGameObjectID);
@@ -382,6 +384,17 @@ namespace Eclipse
 
 		GraphicsEngine::BindFrameBuffer(mySceneFrameBuffer);
 
+		if (Canvas::main)
+		{
+			float aspectRatio = myWindowSize.y / myWindowSize.x;
+			Math::Vector2f CanvasResReference = Canvas::main->ReferenceResolution;
+
+			Canvas::canvasCameraTransform.PositionOffset = (myInspectorPosition * -1.f) * CanvasResReference + Canvas::main->gameObject->transform->GetPosition() * CanvasResReference;
+			Canvas::canvasCameraTransform.PositionOffset *= Math::Vector2f(aspectRatio, 1.f) * myInspectorScale;
+			Canvas::canvasCameraTransform.Rotation = myInspectorRotation;
+			Canvas::canvasCameraTransform.ScaleMultiplier = Math::Vector2f(myInspectorScale.x * aspectRatio * 2.f * 0.895f, myInspectorScale.y) * Canvas::main->gameObject->transform->GetScale();
+		}
+
 		Math::Vector2f lastInspectorPosition(0, 0);
 		float lastInspectorRotation = 0;
 		Math::Vector2f lastInspectorScale(1, 1);
@@ -394,10 +407,10 @@ namespace Eclipse
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", &myInspectorRotation);
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", &myInspectorScale);
 
-		glViewport(0, 0, myWindowSize.x, myWindowSize.y);
-
 		float aspectRatio = myWindowSize.y / myWindowSize.x;
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
+
+		glViewport(0, 0, myWindowSize.x, myWindowSize.y);
 
 		// This is not using its own framebuffer but if left click then render and get mouse position color
 		SpriteSelecter();
@@ -407,7 +420,9 @@ namespace Eclipse
 
 		GraphicsEngine::ClearCurrentSceneBuffer();
 
-		CommandListManager::ExecuteAllCommandLists();
+		CommandListManager::GetSpriteCommandList().Execute();
+		CommandListManager::GetUICommandList().Execute();
+		CommandListManager::GetDebugDrawCommandList().Execute();
 
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", &lastInspectorPosition);
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", &lastInspectorRotation);
@@ -436,6 +451,10 @@ namespace Eclipse
 
 			HierarchyWindow::CurrentGameObjectID = 0;
 		}
+
+		Canvas::canvasCameraTransform.PositionOffset = { 0, 0 };
+		Canvas::canvasCameraTransform.Rotation = 0.f;
+		Canvas::canvasCameraTransform.ScaleMultiplier = { 1, 1 };
 	}
 
 	void SceneWindow::InitSceneBuffer()
@@ -456,16 +475,16 @@ namespace Eclipse
 
 	void SceneWindow::InitSelectedObjectShader()
 	{
-		unsigned vertexShaderID = 0;
-		unsigned pixelShaderID = 0;
+		// unsigned vertexShaderID = 0;
+		// unsigned pixelShaderID = 0;
 
-		ResourcePointer<VertexShader> myVertexShader = Resources::Get<VertexShader>(ASSET_PATH"Shaders/SelectedVertexSpriteShader.glsl");
-		ResourcePointer<PixelShader> myPixelShader = Resources::Get<PixelShader>(ASSET_PATH"Shaders/SelectedPixelSpriteShader.glsl");
+		// ResourcePointer<VertexShader> myVertexShader = Resources::Get<VertexShader>(ASSET_PATH"Shaders/SelectedVertexSpriteShader.glsl");
+		// ResourcePointer<PixelShader> myPixelShader = Resources::Get<PixelShader>(ASSET_PATH"Shaders/SelectedPixelSpriteShader.glsl");
 
-		mySelectedSpriteHighlightProgram = glCreateProgram();
-		glAttachShader(mySelectedSpriteHighlightProgram, myVertexShader->GetVertexShaderID());
-		glAttachShader(mySelectedSpriteHighlightProgram, myPixelShader->GetPixelShaderID());
-		glLinkProgram(mySelectedSpriteHighlightProgram);
+		// mySelectedSpriteHighlightProgram = glCreateProgram();
+		// glAttachShader(mySelectedSpriteHighlightProgram, myVertexShader->GetVertexShaderID());
+		// glAttachShader(mySelectedSpriteHighlightProgram, myPixelShader->GetPixelShaderID());
+		// glLinkProgram(mySelectedSpriteHighlightProgram);
 	}
 
 	void SceneWindow::Open()

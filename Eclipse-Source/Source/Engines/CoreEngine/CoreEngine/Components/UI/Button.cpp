@@ -1,9 +1,15 @@
 #include "Button.h"
 
-#include "ImGui/ImGui/imgui.h"
+#include "Input/Input.h"
 
 #include <sstream>
 
-void Eclipse::UIButton::Update()
+void Eclipse::Button::Update()
 {
+    Math::Vector2i mousePosition = Input::GetGameMousePos();
+
+    std::stringstream stringStream;
+    stringStream << "X: " << mousePosition.x << "   Y: " << mousePosition.y;
+
+    LOG(stringStream.str());
 }

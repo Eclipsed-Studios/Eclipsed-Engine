@@ -28,12 +28,40 @@
             "position": "AAAAANej8D4=",
             "rotation": "AAAAAA==",
             "scale": "zcxMPc3MTD0="
+        },
+        {
+            "owner": 3,
+            "id": 1540,
+            "position": "+n5aQJ7vRz8=",
+            "rotation": "AAAAAA==",
+            "scale": "AACAPwAAgD8="
         }
     ],
     "Camera": [
         {
             "owner": 2,
             "id": 1539
+        }
+    ],
+    "RectTransform": [
+        {
+            "owner": 4,
+            "id": 1542,
+            "Position": "AAAAAAAAAAA=",
+            "WidthHeightPX": "AADIQgAAyEI="
+        }
+    ],
+    "Canvas": [
+        {
+            "owner": 3,
+            "id": 1541,
+            "ReferenceResolution": "AADwRAAAh0Q="
+        }
+    ],
+    "UIImage": [
+        {
+            "owner": 4,
+            "id": 1543
         }
     ],
     "GameObjects": [
@@ -44,6 +72,14 @@
         {
             "id": 2,
             "name": "MainCamera"
+        },
+        {
+            "id": 3,
+            "name": "Canvas"
+        },
+        {
+            "id": 4,
+            "name": "Image"
         }
     ]
 }

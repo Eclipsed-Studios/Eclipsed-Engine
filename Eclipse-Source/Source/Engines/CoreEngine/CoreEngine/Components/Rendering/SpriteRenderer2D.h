@@ -10,23 +10,10 @@
 #include "Utilities/Math/Vector/Vector2.h"
 #include "Utilities/Math/Color.h"
 
+#include "CoreEngine/AssetManagement/Resources/Material.h"
+
 namespace Eclipse
 {
-    class Material
-    {
-    public:
-        Material();
-
-        void SetTexture(const char* aPath);
-        void Use();
-
-        Shader* myShader;
-
-        ResourcePointer<Texture> myTexture;
-
-        Math::Color color;
-    };
-
     class Sprite;
     class Shader;
 

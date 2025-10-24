@@ -2,6 +2,7 @@
 
 #include "CoreEngine/Components/Rendering/TextRenderer.h"
 #include "CoreEngine/Components/Rendering/Camera.h"
+#include "CoreEngine/Components/UI/Canvas.h"
 
 #include "PhysicsEngine/PhysicsEngine.h"
 
@@ -16,6 +17,7 @@ namespace Eclipse::Editor
 			{
 				ImGui::Checkbox("Draw Text Renderer Rects##DrawTextRenderDebugLines", &TextRenderer::drawRectGizmos);
 				ImGui::Checkbox("Draw Camera Gizmos##DrawCameraGizmosDebugLines", &Camera::drawCameraGizmos);
+				ImGui::Checkbox("Draw Canvas Gizmos##DrawCanvasGizmosDebugLines", &Canvas::drawCanvasGizmos);
 			}
 			if (ImGui::CollapsingHeader("Physics"))
 			{

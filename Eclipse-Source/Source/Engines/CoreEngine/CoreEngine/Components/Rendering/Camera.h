@@ -22,6 +22,6 @@ namespace Eclipse
 
         bool created;
 
-        static inline bool drawCameraGizmos = true;
+        static inline bool drawCameraGizmos = false;
     };
 }
