@@ -4,6 +4,11 @@
 
 #include <sstream>
 
-void Eclipse::UIButton::Update()
+namespace Eclipse
 {
+	COMPONENT_REGISTRATION(UIButton);
+
+	void UIButton::Update()
+	{
+	}
 }

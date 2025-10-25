@@ -25,6 +25,10 @@ target_include_directories(CoreEngine PRIVATE ${CORE_ENGINE_ROOT})
 target_include_directories(CoreEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 
+target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Game)
+target_link_libraries(CoreEngine PUBLIC Game)
+
+
 # ---- AssetEngine
 include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/AssetEngine-Sources.cmake")
 target_include_directories(CoreEngine PUBLIC ${ASSET_ENGINE_ROOT})

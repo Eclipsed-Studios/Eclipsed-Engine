@@ -9,9 +9,13 @@ file(GLOB_RECURSE GAME_SOURCES
     "${GAME_ROOT}/*.h"
     "${GAME_ROOT}/*.hpp"
     "${GAME_ROOT}/*.inl"
+    "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
 )
 
 add_library(Game STATIC ${GAME_SOURCES})
+
+target_precompile_headers(Game PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
+
 
 target_include_directories(Game PRIVATE ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine)
 target_link_libraries(Game PRIVATE CoreEngine)

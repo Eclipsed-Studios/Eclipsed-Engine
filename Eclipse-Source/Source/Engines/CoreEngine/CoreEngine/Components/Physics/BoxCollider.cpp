@@ -10,50 +10,52 @@
 
 namespace Eclipse
 {
-    void BoxCollider2D::DeltaChanges()
-    {
-        if (myLastHalfExtents.x != HalfExtents->x || myLastHalfExtents.y != HalfExtents->y)
-        {
-            OnTransformDirty();
-        }
+	COMPONENT_REGISTRATION(BoxCollider2D);
 
-        if (myLastColliderPivot.x != ColliderPivot->x || myLastColliderPivot.y != ColliderPivot->y)
-        {
-            OnTransformDirty();
-        }
-    }
+	void BoxCollider2D::DeltaChanges()
+	{
+		if (myLastHalfExtents.x != HalfExtents->x || myLastHalfExtents.y != HalfExtents->y)
+		{
+			OnTransformDirty();
+		}
 
-    void BoxCollider2D::CreateCollider()
-    {
-        SetScale(HalfExtents);
-        PhysicsEngine::CreateBoxCollider(&myInternalCollider, myBodyRef, myHalfExtents, myLayer);
-    }
+		if (myLastColliderPivot.x != ColliderPivot->x || myLastColliderPivot.y != ColliderPivot->y)
+		{
+			OnTransformDirty();
+		}
+	}
 
-    void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)
-    {
-        myLastHalfExtents = HalfExtents;
-        HalfExtents = aHalfExtents;
+	void BoxCollider2D::CreateCollider()
+	{
+		SetScale(HalfExtents);
+		PhysicsEngine::CreateBoxCollider(&myInternalCollider, myBodyRef, myHalfExtents, myLayer);
+	}
 
-        Math::Vector2f halfExtent = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
+	void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)
+	{
+		myLastHalfExtents = HalfExtents;
+		HalfExtents = aHalfExtents;
 
-        halfExtent.x *= aHalfExtents.x;
-        halfExtent.y *= aHalfExtents.y;
+		Math::Vector2f halfExtent = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
-        myHalfExtents = halfExtent;
-    }
+		halfExtent.x *= aHalfExtents.x;
+		halfExtent.y *= aHalfExtents.y;
 
-    void BoxCollider2D::OnTransformDirty()
-    {
-        myLastHalfExtents = HalfExtents;
-        myLastColliderPivot = ColliderPivot;
+		myHalfExtents = halfExtent;
+	}
 
-        Math::Vector2f halfExtent = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
+	void BoxCollider2D::OnTransformDirty()
+	{
+		myLastHalfExtents = HalfExtents;
+		myLastColliderPivot = ColliderPivot;
 
-        halfExtent.x *= HalfExtents->x;
-        halfExtent.y *= HalfExtents->y;
+		Math::Vector2f halfExtent = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
-        myHalfExtents = halfExtent;
+		halfExtent.x *= HalfExtents->x;
+		halfExtent.y *= HalfExtents->y;
 
-        PhysicsEngine::SetTransformBox(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myHalfExtents, { ColliderPivot->x * halfExtent.x * 2.f, ColliderPivot->y * halfExtent.y * 2.f });
-    }
+		myHalfExtents = halfExtent;
+
+		PhysicsEngine::SetTransformBox(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myHalfExtents, { ColliderPivot->x * halfExtent.x * 2.f, ColliderPivot->y * halfExtent.y * 2.f });
+	}
 }

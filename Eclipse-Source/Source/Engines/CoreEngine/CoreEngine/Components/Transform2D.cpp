@@ -6,6 +6,8 @@
 
 namespace Eclipse
 {
+    COMPONENT_REGISTRATION(Transform2D);
+
     void Transform2D::OnSceneLoaded()
     {
         gameObject->transform = this;

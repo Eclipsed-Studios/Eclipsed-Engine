@@ -18,6 +18,8 @@
 
 namespace Eclipse
 {
+	COMPONENT_REGISTRATION(SpriteRenderer2D);
+
 	Material::Material()
 	{
 		myShader = new Shader();

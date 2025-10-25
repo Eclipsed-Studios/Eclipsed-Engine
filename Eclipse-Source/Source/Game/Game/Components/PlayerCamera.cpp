@@ -5,6 +5,8 @@
 
 namespace Eclipse
 {
+    COMPONENT_REGISTRATION(PlayerCamera);
+
     void PlayerCamera::Awake()
     {
         myPlayerTransform = GetComp(Transform2D, myPlayerGO);

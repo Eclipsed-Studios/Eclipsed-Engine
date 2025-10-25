@@ -6,6 +6,8 @@
 
 namespace Eclipse
 {
+    COMPONENT_REGISTRATION(SpriteSheetAnimator2D);
+
     void SpriteSheetAnimator2D::Update()
     {
         if (!myIsPlaying || !mySpriteRenderer)

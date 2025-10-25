@@ -22,6 +22,9 @@ namespace Eclipse::Editor
 		void UnpauseGame();
 
 	private:
+		void DrawPlayGameButtons();
+
+	private:
 		bool isPlaying = false;
 		bool isPaused = false;
 	};

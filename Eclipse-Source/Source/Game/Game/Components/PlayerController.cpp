@@ -9,6 +9,8 @@
 
 namespace Eclipse
 {
+	COMPONENT_REGISTRATION(PlayerController);
+
 	void PlayerController::Awake()
 	{
 		myRigidBody = gameObject->GetComponent<RigidBody2D>();

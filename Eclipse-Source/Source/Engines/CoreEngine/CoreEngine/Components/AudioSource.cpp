@@ -2,6 +2,8 @@
 
 namespace Eclipse
 {
+	COMPONENT_REGISTRATION(AudioSource);
+
 	void AudioSource::Awake()
 	{
 		SetAudioClip(myAudioPath->c_str());

@@ -3,6 +3,7 @@
 #include "CoreEngine/Components/Base/BaseComponent.h"
 
 #include "PlayerStateMachine.h"
+#include "Utilities/Containers/BitMask.hpp"
 
 namespace Eclipse
 {

@@ -14,10 +14,10 @@
 
 #include "Utilities/Macros/MacroOverloadSelector.h"
 
-#define COMPONENT_FRIEND_CLASS         \
-friend class Editor::InspectorWindow;  \
+#define COMPONENT_FRIEND_CLASS         /*\*/
+/*friend class Editor::InspectorWindow;  \
 friend class ComponentManager;         \
-friend class SceneLoader;              
+friend class SceneLoader;       */       
 
 #define COMPONENT_BASE_1(type)												\
 COMPONENT_FRIEND_CLASS														\
@@ -39,17 +39,7 @@ virtual unsigned GetUpdatePriority() const override {return updatePriority;}				
 inline type() = default;																			\
 virtual ~type() = default;																			\
 virtual const char* GetComponentName() override { return #type; }							\
-protected:																							\
-private:																							\
-struct AutoRegister {																				\
-	AutoRegister() {																				\
-		using namespace Eclipse;																	\
-		ComponentRegistry::Register(#type, REGISTER_COMPONENT_CALLBACK(type));			\
-		ComponentRegistry::RegisterInspector(#type, REGISTER_COMPONENT_CALLBACK_NORMAL(type));		\
-	}																								\
-};																									\
-public: \
-static inline AutoRegister _register = {};
+protected:
 
 
 
@@ -68,4 +58,18 @@ private:
 	namespace {															\
 		static auto& forceLink = Eclipse::Class::_register;				\
 	}
+
+
+
+#define COMPONENT_REGISTRATION(TYPE)																	\
+struct AutoRegister_##TYPE {																				\
+	AutoRegister_##TYPE() {																					\
+		using namespace Eclipse;																		\
+		ComponentRegistry::Register(#TYPE, REGISTER_COMPONENT_CALLBACK(TYPE));							\
+		ComponentRegistry::RegisterInspector(#TYPE, REGISTER_COMPONENT_CALLBACK_NORMAL(TYPE));			\
+	}																									\
+};																										\
+__declspec(selectany) volatile AutoRegister_##TYPE _auto_registrator_##TYPE = {};
+
+
 #endif

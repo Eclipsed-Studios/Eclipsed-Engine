@@ -10,6 +10,8 @@
 
 namespace Eclipse
 {
+	COMPONENT_REGISTRATION(TextRenderer);
+
 	TextMaterial::TextMaterial()
 	{
 		myShader = new Shader();

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/../pch.h"
+
 namespace Eclipse
 {
 	class Engine

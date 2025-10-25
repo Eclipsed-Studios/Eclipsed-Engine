@@ -10,8 +10,12 @@
 #include "CoreEngine/Components/Rendering/SpriteSheetAnimator.h"
 #include "CoreEngine/Components/Transform2D.h"
 
+#pragma message("Compiling player")
+
 namespace Eclipse
 {
+	COMPONENT_REGISTRATION(Player)
+
 	void Player::Awake()
 	{
 		myTransform = gameObject->GetComponent<Transform2D>();
@@ -40,7 +44,7 @@ namespace Eclipse
 		{
 			myAnimation->SetCurrentAnimation("Attack", false);
 		}
-		
+
 
 		myMoveDirection = InputMapper::ReadValue("Sides");
 	}
