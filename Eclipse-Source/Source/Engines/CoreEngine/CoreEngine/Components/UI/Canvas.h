@@ -17,10 +17,18 @@ namespace Eclipse
                 main = this;
         }
 
+        void OnDestroy() override
+        {
+            if (main == this)
+                main = nullptr;
+        }
+
     public:
+
         static inline Canvas* main;
 
         SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, ReferenceResolution, Math::Vector2f(1920, 1080));
+        //SERIALIZED_FIELD_DEFAULT(bool, WorldSpace, false);
 
         static inline struct EditorCanvasCameraTransform
         {
@@ -30,8 +38,7 @@ namespace Eclipse
             float Rotation;
         } canvasCameraTransform;
 
-
-
         static inline bool drawCanvasGizmos = true;
+
     };
 }

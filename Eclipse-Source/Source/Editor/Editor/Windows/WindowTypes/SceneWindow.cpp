@@ -392,7 +392,7 @@ namespace Eclipse
 			Canvas::canvasCameraTransform.PositionOffset = (myInspectorPosition * -1.f) * CanvasResReference + Canvas::main->gameObject->transform->GetPosition() * CanvasResReference;
 			Canvas::canvasCameraTransform.PositionOffset *= Math::Vector2f(aspectRatio, 1.f) * myInspectorScale;
 			Canvas::canvasCameraTransform.Rotation = myInspectorRotation;
-			Canvas::canvasCameraTransform.ScaleMultiplier = Math::Vector2f(myInspectorScale.x * aspectRatio * 2.f * 0.895f, myInspectorScale.y) * Canvas::main->gameObject->transform->GetScale();
+			Canvas::canvasCameraTransform.ScaleMultiplier = Math::Vector2f(myInspectorScale.x * aspectRatio * 2.f * 0.888f, myInspectorScale.y) * Canvas::main->gameObject->transform->GetScale();
 		}
 
 		Math::Vector2f lastInspectorPosition(0, 0);
