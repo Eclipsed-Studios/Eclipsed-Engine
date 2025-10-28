@@ -2,20 +2,15 @@
 
 #include "Components/Base/BaseComponent.h"
 
-#include "Utilities/Math/Rect.h"
-
 #include "ECS/ComponentManager.h"
 
 namespace Eclipse
 {
-	class UIButton : public Component
+	class Button : public Component
 	{
-		BASE_SELECTION(UIButton, 0)
+		BASE_SELECTION(Button, 0)
 
 	public:
 		void Update() override;
-
-	public:
-		//Math::Rect myRect;
 	};
 }

@@ -1,20 +1,23 @@
 #pragma once
 
-//#include "Abstract/AbstractResource.h"
-//#include "Utilities/Math/Color.h"
+#include "Texture.h"
+#include "Shaders/Shader.h"
+#include "Utilities/Math/Color.h"
 
 namespace Eclipse
 {
-	// class Material : public AbstractResource
-	// {
-	// 	BASE_RESOURCE(Material)
+    class Material
+    {
+    public:
+        Material(const char* myPixelShader = ASSET_PATH"Shaders/DefaultSpritePixelShader.glsl", const char* myVertexShader = ASSET_PATH "Shaders/DefaultSpriteVertexShader.glsl");
 
-	// public:
-	// 	const Math::Color& GetColor();
+        void SetTexture(const char* aPath);
+        void Use();
 
+        Shader* myShader;
 
+        ResourcePointer<Texture> myTexture;
 
-	// private:
-	// 	Math::Color myColor;
-	// };
+        Math::Color color;
+    };
 }

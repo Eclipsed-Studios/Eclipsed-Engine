@@ -4,6 +4,9 @@
 #include "ImGui/imgui.h"
 #include "CoreEngine/ECS/ComponentManager.h"
 #include "CoreEngine/Components/Transform2D.h"
+#include "CoreEngine/Components/UI/Canvas.h"
+#include "CoreEngine/Components/UI/UIImage.h"
+#include "CoreEngine/Components/UI/RectTransform.h"
 
 #include "CoreEngine/Input/Input.h"
 
@@ -13,21 +16,37 @@ namespace Eclipse::Editor
 {
 	void HierarchyWindow::Update()
 	{
-        if (ImGui::BeginPopupContextWindow("##CTX_MENU_RIGHT_CLICK", ImGuiPopupFlags_MouseButtonRight))
-        {
+		if (ImGui::BeginPopupContextWindow("##CTX_MENU_RIGHT_CLICK", ImGuiPopupFlags_MouseButtonRight))
+		{
 			if (ImGui::BeginMenu("Create new..."))
 			{
-				if (ImGui::MenuItem("GameObject")) 
-				{ 
+				if (ImGui::MenuItem("GameObject"))
+				{
 					GameObject* obj = CreateGameObject();
+					
 					obj->SetName("New GameObject");
+				}
+				else if (ImGui::MenuItem("Canvas"))
+				{
+					GameObject* obj = ComponentManager::CreateGameObject();
+					obj->AddComponent<Canvas>();
+
+					obj->SetName("Canvas");
+				}
+				else if (ImGui::MenuItem("Image"))
+				{
+					GameObject* obj = ComponentManager::CreateGameObjectNoTransform();
+					obj->AddComponent<RectTransform>();
+					obj->AddComponent<UIImage>();
+
+					obj->SetName("Image");
 				}
 
 				ImGui::EndMenu();
 			}
 
-            ImGui::EndPopup();
-        }
+			ImGui::EndPopup();
+		}
 
 
 		for (const auto& [id, data] : ComponentManager::myEntityIdToEntity)

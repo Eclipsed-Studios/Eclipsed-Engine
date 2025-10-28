@@ -64,28 +64,33 @@ namespace Eclipse
     class CommandListManager
     {
     public:
+        static CommandList& GetUICommandList() { return UICommandList; }
         static CommandList& GetSpriteCommandList() { return SpriteCommandList; }
         static CommandList& GetDebugDrawCommandList() { return DebugDrawCommandList; }
 
         static void ExecuteAllCommandLists()
         {
             SpriteCommandList.Execute();
+            UICommandList.Execute();
             DebugDrawCommandList.Execute();
         }
 
         static void InitAllCommandLists()
         {
             SpriteCommandList.Init();
+            UICommandList.Init();
             DebugDrawCommandList.Init();
         }
 
         static void ResetAllCommandLists()
         {
             SpriteCommandList.Reset();
+            UICommandList.Reset();
             DebugDrawCommandList.Reset();
         }
 
     private:
+        static inline CommandList UICommandList;
         static inline CommandList SpriteCommandList;
         static inline CommandList DebugDrawCommandList;
     };

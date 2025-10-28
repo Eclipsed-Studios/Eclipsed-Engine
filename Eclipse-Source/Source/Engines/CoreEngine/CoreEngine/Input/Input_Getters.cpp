@@ -57,9 +57,9 @@ namespace Eclipse
 	}
 
 	Keycode::Scancode Input::GetAnyKey()
-	{	
-		for(int i = 0; i < currentKeys.size(); i++)
-			if(currentKeys[i])
+	{
+		for (int i = 0; i < currentKeys.size(); i++)
+			if (currentKeys[i])
 				return static_cast<Keycode::Scancode>(i);
 
 		return Keycode::Scancode::NONE;
@@ -100,6 +100,10 @@ namespace Eclipse
 		return releasedThisFrame[(int)aKey];
 	}
 
+	const Math::Vector2i& Input::GetGameMousePos()
+	{
+		return currentGamePos;
+	}
 
 	const Math::Vector2i& Input::GetMousePos()
 	{
@@ -133,5 +137,24 @@ namespace Eclipse
 	bool Input::IsMouseInside()
 	{
 		return mouseIsInside;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// should not be in getter but rahter setters
+	void Input::SetGamePosition(const Math::Vector2i& aPosition)
+	{
+		currentGamePos = aPosition;
 	}
 }

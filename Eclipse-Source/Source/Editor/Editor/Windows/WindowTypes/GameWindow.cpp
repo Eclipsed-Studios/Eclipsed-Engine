@@ -9,6 +9,8 @@
 
 #include "CoreEngine/Components/Rendering/Camera.h"
 
+#include "CoreEngine/Input/Input.h"
+
 #include <array>
 
 namespace Eclipse::Editor
@@ -49,8 +51,9 @@ namespace Eclipse::Editor
                 ImGui::EndPopup();
             }
 
+            ImGui::Checkbox("Draw Gizmos", &myDrawGameGizmos);
 
-            DrawGizmoButtons(DrawGizmo);
+            //DrawGizmoButtons(DrawGizmo);
 
             ImGui::EndMenuBar();
         }
@@ -63,6 +66,7 @@ namespace Eclipse::Editor
             ImGui::Text("No Camera Rendering");
             return;
         }
+
 
 
         // These clear colors are not working like they should and get mixed up so the first is the empty background and second is the actual
@@ -89,7 +93,9 @@ namespace Eclipse::Editor
         float aspectRatio = windowSize.y / windowSize.x;
         GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
 
-        CommandListManager::ExecuteAllCommandLists();
+        CommandListManager::GetSpriteCommandList().Execute();
+        CommandListManager::GetUICommandList().Execute();
+        if (myDrawGameGizmos) CommandListManager::GetDebugDrawCommandList().Execute();
 
         if (windowSize.x != myLastWindowResolution.x || windowSize.y != myLastWindowResolution.y)
         {
@@ -105,7 +111,16 @@ namespace Eclipse::Editor
 
         myLastWindowResolution = { static_cast<int>(windowSize.x), static_cast<int>(windowSize.y) };
 
+        TemporarySettingsSingleton::Get().gameWindowResolution = { windowSize.x, windowSize.y };
+
         ImGui::SetCursorPos(CursorPos);
+
+        ImVec2 mousePos = ImGui::GetMousePos();
+        ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
+        float mousePosX = mousePos.x - cursorScreenPos.x;
+        float mousePosY = windowSize.y - (mousePos.y - cursorScreenPos.y);
+        Input::SetGamePosition({ static_cast<int>(mousePosX), static_cast<int>(mousePosY) });
+
         ImGui::Image(myGameTexture, ImVec2(windowSize.x, windowSize.y - CursorPos.y), ImVec2(0, 1), ImVec2(0.99, 0));
 
         TemporarySettingsSingleton::Get().resolutionRatioGameView = windowSize.x / (windowSize.y - 46);
@@ -120,7 +135,9 @@ namespace Eclipse::Editor
         float aspectRatio = (windowSize.x * myWindowResAspect.y) / windowSize.x;
         GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &aspectRatio);
 
-         CommandListManager::ExecuteAllCommandLists();
+        CommandListManager::GetSpriteCommandList().Execute();
+        CommandListManager::GetUICommandList().Execute();
+        if (myDrawGameGizmos) CommandListManager::GetDebugDrawCommandList().Execute();
 
         if (windowSize.x != myLastWindowResolution.x || windowSize.y != myLastWindowResolution.y)
         {
@@ -143,22 +160,26 @@ namespace Eclipse::Editor
         if (windowSize.y - 46 > (windowSize.x * myWindowResAspect.y))
         {
             ImVec2 actuallWindowRes = windowSize;
-
             windowSize.y = (windowSize.x * myWindowResAspect.y);
-
             ImGui::SetCursorPos(ImVec2(CursorPos.x, actuallWindowRes.y * 0.5f - (windowSize.y - 46) * 0.5f));
         }
         else
         {
             ImVec2 actuallWindowRes = windowSize;
-
             windowSize.x = ((windowSize.y - 46) * myWindowResAspect.x);
             windowSize.y = windowSize.y - 46;
-
             ImGui::SetCursorPos(ImVec2(actuallWindowRes.x * 0.5f - windowSize.x * 0.5f, CursorPos.y));
         }
 
-        ImGui::Image(myGameTexture, windowSize, ImVec2(0, 0.99), ImVec2(1, 0));
+        TemporarySettingsSingleton::Get().gameWindowResolution = { windowSize.x, windowSize.y };
+
+        ImVec2 mousePos = ImGui::GetMousePos();
+        ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
+        float mousePosX = mousePos.x - cursorScreenPos.x;
+        float mousePosY = windowSize.y - (mousePos.y - cursorScreenPos.y);
+        Input::SetGamePosition({ static_cast<int>(mousePosX), static_cast<int>(mousePosY) });
+
+        ImGui::Image(myGameTexture, windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
         TemporarySettingsSingleton::Get().resolutionRatioGameView = windowSize.x / windowSize.y;
     }

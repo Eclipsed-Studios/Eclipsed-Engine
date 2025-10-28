@@ -10,7 +10,7 @@
 #include <assert.h>
 
 #define GetComp(Type, GOID)\
-ComponentManager::GetComponent<##Type>(GOID)
+ComponentManager::GetComponent<Type>(GOID)
 
 #define MAX_COMPONENT_MEMORY_BYTES 100'000'000
 

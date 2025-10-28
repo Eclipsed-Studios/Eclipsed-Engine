@@ -38,5 +38,7 @@ namespace Eclipse::Editor
 		Math::Vector2f myWindowResAspect = {1.7777f, 0.5625f};
 
 		float menuHeight = 0;
+
+		bool myDrawGameGizmos = false;
 	};
 }

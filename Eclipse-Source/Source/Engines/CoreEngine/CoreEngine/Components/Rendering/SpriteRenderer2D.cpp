@@ -19,37 +19,7 @@
 namespace Eclipse
 {
 	COMPONENT_REGISTRATION(SpriteRenderer2D);
-
-	Material::Material()
-	{
-		myShader = new Shader();
-		myShader->Create((PathManager::GetEngineAssets() / "Default/Shaders/DefaultSpritePixelShader.glsl").generic_string().c_str(),
-			(PathManager::GetEngineAssets() / "Default/Shaders/DefaultSpriteVertexShader.glsl").generic_string().c_str());
-
-		myTexture = Resources::Get<Texture>("Assets/Default_Texture.png");
-	}
-
-	void Material::SetTexture(const char* aPath)
-	{
-		myTexture = Resources::Get<Texture>(aPath);
-
-		unsigned shaderID = myShader->GetProgramID();
-
-		int none = 0;
-		GraphicsEngine::SetUniform(UniformType::Int, shaderID, "material.albedo", &none);
-	}
-
-	void Material::Use()
-	{
-		glActiveTexture(GL_TEXTURE0);
-		GraphicsEngine::BindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
-
-		unsigned shaderID = myShader->GetProgramID();
-
-		Math::Vector4f American_Colour = color.ToVector();
-		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.color", &American_Colour);
-	}
-
+	
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
 		spriteRectMin = aMin * myMaterial->myTexture->spriteDimDivOne;

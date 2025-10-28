@@ -22,8 +22,9 @@ namespace Eclipse
 
 		private:
 			void GizmoManager(Transform2D* aTransform);
-			void CopyManager();
-			void PasteManager();
+			
+			void Copy();
+			void Paste();
 
 			void CopyPasteManager();
 
