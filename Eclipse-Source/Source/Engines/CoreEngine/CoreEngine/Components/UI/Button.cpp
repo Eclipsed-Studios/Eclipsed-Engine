@@ -6,12 +6,8 @@
 
 namespace Eclipse
 {
-    COMPONENT_REGISTRATION(UIButton);
+    COMPONENT_REGISTRATION(Button);
 
-    void UIButton::Update()
-    {
-    }
-    
     void Eclipse::Button::Update()
     {
         Math::Vector2i mousePosition = Input::GetGameMousePos();

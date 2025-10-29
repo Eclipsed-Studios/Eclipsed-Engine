@@ -4,7 +4,9 @@
 
 namespace Eclipse
 {
-    void Canvas::EarlyUpdate()
+    COMPONENT_REGISTRATION(Canvas)
+
+    void Canvas::EditorUpdate()
     {
         if (drawCanvasGizmos)
         {

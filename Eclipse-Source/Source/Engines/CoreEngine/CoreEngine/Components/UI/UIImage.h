@@ -11,7 +11,7 @@ namespace Eclipse
         BASE_SELECTION(UIImage, 0)
 
     public:
-        void Awake() override;
+        void OnComponentAdded() override;
         void Render() override;
         void Draw();
 

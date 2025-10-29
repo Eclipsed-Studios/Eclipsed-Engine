@@ -9,7 +9,7 @@ namespace Eclipse
     class Material
     {
     public:
-        Material(const char* myPixelShader = ASSET_PATH"Shaders/DefaultSpritePixelShader.glsl", const char* myVertexShader = ASSET_PATH "Shaders/DefaultSpriteVertexShader.glsl");
+        Material(const char* myPixelShader = (PathManager::GetAssetDir() / "Shaders/DefaultSpritePixelShader.glsl").generic_string().c_str(), const char* myVertexShader = (PathManager::GetAssetDir() / "Shaders/DefaultSpriteVertexShader.glsl").generic_string().c_str());
 
         void SetTexture(const char* aPath);
         void Use();

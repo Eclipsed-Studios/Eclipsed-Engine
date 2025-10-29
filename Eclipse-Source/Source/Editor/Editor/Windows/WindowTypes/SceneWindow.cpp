@@ -478,8 +478,8 @@ namespace Eclipse
 		// unsigned vertexShaderID = 0;
 		// unsigned pixelShaderID = 0;
 
-		ResourcePointer<VertexShader> myVertexShader = Resources::Get<VertexShader>((PathManager::GetEngineAssets() / "Default/Shaders/SelectedVertexSpriteShader.glsl").generic_string().c_str());
-		ResourcePointer<PixelShader> myPixelShader = Resources::Get<PixelShader>((PathManager::GetEngineAssets() / "Default/Shaders/SelectedPixelSpriteShader.glsl").generic_string().c_str());
+		//ResourcePointer<VertexShader> myVertexShader = Resources::Get<VertexShader>((PathManager::GetEngineAssets() / "Default/Shaders/SelectedVertexSpriteShader.glsl").generic_string().c_str());
+		//ResourcePointer<PixelShader> myPixelShader = Resources::Get<PixelShader>((PathManager::GetEngineAssets() / "Default/Shaders/SelectedPixelSpriteShader.glsl").generic_string().c_str());
 
 		// mySelectedSpriteHighlightProgram = glCreateProgram();
 		// glAttachShader(mySelectedSpriteHighlightProgram, myVertexShader->GetVertexShaderID());

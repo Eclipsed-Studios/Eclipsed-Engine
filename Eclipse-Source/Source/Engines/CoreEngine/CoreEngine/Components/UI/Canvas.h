@@ -7,11 +7,13 @@ namespace Eclipse
 {
     class Canvas : public Component
     {
-        BASE_SELECTION(Canvas, FLT_MAX)
+        BASE_SELECTION(Canvas, FLT_MAX);
 
-            void EarlyUpdate() override;
+    public:
 
-        void Awake()
+        void EditorUpdate() override;
+
+        void OnComponentAdded() override
         {
             if (!main)
                 main = this;
@@ -22,8 +24,6 @@ namespace Eclipse
             if (main == this)
                 main = nullptr;
         }
-
-    public:
 
         static inline Canvas* main;
 

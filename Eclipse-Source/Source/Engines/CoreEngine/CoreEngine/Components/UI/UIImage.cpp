@@ -9,9 +9,11 @@
 
 namespace Eclipse
 {
-    void UIImage::Awake()
+    COMPONENT_REGISTRATION(UIImage);
+
+    void UIImage::OnComponentAdded()
     {
-        myMaterial = new Material(ASSET_PATH"Shaders/ScreenSpaceSpritePixelShader.glsl", ASSET_PATH"Shaders/ScreenSpaceSpriteVertexShader.glsl");
+        myMaterial = new Material((PathManager::GetEngineAssets() / "Default/Shaders/ScreenSpaceSpritePixelShader.glsl").generic_string().c_str(), (PathManager::GetEngineAssets() / "Default/Shaders/ScreenSpaceSpriteVertexShader.glsl").generic_string().c_str());
     }
 
     void UIImage::Render()
@@ -25,6 +27,9 @@ namespace Eclipse
     {
         if (!myMaterial)
             return;
+        if (!Canvas::main)
+            return;
+        
 
         auto tranForm = gameObject->GetComponent<RectTransform>();
 
