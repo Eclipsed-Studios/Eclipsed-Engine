@@ -26,6 +26,9 @@ namespace Eclipse
 
 		const Math::Vector4f& GetPixelPickingIDColor() { return myPixelPickColor; }
 
+		GameObject* GetParent();
+		void SetParent(GameObject* aGO);
+
 	public:
 		void SetName(const std::string& aName);
 		const std::string& GetName() const;
@@ -37,6 +40,8 @@ namespace Eclipse
 		class Transform2D* transform;
 
 	private:
+		GameObject* parent = nullptr;
+	
 		GameObjectID myID;
 		std::string myName = "Gameobject";
 

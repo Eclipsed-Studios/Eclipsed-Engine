@@ -21,9 +21,18 @@ namespace Eclipse
 
 		void EditorUpdate() override;
 
-		const Math::Vector2f& GetPosition() const;
-		const float GetRotation() const;
-		const Math::Vector2f& GetScale() const;
+		
+		void AddParentTransform(GameObject* aParent, Math::Vector2f& aPosition) const;
+
+		//Global sorta
+		Math::Vector2f GetPosition() const;
+		float GetRotation() const;
+		Math::Vector2f GetScale() const;
+
+		//Local
+		const Math::Vector2f& GetLocalPosition() const;
+		const float GetLocalRotation() const;
+		const Math::Vector2f& GetLocalScale() const;
 
 		Math::Vector2f* GetPositionPtr();
 		float* GetRotationPtr();

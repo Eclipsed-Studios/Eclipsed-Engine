@@ -17,15 +17,46 @@ namespace Eclipse
         gameObject->transform = this;
     }
 
-    const Math::Vector2f& Transform2D::GetPosition() const
+    void Transform2D::AddParentTransform(GameObject* aParent, Math::Vector2f& aPosition) const
     {
-        return position;
+        Transform2D* parentTransform = aParent->GetComponent<Transform2D>();
+        if (!parentTransform)
+            return;
+
+        aPosition += parentTransform->GetPosition();
+
+        GameObject* parent = aParent->GetParent();
+        if (parent) 
+            AddParentTransform(parent, aPosition);
     }
-    const float Transform2D::GetRotation() const
+
+    Math::Vector2f Transform2D::GetPosition() const
+    {
+        Math::Vector2f newPosition = position;
+        GameObject* parent = gameObject->GetParent();
+        if (parent)
+            AddParentTransform(parent, newPosition);
+
+        return newPosition;
+    }
+    float Transform2D::GetRotation() const
     {
         return rotation;
     }
-    const Math::Vector2f& Transform2D::GetScale() const
+    Math::Vector2f Transform2D::GetScale() const
+    {
+        return scale;
+    }
+
+    const Math::Vector2f& Transform2D::GetLocalPosition() const
+    {
+        return position;
+    }
+    const float Transform2D::GetLocalRotation() const
+    {
+        return rotation;
+    }
+    const Math::Vector2f& Transform2D::GetLocalScale() const
     {
         return scale;
     }

@@ -10,6 +10,7 @@ namespace Eclipse::Editor
 		BASE_SELECTION(HierarchyWindow, "Hierarchy")
 
 	public:
+		void HierarchyButton(GameObject* aGameObject, GameObjectID aGOID);
 		void Update() override;
 
 	public:

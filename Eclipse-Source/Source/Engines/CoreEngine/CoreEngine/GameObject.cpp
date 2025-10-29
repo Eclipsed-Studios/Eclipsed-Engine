@@ -15,6 +15,16 @@ namespace Eclipse
 		myPixelPickColor = Math::Vector4f(colorInt.x / 255.f, colorInt.y / 255.f, colorInt.z / 255.f, 1);
 	}
 
+	GameObject* GameObject::GetParent()
+	{
+		return parent;
+	}
+
+	void GameObject::SetParent(GameObject* aGO)
+	{
+		parent = aGO;
+	}
+
 	void GameObject::SetName(const std::string& aName)
 	{
 		myName = aName;
