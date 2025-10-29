@@ -37,9 +37,14 @@ namespace Eclipse::Assets
 			AssetImporter::Import(fullpath.c_str(), relpath.c_str(), imported);
 
 			if (!imported.succesful) continue;
+
+			AssetRegistry::GetInstance().RegisterAsset(fullpath, relpath, imported.type);
 			
-			CookedAsset cooked = AssetCooker::Cook(imported);
-			CookedAssetWriter::Write(cooked);
+			if (imported.needsCooking)
+			{
+				CookedAsset cooked = AssetCooker::Cook(imported);
+				CookedAssetWriter::Write(cooked);
+			}
 		}
 
 		AssetRegistry::GetInstance().Save();

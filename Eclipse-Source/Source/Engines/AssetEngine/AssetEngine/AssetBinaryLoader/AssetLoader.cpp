@@ -15,6 +15,7 @@ namespace Eclipse::Assets
 		switch ((AssetType)entry.type)
 		{
 		case AssetType::Texture: return textureLoader.Load(id);
+		case AssetType::Material: return materialLoader.Load(id);
 		}
 
 		return nullptr;

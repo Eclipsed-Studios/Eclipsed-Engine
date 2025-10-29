@@ -17,6 +17,8 @@ namespace Eclipse::Assets
 		{".gif",  AssetType::Texture},
 		{".hdr",  AssetType::Texture},
 		{".pic",  AssetType::Texture},
-		{".pnm",  AssetType::Texture}
+		{".pnm",  AssetType::Texture},
+
+		{".mat",  AssetType::Material},
 	};
 }

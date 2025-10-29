@@ -17,8 +17,9 @@ set_target_properties(AssetEngine PROPERTIES FOLDER "Engines")
 
 
 # ---- Graphics Engine
-target_include_directories(AssetEngine PRIVATE ${GRAPHICASSET_ENGINE_ROOTS_ENGINE_ROOT})
-target_include_directories(AssetEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/GraphicsEngine-Sources.cmake")
+target_include_directories(AssetEngine PUBLIC ${GRAPHICS_ENGINE_ROOT})
+target_link_libraries(AssetEngine PUBLIC GraphicsEngine)
 
 
 target_include_directories(AssetEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/stbi_image/)

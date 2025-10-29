@@ -29,12 +29,12 @@ namespace Eclipse::Assets
 		outAsset.type = type;
 		outAsset.succesful = true;
 
-		AssetRegistry::GetInstance().RegisterAsset(path, rel, AssetType::Texture);
-
-
 		switch (type)
 		{
-		case AssetType::Texture: textureImporter.Import(std::get<TextureBinaryData>(outAsset.data), path); break;
+		case AssetType::Texture: 
+			textureImporter.Import(std::get<TextureBinaryData>(outAsset.data), path); 
+			outAsset.needsCooking = true;
+			break;
 		}
 	}
 }

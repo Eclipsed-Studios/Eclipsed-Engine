@@ -47,6 +47,8 @@ namespace Eclipse::Utilities
 			{".wav", FileInfo::FileType_Audio},
 			{".mp3", FileInfo::FileType_Audio},
 
+			{".mat", FileInfo::FileType_Material},
+
 			{".zip", FileInfo::FileType_Zip},
 
 			{".json", FileInfo::FileType_Json},

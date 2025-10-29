@@ -3,6 +3,7 @@
 #include "AssetEngine/AssetRegistry.h"
 
 #include "AssetEngine/Managers/TextureManager.h"
+#include "AssetEngine/Managers/MaterialManager.h"
 #include "AssetEngine/PathManager.h"
 
 namespace Eclipse::Assets
@@ -17,6 +18,7 @@ namespace Eclipse::Assets
 
 	private:
 		static inline TextureManager textureManager{};
+		static inline MaterialManager materialManager{};
 	};
 
 	template<typename T>
@@ -35,5 +37,6 @@ namespace Eclipse::Assets
 		size_t id = registry.GetIdFromPath(path);
 
 		if constexpr (std::is_same<T, Textures>::value) return std::move(textureManager.Get(id));
+		else if  constexpr (std::is_same<T, Materials>::value) return std::move(materialManager.Get(id));
 	}
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Utilities/Interfaces/Serializable.h"
-
 #include <initializer_list>
 #include "Utilities/Math/Vector/Vector4.h"
 

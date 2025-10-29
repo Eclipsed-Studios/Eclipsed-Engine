@@ -4,6 +4,14 @@
 
 #include "CoreEngine/AssetManagement/Resources.h"
 
+#include "AssetEngine/AssetPipeline.h"
+
+#include "AssetEngine/Resources.h"
+#include "AssetEngine/Assets/Material.h"
+
+
+
+
 #ifdef ECLIPSED_EDITOR
 namespace Eclipse::Editor
 {
@@ -13,6 +21,11 @@ namespace Eclipse::Editor
 
 		Resources::Init();
 		PathManager::Init(projectPath);
+
+		Assets::AssetPipeline::Init();
+		Assets::Resourcess::Get<Materials>("Default.mat");
+
+
 		Engine::Init();
 		myUIManager.Init();
 	}

@@ -6,7 +6,7 @@ include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/GraphicsEngine-Sources.cmake")
 
 add_library(GraphicsEngine STATIC ${GRAPHICS_ENGINE_SOURCES})
-AddFilesToFolders("${GRAPHICSENGINE_SOURCES}" "${GRAPHICS_ENGINE_ROOT}")
+AddFilesToFolders("${GRAPHICS_ENGINE_SOURCES}" "${GRAPHICS_ENGINE_ROOT}")
 
 target_precompile_headers(GraphicsEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 

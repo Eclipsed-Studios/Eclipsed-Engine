@@ -17,6 +17,10 @@
 
 #include "ImGui/imgui.h"
 
+#include "AssetEngine/Models/AssetDatas/Binary/MaterialBinaryData.h"
+
+#include "AssetEngine/AssetRegistry.h"
+
 namespace Eclipse::Editor
 {
 	void InspectorWindow::Update()
@@ -114,7 +118,9 @@ namespace Eclipse::Editor
 		Utilities::FileInfo info = Utilities::FileInfo::GetFileInfo(AssetWindow::ActivePath);
 		if (info.type == Utilities::FileInfo::FileType_Texture)
 			DrawTextureAssetInspector();
-		
+		else if (info.type == Utilities::FileInfo::FileType_Material)
+			DrawMaterialAssetInspector();
+
 	}
 
 	void InspectorWindow::DrawTextureAssetInspector()
@@ -122,6 +128,44 @@ namespace Eclipse::Editor
 		if (ImGui::Button("Open Editor"))
 		{
 			SpriteEditor::SetTexture(AssetWindow::ActivePath.string().c_str());
+		}
+	}
+
+	void InspectorWindow::DrawMaterialAssetInspector()
+	{
+		static Assets::MaterialBinaryData data;
+
+		std::ifstream in(AssetWindow::ActivePath, std::ios::binary);
+		in.read(reinterpret_cast<char*>(&data), sizeof(Assets::MaterialBinaryData));
+		in.close();
+
+		 bool changed = ImGui::ColorEdit4("Material Color", data.color.data,
+			ImGuiColorEditFlags_AlphaBar |
+			ImGuiColorEditFlags_AlphaPreview |
+			ImGuiColorEditFlags_PickerHueWheel |
+			ImGuiColorEditFlags_DisplayRGB |
+			ImGuiColorEditFlags_NoInputs);
+
+		 Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
+
+		 std::string title = "No Texture";
+		 if (data.textureID != 0)
+		 {
+			 auto& entry = registry.GetRegisteredAsset(data.textureID);
+			 title = entry.path.filename().generic_string();	
+		 }
+
+		 if (DragAndDrop::BeginTarget(title.c_str(), Utilities::FileInfo::FileType_Texture))
+		 {
+			 data.textureID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
+			 changed = true;
+		 }
+
+		if (changed)
+		{
+			std::ofstream out(AssetWindow::ActivePath, std::ios::binary);
+			out.write(reinterpret_cast<const char*>(&data), sizeof(Assets::MaterialBinaryData));
+			out.close();
 		}
 	}
 }

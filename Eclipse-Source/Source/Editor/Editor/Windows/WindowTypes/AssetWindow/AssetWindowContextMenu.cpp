@@ -1,5 +1,7 @@
 #include "AssetWindowContextMenu.h"
 
+#include "AssetEngine/AssetFactory.h"
+
 namespace Eclipse::Editor
 {
 	AssetWindowContextMenu::AssetWindowContextMenu() : AbstractContextMenu("AssetsCtxMenu") {}
@@ -51,7 +53,8 @@ namespace Eclipse::Editor
 
 		if (ImGui::MenuItem("Material"))
 		{
-			LOG_ERROR("Creating Material not implemented.");
+			auto path = (PathManager::GetAssetDir() / "Test.mat").generic_string();
+			Assets::AssetFactory::CreateMaterial(path.c_str());
 		}
 
 		if (ImGui::MenuItem("Component"))

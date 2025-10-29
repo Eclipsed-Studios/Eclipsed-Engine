@@ -12,5 +12,6 @@ namespace Eclipse::Assets
 		AssetType type;
 		std::variant<TextureBinaryData> data;
 		bool succesful = false;
+		bool needsCooking = false;
 	};
 }
