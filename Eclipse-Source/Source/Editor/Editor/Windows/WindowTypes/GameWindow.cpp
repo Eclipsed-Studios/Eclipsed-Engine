@@ -11,6 +11,8 @@
 
 #include "CoreEngine/Input/Input.h"
 
+#include "OpenGL\glad\glad.h"
+
 #include <array>
 
 namespace Eclipse::Editor
@@ -151,7 +153,7 @@ namespace Eclipse::Editor
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
 
-        myLastWindowResolution = { static_cast<int>(windowSize.x), static_cast<int>((windowSize.x * myWindowResAspect.y)) };
+        myLastWindowResolution = { static_cast<int>(windowSize.x), static_cast<int>(windowSize.y) };
 
         ImVec2 CursorPos = ImGui::GetCursorPos();
         CursorPos.x -= 8;
