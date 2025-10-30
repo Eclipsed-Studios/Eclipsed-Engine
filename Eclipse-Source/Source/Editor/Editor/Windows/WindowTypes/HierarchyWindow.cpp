@@ -12,18 +12,22 @@
 
 #include "CoreEngine/ECS/ECS.hpp"
 
+#include "CoreEngine/GameObject.h"
+
 namespace Eclipse::Editor
 {
-	void HierarchyWindow::HierarchyButton(GameObject* aGameObject, GameObjectID aGOID)
+	void HierarchyWindow::HierarchyButton(GameObject* aGameObject, unsigned aGOID)
 	{
-		GameObject* parent = data->GetParent();
-		if (parent)
-			return;
-		
-		if (ImGui::Button(std::string(data->GetName() + "##" + std::to_string(id)).c_str()))
+		if (ImGui::Button(std::string(aGameObject->GetName() + "##" + std::to_string(aGOID)).c_str()))
 		{
 			CurrentGameObjectID = aGOID;
 			InspectorWindow::activeType = ActiveItemTypes_GameObject;
+		}
+
+		std::vector<GameObject*> children = aGameObject->GetChildren();
+		for (auto& child : children)
+		{
+			HierarchyButton(child, child->GetID(), true);
 		}
 	}
 
@@ -64,6 +68,9 @@ namespace Eclipse::Editor
 
 		for (const auto& [id, data] : ComponentManager::myEntityIdToEntity)
 		{
+			GameObject* parent = aGameObject->GetParent();
+			if (parent)
+				continue;
 			HierarchyButton(data, id);
 
 			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
@@ -86,6 +93,8 @@ namespace Eclipse::Editor
 					{
 						GameObject* targetGO = it->second;
 						targetGO->SetParent(data);
+
+						data->AddChild(targetGO);
 					}
 				}
 				ImGui::EndDragDropTarget();

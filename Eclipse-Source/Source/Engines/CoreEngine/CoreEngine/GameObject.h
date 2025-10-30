@@ -28,6 +28,10 @@ namespace Eclipse
 
 		GameObject* GetParent();
 		void SetParent(GameObject* aGO);
+		
+		GameObject* GetChild(int index);
+		std::vector<GameObject*> GetChildren();
+		void AddChild(GameObject*& aChild);
 
 	public:
 		void SetName(const std::string& aName);
@@ -41,6 +45,7 @@ namespace Eclipse
 
 	private:
 		GameObject* parent = nullptr;
+		std::vector<GameObject*> Children;
 	
 		GameObjectID myID;
 		std::string myName = "Gameobject";

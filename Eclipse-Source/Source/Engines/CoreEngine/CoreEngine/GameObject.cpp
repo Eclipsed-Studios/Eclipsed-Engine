@@ -25,6 +25,21 @@ namespace Eclipse
 		parent = aGO;
 	}
 
+
+	GameObject* GameObject::GetChild(int index)
+	{
+		return Children[index];
+	}
+	std::vector<GameObject*> GameObject::GetChildren()
+	{
+		return Children;
+	}
+	void GameObject::AddChild(GameObject*& aChild)
+	{
+		Children.emplace_back(aChild);
+	}
+
+
 	void GameObject::SetName(const std::string& aName)
 	{
 		myName = aName;

@@ -2,18 +2,21 @@
 
 #include "Editor/Windows/WindowBase.h"
 
-
-namespace Eclipse::Editor
+namespace Eclipse
 {
-	class HierarchyWindow final : public AbstractWindow
+	class GameObject;
+	namespace Editor
 	{
-		BASE_SELECTION(HierarchyWindow, "Hierarchy")
+		class HierarchyWindow final : public AbstractWindow
+		{
+			BASE_SELECTION(HierarchyWindow, "Hierarchy")
 
-	public:
-		void HierarchyButton(GameObject* aGameObject, GameObjectID aGOID);
-		void Update() override;
+		public:
+			void HierarchyButton(GameObject* aGameObject, unsigned aGOID);
+			void Update() override;
 
-	public:
-		static inline unsigned CurrentGameObjectID;
-	};
+		public:
+			static inline unsigned CurrentGameObjectID;
+		};
+	}
 }
