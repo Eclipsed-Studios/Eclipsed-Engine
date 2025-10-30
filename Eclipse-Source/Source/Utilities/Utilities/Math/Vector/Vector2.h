@@ -85,9 +85,9 @@ namespace Eclipse::Math
 	};
 
 	typedef Vector2<float> Vector2f;
+	typedef Vector2<double> Vector2d;
 	typedef Vector2<unsigned> Vector2ui;
 	typedef Vector2<int> Vector2i;
-	typedef Vector2<double> Vector2d;
 }
 
 #include "Vector2.inl"

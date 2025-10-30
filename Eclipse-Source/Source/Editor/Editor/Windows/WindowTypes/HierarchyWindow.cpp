@@ -16,19 +16,70 @@
 
 namespace Eclipse::Editor
 {
-	void HierarchyWindow::HierarchyButton(GameObject* aGameObject, unsigned aGOID)
+	void HierarchyWindow::HierarchyButton(GameObject* aGameObject, float totalIndent)
 	{
-		if (ImGui::Button(std::string(aGameObject->GetName() + "##" + std::to_string(aGOID)).c_str()))
+		unsigned id = aGameObject->GetID();
+
+		ImGui::Dummy(ImVec2(totalIndent, 0.f));
+		ImGui::SameLine();
+		if (ImGui::Button(std::string(aGameObject->GetName() + "##" + std::to_string(id)).c_str()))
 		{
-			CurrentGameObjectID = aGOID;
+			CurrentGameObjectID = id;
 			InspectorWindow::activeType = ActiveItemTypes_GameObject;
 		}
 
+		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+		{
+			ImGui::SetDragDropPayload("DND_Childing_Reordering", &id, sizeof(unsigned));
+
+			ImGui::Text(aGameObject->GetName().c_str());
+			ImGui::EndDragDropSource();
+		}
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_Childing_Reordering"))
+			{
+				IM_ASSERT(payload->DataSize == sizeof(unsigned));
+				unsigned draggedEntityID = *(const unsigned*)payload->Data;
+
+				auto it = ComponentManager::myEntityIdToEntity.find(draggedEntityID);
+				if (it != ComponentManager::myEntityIdToEntity.end())
+				{
+					AssignParentChildren(it->second, aGameObject);
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		std::vector<GameObject*> children = aGameObject->GetChildren();
+		totalIndent += 32.f;
 		for (auto& child : children)
 		{
-			HierarchyButton(child, child->GetID(), true);
+			HierarchyButton(child, totalIndent);
 		}
+	}
+
+	void HierarchyWindow::AssignParentChildren(GameObject* targetGO, Eclipse::GameObject* aGameObject)
+	{
+		if (auto& parent = targetGO->GetParent())
+		{
+			if (targetGO->GetParent()->GetID() == aGameObject->GetID())
+				return;
+
+			auto& children = parent->GetChildren();
+			size_t childIndex = targetGO->GetChildIndex();
+
+			for (int i = childIndex; i < children.size() - 1; i++)
+				children[i] = children[i + 1];
+
+			children.pop_back();
+		}
+
+		targetGO->SetParent(aGameObject);
+
+		aGameObject->AddChild(targetGO);
+		targetGO->SetChildIndex(aGameObject->GetChildCount() - 1);
 	}
 
 	void HierarchyWindow::Update()
@@ -68,37 +119,10 @@ namespace Eclipse::Editor
 
 		for (const auto& [id, data] : ComponentManager::myEntityIdToEntity)
 		{
-			GameObject* parent = aGameObject->GetParent();
+			GameObject* parent = data->GetParent();
 			if (parent)
 				continue;
-			HierarchyButton(data, id);
-
-			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-			{
-				ImGui::SetDragDropPayload("DND_Childing_Reordering", &id, sizeof(unsigned));
-
-				ImGui::Text(data->GetName().c_str());
-				ImGui::EndDragDropSource();
-			}
-
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_Childing_Reordering"))
-				{
-					IM_ASSERT(payload->DataSize == sizeof(unsigned));
-					unsigned draggedEntityID = *(const unsigned*)payload->Data;
-
-					auto it = ComponentManager::myEntityIdToEntity.find(draggedEntityID);
-					if (it != ComponentManager::myEntityIdToEntity.end())
-					{
-						GameObject* targetGO = it->second;
-						targetGO->SetParent(data);
-
-						data->AddChild(targetGO);
-					}
-				}
-				ImGui::EndDragDropTarget();
-			}
+			HierarchyButton(data, 0.f);
 		}
 	}
 }

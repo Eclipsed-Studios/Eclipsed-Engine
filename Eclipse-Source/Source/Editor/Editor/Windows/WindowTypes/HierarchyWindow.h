@@ -12,7 +12,8 @@ namespace Eclipse
 			BASE_SELECTION(HierarchyWindow, "Hierarchy")
 
 		public:
-			void HierarchyButton(GameObject* aGameObject, unsigned aGOID);
+            void HierarchyButton(GameObject* aGameObject, float totalIndent);
+            void AssignParentChildren(GameObject* targetGO, Eclipse::GameObject* aGameObject);
 			void Update() override;
 
 		public:

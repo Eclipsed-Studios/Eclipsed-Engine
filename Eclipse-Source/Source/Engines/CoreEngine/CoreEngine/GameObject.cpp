@@ -6,7 +6,7 @@ namespace Eclipse
 		: myID(aId)
 	{
 		Math::Vector4i colorInt;
-		
+
 		colorInt.x = (myID & 0x000000FF) >> 0;
 		colorInt.y = (myID & 0x0000FF00) >> 8;
 		colorInt.z = (myID & 0x00FF0000) >> 16;
@@ -15,28 +15,40 @@ namespace Eclipse
 		myPixelPickColor = Math::Vector4f(colorInt.x / 255.f, colorInt.y / 255.f, colorInt.z / 255.f, 1);
 	}
 
-	GameObject* GameObject::GetParent()
+
+	GameObject*& GameObject::GetParent()
 	{
 		return parent;
 	}
-
 	void GameObject::SetParent(GameObject* aGO)
 	{
 		parent = aGO;
 	}
 
-
-	GameObject* GameObject::GetChild(int index)
+	GameObject*& GameObject::GetChild(int index)
 	{
-		return Children[index];
+		return children[index];
 	}
-	std::vector<GameObject*> GameObject::GetChildren()
+	std::vector<GameObject*>& GameObject::GetChildren()
 	{
-		return Children;
+		return children;
 	}
 	void GameObject::AddChild(GameObject*& aChild)
 	{
-		Children.emplace_back(aChild);
+		children.emplace_back(aChild);
+	}
+	size_t GameObject::GetChildCount()
+	{
+		return children.size();
+	}
+
+	void GameObject::SetChildIndex(size_t index)
+	{
+		myChildIndex = index;
+	}
+	size_t GameObject::GetChildIndex()
+	{
+		return myChildIndex;
 	}
 
 

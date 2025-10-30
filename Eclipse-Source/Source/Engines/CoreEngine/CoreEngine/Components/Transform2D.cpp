@@ -8,6 +8,14 @@ namespace Eclipse
 {
     COMPONENT_REGISTRATION(Transform2D);
 
+    void Transform2D::DrawInspector()
+    {
+        auto globalPosition = GetPosition();
+
+        ImGui::Text("Debug properties");
+        ImGui::Text("gobal pos, x: %f, y: %f", globalPosition.x, globalPosition.y);
+    }
+
     void Transform2D::OnSceneLoaded()
     {
         gameObject->transform = this;
@@ -23,7 +31,7 @@ namespace Eclipse
         if (!parentTransform)
             return;
 
-        aPosition += parentTransform->GetPosition();
+        aPosition += parentTransform->GetLocalPosition();
 
         GameObject* parent = aParent->GetParent();
         if (parent) 
