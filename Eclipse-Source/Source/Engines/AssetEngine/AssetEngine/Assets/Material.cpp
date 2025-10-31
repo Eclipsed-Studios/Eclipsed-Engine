@@ -3,6 +3,8 @@
 
 #include "AssetEngine/Assets/Texture.h"
 
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+
 namespace Eclipse
 {
 	ASSET_OPERATORS_IMPL(Materials, Assets::MaterialHandle);
@@ -11,9 +13,15 @@ namespace Eclipse
 	{
 		dataHandle->texture.Bind();
 
-		//Math::Vector4f American_Colour = color.ToVector();
-		//GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.color", &American_Colour);
+		Math::Vector4f col = dataHandle->color.ToVector();
+		GraphicsEngine::SetUniform(UniformType::Vector4f, dataHandle->programID, "material.color", &col);
+	}
 
-		//myUniformManager.SetUniformVec4Float(material.color, shaderID, (Math::Vector4f*)aValue);
+	void Materials::Create()
+	{
+		dataHandle->programID = glCreateProgram();
+		glAttachShader(dataHandle->programID, dataHandle->vs.GetProgramID());
+		glAttachShader(dataHandle->programID, dataHandle->ps.GetProgramID());
+		glLinkProgram(dataHandle->programID);
 	}
 }

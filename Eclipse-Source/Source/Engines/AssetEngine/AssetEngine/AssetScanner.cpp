@@ -58,7 +58,7 @@ namespace Eclipse::Assets
 				if (fs::is_directory(entry)) continue;
 
 				size_t lastModTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::filesystem::last_write_time(entry).time_since_epoch()).count();
-				fs::path relPath = fs::relative(entry, PathManager::GetEngineAssets());
+				fs::path relPath = fs::relative(entry, PathManager::GetEngineRoot());
 
 				if (AssetRegistry::GetInstance().IsRegistered(relPath))
 				{

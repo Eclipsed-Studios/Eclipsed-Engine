@@ -33,6 +33,8 @@ namespace Eclipse
 		TemporarySettingsSingleton::Get().Init((PathManager::GetEngineLocal() / "EngineSettings.json").generic_string());
 
 		InitSubSystems();
+
+		Assets::Resourcess::Get<PixelShaders>("EngineAssets/Default/Shaders/DefaultSprite.pglsl");
 	}
 
 	void Engine::Internal_Update()

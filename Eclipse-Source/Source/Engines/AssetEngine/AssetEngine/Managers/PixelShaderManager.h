@@ -2,18 +2,20 @@
 
 #include "AssetEngine/Managers/AssetManager.h"
 
-#include "AssetEngine/Assets/Shader.h"
+#include "AssetEngine/Assets/PixelShader.h"
 
 
 namespace Eclipse::Assets
 {
-	class PixelShaderManager final : public AssetManager<class Shaders, class Assets::ShaderHandle>
+	class PixelShaderManager final : public AssetManager<class PixelShaders, class Assets::ShaderHandle>
 	{
 	public:
-		Shaders Get(const size_t& id) override;
+		PixelShaders Get(const size_t& id) override;
+
+		PixelShaders GetDefault();
 
 	protected:
-		Shaders Load(const size_t& id) override;
-		Shaders ConstructAsset(const size_t& id) override;
+		PixelShaders Load(const size_t& id) override;
+		PixelShaders ConstructAsset(const size_t& id) override;
 	};
 }

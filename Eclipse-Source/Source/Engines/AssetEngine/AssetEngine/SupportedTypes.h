@@ -20,5 +20,9 @@ namespace Eclipse::Assets
 		{".pnm",  AssetType::Texture},
 
 		{".mat",  AssetType::Material},
+
+		{".vglsl",  AssetType::VertexShader},
+
+		{".pglsl",  AssetType::PixelShader},
 	};
 }

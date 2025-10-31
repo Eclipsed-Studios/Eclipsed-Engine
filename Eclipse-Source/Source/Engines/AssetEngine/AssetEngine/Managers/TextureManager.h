@@ -10,6 +10,7 @@ namespace Eclipse::Assets
 	class TextureManager final : public AssetManager<class Textures, class Assets::TextureHandle>
 	{
 	public:
+		Textures GetDefault();
 		Textures Get(const size_t& id) override;
 
 	protected:

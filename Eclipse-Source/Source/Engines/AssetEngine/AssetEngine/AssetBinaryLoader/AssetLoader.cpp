@@ -16,6 +16,8 @@ namespace Eclipse::Assets
 		{
 		case AssetType::Texture: return textureLoader.Load(id);
 		case AssetType::Material: return materialLoader.Load(id);
+		case AssetType::PixelShader: return pixelShaderLoader.Load(id);
+		case AssetType::VertexShader: return vertexShaderLoader.Load(id);
 		}
 
 		return nullptr;

@@ -36,6 +36,7 @@ namespace Eclipse::Assets
 		void Save();
 
 	private:
+		std::unordered_map<AssetType, std::vector<size_t>> assetTypeToID;
 		std::unordered_map<size_t, AssetRegistryEntry> registeredAssets;
 
 		static inline std::filesystem::path metafilePath;

@@ -21,6 +21,7 @@ namespace Eclipse::Assets
 	Materials MaterialManager::ConstructAsset(const size_t& id)
 	{
 		Materials asset(idToAssetHandle[id]);
+		asset.Create();
 
 		return asset;
 	}

@@ -16,5 +16,6 @@ namespace Eclipse
 
 	public:
 		void Use();
+		void Create();
 	};
 }

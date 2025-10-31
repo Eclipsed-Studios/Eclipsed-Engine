@@ -2,8 +2,16 @@
 
 #include "AssetEngine/AssetBinaryLoader/TypeLoaders/Texture/TextureLoader.h"
 
+#include "AssetEngine/AssetRegistry.h"
+
 namespace Eclipse::Assets
 {
+	Textures TextureManager::GetDefault()
+	{
+		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Textures/Default_Texture.png");
+		return Get(id);
+	}
+
 	Textures TextureManager::Get(const size_t& id)
 	{
 		if (idToAssetHandle.find(id) != idToAssetHandle.end()) return ConstructAsset(id);

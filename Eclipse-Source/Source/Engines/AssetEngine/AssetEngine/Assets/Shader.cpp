@@ -5,7 +5,21 @@
 
 namespace Eclipse
 {
-	ASSET_OPERATORS_IMPL(Shaders, Assets::ShaderHandle)
+	ASSET_OPERATORS_IMPL(Shaders, Assets::ShaderHandle);
 
+	size_t Shaders::GetAssetID() const
+	{
+		return dataHandle->assetID;
+	}
+
+	unsigned Shaders::GetProgramID() const
+	{
+		return dataHandle->shaderID;
+	}
+
+	void Shaders::Bind(int slot)
+	{
+		glUseProgram(dataHandle->shaderID);
+	}
 
 }

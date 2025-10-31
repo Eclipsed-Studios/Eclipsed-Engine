@@ -1,16 +1,23 @@
 #include "AssetEngine/Managers/PixelShaderManager.h"
 
 #include "AssetEngine/AssetBinaryLoader/TypeLoaders/PixelShader/PixelShaderLoader.h"
+#include "AssetEngine/AssetRegistry.h"
 
 namespace Eclipse::Assets
 {
-	Shaders PixelShaderManager::Get(const size_t& id)
+	PixelShaders PixelShaderManager::GetDefault()
+	{
+		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Shaders/DefaultSprite.pglsl");
+		return Get(id);
+	}
+
+	PixelShaders PixelShaderManager::Get(const size_t& id)
 	{
 		if (idToAssetHandle.find(id) != idToAssetHandle.end()) return ConstructAsset(id);
 		else return Load(id);
 	}
 
-	Shaders PixelShaderManager::Load(const size_t& id)
+	PixelShaders PixelShaderManager::Load(const size_t& id)
 	{
 		static Assets::PixelShaderLoader loader{};
 
@@ -18,9 +25,9 @@ namespace Eclipse::Assets
 		return ConstructAsset(id);
 	}
 
-	Shaders PixelShaderManager::ConstructAsset(const size_t& id)
+	PixelShaders PixelShaderManager::ConstructAsset(const size_t& id)
 	{
-		Shaders texture(idToAssetHandle[id]);
+		PixelShaders texture(idToAssetHandle[id]);
 
 		return texture;
 	}

@@ -6,5 +6,7 @@ namespace Eclipse::Assets
 	{
 		Texture,
 		Material,
+		VertexShader,
+		PixelShader,
 	};
 }
