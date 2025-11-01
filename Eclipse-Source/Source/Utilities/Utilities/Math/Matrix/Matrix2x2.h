@@ -13,7 +13,7 @@ namespace Eclipse::Math
 
         Matrix2x2(Matrix2x2& aOther);
 
-        T operator()(int column, int row);
+        T& operator()(int column, int row);
 
         union
         {
