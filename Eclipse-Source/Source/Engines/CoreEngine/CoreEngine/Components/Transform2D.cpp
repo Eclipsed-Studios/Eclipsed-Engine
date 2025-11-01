@@ -4,6 +4,8 @@
 
 #include <sstream>
 
+#include "Utilities/Math/Vector/Vector3.h"
+
 namespace Eclipse
 {
     COMPONENT_REGISTRATION(Transform2D);
@@ -25,35 +27,80 @@ namespace Eclipse
         gameObject->transform = this;
     }
 
-    void Transform2D::AddParentTransform(GameObject* aParent, Math::Vector2f& aPosition) const
+    void Transform2D::AddParentTransform(GameObject* aParent, Math::Mat3x3f& aTransform) const
     {
         Transform2D* parentTransform = aParent->GetComponent<Transform2D>();
         if (!parentTransform)
             return;
 
-        aPosition += parentTransform->GetLocalPosition();
+        Math::Mat3x3f parentTransformMatrix = Math::Mat3x3f::CreateTranslation(parentTransform->GetLocalPosition());
+        parentTransformMatrix *= Math::Mat3x3f::CreateRotation(-parentTransform->GetLocalRotation());
+        parentTransformMatrix *= Math::Mat3x3f::CreateScale(parentTransform->GetLocalScale());
+
+        aTransform *= parentTransformMatrix;
 
         GameObject* parent = aParent->GetParent();
-        if (parent) 
-            AddParentTransform(parent, aPosition);
+        if (parent)
+            AddParentTransform(parent, aTransform);
     }
 
     Math::Vector2f Transform2D::GetPosition() const
     {
-        Math::Vector2f newPosition = position;
+        Math::Mat3x3f mat;
         GameObject* parent = gameObject->GetParent();
         if (parent)
-            AddParentTransform(parent, newPosition);
+            AddParentTransform(parent, mat);
 
-        return newPosition;
+        Math::Vector3f positionV3(position->x, position->y, 1.f);
+        Math::Vector3f positionV3AddedTransform = positionV3 * mat;
+
+        return { positionV3AddedTransform.x, positionV3AddedTransform.y };
     }
+
+    void Transform2D::AddParentRotation(GameObject* aParent, float& totalRotation) const
+    {
+        Transform2D* parentTransform = aParent->GetComponent<Transform2D>();
+        if (!parentTransform)
+            return;
+
+        totalRotation += parentTransform->GetLocalRotation();
+
+        GameObject* parent = aParent->GetParent();
+        if (parent)
+            AddParentRotation(parent, totalRotation);
+    }
+
     float Transform2D::GetRotation() const
     {
-        return rotation;
+        float rot = rotation;
+        GameObject* parent = gameObject->GetParent();
+        if (parent)
+            AddParentRotation(parent, rot);
+
+        return rot;
     }
+
+    void Transform2D::AddParentScale(GameObject* aParent, Math::Vector2f& totalScale) const
+    {
+        Transform2D* parentTransform = aParent->GetComponent<Transform2D>();
+        if (!parentTransform)
+            return;
+
+        totalScale *= parentTransform->GetLocalScale();
+
+        GameObject* parent = aParent->GetParent();
+        if (parent)
+            AddParentScale(parent, totalScale);
+    }
+
     Math::Vector2f Transform2D::GetScale() const
     {
-        return scale;
+        Math::Vector2f sca = scale;
+        GameObject* parent = gameObject->GetParent();
+        if (parent)
+            AddParentScale(parent, sca);
+
+        return sca;
     }
 
     const Math::Vector2f& Transform2D::GetLocalPosition() const

@@ -1,6 +1,7 @@
 #pragma once
-
 #include <cstring>
+
+#include "Math/Vector/Vector2.h"
 
 namespace Eclipse::Math
 {
@@ -12,6 +13,9 @@ namespace Eclipse::Math
         ~Matrix2x2() = default;
 
         Matrix2x2(Matrix2x2& aOther);
+        void operator=(const Matrix2x2& aOther);
+
+        void operator*=(const Matrix2x2& aMat0);
 
         T& operator()(int column, int row);
 

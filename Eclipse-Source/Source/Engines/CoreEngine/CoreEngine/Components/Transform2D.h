@@ -7,6 +7,7 @@
 #include "Base/BaseComponent.h"
 
 #include <Utilities/Math/Vector/Vector2.h>
+#include "Utilities/Math/Matrix/Matrix3x3.h"
 
 namespace Eclipse
 {
@@ -23,7 +24,9 @@ namespace Eclipse
 		void EditorUpdate() override;
 
 		
-		void AddParentTransform(GameObject* aParent, Math::Vector2f& aPosition) const;
+		void AddParentTransform(GameObject* aParent, Math::Mat3x3f& aTransform) const;
+		void AddParentRotation(GameObject* aParent, float& totalRotation) const;
+		void AddParentScale(GameObject* aParent, Math::Vector2f& totalScale) const;
 
 		//Global sorta
 		Math::Vector2f GetPosition() const;
