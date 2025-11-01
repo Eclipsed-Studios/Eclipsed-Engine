@@ -195,5 +195,7 @@ namespace Eclipse::Math
 
 		mat.arrData[0][2] *= -1;
 		mat.arrData[1][2] *= -1;
+
+		return mat;
 	}
 }
