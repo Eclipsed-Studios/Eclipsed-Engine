@@ -2,17 +2,35 @@
 
 #include "Editor/Windows/WindowBase.h"
 
+#include <vector>
 
-namespace Eclipse::Editor
+#include <rapidjson/rapidjson/document.h>
+
+namespace Eclipse
 {
-	class HierarchyWindow final : public AbstractWindow
+	class GameObject;
+	namespace Editor
 	{
-		BASE_SELECTION(HierarchyWindow, "Hierarchy")
+		class HierarchyWindow final : public AbstractWindow
+		{
+			BASE_SELECTION(HierarchyWindow, "Hierarchy")
 
-	public:
-		void Update() override;
+		public:
+			void HierarchyButton(GameObject* aGameObject, float totalIndent);
+			void AssignParentChildren(GameObject* targetGO, Eclipse::GameObject* aGameObject);
+			void Update() override;
 
-	public:
-		static inline unsigned CurrentGameObjectID;
-	};
+		public:
+			static inline unsigned CurrentGameObjectID;
+
+			static void Copy();
+			static void Paste();
+		private:
+			
+			static void CopyGameObject(unsigned activeGO, rapidjson::Value& gameobjectJson, rapidjson::Document::AllocatorType& anAllocator);
+			static void PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator);
+
+			void CopyPasteManager();			
+		};
+	}
 }

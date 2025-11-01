@@ -69,95 +69,6 @@ namespace Eclipse
 		myInspectorScale *= { zoomFactor, zoomFactor };
 	}
 
-	void SceneWindow::Copy()
-	{
-		for (auto& vec : myCopiedComponentsFromObjects)
-			vec.clear();
-		myCopiedComponentsFromObjects.clear();
-		if (HierarchyWindow::CurrentGameObjectID <= 0)
-			return;
-
-		std::vector<Component*> componentsOnGameobject = ComponentManager::GetComponents(HierarchyWindow::CurrentGameObjectID);
-
-		myCopiedComponentsFromObjects.emplace_back(componentsOnGameobject);
-	}
-
-	void SceneWindow::Paste()
-	{
-		for (auto& vec : myCopiedComponentsFromObjects)
-		{
-			if (vec.size() == 0)
-				continue;
-
-			GameObject* newGO = ComponentManager::CreateGameObjectNoTransform();
-			for (auto* ogComponent : vec)
-			{
-				Component* component;
-
-				component = ComponentRegistry::GetAddComponent(ogComponent->GetComponentName())(*newGO, Component::nextComponentID++);
-
-				auto& reflectedList = Reflection::ReflectionManager::GetList();
-				if (reflectedList.find(component) == reflectedList.end())
-					continue;
-
-				auto& reflectedVars = reflectedList.at(component);
-				auto& reflectedVarsOGComponent = Reflection::ReflectionManager::GetList().at(ogComponent);
-
-				for (int i = 0; i < reflectedVars.size(); i++)
-				{
-					auto& newVariable = reflectedVars[i];
-					auto& ogVariable = reflectedVarsOGComponent[i];
-
-					newVariable->ResolveTypeInfo();
-					ogVariable->ResolveTypeInfo();
-
-					switch (ogVariable->GetType())
-					{
-					case Reflection::AbstractSerializedVariable::SerializedType_String:
-					{
-						std::string& stringRef = *reinterpret_cast<std::string*>(newVariable->GetData());
-						stringRef = *reinterpret_cast<std::string*>(ogVariable->GetData());
-					}
-					break;
-
-
-					case Reflection::AbstractSerializedVariable::SerializedType_List:
-						newVariable->Resize(ogVariable->GetCount());
-					default:
-						std::memcpy(newVariable->GetData(), ogVariable->GetData(), ogVariable->GetSizeInBytes());
-						break;
-					}
-
-				}
-			}
-
-			for (auto& component : ComponentManager::GetComponents(newGO->GetID()))
-				component->OnSceneLoaded();
-
-			HierarchyWindow::CurrentGameObjectID = newGO->GetID();
-		}
-	}
-
-	void SceneWindow::CopyPasteManager()
-	{
-		if (ImGui::IsAnyItemActive())
-			return;
-
-		bool ctrlHeld = ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl);
-
-		if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_C))
-			Copy();
-		else if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_V))
-			Paste();
-		else if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_D))
-		{
-			Copy();
-			Paste();
-		}
-
-		// Duplicate by helf Alt + Drag is in gameobject picker function
-	}
-
 	void SceneWindow::MouseManager()
 	{
 		{
@@ -265,8 +176,8 @@ namespace Eclipse
 		{
 			if (ImGui::IsKeyDown(ImGuiKey_LeftAlt) || ImGui::IsKeyDown(ImGuiKey_RightAlt))
 			{
-				Copy();
-				Paste();
+				HierarchyWindow::Copy();
+				HierarchyWindow::Paste();
 			}
 
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(HierarchyWindow::CurrentGameObjectID);
@@ -276,7 +187,7 @@ namespace Eclipse
 
 			draggingSprite = true;
 
-			mySpriteMouseDownPosition = transform->GetPosition();
+			mySpriteMouseDownPosition = transform->GetLocalPosition();
 			mySpriteMoveVector = { 0, 0 };
 		}
 
@@ -355,8 +266,6 @@ namespace Eclipse
 			DrawGizmoButtons(DrawGizmo);
 			ImGui::EndMenuBar();
 		}
-
-		CopyPasteManager();
 
 		MouseManager();
 		ZoomToObject();

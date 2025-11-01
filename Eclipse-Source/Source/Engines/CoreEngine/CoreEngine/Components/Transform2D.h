@@ -7,6 +7,7 @@
 #include "Base/BaseComponent.h"
 
 #include <Utilities/Math/Vector/Vector2.h>
+#include "Utilities/Math/Matrix/Matrix3x3.h"
 
 namespace Eclipse
 {
@@ -15,15 +16,29 @@ namespace Eclipse
 		BASE_SELECTION(Transform2D, UINT_MAX / 2)
 
 	public:
+		void DrawInspector() override;
 
 		void OnSceneLoaded() override;
 		void OnComponentAdded() override;
 
 		void EditorUpdate() override;
 
-		const Math::Vector2f& GetPosition() const;
-		const float GetRotation() const;
-		const Math::Vector2f& GetScale() const;
+		
+		void AddParentTransform(GameObject* aParent, Math::Mat3x3f& aTransform) const;
+		void AddParentRotation(GameObject* aParent, float& totalRotation) const;
+		void AddParentScale(GameObject* aParent, Math::Vector2f& totalScale) const;
+
+		Math::Matrix3x3f GetTransformMatrix() const;
+
+		//Global
+		Math::Vector2f GetPosition() const;
+		float GetRotation() const;
+		Math::Vector2f GetScale() const;
+
+		//Local
+		const Math::Vector2f& GetLocalPosition() const;
+		const float GetLocalRotation() const;
+		const Math::Vector2f& GetLocalScale() const;
 
 		Math::Vector2f* GetPositionPtr();
 		float* GetRotationPtr();

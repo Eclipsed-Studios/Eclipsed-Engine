@@ -21,10 +21,10 @@ namespace Eclipse
 		static void Save(const char* aPath);
 		static void Load(const char* aPath);
 
-	private:
+		static void WriteMember(rapidjson::Value& aValue, Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, rapidjson::Document::AllocatorType& alloc);
 		static void LoadComponent(const std::string& componentName, const rapidjson::Value& aValue);
+	private:
 		static void LoadType(Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, const rapidjson::Value& aValue);
 
-		static void WriteMember(rapidjson::Value& aValue, Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, rapidjson::Document::AllocatorType& alloc);
 	};
 }
