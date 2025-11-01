@@ -16,6 +16,8 @@
 
 #include "Utilities/WindowsSpecific/Clipboard.h"
 
+#include "CoreEngine\Scenes\SceneLoader.h"
+
 namespace Eclipse::Editor
 {
 	void HierarchyWindow::HierarchyButton(GameObject* aGameObject, float totalIndent)
@@ -130,6 +132,54 @@ namespace Eclipse::Editor
 		CopyPasteManager();
 	}
 
+	void HierarchyWindow::CopyGameObject(unsigned activeGO, rapidjson::Value& gameobjectJson, rapidjson::Document::AllocatorType& anAllocator)
+	{
+		rapidjson::Value componentArray(rapidjson::kArrayType);
+		componentArray.SetArray();
+
+		auto& reflectionList = Reflection::ReflectionManager::GetList();
+		auto components = ComponentManager::GetComponents(activeGO);
+		for (Component* pComp : components)
+		{
+			std::string compName = pComp->GetComponentName();
+
+			if (compName == "Component")
+				continue;
+
+			rapidjson::Value component(rapidjson::kObjectType);
+
+			rapidjson::Value componentVars(rapidjson::kObjectType);
+			for (auto& var : reflectionList.at(pComp))
+			{
+				SceneLoader::WriteMember(componentVars, var, anAllocator);
+			}
+			component.AddMember(rapidjson::Value(compName.c_str(), anAllocator).Move(), componentVars, anAllocator);
+			componentArray.PushBack(component, anAllocator);
+		}
+		gameobjectJson.AddMember("Name", rapidjson::Value(ComponentManager::myEntityIdToEntity.at(CurrentGameObjectID)->GetName().c_str(), anAllocator), anAllocator);
+		gameobjectJson.AddMember("Components", componentArray, anAllocator);
+
+		rapidjson::Value childArray(rapidjson::kArrayType);
+		childArray.SetArray();
+
+		auto& activeGameObjectObject = ComponentManager::myEntityIdToEntity.at(activeGO);
+
+		if (activeGameObjectObject->GetChildCount())
+		{
+			for (auto& child : ComponentManager::myEntityIdToEntity.at(activeGO)->GetChildren())
+			{
+				rapidjson::Value childObject(rapidjson::kObjectType);
+				childObject.SetObject();
+
+				CopyGameObject(child->GetID(), childObject, anAllocator);
+
+				childArray.PushBack(childObject, anAllocator);
+			}
+
+			gameobjectJson.AddMember("Children", childArray, anAllocator);
+		}
+	}
+
 	void HierarchyWindow::Copy()
 	{
 		if (CurrentGameObjectID <= 0)
@@ -140,28 +190,16 @@ namespace Eclipse::Editor
 
 		rapidjson::Document::AllocatorType& jsonAllocator = d.GetAllocator();
 
-		auto& reflectionList = Reflection::ReflectionManager::GetList();
-		for (Component* pComp : ComponentManager::myComponents)
-		{
-			std::string compName = pComp->GetComponentName();
+		rapidjson::Value gameObjectArrayJson(rapidjson::kArrayType);
+		gameObjectArrayJson.SetArray();
 
-			if (compName == "Component")
-				continue;
+		rapidjson::Value gameobjectJson(rapidjson::kObjectType);
+		gameobjectJson.SetObject();
 
-			rapidjson::Value value(rapidjson::kObjectType);
+		CopyGameObject(CurrentGameObjectID, gameobjectJson, jsonAllocator);
 
-			value.AddMember("name", rapidjson::Value(compName.c_str(), jsonAllocator).Move(), jsonAllocator);
-
-			for (auto& var : reflectionList.at(pComp))
-			{
-				std::string compName = var->GetComponent()->GetComponentName();
-				Component* pComp = var->GetComponent();
-
-				SceneLoader::WriteMember(value, var, jsonAllocator);
-			}
-
-			d.AddMember("Component", value, jsonAllocator);
-		}
+		gameObjectArrayJson.PushBack(gameobjectJson, jsonAllocator);
+		d.AddMember("Gameobjects", gameObjectArrayJson, jsonAllocator);
 
 		rapidjson::StringBuffer buffer;
 		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -173,64 +211,108 @@ namespace Eclipse::Editor
 		ClipBoard::CopyToClipboard(bufferString, stringLength);
 	}
 
+	void HierarchyWindow::PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator)
+	{
+		aGameObject = ComponentManager::CreateGameObjectNoTransform();
+		aGameObject->SetName(gameobject["Name"].GetString());
+
+		for (auto& components : gameobject["Components"].GetArray())
+		{
+			for (auto coIt = components.MemberBegin(); coIt != components.MemberEnd(); coIt++)
+			{
+				Component* component;
+				component = ComponentRegistry::GetAddComponent(coIt->name.GetString())(*aGameObject, Component::nextComponentID++);
+
+				auto& reflectedList = Reflection::ReflectionManager::GetList();
+				if (reflectedList.find(component) == reflectedList.end())
+					continue;
+
+				auto& reflectedVars = reflectedList.at(component);
+
+				int refIndex = 0;
+				for (auto varIt = coIt->value.MemberBegin(); varIt != coIt->value.MemberEnd(); varIt++)
+				{
+					auto& reflectedVariable = reflectedVars.at(refIndex++);
+					reflectedVariable->ResolveTypeInfo();
+
+					if (reflectedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_String)
+					{
+						std::string strVal = varIt->value.GetString();
+
+						std::string* str = (std::string*)reflectedVariable->GetData();
+						str->resize(strVal.size());
+
+						memcpy(str->data(), strVal.data(), strVal.size());
+					}
+					else if (reflectedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_List)
+					{
+						const unsigned count = varIt->value["size"].GetUint();
+						reflectedVariable->Resize(count);
+
+						const std::string strVal = varIt->value["data"].GetString();
+
+						std::vector<unsigned char> decoded = Base64::Decode(strVal);
+						memcpy(reflectedVariable->GetData(), decoded.data(), decoded.size());
+					}
+					else
+					{
+						std::string strVal = varIt->value.GetString();
+						std::vector<unsigned char> decoded = Base64::Decode(strVal);
+						memcpy(reflectedVariable->GetData(), decoded.data(), decoded.size());
+					}
+				}
+			}
+		}
+
+		if (gameobject.HasMember("Children"))
+		{
+			auto childArray = gameobject["Children"].GetArray();
+			for (auto& child : childArray)
+			{
+				GameObject* newGameObject;
+				PasteGameObject(newGameObject, child, anAllocator);
+
+				aGameObject->AddChild(newGameObject);
+				newGameObject->SetParent(aGameObject);
+			}
+		}
+	}
+
+	void StartChildren(std::vector<GameObject*>& aChildComponents)
+	{
+		for (auto& child : aChildComponents)
+		{
+			if (child->GetChildCount() > 0)
+				StartChildren(child->GetChildren());
+
+			for (auto& component : ComponentManager::GetComponents(child->GetID()))
+				component->OnSceneLoaded();
+		}
+	}
+
 	void HierarchyWindow::Paste()
 	{
-		char* dataInt = (char*)ClipBoard::GetClipboardData();
+		char* data = (char*)ClipBoard::GetClipboardData();
 
-		int i = 0;
+		rapidjson::Document d;
+		d.SetObject();
+		rapidjson::Document::AllocatorType& jsonAllocator = d.GetAllocator();
 
-		// for (auto& vec : myCopiedComponentsFromObjects)
-		// {
-		// 	if (vec.size() == 0)
-		// 		continue;
+		d.Parse(data);
 
-		// 	GameObject* newGO = ComponentManager::CreateGameObjectNoTransform();
-		// 	for (auto* ogComponent : vec)
-		// 	{
-		// 		Component* component;
+		for (auto& gameobject : d["Gameobjects"].GetArray())
+		{
+			GameObject* newGameobject;
+			PasteGameObject(newGameobject, gameobject, jsonAllocator);
 
-		// 		component = ComponentRegistry::GetAddComponent(ogComponent->GetComponentName())(*newGO, Component::nextComponentID++);
+			if (newGameobject->GetChildCount() > 0)
+				StartChildren(newGameobject->GetChildren());
 
-		// 		auto& reflectedList = Reflection::ReflectionManager::GetList();
-		// 		if (reflectedList.find(component) == reflectedList.end())
-		// 			continue;
+			for (auto& component : ComponentManager::GetComponents(newGameobject->GetID()))
+				component->OnSceneLoaded();
 
-		// 		auto& reflectedVars = reflectedList.at(component);
-		// 		auto& reflectedVarsOGComponent = Reflection::ReflectionManager::GetList().at(ogComponent);
-
-		// 		for (int i = 0; i < reflectedVars.size(); i++)
-		// 		{
-		// 			auto& newVariable = reflectedVars[i];
-		// 			auto& ogVariable = reflectedVarsOGComponent[i];
-
-		// 			newVariable->ResolveTypeInfo();
-		// 			ogVariable->ResolveTypeInfo();
-
-		// 			switch (ogVariable->GetType())
-		// 			{
-		// 			case Reflection::AbstractSerializedVariable::SerializedType_String:
-		// 			{
-		// 				std::string& stringRef = *reinterpret_cast<std::string*>(newVariable->GetData());
-		// 				stringRef = *reinterpret_cast<std::string*>(ogVariable->GetData());
-		// 			}
-		// 			break;
-
-
-		// 			case Reflection::AbstractSerializedVariable::SerializedType_List:
-		// 				newVariable->Resize(ogVariable->GetCount());
-		// 			default:
-		// 				std::memcpy(newVariable->GetData(), ogVariable->GetData(), ogVariable->GetSizeInBytes());
-		// 				break;
-		// 			}
-
-		// 		}
-		// 	}
-
-		// 	for (auto& component : ComponentManager::GetComponents(newGO->GetID()))
-		// 		component->OnSceneLoaded();
-
-		// 	CurrentGameObjectID = newGO->GetID();
-		// }
+			CurrentGameObjectID = newGameobject->GetID();
+		}
 	}
 
 	void HierarchyWindow::CopyPasteManager()

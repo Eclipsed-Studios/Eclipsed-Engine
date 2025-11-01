@@ -4,6 +4,8 @@
 
 #include <vector>
 
+#include <rapidjson/rapidjson/document.h>
+
 namespace Eclipse
 {
 	class GameObject;
@@ -24,6 +26,9 @@ namespace Eclipse
 			static void Copy();
 			static void Paste();
 		private:
+			
+			static void CopyGameObject(unsigned activeGO, rapidjson::Value& gameobjectJson, rapidjson::Document::AllocatorType& anAllocator);
+			static void PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator);
 
 			void CopyPasteManager();			
 		};
