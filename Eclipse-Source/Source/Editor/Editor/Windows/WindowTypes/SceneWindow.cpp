@@ -187,7 +187,7 @@ namespace Eclipse
 
 			draggingSprite = true;
 
-			mySpriteMouseDownPosition = transform->GetPosition();
+			mySpriteMouseDownPosition = transform->GetLocalPosition();
 			mySpriteMoveVector = { 0, 0 };
 		}
 

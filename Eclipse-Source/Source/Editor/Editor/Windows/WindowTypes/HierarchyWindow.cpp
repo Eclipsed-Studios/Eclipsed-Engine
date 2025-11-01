@@ -64,26 +64,40 @@ namespace Eclipse::Editor
 		}
 	}
 
-	void HierarchyWindow::AssignParentChildren(GameObject* targetGO, Eclipse::GameObject* aGameObject)
+	void HierarchyWindow::AssignParentChildren(GameObject* aChild, Eclipse::GameObject* aParent)
 	{
-		if (auto& parent = targetGO->GetParent())
+		if (auto& parent = aChild->GetParent())
 		{
-			if (targetGO->GetParent()->GetID() == aGameObject->GetID())
+			if (aChild->GetParent()->GetID() == aParent->GetID())
 				return;
 
 			auto& children = parent->GetChildren();
-			size_t childIndex = targetGO->GetChildIndex();
+			size_t childIndex = aChild->GetChildIndex();
 
 			for (int i = childIndex; i < children.size() - 1; i++)
+			{
 				children[i] = children[i + 1];
+				children[i]->SetChildIndex(i);
+			}
 
 			children.pop_back();
 		}
 
-		targetGO->SetParent(aGameObject);
+		Math::Vector2f childPos = aChild->transform->GetPosition();
 
-		aGameObject->AddChild(targetGO);
-		targetGO->SetChildIndex(aGameObject->GetChildCount() - 1);
+		Math::Matrix3x3f newParentTransformMatrix = aParent->transform->GetTransformMatrix();
+
+		Math::Vector3f positionVec3(childPos.x, childPos.y, 1);
+		Math::Vector3f positionVec3ParentSpace = positionVec3 * newParentTransformMatrix;
+
+		childPos = { positionVec3ParentSpace.x, positionVec3ParentSpace.y };
+
+		aChild->SetParent(aParent);
+
+		aParent->AddChild(aChild);
+		aChild->SetChildIndex(aParent->GetChildCount() - 1);
+
+		aChild->transform->SetPosition(childPos);
 	}
 
 	void HierarchyWindow::Update()

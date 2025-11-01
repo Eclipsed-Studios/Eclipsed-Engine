@@ -28,7 +28,9 @@ namespace Eclipse
 		void AddParentRotation(GameObject* aParent, float& totalRotation) const;
 		void AddParentScale(GameObject* aParent, Math::Vector2f& totalScale) const;
 
-		//Global sorta
+		Math::Matrix3x3f GetTransformMatrix() const;
+
+		//Global
 		Math::Vector2f GetPosition() const;
 		float GetRotation() const;
 		Math::Vector2f GetScale() const;
