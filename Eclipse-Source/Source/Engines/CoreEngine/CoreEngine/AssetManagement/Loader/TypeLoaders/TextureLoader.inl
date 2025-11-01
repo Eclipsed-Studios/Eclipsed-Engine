@@ -69,6 +69,17 @@ namespace Eclipse
 		LoadSpriteRects(document, outResource.myRects, outResource);
 	}
 
+
+
+
+
+
+
+
+
+
+
+
 	template <>
 	inline void AssetLoader::LoadFromPath(const char* aPath, Texture& outResource)
 	{

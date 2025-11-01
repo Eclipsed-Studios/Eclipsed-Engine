@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AssetHandle.h"
+#include "Utilities/Math/RectSizePos.h"
 
 namespace Eclipse::Assets 
 {
@@ -10,5 +11,7 @@ namespace Eclipse::Assets
 		int channels;
 
 		unsigned textureID = 0;
+
+		std::vector<Math::RectSizePos> rects;
 	};
 };

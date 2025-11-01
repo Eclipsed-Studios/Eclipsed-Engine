@@ -11,6 +11,7 @@
 #include "CoreEngine/AssetManagement/Resources/Texture.h"
 
 #include "Utilities/Math/RectSizePos.h"
+#include "AssetEngine/Assets/Texture.h"
 
 namespace Eclipse::Editor
 {
@@ -26,8 +27,8 @@ namespace Eclipse::Editor
 		static void SetTexture(const char* aPath);
 
 	private:
-		static void Save();
-		static void Load();
+		static void Save(const char* relativePath);
+		static void Load(const char* relativePath);
 
 		void EdgeScaling();
 
@@ -96,7 +97,10 @@ namespace Eclipse::Editor
 		float mouseEdgeSensetivity = 5;
 
 	private:
-		static inline ResourcePointer<Texture> myTexture;
+		static inline Textures myTexture;
+		static inline bool textureSet;
+		static inline std::string activeRelativePath;
+
 
 		struct Rect
 		{

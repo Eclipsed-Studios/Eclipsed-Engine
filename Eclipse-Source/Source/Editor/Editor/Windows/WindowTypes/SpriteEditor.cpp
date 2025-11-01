@@ -460,7 +460,6 @@ namespace Eclipse::Editor
 			{
 				return true;
 			}
-
 		}
 
 		return false;
@@ -525,12 +524,11 @@ namespace Eclipse::Editor
 		}
 	}
 
-	void SpriteEditor::Load()
+	void SpriteEditor::Load(const char* relativePath)
 	{
 		myRects.clear();
 
-		std::filesystem::path filePath = "../Assets";
-		filePath /= myTexture->GetRelativePath();
+		std::filesystem::path filePath = PathManager::GetAssetDir() / relativePath;
 		filePath.replace_extension("meta");
 
 		FILE* fileP = fopen(filePath.string().c_str(), "rb");
@@ -574,7 +572,7 @@ namespace Eclipse::Editor
 		}
 	}
 
-	void SpriteEditor::Save()
+	void SpriteEditor::Save(const char* relativePath)
 	{
 		rapidjson::Document document;
 		auto allocator = document.GetAllocator();
@@ -609,10 +607,7 @@ namespace Eclipse::Editor
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
 		document.Accept(writer);
 
-		std::filesystem::path filePath = "../Assets";
-
-		filePath /= myTexture->GetRelativePath();
-
+		std::filesystem::path filePath = PathManager::GetAssetDir() / relativePath;
 		filePath.replace_extension("meta");
 
 		std::ofstream ofs(filePath);
@@ -622,7 +617,7 @@ namespace Eclipse::Editor
 
 	void SpriteEditor::Update()
 	{
-		if (!myTexture)
+		if (!textureSet)
 			return;
 
 		{
@@ -653,7 +648,7 @@ namespace Eclipse::Editor
 			ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 50.f);
 			if (ImGui::Button("Apply"))
 			{
-				Save();
+				Save(activeRelativePath.c_str());
 			}
 
 
@@ -766,7 +761,7 @@ namespace Eclipse::Editor
 		ImU32 bgColor = IM_COL32(backgroundColor.x * 255.f, backgroundColor.y * 255.f, backgroundColor.z * 255.f, backgroundColor.w * 255.f);
 		ImGui::GetWindowDrawList()->AddRectFilled(imguiInspectorPos, ImVec2(imguiInspectorPos.x + spriteSize.x, imguiInspectorPos.y + spriteSize.y), bgColor);
 
-		ImGui::Image(myTexture->GetTextureID(), spriteSize, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image(myTexture.GetTextureID(), spriteSize, ImVec2(0, 0), ImVec2(1, 1));
 
 		DrawRects();
 
@@ -779,14 +774,19 @@ namespace Eclipse::Editor
 	}
 
 	void SpriteEditor::SetTexture(const char* aPath)
-	{
-		Textures t = Assets::Resourcess::Get<Textures>(aPath);
+	{ 
+		myTexture = Assets::Resourcess::Get<Textures>(aPath);
+		activeRelativePath = aPath;
+		textureSet = true;
 
-		Load();
 
-		myTextureSize = myTexture->GetTextureSize();
+		Load(aPath);
 
-		glBindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
+		myTextureSize = { myTexture.GetWidth(), myTexture.GetHeight() };
+
+		myTexture.Bind();
+
+		//glBindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, SamplingType::Point);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, SamplingType::Point);

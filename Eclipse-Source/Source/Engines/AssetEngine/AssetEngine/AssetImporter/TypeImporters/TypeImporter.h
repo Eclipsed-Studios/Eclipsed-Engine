@@ -6,6 +6,6 @@ namespace Eclipse
 	class TypeImporter
 	{
 	public:
-		virtual void Import(T& outData, const char* path) = 0;
+		virtual void Import(T& outData, const char* path, const char* relPath) = 0;
 	};
 }

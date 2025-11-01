@@ -9,8 +9,6 @@ namespace Eclipse::Assets
 		int channels = -1;
 
 		size_t id = 0;
-		unsigned char* pixels = nullptr;
-		
-		~TextureBinaryData();
+		std::vector<unsigned char> pixels;
 	};
 };

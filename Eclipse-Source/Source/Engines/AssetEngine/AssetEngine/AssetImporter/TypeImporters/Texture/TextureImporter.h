@@ -35,7 +35,7 @@ namespace Eclipse::Assets
 		TextureImporter();
 
 	public:
-		void Import(TextureBinaryData& outData, const char* path) override;
+		void Import(TextureBinaryData& outData, const char* path, const char* relPath) override;
 
 	private:
 		std::unordered_map<Importer, AssetImporterStrategy<TextureBinaryData>*> importers;

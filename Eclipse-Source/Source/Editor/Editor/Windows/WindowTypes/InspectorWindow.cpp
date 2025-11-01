@@ -127,7 +127,9 @@ namespace Eclipse::Editor
 	{
 		if (ImGui::Button("Open Editor"))
 		{
-			SpriteEditor::SetTexture(AssetWindow::ActivePath.string().c_str());
+			std::filesystem::path relPath = std::filesystem::relative(AssetWindow::ActivePath, PathManager::GetAssetDir());
+
+			SpriteEditor::SetTexture(relPath.string().c_str());
 		}
 	}
 

@@ -32,7 +32,7 @@ namespace Eclipse::Assets
 		switch (type)
 		{
 		case AssetType::Texture: 
-			textureImporter.Import(std::get<TextureBinaryData>(outAsset.data), path); 
+			textureImporter.Import(std::get<TextureBinaryData>(outAsset.data), path, rel);
 			outAsset.needsCooking = true;
 			break;
 		}

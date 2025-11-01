@@ -5,7 +5,7 @@ namespace Eclipse
 	struct CookedAsset 
 	{
 		size_t id;
-		char* data;
+		std::vector<char> data;
 		size_t size;
 	};
 }

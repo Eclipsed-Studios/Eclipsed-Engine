@@ -16,6 +16,8 @@ namespace Eclipse::Assets
 		AssetRegistry& registry = AssetRegistry::GetInstance();
 		if (!registry.IsRegistered(id)) return nullptr;
 
+		
+
 		std::filesystem::path path = PathManager::GetCookedAssetsDir() / (std::to_string(id) + ".asset");
 		std::ifstream in(path, std::ios::binary);
 
@@ -50,8 +52,75 @@ namespace Eclipse::Assets
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
+		LoadMetaFile(id, handle);
 
 		delete[] pixels;
 		return handle;
+	}
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	void TextureLoader::LoadMetaFile(const size_t& id, TextureHandle* handle)
+	{
+		AssetRegistry& registry = AssetRegistry::GetInstance();
+		auto& entry = registry.GetRegisteredAsset(id);
+
+		std::filesystem::path filePath = entry.path;
+		filePath.replace_extension(".meta");
+		
+		FILE* fileP = fopen(filePath.string().c_str(), "rb");
+		if (!fileP)
+			return;
+
+		char readBuffer[32000];
+		rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
+
+		rapidjson::Document document;
+		document.ParseStream(fileReadStream);
+		fclose(fileP);
+
+
+
+		if (!document.HasMember("Sprite Rects"))
+			return;
+
+		auto spriteRects = document["Sprite Rects"].GetArray();
+
+		float textureHeight = static_cast<float>(handle->height);
+
+		for (auto& rect : spriteRects)
+		{
+			Math::RectSizePos newRect;
+
+			const rapidjson::Value& position = rect["pos"];
+			const rapidjson::Value& size = rect["size"];
+
+			if (size.HasMember("width") && size["width"].IsNumber())
+				newRect.size.x = size["width"].GetFloat();
+
+			if (size.HasMember("height") && size["height"].IsNumber())
+				newRect.size.y = size["height"].GetFloat();
+
+			if (position.HasMember("x") && position["x"].IsNumber())
+				newRect.position.x = position["x"].GetFloat();
+
+			if (position.HasMember("y") && position["y"].IsNumber())
+				newRect.position.y = std::fmod((textureHeight - position["y"].GetFloat() + newRect.size.y), textureHeight);
+
+			handle->rects.emplace_back(newRect);
+		}
 	}
 }

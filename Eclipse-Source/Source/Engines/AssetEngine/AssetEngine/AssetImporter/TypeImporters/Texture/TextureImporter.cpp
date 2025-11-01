@@ -12,14 +12,14 @@ namespace Eclipse::Assets
 		importers[Importer::STB] = new STB_ImporterStrategy();
 	}
 
-	void TextureImporter::Import(TextureBinaryData& outData, const char* path)
+	void TextureImporter::Import(TextureBinaryData& outData, const char* path, const char* relPath)
 	{
 		const std::string extension = std::filesystem::path(path).extension().generic_string();
 
 		if (typeToImporter.find(extension) == typeToImporter.end())
 			return; // The file is not supported.
 
-		outData.id = AssetRegistry::GetInstance().GetIdFromPath(path);
+		outData.id = AssetRegistry::GetInstance().GetIdFromPath(relPath);
 
 		std::filesystem::path fullPath = PathManager::GetAssetDir() / path;
 

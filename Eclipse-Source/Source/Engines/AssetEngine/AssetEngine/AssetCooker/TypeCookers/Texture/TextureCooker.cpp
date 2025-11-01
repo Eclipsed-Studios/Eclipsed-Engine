@@ -18,11 +18,11 @@ namespace Eclipse::Assets
 
 		size_t totalSize = headerSize + pixelSize;
 
-		outData.data = new char[totalSize];
+		outData.data.resize(totalSize);
 		outData.size = totalSize;
 		outData.id = data.id;
 
-		char* ptr = outData.data;
+		char* ptr = outData.data.data();
 
 		size_t totalWritten = 0;
 		memcpy(ptr + totalWritten, &data.id, sizeof(size_t)); totalWritten += sizeof(size_t);
@@ -30,6 +30,6 @@ namespace Eclipse::Assets
 		memcpy(ptr + totalWritten, &data.height, sizeof(int)); totalWritten += sizeof(int);
 		memcpy(ptr + totalWritten, &data.channels, sizeof(int)); totalWritten += sizeof(int);
 
-		memcpy(ptr + totalWritten, data.pixels, pixelSize);
+		memcpy(ptr + totalWritten, data.pixels.data(), pixelSize);
 	}
 }

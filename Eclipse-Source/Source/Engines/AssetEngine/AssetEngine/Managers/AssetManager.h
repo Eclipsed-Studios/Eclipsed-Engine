@@ -35,9 +35,13 @@ namespace Eclipse
 
 			if (handle->refCount <= 0)
 			{
-				delete handle;
+				if(handle) delete handle;
+
 				it = idToAssetHandle.erase(it);
+				continue;
 			}
+
+			it++;
 		}
 	}
 }

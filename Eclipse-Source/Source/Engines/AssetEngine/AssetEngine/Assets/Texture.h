@@ -21,6 +21,7 @@ namespace Eclipse
 		float GetAspectRatio() const;
 
 		size_t GetAssetID() const;
+		unsigned GetTextureID() const;
 
 		void Bind(int slot = 0) const;
 		void Unbind(int slot = 0) const;

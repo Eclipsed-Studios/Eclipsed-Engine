@@ -27,6 +27,11 @@ namespace Eclipse
 		return dataHandle->assetID;
 	}
 
+	unsigned Textures::GetTextureID() const
+	{
+		return dataHandle->textureID;
+	}
+
 	void Textures::Bind(int slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);

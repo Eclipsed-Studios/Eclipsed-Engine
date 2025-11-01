@@ -16,7 +16,9 @@ namespace Eclipse::Assets
 {
 	void STB_ImporterStrategy::ImportAsset(TextureBinaryData& outData, const char* fullPath)
 	{
-		outData.pixels = stbi_load(fullPath, &outData.width, &outData.height, &outData.channels, 0);
+		unsigned char* pixels = stbi_load(fullPath, &outData.width, &outData.height, &outData.channels, 0);
+		outData.pixels.assign(pixels, pixels + (outData.width * outData.height * outData.channels));
+		stbi_image_free(pixels);
 	}
 }
 
