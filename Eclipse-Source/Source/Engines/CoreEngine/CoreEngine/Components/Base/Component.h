@@ -19,6 +19,10 @@ namespace Eclipse
 	{
 		class InspectorWindow;
 	}
+	namespace Editor
+	{
+		class HierarchyWindow;
+	}
 	namespace Reflection
 	{
 		class ReflectionManager;
@@ -33,6 +37,7 @@ namespace Eclipse
 	class ComponentManager;
 	class Component
 	{
+		friend class Editor::HierarchyWindow;
 		friend class Editor::SceneWindow;
 		friend class Editor::InspectorWindow;
 		friend class Reflection::ReflectionManager;

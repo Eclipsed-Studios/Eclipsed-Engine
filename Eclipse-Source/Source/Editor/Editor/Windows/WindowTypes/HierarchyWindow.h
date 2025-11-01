@@ -2,6 +2,8 @@
 
 #include "Editor/Windows/WindowBase.h"
 
+#include <vector>
+
 namespace Eclipse
 {
 	class GameObject;
@@ -12,12 +14,18 @@ namespace Eclipse
 			BASE_SELECTION(HierarchyWindow, "Hierarchy")
 
 		public:
-            void HierarchyButton(GameObject* aGameObject, float totalIndent);
-            void AssignParentChildren(GameObject* targetGO, Eclipse::GameObject* aGameObject);
+			void HierarchyButton(GameObject* aGameObject, float totalIndent);
+			void AssignParentChildren(GameObject* targetGO, Eclipse::GameObject* aGameObject);
 			void Update() override;
 
 		public:
 			static inline unsigned CurrentGameObjectID;
+
+			static void Copy();
+			static void Paste();
+		private:
+
+			void CopyPasteManager();			
 		};
 	}
 }

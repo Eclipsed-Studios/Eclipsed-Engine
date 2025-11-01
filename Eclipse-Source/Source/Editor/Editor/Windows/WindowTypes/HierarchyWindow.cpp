@@ -14,6 +14,8 @@
 
 #include "CoreEngine/GameObject.h"
 
+#include "Utilities/WindowsSpecific/Clipboard.h"
+
 namespace Eclipse::Editor
 {
 	void HierarchyWindow::HierarchyButton(GameObject* aGameObject, float totalIndent)
@@ -124,6 +126,131 @@ namespace Eclipse::Editor
 				continue;
 			HierarchyButton(data, 0.f);
 		}
+
+		CopyPasteManager();
+	}
+
+	void HierarchyWindow::Copy()
+	{
+		if (CurrentGameObjectID <= 0)
+			return;
+
+		rapidjson::Document d;
+		d.SetObject();
+
+		rapidjson::Document::AllocatorType& jsonAllocator = d.GetAllocator();
+
+		auto& reflectionList = Reflection::ReflectionManager::GetList();
+		for (Component* pComp : ComponentManager::myComponents)
+		{
+			std::string compName = pComp->GetComponentName();
+
+			if (compName == "Component")
+				continue;
+
+			rapidjson::Value value(rapidjson::kObjectType);
+
+			value.AddMember("name", rapidjson::Value(compName.c_str(), jsonAllocator).Move(), jsonAllocator);
+
+			for (auto& var : reflectionList.at(pComp))
+			{
+				std::string compName = var->GetComponent()->GetComponentName();
+				Component* pComp = var->GetComponent();
+
+				SceneLoader::WriteMember(value, var, jsonAllocator);
+			}
+
+			d.AddMember("Component", value, jsonAllocator);
+		}
+
+		rapidjson::StringBuffer buffer;
+		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+		d.Accept(writer);
+
+		const char* bufferString = buffer.GetString();
+		int stringLength = strlen(bufferString);
+
+		ClipBoard::CopyToClipboard(bufferString, stringLength);
+	}
+
+	void HierarchyWindow::Paste()
+	{
+		char* dataInt = (char*)ClipBoard::GetClipboardData();
+
+		int i = 0;
+
+		// for (auto& vec : myCopiedComponentsFromObjects)
+		// {
+		// 	if (vec.size() == 0)
+		// 		continue;
+
+		// 	GameObject* newGO = ComponentManager::CreateGameObjectNoTransform();
+		// 	for (auto* ogComponent : vec)
+		// 	{
+		// 		Component* component;
+
+		// 		component = ComponentRegistry::GetAddComponent(ogComponent->GetComponentName())(*newGO, Component::nextComponentID++);
+
+		// 		auto& reflectedList = Reflection::ReflectionManager::GetList();
+		// 		if (reflectedList.find(component) == reflectedList.end())
+		// 			continue;
+
+		// 		auto& reflectedVars = reflectedList.at(component);
+		// 		auto& reflectedVarsOGComponent = Reflection::ReflectionManager::GetList().at(ogComponent);
+
+		// 		for (int i = 0; i < reflectedVars.size(); i++)
+		// 		{
+		// 			auto& newVariable = reflectedVars[i];
+		// 			auto& ogVariable = reflectedVarsOGComponent[i];
+
+		// 			newVariable->ResolveTypeInfo();
+		// 			ogVariable->ResolveTypeInfo();
+
+		// 			switch (ogVariable->GetType())
+		// 			{
+		// 			case Reflection::AbstractSerializedVariable::SerializedType_String:
+		// 			{
+		// 				std::string& stringRef = *reinterpret_cast<std::string*>(newVariable->GetData());
+		// 				stringRef = *reinterpret_cast<std::string*>(ogVariable->GetData());
+		// 			}
+		// 			break;
+
+
+		// 			case Reflection::AbstractSerializedVariable::SerializedType_List:
+		// 				newVariable->Resize(ogVariable->GetCount());
+		// 			default:
+		// 				std::memcpy(newVariable->GetData(), ogVariable->GetData(), ogVariable->GetSizeInBytes());
+		// 				break;
+		// 			}
+
+		// 		}
+		// 	}
+
+		// 	for (auto& component : ComponentManager::GetComponents(newGO->GetID()))
+		// 		component->OnSceneLoaded();
+
+		// 	CurrentGameObjectID = newGO->GetID();
+		// }
+	}
+
+	void HierarchyWindow::CopyPasteManager()
+	{
+		if (ImGui::IsAnyItemActive())
+			return;
+
+		bool ctrlHeld = ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl);
+
+		if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_C))
+			Copy();
+		else if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_V))
+			Paste();
+		else if (ctrlHeld && ImGui::IsKeyPressed(ImGuiKey_D))
+		{
+			Copy();
+			Paste();
+		}
+
+		// Duplicate by helf Alt + Drag is in gameobject picker function
 	}
 }
 #endif
