@@ -15,6 +15,9 @@ namespace Eclipse::Editor
         std::string projectPath = projectManager.LoadOrSelectProject();
 
         myContext.Init(projectPath);
+
+        PlatformIntegration::Discord::SetupWithID(1425504148681658383);
+        PlatformIntegration::Discord::SetLargeImage("eclipsemoonnobg");
     }
 
     int EditorApplication::Update()

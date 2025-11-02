@@ -21,6 +21,7 @@ namespace Eclipse::Assets
 
 		static void Update();
 
+		static Materials GetDefaultMaterial();
 		static Textures GetDefaultTexture();
 		static VertexShaders GetDefaultVS();
 		static PixelShaders GetDefaultPS();

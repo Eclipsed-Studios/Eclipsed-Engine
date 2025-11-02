@@ -12,6 +12,8 @@ namespace Eclipse::Assets
 	public:
 		Materials Get(const size_t& id) override;
 
+		Materials GetDefault();
+
 	protected:
 		Materials Load(const size_t& id) override;
 		Materials ConstructAsset(const size_t& id) override;

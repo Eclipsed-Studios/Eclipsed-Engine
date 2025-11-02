@@ -32,6 +32,17 @@ namespace Eclipse
 		return dataHandle->textureID;
 	}
 
+	const Math::Vector2f& Textures::GetTextureSizeNormilized() const
+	{
+		return dataHandle->sizeNormalized;
+	}
+
+	float Textures::GetDimDivOne() const
+	{
+		return dataHandle->dimDivOne;
+	}
+
+
 	void Textures::Bind(int slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);

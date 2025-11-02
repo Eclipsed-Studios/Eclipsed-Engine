@@ -9,8 +9,44 @@ namespace Eclipse
 {
 	ASSET_OPERATORS_IMPL(Materials, Assets::MaterialHandle);
 
+	Textures& Materials::GetTexture()
+	{
+		return dataHandle->texture;
+	}
+	const Textures& Materials::GetTexture() const
+	{
+		return dataHandle->texture;
+	}
+
+	VertexShaders& Materials::GetVertexShader()
+	{
+		return dataHandle->vs;
+	}
+	const VertexShaders& Materials::GetVertexShader() const
+	{
+		return dataHandle->vs;
+	}
+
+	PixelShaders& Materials::GetPixelShader()
+	{
+		return dataHandle->ps;
+	}
+
+	const PixelShaders& Materials::GetPixelShader() const
+	{
+		return dataHandle->ps;
+	}
+
+	unsigned Materials::GetShaderProgramID() const
+	{
+		return dataHandle->programID;
+	}
+
+
 	void Materials::Use()
 	{
+		glUseProgram(dataHandle->programID);
+
 		dataHandle->texture.Bind();
 
 		Math::Vector4f col = dataHandle->color.ToVector();

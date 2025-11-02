@@ -1,6 +1,7 @@
 #include "AssetEngine/Managers/MaterialManager.h"
 
 #include "AssetEngine/AssetBinaryLoader/TypeLoaders/Material/MaterialLoader.h"
+#include "AssetEngine/AssetRegistry.h"
 
 namespace Eclipse::Assets
 {
@@ -8,6 +9,12 @@ namespace Eclipse::Assets
 	{
 		if (idToAssetHandle.find(id) != idToAssetHandle.end()) return ConstructAsset(id);
 		else return Load(id);
+	}
+
+	Materials MaterialManager::GetDefault()
+	{
+		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Materials/Default_2D_Material.mat");
+		return Get(id);
 	}
 
 	Materials MaterialManager::Load(const size_t& id)

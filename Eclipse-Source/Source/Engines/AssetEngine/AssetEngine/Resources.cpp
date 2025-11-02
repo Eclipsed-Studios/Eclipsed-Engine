@@ -10,6 +10,11 @@ namespace Eclipse::Assets
 		pixelShaderManager.Update();
 	}
 
+	Materials Resourcess::GetDefaultMaterial()
+	{
+		return materialManager.GetDefault();
+	}
+
 	Textures Resourcess::GetDefaultTexture()
 	{
 		return textureManager.GetDefault();

@@ -20,7 +20,8 @@ namespace Eclipse::Utilities
 			FileType_Texture,
 			FileType_Audio,
 			FileType_Material,
-			FileType_Shader,
+			FileType_VertexShader,
+			FileType_PixelShader,
 			FileType_SpriteAnimation,
 		};
 

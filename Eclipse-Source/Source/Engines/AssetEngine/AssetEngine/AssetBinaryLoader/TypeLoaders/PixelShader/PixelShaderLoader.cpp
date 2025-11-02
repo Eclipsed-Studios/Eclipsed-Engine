@@ -14,7 +14,8 @@ namespace Eclipse::Assets
 		auto& entry = AssetRegistry::GetInstance().GetRegisteredAsset(id);
 
 		ShaderHandle* handle = new ShaderHandle;
-		ShaderCompiler::CompileShaderFromFile(entry.path.generic_string().c_str(), handle->shaderID, ShaderType::VERTEX_SHADER);
+		handle->assetID = id;
+		ShaderCompiler::CompileShaderFromFile(entry.path.generic_string().c_str(), handle->shaderID, ShaderType::FRAGMENT_SHADER);
 
 		return handle;
 	}

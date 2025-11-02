@@ -29,6 +29,8 @@ namespace Eclipse::Editor
 			{Utilities::FileInfo::FileType_Audio, "DND_AUDIO"},
 			{Utilities::FileInfo::FileType_Texture, "DND_TEXTURE"},
 			{Utilities::FileInfo::FileType_Scene, "DND_SCENE"},
+			{Utilities::FileInfo::FileType_VertexShader, "DND_VERTEX_SHADER"},
+			{Utilities::FileInfo::FileType_PixelShader, "DND_PIXEL_SHADER"},
 		};
 	};
 }

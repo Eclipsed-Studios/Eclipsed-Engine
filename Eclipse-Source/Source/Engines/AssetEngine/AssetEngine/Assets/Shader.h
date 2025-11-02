@@ -18,7 +18,7 @@ namespace Eclipse
 		size_t GetAssetID() const;
 		unsigned GetProgramID() const;
 
-		void Bind(int slot);
+		void Bind();
 
 	};
 }

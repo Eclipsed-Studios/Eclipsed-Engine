@@ -150,17 +150,51 @@ namespace Eclipse::Editor
 
 		 Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
 
-		 std::string title = "No Texture";
-		 if (data.textureID != 0)
-		 {
-			 auto& entry = registry.GetRegisteredAsset(data.textureID);
-			 title = entry.path.filename().generic_string();	
+		 { // Texture dnd
+			 std::string text = "No Texture";
+			 if (data.textureID != 0)
+			 {
+				 auto& entry = registry.GetRegisteredAsset(data.textureID);
+				 text = entry.path.filename().generic_string();
+			 }
+
+			 if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_Texture))
+			 {
+				 data.textureID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
+				 changed = true;
+			 }
 		 }
 
-		 if (DragAndDrop::BeginTarget(title.c_str(), Utilities::FileInfo::FileType_Texture))
-		 {
-			 data.textureID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
-			 changed = true;
+
+		 { // Pixel shader dnd
+			 std::string text = "No Pixel Shader";
+			 if (data.pixelShaderID != 0)
+			 {
+				 auto& entry = registry.GetRegisteredAsset(data.pixelShaderID);
+				 text = entry.path.filename().generic_string();
+			 }
+
+			 if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_PixelShader))
+			 {
+				 data.pixelShaderID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
+				 changed = true;
+			 }
+		 }
+
+
+		 { // Vertex shader dnd
+			 std::string text = "No Vertex Shader";
+			 if (data.vertexShaderID != 0)
+			 {
+				 auto& entry = registry.GetRegisteredAsset(data.vertexShaderID);
+				 text = entry.path.filename().generic_string();
+			 }
+
+			 if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_PixelShader))
+			 {
+				 data.vertexShaderID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
+				 changed = true;
+			 }
 		 }
 
 		if (changed)

@@ -18,6 +18,7 @@ namespace Eclipse::Assets
 		std::ifstream in(entry.path, std::ios::binary);
 
 		MaterialHandle* handle = new MaterialHandle;
+		handle->assetID = id;
 
 		size_t textureID = 0, psID = 0, vsID = 0;
 

@@ -301,6 +301,9 @@ namespace Eclipse::Editor
 
 			for (auto& component : ComponentManager::GetComponents(child->GetID()))
 				component->OnSceneLoaded();
+
+			for (auto& component : ComponentManager::GetComponents(child->GetID()))
+				component->OnComponentAdded();
 		}
 	}
 
@@ -324,6 +327,9 @@ namespace Eclipse::Editor
 
 			for (auto& component : ComponentManager::GetComponents(newGameobject->GetID()))
 				component->OnSceneLoaded();
+
+			for (auto& component : ComponentManager::GetComponents(newGameobject->GetID()))
+				component->OnComponentAdded();
 
 			CurrentGameObjectID = newGameobject->GetID();
 		}

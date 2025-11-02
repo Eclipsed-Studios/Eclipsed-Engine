@@ -23,6 +23,9 @@ namespace Eclipse
 		size_t GetAssetID() const;
 		unsigned GetTextureID() const;
 
+		const Math::Vector2f& GetTextureSizeNormilized() const;
+		float GetDimDivOne() const;
+
 		void Bind(int slot = 0) const;
 		void Unbind(int slot = 0) const;
 	};

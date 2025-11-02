@@ -7,7 +7,8 @@ namespace Eclipse::Utilities
 		static std::unordered_map<FileInfo::FileType_, const char*> fileTypeToIcon =
 		{
 			{FileInfo::FileType_Audio, ICON_FA_FILE_AUDIO},
-			{FileInfo::FileType_Shader, ICON_FA_QUESTION},
+			{FileInfo::FileType_PixelShader, ICON_FA_QUESTION},
+			{FileInfo::FileType_VertexShader, ICON_FA_QUESTION},
 			{FileInfo::FileType_Texture, ICON_FA_IMAGE},
 			{FileInfo::FileType_Scene, ICON_FA_EARTH_EUROPE},
 			{FileInfo::FileType_Font, ICON_FA_FONT},
@@ -40,7 +41,8 @@ namespace Eclipse::Utilities
 			{".psd", FileInfo::FileType_Texture},
 			{".hdr", FileInfo::FileType_Texture},
 
-			{".glsl", FileInfo::FileType_Shader},
+			{".vglsl", FileInfo::FileType_VertexShader},
+			{".pglsl", FileInfo::FileType_PixelShader},
 
 			{".scene", FileInfo::FileType_Scene},
 

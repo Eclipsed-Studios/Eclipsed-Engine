@@ -15,52 +15,46 @@
 #include "OpenGL/glad/glad.h"
 
 #include "AssetEngine/PathManager.h"
+#include "AssetEngine/Resources.h"
 
 namespace Eclipse
 {
 	COMPONENT_REGISTRATION(SpriteRenderer2D);
-	
+
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
-		spriteRectMin = aMin * myMaterial->myTexture->spriteDimDivOne;
-		spriteRectMax = aMax * myMaterial->myTexture->spriteDimDivOne;
+		spriteRectMin = aMin * material.GetTexture().GetDimDivOne();
+		spriteRectMax = aMax * material.GetTexture().GetDimDivOne();
 	}
 
 	void SpriteRenderer2D::SetTexture(const char* aPath)
 	{
-		myTexturePath = aPath;
-
-		if (myMaterial == nullptr)
-		{
-			myMaterial = new Material();
-		}
-
+		sprite = Assets::Resourcess::Get<Textures>(aPath);
 		hasTexture = true;
-		myMaterial->SetTexture(myTexturePath->c_str());
 	}
 
-	void SpriteRenderer2D::OnDestroy()
+	void SpriteRenderer2D::SetTexture(const size_t& id)
 	{
-		delete myMaterial;
-
-		myMaterial = nullptr;
+		sprite = Assets::Resourcess::Get<Textures>(id);
+		hasTexture = true;
 	}
 
-	void SpriteRenderer2D::OnSceneLoaded()
+	void SpriteRenderer2D::SetMaterial(const char* aPath)
 	{
-		if (myMaterial == nullptr)
-		{
-			myMaterial = new Material();
-		}
-		myMaterial->SetTexture(myTexturePath->c_str());
+		material = Assets::Resourcess::Get<Materials>(aPath);
+		hasTexture = true;
+	}
 
-		//myTexturePath = myTexturePath->c_str();
+	void SpriteRenderer2D::SetMaterial(const size_t& id)
+	{
+		material = Assets::Resourcess::Get<Materials>(id);
+		hasTexture = true;
+	}
 
-		//Transform2D& localTransform = *gameObject->transform;
-		//Math::Vector2f textureSizeNormalized = myMaterial->myTexture->GetTextureSizeNormilized();
-		//Math::Vector2f scale = localTransform.GetScale();
-
-		//localTransform.SetScale(textureSizeNormalized * scale);
+	void SpriteRenderer2D::OnComponentAdded()
+	{
+		material = Assets::Resourcess::GetDefaultMaterial();
+		hasMaterial = true;
 	}
 
 	void SpriteRenderer2D::Start()
@@ -76,20 +70,21 @@ namespace Eclipse
 
 	void SpriteRenderer2D::Draw(unsigned aProgramID)
 	{
-		if (!myMaterial)
+		if (!hasMaterial)
 			return;
 
 		Math::Vector2f position = gameObject->transform->GetPosition();
 		float rotation = gameObject->transform->GetRotation();
 		Math::Vector2f scale = gameObject->transform->GetScale();
 
-		unsigned shaderID = myMaterial->myShader->GetProgramID();
+		unsigned shaderID = material.GetShaderProgramID();
 
 		if (aProgramID)
 			shaderID = aProgramID;
 
-		myMaterial->myShader->Use(shaderID);
-		myMaterial->Use();
+		//if(hasTexture) texture.bi
+
+		material.Use();
 
 		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "transform.position", &position);
 		GraphicsEngine::SetUniform(UniformType::Float, shaderID, "transform.rotation", &rotation);
@@ -100,7 +95,7 @@ namespace Eclipse
 		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.spriteRect", &spriteRect);
 
 		float aspectScale = size.y / size.x;
-		Math::Vector2f scaleMultiplier = myMaterial->myTexture->GetTextureSizeNormilized();
+		Math::Vector2f scaleMultiplier = material.GetTexture().GetTextureSizeNormilized();
 		Math::Vector2f spriteScaleMultiplier = { scaleMultiplier.x, scaleMultiplier.y * aspectScale };
 		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "spriteScaleMultiplier", &spriteScaleMultiplier);
 

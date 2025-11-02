@@ -12,6 +12,9 @@ namespace Eclipse::Assets
 
 		unsigned textureID = 0;
 
+		float dimDivOne;
+		Math::Vector2f sizeNormalized;
+
 		std::vector<Math::RectSizePos> rects;
 	};
 };

@@ -12,6 +12,8 @@
 
 #include "CoreEngine/AssetManagement/Resources/Material.h"
 
+#include "AssetEngine/Assets/Material.h"
+
 namespace Eclipse
 {
     class Sprite;
@@ -24,16 +26,19 @@ namespace Eclipse
         BASE_SELECTION(SpriteRenderer2D, 0)
 
     public:
-        void OnDestroy() override;
+        void OnComponentAdded() override;
 
-        void OnSceneLoaded() override;
         void Start() override;
 
         void Render() override;
         void Draw(unsigned aProgramID = 0);
 
         void SetTexture(const char* aPath);
-        Material* GetMaterial() { return myMaterial; }
+        void SetTexture(const size_t& id);
+
+        void SetMaterial(const char* aPath);
+        void SetMaterial(const size_t& id);
+        Material* GetMaterial() { return nullptr; }
 
         void SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax);
 
@@ -46,13 +51,15 @@ namespace Eclipse
         Math::Vector2f spriteRectMax = { 1.f, 1.f };
 
     private:
-        Material* myMaterial = nullptr;
+        Textures sprite;
+        Materials material;
+
+        bool hasTexture = false;
+        bool hasMaterial = false;
 
 
         bool mirroredX = false;
         bool mirroredY = false;
-
-        bool hasTexture = false;
 
     private:
         PRIVATE_SERIALIZED_FIELD_DEFAULT(std::string, myTexturePath, "");

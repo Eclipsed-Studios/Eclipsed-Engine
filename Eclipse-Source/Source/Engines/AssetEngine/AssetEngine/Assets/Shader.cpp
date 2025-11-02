@@ -17,7 +17,7 @@ namespace Eclipse
 		return dataHandle->shaderID;
 	}
 
-	void Shaders::Bind(int slot)
+	void Shaders::Bind()
 	{
 		glUseProgram(dataHandle->shaderID);
 	}

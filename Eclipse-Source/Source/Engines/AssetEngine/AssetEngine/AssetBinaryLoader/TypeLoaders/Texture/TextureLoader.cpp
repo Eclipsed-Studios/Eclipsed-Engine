@@ -13,6 +13,8 @@ namespace Eclipse::Assets
 	{
 		TextureHandle* handle = new TextureHandle;
 
+		handle->assetID = id;
+
 		AssetRegistry& registry = AssetRegistry::GetInstance();
 		if (!registry.IsRegistered(id)) return nullptr;
 
@@ -53,6 +55,10 @@ namespace Eclipse::Assets
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		LoadMetaFile(id, handle);
+		
+		handle->dimDivOne = 1.f / (static_cast<float>(handle->height) / static_cast<float>(handle->width));
+		handle->sizeNormalized = Math::Vector2f{ 1.f, static_cast<float>(handle->height) / handle->width };
+
 
 		delete[] pixels;
 		return handle;
