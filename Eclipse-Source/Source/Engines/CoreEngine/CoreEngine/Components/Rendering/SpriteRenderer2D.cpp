@@ -102,8 +102,17 @@ namespace Eclipse
 		Math::Vector4f spriteRect = { spriteRectMin.x, spriteRectMin.y, size.x, size.y };
 		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.spriteRect", &spriteRect);
 
+		Math::Vector2f scaleMultiplier;
+		if (hasTexture)
+		{
+			scaleMultiplier = sprite.GetTextureSizeNormilized();
+		}
+		else
+		{
+			scaleMultiplier = material.GetTexture().GetTextureSizeNormilized();
+		}
+
 		float aspectScale = size.y / size.x;
-		Math::Vector2f scaleMultiplier = material.GetTexture().GetTextureSizeNormilized();
 		Math::Vector2f spriteScaleMultiplier = { scaleMultiplier.x, scaleMultiplier.y * aspectScale };
 		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "spriteScaleMultiplier", &spriteScaleMultiplier);
 

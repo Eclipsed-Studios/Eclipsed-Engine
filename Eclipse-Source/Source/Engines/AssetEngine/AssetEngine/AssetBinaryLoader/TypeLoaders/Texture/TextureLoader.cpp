@@ -48,10 +48,6 @@ namespace Eclipse::Assets
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - rgbTypeOffset, handle->width, handle->height, 0, GL_RGB - rgbTypeOffset, GL_UNSIGNED_BYTE, pixels);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
-
-		//spriteDivOne = { 1.0f / static_cast<float>(width), 1.0f / static_cast<float>(height) };
-		//dimDivOne = 1.f / (static_cast<float>(height) / static_cast<float>(width));
-
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		LoadMetaFile(id, handle);
