@@ -6,6 +6,8 @@
 
 #include <rapidjson/rapidjson/document.h>
 
+#include <set>
+
 namespace Eclipse
 {
 	class GameObject;
@@ -30,7 +32,11 @@ namespace Eclipse
 			static void CopyGameObject(unsigned activeGO, rapidjson::Value& gameobjectJson, rapidjson::Document::AllocatorType& anAllocator);
 			static void PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator);
 
-			void CopyPasteManager();			
+			void CopyPasteManager();
+
+			void RecursiveDeleteChildren(GameObject*& aGameObject);
+
+			std::set<unsigned> gameobjectIdsThatAreOpen;
 		};
 	}
 }

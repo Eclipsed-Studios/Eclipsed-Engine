@@ -2,6 +2,8 @@
 
 #include "AssetEngine/AssetFactory.h"
 
+#include <filesystem>
+
 namespace Eclipse::Editor
 {
 	AssetWindowContextMenu::AssetWindowContextMenu() : AbstractContextMenu("AssetsCtxMenu") {}
@@ -71,5 +73,14 @@ namespace Eclipse::Editor
 		{
 			LOG_ERROR("Creating Physics Material not implemented.");
 		}
+
+		//if (ImGui::MenuItem("Prefab"))
+		//{
+		//	std::ofstream outputStream(PathManager::GetAssetDir()/activePath/"New prefab.eprf");
+
+		//	outputStream << "Test";
+		//	outputStream.close();
+
+		//}
 	}
 }

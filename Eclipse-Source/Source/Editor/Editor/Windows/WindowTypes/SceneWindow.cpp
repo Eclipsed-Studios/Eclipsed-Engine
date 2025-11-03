@@ -352,15 +352,6 @@ namespace Eclipse
 
 		GraphicsEngine::BindFrameBuffer(0);
 
-		if (Input::GetKeyDown(Keycode::DELETE_KEY))
-		{
-			GameObject currentObject = HierarchyWindow::CurrentGameObjectID;
-			if (currentObject > 0)
-				ComponentManager::Destroy(currentObject);
-
-			HierarchyWindow::CurrentGameObjectID = 0;
-		}
-
 		Canvas::canvasCameraTransform.PositionOffset = { 0, 0 };
 		Canvas::canvasCameraTransform.Rotation = 0.f;
 		Canvas::canvasCameraTransform.ScaleMultiplier = { 1, 1 };

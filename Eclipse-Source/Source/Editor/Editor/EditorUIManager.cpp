@@ -52,6 +52,11 @@ namespace Eclipse::Editor
 		io.Fonts->AddFontFromFileTTF(faBrands400.c_str(), 12.0f, &icons_config, icons_ranges);
 		io.Fonts->AddFontFromFileTTF(faRegular400.c_str(), 12.0f, &icons_config, icons_ranges);
 
+		FontExtraSmall = io.Fonts->AddFontFromFileTTF(arial.c_str(), 14.0f);
+		io.Fonts->AddFontFromFileTTF(faSolid900.c_str(), 14.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faBrands400.c_str(), 14.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF(faRegular400.c_str(), 14.0f, &icons_config, icons_ranges);
+
 		FontSmall = io.Fonts->AddFontFromFileTTF(arial.c_str(), 16.0f);
 		io.Fonts->AddFontFromFileTTF(faSolid900.c_str(), 16.0f, &icons_config, icons_ranges);
 		io.Fonts->AddFontFromFileTTF(faBrands400.c_str(), 16.0f, &icons_config, icons_ranges);

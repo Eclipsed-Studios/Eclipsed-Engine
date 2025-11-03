@@ -19,6 +19,7 @@ namespace Eclipse::Editor
 
 	public:
 		static inline ImFont* FontTiny = nullptr;
+		static inline ImFont* FontExtraSmall = nullptr;
 		static inline ImFont* FontSmall = nullptr;
 		static inline ImFont* FontMedium = nullptr;
 		static inline ImFont* FontLarge = nullptr;

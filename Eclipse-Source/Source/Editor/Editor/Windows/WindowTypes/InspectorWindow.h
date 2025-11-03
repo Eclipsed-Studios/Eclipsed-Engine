@@ -33,6 +33,7 @@ namespace Eclipse::Editor
 		void DrawComponentInspector() {}
 
 	public:
+		bool lockInspector = false;
 		static inline unsigned CurrentGameObjectID;
 
 		static inline constexpr int NAME_BUFFER_LENGTH = 256;

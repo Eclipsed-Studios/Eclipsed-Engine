@@ -21,6 +21,8 @@
 
 #include "AssetEngine/AssetRegistry.h"
 
+#include <sstream>
+
 namespace Eclipse::Editor
 {
 	void InspectorWindow::Update()
@@ -36,7 +38,12 @@ namespace Eclipse::Editor
 
 	void InspectorWindow::DrawGameObjectInspector()
 	{
-		const unsigned& id = HierarchyWindow::CurrentGameObjectID;
+		if (!lockInspector)
+		{
+			CurrentGameObjectID = HierarchyWindow::CurrentGameObjectID;
+		}
+
+		const unsigned& id = CurrentGameObjectID;
 		if (id == 0 || !ComponentManager::HasGameObject(id))
 			return;
 
@@ -52,6 +59,7 @@ namespace Eclipse::Editor
 		ImGui::Text("Name");
 		ImGui::SameLine();
 
+		ImGui::SetNextItemWidth(120);
 		if (ImGui::InputText((std::string("##") + std::to_string(id)).c_str(), nameBuffer, NAME_BUFFER_LENGTH))
 		{
 			gameObject->SetName(nameBuffer);
@@ -60,10 +68,21 @@ namespace Eclipse::Editor
 		ImGui::BeginDisabled();
 		ImGui::Text("ID");
 		ImGui::SameLine();
-		unsigned awawada = gameObject->GetID();
+		unsigned localID = gameObject->GetID();
 
-		ImGui::InputInt("##ID FIELDS", (int*)&awawada);
+		std::stringstream idStream;
+		idStream << localID;
+
+		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() - 36);
+		ImGui::DragInt("##ID FIELDS", (int*)&localID);
 		ImGui::EndDisabled();
+
+		ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 48);
+		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6);
+		ImGui::Text(ICON_FA_LOCK);
+		ImGui::SameLine();
+		ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 6);
+		ImGui::Checkbox("##lockinspector", &lockInspector);
 
 		ImGui::Dummy({ 0, 10 });
 		ImGui::Separator();

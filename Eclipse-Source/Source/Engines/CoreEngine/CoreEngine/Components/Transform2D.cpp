@@ -46,17 +46,20 @@ namespace Eclipse
 
 	Math::Vector2f Transform2D::GetPosition() const
 	{
-		Math::Mat3x3f mat = GetTransformMatrix();
-
 		Math::Vector3f positionV3(position->x, position->y, 1.f);
-		Math::Vector3f positionV3AddedTransform = positionV3 * mat;
 
-		return { positionV3AddedTransform.x, positionV3AddedTransform.y };
+		GameObject* parent = gameObject->GetParent();		
+		if (parent)
+			positionV3 = positionV3 * parent->transform->GetTransformMatrix();
+
+		return { positionV3.x, positionV3.y };
 	}
 
 	Math::Matrix3x3f Transform2D::GetTransformMatrix() const
 	{
-		Math::Mat3x3f mat;
+		Math::Mat3x3f mat = Math::Mat3x3f::CreateTranslation(GetLocalPosition());
+		mat *= Math::Mat3x3f::CreateRotation(-GetLocalRotation());
+
 		GameObject* parent = gameObject->GetParent();
 		if (parent)
 			AddParentTransform(parent, mat);

@@ -7,29 +7,81 @@
 #include "CoreEngine/Components/UI/Canvas.h"
 #include "CoreEngine/Components/UI/UIImage.h"
 #include "CoreEngine/Components/UI/RectTransform.h"
-
 #include "CoreEngine/Input/Input.h"
-
 #include "CoreEngine/ECS/ECS.hpp"
-
 #include "CoreEngine/GameObject.h"
 
 #include "Utilities/WindowsSpecific/Clipboard.h"
+#include "CoreEngine/Scenes/SceneLoader.h"
+#include "Editor/EditorUIManager.h"
 
-#include "CoreEngine\Scenes\SceneLoader.h"
+#include "Font-Awesome/7/IconsFontAwesome7.h"
 
 namespace Eclipse::Editor
 {
 	void HierarchyWindow::HierarchyButton(GameObject* aGameObject, float totalIndent)
 	{
 		unsigned id = aGameObject->GetID();
+		bool goIsOpen = gameobjectIdsThatAreOpen.find(id) != gameobjectIdsThatAreOpen.end();
 
-		ImGui::Dummy(ImVec2(totalIndent, 0.f));
-		ImGui::SameLine();
-		if (ImGui::Button(std::string(aGameObject->GetName() + "##" + std::to_string(id)).c_str()))
+		ImGui::PushFont(Editor::EditorUIManager::FontExtraSmall);
+		if (aGameObject->GetChildCount() > 0)
+		{
+			float cursorXpos = ImGui::GetCursorPosX() + totalIndent;
+
+			ImGui::SetCursorPosX(cursorXpos - 2);
+
+			if (goIsOpen)
+			{
+				ImGui::Text(ICON_FA_SORT_DOWN);
+				ImGui::SameLine();
+			}
+			else
+			{
+				ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 4);
+				ImGui::Text(ICON_FA_PLAY);
+				ImGui::SameLine();
+				ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 4);
+			}
+
+			ImGui::SetCursorPosX(cursorXpos - 6);
+			if (ImGui::InvisibleButton(std::string("##InvisibleButtonForChilding" + std::to_string(id)).c_str(), ImVec2(20, 20)))
+			{
+				if (gameobjectIdsThatAreOpen.find(id) != gameobjectIdsThatAreOpen.end())
+					gameobjectIdsThatAreOpen.erase(id);
+				else
+					gameobjectIdsThatAreOpen.emplace(id);
+			}
+			ImGui::SameLine();
+		}
+
+		if (!goIsOpen && aGameObject->GetChildCount() > 0)
+		{
+			ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 4);
+		}
+
+		if (id == CurrentGameObjectID)
+		{
+			ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
+		}
+
+		ImGui::SetCursorPosX(totalIndent + 24);
+		std::string itemName = std::string(aGameObject->GetName() + "##" + std::to_string(id));
+		ImVec2 textSize = ImGui::CalcTextSize(itemName.c_str());
+		bool clickedButton = ImGui::Button(itemName.c_str(), ImVec2(textSize.x, 20));
+
+		if (id == CurrentGameObjectID)
+			clickedButton = false;
+
+		if (clickedButton)
 		{
 			CurrentGameObjectID = id;
 			InspectorWindow::activeType = ActiveItemTypes_GameObject;
+		}
+		ImGui::PopFont();
+		if (id == CurrentGameObjectID && !clickedButton)
+		{
+			ImGui::PopStyleColor();
 		}
 
 		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
@@ -56,19 +108,43 @@ namespace Eclipse::Editor
 			ImGui::EndDragDropTarget();
 		}
 
-		std::vector<GameObject*> children = aGameObject->GetChildren();
-		totalIndent += 32.f;
+		if (gameobjectIdsThatAreOpen.find(id) != gameobjectIdsThatAreOpen.end())
+		{
+			std::vector<GameObject*> children = aGameObject->GetChildren();
+			totalIndent += 24.f;
+
+			for (auto& child : children)
+			{
+				HierarchyButton(child, totalIndent);
+			}
+		}
+	}
+
+	bool IsNewParentMyChild(Eclipse::GameObject* aParent, Eclipse::GameObject* aChild)
+	{
+		auto& children = aChild->GetChildren();
 		for (auto& child : children)
 		{
-			HierarchyButton(child, totalIndent);
+			if (child->GetID() == aParent->GetID())
+				return true;
+
+			if (IsNewParentMyChild(aParent, child))
+				return true;
 		}
+
+		return false;
 	}
 
 	void HierarchyWindow::AssignParentChildren(GameObject* aChild, Eclipse::GameObject* aParent)
 	{
-		if (auto& parent = aChild->GetParent())
+		if (IsNewParentMyChild(aParent, aChild))
+			return;
+
+
+		auto& oldParent = aChild->GetParent();
+		if (auto& parent = oldParent)
 		{
-			if (aChild->GetParent()->GetID() == aParent->GetID())
+			if (oldParent->GetID() == aParent->GetID())
 				return;
 
 			auto& children = parent->GetChildren();
@@ -81,16 +157,18 @@ namespace Eclipse::Editor
 			}
 
 			children.pop_back();
+			if (children.size() <= 0)
+			{
+				gameobjectIdsThatAreOpen.erase(parent->GetID());
+			}
 		}
 
 		Math::Vector2f childPos = aChild->transform->GetPosition();
 
-		Math::Matrix3x3f newParentTransformMatrix = aParent->transform->GetTransformMatrix();
-
 		Math::Vector3f positionVec3(childPos.x, childPos.y, 1);
-		Math::Vector3f positionVec3ParentSpace = positionVec3 * newParentTransformMatrix;
+		positionVec3 = positionVec3 * aParent->transform->GetTransformMatrix().GetInverse();
 
-		childPos = { positionVec3ParentSpace.x, positionVec3ParentSpace.y };
+		childPos = { positionVec3.x, positionVec3.y };
 
 		aChild->SetParent(aParent);
 
@@ -98,6 +176,8 @@ namespace Eclipse::Editor
 		aChild->SetChildIndex(aParent->GetChildCount() - 1);
 
 		aChild->transform->SetPosition(childPos);
+
+		gameobjectIdsThatAreOpen.emplace(aParent->GetID());
 	}
 
 	void HierarchyWindow::Update()
@@ -134,16 +214,42 @@ namespace Eclipse::Editor
 			ImGui::EndPopup();
 		}
 
+		if (ImGui::IsKeyPressed(ImGuiKey_Delete))
+		{
+			unsigned currentObject = HierarchyWindow::CurrentGameObjectID;
+			if (currentObject > 0)
+			{
+				GameObject* gameobject = ComponentManager::myEntityIdToEntity.at(currentObject);
+				RecursiveDeleteChildren(gameobject);
+
+				gameobjectIdsThatAreOpen.erase(currentObject);
+				HierarchyWindow::CurrentGameObjectID = 0;
+
+			}
+		}
+
 
 		for (const auto& [id, data] : ComponentManager::myEntityIdToEntity)
 		{
 			GameObject* parent = data->GetParent();
 			if (parent)
 				continue;
+
 			HierarchyButton(data, 0.f);
 		}
 
 		CopyPasteManager();
+	}
+
+	void HierarchyWindow::RecursiveDeleteChildren(GameObject*& aGameObject)
+	{
+		auto& children = aGameObject->GetChildren();
+		for (auto& child : children)
+		{
+			RecursiveDeleteChildren(child);
+		}
+
+		ComponentManager::Destroy(aGameObject->GetID());
 	}
 
 	void HierarchyWindow::CopyGameObject(unsigned activeGO, rapidjson::Value& gameobjectJson, rapidjson::Document::AllocatorType& anAllocator)
@@ -203,6 +309,8 @@ namespace Eclipse::Editor
 		d.SetObject();
 
 		rapidjson::Document::AllocatorType& jsonAllocator = d.GetAllocator();
+
+		d.AddMember("CopyType", 1, jsonAllocator);
 
 		rapidjson::Value gameObjectArrayJson(rapidjson::kArrayType);
 		gameObjectArrayJson.SetArray();
@@ -316,6 +424,11 @@ namespace Eclipse::Editor
 		rapidjson::Document::AllocatorType& jsonAllocator = d.GetAllocator();
 
 		d.Parse(data);
+
+		if (!d.HasMember("CopyType"))
+			return;
+		if (d["CopyType"].GetInt() != 1)
+			return;
 
 		for (auto& gameobject : d["Gameobjects"].GetArray())
 		{
