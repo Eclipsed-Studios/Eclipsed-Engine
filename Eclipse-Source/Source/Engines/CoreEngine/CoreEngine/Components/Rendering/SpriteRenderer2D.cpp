@@ -82,9 +82,17 @@ namespace Eclipse
 		if (aProgramID)
 			shaderID = aProgramID;
 
-		//if(hasTexture) texture.bi
+		if (hasTexture)
+		{
+			material.BindShader();
+			sprite.Bind();
+			material.BindColor();
+		}
+		else
+		{
+			material.Use();
+		}
 
-		material.Use();
 
 		GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "transform.position", &position);
 		GraphicsEngine::SetUniform(UniformType::Float, shaderID, "transform.rotation", &rotation);

@@ -35,6 +35,8 @@ namespace Eclipse::Assets
 		void Load();
 		void Save();
 
+		const std::vector<size_t>& GetAllAssetsOfType(AssetType type);
+
 	private:
 		std::unordered_map<AssetType, std::vector<size_t>> assetTypeToID;
 		std::unordered_map<size_t, AssetRegistryEntry> registeredAssets;

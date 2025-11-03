@@ -31,6 +31,10 @@ namespace Eclipse
 		unsigned GetShaderProgramID() const;
 
 	public:
+		void BindTexture();
+		void BindShader();
+		void BindColor();
+
 		void Use();
 		void Create();
 	};

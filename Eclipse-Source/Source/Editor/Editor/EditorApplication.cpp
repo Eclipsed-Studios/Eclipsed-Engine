@@ -16,8 +16,8 @@ namespace Eclipse::Editor
 
         myContext.Init(projectPath);
 
-        PlatformIntegration::Discord::SetupWithID(1425504148681658383);
-        PlatformIntegration::Discord::SetLargeImage("eclipsemoonnobg");
+        //PlatformIntegration::Discord::SetupWithID(1425504148681658383);
+        //PlatformIntegration::Discord::SetLargeImage("eclipsemoonnobg");
     }
 
     int EditorApplication::Update()

@@ -42,15 +42,27 @@ namespace Eclipse
 		return dataHandle->programID;
 	}
 
+	void Materials::BindTexture()
+	{
+		dataHandle->texture.Bind();
+	}
+
+	void Materials::BindShader()
+	{
+		glUseProgram(dataHandle->programID);
+	}
+
+	void Materials::BindColor()
+	{
+		Math::Vector4f col = dataHandle->color.ToVector();
+		GraphicsEngine::SetUniform(UniformType::Vector4f, dataHandle->programID, "material.color", &col);
+	}
 
 	void Materials::Use()
 	{
-		glUseProgram(dataHandle->programID);
-
-		dataHandle->texture.Bind();
-
-		Math::Vector4f col = dataHandle->color.ToVector();
-		GraphicsEngine::SetUniform(UniformType::Vector4f, dataHandle->programID, "material.color", &col);
+		BindShader();
+		BindTexture();
+		BindColor();
 	}
 
 	void Materials::Create()

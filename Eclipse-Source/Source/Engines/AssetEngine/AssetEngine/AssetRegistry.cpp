@@ -79,6 +79,13 @@ namespace Eclipse::Assets
 		ofs.close();
 	}
 
+	const std::vector<size_t>& AssetRegistry::GetAllAssetsOfType(AssetType type)
+	{
+		if (assetTypeToID.find(type) != assetTypeToID.end()) return assetTypeToID[type];
+
+		return {};
+	}
+
 	void AssetRegistry::RegisterAsset(const std::filesystem::path& fullPath, const std::filesystem::path& relativePath, AssetType type)
 	{
 		if (std::filesystem::is_directory(fullPath)) return;
@@ -91,6 +98,8 @@ namespace Eclipse::Assets
 		entry.lastModified = lastModTime;
 		entry.path = fullPath;
 		entry.type = (int)type;
+
+		assetTypeToID[type].push_back(id);
 
 		registeredAssets[id] = entry;
 	}
