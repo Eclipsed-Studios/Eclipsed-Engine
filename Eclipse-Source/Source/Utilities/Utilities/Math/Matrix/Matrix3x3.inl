@@ -183,8 +183,8 @@ namespace Eclipse::Math
 	{
 		std::swap(arrData[0][1], arrData[1][0]);
 
-		arrData[0][2] *= -1;
-		arrData[1][2] *= -1;
+		arrData[2][0] *= -1;
+		arrData[2][1] *= -1;
 	}
 	template <class T>
 	Matrix3x3<T> Matrix3x3<T>::GetInverse()
@@ -193,8 +193,8 @@ namespace Eclipse::Math
 
 		std::swap(mat.arrData[0][1], mat.arrData[1][0]);
 
-		mat.arrData[0][2] *= -1;
-		mat.arrData[1][2] *= -1;
+		mat.arrData[2][0] *= -1;
+		mat.arrData[2][1] *= -1;
 
 		return mat;
 	}
