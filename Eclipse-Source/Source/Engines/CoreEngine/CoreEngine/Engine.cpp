@@ -70,8 +70,6 @@ namespace Eclipse
 				};
 		}
 
-		PathManager::OnProjectSet += Input::Init;
-
 		Time::Init();
 		ComponentManager::Init();
 		//AudioManager::Init();
@@ -79,6 +77,8 @@ namespace Eclipse
 		SceneManager::LoadSceneData();
 
 		Utilities::MainSingleton::Init();
+
+		Input::Init();
 	}
 
 

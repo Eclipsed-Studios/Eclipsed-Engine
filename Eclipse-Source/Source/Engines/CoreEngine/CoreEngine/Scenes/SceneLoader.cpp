@@ -154,7 +154,7 @@ namespace Eclipse
 		ifs.close();
 
 		Document d;
-		d.Parse(jsonString.c_str());
+		if(d.Parse(jsonString.c_str()).HasParseError()) return;
 
 		if (!d.HasMember("GameObjects")) return;
 
@@ -212,6 +212,11 @@ namespace Eclipse
 			{
 				if (pComp->myInstanceComponentID == id) LoadType(var, val);
 			}
+		}
+
+		for (auto& [id, comp] : compMap)
+		{
+			comp->OnComponentAdded();
 		}
 	}
 	void SceneLoader::LoadType(Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, const rapidjson::Value& aValue)

@@ -13,19 +13,9 @@
     },
     "scenes": [
         {
-            "name": "Map1",
-            "relativePath": "Scenes\\Map1.scene",
+            "name": "Default",
+            "relativePath": "Default.scene",
             "idx": 0
-        },
-        {
-            "name": "TestScene",
-            "relativePath": "Scenes\\TestScene.scene",
-            "idx": 2
-        },
-        {
-            "name": "SimonTestScene",
-            "relativePath": "Scenes\\SimonTestScene.scene",
-            "idx": 1
         }
     ]
 }

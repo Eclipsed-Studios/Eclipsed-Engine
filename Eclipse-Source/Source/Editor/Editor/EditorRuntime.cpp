@@ -8,6 +8,8 @@
 
 #include "CoreEngine/Input/Input.h"
 
+#include "CoreEngine/Input/InputMapper.h"
+
 namespace Eclipse::Editor
 {
 	void EditorRuntime::UpdateGame()
@@ -51,6 +53,17 @@ namespace Eclipse::Editor
 	}
 	void EditorRuntime::EndFrameEngine()
 	{
+		static bool SaveOnce = false;
+		if (InputMapper::ReadValue("SaveScene"))
+		{
+			if (!SaveOnce)
+			{
+				SaveOnce = true;
+				SceneManager::SaveActiveScene();
+			}
+		}
+		else SaveOnce = false;
+
 		Engine::EndFrame();
 	}
 
