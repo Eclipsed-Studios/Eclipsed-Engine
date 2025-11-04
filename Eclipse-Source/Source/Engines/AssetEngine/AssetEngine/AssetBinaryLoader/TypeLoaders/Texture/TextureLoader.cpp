@@ -12,13 +12,19 @@ namespace Eclipse::Assets
 	TextureHandle* TextureLoader::Load(const size_t& id)
 	{
 		TextureHandle* handle = new TextureHandle;
+		Load(id, handle);
 
+		return handle;
+	}
+
+	void TextureLoader::Load(const size_t& id, TextureHandle* handle)
+	{
 		handle->assetID = id;
 
 		AssetRegistry& registry = AssetRegistry::GetInstance();
-		if (!registry.IsRegistered(id)) return nullptr;
+		if (!registry.IsRegistered(id)) return;
 
-		
+
 
 		std::filesystem::path path = PathManager::GetCookedAssetsDir() / (std::to_string(id) + ".asset");
 		std::ifstream in(path, std::ios::binary);
@@ -51,13 +57,12 @@ namespace Eclipse::Assets
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		LoadMetaFile(id, handle);
-		
+
 		handle->dimDivOne = 1.f / (static_cast<float>(handle->height) / static_cast<float>(handle->width));
 		handle->sizeNormalized = Math::Vector2f{ 1.f, static_cast<float>(handle->height) / handle->width };
 
 
 		delete[] pixels;
-		return handle;
 	}
 	
 

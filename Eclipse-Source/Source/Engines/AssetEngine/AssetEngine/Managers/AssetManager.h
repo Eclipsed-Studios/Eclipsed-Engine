@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include "AssetEngine/AssetRegistry.h"
 
 namespace Eclipse
 {
@@ -13,6 +14,7 @@ namespace Eclipse
 		void Update();
 
 	protected:
+		virtual void Reload(const size_t& id) = 0;
 		virtual AssetType Load(const size_t& id) = 0;
 		virtual AssetType ConstructAsset(const size_t& id) = 0;
 
@@ -23,6 +25,8 @@ namespace Eclipse
 	template<typename AssetType, typename Handle>
 	void AssetManager<AssetType, Handle>::Update()
 	{
+		Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
+
 		for (auto it = idToAssetHandle.begin(); it != idToAssetHandle.end();)
 		{
 			Handle* handle = it->second;
@@ -39,6 +43,11 @@ namespace Eclipse
 
 				it = idToAssetHandle.erase(it);
 				continue;
+			}
+
+			if (registry.WasChanged(handle->assetID))
+			{
+				Reload(handle->assetID);
 			}
 
 			it++;

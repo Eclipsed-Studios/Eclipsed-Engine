@@ -60,8 +60,5 @@ namespace Eclipse
 
         bool mirroredX = false;
         bool mirroredY = false;
-
-    private:
-        PRIVATE_SERIALIZED_FIELD_DEFAULT(std::string, myTexturePath, "");
     };
 }

@@ -18,11 +18,25 @@ namespace Eclipse::Assets
 		else return Load(id);
 	}
 
-	Textures TextureManager::Load(const size_t& id)
+	TextureLoader& TextureManager::GetLoader()
 	{
 		static Assets::TextureLoader textureLoader{};
+		return textureLoader;
+	}
 
-		idToAssetHandle[id] = textureLoader.Load(id);
+	void TextureManager::Reload(const size_t& id)
+	{
+		Assets::TextureHandle* handle = idToAssetHandle[id];
+
+		int refcount = handle->refCount;
+		handle = GetLoader().Load(id);
+
+		handle->refCount = refcount;
+	}
+
+	Textures TextureManager::Load(const size_t& id)
+	{
+		idToAssetHandle[id] = GetLoader().Load(id);
 		return ConstructAsset(id);
 	}
 

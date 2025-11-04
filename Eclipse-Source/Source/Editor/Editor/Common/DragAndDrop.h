@@ -12,12 +12,12 @@ namespace Eclipse::Editor
 	class DragAndDrop
 	{
 	public:
-		static bool BeginTarget(const char* text, const Utilities::FileInfo::FileType_& type);
+		static bool BeginTarget(const char* text, const Utilities::FileInfo::FileType_& type, bool* textClicked = nullptr, bool* arrowClicked = nullptr);
 
 		static void BeginSource(const char* payload, const size_t& size, const Utilities::FileInfo& info);
 
 	private:
-		static bool TextBox(const char* text, Math::Vector2f padding, const Math::Color& aBgColor, const Math::Color& aBorderColor, const char* id);
+		static bool TextBox(const char* text, Math::Vector2f padding, const Math::Color& aBgColor, const Math::Color& aBorderColor, const char* id, bool* boxClicked = nullptr, bool* dropDownClicked = nullptr);
 
 
 	public:
@@ -31,6 +31,7 @@ namespace Eclipse::Editor
 			{Utilities::FileInfo::FileType_Scene, "DND_SCENE"},
 			{Utilities::FileInfo::FileType_VertexShader, "DND_VERTEX_SHADER"},
 			{Utilities::FileInfo::FileType_PixelShader, "DND_PIXEL_SHADER"},
+			{Utilities::FileInfo::FileType_Material, "DND_MATERIAL"},
 		};
 	};
 }

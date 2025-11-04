@@ -10,6 +10,7 @@ namespace Eclipse::Assets
 	{
 	public:
 		TextureHandle* Load(const size_t& id) override;
+		void Load(const size_t& id, TextureHandle* handle) override;
 
 	private:
 		bool MetaFileExists(const size_t& id);

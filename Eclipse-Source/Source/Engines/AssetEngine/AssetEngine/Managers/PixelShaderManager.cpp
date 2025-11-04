@@ -17,11 +17,25 @@ namespace Eclipse::Assets
 		else return Load(id);
 	}
 
-	PixelShaders PixelShaderManager::Load(const size_t& id)
+	PixelShaderLoader& PixelShaderManager::GetLoader()
 	{
 		static Assets::PixelShaderLoader loader{};
+		return loader;
+	}
 
-		idToAssetHandle[id] = loader.Load(id);
+	void PixelShaderManager::Reload(const size_t& id)
+	{
+		Assets::ShaderHandle* handle = idToAssetHandle[id];
+
+		int refcount = handle->refCount;
+		handle = GetLoader().Load(id);
+
+		handle->refCount = refcount;
+	}
+
+	PixelShaders PixelShaderManager::Load(const size_t& id)
+	{
+		idToAssetHandle[id] = GetLoader().Load(id);
 		return ConstructAsset(id);
 	}
 

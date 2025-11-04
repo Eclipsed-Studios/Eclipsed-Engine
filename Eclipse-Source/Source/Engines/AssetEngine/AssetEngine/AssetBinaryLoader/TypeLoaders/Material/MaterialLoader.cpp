@@ -15,9 +15,18 @@ namespace Eclipse::Assets
 	{
 		auto& entry = AssetRegistry::GetInstance().GetRegisteredAsset(id);
 
-		std::ifstream in(entry.path, std::ios::binary);
 
 		MaterialHandle* handle = new MaterialHandle;
+
+		Load(id, handle);
+		return handle;
+	}
+
+	void MaterialLoader::Load(const size_t& id, MaterialHandle* handle)
+	{
+		auto& entry = AssetRegistry::GetInstance().GetRegisteredAsset(id);
+
+		std::ifstream in(entry.path, std::ios::binary);
 		handle->assetID = id;
 
 		size_t textureID = 0, psID = 0, vsID = 0;
@@ -32,7 +41,5 @@ namespace Eclipse::Assets
 		handle->texture = Resourcess::Get<Textures>(textureID);
 		handle->ps = Resourcess::Get<PixelShaders>(psID);
 		handle->vs = Resourcess::Get<VertexShaders>(vsID);
-
-		return handle;
 	}
 }

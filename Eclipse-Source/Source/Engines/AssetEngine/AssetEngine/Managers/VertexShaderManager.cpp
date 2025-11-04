@@ -17,11 +17,26 @@ namespace Eclipse::Assets
 		else return Load(id);
 	}
 
-	VertexShaders VertexShaderManager::Load(const size_t& id)
+	VertexShaderLoader& VertexShaderManager::GetLoader()
 	{
 		static Assets::VertexShaderLoader loader{};
+		return loader;
+	}
 
-		idToAssetHandle[id] = loader.Load(id);
+
+	void VertexShaderManager::Reload(const size_t& id)
+	{
+		Assets::ShaderHandle* handle = idToAssetHandle[id];
+
+		int refcount = handle->refCount;
+		handle = GetLoader().Load(id);
+
+		handle->refCount = refcount;
+	}
+
+	VertexShaders VertexShaderManager::Load(const size_t& id)
+	{
+		idToAssetHandle[id] = GetLoader().Load(id);
 		return ConstructAsset(id);
 	}
 

@@ -10,5 +10,6 @@ namespace Eclipse::Assets
 	{
 	public:
 		MaterialHandle* Load(const size_t& id) override;
+		void Load(const size_t& id, MaterialHandle* handle) override;
 	};
 }

@@ -5,6 +5,8 @@
 #include "CoreEngine/Components/AudioSource.h"
 #include "CoreEngine/Components/Rendering/SpriteRenderer2D.h"
 
+#include "AssetEngine/AssetRegistry.h"
+
 namespace Eclipse
 {
 	void AudioSource::DrawInspector()
@@ -58,13 +60,25 @@ namespace Eclipse
 
 	void SpriteRenderer2D::DrawInspector()
 	{
+		Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
+
 		ImGui::Text("Texture");
 		ImGui::SameLine();
 
-		if (Editor::DragAndDrop::BeginTarget(hasTexture ? myTexturePath->c_str() : "No texture", Utilities::FileInfo::FileType_Texture))
+		if (Editor::DragAndDrop::BeginTarget(hasTexture ? registry.GetRegisteredAsset(sprite.GetAssetID()).path.filename().string().c_str() : "No sprite", Utilities::FileInfo::FileType_Texture))
 		{
-			myTexturePath = Editor::DragAndDrop::payloadBuffer;
-			SetTexture(myTexturePath->c_str());
+			std::string path = Editor::DragAndDrop::payloadBuffer;
+			SetTexture(path.c_str());
+		}
+
+		ImGui::Spacing();
+
+		ImGui::Text("Material");
+		ImGui::SameLine();
+		if (Editor::DragAndDrop::BeginTarget(hasMaterial ? registry.GetRegisteredAsset(material.GetAssetID()).path.filename().string().c_str() : "No material", Utilities::FileInfo::FileType_Material))
+		{
+			std::string path = Editor::DragAndDrop::payloadBuffer;
+			SetMaterial(path.c_str());
 		}
 	}
 }

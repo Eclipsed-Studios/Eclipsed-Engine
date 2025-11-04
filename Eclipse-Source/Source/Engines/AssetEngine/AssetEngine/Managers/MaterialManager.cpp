@@ -17,11 +17,26 @@ namespace Eclipse::Assets
 		return Get(id);
 	}
 
-	Materials MaterialManager::Load(const size_t& id)
+	MaterialLoader& MaterialManager::GetLoader()
 	{
 		static Assets::MaterialLoader loader{};
+		return loader;
+	}
 
-		idToAssetHandle[id] = loader.Load(id);
+
+	void MaterialManager::Reload(const size_t& id)
+	{
+		Assets::MaterialHandle* handle = idToAssetHandle[id];
+
+		int refcount = handle->refCount;
+		GetLoader().Load(id, handle);
+
+		handle->refCount = refcount;
+	}
+
+	Materials MaterialManager::Load(const size_t& id)
+	{
+		idToAssetHandle[id] = GetLoader().Load(id);
 		return ConstructAsset(id);
 	}
 

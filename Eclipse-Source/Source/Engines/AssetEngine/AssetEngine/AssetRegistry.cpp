@@ -40,6 +40,7 @@ namespace Eclipse::Assets
 			entry.path = asset["path"].GetString();
 			entry.type = asset["type"].GetInt();
 
+			assetTypeToID[(AssetType)entry.type].push_back(id);
 			registeredAssets[id] = entry;
 		}
 	}
@@ -135,6 +136,28 @@ namespace Eclipse::Assets
 	bool AssetRegistry::IsRegistered(const std::filesystem::path& relativePath)
 	{
 		return IsRegistered(GetIdFromPath(relativePath));
+	}
+
+	void AssetRegistry::RegisterChange(const size_t& id)
+	{
+		registeredAssets[id].wasChanged = true;
+	}
+
+	void AssetRegistry::RegisterChange(const std::filesystem::path& path)
+	{
+		const size_t id = GetIdFromPath(path);
+		registeredAssets[id].wasChanged = true;
+	}
+
+	bool AssetRegistry::WasChanged(const size_t& id)
+	{
+		return registeredAssets[id].wasChanged;
+	}
+
+	bool AssetRegistry::WasChanged(const std::filesystem::path& path)
+	{
+		const size_t id = GetIdFromPath(path);
+		return registeredAssets[id].wasChanged;
 	}
 	
 	size_t AssetRegistry::GetIdFromPath(const std::filesystem::path& relativePath)

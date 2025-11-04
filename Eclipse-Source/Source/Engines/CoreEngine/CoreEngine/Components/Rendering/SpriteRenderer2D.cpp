@@ -42,13 +42,13 @@ namespace Eclipse
 	void SpriteRenderer2D::SetMaterial(const char* aPath)
 	{
 		material = Assets::Resourcess::Get<Materials>(aPath);
-		hasTexture = true;
+		hasMaterial = true;
 	}
 
 	void SpriteRenderer2D::SetMaterial(const size_t& id)
 	{
 		material = Assets::Resourcess::Get<Materials>(id);
-		hasTexture = true;
+		hasMaterial = true;
 	}
 
 	void SpriteRenderer2D::OnComponentAdded()

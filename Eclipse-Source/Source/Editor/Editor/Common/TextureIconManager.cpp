@@ -11,6 +11,7 @@
 
 #include "AssetEngine/PathManager.h"
 #include "Utilities/Files/FileInfo.h"
+#include "Utilities/Files/File.h"
 #include "CoreEngine/AssetManagement/Resources.h"
 
 namespace Eclipse::Editor
@@ -174,7 +175,14 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		std::ofstream out(PathManager::GetCacheDir() / IconBundleFilePath, std::ios::binary);
+		auto path = PathManager::GetCacheDir() / IconBundleFilePath;
+		std::string pathString = path.generic_string();
+
+		{
+			Utilities::File file(pathString.c_str(), std::ios::binary | std::ios::out);
+		}
+
+		std::ofstream out(path, std::ios::binary);
 
 		const int count = (int)loadedIcons.size();
 		out.write(reinterpret_cast<const char*>(&count), sizeof(int));

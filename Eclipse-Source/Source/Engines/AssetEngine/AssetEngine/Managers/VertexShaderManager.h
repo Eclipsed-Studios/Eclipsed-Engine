@@ -7,6 +7,7 @@
 
 namespace Eclipse::Assets
 {
+	class VertexShaderLoader;
 	class VertexShaderManager final : public AssetManager<class VertexShaders, class Assets::ShaderHandle>
 	{
 	public:
@@ -14,6 +15,10 @@ namespace Eclipse::Assets
 		VertexShaders Get(const size_t& id) override;
 
 	protected:
+		VertexShaderLoader& GetLoader();
+
+		void Reload(const size_t& id) override;
+
 		VertexShaders Load(const size_t& id) override;
 		VertexShaders ConstructAsset(const size_t& id) override;
 	};

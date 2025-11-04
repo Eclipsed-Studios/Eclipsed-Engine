@@ -10,5 +10,6 @@ namespace Eclipse::Assets
 	{
 	public:
 		ShaderHandle* Load(const size_t& id) override;
+		void Load(const size_t& id, ShaderHandle* handle) override;
 	};
 }

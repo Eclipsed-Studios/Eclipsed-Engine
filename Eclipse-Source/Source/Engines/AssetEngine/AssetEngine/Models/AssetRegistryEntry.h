@@ -9,5 +9,6 @@ namespace Eclipse::Assets
 		std::filesystem::path path;
 		size_t lastModified;
 		int type;
+		bool wasChanged = false;
 	};
 }

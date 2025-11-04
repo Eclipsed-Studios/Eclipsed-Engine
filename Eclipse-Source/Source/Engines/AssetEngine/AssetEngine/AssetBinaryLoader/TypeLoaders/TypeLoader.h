@@ -7,5 +7,6 @@ namespace Eclipse
 	{
 	public:
 		virtual T* Load(const size_t& id) = 0;
+		virtual void Load(const size_t& id, T* handle) = 0;
 	};
 }

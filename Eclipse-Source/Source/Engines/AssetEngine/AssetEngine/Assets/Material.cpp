@@ -9,6 +9,12 @@ namespace Eclipse
 {
 	ASSET_OPERATORS_IMPL(Materials, Assets::MaterialHandle);
 
+	size_t Materials::GetAssetID()const
+	{
+		return dataHandle->assetID;
+	}
+
+
 	Textures& Materials::GetTexture()
 	{
 		return dataHandle->texture;

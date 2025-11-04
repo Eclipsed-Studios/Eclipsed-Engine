@@ -13,9 +13,6 @@ namespace Eclipse::Assets
 		const std::string pathString = path.generic_string();
 
 		Utilities::File file(pathString.c_str(), std::ios::binary | std::ios::out);
-
-		std::ofstream out(path, std::ios::binary);
-		out.write(cookedAsset.data.data(), cookedAsset.size);
-		out.close();
+		file.Write(cookedAsset.data.data(), cookedAsset.size);
 	}
 }

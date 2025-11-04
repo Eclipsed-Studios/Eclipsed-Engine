@@ -28,6 +28,12 @@ namespace Eclipse::Assets
 		bool IsRegistered(const size_t& id);
 		bool IsRegistered(const std::filesystem::path& path);
 
+		void RegisterChange(const size_t& id);
+		void RegisterChange(const std::filesystem::path& path);
+
+		bool WasChanged(const size_t& id);
+		bool WasChanged(const std::filesystem::path& path);
+
 		size_t GetIdFromPath(const std::filesystem::path& path);
 
 		std::filesystem::path ResolvePath(const std::filesystem::path& path) const;

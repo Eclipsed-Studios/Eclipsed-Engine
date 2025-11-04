@@ -7,6 +7,7 @@
 
 namespace Eclipse::Assets
 {
+	class MaterialLoader;
 	class MaterialManager final : public AssetManager<class Materials, class Assets::MaterialHandle>
 	{
 	public:
@@ -15,6 +16,10 @@ namespace Eclipse::Assets
 		Materials GetDefault();
 
 	protected:
+		MaterialLoader& GetLoader();
+
+		void Reload(const size_t& id) override;
+		
 		Materials Load(const size_t& id) override;
 		Materials ConstructAsset(const size_t& id) override;
 	};

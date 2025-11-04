@@ -19,6 +19,9 @@ namespace Eclipse
 		ASSET_OPERATORS_DEF(Materials, Assets::MaterialHandle, Assets::MaterialManager);
 
 	public:
+		size_t GetAssetID() const;
+
+	public:
 		Textures& GetTexture();
 		const Textures& GetTexture() const;
 

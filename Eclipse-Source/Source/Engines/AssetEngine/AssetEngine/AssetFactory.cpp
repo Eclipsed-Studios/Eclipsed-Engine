@@ -22,7 +22,7 @@ namespace Eclipse::Assets
 		size_t vsID = vs.GetAssetID();
 		size_t psID = ps.GetAssetID();
 
-		Math::Color color = { 1.f ,1.f, 1.f, 1.f };
+		Math::Color color = { 1.f, 1.f, 1.f, 1.f };
 		out.write(reinterpret_cast<const char*>(&textureID), sizeof(size_t)); // Texture id
 		out.write(reinterpret_cast<const char*>(&psID), sizeof(size_t)); // ps
 		out.write(reinterpret_cast<const char*>(&vsID), sizeof(size_t)); // vs

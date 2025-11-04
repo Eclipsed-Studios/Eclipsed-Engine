@@ -22,12 +22,15 @@ namespace Eclipse::Assets
 {
 	ShaderHandle* VertexShaderLoader::Load(const size_t& id)
 	{
-		auto& entry = AssetRegistry::GetInstance().GetRegisteredAsset(id);
-
 		ShaderHandle* handle = new ShaderHandle;
-		handle->assetID = id;
-		ShaderCompiler::CompileShaderFromFile(entry.path.generic_string().c_str(), handle->shaderID, ShaderType::VERTEX_SHADER);
 
+		Load(id, handle);
 		return handle;
 	}
+	void VertexShaderLoader::Load(const size_t& id, ShaderHandle* handle)
+	{
+		auto& entry = AssetRegistry::GetInstance().GetRegisteredAsset(id);
+		handle->assetID = id;
+		ShaderCompiler::CompileShaderFromFile(entry.path.generic_string().c_str(), handle->shaderID, ShaderType::VERTEX_SHADER);
+	}		
 }

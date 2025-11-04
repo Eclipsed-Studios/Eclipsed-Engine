@@ -7,6 +7,7 @@
 
 namespace Eclipse::Assets
 {
+	class PixelShaderLoader;
 	class PixelShaderManager final : public AssetManager<class PixelShaders, class Assets::ShaderHandle>
 	{
 	public:
@@ -15,6 +16,10 @@ namespace Eclipse::Assets
 		PixelShaders GetDefault();
 
 	protected:
+		PixelShaderLoader& GetLoader();
+
+		void Reload(const size_t& id) override;
+
 		PixelShaders Load(const size_t& id) override;
 		PixelShaders ConstructAsset(const size_t& id) override;
 	};
