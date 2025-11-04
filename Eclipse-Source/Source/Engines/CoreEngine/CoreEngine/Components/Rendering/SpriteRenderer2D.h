@@ -28,8 +28,6 @@ namespace Eclipse
     public:
         void OnComponentAdded() override;
 
-        void Awake() override;
-
         void Render() override;
         void Draw(unsigned aProgramID = 0);
 

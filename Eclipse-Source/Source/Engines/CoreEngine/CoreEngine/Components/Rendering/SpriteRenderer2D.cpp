@@ -75,11 +75,6 @@ namespace Eclipse
 		}
 	}
 
-	void SpriteRenderer2D::Awake()
-	{
-
-	}
-
 	void SpriteRenderer2D::Render()
 	{
 		CommandListManager::GetSpriteCommandList().Enqueue<RenderSprite2DCommand>(this);
