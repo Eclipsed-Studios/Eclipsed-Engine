@@ -15,7 +15,7 @@ namespace Eclipse
         void EditorUpdate() override;
 
         SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, ReferenceResolution, Math::Vector2f(1920, 1080));
-        //SERIALIZED_FIELD_DEFAULT(bool, WorldSpace, false);
+        SERIALIZED_FIELD_DEFAULT(bool, WorldSpace, false);
 
         struct EditorCanvasCameraTransform
         {

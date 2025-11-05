@@ -20,23 +20,29 @@ namespace Eclipse
 
         //canvasCameraTransform.Rotation = gameObject->transform->GetRotation();
 
-        canvasCameraTransform.PositionOffset = { 0.f, 0.f };
         canvasCameraTransform.ScaleMultiplier = Math::Vector2f(sceneScale.x * aspectRatio * 2.f * 0.888f, sceneScale.y);
-        canvasCameraTransform.ScaleMultiplier *= gameObject->transform->GetScale();
 
-        if (!isScene)
-            return;
+        canvasCameraTransform.PositionOffset = { 0.f, 0.f };
+        if (isScene)
+        {
+            canvasCameraTransform.ScaleMultiplier *= gameObject->transform->GetScale();
 
-        Math::Vector2f scenePosition;
-        GraphicsEngine::GetGlobalUniform(UniformType::Vector2f, "cameraPosition", &scenePosition);
+            Math::Vector2f scenePosition;
+            GraphicsEngine::GetGlobalUniform(UniformType::Vector2f, "cameraPosition", &scenePosition);
+            canvasCameraTransform.PositionOffset = (scenePosition * -1.f) * ReferenceResolution;
+        }
 
-        canvasCameraTransform.PositionOffset = (scenePosition * -1.f) * ReferenceResolution;
-        canvasCameraTransform.PositionOffset += gameObject->transform->GetPosition() * ReferenceResolution;
-        canvasCameraTransform.PositionOffset *= Math::Vector2f(aspectRatio, 1.f) * sceneScale;
+        if (isScene || WorldSpace)
+        {
+            canvasCameraTransform.PositionOffset += gameObject->transform->GetPosition() * ReferenceResolution;
+            canvasCameraTransform.PositionOffset *= Math::Vector2f(aspectRatio, 1.f) * sceneScale;
+        }
+        
 
-        float sceneRotation;
-        GraphicsEngine::GetGlobalUniform(UniformType::Float, "cameraRotation", &sceneRotation);
-        canvasCameraTransform.Rotation += sceneRotation;
+        // Rotation of canvas fucks up many things
+        //float sceneRotation;
+        //GraphicsEngine::GetGlobalUniform(UniformType::Float, "cameraRotation", &sceneRotation);
+        //canvasCameraTransform.Rotation += sceneRotation;
     }
 
     void Canvas::EditorUpdate()
