@@ -6,6 +6,7 @@
 #include "CoreEngine/Components/Transform2D.h"
 #include "CoreEngine/Components/UI/Canvas.h"
 #include "CoreEngine/Components/UI/UIImage.h"
+#include "CoreEngine/Components/Rendering/TextRenderer.h"
 #include "CoreEngine/Components/UI/RectTransform.h"
 #include "CoreEngine/Input/Input.h"
 #include "CoreEngine/ECS/ECS.hpp"
@@ -212,20 +213,32 @@ namespace Eclipse::Editor
 
 					obj->SetName("New GameObject");
 				}
-				else if (ImGui::MenuItem("Canvas"))
+				else if (ImGui::BeginMenu("UI"))
 				{
-					GameObject* obj = ComponentManager::CreateGameObject();
-					obj->AddComponent<Canvas>();
+					if (ImGui::MenuItem("Canvas"))
+					{
+						GameObject* obj = ComponentManager::CreateGameObject();
+						obj->AddComponent<Canvas>();
 
-					obj->SetName("Canvas");
-				}
-				else if (ImGui::MenuItem("Image"))
-				{
-					GameObject* obj = ComponentManager::CreateGameObjectNoTransform();
-					obj->AddComponent<RectTransform>();
-					obj->AddComponent<UIImage>();
+						obj->SetName("Canvas");
+					}
+					else if (ImGui::MenuItem("Image"))
+					{
+						GameObject* obj = ComponentManager::CreateGameObjectNoTransform();
+						obj->AddComponent<RectTransform>();
+						obj->AddComponent<UIImage>();
 
-					obj->SetName("Image");
+						obj->SetName("Image");
+					}
+					else if (ImGui::MenuItem("Text"))
+					{
+						GameObject* obj = ComponentManager::CreateGameObjectNoTransform();
+						obj->AddComponent<RectTransform>();
+						obj->AddComponent<TextRenderer>();
+
+						obj->SetName("New Text");
+					}
+					ImGui::EndMenu();
 				}
 
 				ImGui::EndMenu();

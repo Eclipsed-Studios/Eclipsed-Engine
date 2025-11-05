@@ -30,6 +30,8 @@ namespace Eclipse
 
         auto tranform = gameObject->GetComponent<RectTransform>();
 
+        if (!tranform)
+            return;
         if (!tranform->myCanvas)
             return;
             

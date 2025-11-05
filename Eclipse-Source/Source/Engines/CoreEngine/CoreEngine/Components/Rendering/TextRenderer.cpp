@@ -7,6 +7,8 @@
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
 #include "GraphicsEngine/TextManager.h"
+#include <Components/UI/RectTransform.h>
+#include "Components/UI/Canvas.h"
 
 namespace Eclipse
 {
@@ -322,9 +324,31 @@ namespace Eclipse
 
 		const char* textInConstChar = myText->c_str();
 
-		Math::Vector2f position = gameObject->transform->GetPosition();
-		float rotation = gameObject->transform->GetRotation();
-		Math::Vector2f scale = gameObject->transform->GetScale();
+		auto tranform = gameObject->GetComponent<RectTransform>();
+
+		if (!tranform)
+			return;
+		if (!tranform->myCanvas)
+			return;
+
+		tranform->myCanvas->SetCanvasTransformProperties();
+
+		Canvas::EditorCanvasCameraTransform& canvasCameraTransform = tranform->myCanvas->canvasCameraTransform;
+
+		Math::Vector2f position = tranform->Position;
+		position *= canvasCameraTransform.ScaleMultiplier;
+		position += canvasCameraTransform.PositionOffset;
+
+		Math::Vector2f resolution = tranform->myCanvas->ReferenceResolution;
+		resolution.x = 1.f / resolution.x;
+		resolution.y = 1.f / resolution.y;
+		Math::Vector2f canvasScaleRelationOneDiv = { resolution.x, resolution.y };
+
+		Math::Vector2f scale = tranform->WidthHeightPX * 2.f;
+		scale *= canvasCameraTransform.ScaleMultiplier * canvasScaleRelationOneDiv;
+
+		float rotation = 0.f;
+		rotation += canvasCameraTransform.Rotation;
 
 		unsigned shaderID = myMaterial->myShader->GetProgramID();
 		myMaterial->myShader->Use(shaderID);
