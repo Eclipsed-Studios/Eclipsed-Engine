@@ -135,11 +135,20 @@ namespace Eclipse::Editor
 		return false;
 	}
 
-	void HierarchyWindow::AssignParentChildren(GameObject* aChild, Eclipse::GameObject* aParent)
+	bool HierarchyWindow::CheckCopomentType(GameObject* aChild, GameObject* aParent)
+	{
+		if (aParent->GetComponent<Transform2D>() && aChild->transform)
+		{
+			/* code */
+		}
+
+		return true;
+	}
+
+	void HierarchyWindow::AssignParentChildren(GameObject* aChild, GameObject* aParent)
 	{
 		if (IsNewParentMyChild(aParent, aChild))
 			return;
-
 
 		auto& oldParent = aChild->GetParent();
 		if (auto& parent = oldParent)
@@ -163,22 +172,33 @@ namespace Eclipse::Editor
 			}
 		}
 
-		Math::Vector2f childPos = aChild->transform->GetPosition();
+		if (aChild->transform && aParent->transform)
+		{
+			Math::Vector2f childPos = aChild->transform->GetPosition();
+			Math::Vector3f positionVec3(childPos.x, childPos.y, 1);
+			positionVec3 = positionVec3 * aParent->transform->GetTransformMatrix().GetInverse();
+			childPos = { positionVec3.x, positionVec3.y };
+			aChild->transform->SetPosition(childPos);
+		}
 
-		Math::Vector3f positionVec3(childPos.x, childPos.y, 1);
-		positionVec3 = positionVec3 * aParent->transform->GetTransformMatrix().GetInverse();
+		if (auto* recttransform = aChild->GetComponent<RectTransform>())
+		{
+			if (recttransform->myCanvas = aParent->GetComponent<Canvas>())
+			{
+				recttransform->myCanvas->canvasCameraTransform.PositionOffset = { 0.f, 0.f };
+				recttransform->myCanvas->canvasCameraTransform.Rotation = 0.f;
+				recttransform->myCanvas->canvasCameraTransform.ScaleMultiplier = { 1.f, 1.f };
+			}
+		}
 
-		childPos = { positionVec3.x, positionVec3.y };
 
 		aChild->SetParent(aParent);
-
 		aParent->AddChild(aChild);
 		aChild->SetChildIndex(aParent->GetChildCount() - 1);
 
-		aChild->transform->SetPosition(childPos);
-
 		gameobjectIdsThatAreOpen.emplace(aParent->GetID());
 	}
+
 
 	void HierarchyWindow::Update()
 	{

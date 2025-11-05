@@ -40,7 +40,7 @@ namespace Eclipse
 		aTransform *= parentTransformMatrix;
 
 		GameObject* parent = aParent->GetParent();
-		if (parent)
+		if (parent && parent->transform)
 			AddParentTransform(parent, aTransform);
 	}
 
@@ -49,10 +49,10 @@ namespace Eclipse
 		Math::Vector3f positionV3(position->x, position->y, 1.f);
 
 		GameObject* parent = gameObject->GetParent();		
-		if (parent)
+		if (parent && parent->transform)
 			positionV3 = positionV3 * parent->transform->GetTransformMatrix();
 
-		return { positionV3.x, positionV3.y };
+		return {positionV3.x, positionV3.y};
 	}
 
 	Math::Matrix3x3f Transform2D::GetTransformMatrix() const
@@ -61,7 +61,7 @@ namespace Eclipse
 		mat *= Math::Mat3x3f::CreateRotation(-GetLocalRotation());
 
 		GameObject* parent = gameObject->GetParent();
-		if (parent)
+		if (parent && parent->transform)
 			AddParentTransform(parent, mat);
 
 		return mat;
@@ -76,7 +76,7 @@ namespace Eclipse
 		totalRotation += parentTransform->GetLocalRotation();
 
 		GameObject* parent = aParent->GetParent();
-		if (parent)
+		if (parent && parent->transform)
 			AddParentRotation(parent, totalRotation);
 	}
 
@@ -84,7 +84,7 @@ namespace Eclipse
 	{
 		float rot = rotation;
 		GameObject* parent = gameObject->GetParent();
-		if (parent)
+		if (parent && parent->transform)
 			AddParentRotation(parent, rot);
 
 		return rot;
@@ -99,7 +99,7 @@ namespace Eclipse
 		totalScale *= parentTransform->GetLocalScale();
 
 		GameObject* parent = aParent->GetParent();
-		if (parent)
+		if (parent && parent->transform)
 			AddParentScale(parent, totalScale);
 	}
 
@@ -107,7 +107,7 @@ namespace Eclipse
 	{
 		Math::Vector2f sca = scale;
 		GameObject* parent = gameObject->GetParent();
-		if (parent)
+		if (parent && parent->transform)
 			AddParentScale(parent, sca);
 
 		return sca;

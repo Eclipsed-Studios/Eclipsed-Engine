@@ -3,6 +3,8 @@
 #include "CoreEngine/ECS/ComponentManager.h"
 #include "CoreEngine/Components/Base/BaseComponent.h"
 
+
+
 namespace Eclipse
 {
     class RectTransform : public Component
@@ -16,5 +18,7 @@ namespace Eclipse
     public:
         PRIVATE_SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, Position, Math::Vector2f(0, 0));
         PRIVATE_SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, WidthHeightPX, Math::Vector2f(100, 100));
+
+        class Canvas* myCanvas;
     };
 }

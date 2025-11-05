@@ -39,10 +39,10 @@ namespace Eclipse
 			void InitSceneBuffer();
 			void InitSelectedObjectShader();
 
-		private:
-			Math::Vector2f myInspectorPosition = { 0, 0 };
-			float myInspectorRotation = 0;
-			Math::Vector2f myInspectorScale = { 1, 1 };
+		public:
+			static inline Math::Vector2f myInspectorPosition = { 0, 0 };
+			static inline float myInspectorRotation = 0;
+			static inline Math::Vector2f myInspectorScale = { 1, 1 };
 
 		private:
 			Math::Vector2f myWindowSize;

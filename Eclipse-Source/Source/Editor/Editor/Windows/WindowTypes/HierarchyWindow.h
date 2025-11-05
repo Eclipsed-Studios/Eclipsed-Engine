@@ -19,7 +19,7 @@ namespace Eclipse
 
 		public:
 			void HierarchyButton(GameObject* aGameObject, float totalIndent);
-			void AssignParentChildren(GameObject* targetGO, Eclipse::GameObject* aGameObject);
+			void AssignParentChildren(GameObject* targetGO, GameObject* aGameObject);
 			void Update() override;
 
 		public:
@@ -35,6 +35,8 @@ namespace Eclipse
 			void CopyPasteManager();
 
 			void RecursiveDeleteChildren(GameObject*& aGameObject);
+
+			bool CheckCopomentType(GameObject* aGameobject, GameObject* aParent);
 
 			std::set<unsigned> gameobjectIdsThatAreOpen;
 		};

@@ -11,31 +11,17 @@ namespace Eclipse
 
     public:
 
+        void SetCanvasTransformProperties();
         void EditorUpdate() override;
-
-        void OnComponentAdded() override
-        {
-            if (!main)
-                main = this;
-        }
-
-        void OnDestroy() override
-        {
-            if (main == this)
-                main = nullptr;
-        }
-
-        static inline Canvas* main;
 
         SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, ReferenceResolution, Math::Vector2f(1920, 1080));
         //SERIALIZED_FIELD_DEFAULT(bool, WorldSpace, false);
 
-        static inline struct EditorCanvasCameraTransform
+        struct EditorCanvasCameraTransform
         {
             Math::Vector2f PositionOffset = { 0, 0 };
+            float Rotation = 0.f;
             Math::Vector2f ScaleMultiplier = { 1, 1 };
-            //Math::Vector2f InspectorScale = { 0, 0 };
-            float Rotation;
         } canvasCameraTransform;
 
         static inline bool drawCanvasGizmos = true;

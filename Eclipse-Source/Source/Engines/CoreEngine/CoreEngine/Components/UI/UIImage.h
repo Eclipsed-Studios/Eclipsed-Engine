@@ -16,5 +16,6 @@ namespace Eclipse
         void Draw();
 
         Material* myMaterial = nullptr;
+        
     };
 }

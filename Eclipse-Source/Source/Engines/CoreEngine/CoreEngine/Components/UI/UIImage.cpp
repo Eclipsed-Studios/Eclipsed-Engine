@@ -27,21 +27,25 @@ namespace Eclipse
     {
         if (!myMaterial)
             return;
-        if (!Canvas::main)
+
+        auto tranform = gameObject->GetComponent<RectTransform>();
+
+        if (!tranform->myCanvas)
             return;
-        
+            
+        tranform->myCanvas->SetCanvasTransformProperties();
 
-        auto tranForm = gameObject->GetComponent<RectTransform>();
+        Canvas::EditorCanvasCameraTransform& canvasCameraTransform = tranform->myCanvas->canvasCameraTransform;
 
-        Math::Vector2f position = tranForm->Position;
-        position *= Canvas::canvasCameraTransform.ScaleMultiplier;
-        position += Canvas::canvasCameraTransform.PositionOffset;
+        Math::Vector2f position = tranform->Position;
+        position *= canvasCameraTransform.ScaleMultiplier;
+        position += canvasCameraTransform.PositionOffset;
 
-        Math::Vector2f scale = tranForm->WidthHeightPX * 2.f;
-        scale *= Canvas::canvasCameraTransform.ScaleMultiplier;
+        Math::Vector2f scale = tranform->WidthHeightPX * 2.f;
+        scale *= canvasCameraTransform.ScaleMultiplier;
 
         float rotation = 0.f;
-        rotation += Canvas::canvasCameraTransform.Rotation;
+        rotation += canvasCameraTransform.Rotation;
 
         unsigned shaderID = myMaterial->myShader->GetProgramID();
 
@@ -54,7 +58,7 @@ namespace Eclipse
 
         //auto tempSettings = TemporarySettingsSingleton::Get();
 
-        Math::Vector2f resolution = Canvas::main->ReferenceResolution;
+        Math::Vector2f resolution = tranform->myCanvas->ReferenceResolution;
 
         resolution.x = 1.f / resolution.x;
         resolution.y = 1.f / resolution.y;

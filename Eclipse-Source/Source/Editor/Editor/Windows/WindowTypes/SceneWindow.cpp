@@ -293,20 +293,12 @@ namespace Eclipse
 
 		GraphicsEngine::BindFrameBuffer(mySceneFrameBuffer);
 
-		if (Canvas::main)
-		{
-			float aspectRatio = myWindowSize.y / myWindowSize.x;
-			Math::Vector2f CanvasResReference = Canvas::main->ReferenceResolution;
-
-			Canvas::canvasCameraTransform.PositionOffset = (myInspectorPosition * -1.f) * CanvasResReference + Canvas::main->gameObject->transform->GetPosition() * CanvasResReference;
-			Canvas::canvasCameraTransform.PositionOffset *= Math::Vector2f(aspectRatio, 1.f) * myInspectorScale;
-			Canvas::canvasCameraTransform.Rotation = myInspectorRotation;
-			Canvas::canvasCameraTransform.ScaleMultiplier = Math::Vector2f(myInspectorScale.x * aspectRatio * 2.f * 0.888f, myInspectorScale.y) * Canvas::main->gameObject->transform->GetScale();
-		}
-
 		Math::Vector2f lastInspectorPosition(0, 0);
 		float lastInspectorRotation = 0;
 		Math::Vector2f lastInspectorScale(1, 1);
+
+		int isScene = 1;
+		GraphicsEngine::UpdateGlobalUniform(UniformType::Int, "IsSceneWindow", &isScene);
 
 		GraphicsEngine::GetGlobalUniform(UniformType::Vector2f, "cameraPosition", &lastInspectorPosition);
 		GraphicsEngine::GetGlobalUniform(UniformType::Float, "cameraRotation", &lastInspectorRotation);
@@ -337,6 +329,9 @@ namespace Eclipse
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "cameraRotation", &lastInspectorRotation);
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", &lastInspectorScale);
 
+		isScene = 0;
+		GraphicsEngine::UpdateGlobalUniform(UniformType::Int, "IsSceneWindow", &isScene);
+
 		if (myWindowSize.x != myLastWindowResolution.x || myWindowSize.y != myLastWindowResolution.y)
 		{
 			glBindTexture(GL_TEXTURE_2D, mySceneTexture);
@@ -351,10 +346,6 @@ namespace Eclipse
 		ImGui::Image(mySceneTexture, ImVec2(myWindowSize.x, myWindowSize.y), ImVec2(0, 1), ImVec2(1, 0));
 
 		GraphicsEngine::BindFrameBuffer(0);
-
-		Canvas::canvasCameraTransform.PositionOffset = { 0, 0 };
-		Canvas::canvasCameraTransform.Rotation = 0.f;
-		Canvas::canvasCameraTransform.ScaleMultiplier = { 1, 1 };
 	}
 
 	void SceneWindow::InitSceneBuffer()

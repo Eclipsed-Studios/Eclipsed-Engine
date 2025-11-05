@@ -7,6 +7,7 @@
 #include "Base/BaseComponent.h"
 
 #include <Utilities/Math/Vector/Vector2.h>
+#include <Utilities/Math/Vector/Vector3.h>
 #include "Utilities/Math/Matrix/Matrix3x3.h"
 
 namespace Eclipse

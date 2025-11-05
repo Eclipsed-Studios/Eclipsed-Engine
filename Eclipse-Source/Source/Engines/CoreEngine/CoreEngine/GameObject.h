@@ -45,7 +45,7 @@ namespace Eclipse
 
 		operator Eclipse::GameObjectID() const;
 
-		class Transform2D* transform;
+		class Transform2D* transform = nullptr;
 
 	private:
 		GameObject* parent = nullptr;
