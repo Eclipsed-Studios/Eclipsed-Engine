@@ -53,7 +53,7 @@ namespace Eclipse
         const int fileSize = std::filesystem::file_size(std::filesystem::path(aShaderPath));
 
         FILE *fileP = fopen(aShaderPath, "rb");
-        char readBuffer[65555];
+        char readBuffer[4000];
         fread(readBuffer, 1, fileSize, fileP);
         fclose(fileP);
         readBuffer[fileSize] = '\0';

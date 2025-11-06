@@ -25,12 +25,12 @@
 #include "Utilities/Files/FileWatcher.h"
 #include "CoreEngine/Scenes/SceneManager.h"
 
-#include "CoreEngine/Input/InputMapper.h"
+#include "InputEngine/InputMapper.h"
 
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
 #include "Game/Game.h"
-#include "CoreEngine/Input/Input.h"
+#include "InputEngine/Input.h"
 
 #include "AssetEngine/AssetImporter/AssetImporter.h"
 #include "AssetEngine/AssetPipeline.h"

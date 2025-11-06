@@ -1,8 +1,8 @@
 #include "RenderingWindow.h"
 
-#include "CoreEngine/Components/Rendering/TextRenderer.h"
-#include "CoreEngine/Components/Rendering/Camera.h"
-#include "CoreEngine/Components/UI/Canvas.h"
+#include "EntityEngine/Components/Rendering/TextRenderer.h"
+#include "EntityEngine/Components/Rendering/Camera.h"
+#include "EntityEngine/Components/UI/Canvas.h"
 
 #include "PhysicsEngine/PhysicsEngine.h"
 

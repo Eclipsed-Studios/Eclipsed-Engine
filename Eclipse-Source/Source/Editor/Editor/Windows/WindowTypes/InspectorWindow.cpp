@@ -2,16 +2,16 @@
 #include "InspectorWindow.h"
 #include "HierarchyWindow.h"
 
-#include "CoreEngine/ECS/ComponentManager.h"
+#include "EntityEngine/ComponentManager.h"
 
 #include "Editor/ImGui/ImGui_Impl.h"
 
 #include "Utilities/Reflection/Registry/ComponentRegistry.h"
 
-#include "CoreEngine/Components/Transform2D.h"
-#include "CoreEngine/Components/Rendering/SpriteRenderer2D.h"
-#include "CoreEngine/Components/Rendering/SpriteSheetAnimator.h"
-#include "CoreEngine/Components/AudioSource.h"
+#include "EntityEngine/Components/Transform2D.h"
+#include "EntityEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "EntityEngine/Components/Rendering/SpriteSheetAnimator.h"
+#include "EntityEngine/Components/AudioSource.h"
 
 #include "SpriteEditor.h"
 

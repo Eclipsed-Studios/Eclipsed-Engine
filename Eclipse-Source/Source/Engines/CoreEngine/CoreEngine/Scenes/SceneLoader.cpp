@@ -13,7 +13,7 @@
 
 #include "Utilities/ChatGPT_Dump/Base64.hpp"
 
-#include "Components/Base/Component.h"
+#include "EntityEngine/Components/Base/Component.h"
 
 #include "GraphicsEngine/RenderCommands/CommandList.h"
 

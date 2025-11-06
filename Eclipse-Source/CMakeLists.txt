@@ -54,6 +54,9 @@ endif()
 
 
 # ---- Engines
+add_subdirectory(Source/Engines/EntityEngine)
+add_subdirectory(Source/Engines/AudioEngine)
+add_subdirectory(Source/Engines/InputEngine)
 add_subdirectory(Source/Engines/AssetEngine)
 add_subdirectory(Source/Engines/GraphicsEngine)
 add_subdirectory(Source/Engines/CoreEngine)

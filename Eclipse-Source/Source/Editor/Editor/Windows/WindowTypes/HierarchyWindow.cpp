@@ -2,21 +2,24 @@
 #include "HierarchyWindow.h"
 
 #include "ImGui/imgui.h"
-#include "CoreEngine/ECS/ComponentManager.h"
-#include "CoreEngine/Components/Transform2D.h"
-#include "CoreEngine/Components/UI/Canvas.h"
-#include "CoreEngine/Components/UI/UIImage.h"
-#include "CoreEngine/Components/Rendering/TextRenderer.h"
-#include "CoreEngine/Components/UI/RectTransform.h"
-#include "CoreEngine/Input/Input.h"
-#include "CoreEngine/ECS/ECS.hpp"
-#include "CoreEngine/GameObject.h"
+#include "EntityEngine/ComponentManager.h"
+#include "EntityEngine/Components/Transform2D.h"
+#include "EntityEngine/Components/UI/Canvas.h"
+#include "EntityEngine/Components/UI/UIImage.h"
+#include "EntityEngine/Components/Rendering/TextRenderer.h"
+#include "EntityEngine/Components/UI/RectTransform.h"
+#include "InputEngine/Input.h"
+#include "EntityEngine/ECS.hpp"
+#include "EntityEngine/GameObject.h"
 
 #include "Utilities/WindowsSpecific/Clipboard.h"
 #include "CoreEngine/Scenes/SceneLoader.h"
 #include "Editor/EditorUIManager.h"
 
 #include "Font-Awesome/7/IconsFontAwesome7.h"
+
+#include "rapidjson/rapidjson/document.h"
+#include "rapidjson/rapidjson/prettywriter.h"
 
 namespace Eclipse::Editor
 {
