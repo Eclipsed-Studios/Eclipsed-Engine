@@ -8,7 +8,7 @@
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 #include "GraphicsEngine/RenderCommands/CommandList.h"
 
-#include "CoreEngine/Input/Input.h"
+#include "InputEngine/Input.h"
 
 #include "GraphicsEngine/RenderCommands/RenderCommand.h"
 
@@ -16,12 +16,12 @@
 
 #include "Utilities/Reflection/Registry/ComponentRegistry.h"
 
-#include "CoreEngine/Components/Base/Component.h"
-#include "CoreEngine/Components/Rendering/SpriteRenderer2D.h"
-#include "CoreEngine/Components/UI/Canvas.h"
+#include "EntityEngine/Components/Base/Component.h"
+#include "EntityEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "EntityEngine/Components/UI/Canvas.h"
 
-#include "CoreEngine/Input/InputMapper.h"
-#include "CoreEngine/Components/Transform2D.h"
+#include "InputEngine/InputMapper.h"
+#include "EntityEngine/Components/Transform2D.h"
 
 #include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
 
@@ -279,7 +279,7 @@ namespace Eclipse
 				Transform2D* transform = GetComp(Transform2D, HierarchyWindow::CurrentGameObjectID);
 
 				DebugDrawer::Get().Begin();
-				Math::Vector2f textureScale = mySelectedObject->GetMaterial()->myTexture->GetTextureSizeNormilized();
+				Math::Vector2f textureScale = mySelectedObject->GetMaterial()->GetTexture().GetTextureSizeNormilized();
 				Math::Vector2f size = mySelectedObject->spriteRectMax - mySelectedObject->spriteRectMin;
 				float aspectScale = size.y / size.x;
 
