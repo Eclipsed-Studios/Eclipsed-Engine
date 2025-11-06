@@ -6,9 +6,9 @@
 #include "CoreEngine/Scenes/SceneManager.h"
 #include "CoreEngine/Scenes/SceneLoader.h"
 
-#include "CoreEngine/Input/Input.h"
+#include "InputEngine/Input.h"
 
-#include "CoreEngine/Input/InputMapper.h"
+#include "InputEngine/InputMapper.h"
 
 namespace Eclipse::Editor
 {

@@ -2,7 +2,7 @@
 
 #include "AssetManagement/Resources/Abstract/AbstractResource.h"
 
-#include "ECS/ComponentManager.h"
+#include "EntityEngine/ComponentManager.h"
 
 namespace Eclipse
 {

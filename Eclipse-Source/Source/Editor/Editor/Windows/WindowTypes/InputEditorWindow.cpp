@@ -2,10 +2,10 @@
 
 #include "HierarchyWindow.h"
 
-#include "CoreEngine/ECS/ComponentManager.h"
+#include "EntityEngine/ComponentManager.h"
 
-#include "CoreEngine/Input/InputMapper.h"
-#include "CoreEngine/Input/Input.h"
+#include "InputEngine/InputMapper.h"
+#include "InputEngine/Input.h"
 
 #include "rapidjson/rapidjson/stringbuffer.h"
 

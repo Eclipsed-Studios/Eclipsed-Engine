@@ -1,7 +1,7 @@
 #include <CoreEngine/AssetManagement/Loader/AssetLoader.hpp>
 
 #include <CoreEngine/AssetManagement/Resources/AudioClip.h>
-#include "CoreEngine/Audio/AudioManager.h"
+#include "AudioEngine/AudioManager.h"
 
 namespace Eclipse
 {
@@ -37,7 +37,7 @@ namespace Eclipse
 		AudioManager::CreateAudioFromMemory((const char*)rawData.data(), AssetLoader::loadedDatas[id].size, outResource);
 		}
 #else
-		AudioManager::CreateAudioFromPath(outResource);
+		//AudioManager::CreateAudioFromPath(outResource);
 #endif
 	}
 }

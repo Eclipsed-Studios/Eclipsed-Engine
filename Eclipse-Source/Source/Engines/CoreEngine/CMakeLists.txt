@@ -25,8 +25,10 @@ target_include_directories(CoreEngine PRIVATE ${CORE_ENGINE_ROOT})
 target_include_directories(CoreEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 
-target_include_directories(CoreEngine PUBLIC ${CMAKE_SOURCE_DIR}/Source/Game)
-target_link_libraries(CoreEngine PUBLIC Game)
+# ---- InputEngine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/InputEngine-Sources.cmake")
+target_include_directories(CoreEngine PUBLIC ${INPUT_ENGINE_ROOT})
+target_link_libraries(CoreEngine PUBLIC InputEngine)
 
 
 # ---- AssetEngine
@@ -47,12 +49,24 @@ target_include_directories(CoreEngine PUBLIC ${PHYSICS_ENGINE_ROOT})
 target_link_libraries(CoreEngine PUBLIC PhysicsEngine)
 
 
+# ---- EntityEngine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/EntityEngine-Sources.cmake")
+target_include_directories(CoreEngine PUBLIC ${ENTITY_ENGINE_ROOT})
+target_link_libraries(CoreEngine PUBLIC EntityEngine)
+
+
+# ---- AudioEngine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/AudioEngine-Sources.cmake")
+target_include_directories(CoreEngine PUBLIC ${AUDIO_ENGINE_ROOT})
+target_link_libraries(CoreEngine PUBLIC AudioEngine)
+
+
 # ---- Externals
 target_include_directories(CoreEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/stbi_image/) # REMOVE WHEN ASSET ENGINE IS ADDED
 
+target_include_directories(CoreEngine PRIVATE ${PLATFORMINTEGRATION_SOURCES})
+
 target_include_directories(CoreEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/fmod)  # REMOVE WHEN AUDIO ENGINE IS ADDED
 target_link_libraries(CoreEngine PRIVATE FMOD)
-
-target_include_directories(CoreEngine PRIVATE ${PLATFORMINTEGRATION_SOURCES})
 
 set_target_properties(CoreEngine PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)

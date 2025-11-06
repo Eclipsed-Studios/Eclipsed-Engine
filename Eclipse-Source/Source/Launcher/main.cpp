@@ -11,34 +11,34 @@
 
 using namespace Eclipse;
 
-
-static ErrorCode Init()
-{
-    Editor::EditorContext::Init();
-
-    return ErrorCode::SUCCESS;
-}
-
-static int BeginFrame()
-{
-    return Editor::EditorContext::BeginFrame();
-}
-
-static void Update()
-{
-    Editor::EditorContext::Update();
-    Editor::EditorContext::Render();
-}
-
-static void EndFrame()
-{
-    Editor::EditorContext::EndFrame();
-}
-
-static void End()
-{
-    Editor::EditorContext::End();
-}
+//
+//static ErrorCode Init()
+//{
+//    Editor::EditorContext::Init();
+//
+//    return ErrorCode::SUCCESS;
+//}
+//
+//static int BeginFrame()
+//{
+//    return Editor::EditorContext::BeginFrame();
+//}
+//
+//static void Update()
+//{
+//    Editor::EditorContext::Update();
+//    Editor::EditorContext::Render();
+//}
+//
+//static void EndFrame()
+//{
+//    Editor::EditorContext::EndFrame();
+//}
+//
+//static void End()
+//{
+//    Editor::EditorContext::End();
+//}
 
 
 int main()

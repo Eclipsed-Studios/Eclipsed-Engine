@@ -2,7 +2,7 @@
 
 #include "CoreEngine/AssetManagement/Resources/Scene.h"
 
-#include "CoreEngine/Components/Transform2D.h"
+#include "EntityEngine/Components/Transform2D.h"
 
 #include "rapidjson/rapidjson/document.h"
 

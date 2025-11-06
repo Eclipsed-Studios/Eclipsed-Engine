@@ -18,8 +18,6 @@ target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 # target_include_directories(ImGui PUBLIC ${IMGUI_SOURCES}/ImGui)
 # target_include_directories(ImGui PUBLIC ${PLATFORMINTEGRATION_SOURCES})
 
-target_link_libraries(Launcher PRIVATE -WHOLEARCHIVE:$<TARGET_FILE:Game>)
-
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
 

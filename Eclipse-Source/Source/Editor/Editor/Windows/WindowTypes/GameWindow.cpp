@@ -7,9 +7,9 @@
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 #include "GraphicsEngine/RenderCommands/CommandList.h"
 
-#include "CoreEngine/Components/Rendering/Camera.h"
+#include "EntityEngine/Components/Rendering/Camera.h"
 
-#include "CoreEngine/Input/Input.h"
+#include "InputEngine/Input.h"
 
 #include "OpenGL\glad\glad.h"
 

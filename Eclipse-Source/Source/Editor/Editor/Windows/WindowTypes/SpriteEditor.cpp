@@ -7,7 +7,7 @@
 
 #include "Utilities/Math/Math.h"
 
-#include "CoreEngine/Input/Input.h"
+#include "InputEngine/Input.h"
 
 #include "CoreEngine/AssetManagement/Resources.h"
 

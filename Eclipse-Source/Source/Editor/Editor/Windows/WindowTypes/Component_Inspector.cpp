@@ -2,58 +2,58 @@
 
 #include "Editor/Common/DragAndDrop.h"
 
-#include "CoreEngine/Components/AudioSource.h"
-#include "CoreEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "EntityEngine/Components/AudioSource.h"
+#include "EntityEngine/Components/Rendering/SpriteRenderer2D.h"
 
 #include "AssetEngine/AssetRegistry.h"
 
 namespace Eclipse
 {
-	void AudioSource::DrawInspector()
-	{
-		std::stringstream ss;
-		ss << "##" << this;
+	//void AudioSource::DrawInspector()
+	//{
+	//	std::stringstream ss;
+	//	ss << "##" << this;
 
-		bool hasAudioClip = myAudioClip;
+	//	bool hasAudioClip = myAudioClip;
 
 
-		if (Editor::DragAndDrop::BeginTarget(hasAudioClip ? myAudioClip->GetRelativePath() : "No audio clip", Utilities::FileInfo::FileType_Audio))
-		{
-			myAudioPath = Editor::DragAndDrop::payloadBuffer;
-			SetAudioClip(myAudioPath->c_str());
-		}
+	//	if (Editor::DragAndDrop::BeginTarget(hasAudioClip ? myAudioClip->GetRelativePath() : "No audio clip", Utilities::FileInfo::FileType_Audio))
+	//	{
+	//		myAudioPath = Editor::DragAndDrop::payloadBuffer;
+	//		SetAudioClip(myAudioPath->c_str());
+	//	}
 
-		if (!hasAudioClip) return;
+	//	if (!hasAudioClip) return;
 
-		if (!myIsPlaying && ImGui::Button("Play"))
-		{
-			Play();
-		}
-		else if (myIsPlaying)
-		{
-			if (myIsPaused)
-			{
-				if (ImGui::Button("Start"))
-				{
-					Play();
-				}
-			}
-			else
-			{
-				if (ImGui::Button("Pause"))
-				{
-					Pause();
-				}
-			}
+	//	if (!myIsPlaying && ImGui::Button("Play"))
+	//	{
+	//		Play();
+	//	}
+	//	else if (myIsPlaying)
+	//	{
+	//		if (myIsPaused)
+	//		{
+	//			if (ImGui::Button("Start"))
+	//			{
+	//				Play();
+	//			}
+	//		}
+	//		else
+	//		{
+	//			if (ImGui::Button("Pause"))
+	//			{
+	//				Pause();
+	//			}
+	//		}
 
-			ImGui::SameLine();
+	//		ImGui::SameLine();
 
-			if (ImGui::Button("Stop"))
-			{
-				Stop();
-			}
-		}
-	}
+	//		if (ImGui::Button("Stop"))
+	//		{
+	//			Stop();
+	//		}
+	//	}
+	//}
 
 
 

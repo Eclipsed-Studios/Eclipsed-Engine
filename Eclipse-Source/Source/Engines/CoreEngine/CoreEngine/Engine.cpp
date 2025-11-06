@@ -7,19 +7,18 @@
 #include "PhysicsDebugDrawer/PhysicsDebugDrawer.h"
 #endif
 
-#include "Input/Input.h"
-#include "Input/InputMapper.h"
+#include "InputEngine/Input.h"
+#include "InputEngine/InputMapper.h"
 
-#include "ECS/ComponentManager.h"
+#include "EntityEngine/ComponentManager.h"
 #include "Utilities/PlatformIntegration/IntegrationManager.h"
-#include "Audio/AudioManager.h"
 
 #include <iostream>
 #include "Utilities/Reflection/Reflection.h"
 #include "Scenes/SceneLoader.h"
 #include "Scenes/SceneManager.h"
 
-#include "Components/AudioSource.h"
+#include "EntityEngine/Components/AudioSource.h"
 
 #include "EngineSettings.h"
 
