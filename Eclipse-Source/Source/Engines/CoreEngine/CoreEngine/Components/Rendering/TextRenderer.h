@@ -45,7 +45,7 @@ namespace Eclipse
         PRIVATE_SERIALIZED_FIELD_DEFAULT(std::string, myText, "E");
         PRIVATE_SERIALIZED_FIELD_DEFAULT(Math::Color, myTextColor, Math::Color(1, 1, 1, 1));
 
-        SERIALIZED_FIELD_DEFAULT(std::string, myFontPath, "../Assets/Quicksand-VariableFont_wght.ttf");
+        SERIALIZED_FIELD_DEFAULT(std::string, myFontPath, (PathManager::GetEngineAssets() / "Fonts/Quicksand-VariableFont_wght.ttf").generic_string().c_str());
         SERIALIZED_FIELD_DEFAULT(int, myFontSize, 48);
 
         SERIALIZED_FIELD_DEFAULT(Math::Vector2f, myRect, Math::Vector2f(1.f, 1.f));

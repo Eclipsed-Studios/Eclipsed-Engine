@@ -19,18 +19,21 @@ uniform Transform transform;
 
 uniform vec2 canvasScaleRelationOneDiv;
 
+uniform vec2 size;
+uniform vec2 offset;
+
 void main()
 {
-   outTexCoord = TexCoord * 0.98 + vec2(0.01, 0);
+   outTexCoord = vec2(TexCoord.x, 1 - TexCoord.y);
    
    float totalRotation = transform.rotation;
    mat2 rotationMatrix = mat2(cos(totalRotation), -sin(totalRotation), 
                               sin(totalRotation), cos(totalRotation));
 
-   vec2 scaledVertex = VertexPosition * transform.size * canvasScaleRelationOneDiv;
+   vec2 scaledVertex = VertexPosition * transform.size * canvasScaleRelationOneDiv * size * 100.f;
    vec2 rotatedVertex = scaledVertex * rotationMatrix;
    
-   vec2 worldPosition = (transform.position * canvasScaleRelationOneDiv) + rotatedVertex;
+   vec2 worldPosition = ((transform.position + offset) * canvasScaleRelationOneDiv) + rotatedVertex;
    
    // Apply aspect ratio correction only for display
    //worldPosition.x *= resolutionRatio;
