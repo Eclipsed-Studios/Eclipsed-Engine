@@ -26,9 +26,6 @@ if(MSVC) # Box2D specific warning.
     target_link_options(Editor PRIVATE "/ignore:4099")
 endif()
 
-target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Game)
-target_link_libraries(Editor PUBLIC Game)
-
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
 target_include_directories(Editor PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/Editor)

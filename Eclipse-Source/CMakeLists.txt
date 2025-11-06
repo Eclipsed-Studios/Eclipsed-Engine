@@ -69,12 +69,6 @@ add_subdirectory(Source/Launcher)
 
 
 
-# ---- Game
-add_subdirectory(Source/Game)
-
-
-
-
 
 
 
