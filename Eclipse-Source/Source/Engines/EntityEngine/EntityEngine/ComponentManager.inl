@@ -11,6 +11,12 @@ namespace Eclipse
         return lastId++;
     }
 
+
+
+
+
+
+
     template <typename T>
     inline unsigned ComponentManager::GetComponentID()
     {

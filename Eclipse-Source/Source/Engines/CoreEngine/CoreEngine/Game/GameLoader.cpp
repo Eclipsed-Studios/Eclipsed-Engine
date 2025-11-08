@@ -12,7 +12,24 @@ void Eclipse::GameLoader::LoadGameDLL()
 
     ComponentRegistrySnapshot o = registerFunc();
 
+    for (int i = 0; i < o.count; i++)
+    {
+        const auto comp = o.components[i];
 
+        ComponentRegistry::Register(
+            comp.name,
+            [create = comp.createFunc, size = comp.size](unsigned gameObjId, unsigned compID) -> Component*
+            {
+                return ComponentManager::AddComponentWithID(gameObjId, compID, create, size);
+            }
+        );
 
-    Eclipse::Component* comp = o.components[0].createFunc();
+        ComponentRegistry::RegisterInspector(
+            comp.name,
+            [create = comp.createFunc, size = comp.size](unsigned gameObjId) -> Component*
+            {
+                return ComponentManager::AddComponent(gameObjId, create, size);
+            }
+        );
+    }
 }

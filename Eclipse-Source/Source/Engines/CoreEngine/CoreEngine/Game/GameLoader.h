@@ -2,17 +2,17 @@
 
 namespace Eclipse
 {
-
 	struct ComponentEntry final
 	{
 		const char* name;
-		Eclipse::Component* (__cdecl* createFunc)();
+		Eclipse::Component* (__cdecl* createFunc)(unsigned char* address);
+		size_t size;
 	};
 
 	struct ComponentRegistrySnapshot final
 	{
 		ComponentEntry* components = nullptr;
-		int count;
+		int count = 0;
 	};
 
 	typedef ComponentRegistrySnapshot (*RegisterComponentsFunc)();

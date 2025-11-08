@@ -1,5 +1,7 @@
 #include "ComponentManager.h"
 
+#include "Utilities/IDGenerator.h"
+
 namespace Eclipse
 {
 	void ComponentManager::Init()
@@ -116,6 +118,80 @@ namespace Eclipse
 			mapOfComponentsGO[index] = static_cast<ComponentIndex>(i);
 		}
 	}
+	
+	Eclipse::Component* ComponentManager::AddComponent(GameObjectID aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size)
+	{
+		uint8_t* base = static_cast<uint8_t*>(myComponentData);
+		uint8_t* ptrToComponent = base + myComponentMemoryTracker;
+		size_t sizeOfNewComponent = size;
+		myComponentMemoryTracker += sizeOfNewComponent;
+
+		assert(myComponentMemoryTracker <= MAX_COMPONENT_MEMORY_BYTES && "MAX_COMPONENT_MEMORY_BYTES needs to be increased to add more components");
+
+		unsigned typeIndex = Utilities::IDGenerator::GetID();
+
+		if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
+		{
+			myEntityIdToEntity[aGOID] = CreateGameObject();
+		}
+
+		Eclipse::Component* component = createFunc(ptrToComponent);
+		component->SetComponentID();
+		component->gameObject = myEntityIdToEntity[aGOID];
+		component->myComponentComponentID = typeIndex;
+
+		component->OnComponentAdded();
+
+		myComponentsToStart.emplace_back(component);
+
+		myComponents.emplace_back(component);
+		size_t componentIndex = myComponents.size() - 1;
+
+		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
+		myComponents.back()->myComponentIndex = componentIndex;
+
+		if (myComponents.size() <= 1)
+			return component;
+
+		SortComponents();
+
+		return component;
+	}
+
+	Eclipse::Component* ComponentManager::AddComponentWithID(GameObjectID aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size)
+	{
+		uint8_t* base = static_cast<uint8_t*>(myComponentData);
+		uint8_t* ptrToComponent = base + myComponentMemoryTracker;
+		myComponentMemoryTracker += size;
+
+		unsigned typeIndex = Utilities::IDGenerator::GetID();
+
+		if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
+		{
+			myEntityIdToEntity[aGOID] = CreateGameObject();
+		}
+
+		Eclipse::Component* component = createFunc(ptrToComponent);
+		component->SetComponentID(aComponentID);
+		component->gameObject = myEntityIdToEntity[aGOID];
+		component->myComponentComponentID = typeIndex;
+
+		myComponentsToStart.emplace_back(component);
+
+		myComponents.emplace_back(component);
+		size_t componentIndex = myComponents.size() - 1;
+
+		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
+		myComponents.back()->myComponentIndex = componentIndex;
+
+		if (myComponents.size() <= 1)
+			return component;
+
+		SortComponents();
+
+		return component;
+	}
+
 	const std::vector<Component*>& ComponentManager::GetAllComponents()
 	{
 		return myComponents;

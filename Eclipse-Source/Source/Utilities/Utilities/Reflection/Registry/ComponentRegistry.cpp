@@ -24,10 +24,6 @@ namespace Eclipse
         std::function<Component* (unsigned, unsigned)> addComponentMethod)
     {
         auto& map = GetAddComponentMap();
-        std::cout << "Register - Map address: " << &map
-            << ", Size: " << map.size()
-            << ", Adding: " << typeName
-            << ", From: " << (IsDLLCall() ? "DLL" : "ENGINE") << std::endl;
         map[typeName] = addComponentMethod;
     }
 
