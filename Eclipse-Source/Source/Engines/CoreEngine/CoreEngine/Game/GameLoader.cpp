@@ -2,13 +2,18 @@
 
 void Eclipse::GameLoader::LoadGameDLL()
 {
-    HMODULE hModule = LoadLibrary("F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Game/Debug/Game.dll");
-    if (!hModule) {
+    if (gameDll)
+    {
+        FreeLibrary(gameDll);
+    }
+
+    gameDll = LoadLibrary("F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Game/Debug/Game.dll");
+    if (!gameDll) {
         return;
     }
 
     RegisterComponentsFunc registerFunc =
-        (RegisterComponentsFunc)GetProcAddress(hModule, "RegisterComponents");
+        (RegisterComponentsFunc)GetProcAddress(gameDll, "RegisterComponents");
 
     ComponentRegistrySnapshot o = registerFunc();
 

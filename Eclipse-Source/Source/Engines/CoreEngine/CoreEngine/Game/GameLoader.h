@@ -17,6 +17,8 @@ namespace Eclipse
 
 	typedef ComponentRegistrySnapshot (*RegisterComponentsFunc)();
 
+	HMODULE gameDll;
+
 	class GameLoader
 	{
 	public:
