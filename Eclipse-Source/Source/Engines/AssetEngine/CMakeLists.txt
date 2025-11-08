@@ -15,6 +15,9 @@ target_precompile_headers(AssetEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h
 
 set_target_properties(AssetEngine PROPERTIES FOLDER "Engines")
 
+set_target_properties(AssetEngine PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)
 
 # ---- Graphics Engine
 include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/GraphicsEngine-Sources.cmake")

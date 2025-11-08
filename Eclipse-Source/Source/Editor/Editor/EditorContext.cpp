@@ -17,7 +17,7 @@ namespace Eclipse::Editor
 {
 	void EditorContexts::Init(const std::string& projectPath)
 	{
-		DebugLogger::OverwriteDefaultCoutBuffer();
+		//DebugLogger::OverwriteDefaultCoutBuffer();
 
 		Resources::Init();
 		PathManager::Init(projectPath);

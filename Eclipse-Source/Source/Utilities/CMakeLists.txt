@@ -14,10 +14,15 @@ add_library(Utilities STATIC ${UTILITIES_SOURCES})
 
 target_precompile_headers(Utilities PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
+set_target_properties(Utilities PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)
+
 target_include_directories(Utilities PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_include_directories(Utilities PRIVATE "${UTILITIES_ROOT}")
 
 target_include_directories(Utilities PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
+target_include_directories(Utilities PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/DiscordSDK)
 target_include_directories(Utilities PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/rapidjson)
 
 target_include_directories(Utilities PUBLIC ${DiscordSDK_SOURCES})

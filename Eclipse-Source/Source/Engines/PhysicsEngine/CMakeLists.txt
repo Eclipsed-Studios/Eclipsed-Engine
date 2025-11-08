@@ -19,6 +19,11 @@ target_precompile_headers(PhysicsEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch
 
 set_target_properties(PhysicsEngine PROPERTIES FOLDER "Engines")
 
+set_target_properties(PhysicsEngine PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)
+
+
 
 # ---- AssetEngine
 include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/AssetEngine-Sources.cmake")

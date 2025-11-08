@@ -11,6 +11,10 @@ target_precompile_headers(EntityEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.
 
 set_target_properties(EntityEngine PROPERTIES FOLDER "Engines")
 
+set_target_properties(EntityEngine PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)
+
 target_include_directories(EntityEngine PRIVATE ${ENTITY_ENGINE_ROOT})
 target_include_directories(EntityEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -48,5 +52,7 @@ target_include_directories(EntityEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Exter
 target_link_libraries(EntityEngine PRIVATE FMOD)
 
 target_include_directories(EntityEngine PRIVATE ${PLATFORMINTEGRATION_SOURCES})
+
+
 
 set_target_properties(EntityEngine PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)

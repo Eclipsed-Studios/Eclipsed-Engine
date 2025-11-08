@@ -9,18 +9,18 @@ namespace Eclipse::Reflection
 	{
 	public:
 
-#ifdef ECLIPSED_EDITOR
+//#ifdef ECLIPSED_EDITOR
 		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector);
 		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue);
 
 		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, T _min, T _max);
 		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue, T _min, T _max);
-#else
-		SerializedVariable(const char* aName, Component* aCompPtr);
-		SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue);
-#endif
+//#else
+//		SerializedVariable(const char* aName, Component* aCompPtr);
+//		SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue);
+//#endif
 
-#ifdef ECLIPSED_EDITOR
+//#ifdef ECLIPSED_EDITOR
 		void DrawInspector() override;
 
 		template<typename U>
@@ -28,7 +28,7 @@ namespace Eclipse::Reflection
 
 		template<typename U>
 		void DrawString(U& element);
-#endif
+//#endif
 
 	public:
 		void* GetRawData() override;
@@ -57,12 +57,12 @@ namespace Eclipse::Reflection
 	private:
 		T data;
 
-#ifdef ECLIPSED_EDITOR
+//#ifdef ECLIPSED_EDITOR
 		T myMin, myMax;
 		bool hasMinMax = false;
 
 		bool isDrawn = false;
-#endif
+//#endif
 	};
 }
 

@@ -11,6 +11,10 @@ file(GLOB_RECURSE IMGUI_SOURCES
 
 add_library(ImGui STATIC ${IMGUI_SOURCES})
 
+set_target_properties(ImGui PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)
+
 #target_precompile_headers(ImGui PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 target_include_directories(ImGui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

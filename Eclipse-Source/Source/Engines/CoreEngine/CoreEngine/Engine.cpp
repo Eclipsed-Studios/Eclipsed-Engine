@@ -25,6 +25,8 @@
 #include "AssetEngine/Resources.h"
 #include "AssetEngine/Assets/Texture.h"
 
+#include "Game/GameLoader.h"
+
 namespace Eclipse
 {
 	void Engine::Init()
@@ -34,6 +36,8 @@ namespace Eclipse
 		InitSubSystems();
 
 		Assets::Resourcess::Get<PixelShaders>("EngineAssets/Default/Shaders/DefaultSprite.pglsl");
+
+		GameLoader::LoadGameDLL();
 	}
 
 	void Engine::Internal_Update()
