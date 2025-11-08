@@ -2,6 +2,8 @@
 
 void Eclipse::GameLoader::LoadGameDLL()
 {
+    return;
+
     if (gameDll)
     {
         FreeLibrary(gameDll);
