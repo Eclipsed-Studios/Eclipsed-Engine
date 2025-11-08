@@ -5,9 +5,9 @@
 #include <unordered_map>
 
 
-#define LOG(string) DebugLogger::Log(string, __FILE__, __LINE__)
-#define LOG_WARNING(string) DebugLogger::LogWarning(string, __FILE__, __LINE__)
-#define LOG_ERROR(string) DebugLogger::LogError(string, __FILE__, __LINE__)
+#define LOG(string) Eclipse::DebugLogger::Log(string, __FILE__, __LINE__)
+#define LOG_WARNING(string) Eclipse::DebugLogger::LogWarning(string, __FILE__, __LINE__)
+#define LOG_ERROR(string) Eclipse::DebugLogger::LogError(string, __FILE__, __LINE__)
 
 #define MAX_MESSAGES 10'000
 

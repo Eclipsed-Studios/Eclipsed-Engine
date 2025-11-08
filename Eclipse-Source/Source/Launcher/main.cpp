@@ -44,7 +44,7 @@ using namespace Eclipse;
 int main()
 {
     HWND console = GetConsoleWindow();
-    ShowWindow(console, SW_HIDE);
+    ShowWindow(console, SW_SHOW);
 
     Editor::EditorApplication editorApplication;
 

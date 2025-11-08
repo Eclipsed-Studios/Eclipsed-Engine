@@ -11,6 +11,9 @@ target_precompile_headers(AudioEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h
 
 set_target_properties(AudioEngine PROPERTIES FOLDER "Engines")
 
+set_target_properties(AudioEngine PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)
 
 target_include_directories(AudioEngine PRIVATE ${AUDIO_ENGINE_ROOT})
 target_include_directories(AudioEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

@@ -18,6 +18,10 @@ target_link_libraries(Opengl INTERFACE
     "${CMAKE_SOURCE_DIR}/Tools/Libs/GLFW/glfw3_mt.lib"
 )
 
+set_target_properties(Opengl PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)
+
 set_target_properties(Opengl PROPERTIES FOLDER "Externals")
 
 set_target_properties(Opengl PROPERTIES UNITY_BUILD OFF UNITY_BUILD_BATCH_SIZE 50)

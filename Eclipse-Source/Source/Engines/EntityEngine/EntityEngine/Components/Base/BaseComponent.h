@@ -1,4 +1,3 @@
-#pragma once
 
 #include "Utilities/Reflection/Registry/ComponentRegistry.h"
 
@@ -26,8 +25,8 @@ virtual ~type() = default;													\
 private:
 
 
-#define REGISTER_COMPONENT_CALLBACK(type) [](unsigned gameObjId, unsigned compID){ return ComponentManager::AddComponentWithID<type>(gameObjId, compID); }
-#define REGISTER_COMPONENT_CALLBACK_NORMAL(type) [](unsigned gameObjId){ return ComponentManager::AddComponent<type>(gameObjId); }
+#define REGISTER_COMPONENT_CALLBACK(type) [](unsigned gameObjId, unsigned compID){ return Eclipse::ComponentManager::AddComponentWithID<type>(gameObjId, compID); }
+#define REGISTER_COMPONENT_CALLBACK_NORMAL(type) [](unsigned gameObjId){ return Eclipse::ComponentManager::AddComponent<type>(gameObjId); }
 
 
 
@@ -58,8 +57,6 @@ private:
 		static auto& forceLink = Eclipse::Class::_register;				\
 	}
 
-
-
 #define COMPONENT_REGISTRATION(TYPE)																	\
 struct AutoRegister_##TYPE {																				\
 	AutoRegister_##TYPE() {																					\
@@ -68,4 +65,4 @@ struct AutoRegister_##TYPE {																				\
 		ComponentRegistry::RegisterInspector(#TYPE, REGISTER_COMPONENT_CALLBACK_NORMAL(TYPE));			\
 	}																									\
 };																										\
-__declspec(selectany) volatile AutoRegister_##TYPE _auto_registrator_##TYPE = {};
+static AutoRegister_##TYPE _auto_registrator_##TYPE = {};

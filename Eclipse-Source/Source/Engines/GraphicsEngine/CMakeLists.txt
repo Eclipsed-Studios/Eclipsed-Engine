@@ -12,6 +12,10 @@ target_precompile_headers(GraphicsEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pc
 
 set_target_properties(GraphicsEngine PROPERTIES FOLDER "Engines")
 
+set_target_properties(GraphicsEngine PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)
+
 
 # ---- Graphics Engine
 target_include_directories(GraphicsEngine PRIVATE ${GRAPHICS_ENGINE_ROOT})

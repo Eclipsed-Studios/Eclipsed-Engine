@@ -14,13 +14,7 @@ namespace Eclipse
 	namespace Editor
 	{
 		class SceneWindow;
-	}
-	namespace Editor
-	{
 		class InspectorWindow;
-	}
-	namespace Editor
-	{
 		class HierarchyWindow;
 	}
 	namespace Reflection

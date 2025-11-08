@@ -11,6 +11,10 @@ add_library(DiscordSDK STATIC ${DiscordSDK_SOURCES})
 
 target_precompile_headers(DiscordSDK PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
+set_target_properties(DiscordSDK PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)
+
 target_include_directories(DiscordSDK PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_directories(DiscordSDK PUBLIC "${CMAKE_SOURCE_DIR}/Tools/Libs/discord_sdk")

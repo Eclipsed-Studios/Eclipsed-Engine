@@ -1,4 +1,6 @@
 
+#ifndef _IOJWAD
+#define _IOJWAD
 /*
 	It cant have multiple implementations with the same amount of arguments. It must be different.
 */
@@ -18,4 +20,6 @@
 
 #ifndef BASE_MACRO_NAME
 #error("The macro: 'BASE_MACRO_NAME' has to be defined and given a string.")
+#endif
+
 #endif

@@ -19,3 +19,7 @@ target_link_libraries(FMOD INTERFACE
 )
 
 set_target_properties(FMOD PROPERTIES FOLDER "Externals")
+
+set_target_properties(FMOD PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+)

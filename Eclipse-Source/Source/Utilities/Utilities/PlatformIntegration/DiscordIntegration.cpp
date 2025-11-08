@@ -1,6 +1,6 @@
 #include "DiscordIntegration.h"
 
-#include "DiscordSDK/DiscordSDK/discord.h"
+#include "DiscordSDK/discord.h"
 
 #include <assert.h>
 #include <string>

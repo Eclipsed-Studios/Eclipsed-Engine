@@ -68,6 +68,13 @@ namespace Eclipse
 		template <typename T>
 		static T* AddComponentWithID(GameObjectID aGOID, unsigned aComponentID);
 
+
+		static Eclipse::Component* AddComponent(GameObjectID aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
+
+		static Eclipse::Component* AddComponentWithID(GameObjectID aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
+
+
+
 		template <typename T>
 		static unsigned GetComponentID();
 

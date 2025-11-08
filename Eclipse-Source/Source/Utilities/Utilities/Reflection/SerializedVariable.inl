@@ -10,7 +10,7 @@
 namespace Eclipse::Reflection
 {
 
-#ifdef ECLIPSED_EDITOR
+//#ifdef ECLIPSED_EDITOR
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector)
@@ -34,19 +34,19 @@ namespace Eclipse::Reflection
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
 	{
 	}
-#else
-	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr)
-		: AbstractSerializedVariable(aName, aCompPtr)
-	{
-	}
-
-	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue)
-		: AbstractSerializedVariable(aName, aCompPtr), data(aDefaultValue)
-	{
-	}
-#endif
+//#else
+//	template<typename T>
+//	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr)
+//		: AbstractSerializedVariable(aName, aCompPtr)
+//	{
+//	}
+//
+//	template<typename T>
+//	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue)
+//		: AbstractSerializedVariable(aName, aCompPtr), data(aDefaultValue)
+//	{
+//	}
+//#endif
 
 	template<typename T>
 	inline void* SerializedVariable<T>::GetRawData()
@@ -124,7 +124,7 @@ namespace Eclipse::Reflection
 	}
 
 
-#ifdef ECLIPSED_EDITOR
+//#ifdef ECLIPSED_EDITOR
 	template<typename T>
 	bool ComboEnum(const char* label, T& e) {
 		unsigned currentIndex = static_cast<unsigned>(e);
@@ -236,5 +236,5 @@ namespace Eclipse::Reflection
 			element = TemporaryName;
 		}
 	}
-#endif
+//#endif
 }
