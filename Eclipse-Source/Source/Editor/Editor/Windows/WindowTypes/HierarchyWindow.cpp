@@ -80,7 +80,7 @@ namespace Eclipse::Editor
 		if (clickedButton)
 		{
 			CurrentGameObjectID = id;
-			InspectorWindow::activeType = ActiveItemTypes_GameObject;
+			InspectorWindow::SetActiveType(ActiveItemTypes_GameObject);
 		}
 		ImGui::PopFont();
 		if (id == CurrentGameObjectID && !clickedButton)

@@ -292,7 +292,7 @@ namespace Eclipse::Editor
 		if (ImGui::IsItemHovered() && (ImGui::IsMouseReleased(ImGuiMouseButton_Left) || ImGui::IsMouseClicked(ImGuiMouseButton_Right)))
 		{
 			ActivePath = node->info.filePath;
-			InspectorWindow::activeType = ActiveItemTypes_Asset;
+			InspectorWindow::SetActiveType(ActiveItemTypes_Asset);
 			ActiveEntryIndex = entryIndex;
 
 			ctxMenu.SetActivePath(ActivePath);

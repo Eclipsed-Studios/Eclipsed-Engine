@@ -192,7 +192,7 @@ namespace Eclipse
 		}
 
 		HierarchyWindow::CurrentGameObjectID = pickedID;
-		InspectorWindow::activeType = ActiveItemTypes_GameObject;
+		InspectorWindow::SetActiveType(ActiveItemTypes_GameObject);
 	}
 
 

@@ -20,6 +20,14 @@ namespace Eclipse::Editor
 	public:
 		void Update() override;
 
+		static void SetActiveType(ActiveItemTypes_ aType)
+		{
+			if (lockInspector)
+				return;
+
+			activeType = aType;
+		}
+
 	private:
 		void DrawGameObjectInspector();
 		void DrawAssetInspector();
@@ -27,17 +35,19 @@ namespace Eclipse::Editor
 		void DrawTextureAssetInspector();
 		void DrawMaterialAssetInspector();
 
-		
+
 
 		template<typename T>
 		void DrawComponentInspector() {}
 
 	public:
-		bool lockInspector = false;
 		static inline unsigned CurrentGameObjectID;
 
 		static inline constexpr int NAME_BUFFER_LENGTH = 256;
 		char nameBuffer[NAME_BUFFER_LENGTH] = {};
+
+	private:
+		static inline bool lockInspector = false;
 		static inline ActiveItemTypes_ activeType;
 	};
 }
