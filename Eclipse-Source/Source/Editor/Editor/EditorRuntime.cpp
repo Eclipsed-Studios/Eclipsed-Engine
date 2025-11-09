@@ -23,7 +23,7 @@ namespace Eclipse::Editor
 	void EditorRuntime::Init()
 	{
 		FileWatcher::Subscribe((PathManager::GetProjectRoot() / "Source").generic_string(), [this](const FileWatcherEvent& e) {SetGameChanged(e);});
-		LoadDLL();
+		//LoadDLL();
 	}
 
 	void EditorRuntime::SetGameChanged(const FileWatcherEvent&)
@@ -80,7 +80,7 @@ namespace Eclipse::Editor
 		GLFWwindow* window = Utilities::MainSingleton::GetInstance<GLFWwindow*>();
 		if (glfwGetWindowAttrib(window, GLFW_FOCUSED) && gameChanged)
 		{
-			LoadDLL();
+			//LoadDLL();
 		}
 
 		Engine::Update();
