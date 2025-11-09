@@ -7,6 +7,9 @@
 
 #include "AssetEngine/PathManager.h"
 
+#include "PhysicsEngine/PhysicsEngine.h"
+#include "GraphicsEngine/RenderCommands/CommandList.h"
+
 namespace Eclipse
 {
 	void SceneManager::LoadScene(const std::string& nameOrPath)
@@ -140,6 +143,18 @@ namespace Eclipse
 		std::ofstream ofs(PathManager::GetEngineAssets());
 		ofs << buffer.GetString();
 		ofs.close();
+	}
+
+	void SceneManager::ClearScene()
+	{
+		ActiveSceneName = "";
+
+		CommandListManager::ResetAllCommandLists();
+
+		ComponentManager::Clear();
+		Reflection::ReflectionManager::ClearList();
+
+		PhysicsEngine::CleanUp();
 	}
 
 	std::unordered_map<std::string, unsigned>& SceneManager::GetNameToIdx() { return nameToIdx; }

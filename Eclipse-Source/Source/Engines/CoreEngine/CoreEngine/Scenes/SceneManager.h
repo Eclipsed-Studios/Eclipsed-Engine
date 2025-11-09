@@ -18,6 +18,8 @@ namespace Eclipse
 		static void LoadSceneData();
 		static void SaveSceneData();
 
+		static void ClearScene();
+
 		static std::unordered_map<std::string, unsigned>& GetNameToIdx();
 		static std::vector<std::string>& GetScenePaths();
 		static const char* GetActiveScene();

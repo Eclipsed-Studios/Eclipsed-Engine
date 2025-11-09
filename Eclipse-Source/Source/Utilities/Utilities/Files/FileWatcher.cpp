@@ -49,6 +49,8 @@ namespace Eclipse::Editor
 						info = nullptr;
 				} while (info != nullptr);
 			}
+
+			InvokeEvents();
 		}
 	}
 

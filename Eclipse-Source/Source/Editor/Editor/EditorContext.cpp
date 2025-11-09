@@ -28,6 +28,8 @@ namespace Eclipse::Editor
 
 		Engine::Init();
 		myUIManager.Init();
+
+		myRuntime.Init();
 	}
 
 	bool EditorContexts::BeginFrame()

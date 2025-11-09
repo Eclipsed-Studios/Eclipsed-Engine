@@ -9,9 +9,46 @@
 #include "InputEngine/Input.h"
 
 #include "InputEngine/InputMapper.h"
+#include "Game/GameCompiler.h"
+#include "Game/GameLoader.h"
+
+#include "Utilities/Files/FileWatcher.h"
+
+#include <GLFW/glfw3.h>
+#include <iostream>
+
 
 namespace Eclipse::Editor
 {
+	void EditorRuntime::Init()
+	{
+		FileWatcher::Subscribe((PathManager::GetProjectRoot() / "Source").generic_string(), [this](const FileWatcherEvent& e) {SetGameChanged(e);});
+		LoadDLL();
+	}
+
+	void EditorRuntime::SetGameChanged(const FileWatcherEvent&)
+	{
+		gameChanged = true;
+	}
+
+	void EditorRuntime::LoadDLL()
+	{
+		std::string sceneName = SceneManager::GetActiveScene();
+		ComponentManager::Clear();
+
+		GameLoader::UnloadGameDLL();
+
+		std::filesystem::remove(PathManager::GetProjectRoot() / "Cache/Debug/Game.dll");
+		std::filesystem::remove(PathManager::GetProjectRoot() / "Cache/Debug/Game.pdb");
+
+		GameCompiler::CompileGame();
+		GameLoader::LoadGameDLL();
+
+		gameChanged = false;
+
+		SceneManager::LoadScene(sceneName);
+	}
+
 	void EditorRuntime::UpdateGame()
 	{
 		Engine::Internal_Update();
@@ -40,6 +77,12 @@ namespace Eclipse::Editor
 	}
 	void EditorRuntime::UpdateEngine()
 	{
+		GLFWwindow* window = Utilities::MainSingleton::GetInstance<GLFWwindow*>();
+		if (glfwGetWindowAttrib(window, GLFW_FOCUSED) && gameChanged)
+		{
+			LoadDLL();
+		}
+
 		Engine::Update();
 	}
 	void EditorRuntime::RenderEngine()

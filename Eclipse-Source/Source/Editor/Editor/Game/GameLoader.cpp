@@ -1,15 +1,10 @@
 #include "GameLoader.h"
 
+#include "EntityEngine/ComponentManager.h"
+
 void Eclipse::GameLoader::LoadGameDLL()
 {
-    return;
-
-    if (gameDll)
-    {
-        FreeLibrary(gameDll);
-    }
-
-    gameDll = LoadLibrary("F:/Projects/Eclipse-Game-Engine/Eclipse-Source/Game/Debug/Game.dll");
+    gameDll = LoadLibraryA((PathManager::GetProjectRoot() / "Cache/Debug/Game.dll").generic_string().c_str());
     if (!gameDll) {
         return;
     }
@@ -38,5 +33,13 @@ void Eclipse::GameLoader::LoadGameDLL()
                 return ComponentManager::AddComponent(gameObjId, create, size);
             }
         );
+    }
+}
+
+void Eclipse::GameLoader::UnloadGameDLL()
+{
+    if (gameDll)
+    {
+        FreeLibrary(gameDll);
     }
 }

@@ -23,5 +23,6 @@ namespace Eclipse
 	{
 	public:
 		static void LoadGameDLL();
+		static void UnloadGameDLL();
 	};
 }

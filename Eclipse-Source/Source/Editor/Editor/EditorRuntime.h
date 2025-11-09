@@ -8,6 +8,13 @@ namespace Eclipse::Editor
 		bool IsPlaying();
 
 	public:
+		void Init();
+
+	private:
+		void SetGameChanged(const FileWatcherEvent&);
+		void LoadDLL();
+
+	public:
 		void UpdateGame();
 
 		void UpdateEngine();
@@ -27,5 +34,7 @@ namespace Eclipse::Editor
 	private:
 		bool isPlaying = false;
 		bool isPaused = false;
+
+		bool gameChanged = false;
 	};
 }
