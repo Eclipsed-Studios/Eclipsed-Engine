@@ -4,7 +4,7 @@ namespace Eclipse
 {
     void RectTransform::EarlyUpdate()
     {
-        
+
     }
 
     void RectTransform::DrawInspector()

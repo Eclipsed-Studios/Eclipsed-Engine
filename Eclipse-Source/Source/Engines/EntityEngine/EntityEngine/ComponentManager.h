@@ -19,6 +19,7 @@ namespace Eclipse
 	namespace Editor {
 		class HierarchyWindow;
 		class InspectorWindow;
+		class EditorActions;
 	}
 
 	typedef unsigned ComponentIndex;
@@ -27,6 +28,7 @@ namespace Eclipse
 	class Component;
 	class ComponentManager
 	{
+		friend class Editor::EditorActions;
 		friend class Editor::HierarchyWindow;
 		friend class Editor::InspectorWindow;
 		friend class SceneLoader;

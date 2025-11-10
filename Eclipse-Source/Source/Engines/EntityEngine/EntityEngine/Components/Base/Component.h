@@ -16,6 +16,7 @@ namespace Eclipse
 		class SceneWindow;
 		class InspectorWindow;
 		class HierarchyWindow;
+		class EditorActions;
 	}
 	namespace Reflection
 	{
@@ -31,6 +32,7 @@ namespace Eclipse
 	class ComponentManager;
 	class Component
 	{
+		friend class Editor::EditorActions;
 		friend class Editor::HierarchyWindow;
 		friend class Editor::SceneWindow;
 		friend class Editor::InspectorWindow;

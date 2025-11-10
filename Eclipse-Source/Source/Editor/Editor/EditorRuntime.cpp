@@ -99,16 +99,16 @@ namespace Eclipse::Editor
 	}
 	void EditorRuntime::EndFrameEngine()
 	{
-		static bool SaveOnce = false;
-		if (InputMapper::ReadValue("SaveScene"))
-		{
-			if (!SaveOnce)
-			{
-				SaveOnce = true;
-				SceneManager::SaveActiveScene();
-			}
-		}
-		else SaveOnce = false;
+		// static bool SaveOnce = false;
+		// if (InputMapper::ReadValue("SaveScene"))
+		// {
+		// 	if (!SaveOnce)
+		// 	{
+		// 		SaveOnce = true;
+		// 		SceneManager::SaveActiveScene();
+		// 	}
+		// }
+		// else SaveOnce = false;
 
 		Engine::EndFrame();
 	}

@@ -27,6 +27,10 @@
 
 #include "OpenGL/glad/glad.h"
 
+#include "EntityEngine/Components/UI/RectTransform.h"
+
+#include "Editor/Common/EditorActions.h"
+
 
 namespace Eclipse
 {
@@ -38,12 +42,26 @@ namespace Eclipse
 			return;
 		if (!InputMapper::ReadValue("ZoomToObject"))
 			return;
+		if (ImGui::IsAnyItemActive())
+			return;
 
 		Transform2D* transform = ComponentManager::GetComponent<Transform2D>(HierarchyWindow::CurrentGameObjectID);
+		if (transform)
+		{
+			myInspectorPosition = transform->GetPosition();
+			myInspectorScale = Math::Vector2f(1, 1);
+			totalYScroll = 0;
+			return;
+		}
 
-		myInspectorPosition = transform->GetPosition();
-		myInspectorScale = Math::Vector2f(1, 1);
-		totalYScroll = 0;
+		RectTransform* rectTransform = ComponentManager::GetComponent<RectTransform>(HierarchyWindow::CurrentGameObjectID);
+		if (rectTransform)
+		{
+			myInspectorPosition = rectTransform->Position;
+			myInspectorScale = Math::Vector2f(1, 1);
+			totalYScroll = 0;
+			return;
+		}
 	}
 
 	void SceneWindow::ScrollManager()
@@ -176,8 +194,8 @@ namespace Eclipse
 		{
 			if (ImGui::IsKeyDown(ImGuiKey_LeftAlt) || ImGui::IsKeyDown(ImGuiKey_RightAlt))
 			{
-				HierarchyWindow::Copy();
-				HierarchyWindow::Paste();
+				EditorActions::CopyObject();
+				EditorActions::PasteObject();
 			}
 
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(HierarchyWindow::CurrentGameObjectID);

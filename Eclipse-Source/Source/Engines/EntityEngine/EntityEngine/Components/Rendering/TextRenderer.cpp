@@ -119,12 +119,12 @@ namespace Eclipse
 
 	void TextRenderer::DrawMultilineInspector()
 	{
-		char textComponentText[2048];
+		char textComponentText[8196];
 
 		strcpy(textComponentText, myText->data());
 
 		ImGui::Text("Text");
-		if (ImGui::InputTextMultiline("##TextComponentText", textComponentText, 2048, ImVec2(0, 0)))
+		if (ImGui::InputTextMultiline("##TextComponentText", textComponentText, 8196, ImVec2(0, 0)))
 			myText = textComponentText;
 	}
 
@@ -329,16 +329,19 @@ namespace Eclipse
 	{
 		if (drawRectGizmos)
 		{
+			
 			auto tranform = gameObject->GetComponent<RectTransform>();
-
+			
 			Math::Vector2f resolution = tranform->myCanvas->ReferenceResolution;
+			float aspectRatio = resolution.x / resolution.y;
 			Math::Vector2f canvasScaleRelationOneDiv = { 1.f / resolution.x, 1.f / resolution.y };
 
 			const Math::Vector2f& position = tranform->Position.Get() * canvasScaleRelationOneDiv;
 			//float rotation = gameObject->transform->GetRotation();
 			Math::Vector2f scale = tranform->WidthHeightPX.Get() * myRect * canvasScaleRelationOneDiv;
+			scale.x *= aspectRatio;
 
-			DebugDrawer::DrawSquare(position * 0.5f + Math::Vector2f(0.5f, 0.5f), 0.f, scale, Math::Color(0.7f, 0.7f, 0.7f, 1.f));
+			DebugDrawer::DrawSquare(position * 0.5f + Math::Vector2f(0.5f, 0.5f), 0.f, scale * 0.5f, Math::Color(0.7f, 0.7f, 0.7f, 1.f));
 		}
 	}
 
@@ -391,6 +394,7 @@ namespace Eclipse
 
 		Math::Vector2f textOffset = { 0, 0 };
 		Math::Vector2f scaleRect = scale * myRect * resolution;
+		scaleRect.x *= 0.5f;
 
 		lineOffsets.resize(1);
 		lineOffsets.back() = 0;
@@ -421,10 +425,10 @@ namespace Eclipse
 		Math::Vector2f startOffset = textOffset;
 
 		float maxCharSize = myFont->maxCharHeight;
-		if (myTextCentering == 0)
-			textOffset.y = (scaleRect.y - myFontSize * 0.0004f);
-		else if (myTextCentering == 1)
-			textOffset.y = (myFontSize * 0.000175f) * lineOffsets.size();
+		// if (myTextCentering == 0)
+		// 	textOffset.y = (scaleRect.y - myFontSize * 4.f);
+		// else if (myTextCentering == 1)
+		// 	textOffset.y = (myFontSize * 0.000175f) * lineOffsets.size() * 100.f;
 		// else if (myTextCentering == 2)
 		// 	textOffset.y = (-scaleRect.y + 0.0125f)  * lineOffsets.size();
 
@@ -441,7 +445,7 @@ namespace Eclipse
 			}
 			else if (character == '\n')
 			{
-				textOffset.y -= scale.y * 50.f * myEnterSpacing * 7.f * myFontSize;
+				textOffset.y -= scale.y * 50.f * myEnterSpacing * 2.f * myFontSize;
 				textOffset.x = startOffset.x;
 				currentLineCount++;
 				continue;
@@ -480,7 +484,7 @@ namespace Eclipse
 
 			Math::Vector2f characterSpecificOffset = textOffset;
 			characterSpecificOffset.x += (characterFace.bearing.x * 100.f * scale.x) - lineOffset;
-			characterSpecificOffset.y -= (characterFace.size.y - characterFace.bearing.y) * 100.f * scale.y;
+			characterSpecificOffset.y -= (characterFace.size.y - characterFace.bearing.y) * scale.y * 100.f;
 			GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "offset", &characterSpecificOffset);
 
 			textOffset.x += characterAdvance * myCharacterSpacing;

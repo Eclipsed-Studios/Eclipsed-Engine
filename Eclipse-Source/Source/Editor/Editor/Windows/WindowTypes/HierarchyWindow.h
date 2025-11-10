@@ -25,15 +25,6 @@ namespace Eclipse
 		public:
 			static inline unsigned CurrentGameObjectID;
 
-			static void Copy();
-			static void Paste();
-		private:
-			
-			static void CopyGameObject(unsigned activeGO, rapidjson::Value& gameobjectJson, rapidjson::Document::AllocatorType& anAllocator);
-			static void PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator);
-
-			void CopyPasteManager();
-
 			void RecursiveDeleteChildren(GameObject*& aGameObject);
 
 			bool CheckCopomentType(GameObject* aGameobject, GameObject* aParent);

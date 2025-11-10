@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 
+#include "Editor/Common/EditorActions.h"
 
 
 #ifdef ECLIPSED_EDITOR
@@ -59,6 +60,8 @@ namespace Eclipse::Editor
 
 	void EditorContexts::Update()
 	{
+		EditorActions::Update();
+		
 		myRuntime.UpdateEngine();
 
 		if (myRuntime.IsPlaying())
