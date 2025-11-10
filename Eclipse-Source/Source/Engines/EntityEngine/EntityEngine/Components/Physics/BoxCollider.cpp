@@ -10,8 +10,6 @@
 
 namespace Eclipse
 {
-	COMPONENT_REGISTRATION(BoxCollider2D);
-
 	void BoxCollider2D::DeltaChanges()
 	{
 		if (myLastHalfExtents.x != HalfExtents->x || myLastHalfExtents.y != HalfExtents->y)

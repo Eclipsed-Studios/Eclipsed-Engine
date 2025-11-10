@@ -16,12 +16,15 @@
 
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "EntityEngine/ComponentForcelink.h"
 
 
 namespace Eclipse::Editor
 {
 	void EditorRuntime::Init()
 	{
+		ComponentForcelink::LinkComponents();
+
 		FileWatcher::Subscribe((PathManager::GetProjectRoot() / "Source").generic_string(), [this](const FileWatcherEvent& e) {SetGameChanged(e);});
 		LoadDLL();
 	}

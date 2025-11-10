@@ -17,8 +17,6 @@
 
 namespace Eclipse
 {
-	COMPONENT_REGISTRATION(TextRenderer);
-
 	TextMaterial::TextMaterial()
 	{
 		pixelShader = Assets::Resourcess::Get<PixelShaders>("EngineAssets/Default/Shaders/Text.pglsl");

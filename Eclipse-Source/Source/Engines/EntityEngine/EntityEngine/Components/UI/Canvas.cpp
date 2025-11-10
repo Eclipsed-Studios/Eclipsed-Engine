@@ -3,11 +3,10 @@
 #include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
 #include "GraphicsEngine/OpenGL/UniformVariableManager.h"
 
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
+
 namespace Eclipse
 {
-    COMPONENT_REGISTRATION(Canvas);
-
-
     void Canvas::SetCanvasTransformProperties()
     {
         int isScene;

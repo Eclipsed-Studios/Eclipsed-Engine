@@ -19,8 +19,6 @@
 
 namespace Eclipse
 {
-	COMPONENT_REGISTRATION(SpriteRenderer2D);
-
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
 		spriteRectMin = aMin * material.GetTexture().GetDimDivOne();

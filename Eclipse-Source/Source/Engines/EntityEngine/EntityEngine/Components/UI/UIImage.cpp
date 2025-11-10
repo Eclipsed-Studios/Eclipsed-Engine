@@ -11,8 +11,6 @@
 
 namespace Eclipse
 {
-    COMPONENT_REGISTRATION(UIImage);
-
     //void UIImage::OnComponentAdded()
     //{
     //    myMaterial = Assets::Resourcess::Get<Materials>();

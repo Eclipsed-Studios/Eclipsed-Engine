@@ -7,8 +7,6 @@
 
 namespace Eclipse
 {
-    COMPONENT_REGISTRATION(RigidBody2D);
-
     typedef PhysicsEngine::Physics PhysHelper;
 
     void RigidBody2D::OnDestroy()

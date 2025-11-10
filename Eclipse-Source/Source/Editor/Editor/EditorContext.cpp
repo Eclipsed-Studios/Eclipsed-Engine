@@ -9,6 +9,7 @@
 #include "AssetEngine/Resources.h"
 #include "AssetEngine/Assets/Material.h"
 
+#include <stdlib.h>
 
 
 
@@ -17,13 +18,31 @@ namespace Eclipse::Editor
 {
 	void EditorContexts::Init(const std::string& projectPath)
 	{
-		//DebugLogger::OverwriteDefaultCoutBuffer();
-
 		Resources::Init();
 		PathManager::Init(projectPath);
 
 		Assets::AssetPipeline::Init();
 		Assets::Resourcess::Get<Materials>("Default.mat");
+
+		{
+			const char* appData = std::getenv("APPDATA");
+
+			std::filesystem::path path = appData;
+			path /= "EclipsedEngine";
+
+			if (!std::filesystem::exists(path))
+			{
+				std::filesystem::create_directories(path);
+			}
+
+			path /= "EnginePath.txt";
+
+			std::ofstream out(path);
+
+			std::string engineRoot = PathManager::GetEngineRoot().generic_string();
+			out.write(engineRoot.c_str(), engineRoot.size());
+			out.close();
+		}
 
 
 		Engine::Init();

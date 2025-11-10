@@ -10,8 +10,6 @@
 
 namespace Eclipse
 {
-	COMPONENT_REGISTRATION(CircleCollider2D);
-
 	void CircleCollider2D::CreateCollider()
 	{
 		PhysicsEngine::CreateCircleCollider(&myInternalCollider, myBodyRef, myInternalRadius, myLayer);

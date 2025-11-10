@@ -57,6 +57,12 @@ private:
 		static auto& forceLink = Eclipse::Class::_register;				\
 	}
 
+
+#define COMP_REG(TYPE)																						\
+Eclipse::ComponentRegistry::Register(#TYPE, REGISTER_COMPONENT_CALLBACK(TYPE));								\
+Eclipse::ComponentRegistry::RegisterInspector(#TYPE, REGISTER_COMPONENT_CALLBACK_NORMAL(TYPE));
+
+
 #define COMPONENT_REGISTRATION(TYPE)																	\
 struct AutoRegister_##TYPE {																				\
 	AutoRegister_##TYPE() {																					\

@@ -13,8 +13,6 @@
 
 namespace Eclipse
 {
-    COMPONENT_REGISTRATION(PolygonCollider2D);
-
     void PolygonCollider2D::CreateCollider()
     {
         PhysicsEngine::CreatePolygonCollider(&myInternalCollider, myBodyRef, myPoints, myLayer);

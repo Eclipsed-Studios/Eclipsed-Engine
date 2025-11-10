@@ -8,8 +8,6 @@
 
 namespace Eclipse
 {
-	COMPONENT_REGISTRATION(Transform2D);
-
 	void Transform2D::DrawInspector()
 	{
 		auto globalPosition = GetPosition();

@@ -9,8 +9,7 @@ void Eclipse::GameLoader::LoadGameDLL()
         return;
     }
 
-    RegisterComponentsFunc registerFunc =
-        (RegisterComponentsFunc)GetProcAddress(gameDll, "RegisterComponents");
+    RegisterComponentsFunc registerFunc = (RegisterComponentsFunc)GetProcAddress(gameDll, "RegisterComponents");
 
     ComponentRegistrySnapshot o = registerFunc();
 

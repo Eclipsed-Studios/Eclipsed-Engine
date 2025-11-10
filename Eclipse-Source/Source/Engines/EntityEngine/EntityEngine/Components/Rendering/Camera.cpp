@@ -10,8 +10,6 @@
 
 namespace Eclipse
 {
-    COMPONENT_REGISTRATION(Camera);
-
     void Camera::OnDestroy()
     {
         if (main == this)
