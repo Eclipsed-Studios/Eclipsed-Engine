@@ -1,4 +1,4 @@
-set(GRAPHICS_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engines/GraphicsEngine")
+set(GRAPHICS_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engine/EngineModules/GraphicsEngine")
 
 file(GLOB_RECURSE GRAPHICS_ENGINE_SOURCES
     "${GRAPHICS_ENGINE_ROOT}/*.cpp"

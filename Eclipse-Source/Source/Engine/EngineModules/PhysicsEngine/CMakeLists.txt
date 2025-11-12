@@ -17,7 +17,7 @@ AddFilesToFolders("${PHYSICS_ENGINE_SOURCES}" "${PHYSICS_ENGINE_ROOT}")
 
 target_precompile_headers(PhysicsEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
-set_target_properties(PhysicsEngine PROPERTIES FOLDER "Engines")
+set_target_properties(PhysicsEngine PROPERTIES FOLDER "Engine/EngineModules")
 
 set_target_properties(PhysicsEngine PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"

@@ -9,7 +9,7 @@ AddFilesToFolders("${ENTITY_ENGINE_SOURCES}" "${ENTITY_ENGINE_ROOT}")
 
 target_precompile_headers(EntityEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
-set_target_properties(EntityEngine PROPERTIES FOLDER "Engines")
+set_target_properties(EntityEngine PROPERTIES FOLDER "Engine/EngineModules")
 
 set_target_properties(EntityEngine PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"

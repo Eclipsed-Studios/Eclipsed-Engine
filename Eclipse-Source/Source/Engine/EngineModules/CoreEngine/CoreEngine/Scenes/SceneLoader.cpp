@@ -219,40 +219,40 @@ namespace Eclipse
 			comp->OnComponentAdded();
 		}
 	}
-	void SceneLoader::LoadType(Reflection::AbstractSerializedVariable* aSERIALIZED_FIELDiable, const rapidjson::Value& aValue)
+	void SceneLoader::LoadType(Reflection::AbstractSerializedVariable* aSerializedVariable, const rapidjson::Value& aValue)
 	{
 		using namespace rapidjson;
-		aSERIALIZED_FIELDiable->ResolveTypeInfo();
+		aSerializedVariable->ResolveTypeInfo();
 
-		if (!aValue.HasMember(aSERIALIZED_FIELDiable->GetName()))
+		if (!aValue.HasMember(aSerializedVariable->GetName()))
 			return;
 
-		const Value& val = aValue[aSERIALIZED_FIELDiable->GetName()];
+		const Value& val = aValue[aSerializedVariable->GetName()];
 
-		if (aSERIALIZED_FIELDiable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_String)
+		if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_String)
 		{
 			std::string strVal = val.GetString();
 
-			std::string* str = (std::string*)aSERIALIZED_FIELDiable->GetData();
+			std::string* str = (std::string*)aSerializedVariable->GetData();
 			str->resize(strVal.size());
 
 			memcpy(str->data(), strVal.data(), strVal.size());
 		}
-		else if (aSERIALIZED_FIELDiable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_List)
+		else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_List)
 		{
 			const unsigned count = val["size"].GetUint();
-			aSERIALIZED_FIELDiable->Resize(count);
+			aSerializedVariable->Resize(count);
 
 			const std::string strVal = val["data"].GetString();
 
 			std::vector<unsigned char> decoded = Base64::Decode(strVal);
-			memcpy(aSERIALIZED_FIELDiable->GetData(), decoded.data(), decoded.size());
+			memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
 		}
 		else
 		{
 			std::string strVal = val.GetString();
 			std::vector<unsigned char> decoded = Base64::Decode(strVal);
-			memcpy(aSERIALIZED_FIELDiable->GetData(), decoded.data(), decoded.size());
+			memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
 		}
 	}
 }

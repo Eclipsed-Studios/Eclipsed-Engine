@@ -16,7 +16,7 @@ AddFilesToFolders("${COREENGINE_SOURCES}" "${CORE_ENGINE_ROOT}")
 
 target_precompile_headers(CoreEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
-set_target_properties(CoreEngine PROPERTIES FOLDER "Engines")
+set_target_properties(CoreEngine PROPERTIES FOLDER "Engine/EngineModules")
 
 
 

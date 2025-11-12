@@ -1,4 +1,4 @@
-set(ENTITY_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engines/EntityEngine")
+set(ENTITY_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engine/EngineModules/EntityEngine")
 
 file(GLOB_RECURSE ENTITY_ENGINE_SOURCES
     "${ENTITY_ENGINE_ROOT}/*.cpp"

@@ -13,7 +13,7 @@ AddFilesToFolders("${ASSET_ENGINE_SOURCES}" "${ASSETS}")
 
 target_precompile_headers(AssetEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
-set_target_properties(AssetEngine PROPERTIES FOLDER "Engines")
+set_target_properties(AssetEngine PROPERTIES FOLDER "Engine/EngineModules")
 
 set_target_properties(AssetEngine PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"

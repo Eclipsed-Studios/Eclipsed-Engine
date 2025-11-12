@@ -54,13 +54,14 @@ endif()
 
 
 # ---- Engines
-add_subdirectory(Source/Engines/EntityEngine)
-add_subdirectory(Source/Engines/AudioEngine)
-add_subdirectory(Source/Engines/InputEngine)
-add_subdirectory(Source/Engines/AssetEngine)
-add_subdirectory(Source/Engines/GraphicsEngine)
-add_subdirectory(Source/Engines/CoreEngine)
-add_subdirectory(Source/Engines/PhysicsEngine)
+add_subdirectory(Source/Engine/EngineModules/EntityEngine)
+add_subdirectory(Source/Engine/EngineModules/AudioEngine)
+add_subdirectory(Source/Engine/EngineModules/InputEngine)
+add_subdirectory(Source/Engine/EngineModules/AssetEngine)
+add_subdirectory(Source/Engine/EngineModules/GraphicsEngine)
+add_subdirectory(Source/Engine/EngineModules/CoreEngine)
+add_subdirectory(Source/Engine/EngineModules/PhysicsEngine)
+add_subdirectory(Source/Engine/EclipsedEngine)
 
 
 
