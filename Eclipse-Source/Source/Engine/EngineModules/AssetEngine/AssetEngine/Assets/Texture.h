@@ -4,15 +4,29 @@
 
 namespace Eclipse
 {
+	enum TextureWrapMode
+	{
+		Repeat = 0x2901,
+		RepeatMirror = 0x8370,
+		ClampToEdge = 0x812F,
+		ClampToBorder = 0x812D
+	};
+
+	enum SamplingType
+	{
+		Point = 0x2600,
+		Bilinear = 0x2601,
+	};
+
 	namespace Assets
 	{
 		struct TextureHandle;
 		class TextureManager;
 	}
 
-	class Textures final
+	class Texture final
 	{
-		ASSET_OPERATORS_DEF(Textures, Assets::TextureHandle, Assets::TextureManager);
+		ASSET_OPERATORS_DEF(Texture, Assets::TextureHandle, Assets::TextureManager);
 
 	public:
 		int GetWidth() const;

@@ -16,8 +16,8 @@ namespace Eclipse
         TextMaterial();
         void Use(unsigned textureID);
 
-        VertexShaders vertexShader;
-        PixelShaders pixelShader;
+        VertexShader vertexShader;
+        PixelShader pixelShader;
 
         unsigned programID = 0;
 

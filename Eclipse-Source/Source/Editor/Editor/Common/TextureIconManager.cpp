@@ -12,7 +12,7 @@
 #include "AssetEngine/PathManager.h"
 #include "Utilities/Files/FileInfo.h"
 #include "Utilities/Files/File.h"
-#include "CoreEngine/AssetManagement/Resources.h"
+//#include "CoreEngine/AssetManagement/Resources.h"
 
 namespace Eclipse::Editor
 {

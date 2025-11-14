@@ -11,10 +11,10 @@ namespace Eclipse::Assets
 {
 	struct MaterialHandle : public AssetHandle
 	{
-		Textures texture;
+		Texture texture;
 
-		PixelShaders ps;
-		VertexShaders vs;
+		PixelShader ps;
+		VertexShader vs;
 
 		Math::Color color;
 

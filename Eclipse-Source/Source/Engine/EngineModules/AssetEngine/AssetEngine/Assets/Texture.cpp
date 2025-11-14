@@ -5,51 +5,51 @@
 
 namespace Eclipse
 {
-	ASSET_OPERATORS_IMPL(Textures, Assets::TextureHandle)
+	ASSET_OPERATORS_IMPL(Texture, Assets::TextureHandle)
 
-	int Textures::GetWidth() const
+	int Texture::GetWidth() const
 	{
 		return dataHandle->width;
 	}
 
-	int Textures::GetHeight() const
+	int Texture::GetHeight() const
 	{
 		return dataHandle->height;
 	}
 
-	float Textures::GetAspectRatio() const
+	float Texture::GetAspectRatio() const
 	{
 		return (float)dataHandle->width / (float)dataHandle->height;
 	}
 
-	size_t Textures::GetAssetID() const
+	size_t Texture::GetAssetID() const
 	{
 		return dataHandle->assetID;
 	}
 
-	unsigned Textures::GetTextureID() const
+	unsigned Texture::GetTextureID() const
 	{
 		return dataHandle->textureID;
 	}
 
-	const Math::Vector2f& Textures::GetTextureSizeNormilized() const
+	const Math::Vector2f& Texture::GetTextureSizeNormilized() const
 	{
 		return dataHandle->sizeNormalized;
 	}
 
-	float Textures::GetDimDivOne() const
+	float Texture::GetDimDivOne() const
 	{
 		return dataHandle->dimDivOne;
 	}
 
 
-	void Textures::Bind(int slot) const
+	void Texture::Bind(int slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, dataHandle->textureID);
 	}
 
-	void Textures::Unbind(int slot) const
+	void Texture::Unbind(int slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, 0);

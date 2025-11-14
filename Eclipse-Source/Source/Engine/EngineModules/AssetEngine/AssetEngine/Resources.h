@@ -10,7 +10,7 @@
 
 namespace Eclipse::Assets
 {
-	class Resourcess
+	class Resources
 	{
 	public:
 		template<typename T>
@@ -21,10 +21,10 @@ namespace Eclipse::Assets
 
 		static void Update();
 
-		static Materials GetDefaultMaterial();
-		static Textures GetDefaultTexture();
-		static VertexShaders GetDefaultVS();
-		static PixelShaders GetDefaultPS();
+		static Material GetDefaultMaterial();
+		static Texture GetDefaultTexture();
+		static VertexShader GetDefaultVS();
+		static PixelShader GetDefaultPS();
 
 	private:
 		static inline TextureManager textureManager{};
@@ -34,7 +34,7 @@ namespace Eclipse::Assets
 	};
 
 	template<typename T>
-	T Resourcess::Get(const char* path)
+	T Resources::Get(const char* path)
 	{
 		std::filesystem::path resolvedPath = path;
 		if (std::filesystem::path(path).is_absolute())
@@ -48,22 +48,22 @@ namespace Eclipse::Assets
 
 		size_t id = registry.GetIdFromPath(path);
 
-		if constexpr (std::is_same<T, Textures>::value) return std::move(textureManager.Get(id));
-		else if  constexpr (std::is_same<T, Materials>::value) return std::move(materialManager.Get(id));
-		else if  constexpr (std::is_same<T, VertexShaders>::value) return std::move(vertexShaderManager.Get(id));
-		else if  constexpr (std::is_same<T, PixelShaders>::value) return std::move(pixelShaderManager.Get(id));
+		if constexpr (std::is_same<T, Texture>::value) return std::move(textureManager.Get(id));
+		else if  constexpr (std::is_same<T, Material>::value) return std::move(materialManager.Get(id));
+		else if  constexpr (std::is_same<T, VertexShader>::value) return std::move(vertexShaderManager.Get(id));
+		else if  constexpr (std::is_same<T, PixelShader>::value) return std::move(pixelShaderManager.Get(id));
 	}
 
 	template<typename T>
-	T Resourcess::Get(const size_t& id)
+	T Resources::Get(const size_t& id)
 	{
 		Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
 
 		if (!registry.IsRegistered(id)) return {};
 
-		if constexpr (std::is_same<T, Textures>::value) return std::move(textureManager.Get(id));
-		else if  constexpr (std::is_same<T, Materials>::value) return std::move(materialManager.Get(id));
-		else if  constexpr (std::is_same<T, VertexShaders>::value) return std::move(vertexShaderManager.Get(id));
-		else if  constexpr (std::is_same<T, PixelShaders>::value) return std::move(pixelShaderManager.Get(id));
+		if constexpr (std::is_same<T, Texture>::value) return std::move(textureManager.Get(id));
+		else if  constexpr (std::is_same<T, Material>::value) return std::move(materialManager.Get(id));
+		else if  constexpr (std::is_same<T, VertexShader>::value) return std::move(vertexShaderManager.Get(id));
+		else if  constexpr (std::is_same<T, PixelShader>::value) return std::move(pixelShaderManager.Get(id));
 	}
 }

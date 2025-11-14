@@ -2,7 +2,7 @@
 
 namespace Eclipse::Assets
 {
-	void Resourcess::Update()
+	void Resources::Update()
 	{
 		textureManager.Update();
 		materialManager.Update();
@@ -10,20 +10,20 @@ namespace Eclipse::Assets
 		pixelShaderManager.Update();
 	}
 
-	Materials Resourcess::GetDefaultMaterial()
+	Material Resources::GetDefaultMaterial()
 	{
 		return materialManager.GetDefault();
 	}
 
-	Textures Resourcess::GetDefaultTexture()
+	Texture Resources::GetDefaultTexture()
 	{
 		return textureManager.GetDefault();
 	}
-	VertexShaders Resourcess::GetDefaultVS()
+	VertexShader Resources::GetDefaultVS()
 	{
 		return vertexShaderManager.GetDefault();
 	}
-	PixelShaders Resourcess::GetDefaultPS()
+	PixelShader Resources::GetDefaultPS()
 	{
 		return pixelShaderManager.GetDefault();
 	}

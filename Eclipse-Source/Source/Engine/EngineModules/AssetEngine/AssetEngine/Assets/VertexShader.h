@@ -10,7 +10,7 @@ namespace Eclipse
 		class ShaderManager;
 	}
 
-	class VertexShaders final : public Shaders
+	class VertexShader final : public Shaders
 	{
 		using Shaders::Shaders;
 		using Shaders::operator=;

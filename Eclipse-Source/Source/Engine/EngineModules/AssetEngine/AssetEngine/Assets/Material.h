@@ -14,22 +14,22 @@ namespace Eclipse
 		class MaterialManager;
 	}
 
-	class Materials final
+	class Material final
 	{
-		ASSET_OPERATORS_DEF(Materials, Assets::MaterialHandle, Assets::MaterialManager);
+		ASSET_OPERATORS_DEF(Material, Assets::MaterialHandle, Assets::MaterialManager);
 
 	public:
 		size_t GetAssetID() const;
 
 	public:
-		Textures& GetTexture();
-		const Textures& GetTexture() const;
+		Texture& GetTexture();
+		const Texture& GetTexture() const;
 
-		VertexShaders& GetVertexShader();
-		const VertexShaders& GetVertexShader() const;
+		VertexShader& GetVertexShader();
+		const VertexShader& GetVertexShader() const;
 
-		PixelShaders& GetPixelShader();
-		const PixelShaders& GetPixelShader() const;
+		PixelShader& GetPixelShader();
+		const PixelShader& GetPixelShader() const;
 
 		unsigned GetShaderProgramID() const;
 

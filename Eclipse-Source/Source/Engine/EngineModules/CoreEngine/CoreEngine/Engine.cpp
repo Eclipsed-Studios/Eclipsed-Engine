@@ -33,7 +33,7 @@ namespace Eclipse
 
 		InitSubSystems();
 
-		Assets::Resourcess::Get<PixelShaders>("EngineAssets/Default/Shaders/DefaultSprite.pglsl");
+		Assets::Resources::Get<PixelShader>("EngineAssets/Default/Shaders/DefaultSprite.pglsl");
 	}
 
 	void Engine::Internal_Update()
@@ -49,8 +49,6 @@ namespace Eclipse
 
 	void Engine::InitSubSystems()
 	{
-		Resources::Init();
-
 		GraphicsEngine::Init();
 
 		{ // PHYSICS
@@ -83,7 +81,7 @@ namespace Eclipse
 
 	bool Engine::BeginFrame()
 	{
-		Assets::Resourcess::Update();
+		Assets::Resources::Update();
 		GraphicsEngine::BeginFrame();
 		int shouldCloseWindow = GraphicsEngine::ShouldWindowClose();
 

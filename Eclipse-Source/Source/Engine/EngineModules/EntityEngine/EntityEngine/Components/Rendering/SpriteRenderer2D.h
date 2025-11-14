@@ -32,7 +32,7 @@ namespace Eclipse
 
         void SetMaterial(const char* aPath);
         void SetMaterial(const size_t& id);
-        Materials* GetMaterial() { return nullptr; }
+        Material* GetMaterial() { return nullptr; }
 
         void SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax);
 
@@ -45,8 +45,8 @@ namespace Eclipse
         Math::Vector2f spriteRectMax = { 1.f, 1.f };
 
     private:
-        Textures sprite;
-        Materials material;
+        Texture sprite;
+        Material material;
 
         bool hasTexture = false;
         bool hasMaterial = false;

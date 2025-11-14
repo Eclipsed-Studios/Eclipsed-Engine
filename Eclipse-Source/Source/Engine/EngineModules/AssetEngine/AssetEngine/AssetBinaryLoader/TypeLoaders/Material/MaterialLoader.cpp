@@ -38,8 +38,8 @@ namespace Eclipse::Assets
 		in.read(reinterpret_cast<char*>(&color), sizeof(Math::Color)); // color
 		in.close();
 
-		handle->texture = Resourcess::Get<Textures>(textureID);
-		handle->ps = Resourcess::Get<PixelShaders>(psID);
-		handle->vs = Resourcess::Get<VertexShaders>(vsID);
+		handle->texture = Resources::Get<Texture>(textureID);
+		handle->ps = Resources::Get<PixelShader>(psID);
+		handle->vs = Resources::Get<VertexShader>(vsID);
 	}
 }

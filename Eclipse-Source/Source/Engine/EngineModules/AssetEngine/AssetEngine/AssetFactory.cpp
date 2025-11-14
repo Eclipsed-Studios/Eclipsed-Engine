@@ -14,9 +14,9 @@ namespace Eclipse::Assets
 	{
 		std::ofstream out(path, std::ios::binary);
 
-		Textures texture = Resourcess::GetDefaultTexture();
-		VertexShaders vs = Resourcess::GetDefaultVS();
-		PixelShaders ps = Resourcess::GetDefaultPS();
+		Texture texture = Resources::GetDefaultTexture();
+		VertexShader vs = Resources::GetDefaultVS();
+		PixelShader ps = Resources::GetDefaultPS();
 
 		size_t textureID = texture.GetAssetID();
 		size_t vsID = vs.GetAssetID();

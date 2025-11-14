@@ -5,13 +5,13 @@
 
 namespace Eclipse::Assets
 {
-	Materials MaterialManager::Get(const size_t& id)
+	Material MaterialManager::Get(const size_t& id)
 	{
 		if (idToAssetHandle.find(id) != idToAssetHandle.end()) return ConstructAsset(id);
 		else return Load(id);
 	}
 
-	Materials MaterialManager::GetDefault()
+	Material MaterialManager::GetDefault()
 	{
 		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Materials/Default_2D_Material.mat");
 		return Get(id);
@@ -34,15 +34,15 @@ namespace Eclipse::Assets
 		handle->refCount = refcount;
 	}
 
-	Materials MaterialManager::Load(const size_t& id)
+	Material MaterialManager::Load(const size_t& id)
 	{
 		idToAssetHandle[id] = GetLoader().Load(id);
 		return ConstructAsset(id);
 	}
 
-	Materials MaterialManager::ConstructAsset(const size_t& id)
+	Material MaterialManager::ConstructAsset(const size_t& id)
 	{
-		Materials asset(idToAssetHandle[id]);
+		Material asset(idToAssetHandle[id]);
 		asset.Create();
 
 		return asset;

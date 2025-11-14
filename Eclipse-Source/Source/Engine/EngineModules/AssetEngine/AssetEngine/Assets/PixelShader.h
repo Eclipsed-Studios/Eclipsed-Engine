@@ -10,7 +10,7 @@ namespace Eclipse
 		class ShaderManager;
 	}
 
-	class PixelShaders final : public Shaders
+	class PixelShader final : public Shaders
 	{
 		using Shaders::Shaders;
 		using Shaders::operator=;

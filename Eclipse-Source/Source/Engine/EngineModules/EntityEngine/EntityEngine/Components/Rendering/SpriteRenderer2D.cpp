@@ -27,28 +27,28 @@ namespace Eclipse
 
 	void SpriteRenderer2D::SetTexture(const char* aPath)
 	{
-		sprite = Assets::Resourcess::Get<Textures>(aPath);
+		sprite = Assets::Resources::Get<Texture>(aPath);
 		textureID = sprite.GetAssetID();
 		hasTexture = true;
 	}
 
 	void SpriteRenderer2D::SetTexture(const size_t& id)
 	{
-		sprite = Assets::Resourcess::Get<Textures>(id);
+		sprite = Assets::Resources::Get<Texture>(id);
 		textureID = sprite.GetAssetID();
 		hasTexture = true;
 	}
 
 	void SpriteRenderer2D::SetMaterial(const char* aPath)
 	{
-		material = Assets::Resourcess::Get<Materials>(aPath);
+		material = Assets::Resources::Get<Material>(aPath);
 		materialID = material.GetAssetID();
 		hasMaterial = true;
 	}
 
 	void SpriteRenderer2D::SetMaterial(const size_t& id)
 	{
-		material = Assets::Resourcess::Get<Materials>(id);
+		material = Assets::Resources::Get<Material>(id);
 		materialID = material.GetAssetID();
 		hasMaterial = true;
 	}
@@ -67,7 +67,7 @@ namespace Eclipse
 		}
 		else
 		{
-			material = Assets::Resourcess::GetDefaultMaterial();
+			material = Assets::Resources::GetDefaultMaterial();
 			materialID = material.GetAssetID();
 			hasMaterial = true;
 		}

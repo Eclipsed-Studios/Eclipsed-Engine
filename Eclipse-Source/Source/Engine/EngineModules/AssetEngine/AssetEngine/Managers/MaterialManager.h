@@ -8,19 +8,19 @@
 namespace Eclipse::Assets
 {
 	class MaterialLoader;
-	class MaterialManager final : public AssetManager<class Materials, class Assets::MaterialHandle>
+	class MaterialManager final : public AssetManager<class Material, class Assets::MaterialHandle>
 	{
 	public:
-		Materials Get(const size_t& id) override;
+		Material Get(const size_t& id) override;
 
-		Materials GetDefault();
+		Material GetDefault();
 
 	protected:
 		MaterialLoader& GetLoader();
 
 		void Reload(const size_t& id) override;
 		
-		Materials Load(const size_t& id) override;
-		Materials ConstructAsset(const size_t& id) override;
+		Material Load(const size_t& id) override;
+		Material ConstructAsset(const size_t& id) override;
 	};
 }

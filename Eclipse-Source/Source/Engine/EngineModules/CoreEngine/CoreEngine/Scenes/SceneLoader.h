@@ -1,7 +1,5 @@
 #pragma once
 
-#include "CoreEngine/AssetManagement/Resources/Scene.h"
-
 #include "EntityEngine/Components/Transform2D.h"
 
 #include "rapidjson/rapidjson/document.h"

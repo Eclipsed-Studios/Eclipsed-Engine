@@ -7,71 +7,71 @@
 
 namespace Eclipse
 {
-	ASSET_OPERATORS_IMPL(Materials, Assets::MaterialHandle);
+	ASSET_OPERATORS_IMPL(Material, Assets::MaterialHandle);
 
-	size_t Materials::GetAssetID()const
+	size_t Material::GetAssetID()const
 	{
 		return dataHandle->assetID;
 	}
 
 
-	Textures& Materials::GetTexture()
+	Texture& Material::GetTexture()
 	{
 		return dataHandle->texture;
 	}
-	const Textures& Materials::GetTexture() const
+	const Texture& Material::GetTexture() const
 	{
 		return dataHandle->texture;
 	}
 
-	VertexShaders& Materials::GetVertexShader()
+	VertexShader& Material::GetVertexShader()
 	{
 		return dataHandle->vs;
 	}
-	const VertexShaders& Materials::GetVertexShader() const
+	const VertexShader& Material::GetVertexShader() const
 	{
 		return dataHandle->vs;
 	}
 
-	PixelShaders& Materials::GetPixelShader()
+	PixelShader& Material::GetPixelShader()
 	{
 		return dataHandle->ps;
 	}
 
-	const PixelShaders& Materials::GetPixelShader() const
+	const PixelShader& Material::GetPixelShader() const
 	{
 		return dataHandle->ps;
 	}
 
-	unsigned Materials::GetShaderProgramID() const
+	unsigned Material::GetShaderProgramID() const
 	{
 		return dataHandle->programID;
 	}
 
-	void Materials::BindTexture()
+	void Material::BindTexture()
 	{
 		dataHandle->texture.Bind();
 	}
 
-	void Materials::BindShader()
+	void Material::BindShader()
 	{
 		glUseProgram(dataHandle->programID);
 	}
 
-	void Materials::BindColor()
+	void Material::BindColor()
 	{
 		Math::Vector4f col = dataHandle->color.ToVector();
 		GraphicsEngine::SetUniform(UniformType::Vector4f, dataHandle->programID, "material.color", &col);
 	}
 
-	void Materials::Use()
+	void Material::Use()
 	{
 		BindShader();
 		BindTexture();
 		BindColor();
 	}
 
-	void Materials::Create()
+	void Material::Create()
 	{
 		dataHandle->programID = glCreateProgram();
 		glAttachShader(dataHandle->programID, dataHandle->vs.GetProgramID());

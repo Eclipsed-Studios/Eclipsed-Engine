@@ -2,8 +2,6 @@
 
 #include "CoreEngine/Engine.h"
 
-#include "CoreEngine/AssetManagement/Resources.h"
-
 #include "AssetEngine/AssetPipeline.h"
 
 #include "AssetEngine/Resources.h"
@@ -19,11 +17,10 @@ namespace Eclipse::Editor
 {
 	void EditorContexts::Init(const std::string& projectPath)
 	{
-		Resources::Init();
 		PathManager::Init(projectPath);
 
 		Assets::AssetPipeline::Init();
-		Assets::Resourcess::Get<Materials>("Default.mat");
+		Assets::Resources::Get<Material>("Default.mat");
 
 		{
 			const char* appData = std::getenv("APPDATA");

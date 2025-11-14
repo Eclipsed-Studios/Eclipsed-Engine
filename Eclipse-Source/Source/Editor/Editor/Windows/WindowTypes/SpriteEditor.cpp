@@ -9,8 +9,6 @@
 
 #include "InputEngine/Input.h"
 
-#include "CoreEngine/AssetManagement/Resources.h"
-
 #include <iostream>
 
 #include <sstream>
@@ -22,6 +20,8 @@
 
 #include "AssetEngine/Assets/Texture.h"
 #include "AssetEngine/Resources.h"
+
+#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
 #undef min
 
@@ -775,7 +775,7 @@ namespace Eclipse::Editor
 
 	void SpriteEditor::SetTexture(const char* aPath)
 	{ 
-		myTexture = Assets::Resourcess::Get<Textures>(aPath);
+		myTexture = Assets::Resources::Get<Texture>(aPath);
 		activeRelativePath = aPath;
 		textureSet = true;
 

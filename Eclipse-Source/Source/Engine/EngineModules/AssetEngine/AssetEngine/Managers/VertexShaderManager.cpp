@@ -5,13 +5,13 @@
 
 namespace Eclipse::Assets
 {
-	VertexShaders VertexShaderManager::GetDefault()
+	VertexShader VertexShaderManager::GetDefault()
 	{
 		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Shaders/DefaultSprite.vglsl");
 		return Get(id);
 	}
 
-	VertexShaders VertexShaderManager::Get(const size_t& id)
+	VertexShader VertexShaderManager::Get(const size_t& id)
 	{
 		if (idToAssetHandle.find(id) != idToAssetHandle.end()) return ConstructAsset(id);
 		else return Load(id);
@@ -34,15 +34,15 @@ namespace Eclipse::Assets
 		handle->refCount = refcount;
 	}
 
-	VertexShaders VertexShaderManager::Load(const size_t& id)
+	VertexShader VertexShaderManager::Load(const size_t& id)
 	{
 		idToAssetHandle[id] = GetLoader().Load(id);
 		return ConstructAsset(id);
 	}
 
-	VertexShaders VertexShaderManager::ConstructAsset(const size_t& id)
+	VertexShader VertexShaderManager::ConstructAsset(const size_t& id)
 	{
-		VertexShaders texture(idToAssetHandle[id]);
+		VertexShader texture(idToAssetHandle[id]);
 
 		return texture;
 	}

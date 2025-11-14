@@ -5,13 +5,13 @@
 
 namespace Eclipse::Assets
 {
-	PixelShaders PixelShaderManager::GetDefault()
+	PixelShader PixelShaderManager::GetDefault()
 	{
 		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Shaders/DefaultSprite.pglsl");
 		return Get(id);
 	}
 
-	PixelShaders PixelShaderManager::Get(const size_t& id)
+	PixelShader PixelShaderManager::Get(const size_t& id)
 	{
 		if (idToAssetHandle.find(id) != idToAssetHandle.end()) return ConstructAsset(id);
 		else return Load(id);
@@ -33,15 +33,15 @@ namespace Eclipse::Assets
 		handle->refCount = refcount;
 	}
 
-	PixelShaders PixelShaderManager::Load(const size_t& id)
+	PixelShader PixelShaderManager::Load(const size_t& id)
 	{
 		idToAssetHandle[id] = GetLoader().Load(id);
 		return ConstructAsset(id);
 	}
 
-	PixelShaders PixelShaderManager::ConstructAsset(const size_t& id)
+	PixelShader PixelShaderManager::ConstructAsset(const size_t& id)
 	{
-		PixelShaders texture(idToAssetHandle[id]);
+		PixelShader texture(idToAssetHandle[id]);
 
 		return texture;
 	}
