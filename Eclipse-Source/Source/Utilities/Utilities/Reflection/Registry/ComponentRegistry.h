@@ -27,14 +27,20 @@ namespace Eclipse
         static ENGINE_API  InspectorAddComponentMap inspectorAddComponentMap;
 
     public:
-        static bool IsDLLCall();
+        static bool IsRegisteredInspector(const std::string& typeName);
+        static bool IsRegisteredScene(const std::string& typeName);
 
-        static void Register(const std::string& typeName, std::function<Component* (unsigned, unsigned)> addComponentMethod);
+
+        static void ClearRegisteredGameComponents();
+
+        static void Register(const std::string& typeName, std::function<Component* (unsigned, unsigned)> addComponentMethod, bool isGame = false);
         static std::function<Component* (unsigned, unsigned)> GetAddComponent(const std::string& typeName);
         static std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>>& GetAddComponentMap();
 
-        static void RegisterInspector(const std::string& typeName, std::function<Component* (unsigned)> addComponentMethod);
+        static void RegisterInspector(const std::string& typeName, std::function<Component* (unsigned)> addComponentMethod, bool isGame = false);
         static std::function<Component* (unsigned)> GetInspectorAddComponent(const std::string& typeName);
         static std::unordered_map<std::string, std::function<Component* (unsigned)>>& GetInspectorAddComponentMap();
+
+        static inline std::vector<std::string> gameComponents;
     };
 } // namespace Eclipse

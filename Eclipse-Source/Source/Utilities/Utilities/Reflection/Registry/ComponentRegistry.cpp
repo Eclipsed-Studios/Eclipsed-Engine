@@ -5,71 +5,79 @@
 #ifdef ECLIPSED_EDITOR
 namespace Eclipse
 {
-    // Define static member variables (they live only in the DLL)
-    std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>> ComponentRegistry::addComponentMap;
-    std::unordered_map<std::string, std::function<Component* (unsigned)>> ComponentRegistry::inspectorAddComponentMap;
+	// Define static member variables (they live only in the DLL)
+	std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>> ComponentRegistry::addComponentMap;
+	std::unordered_map<std::string, std::function<Component* (unsigned)>> ComponentRegistry::inspectorAddComponentMap;
 
-    bool ComponentRegistry::IsDLLCall()
-    {
-        HMODULE hModule = nullptr;
-        GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
-            reinterpret_cast<LPCTSTR>(IsDLLCall),
-            &hModule);
+	bool ComponentRegistry::IsRegisteredInspector(const std::string& typeName)
+	{
+		return inspectorAddComponentMap.find(typeName) != inspectorAddComponentMap.end();
+	}
 
-        static HMODULE engineModule = GetModuleHandle(nullptr);
-        return hModule != engineModule;
-    }
+	bool ComponentRegistry::IsRegisteredScene(const std::string& typeName)
+	{
+		return addComponentMap.find(typeName) != addComponentMap.end();
+	}
 
-    void ComponentRegistry::Register(const std::string& typeName,
-        std::function<Component* (unsigned, unsigned)> addComponentMethod)
-    {
-        auto& map = GetAddComponentMap();
-        map[typeName] = addComponentMethod;
-    }
+	void ComponentRegistry::ClearRegisteredGameComponents()
+	{
+		for (const std::string& typeName : gameComponents)
+		{
+			addComponentMap.erase(typeName);
+			inspectorAddComponentMap.erase(typeName);
+		}
+	}
 
-    std::function<Component* (unsigned, unsigned)> ComponentRegistry::GetAddComponent(const std::string& typeName)
-    {
-        auto& map = GetAddComponentMap();
-        auto it = map.find(typeName);
-        if (it != map.end())
-        {
-            return it->second;
-        }
-        return [](unsigned, unsigned) { return nullptr; };
-    }
+	void ComponentRegistry::Register(const std::string& typeName,
+		std::function<Component* (unsigned, unsigned)> addComponentMethod, bool isGame)
+	{
+		auto& map = GetAddComponentMap();
+		map[typeName] = addComponentMethod;
 
-    std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>>&
-        ComponentRegistry::GetAddComponentMap()
-    {
-        return addComponentMap;
-    }
+		if (isGame) gameComponents.push_back(typeName);
+	}
 
-    void ComponentRegistry::RegisterInspector(const std::string& typeName,
-        std::function<Component* (unsigned)> addComponentMethod)
-    {
-        auto& map = GetInspectorAddComponentMap();
-        std::cout << "RegisterInspector - Map address: " << &map
-            << ", Size: " << map.size()
-            << ", Adding: " << typeName
-            << ", From: " << (IsDLLCall() ? "DLL" : "ENGINE") << std::endl;
-        map[typeName] = addComponentMethod;
-    }
+	std::function<Component* (unsigned, unsigned)> ComponentRegistry::GetAddComponent(const std::string& typeName)
+	{
+		auto& map = GetAddComponentMap();
+		auto it = map.find(typeName);
+		if (it != map.end())
+		{
+			return it->second;
+		}
+		return [](unsigned, unsigned) { return nullptr; };
+	}
 
-    std::function<Component* (unsigned)> ComponentRegistry::GetInspectorAddComponent(const std::string& typeName)
-    {
-        auto& map = GetInspectorAddComponentMap();
-        auto it = map.find(typeName);
-        if (it != map.end())
-        {
-            return it->second;
-        }
-        return [](unsigned) { return nullptr; };
-    }
+	std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>>&
+		ComponentRegistry::GetAddComponentMap()
+	{
+		return addComponentMap;
+	}
 
-    std::unordered_map<std::string, std::function<Component* (unsigned)>>&
-        ComponentRegistry::GetInspectorAddComponentMap()
-    {
-        return inspectorAddComponentMap;
-    }
+	void ComponentRegistry::RegisterInspector(const std::string& typeName,
+		std::function<Component* (unsigned)> addComponentMethod, bool isGame)
+	{
+		auto& map = GetInspectorAddComponentMap();
+		map[typeName] = addComponentMethod;
+
+		if (isGame) gameComponents.push_back(typeName);
+	}
+
+	std::function<Component* (unsigned)> ComponentRegistry::GetInspectorAddComponent(const std::string& typeName)
+	{
+		auto& map = GetInspectorAddComponentMap();
+		auto it = map.find(typeName);
+		if (it != map.end())
+		{
+			return it->second;
+		}
+		return [](unsigned) { return nullptr; };
+	}
+
+	std::unordered_map<std::string, std::function<Component* (unsigned)>>&
+		ComponentRegistry::GetInspectorAddComponentMap()
+	{
+		return inspectorAddComponentMap;
+	}
 } // namespace Eclipse
 #endif

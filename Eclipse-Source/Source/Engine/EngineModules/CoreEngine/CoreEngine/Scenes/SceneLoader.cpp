@@ -189,6 +189,8 @@ namespace Eclipse
 	void SceneLoader::LoadComponent(const std::string& componentName, const rapidjson::Value& aValue)
 	{
 		using namespace rapidjson;
+		if (!ComponentRegistry::IsRegisteredScene(componentName)) return;
+
 		auto addComponent = ComponentRegistry::GetAddComponent(componentName);
 
 		std::unordered_map<unsigned, Component*> compMap;
@@ -204,6 +206,8 @@ namespace Eclipse
 		{
 			const unsigned id = val["id"].GetUint();
 			auto& list = Reflection::ReflectionManager::GetList();
+
+			if (compMap.find(id) == compMap.end()) continue;
 
 			Component* pComp = compMap[id];
 			auto& varList = list[pComp];

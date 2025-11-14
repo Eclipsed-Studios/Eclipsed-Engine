@@ -2,11 +2,14 @@
 
 #include "EntityEngine/ComponentManager.h"
 
-
 void Eclipse::GameLoader::LoadGameDLL()
 {
 	gameDll = LoadLibraryA((PathManager::GetProjectRoot() / "Cache/Debug/Game.dll").generic_string().c_str());
-	if (!gameDll) return;
+	if (!gameDll)
+	{
+		ComponentRegistry::ClearRegisteredGameComponents();
+		return;
+	}
 
 	RegisterComponentsFunc registerFunc = (RegisterComponentsFunc)GetProcAddress(gameDll, "RegisterComponents");
 	InitGameFunction initGame = (InitGameFunction)GetProcAddress(gameDll, "InitGame");
@@ -15,6 +18,8 @@ void Eclipse::GameLoader::LoadGameDLL()
 		&Utilities::MainSingleton::GetInstance<Time>());
 
 	ComponentRegistrySnapshot o = registerFunc();
+
+	ComponentRegistry::ClearRegisteredGameComponents();
 
 	for (int i = 0; i < o.count; i++)
 	{
@@ -25,7 +30,8 @@ void Eclipse::GameLoader::LoadGameDLL()
 			[create = comp.createFunc, size = comp.size](unsigned gameObjId, unsigned compID) -> Component*
 			{
 				return ComponentManager::AddComponentWithID(gameObjId, compID, create, size);
-			}
+			},
+			true
 		);
 
 		ComponentRegistry::RegisterInspector(
@@ -33,7 +39,8 @@ void Eclipse::GameLoader::LoadGameDLL()
 			[create = comp.createFunc, size = comp.size](unsigned gameObjId) -> Component*
 			{
 				return ComponentManager::AddComponent(gameObjId, create, size);
-			}
+			},
+			true
 		);
 	}
 }
