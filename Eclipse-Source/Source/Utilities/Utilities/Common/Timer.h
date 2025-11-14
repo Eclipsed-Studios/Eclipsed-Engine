@@ -7,35 +7,21 @@ namespace Eclipse
     class Time
     {
     public:
-        static void Init();
-        static void Update();
+         void Init();
+         void Update();
 
-        static void SetTimeScale();
+         void SetTimeScale(float timeScale);
 
-        static float GetDeltaTime() { return myDeltaTime; }
-        static float GetTotalTime() { return myTotalTime; }
+         float GetDeltaTime();
+         float GetTotalTime();
 
     private:
-        static inline std::chrono::high_resolution_clock::time_point startTime;
-        static inline std::chrono::high_resolution_clock clock;
-        static inline std::chrono::duration<float> duration;
+        std::chrono::high_resolution_clock::time_point startTime;
+        std::chrono::high_resolution_clock clock;
+        std::chrono::duration<float> duration;
 
-        static inline float myDeltaTime = 0;
-        static inline float myTotalTime = 0;
-        static inline float myTimeScale = 1;
+        float myDeltaTime = 0;
+        float myTotalTime = 0;
+        float myTimeScale = 1;
     };
-
-    inline void Time::Init()
-    {
-        startTime = clock.now();
-    }
-
-    inline void Time::Update()
-    {
-        duration = clock.now() - startTime;
-        float newTotalTime = duration.count();
-        float deltaTimeNoScaled = newTotalTime - myTotalTime;
-        myDeltaTime = deltaTimeNoScaled * myTimeScale;
-        myTotalTime = newTotalTime;
-    }
 }

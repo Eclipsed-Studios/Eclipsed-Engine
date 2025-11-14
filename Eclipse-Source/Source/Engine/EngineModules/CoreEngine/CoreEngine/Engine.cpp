@@ -33,7 +33,8 @@ namespace Eclipse
 
 		InitSubSystems();
 
-		Assets::Resources::Get<PixelShader>("EngineAssets/Default/Shaders/DefaultSprite.pglsl");
+		Utilities::MainSingleton::RegisterInstance<Time>().Init();
+		Utilities::MainSingleton::RegisterInstance<Input>().Init();
 	}
 
 	void Engine::Internal_Update()
@@ -67,15 +68,10 @@ namespace Eclipse
 				};
 		}
 
-		Time::Init();
 		ComponentManager::Init();
 		//AudioManager::Init();
 
 		SceneManager::LoadSceneData();
-
-		Utilities::MainSingleton::Init();
-
-		Input::Init();
 	}
 
 
@@ -94,8 +90,8 @@ namespace Eclipse
 
 		PlatformIntegration::IntegrationManager::Update();
 
-		Time::Update();
-		Input::Update();
+		Utilities::MainSingleton::GetInstance<Time>().Update();
+		Utilities::MainSingleton::GetInstance<Input>().Update();
 
 		ComponentManager::EditorUpdateComponents();
 		//AudioManager::Update();

@@ -127,7 +127,7 @@ namespace Eclipse::Editor
 
 		if (!isPlaying || isPaused)
 		{
-			if (ImGui::Button(ICON_FA_PLAY) || Input::GetKeyDown(Keycode::F5))
+			if (ImGui::Button(ICON_FA_PLAY) || Utilities::MainSingleton::GetInstance<Input>().GetKeyDown(Keycode::F5))
 			{
 				isPlaying = true;
 				isPaused = false;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "InputEngine/Input.h"
+
 namespace Eclipse
 {
 	struct ComponentEntry final
@@ -15,7 +17,10 @@ namespace Eclipse
 		int count = 0;
 	};
 
-	typedef ComponentRegistrySnapshot (*RegisterComponentsFunc)();
+
+
+	typedef ComponentRegistrySnapshot(*RegisterComponentsFunc)();
+	typedef void (*InitGameFunction)(Eclipse::Input*, Eclipse::Time*);
 
 	HMODULE gameDll;
 

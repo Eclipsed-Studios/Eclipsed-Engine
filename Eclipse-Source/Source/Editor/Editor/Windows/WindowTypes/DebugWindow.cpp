@@ -104,10 +104,8 @@ namespace Eclipse::Editor
 
 
 
-
-
 		float fps = ImGui::GetIO().Framerate;
-		float totalTime = Time::GetTotalTime();
+		float totalTime = Utilities::MainSingleton::GetInstance<Eclipse::Time>().GetTotalTime();
 		int renderCalls = DebugInformationCollector::GetRenderCalls();
 
 		//PROCESS_MEMORY_COUNTERS_EX pmc;

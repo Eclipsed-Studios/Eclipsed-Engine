@@ -32,11 +32,28 @@ namespace Eclipse
 
 		GLFWwindow* window = Utilities::MainSingleton::GetInstance<GLFWwindow*>();
 
-		glfwSetKeyCallback(window, OnKey_Callback);
-		glfwSetCursorPosCallback(window, OnMousePos_Callback);
-		glfwSetCursorEnterCallback(window, OnMouseEnter_Callback);
-		glfwSetMouseButtonCallback(window, OnMouseButton_Callback);
-		glfwSetWindowFocusCallback(window, OnWindowFocus_Callback);
-		glfwSetScrollCallback(window, OnMouseScroll_Callback);
+		glfwSetKeyCallback(window, [](GLFWwindow* w, int key, int scancode, int action, int mods) {
+			Utilities::MainSingleton::GetInstance<Input>().OnKey_Callback(w, key, scancode, action, mods);
+			});
+
+		glfwSetCursorPosCallback(window, [](GLFWwindow* w, double x, double y) {
+			Utilities::MainSingleton::GetInstance<Input>().OnMousePos_Callback(w, x, y);
+			});
+
+		glfwSetCursorEnterCallback(window, [](GLFWwindow* w, int entered) {
+			Utilities::MainSingleton::GetInstance<Input>().OnMouseEnter_Callback(w, entered);
+			});
+
+		glfwSetMouseButtonCallback(window, [](GLFWwindow* w, int button, int action, int mods) {
+			Utilities::MainSingleton::GetInstance<Input>().OnMouseButton_Callback(w, button, action, mods);
+			});
+
+		glfwSetWindowFocusCallback(window, [](GLFWwindow* w, int focused) {
+			Utilities::MainSingleton::GetInstance<Input>().OnWindowFocus_Callback(w, focused);
+			});
+
+		glfwSetScrollCallback(window, [](GLFWwindow* w, double xOffset, double yOffset) {
+			Utilities::MainSingleton::GetInstance<Input>().OnMouseScroll_Callback(w, xOffset, yOffset);
+			});
 	}
 }

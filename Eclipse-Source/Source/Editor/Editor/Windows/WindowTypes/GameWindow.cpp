@@ -121,7 +121,7 @@ namespace Eclipse::Editor
         ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
         float mousePosX = mousePos.x - cursorScreenPos.x;
         float mousePosY = windowSize.y - (mousePos.y - cursorScreenPos.y);
-        Input::SetGamePosition({ static_cast<int>(mousePosX), static_cast<int>(mousePosY) });
+        Utilities::MainSingleton::GetInstance<Input>().SetGamePosition({ static_cast<int>(mousePosX), static_cast<int>(mousePosY) });
 
         ImGui::Image(myGameTexture, ImVec2(windowSize.x, windowSize.y - CursorPos.y), ImVec2(0, 1), ImVec2(0.99, 0));
 
@@ -179,7 +179,7 @@ namespace Eclipse::Editor
         ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
         float mousePosX = mousePos.x - cursorScreenPos.x;
         float mousePosY = windowSize.y - (mousePos.y - cursorScreenPos.y);
-        Input::SetGamePosition({ static_cast<int>(mousePosX), static_cast<int>(mousePosY) });
+        Utilities::MainSingleton::GetInstance<Input>().SetGamePosition({ static_cast<int>(mousePosX), static_cast<int>(mousePosY) });
 
         ImGui::Image(myGameTexture, windowSize, ImVec2(0, 1), ImVec2(1, 0));
 

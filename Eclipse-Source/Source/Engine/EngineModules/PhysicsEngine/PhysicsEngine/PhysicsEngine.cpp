@@ -409,7 +409,9 @@ namespace Eclipse
 
     void PhysicsEngine::Update()
     {
-        b2World_Step(myWorld, Time::GetDeltaTime(), mySubstepCount);
+        float dt = Utilities::MainSingleton::GetInstance<Time>().GetDeltaTime();
+        
+        b2World_Step(myWorld, dt, mySubstepCount);
 
         CheckCollisions();
     }
