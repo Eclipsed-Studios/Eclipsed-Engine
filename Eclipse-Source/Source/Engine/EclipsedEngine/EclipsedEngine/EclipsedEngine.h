@@ -13,6 +13,5 @@ namespace Eclipse
 		void Internal_BeginFrame();
 		void Internal_Update();
 		void Internal_EndFrame();
-
 	};
 }

@@ -88,10 +88,8 @@ namespace Eclipse
 
 	protected:
 #ifdef ECLIPSED_EDITOR
-		void UpdateInspector() { Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); DrawInspector(); }
+		void UpdateInspector() { Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); }
 #endif
-
-		virtual void DrawInspector() {}
 
 
 	public:

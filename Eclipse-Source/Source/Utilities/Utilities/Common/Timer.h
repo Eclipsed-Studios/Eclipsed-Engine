@@ -4,24 +4,27 @@
 
 namespace Eclipse
 {
-    class Time
-    {
-    public:
-         void Init();
-         void Update();
+	class Time
+	{
+	public:
+		Time() = delete;
 
-         void SetTimeScale(float timeScale);
+	public:
+		static void Init();
+		static void Update();
 
-         float GetDeltaTime();
-         float GetTotalTime();
+		static void SetTimeScale(float timeScale);
 
-    private:
-        std::chrono::high_resolution_clock::time_point startTime;
-        std::chrono::high_resolution_clock clock;
-        std::chrono::duration<float> duration;
+		static float GetDeltaTime();
+		static float GetTotalTime();
 
-        float myDeltaTime = 0;
-        float myTotalTime = 0;
-        float myTimeScale = 1;
-    };
+	private:
+		static std::chrono::high_resolution_clock::time_point startTime;
+		static std::chrono::high_resolution_clock clock;
+		static std::chrono::duration<float> duration;
+
+		static float myDeltaTime;
+		static float myTotalTime;
+		static float myTimeScale;
+	};
 }

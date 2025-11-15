@@ -16,8 +16,6 @@ namespace Eclipse
 		BASE_SELECTION(Transform2D, UINT_MAX / 2)
 
 	public:
-		void DrawInspector() override;
-
 		void OnSceneLoaded() override;
 		void OnComponentAdded() override;
 

@@ -409,7 +409,7 @@ namespace Eclipse
 
     void PhysicsEngine::Update()
     {
-        float dt = Utilities::MainSingleton::GetInstance<Time>().GetDeltaTime();
+        float dt = Time::GetDeltaTime();
         
         b2World_Step(myWorld, dt, mySubstepCount);
 

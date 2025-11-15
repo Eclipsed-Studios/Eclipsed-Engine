@@ -97,7 +97,7 @@ namespace Eclipse
 	{
 		for (const Keycode::Scancode& key : comboButtons)
 		{
-			if (!Utilities::MainSingleton::GetInstance<Input>().GetKey(key))
+			if (!Input::GetKey(key))
 			{
 				return 0;
 			}
@@ -109,9 +109,9 @@ namespace Eclipse
 	{
 		switch (buttonType)
 		{
-		case InputActionButtonType::Repeated: return Utilities::MainSingleton::GetInstance<Input>().GetKey(aKey);
-		case InputActionButtonType::Down: return Utilities::MainSingleton::GetInstance<Input>().GetKeyDown(aKey);
-		case InputActionButtonType::Up: return Utilities::MainSingleton::GetInstance<Input>().GetKeyUp(aKey);
+		case InputActionButtonType::Repeated: return Input::GetKey(aKey);
+		case InputActionButtonType::Down: return Input::GetKeyDown(aKey);
+		case InputActionButtonType::Up: return Input::GetKeyUp(aKey);
 		}
 
 		return false;

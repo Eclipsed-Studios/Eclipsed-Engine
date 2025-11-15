@@ -19,7 +19,7 @@ namespace Eclipse
 
     class SpriteRenderer2D : public Component
     {
-        BASE_SELECTION(SpriteRenderer2D, 0)
+        COMPONENT_BASE_2(SpriteRenderer2D, 0)
 
     public:
         void OnComponentAdded() override;
@@ -39,7 +39,7 @@ namespace Eclipse
         void SetXMirror(bool aMirror) { mirroredX = aMirror; }
         void SetYMirror(bool aMirror) { mirroredY = aMirror; }
 
-        void DrawInspector() override;
+        //void DrawInspector() override;
 
         Math::Vector2f spriteRectMin = { 0.f, 0.f };
         Math::Vector2f spriteRectMax = { 1.f, 1.f };

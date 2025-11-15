@@ -17,6 +17,6 @@ namespace Eclipse
 
 	class AudioSource : public Component
 	{
-		BASE_SELECTION(AudioSource, 0)
+		COMPONENT_BASE_2(AudioSource, 0)
     };
 }

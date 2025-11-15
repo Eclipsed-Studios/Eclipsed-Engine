@@ -7,7 +7,7 @@ namespace Eclipse
 {
     class Canvas : public Component
     {
-        BASE_SELECTION(Canvas, FLT_MAX);
+        COMPONENT_BASE_2(Canvas, UINT32_MAX);
 
     public:
 

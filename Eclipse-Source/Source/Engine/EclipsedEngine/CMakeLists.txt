@@ -14,6 +14,12 @@ file(GLOB_RECURSE ECLIPSED_ENGINE_SOURCES
 add_library(EclipsedEngine STATIC ${ECLIPSED_ENGINE_SOURCES})
 AddFilesToFolders("${ECLIPSED_ENGINE_SOURCES}" "${ECLIPSED_ENGINE_ROOT}")
 
+
+set_target_properties(EclipsedEngine PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/Libs"
+)
+
+
 target_precompile_headers(EclipsedEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 set_target_properties(EclipsedEngine PROPERTIES FOLDER "Engine")

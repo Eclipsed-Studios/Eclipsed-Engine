@@ -4,6 +4,13 @@
 
 namespace Eclipse
 {
+    std::chrono::high_resolution_clock::time_point Time::startTime;
+    std::chrono::high_resolution_clock Time::clock;
+    std::chrono::duration<float> Time::duration;
+    float Time::myDeltaTime = 0;
+    float Time::myTotalTime = 0;
+    float Time::myTimeScale = 1;
+
     void Time::Init()
     {
         startTime = clock.now();

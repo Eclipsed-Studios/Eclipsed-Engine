@@ -61,6 +61,15 @@ namespace Eclipse
         const char* gameTitle = TemporarySettingsSingleton::Get().GetGameTitle();
 
         myWindow = glfwCreateWindow(width, height, gameTitle, nullptr, nullptr);
+
+        int x, y;
+        glfwGetWindowSize(myWindow, &x, &y);
+        if (myWindow && x == 0 && y == 0)
+        {
+            return ErrorCode::FAILED;
+        }
+
+
         SetWindowDimenstion();
 
         if (!myWindow)
@@ -75,6 +84,8 @@ namespace Eclipse
 
     ErrorCode GraphicsEngine::InitOpenGL()
     {
+        std::cout << "Graphi motoj" << std::endl;
+
         glfwSetErrorCallback(error_callback);
 
         int iResult;
@@ -100,6 +111,10 @@ namespace Eclipse
 
         // Extra GLFW settings
         glfwSwapInterval(TemporarySettingsSingleton::Get().GetNumRenderBuffers());
+
+        unsigned int texId = 0;
+        glGenTextures(1, &texId);
+        glBindTexture(GL_TEXTURE_2D, texId);
 
         return ErrorCode::SUCCESS;
     }

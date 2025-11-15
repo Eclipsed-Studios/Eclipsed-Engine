@@ -21,10 +21,12 @@ target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Externals)
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Engines/CoreEngine/)
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
 
-if(EDITOR)
-    target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Editor/)
-    target_link_libraries(Launcher PUBLIC Editor)
-endif()
+message(${CMAKE_SOURCE_DIR})
+
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/EclipsedRuntime-Sources.cmake")
+target_include_directories(Launcher PRIVATE ${CMAKE_SOURCE_DIR}/Source/Engine/EclipsedRuntime)
+target_link_libraries(Launcher PRIVATE EclipsedRuntime)
+
 
 set_target_properties(Launcher PROPERTIES
 RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
@@ -50,7 +52,6 @@ foreach(source_file IN LISTS LAUNCHER_SOURCES)
 endforeach()
 
 
-target_link_libraries(Launcher PRIVATE Editor)
 target_link_libraries(Launcher PRIVATE GraphicsEngine)
 target_link_libraries(Launcher PRIVATE CoreEngine)
 target_link_libraries(Launcher PRIVATE PhysicsEngine)

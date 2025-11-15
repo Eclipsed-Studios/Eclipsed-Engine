@@ -6,13 +6,16 @@
 
 namespace Eclipse
 {
-    void Eclipse::Button::Update()
+    void Button::Update()
     {
-        Math::Vector2i mousePosition = Utilities::MainSingleton::GetInstance<Input>().GetGameMousePos();
 
-        std::stringstream stringStream;
-        stringStream << "X: " << mousePosition.x << "   Y: " << mousePosition.y;
 
-        LOG(stringStream.str());
+        Input::GetMouseUp(Keycode::Scancode::MOUSE_LEFT);
+        //Math::Vector2i mousePosition = ;
+
+        //std::stringstream stringStream;
+        //stringStream << "X: " << mousePosition.x << "   Y: " << mousePosition.y;
+
+        //LOG(stringStream.str());
     }
 }

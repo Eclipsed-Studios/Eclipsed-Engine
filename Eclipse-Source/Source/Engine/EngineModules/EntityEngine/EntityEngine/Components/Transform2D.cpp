@@ -1,20 +1,11 @@
 #include "Transform2D.h"
 
-#include "ImGui/ImGui/imgui.h"
-
 #include <sstream>
 
 #include "Utilities/Math/Vector/Vector3.h"
 
 namespace Eclipse
 {
-	void Transform2D::DrawInspector()
-	{
-		auto globalPosition = GetPosition();
-
-		ImGui::Text("Debug properties");
-		ImGui::Text("gobal pos, x: %f, y: %f", globalPosition.x, globalPosition.y);
-	}
 
 	void Transform2D::OnSceneLoaded()
 	{

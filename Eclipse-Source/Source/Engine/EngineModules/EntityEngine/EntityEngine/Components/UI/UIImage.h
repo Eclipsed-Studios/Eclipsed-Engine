@@ -8,7 +8,7 @@ namespace Eclipse
 {
     class UIImage : public Component
     {
-        BASE_SELECTION(UIImage, 0)
+        COMPONENT_BASE_2(UIImage, 0)
 
     //public:
     //    void OnComponentAdded() override;

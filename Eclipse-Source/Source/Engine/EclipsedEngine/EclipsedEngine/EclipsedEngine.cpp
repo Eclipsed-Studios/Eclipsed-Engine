@@ -21,7 +21,8 @@ namespace Eclipse
 
 	void EclipsedEngine::Internal_Update()
 	{
-
+		int i = 0;
+		while (i < 10) i++;
 	}
 
 	void EclipsedEngine::Internal_EndFrame()

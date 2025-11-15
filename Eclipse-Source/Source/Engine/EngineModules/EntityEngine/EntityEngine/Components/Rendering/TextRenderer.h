@@ -26,7 +26,7 @@ namespace Eclipse
 
     class TextRenderer : public Component
     {
-        BASE_SELECTION(TextRenderer, 0)
+        COMPONENT_BASE_2(TextRenderer, 0)
 
     public:
         void EditorUpdate() override;
@@ -42,11 +42,11 @@ namespace Eclipse
 
         void SetText(const char* aText);
 
-        void DrawInspector() override;
+        //void DrawInspector() override;
 
-        void DrawMultilineInspector();
-        void DrawAlignmentInspector(const ImColor& onColor, const ImColor& offColor);
-        void DrawCenteringInspector(const ImColor& onColor, const ImColor& offColor);
+        //void DrawMultilineInspector();
+        //void DrawAlignmentInspector(const ImColor& onColor, const ImColor& offColor);
+        //void DrawCenteringInspector(const ImColor& onColor, const ImColor& offColor);
 
         void OnDrawGizmos() override;
         

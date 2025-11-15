@@ -9,7 +9,7 @@ namespace Eclipse
 {
     class Camera : public Component
     {
-        BASE_SELECTION(Camera, 100)
+        COMPONENT_BASE_2(Camera, 100)
 
     public:
         void OnDestroy() override;

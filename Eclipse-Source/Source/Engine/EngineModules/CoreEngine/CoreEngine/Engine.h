@@ -7,24 +7,11 @@ namespace Eclipse
 	class Engine
 	{
 	public:
-		Engine() = delete;
-		~Engine() = delete;
-
-	public:
-		static void Init();
+		void Init();
 		
-		static void Internal_Update();
-
-		static bool BeginFrame();
-		static void Update();
-		static void Render();
-		static void EndFrame();
-
-	private:
-		static void InitSubSystems();
-
-
-	public:
-		static inline bool ShouldClose = false;
+		void BeginFrame();
+		void Update();
+		void Render();
+		void EndFrame();
 	};
 }

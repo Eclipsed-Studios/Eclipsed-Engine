@@ -7,14 +7,14 @@ namespace Eclipse
 
     }
 
-    void RectTransform::DrawInspector()
-    {
-        ImGui::Text("Position");
-        ImGui::SameLine();
-        ImGui::DragFloat2("##PositionRectTransform", (float*)Position.GetData());
+    //void RectTransform::DrawInspector()
+    //{
+    //    ImGui::Text("Position");
+    //    ImGui::SameLine();
+    //    ImGui::DragFloat2("##PositionRectTransform", (float*)Position.GetData());
 
-        ImGui::Text("Size");
-        ImGui::SameLine();
-        ImGui::DragFloat2("##SizeRectTransform", (float*)WidthHeightPX.GetData());
-    }
+    //    ImGui::Text("Size");
+    //    ImGui::SameLine();
+    //    ImGui::DragFloat2("##SizeRectTransform", (float*)WidthHeightPX.GetData());
+    //}
 }
