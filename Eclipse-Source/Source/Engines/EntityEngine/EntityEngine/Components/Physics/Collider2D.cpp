@@ -49,7 +49,9 @@ namespace Eclipse
 
             myCreatedInternally = true;
 
-            myTransform->AddFunctionToRunOnDirtyUpdate([this]() { this->OnTransformDirty(); });
+            myTransform->AddFunctionToRunOnDirtyUpdate([this]() { 
+                this->OnTransformDirty(); 
+            });
 
             CreateCollider();
         }

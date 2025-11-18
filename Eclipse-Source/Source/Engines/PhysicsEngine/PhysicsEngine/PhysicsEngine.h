@@ -50,7 +50,7 @@ namespace Eclipse
         static void CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, float aHalfHeight, float aRadius, Layer aLayer);
 
         // Complex
-        static void CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
+        static bool CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
 
         static void DeleteShape(b2ShapeId* aShape);
         static void DeleteBody(b2BodyId* aBody);

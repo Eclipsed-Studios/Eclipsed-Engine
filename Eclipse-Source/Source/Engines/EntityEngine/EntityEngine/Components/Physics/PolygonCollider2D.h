@@ -24,5 +24,7 @@ namespace Eclipse
     private:
         SERIALIZED_FIELD(std::vector<Math::Vector2f>, myPoints);
         std::vector<Math::Vector2f> myLastPoints;
+
+        bool CreatedShape = false;
     };
 }

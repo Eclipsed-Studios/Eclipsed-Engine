@@ -15,7 +15,7 @@ namespace Eclipse
 {
     void PolygonCollider2D::CreateCollider()
     {
-        PhysicsEngine::CreatePolygonCollider(&myInternalCollider, myBodyRef, myPoints, myLayer);
+        
     }
 
     void PolygonCollider2D::AddPoint(const Math::Vector2f& aPoint)
@@ -38,10 +38,13 @@ namespace Eclipse
             OnTransformDirty();
         }
     }
-    
+
     void PolygonCollider2D::OnTransformDirty()
     {
         Math::Vector2f scale = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
+
+        if (!CreatedShape)
+            CreatedShape = PhysicsEngine::CreatePolygonCollider(&myInternalCollider, myBodyRef, myPoints, myLayer);
 
         PhysicsEngine::SetTransformPolygon(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myPoints, scale);
     }

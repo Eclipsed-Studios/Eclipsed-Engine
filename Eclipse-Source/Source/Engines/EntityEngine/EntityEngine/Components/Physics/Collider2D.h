@@ -51,7 +51,6 @@ namespace Eclipse
 
     private:
         bool myCreatedInternally = false;
-
         int myLastLayer;
     };
 }

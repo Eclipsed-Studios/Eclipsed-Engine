@@ -131,7 +131,7 @@ namespace Eclipse
         *aShape = b2CreateCapsuleShape(aBodyID, &shapeDef, &capsule);
     }
 
-    void PhysicsEngine::CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer)
+    bool PhysicsEngine::CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer)
     {
         int pointCount = std::min(static_cast<int>(aPolygonPoints.size()), B2_MAX_POLYGON_VERTICES);
 
@@ -142,7 +142,7 @@ namespace Eclipse
 
         b2Hull hull = b2ComputeHull(vecOfVec.data(), pointCount);
         if (!b2ValidateHull(&hull))
-            return;
+            return false;
 
         b2Polygon polygon = b2MakePolygon(&hull, 0.0001f);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
@@ -158,6 +158,8 @@ namespace Eclipse
         shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
 
         *aShape = b2CreatePolygonShape(aBodyID, &shapeDef, &polygon);
+
+        return true;
     }
 
     void PhysicsEngine::DeleteBody(b2BodyId* aBody)

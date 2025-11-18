@@ -46,11 +46,11 @@ namespace Eclipse
 	{
 		Math::Vector3f positionV3(position->x, position->y, 1.f);
 
-		GameObject* parent = gameObject->GetParent();		
+		GameObject* parent = gameObject->GetParent();
 		if (parent && parent->transform)
 			positionV3 = positionV3 * parent->transform->GetTransformMatrix();
 
-		return {positionV3.x, positionV3.y};
+		return { positionV3.x, positionV3.y };
 	}
 
 	Math::Matrix3x3f Transform2D::GetTransformMatrix() const
@@ -186,11 +186,20 @@ namespace Eclipse
 	void Transform2D::EditorUpdate()
 	{
 		if (position->x != lastPosition.x || position->y != lastPosition.y)
+		{
+			lastPosition = position;
 			myIsDirty = true;
+		}
 		if (scale->x != lastScale.x || scale->y != lastScale.y)
+		{
+			lastScale = scale;
 			myIsDirty = true;
+		}
 		if (lastRotation != rotation)
+		{
+			lastRotation = rotation;
 			myIsDirty = true;
+		}
 
 
 		if (myIsDirty)
