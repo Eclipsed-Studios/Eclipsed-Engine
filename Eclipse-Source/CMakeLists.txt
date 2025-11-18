@@ -10,11 +10,10 @@ project(Eclipsed-Engine LANGUAGES CXX)
 add_compile_definitions(LEAN_AND_MEAN)
 
 
-option(EDITOR "Enable the editor" ON)
+add_compile_definitions(ECLIPSED_EDITOR)
 
-if(EDITOR)
-    add_compile_definitions(ECLIPSED_EDITOR)
-endif()
+set_property(GLOBAL PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
+
 
 # ---- Externals
 add_subdirectory(Source/Externals/DiscordSDK)
@@ -44,23 +43,16 @@ include_directories("${CMAKE_SOURCE_DIR}/Source/Utilities")
 link_libraries(Utilities)
 
 
-
-
-# ---- Editor
-if(EDITOR)
-    add_subdirectory(Source/Editor)
-endif()
-
-
-
 # ---- Engines
-add_subdirectory(Source/Engines/EntityEngine)
-add_subdirectory(Source/Engines/AudioEngine)
-add_subdirectory(Source/Engines/InputEngine)
-add_subdirectory(Source/Engines/AssetEngine)
-add_subdirectory(Source/Engines/GraphicsEngine)
-add_subdirectory(Source/Engines/CoreEngine)
-add_subdirectory(Source/Engines/PhysicsEngine)
+add_subdirectory(Source/Engine/EngineModules/EntityEngine)
+add_subdirectory(Source/Engine/EngineModules/AudioEngine)
+add_subdirectory(Source/Engine/EngineModules/InputEngine)
+add_subdirectory(Source/Engine/EngineModules/AssetEngine)
+add_subdirectory(Source/Engine/EngineModules/GraphicsEngine)
+add_subdirectory(Source/Engine/EngineModules/CoreEngine)
+add_subdirectory(Source/Engine/EngineModules/PhysicsEngine)
+add_subdirectory(Source/Engine/EclipsedEngine)
+add_subdirectory(Source/Engine/EclipsedRuntime)
 
 
 
@@ -88,16 +80,6 @@ else()
     add_compile_options(-include ${CMAKE_SOURCE_DIR}/Source/Utilities/pch.h)
 endif()
 
-
-
-
-
-# Move to editor
-if(EDITOR)
-set_target_properties(Editor PROPERTIES
-    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
-)
-endif()
 
 # Move to launcher
 set_target_properties(Launcher PROPERTIES

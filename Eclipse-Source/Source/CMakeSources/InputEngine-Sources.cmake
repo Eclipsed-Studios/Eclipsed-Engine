@@ -1,4 +1,4 @@
-set(INPUT_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engines/InputEngine")
+set(INPUT_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engine/EngineModules/InputEngine")
 
 file(GLOB_RECURSE INPUT_ENGINE_SOURCES
     "${INPUT_ENGINE_ROOT}/*.cpp"

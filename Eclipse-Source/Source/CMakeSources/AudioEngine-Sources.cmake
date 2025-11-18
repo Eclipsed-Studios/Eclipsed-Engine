@@ -1,4 +1,4 @@
-set(AUDIO_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engines/AudioEngine")
+set(AUDIO_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engine/EngineModules/AudioEngine")
 
 file(GLOB_RECURSE AUDIO_ENGINE_SOURCES
     "${AUDIO_ENGINE_ROOT}/*.cpp"

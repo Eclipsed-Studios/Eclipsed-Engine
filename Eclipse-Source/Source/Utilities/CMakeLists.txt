@@ -12,6 +12,10 @@ file(GLOB_RECURSE UTILITIES_SOURCES
 
 add_library(Utilities STATIC ${UTILITIES_SOURCES})
 
+add_compile_definitions("ECLIPSE_UTILITIES_EXPORTS")
+
+
+
 target_precompile_headers(Utilities PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 set_target_properties(Utilities PROPERTIES

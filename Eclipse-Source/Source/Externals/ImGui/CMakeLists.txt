@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.19.2)
 
+set(IMGUI_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 file(GLOB_RECURSE IMGUI_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
+    "${IMGUI_ROOT}/*.cpp"
+    "${IMGUI_ROOT}/*.h"
+    "${IMGUI_ROOT}/*.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
 )
 

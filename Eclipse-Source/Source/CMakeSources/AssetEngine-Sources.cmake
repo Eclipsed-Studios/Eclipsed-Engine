@@ -1,4 +1,4 @@
-    set(ASSET_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engines/AssetEngine")
+    set(ASSET_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engine/EngineModules/AssetEngine")
 file(GLOB_RECURSE ASSET_ENGINE_SOURCES
     "${ASSET_ENGINE_ROOT}/*.cpp"
     "${ASSET_ENGINE_ROOT}/*.h"
