@@ -44,6 +44,11 @@ include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/PhysicsEngine-Sources.cmake")
 target_include_directories(EntityEngine PUBLIC ${PHYSICS_ENGINE_ROOT})
 target_link_libraries(EntityEngine PUBLIC PhysicsEngine)
 
+# ---- Network Engine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/NetworkEngine-Sources.cmake")
+target_include_directories(EntityEngine PUBLIC ${NETWORK_ENGINE_ROOT})
+target_link_libraries(EntityEngine PUBLIC NetworkEngine)
+
 
 # ---- Externals
 target_include_directories(EntityEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/stbi_image/) # REMOVE WHEN ASSET ENGINE IS ADDED

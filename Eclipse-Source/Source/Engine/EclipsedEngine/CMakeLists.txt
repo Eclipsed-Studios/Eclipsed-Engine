@@ -68,6 +68,11 @@ include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/AudioEngine-Sources.cmake")
 target_include_directories(EclipsedEngine PUBLIC ${AUDIO_ENGINE_ROOT})
 target_link_libraries(EclipsedEngine PUBLIC AudioEngine)
 
+#---- NetworkEngine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/NetworkEngine-Sources.cmake")
+target_include_directories(EclipsedEngine PUBLIC ${NETWORK_ENGINE_ROOT})
+target_link_libraries(EclipsedEngine PUBLIC NetworkEngine)
+
 
 
 

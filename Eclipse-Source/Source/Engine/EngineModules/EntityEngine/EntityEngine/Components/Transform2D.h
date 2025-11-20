@@ -9,6 +9,9 @@
 #include <Utilities/Math/Vector/Vector3.h>
 #include "Utilities/Math/Matrix/Matrix3x3.h"
 
+
+#include "NetworkEngine/Replication/Replication_Macros.h"
+
 namespace Eclipse
 {
 	class Transform2D : public Component

@@ -28,10 +28,12 @@ namespace Eclipse
 {
 	typedef unsigned RegisteredTypeIndex;
 
+	
 	class GameObject;
 	class ComponentManager;
 	class Component
 	{
+		friend class ReplicatedVariable;
 		friend class Editor::EditorActions;
 		friend class Editor::HierarchyWindow;
 		friend class Editor::SceneWindow;
@@ -93,6 +95,8 @@ namespace Eclipse
 
 
 	public:
+		//SERIALIZED_FIELD_DEFAULT(bool, IsReplicated, false);
+
 		GameObject* gameObject;
 
 	protected:
