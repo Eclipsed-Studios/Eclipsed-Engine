@@ -8,15 +8,22 @@
 
 #include <unordered_map>
 
+	#include "asio/asio/asio.hpp"
+
+
 namespace Eclipse
 {
+	using asio::ip::udp;
+
 	class Client;
+
+	template <class T>
 	class GarantiedMessageHandler
 	{
 	public:
-		GarantiedMessageHandler(Client* aClientReference) : ClientReference(aClientReference)
+		GarantiedMessageHandler(void (T::*aSendDirectlyFunc)(NetMessage&, const udp::endpoint&), T* owner) : FunctionOwner(owner), SendDirectlyFunc(aSendDirectlyFunc)
 		{
-
+			
 		}
 
 		~GarantiedMessageHandler()
@@ -39,7 +46,8 @@ namespace Eclipse
 
 		float TimeBetweenTryAgains = 0.1f;
 
-		Client* ClientReference;
+		T* FunctionOwner;
+		void (T::*SendDirectlyFunc)(NetMessage&, const udp::endpoint&);
 
 		//Temporary
 		float DeltaTime = 0.f;

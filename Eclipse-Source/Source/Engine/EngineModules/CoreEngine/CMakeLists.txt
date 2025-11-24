@@ -60,6 +60,11 @@ include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/AudioEngine-Sources.cmake")
 target_include_directories(CoreEngine PUBLIC ${AUDIO_ENGINE_ROOT})
 target_link_libraries(CoreEngine PUBLIC AudioEngine)
 
+# ---- AudioEngine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/NetworkEngine-Sources.cmake")
+target_include_directories(CoreEngine PUBLIC ${NETWORK_ENGINE_ROOT})
+target_link_libraries(CoreEngine PUBLIC NetworkEngine)
+
 
 # ---- Externals
 target_include_directories(CoreEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/stbi_image/) # REMOVE WHEN ASSET ENGINE IS ADDED

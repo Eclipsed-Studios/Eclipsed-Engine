@@ -19,8 +19,11 @@ namespace Eclipse::Utilities
         template<typename T>
         static T& GetInstance();
 
-        template<typename T>
-        static T& RegisterInstance();
+        template<typename T, typename ...Args>
+        static T& RegisterInstance(Args&&... args);
+
+        // template<typename T>
+        // static void RegisterInstance(T* aInstance);
 
         template<typename T>
         static bool Exists();
@@ -38,13 +41,20 @@ namespace Eclipse::Utilities
         throw std::runtime_error("Singleton not registered.");
     }
 
-    template<typename T>
-    inline T& MainSingleton::RegisterInstance()
+    template<typename T, typename ...Args>
+    inline T& MainSingleton::RegisterInstance(Args&&... args)
     {
-        auto instance = std::make_shared<T>();
+        auto instance = std::make_shared<T>(std::forward<Args>(args)...);
         mySingletons[typeid(T)] = instance;
         return *instance;
     }
+
+    // template<typename T>
+    // inline void MainSingleton::RegisterInstance(T* aInstance)
+    // {
+    //     auto instance = std::make_shared<T>(aInstance);
+    //     mySingletons[typeid(T)] = instance;
+    // }
 
     template<typename T>
     inline bool MainSingleton::Exists()

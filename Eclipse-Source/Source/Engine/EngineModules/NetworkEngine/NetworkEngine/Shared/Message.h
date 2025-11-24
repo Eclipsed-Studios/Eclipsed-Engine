@@ -27,15 +27,15 @@ namespace Eclipse
 			bool Trash[2];
 			int messageID;
 
-			MessageType msgType;
+			MessageType Type;
 			int GameObjectID;
-			size_t dataSize;
+			int dataSize;
 		} MetaData;
 
 		char data[512 - sizeof(MetaData)];
 
 	public:
-		static inline NetMessage BuildGameObjectMessage(int aGameObjectID, MessageType messageType, const void* data, size_t aByteSize, bool IsGarantied)
+		static inline NetMessage BuildGameObjectMessage(int aGameObjectID, MessageType messageType, const void* data, int aByteSize, bool IsGarantied)
 		{
 			NetMessage message;
 
@@ -45,7 +45,7 @@ namespace Eclipse
 			message.MetaData.SentGarantied = true;
 			message.MetaData.messageID = ++messageIDIncrementor;
 
-			message.MetaData.msgType = messageType;
+			message.MetaData.Type = messageType;
 			message.MetaData.GameObjectID = aGameObjectID;
 			message.MetaData.dataSize = aByteSize;
 

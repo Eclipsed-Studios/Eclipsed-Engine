@@ -55,25 +55,25 @@ namespace Eclipse
 
 		static void SortComponents();
 
-		static void BeginCollisions(GameObjectID aGOID);
-		static void EndCollisions(GameObjectID aGOID);
+		static void BeginCollisions(unsigned aGOID);
+		static void EndCollisions(unsigned aGOID);
 
 		template <typename T>
-		static T* GetComponent(GameObjectID aGOID);
+		static T* GetComponent(unsigned aGOID);
 
 		template <typename T>
-		static T* AddComponent(GameObjectID aGOID);
+		static T* AddComponent(unsigned aGOID);
 
 		template <typename T>
-		static void RemoveComponent(GameObjectID aGOID);
+		static void RemoveComponent(unsigned aGOID);
 
 		template <typename T>
-		static T* AddComponentWithID(GameObjectID aGOID, unsigned aComponentID);
+		static T* AddComponentWithID(unsigned aGOID, unsigned aComponentID);
 
 
-		static Eclipse::Component* AddComponent(GameObjectID aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
+		static Eclipse::Component* AddComponent(unsigned aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
 
-		static Eclipse::Component* AddComponentWithID(GameObjectID aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
+		static Eclipse::Component* AddComponentWithID(unsigned aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
 
 
 
@@ -82,16 +82,16 @@ namespace Eclipse
 
 		static const std::vector<Component*>& GetAllComponents();
 
-		static std::vector<Component*> GetComponents(GameObjectID aGOID);
+		static std::vector<Component*> GetComponents(unsigned aGOID);
 
 
-		static bool HasGameObject(GameObjectID aGOID);
+		static bool HasGameObject(unsigned aGOID);
 
-		static void Destroy(GameObjectID aGOID);
+		static void Destroy(unsigned aGOID);
 
 		static GameObject* CreateGameObject();
 		static GameObject* CreateGameObjectNoTransform();
-		static GameObject* CreateGameObjectNoTransformWithID(GameObjectID aId);
+		static GameObject* CreateGameObjectNoTransformWithID(unsigned aId);
 
 		static void Clear();
 
@@ -105,8 +105,8 @@ namespace Eclipse
 		static inline std::vector<Component*> myComponentsToStart;
 
 		// Gameobject to components
-		static inline std::unordered_map<GameObjectID, GameObject*> myEntityIdToEntity;
-		static inline std::unordered_map<GameObjectID, std::unordered_map<unsigned, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
+		static inline std::unordered_map<unsigned, GameObject*> myEntityIdToEntity;
+		static inline std::unordered_map<unsigned, std::unordered_map<unsigned, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
 	};
 }
 

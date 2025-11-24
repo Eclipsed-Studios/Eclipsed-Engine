@@ -13,6 +13,8 @@
 
 #include "AssetEngine/PathManager.h"
 
+#include "NetworkEngine/Replication/ReplicationManager.h"
+
 
 namespace Eclipse
 {
@@ -64,6 +66,7 @@ namespace Eclipse
 				};
 		}
 
+		Replication::ReplicationManager::Init();
 	}
 
 	void EclipsedRuntime::UpdateGame()
@@ -93,6 +96,8 @@ namespace Eclipse
 
 	void EclipsedRuntime::EndFrame()
 	{
+		Replication::ReplicationManager::Update();
+		
 		GraphicsEngine::EndFrame();
 	}
 

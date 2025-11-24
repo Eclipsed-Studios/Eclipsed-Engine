@@ -2,31 +2,26 @@
 
 #include <string>
 
-#include "EntityEngine/Components/Base/Component.h"
-#include "EntityEngine/GameObject.h"
-
 namespace Eclipse
 {
-    class ReplicatedVariable
+    class Component;
+    namespace Replication
     {
-    public:
-        ReplicatedVariable(std::string aName, Component* aComponent)
+        class ReplicatedVariable
         {
-            GameObjectReplicationID = aComponent->myInstanceComponentID;
-            ReplicationComponentID = aComponent->gameObject->GetID();
-            VariableName = aComponent->GetComponentName();
-        }
+        public:
+            inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic);
+            inline void ReplicateThis();
 
-        void REPComponent()
-        {
+        public:
+            void* myVariableAddress;
+            bool ManualVariableSending;
+            int dataAmount;
 
-        }
+            size_t vectorIndex;
+        };
+    }
 
-    public:
-        int GameObjectReplicationID = 0;
-        int ReplicationComponentID = 0;
-        std::string VariableName;
-
-        bool ManualVariableSending;
-    };
 }
+
+#include "ReplicatedVariable.inl"

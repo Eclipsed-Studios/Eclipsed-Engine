@@ -7,7 +7,7 @@ namespace Eclipse::Editor
 {
 	class GameSettingsWindow final : public AbstractWindow
 	{
-		EDITOR_WINDOW_BASE_2(GameSettingsWindow, "Game Settings", "Settings");
+		EDITOR_WINDOW_BASE_3(GameSettingsWindow, "Game Settings", "Settings");
 
 	public:
 		void Update() override;

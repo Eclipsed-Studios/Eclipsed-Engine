@@ -2,9 +2,12 @@
 
 #include <thread>
 
-#include "Message.h"
+#include "Utilities/Common/MainSingleton.h"
 
-#include "GarantiedMessageHandler.h"
+#include "NetworkEngine/Shared/Message.h"
+#include "NetworkEngine/Shared/GarantiedMessageHandler.h"
+
+#include "asio/asio/asio.hpp"
 
 namespace Eclipse
 {
@@ -28,12 +31,14 @@ namespace Eclipse
 			socket(ioContext),
 			serverEndpoint(*(udp::resolver(ioContext)).resolve(udp::v4(), ip, "18888").begin()),
 			recieveThread(&Client::RecieveThread, this, &ioContext),
-			garantiedMessageHandler(this)
+			garantiedMessageHandler(&Client::SendDirectly_NoChecks, this)
 		{
 			memset(recieveBuffer, 0, sizeof(recieveBuffer));
 			socket.open(udp::v4());
 			StartRecieve();
 		}
+
+		void HandleRecieve(const NetMessage& message);
 
 		void Update()
 		{
@@ -56,13 +61,8 @@ namespace Eclipse
 				if (!message.MetaData.SentGarantied)
 					garantiedMessageHandler.RecievedGarantied(message);
 			}
-			// else
-			// {
-			// 	size_t realMessageSize = message.MetaData.dataSize - sizeof(message.MetaData);
-			// 	char Zero = '\0';
-			// 	memcpy(message.data + realMessageSize, &Zero, 1);
-			// 	std::cout << message.data << std::endl;
-			// }
+
+			HandleRecieve(message);
 		}
 
 		void StartRecieve()
@@ -89,12 +89,13 @@ namespace Eclipse
 		}
 
 	private:
+		template <class T>
 		friend class GarantiedMessageHandler;
 
 		// Does check for garantied messages do not use this function
-		void SendDirectly_NoChecks(NetMessage& message)
+		void SendDirectly_NoChecks(NetMessage& message, const udp::endpoint& endpoint)
 		{
-			socket.async_send_to(asio::buffer(&message, message.MetaData.dataSize), serverEndpoint, std::bind(&Client::SendManager, this));
+			socket.async_send_to(asio::buffer(&message, message.MetaData.dataSize), endpoint, std::bind(&Client::SendManager, this));
 		}
 
 	private:
@@ -108,6 +109,6 @@ namespace Eclipse
 
 		std::thread recieveThread;
 
-		GarantiedMessageHandler garantiedMessageHandler;
+		GarantiedMessageHandler<Client> garantiedMessageHandler;
 	};
 }

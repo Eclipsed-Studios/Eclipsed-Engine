@@ -5,6 +5,8 @@
 #include <functional>
 #include <thread>
 #include <mutex>
+
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 namespace Eclipse::Editor

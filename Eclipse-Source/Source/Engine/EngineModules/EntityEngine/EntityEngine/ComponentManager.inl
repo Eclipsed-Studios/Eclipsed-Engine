@@ -25,7 +25,7 @@ namespace Eclipse
     }
 
     template <typename T>
-    inline T* ComponentManager::GetComponent(GameObjectID aGOID)
+    inline T* ComponentManager::GetComponent(unsigned aGOID)
     {
         if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
             return nullptr;
@@ -44,7 +44,7 @@ namespace Eclipse
     }
 
     template <typename T>
-    inline T* ComponentManager::AddComponent(GameObjectID aGOID)
+    inline T* ComponentManager::AddComponent(unsigned aGOID)
     {
         uint8_t* base = static_cast<uint8_t*>(myComponentData);
         uint8_t* ptrToComponent = base + myComponentMemoryTracker;
@@ -84,7 +84,7 @@ namespace Eclipse
     }
 
     template<typename T>
-    inline T* ComponentManager::AddComponentWithID(GameObjectID aGOID, unsigned aComponentID)
+    inline T* ComponentManager::AddComponentWithID(unsigned aGOID, unsigned aComponentID)
     {
         uint8_t* base = static_cast<uint8_t*>(myComponentData);
         uint8_t* ptrToComponent = base + myComponentMemoryTracker;
@@ -119,7 +119,7 @@ namespace Eclipse
     }
 
     template <typename T>
-    inline void ComponentManager::RemoveComponent(GameObjectID aGOID)
+    inline void ComponentManager::RemoveComponent(unsigned aGOID)
     {
         if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
             return;
@@ -144,7 +144,7 @@ namespace Eclipse
         }
 
         int backComponenetIndex = myComponents.back()->myComponentIndex;
-        GameObjectID backGameObject = *myComponents.back()->gameObject;
+        unsigned backGameObject = *myComponents.back()->gameObject;
 
         auto& backEntityIDComponents = myEntityIDToVectorOfComponentIDs.at(backGameObject);
 

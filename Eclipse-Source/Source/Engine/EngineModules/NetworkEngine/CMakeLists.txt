@@ -15,11 +15,13 @@ set_target_properties(NetworkEngine PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
 )
 
+# ---- Networkengine
+include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/NetworkEngine-Sources.cmake")
+target_include_directories(NetworkEngine PRIVATE ${NETWORK_ENGINE_ROOT})
+
 # ---- EntityEngine
 include("${CMAKE_SOURCE_DIR}/Source/CMakeSources/EntityEngine-Sources.cmake")
 target_include_directories(NetworkEngine PRIVATE ${ENTITY_ENGINE_ROOT})
 target_link_libraries(NetworkEngine PRIVATE EntityEngine)
-
-target_include_directories(NetworkEngine PRIVATE "${CMAKE_SOURCE_DIR}/Source/Externals/asio")
 
 set_target_properties(NetworkEngine PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)

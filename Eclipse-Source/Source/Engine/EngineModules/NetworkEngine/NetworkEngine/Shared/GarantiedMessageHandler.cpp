@@ -4,10 +4,13 @@
 
 namespace Eclipse
 {
-	void GarantiedMessageHandler::Update()
+	template <class T>
+	void GarantiedMessageHandler<T>::Update()
 	{
-		for (auto& [networkID, message] : GarantiedMsgs)
+		for (std::pair<unsigned, GarantiedMessage> garantiedMessage : GarantiedMsgs)
 		{
+			GarantiedMessage message = garantiedMessage.second;
+
 			float& TryAgainTimer = message.TryAgainTimer;
 
 			TryAgainTimer -= DeltaTime;
@@ -15,13 +18,14 @@ namespace Eclipse
 			if (TryAgainTimer > 0.f)
 				continue;
 
-			ClientReference->SendDirectly_NoChecks(message.message);
+			//(FunctionOwner->*SendDirectlyFunc)(message.message);
 
 			TryAgainTimer = TimeBetweenTryAgains;
 		}
 	}
 
-	void GarantiedMessageHandler::Enqueue(const NetMessage& message)
+	template <class T>
+	void GarantiedMessageHandler<T>::Enqueue(const NetMessage& message)
 	{
 		NetMessage cpyMessage;
 		std::memcpy(&cpyMessage, &message, message.MetaData.dataSize);
@@ -31,7 +35,8 @@ namespace Eclipse
 		mapChangeMutex.unlock();
 	}
 
-	void GarantiedMessageHandler::RecievedGarantied(const NetMessage& aMessage)
+	template <class T>
+	void GarantiedMessageHandler<T>::RecievedGarantied(const NetMessage& aMessage)
 	{
 		if (aMessage.MetaData.SentGarantied)
 			return;

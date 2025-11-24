@@ -11,6 +11,7 @@
 
 
 #include "NetworkEngine/Replication/Replication_Macros.h"
+#include "NetworkEngine/Replication/ReplicatedVariable.h"
 
 namespace Eclipse
 {
@@ -57,7 +58,7 @@ namespace Eclipse
 		void AddFunctionToRunOnDirtyUpdate(const std::function<void()>& aFunction);
 
 	private:
-		SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, position, Math::Vector2f(0, 0));
+		REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, position, Math::Vector2f(0, 0));
 		SERIALIZED_FIELD_DEFAULT(float, rotation, 0);
 		SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1));
 
