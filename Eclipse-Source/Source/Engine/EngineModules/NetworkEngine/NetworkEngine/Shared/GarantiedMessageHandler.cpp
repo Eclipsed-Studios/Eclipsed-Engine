@@ -18,20 +18,20 @@ namespace Eclipse
 			if (TryAgainTimer > 0.f)
 				continue;
 
-			//(FunctionOwner->*SendDirectlyFunc)(message.message);
+			(FunctionOwner->*SendDirectlyFunc)(message.message, message.endpoint);
 
 			TryAgainTimer = TimeBetweenTryAgains;
 		}
 	}
 
 	template <class T>
-	void GarantiedMessageHandler<T>::Enqueue(const NetMessage& message)
+	void GarantiedMessageHandler<T>::Enqueue(const NetMessage& message, const udp::endpoint& anEndpoint)
 	{
 		NetMessage cpyMessage;
 		std::memcpy(&cpyMessage, &message, message.MetaData.dataSize);
 
 		mapChangeMutex.lock();
-		GarantiedMsgs.emplace(message.MetaData.messageID, GarantiedMessage(message));
+		GarantiedMsgs.emplace(message.MetaData.messageID, GarantiedMessage(message, anEndpoint));
 		mapChangeMutex.unlock();
 	}
 

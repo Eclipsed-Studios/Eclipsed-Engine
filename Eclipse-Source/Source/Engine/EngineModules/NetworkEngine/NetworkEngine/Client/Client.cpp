@@ -11,22 +11,24 @@ namespace Eclipse
         {
         case MessageType::Msg_Variable:
         {
-            int vectorIndex = 0;
+            int replicationVarID = 0;
             int dataAmount = 0;
 
             size_t offset = 0;
 
-            memcpy(&vectorIndex, message.data + offset, sizeof(vectorIndex));
-            offset += sizeof(vectorIndex);
+            memcpy(&replicationVarID, message.data + offset, sizeof(replicationVarID));
+            offset += sizeof(replicationVarID);
 
             memcpy(&dataAmount, message.data + offset, sizeof(dataAmount));
             offset += sizeof(dataAmount);
 
-            auto& Variable = Replication::ReplicationManager::ReplicatedVariableList[vectorIndex];
+            auto variableIt = Replication::ReplicationManager::ReplicatedVariableList.find(replicationVarID);
+            if (variableIt == Replication::ReplicationManager::ReplicatedVariableList.end())
+                return;
 
-            void* variableData = Variable->myVariableAddress;
-
+            void* variableData = variableIt->second->myVariableAddress;
             memcpy(variableData, message.data + offset, dataAmount);
+
             offset += dataAmount;
         }
         break;

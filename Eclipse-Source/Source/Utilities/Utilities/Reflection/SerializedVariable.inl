@@ -15,24 +15,28 @@ namespace Eclipse::Reflection
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector)
 	{
+		ReplicatedVariableIndex = ReplicatedIDCounter++;
 	}
 
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue)
 	{
+		ReplicatedVariableIndex = ReplicatedIDCounter++;
 	}
 
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, T _min, T _max)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), myMin(_min), myMax(_max), hasMinMax(true)
 	{
+		ReplicatedVariableIndex = ReplicatedIDCounter++;
 	}
 
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue, T _min, T _max)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
 	{
+		ReplicatedVariableIndex = ReplicatedIDCounter++;
 	}
 //#else
 //	template<typename T>

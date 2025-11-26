@@ -87,6 +87,8 @@ namespace Eclipse
 
 		static bool HasGameObject(unsigned aGOID);
 
+		static void CommitDestroy();
+
 		static void Destroy(unsigned aGOID);
 
 		static GameObject* CreateGameObject();
@@ -107,6 +109,8 @@ namespace Eclipse
 		// Gameobject to components
 		static inline std::unordered_map<unsigned, GameObject*> myEntityIdToEntity;
 		static inline std::unordered_map<unsigned, std::unordered_map<unsigned, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
+
+		static inline std::vector<unsigned> gameobjectsToRemove;
 	};
 }
 

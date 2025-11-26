@@ -118,7 +118,7 @@ namespace Eclipse
 			mapOfComponentsGO[index] = static_cast<ComponentIndex>(i);
 		}
 	}
-	
+
 	Eclipse::Component* ComponentManager::AddComponent(GameObjectID aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size)
 	{
 		uint8_t* base = static_cast<uint8_t*>(myComponentData);
@@ -214,72 +214,86 @@ namespace Eclipse
 		return myEntityIDToVectorOfComponentIDs.find(aGOID) != myEntityIDToVectorOfComponentIDs.end();
 	}
 
+	void ComponentManager::CommitDestroy()
+	{
+		if(gameobjectsToRemove.empty())
+			return;
+
+		for(int goID : gameobjectsToRemove)
+		{
+			std::vector<int> componentsToRemove;
+
+			for (auto& componentAtGO : myEntityIDToVectorOfComponentIDs.at(goID))
+			{
+				Component*& component = myComponents[componentAtGO.second];
+
+				component->OnDestroy();
+				component->~Component();
+
+				component = nullptr;
+
+				//memset(component, 0, sizeof(component));
+
+				componentsToRemove.emplace_back(componentAtGO.second);
+			}
+
+			int sizeOfComponents = myComponents.size();
+			int sizeOfComponentsRemove = componentsToRemove.size();
+			int sizeAfterRemoval = (sizeOfComponents - sizeOfComponentsRemove);
+
+			std::vector<bool> used(sizeOfComponents, false);
+
+			for (int i = 0; i < sizeOfComponentsRemove; i++)
+			{
+				int componentIndex = componentsToRemove[i];
+				int replaceIndex = sizeOfComponents - 1 - i;
+
+				// if (sizeOfComponents - 1 - i) == to any of componentsToRemove then go back until that is not true anymore
+				bool found;
+				do
+				{
+					found = false;
+					for (int j = 0; j < sizeOfComponentsRemove; j++)
+					{
+						if (replaceIndex == componentsToRemove[j] || used[replaceIndex])
+						{
+							replaceIndex--;
+							found = true;
+							break;
+						}
+					}
+				} while (found && replaceIndex >= 0);
+
+				if (replaceIndex < 0)
+					continue;
+
+				used[replaceIndex] = true;
+
+				if (componentIndex > sizeAfterRemoval)
+				{
+					myComponents.insert(myComponents.begin() + sizeAfterRemoval, myComponents[replaceIndex]);
+					sizeAfterRemoval++;
+				}
+				else
+				{
+					myComponents[componentIndex] = myComponents[replaceIndex];
+				}
+			}
+
+			myComponents.resize(sizeAfterRemoval);
+
+			SortComponents();
+
+			delete myEntityIdToEntity.at(goID);
+			myEntityIdToEntity.erase(goID);
+		}
+
+		gameobjectsToRemove.clear();
+	}
+
 	void ComponentManager::Destroy(GameObjectID aGOID)
 	{
-		std::vector<int> componentsToRemove;
-
-		for (auto& componentAtGO : myEntityIDToVectorOfComponentIDs.at(aGOID))
-		{
-			Component* component = myComponents[componentAtGO.second];
-
-			component->OnDestroy();
-			component->~Component();
-
-			componentsToRemove.emplace_back(componentAtGO.second);
-		}
-
-		int sizeOfComponents = myComponents.size();
-		int sizeOfComponentsRemove = componentsToRemove.size();
-		int sizeAfterRemoval = (sizeOfComponents - sizeOfComponentsRemove);
-
-		std::vector<bool> used(sizeOfComponents, false);
-
-		for (int i = 0; i < sizeOfComponentsRemove; i++)
-		{
-			int componentIndex = componentsToRemove[i];
-			int replaceIndex = sizeOfComponents - 1 - i;
-
-			// if (sizeOfComponents - 1 - i) == to any of componentsToRemove then go back until that is not true anymore
-			bool found;
-			do
-			{
-				found = false;
-				for (int j = 0; j < sizeOfComponentsRemove; j++)
-				{
-					if (replaceIndex == componentsToRemove[j] || used[replaceIndex])
-					{
-						replaceIndex--;
-						found = true;
-						break;
-					}
-				}
-			} while (found && replaceIndex >= 0);
-
-			if (replaceIndex < 0)
-				continue;
-
-			used[replaceIndex] = true;
-
-			if (componentIndex > sizeAfterRemoval)
-			{
-				myComponents.insert(myComponents.begin() + sizeAfterRemoval, myComponents[replaceIndex]);
-				sizeAfterRemoval++;
-			}
-			else
-			{
-				myComponents[componentIndex] = myComponents[replaceIndex];
-			}
-		}
-
-		myComponents.resize(sizeAfterRemoval);
-
-		SortComponents();
-
-		delete myEntityIdToEntity.at(aGOID);
-		myEntityIdToEntity.erase(aGOID);
-
-		int i = 0;
-
+		gameobjectsToRemove.emplace_back(aGOID);
 	}
 
 	GameObject* ComponentManager::CreateGameObject()

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <unordered_map>
 
 namespace Eclipse
 {
@@ -20,13 +20,23 @@ namespace Eclipse::Replication
         ReplicationManager() = default;
         ~ReplicationManager() = default;
 
-        static void Init();
+        static void ReplicateVariable(unsigned aID);
+
+        static void CreateServer();
+        static void CreateClient();
+        
+        static void Start();
         static void Update();
 
-        static inline std::vector<ReplicatedVariable*> ReplicatedVariableList;
+        static inline std::unordered_map<unsigned, ReplicatedVariable*> ReplicatedVariableList;
 
         static inline Client* client = nullptr;
         static inline Server* server = nullptr;
+
+        static inline bool startServer = false;
+        static inline bool startClient = true;
+
+        static inline bool startedGame = false;
     private:
     };
 }

@@ -32,7 +32,7 @@ namespace Eclipse
 		}
 
 		void Update();
-		void Enqueue(const NetMessage& message);
+		void Enqueue(const NetMessage& message, const udp::endpoint& anEndpoint);
 		void RecievedGarantied(const NetMessage& aMessage);
 
 		void UpdateDeltaTime(float deltaTime)
@@ -55,11 +55,12 @@ namespace Eclipse
 	public:
 		struct GarantiedMessage
 		{
-			GarantiedMessage(const NetMessage& aMessage)
+			GarantiedMessage(const NetMessage& aMessage, const udp::endpoint& anEndpoint) : endpoint(anEndpoint)
 			{
 				memcpy(&message, &aMessage, 512);
 			}
-
+			
+			udp::endpoint endpoint;
 			float TryAgainTimer = 0;
 			NetMessage message;
 		};

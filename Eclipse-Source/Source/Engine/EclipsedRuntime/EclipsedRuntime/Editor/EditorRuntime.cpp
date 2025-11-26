@@ -118,6 +118,8 @@ namespace Eclipse::Editor
 		// else SaveOnce = false;
 
 		eclipseRuntime.EndFrame();
+
+		ComponentManager::CommitDestroy();
 	}
 
 
@@ -140,6 +142,8 @@ namespace Eclipse::Editor
 				isPaused = false;
 
 				SceneLoader::Save(SceneManager::GetActiveScene());
+
+				Replication::ReplicationManager::Start();
 
 				ImGui::End();
 				return;

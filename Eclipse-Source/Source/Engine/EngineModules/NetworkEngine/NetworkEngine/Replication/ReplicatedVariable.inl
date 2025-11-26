@@ -11,7 +11,7 @@
 
 namespace Eclipse::Replication
 {
-    ReplicatedVariable::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic)
+    ReplicatedVariable::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID)
     {
         bool variableExist = false;
 
@@ -22,6 +22,8 @@ namespace Eclipse::Replication
         {
             if (variable->GetName() == aName)
             {
+                variable->ResolveTypeInfo();
+                
                 myVariableAddress = variable->GetData();
                 dataAmount = variable->GetSizeInBytes();
                 variableExist = true;
@@ -31,18 +33,20 @@ namespace Eclipse::Replication
 
         assert(variableExist);
 
-        vectorIndex = ReplicationManager::ReplicatedVariableList.size();
-        ReplicationManager::ReplicatedVariableList.emplace_back(this);
+        ReplicationManager::ReplicatedVariableList.emplace(ID, this);
     }
 
-    void ReplicatedVariable::ReplicateThis()
+    void ReplicatedVariable::ReplicateThis(unsigned aID)
     {
-        char* data = new char[sizeof(vectorIndex) + sizeof(int) + dataAmount];
+        if (!Utilities::MainSingleton::Exists<Client>())
+            return;
+
+        char* data = new char[sizeof(aID) + sizeof(int) + dataAmount];
 
         size_t offset = 0;
 
-        memcpy(data + offset, &vectorIndex, sizeof(vectorIndex));
-        offset += sizeof(vectorIndex);
+        memcpy(data + offset, &aID, sizeof(aID));
+        offset += sizeof(aID);
 
         memcpy(data + offset, &dataAmount, sizeof(dataAmount));
         offset += sizeof(dataAmount);
@@ -50,7 +54,7 @@ namespace Eclipse::Replication
         memcpy(data + offset, myVariableAddress, dataAmount);
         offset += dataAmount;
 
-        NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_Variable, data, dataAmount, false);
+        NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_Variable, data, offset, false);
 
         Client& client = Utilities::MainSingleton::GetInstance<Client>();
         client.Send(message, true);

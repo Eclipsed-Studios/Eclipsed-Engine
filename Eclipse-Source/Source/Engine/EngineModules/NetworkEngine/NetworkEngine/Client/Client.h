@@ -78,7 +78,7 @@ namespace Eclipse
 		void Send(NetMessage& message, bool SendAnyway = false)
 		{
 			if (message.MetaData.IsGarantied)
-				garantiedMessageHandler.Enqueue(message);
+				garantiedMessageHandler.Enqueue(message, serverEndpoint);
 			else
 				socket.async_send_to(asio::buffer(&message, message.MetaData.dataSize), serverEndpoint, std::bind(&Client::SendManager, this));
 		}

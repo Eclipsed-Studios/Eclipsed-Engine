@@ -65,8 +65,6 @@ namespace Eclipse
 					ComponentManager::EndCollisions(aUserData.gameobject);
 				};
 		}
-
-		Replication::ReplicationManager::Init();
 	}
 
 	void EclipsedRuntime::UpdateGame()

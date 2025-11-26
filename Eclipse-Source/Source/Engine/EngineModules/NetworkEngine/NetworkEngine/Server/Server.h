@@ -37,7 +37,7 @@ namespace Eclipse
 
 		void Update()
 		{
-			garantiedMessageHandler.Update();	
+			garantiedMessageHandler.Update();
 		}
 
 		void StartRecieve()
@@ -74,7 +74,13 @@ namespace Eclipse
 				Send(message);
 			}
 
-			//for(auto& endpoint : )
+			for (auto& endpoint : endpoints)
+			{
+				if (recieveEndpoint.port() == endpoint.port())
+					continue;
+
+				Send(&message, message.MetaData.dataSize, endpoint);
+			}
 		}
 
 		void SendManager()
@@ -92,7 +98,8 @@ namespace Eclipse
 
 		void Send(const NetMessage& message)
 		{
-			Send(&message, message.MetaData.dataSize, recieveEndpoint);
+			for (auto& endpoint : endpoints)
+				Send(&message, message.MetaData.dataSize, endpoint);
 		}
 
 	private:

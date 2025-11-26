@@ -12,6 +12,8 @@
 
 #include "EclipsedRuntime/Editor/ImGui/ImGui_Impl.h"
 
+#include "NetworkEngine/Replication/ReplicationManager.h"
+
 namespace Eclipse::Editor
 {
 	WindowManager::WindowManager()
@@ -23,7 +25,7 @@ namespace Eclipse::Editor
 	{
 		for (auto entry : std::filesystem::directory_iterator(PathManager::GetEngineAssets() / "Editor/Layouts/"))
 		{
-			
+
 
 			myLayouts.push_back(entry.path().filename().string());
 		}
@@ -97,10 +99,6 @@ namespace Eclipse::Editor
 			{
 				if (ImGui::BeginMenu("Saved Layouts"))
 				{
-
-
-
-
 					if (ImGui::MenuItem("Default"))
 					{
 						OpenLayout("Default");
@@ -142,6 +140,19 @@ namespace Eclipse::Editor
 				// {
 				// 	int i = 0;
 				// }
+			}
+
+			if (ImGui::BeginMenu("Network"))
+			{
+				ImGui::Checkbox("##Start Server Checkbox", &Replication::ReplicationManager::startServer);
+				ImGui::SameLine();
+				ImGui::Text("Start Server");
+
+				ImGui::Checkbox("##Start Client Checkbox", &Replication::ReplicationManager::startClient);
+				ImGui::SameLine();
+				ImGui::Text("Start Client");
+
+				ImGui::EndMenu();
 			}
 
 			ImGui::SameLine(ImGui::GetWindowWidth() - (ImGui::CalcTextSize("Debug").x * 2) + 10);
@@ -270,7 +281,7 @@ namespace Eclipse::Editor
 		{
 			if (idx == categories.size() - 1)
 			{
-				if(ImGui::MenuItem(windowName.c_str()))
+				if (ImGui::MenuItem(windowName.c_str()))
 				{
 					OpenWindow(windowName, -1);
 				}
