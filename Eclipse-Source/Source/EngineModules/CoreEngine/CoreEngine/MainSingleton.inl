@@ -7,7 +7,7 @@ namespace Eclipse
     {
         auto it = mySingletons.find(typeid(T));
         if (it != mySingletons.end())
-            return *std::static_pointer_cast<T>(it->second);
+            return *static_cast<T*>(it->second);
         throw std::runtime_error("Singleton not registered.");
     }
 
