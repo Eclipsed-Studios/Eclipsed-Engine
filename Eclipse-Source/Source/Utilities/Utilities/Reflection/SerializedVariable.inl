@@ -10,6 +10,8 @@
 namespace Eclipse::Reflection
 {
 
+	static int ReplicatedIDCounter = 1;
+
 //#ifdef ECLIPSED_EDITOR
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)

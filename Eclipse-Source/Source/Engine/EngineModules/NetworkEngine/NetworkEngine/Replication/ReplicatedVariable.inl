@@ -24,6 +24,7 @@ namespace Eclipse::Replication
             {
                 variable->ResolveTypeInfo();
                 
+                ManualVariableSending = !anAutomatic;
                 myVariableAddress = variable->GetData();
                 dataAmount = variable->GetSizeInBytes();
                 variableExist = true;

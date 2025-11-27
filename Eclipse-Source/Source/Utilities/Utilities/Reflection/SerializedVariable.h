@@ -59,13 +59,11 @@ namespace Eclipse::Reflection
 			return ReplicatedVariableIndex;
 		}
 
-				// Is 0 if not replicated
+		// Is 0 if not replicated
 		unsigned ReplicatedVariableIndex = 0;
 
 	private:
 		T data;
-	
-		static inline int ReplicatedIDCounter = 1;
 
 		//#ifdef ECLIPSED_EDITOR
 		T myMin, myMax;
