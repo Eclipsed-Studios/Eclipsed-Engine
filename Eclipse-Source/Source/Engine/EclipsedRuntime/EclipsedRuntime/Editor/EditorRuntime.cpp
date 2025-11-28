@@ -166,6 +166,7 @@ namespace Eclipse::Editor
 				isPaused = false;
 
 				SceneManager::ReloadActiveScene();
+
 			}
 		}
 

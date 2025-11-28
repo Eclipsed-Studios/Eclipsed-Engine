@@ -5,34 +5,35 @@
 #include "Utilities/ErrorCodes.h"
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 #include "EclipsedRuntime/Editor/EditorProjectManager.h"
+#include <NetworkEngine\Client\Client.h>
 
 
 namespace Eclipse::Editor
 {
-    void EditorApplication::Init()
-    {
-        EditorProjectManager projectManager;
-        std::string projectPath = projectManager.LoadOrSelectProject();
+	void EditorApplication::Init()
+	{
+		EditorProjectManager projectManager;
+		std::string projectPath = projectManager.LoadOrSelectProject();
 
-        myContext.Init(projectPath);
+		myContext.Init(projectPath);
 
-        //PlatformIntegration::Discord::SetupWithID(1425504148681658383);
-        //PlatformIntegration::Discord::SetLargeImage("eclipsemoonnobg");
-    }
+		//PlatformIntegration::Discord::SetupWithID(1425504148681658383);
+		//PlatformIntegration::Discord::SetLargeImage("eclipsemoonnobg");
+	}
 
-    int EditorApplication::Update()
-    {
-        int shouldClose = myContext.BeginFrame();
-        myContext.Update();
-        myContext.Render();
-        myContext.EndFrame();
+	int EditorApplication::Update()
+	{
+		int shouldClose = myContext.BeginFrame();
+		myContext.Update();
+		myContext.Render();
+		myContext.EndFrame();
 
-        return shouldClose;
-    }
+		return shouldClose;
+	}
 
-    void EditorApplication::Shutdown()
-    {
-        myContext.Shutdown();
-    }
+	void EditorApplication::Shutdown()
+	{
+		myContext.Shutdown();
+	}
 }
 #endif

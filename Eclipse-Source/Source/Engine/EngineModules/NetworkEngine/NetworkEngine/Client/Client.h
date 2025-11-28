@@ -9,6 +9,8 @@
 
 #include "asio/asio/asio.hpp"
 
+#include "Utilities/Settings/TemporarySettingsSingleton.h"
+
 namespace Eclipse
 {
 	using asio::ip::udp;
@@ -21,10 +23,12 @@ namespace Eclipse
 		}
 		void RecieveThread(asio::io_context* ioContext)
 		{
-			while (true)
+			while (IsRunning)
 			{
 				ioContext->run();
 			}
+
+			IsRunning = true;
 		}
 
 		Client(asio::io_context& ioContext, const char* ip) :
@@ -110,5 +114,8 @@ namespace Eclipse
 		std::thread recieveThread;
 
 		GarantiedMessageHandler<Client> garantiedMessageHandler;
+
+	public:
+		bool IsRunning = true;
 	};
 }

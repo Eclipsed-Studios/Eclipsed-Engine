@@ -125,5 +125,8 @@ namespace Eclipse
 		std::thread recieveThread;
 
 		GarantiedMessageHandler<Server> garantiedMessageHandler;
+
+	public:
+		bool IsRunning = true;
 	};
 }
