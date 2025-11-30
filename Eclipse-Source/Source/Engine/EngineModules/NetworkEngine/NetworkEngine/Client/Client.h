@@ -21,20 +21,28 @@ namespace Eclipse
 		{
 			recieveThread.join();
 		}
-		void RecieveThread(asio::io_context* ioContext)
-		{
-			while (IsRunning)
-			{
-				ioContext->run();
-			}
 
-			IsRunning = true;
+		void RecieveThread()
+		{
+			asio::executor_work_guard<asio::io_context::executor_type> work = asio::make_work_guard(myIOContext);
+
+			myIOContext.run();
+
+			work.reset();
+		}
+
+		void ShutDown()
+		{
+			myIOContext.stop();
+
+			recieveThread.join();
 		}
 
 		Client(asio::io_context& ioContext, const char* ip) :
+			myIOContext(ioContext),
 			socket(ioContext),
 			serverEndpoint(*(udp::resolver(ioContext)).resolve(udp::v4(), ip, "18888").begin()),
-			recieveThread(&Client::RecieveThread, this, &ioContext),
+			recieveThread(&Client::RecieveThread, this),
 			garantiedMessageHandler(&Client::SendDirectly_NoChecks, this)
 		{
 			memset(recieveBuffer, 0, sizeof(recieveBuffer));
@@ -42,6 +50,7 @@ namespace Eclipse
 			StartRecieve();
 		}
 
+		void VariableMessage(const NetMessage& message);
 		void HandleRecieve(const NetMessage& message);
 
 		void Update()
@@ -51,9 +60,11 @@ namespace Eclipse
 
 		void Recieve(const asio::error_code& error, std::size_t bytes_transferred)
 		{
-			StartRecieve();
 			if (error)
+			{
+				StartRecieve();
 				return;
+			}
 
 			NetMessage message;
 			memcpy(&message, recieveBuffer, bytes_transferred);
@@ -67,6 +78,8 @@ namespace Eclipse
 			}
 
 			HandleRecieve(message);
+
+			StartRecieve();
 		}
 
 		void StartRecieve()
@@ -79,12 +92,18 @@ namespace Eclipse
 
 		}
 
-		void Send(NetMessage& message, bool SendAnyway = false)
+		void Send(NetMessage& message)
 		{
 			if (message.MetaData.IsGarantied)
 				garantiedMessageHandler.Enqueue(message, serverEndpoint);
 			else
 				socket.async_send_to(asio::buffer(&message, message.MetaData.dataSize), serverEndpoint, std::bind(&Client::SendManager, this));
+		}
+
+		// Only for garantied messages
+		void Send(NetMessage& message, const std::function<void()>& aLambdaToRunAfterRecieve)
+		{
+			garantiedMessageHandler.Enqueue(message, serverEndpoint, aLambdaToRunAfterRecieve);
 		}
 
 		void SetDeltaTime(float aDeltaTime)
@@ -115,7 +134,6 @@ namespace Eclipse
 
 		GarantiedMessageHandler<Client> garantiedMessageHandler;
 
-	public:
-		bool IsRunning = true;
+		asio::io_context& myIOContext;
 	};
 }

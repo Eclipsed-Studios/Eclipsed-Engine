@@ -51,10 +51,5 @@ namespace Eclipse::Editor
 	{	
 		myRuntime.EndFrameEngine();
 	}
-
-	void EditorContexts::Shutdown()
-	{
-
-	}
 }
 #endif

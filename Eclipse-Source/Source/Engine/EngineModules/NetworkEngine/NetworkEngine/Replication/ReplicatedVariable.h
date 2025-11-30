@@ -14,6 +14,8 @@ namespace Eclipse
             inline void ReplicateThis(unsigned aID);
 
         public:
+            Component* ConnectedComponent;
+
             void* myVariableAddress;
             bool ManualVariableSending;
             int dataAmount;

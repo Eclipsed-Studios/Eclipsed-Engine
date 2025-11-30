@@ -2,7 +2,6 @@
 
 #include "EclipsedRuntime/EclipsedRuntime.h"
 
-
 namespace Eclipse::Editor
 {
 	class EditorRuntime
@@ -24,6 +23,11 @@ namespace Eclipse::Editor
 		void RenderEngine();
 		bool BeginFrameEngine();
 		void EndFrameEngine();
+
+		void ShutDown()
+		{
+			eclipseRuntime.ShutDown();
+		}
 
 	public:
 		void EnterPlayMode();

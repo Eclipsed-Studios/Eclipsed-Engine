@@ -2,6 +2,8 @@
 
 #include "NetworkEngine/Client/Client.h"
 
+#include <iostream>
+
 namespace Eclipse
 {
 	template <class T>
@@ -30,8 +32,27 @@ namespace Eclipse
 		NetMessage cpyMessage;
 		std::memcpy(&cpyMessage, &message, message.MetaData.dataSize);
 
+		GarantiedMessage grntMessage(message, anEndpoint);
+
+		grntMessage.TimeAtFirstSend = Time::GetTotalTime();
+		
 		mapChangeMutex.lock();
-		GarantiedMsgs.emplace(message.MetaData.messageID, GarantiedMessage(message, anEndpoint));
+		GarantiedMsgs.emplace(message.MetaData.messageID, grntMessage);
+		mapChangeMutex.unlock();
+	}
+
+	template <class T>
+	void GarantiedMessageHandler<T>::Enqueue(const NetMessage& message, const udp::endpoint& anEndpoint, const std::function<void()>& aLambdaFunctionToRunOnRecieve)
+	{
+		NetMessage cpyMessage;
+		std::memcpy(&cpyMessage, &message, message.MetaData.dataSize);
+
+		GarantiedMessage grntMessage(message, anEndpoint, aLambdaFunctionToRunOnRecieve);
+
+		grntMessage.TimeAtFirstSend = Time::GetTotalTime();
+		
+		mapChangeMutex.lock();
+		GarantiedMsgs.emplace(message.MetaData.messageID, grntMessage);
 		mapChangeMutex.unlock();
 	}
 
@@ -42,7 +63,21 @@ namespace Eclipse
 			return;
 		if (GarantiedMsgs.empty())
 			return;
+		if (GarantiedMsgs.find(aMessage.MetaData.messageID) == GarantiedMsgs.end())
+			return;
+		
+		auto& garantiedMessage = GarantiedMsgs.at(aMessage.MetaData.messageID);
 
+		float currenttime = Time::GetTotalTime();
+		float secondsPing = currenttime - garantiedMessage.TimeAtFirstSend;
+
+		TemporarySettingsSingleton::Get().ping = (int)(secondsPing * 1000.f);
+		
+		if (garantiedMessage.HasLambda)
+		{
+			garantiedMessage.LambdaToRunOnRecieve();
+		}
+		
 
 		mapChangeMutex.lock();
 		GarantiedMsgs.erase(aMessage.MetaData.messageID);

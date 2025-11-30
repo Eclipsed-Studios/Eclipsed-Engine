@@ -9,8 +9,10 @@ namespace Eclipse
 
 		Msg_CreateObject,
 		Msg_AddComponent,
-
+		
 		Msg_Variable,
+		
+		Msg_RequestSceneInfo,
 
 		Msg_Custom,
 	};

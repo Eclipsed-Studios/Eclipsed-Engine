@@ -216,10 +216,10 @@ namespace Eclipse
 
 	void ComponentManager::CommitDestroy()
 	{
-		if(gameobjectsToRemove.empty())
+		if (gameobjectsToRemove.empty())
 			return;
 
-		for(int goID : gameobjectsToRemove)
+		for (int goID : gameobjectsToRemove)
 		{
 			std::vector<int> componentsToRemove;
 
@@ -304,6 +304,17 @@ namespace Eclipse
 		obj->AddComponent<Transform2D>();
 
 		myNextGameobjectID++;
+		return obj;
+	}
+
+	GameObject* ComponentManager::CreateGameObject(GameObjectID aId)
+	{
+		GameObject* obj = new GameObject(aId);
+		myEntityIdToEntity[aId] = obj;
+
+		obj->AddComponent<Transform2D>();
+
+		if (myNextGameobjectID <= aId) myNextGameobjectID = aId + 1;
 		return obj;
 	}
 

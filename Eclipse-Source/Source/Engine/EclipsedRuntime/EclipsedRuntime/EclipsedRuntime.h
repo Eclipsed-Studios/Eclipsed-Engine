@@ -18,6 +18,8 @@ namespace Eclipse
 		void EndFrame();
 		bool BeginFrame();
 
+		void ShutDown();
+
 	private:
 		Engine engine;
 	};

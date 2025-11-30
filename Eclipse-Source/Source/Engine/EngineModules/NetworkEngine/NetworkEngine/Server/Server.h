@@ -15,24 +15,31 @@ namespace Eclipse
 	class Server
 	{
 	public:
-
-		void RecieveThread(asio::io_context* ioContext)
+		~Server()
 		{
-			ioContext->run();
+			recieveThread.join();
+		}
+		void RecieveThread()
+		{
+			asio::executor_work_guard<asio::io_context::executor_type> work = asio::make_work_guard(myIOContext);
+
+			myIOContext.run();
+		}
+
+		void ShutDown()
+		{
+			myIOContext.stop();
+			recieveThread.join();
 		}
 
 		Server(asio::io_context& ioContext) :
+			myIOContext(ioContext),
 			socket(ioContext, udp::endpoint(udp::v4(), asio::ip::port_type(18888))),
-			recieveThread(&Server::RecieveThread, this, &ioContext),
+			recieveThread(&Server::RecieveThread, this),
 			garantiedMessageHandler(&Server::SendDirectly_NoChecks, this)
 		{
 			StartRecieve();
 			memset(recieveBuffer, 0, sizeof(recieveBuffer));
-		}
-
-		~Server()
-		{
-			recieveThread.join();
 		}
 
 		void Update()
@@ -47,7 +54,6 @@ namespace Eclipse
 
 		void Recieve(const asio::error_code& error, std::size_t bytes_transferred)
 		{
-			StartRecieve();
 			if (error)
 				return;
 
@@ -81,6 +87,8 @@ namespace Eclipse
 
 				Send(&message, message.MetaData.dataSize, endpoint);
 			}
+
+			StartRecieve();
 		}
 
 		void SendManager()
@@ -126,7 +134,6 @@ namespace Eclipse
 
 		GarantiedMessageHandler<Server> garantiedMessageHandler;
 
-	public:
-		bool IsRunning = true;
+		asio::io_context& myIOContext;
 	};
 }

@@ -17,7 +17,10 @@ namespace Eclipse::Editor
         void Render();
         void EndFrame();
 
-        void Shutdown();
+        void Shutdown()
+        {
+            myRuntime.ShutDown();
+        }
 
     private:
         EditorRuntime myRuntime;

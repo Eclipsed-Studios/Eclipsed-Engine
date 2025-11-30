@@ -15,6 +15,9 @@
 
 #include "NetworkEngine/Replication/ReplicationManager.h"
 
+#include "NetworkEngine/Client/Client.h"
+#include "NetworkEngine/Server/Server.h"
+
 
 namespace Eclipse
 {
@@ -95,7 +98,7 @@ namespace Eclipse
 	void EclipsedRuntime::EndFrame()
 	{
 		Replication::ReplicationManager::Update();
-		
+
 		GraphicsEngine::EndFrame();
 	}
 
@@ -105,5 +108,20 @@ namespace Eclipse
 		int shouldCloseWindow = GraphicsEngine::ShouldWindowClose();
 
 		return !shouldCloseWindow;
+	}
+
+	void EclipsedRuntime::ShutDown()
+	{
+		if (Utilities::MainSingleton::Exists<Server>())
+		{
+			auto& server = Utilities::MainSingleton::GetInstance<Server>();
+			server.ShutDown();
+		}
+
+		if (Utilities::MainSingleton::Exists<Client>())
+		{
+			auto& client = Utilities::MainSingleton::GetInstance<Client>();
+			client.ShutDown();
+		}
 	}
 }

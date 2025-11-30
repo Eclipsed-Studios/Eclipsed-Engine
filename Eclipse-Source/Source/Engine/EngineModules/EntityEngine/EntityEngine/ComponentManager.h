@@ -92,6 +92,7 @@ namespace Eclipse
 		static void Destroy(unsigned aGOID);
 
 		static GameObject* CreateGameObject();
+		static GameObject* CreateGameObject(unsigned aId);
 		static GameObject* CreateGameObjectNoTransform();
 		static GameObject* CreateGameObjectNoTransformWithID(unsigned aId);
 

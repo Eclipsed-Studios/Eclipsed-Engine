@@ -2,16 +2,15 @@
 #include "ReplicationManager.h"
 
 #include "Utilities/Reflection/Reflection.h"
-
 #include "utilities/Common/MainSingleton.h"
+#include "NetworkEngine/Server/Server.h"
 
 #include "EntityEngine/Components/Base/Component.h"
-
-#include "NetworkEngine/Client/Client.h"
+#include "EntityEngine/GameObject.h"
 
 namespace Eclipse::Replication
 {
-    ReplicatedVariable::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID)
+    ReplicatedVariable::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID) : ConnectedComponent(aComponent)
     {
         bool variableExist = false;
 
@@ -23,7 +22,7 @@ namespace Eclipse::Replication
             if (variable->GetName() == aName)
             {
                 variable->ResolveTypeInfo();
-                
+
                 ManualVariableSending = !anAutomatic;
                 myVariableAddress = variable->GetData();
                 dataAmount = variable->GetSizeInBytes();
@@ -39,10 +38,7 @@ namespace Eclipse::Replication
 
     void ReplicatedVariable::ReplicateThis(unsigned aID)
     {
-        if (!Utilities::MainSingleton::Exists<Client>())
-            return;
-
-        char* data = new char[sizeof(aID) + sizeof(int) + dataAmount];
+        char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];
 
         size_t offset = 0;
 
@@ -57,7 +53,7 @@ namespace Eclipse::Replication
 
         NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_Variable, data, offset, false);
 
-        Client& client = Utilities::MainSingleton::GetInstance<Client>();
-        client.Send(message, true);
+        Server& server = Utilities::MainSingleton::GetInstance<Server>();
+        server.Send(message);
     }
 }
