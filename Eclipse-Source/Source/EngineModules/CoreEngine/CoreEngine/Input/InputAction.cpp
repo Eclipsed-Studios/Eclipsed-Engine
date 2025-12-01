@@ -31,13 +31,13 @@ namespace Eclipse
 		using namespace rapidjson;
 
 		Value action(kObjectType);
-		action.AddMember(stringify(name), Value(name.c_str(), anAllocator).Move(), anAllocator);
-		action.AddMember(stringify(type), (int)type, anAllocator);
-		action.AddMember(stringify(buttonType), (int)buttonType, anAllocator);
+		action.AddMember(STRINGIFY(name), Value(name.c_str(), anAllocator).Move(), anAllocator);
+		action.AddMember(STRINGIFY(type), (int)type, anAllocator);
+		action.AddMember(STRINGIFY(buttonType), (int)buttonType, anAllocator);
 
 		if (type == InputActionType::Single)
 		{
-			action.AddMember(stringify(button), (int)button, anAllocator);
+			action.AddMember(STRINGIFY(button), (int)button, anAllocator);
 		}
 		else if (type == InputActionType::Combo)
 		{
@@ -47,12 +47,12 @@ namespace Eclipse
 				combo.PushBack((int)key, anAllocator);
 			}
 
-			action.AddMember(stringify(comboButtons), combo, anAllocator);
+			action.AddMember(STRINGIFY(comboButtons), combo, anAllocator);
 		}
 		else
 		{
-			action.AddMember(stringify(positiveButton), (int)positiveButton, anAllocator);
-			action.AddMember(stringify(negativeButton), (int)negativeButton, anAllocator);
+			action.AddMember(STRINGIFY(positiveButton), (int)positiveButton, anAllocator);
+			action.AddMember(STRINGIFY(negativeButton), (int)negativeButton, anAllocator);
 		}
 
 		return action;
@@ -60,18 +60,18 @@ namespace Eclipse
 
 	void InputAction::Load(const rapidjson::Value& aValue)
 	{
-		name = aValue[stringify(name)].GetString();
-		type = (InputActionType)aValue[stringify(type)].GetInt();
-		buttonType = (InputActionButtonType)aValue[stringify(buttonType)].GetInt();
+		name = aValue[STRINGIFY(name)].GetString();
+		type = (InputActionType)aValue[STRINGIFY(type)].GetInt();
+		buttonType = (InputActionButtonType)aValue[STRINGIFY(buttonType)].GetInt();
 
 		if (type == InputActionType::Axis)
 		{
-			positiveButton = (Keycode::Scancode)aValue[stringify(positiveButton)].GetInt();
-			negativeButton = (Keycode::Scancode)aValue[stringify(negativeButton)].GetInt();
+			positiveButton = (Keycode::Scancode)aValue[STRINGIFY(positiveButton)].GetInt();
+			negativeButton = (Keycode::Scancode)aValue[STRINGIFY(negativeButton)].GetInt();
 		}
 		else if (type == InputActionType::Combo)
 		{
-			const auto& comboArray = aValue[stringify(comboButtons)];
+			const auto& comboArray = aValue[STRINGIFY(comboButtons)];
 			if (comboArray.IsArray())
 			{
 				comboButtons.clear();
@@ -83,7 +83,7 @@ namespace Eclipse
 		}
 		else
 		{
-			button = (Keycode::Scancode)aValue[stringify(button)].GetInt();
+			button = (Keycode::Scancode)aValue[STRINGIFY(button)].GetInt();
 		}
 	}
 	int InputAction::GetSingleKey()

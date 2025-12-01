@@ -4,10 +4,14 @@
 
 #include "PlatformIntegration/IntegrationManager.h"
 
+#include "CoreEngine/Settings/EngineSettings.h"
+
 namespace Eclipse
 {
 	void Engine::Init()
 	{
+		MainSingleton::RegisterInstance<EngineSettings>();
+
 		Time::Init();
 		Input::Init();
 	}

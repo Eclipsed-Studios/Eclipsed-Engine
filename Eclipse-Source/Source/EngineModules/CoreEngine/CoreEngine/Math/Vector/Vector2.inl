@@ -19,7 +19,7 @@ namespace Eclipse::Math
 	template <typename T>
 	inline Vector2<T>::Vector2(const std::initializer_list<T> initList)
 	{
-		std::memcpy(data, initList.begin(), sizeof(T) * 2);
+		memcpy(data, initList.begin(), sizeof(T) * 2);
 	}
 
 	template <typename T>

@@ -1,9 +1,11 @@
 #include "Settings.h"
 
+#include "TypeChecks.h"
+
 namespace Eclipse
 {
 	template<typename T>
-	inline T Eclipse::Settings::Get(const char* key)
+	inline T Settings::Get(const char* key)
 	{
 		return T();
 	}

@@ -102,6 +102,8 @@ function(CreateProject TYPE)
         FOLDER "Engine/EngineModules"
     )
 
+    target_include_directories(${CURRENT_DIR_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
+
     source_group(TREE "${ROOT}" FILES ${SOURCES})
 
     set_target_properties(${CURRENT_DIR_NAME} PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)

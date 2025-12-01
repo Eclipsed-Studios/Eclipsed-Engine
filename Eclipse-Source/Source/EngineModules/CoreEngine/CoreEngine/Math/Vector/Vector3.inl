@@ -20,7 +20,7 @@ namespace Eclipse::Math
     template <typename T>
     inline Vector3<T>::Vector3(const std::initializer_list<T> initList)
     {
-        std::memcpy(data, initList.begin(), sizeof(T) * 3);
+        memcpy(data, initList.begin(), sizeof(T) * 3);
     }
 
     template <typename T>

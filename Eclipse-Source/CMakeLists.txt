@@ -10,7 +10,10 @@ project(Eclipsed-Engine LANGUAGES CXX)
 add_compile_definitions(LEAN_AND_MEAN)
 
 
-add_compile_definitions(ECLIPSED_EDITOR)
+add_compile_definitions(
+    _ECLIPSED_EDITOR
+    _ECLIPSED_EXPORT_DLL
+    )
 
 set_property(GLOBAL PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
 
@@ -30,8 +33,14 @@ add_subdirectory(Source/Externals/Font-Awesome)
 
 
 
+add_subdirectory(Source/EngineModules/AssetEngine)
+add_subdirectory(Source/EngineModules/AudioEngine)
 add_subdirectory(Source/EngineModules/CoreEngine)
+add_subdirectory(Source/EngineModules/EntityEngine)
 add_subdirectory(Source/EngineModules/GraphicsEngine)
+add_subdirectory(Source/EngineModules/InputEngine)
+add_subdirectory(Source/EngineModules/NetworkEngine)
+add_subdirectory(Source/EngineModules/PhysicsEngine)
 
 
 

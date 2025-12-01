@@ -19,7 +19,7 @@ namespace Eclipse::Math
     template <typename T>
     inline Vector4<T>::Vector4(const std::initializer_list<T> initList)
     {
-        std::memcpy(data, initList.begin(), sizeof(T) * 4);
+        memcpy(data, initList.begin(), sizeof(T) * 4);
     }
 
     template <typename T>
