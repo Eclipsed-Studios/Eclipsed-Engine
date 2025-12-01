@@ -33,9 +33,9 @@ add_subdirectory(Source/Externals/Font-Awesome)
 
 
 
+add_subdirectory(Source/EngineModules/CoreEngine)
 add_subdirectory(Source/EngineModules/AssetEngine)
 add_subdirectory(Source/EngineModules/AudioEngine)
-add_subdirectory(Source/EngineModules/CoreEngine)
 add_subdirectory(Source/EngineModules/EntityEngine)
 add_subdirectory(Source/EngineModules/GraphicsEngine)
 add_subdirectory(Source/EngineModules/InputEngine)

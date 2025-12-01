@@ -3,7 +3,7 @@
 #include <string>
 #include "ComponentManager.h"
 
-#include "Utilities/Math/Vector/Vector4.h"
+#include "CoreEngine/Math/Vector/Vector4.h"
 
 namespace Eclipse
 {

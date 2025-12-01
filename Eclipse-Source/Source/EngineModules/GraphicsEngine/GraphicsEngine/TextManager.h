@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include "CoreEngine/Math/Vector/Vector2.h"
+#include <string>
 
 #undef CreateFont
 
