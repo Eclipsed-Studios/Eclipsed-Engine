@@ -10,7 +10,7 @@
 
 namespace Eclipse::Replication
 {
-    ReplicatedVariable::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID) : ConnectedComponent(aComponent)
+    ReplicatedVariable::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, void(Component::* anOnRepFunction)()) : ConnectedComponent(aComponent), OnRepFunction(anOnRepFunction)
     {
         bool variableExist = false;
 

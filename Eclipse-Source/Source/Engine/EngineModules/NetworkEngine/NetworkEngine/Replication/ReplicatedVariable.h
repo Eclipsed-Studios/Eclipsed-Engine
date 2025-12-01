@@ -10,7 +10,7 @@ namespace Eclipse
         class ReplicatedVariable
         {
         public:
-            inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID);
+            inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, void(Component::* anOnRepFunction)());
             inline void ReplicateThis(unsigned aID);
 
         public:
@@ -19,6 +19,8 @@ namespace Eclipse
             void* myVariableAddress;
             bool ManualVariableSending;
             int dataAmount;
+        
+            void(Component::* OnRepFunction)();
         };
     }
 

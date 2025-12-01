@@ -45,6 +45,8 @@ namespace Eclipse
         Math::Vector2f spriteRectMax = { 1.f, 1.f };
 
     private:
+        
+
         Texture sprite;
         Material material;
 
