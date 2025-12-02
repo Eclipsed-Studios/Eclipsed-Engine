@@ -7,6 +7,30 @@
 
 namespace Eclipse
 {
+	void Client::AddComponentMessage(const NetMessage& message)
+	{
+		int ComponentNameCharCount = 0;
+		memcpy(&ComponentNameCharCount, message.data, sizeof(int));
+
+		char NameBuffer[512];
+
+		memcpy(NameBuffer, message.data + sizeof(int), ComponentNameCharCount);
+		memset(NameBuffer + ComponentNameCharCount, '\0', 1);
+
+		const char* name = NameBuffer;
+
+		for (auto& component : ComponentManager::GetComponents(message.MetaData.GameObjectID))
+		{
+			if (component->GetComponentName() == name)
+				return;
+		}
+
+		Component* newCompoennt = ComponentRegistry::GetAddComponent(name)(message.MetaData.GameObjectID, 5555);
+
+		newCompoennt->Awake();
+		newCompoennt->Start();
+	}
+
 	void Client::CreateObjectMessage(const NetMessage& message)
 	{
 		if (!ComponentManager::HasGameObject(message.MetaData.GameObjectID))
@@ -71,6 +95,11 @@ namespace Eclipse
 		case MessageType::Msg_CreateObject:
 		{
 			CreateObjectMessage(message);
+		}
+		break;
+		case MessageType::Msg_AddComponent:
+		{
+			AddComponentMessage(message);
 		}
 		break;
 		}

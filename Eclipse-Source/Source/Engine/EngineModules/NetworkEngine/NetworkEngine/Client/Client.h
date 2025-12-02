@@ -51,6 +51,7 @@ namespace Eclipse
 		}
 
 		void VariableMessage(const NetMessage& message);
+		void AddComponentMessage(const NetMessage& message);
 		void CreateObjectMessage(const NetMessage& message);
 		void HandleRecieve(const NetMessage& message);
 
@@ -74,8 +75,12 @@ namespace Eclipse
 
 			if (message.MetaData.IsGarantied)
 			{
-				if (!message.MetaData.SentGarantied)
-					garantiedMessageHandler.RecievedGarantied(message);
+				garantiedMessageHandler.RecievedGarantied(message);
+
+				message.MetaData.SentGarantied = false;
+				message.MetaData.dataSize = 8;
+
+				Send(message);
 			}
 
 			HandleRecieve(message);
@@ -95,7 +100,7 @@ namespace Eclipse
 
 		void Send(NetMessage& message)
 		{
-			if (message.MetaData.IsGarantied)
+			if (message.MetaData.IsGarantied && message.MetaData.SentGarantied)
 				garantiedMessageHandler.Enqueue(message, serverEndpoint);
 			else
 				socket.async_send_to(asio::buffer(&message, message.MetaData.dataSize), serverEndpoint, std::bind(&Client::SendManager, this));

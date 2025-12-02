@@ -60,6 +60,41 @@ namespace Eclipse
 			socket.async_receive_from(asio::buffer(recieveBuffer), recieveEndpoint, std::bind(&Server::Recieve, this, asio::placeholders::error, asio::placeholders::bytes_transferred));
 		}
 
+		void SendComponentScene()
+		{
+			std::unordered_set<unsigned> ReplicatedGameObjects;
+
+			const auto& variableManager = Replication::ReplicationManager::ReplicatedVariableList;
+			for (auto& Variable : variableManager)
+				ReplicatedGameObjects.emplace(Variable.second->ConnectedComponent->gameObject->GetID());
+
+			for (const auto& gameobject : ReplicatedGameObjects)
+			{
+				std::vector<Component*> components = ComponentManager::GetComponents(gameobject);
+
+				for (const auto& component : components)
+				{
+					const char* ComponentName = component->GetComponentName();
+					char Data[512];
+
+					int LengthOfComponentName = strlen(ComponentName);
+
+					memcpy(Data, &LengthOfComponentName, sizeof(int));
+					memcpy(Data + sizeof(int), ComponentName, LengthOfComponentName);
+
+					int DataAmount = LengthOfComponentName + sizeof(int);
+
+					NetMessage message;
+					message = NetMessage::BuildGameObjectMessage(component->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true);
+
+					Server& server = Utilities::MainSingleton::GetInstance<Server>();
+					server.Send(message, recieveEndpoint);
+				}
+			}
+		}
+
+		int TotalRecievedGO = 0;
+
 		void HandleRequestedScene(const NetMessage& aMessage)
 		{
 			std::unordered_set<unsigned> ReplicatedGameObjects;
@@ -71,14 +106,22 @@ namespace Eclipse
 			NetMessage message;
 			message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_CreateObject, &message, 0, true);
 
+			int Replgameobjectsize = ReplicatedGameObjects.size() - 1;
+
 			for (const auto& gameobject : ReplicatedGameObjects)
 			{
 				message.MetaData.GameObjectID = gameobject;
 
 				Server& server = Utilities::MainSingleton::GetInstance<Server>();
-				server.Send(message, recieveEndpoint);
-			}
+				server.Send(message, recieveEndpoint, [Replgameobjectsize, this]() {
 
+					if (TotalRecievedGO >= Replgameobjectsize)
+					{
+						SendComponentScene();
+					}
+
+					});
+			}
 		}
 
 		void HandleRecieve(const NetMessage& aMessage)
@@ -118,6 +161,9 @@ namespace Eclipse
 
 			if (message.MetaData.IsGarantied)
 			{
+				if (!message.MetaData.SentGarantied)
+					garantiedMessageHandler.RecievedGarantied(message);
+
 				message.MetaData.SentGarantied = false;
 				message.MetaData.dataSize = 8;
 
@@ -157,6 +203,11 @@ namespace Eclipse
 		void Send(const NetMessage& message, const udp::endpoint& endpoint)
 		{
 			Send(&message, message.MetaData.dataSize, endpoint);
+		}
+
+		void Send(const NetMessage& message, const udp::endpoint& endpoint, const std::function<void()>& aLambdaToRunAfterRecieve)
+		{
+			garantiedMessageHandler.Enqueue(message, endpoint, aLambdaToRunAfterRecieve);
 		}
 
 	private:
