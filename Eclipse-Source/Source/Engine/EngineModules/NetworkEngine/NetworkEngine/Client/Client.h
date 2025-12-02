@@ -51,6 +51,7 @@ namespace Eclipse
 		}
 
 		void VariableMessage(const NetMessage& message);
+		void CreateObjectMessage(const NetMessage& message);
 		void HandleRecieve(const NetMessage& message);
 
 		void Update()

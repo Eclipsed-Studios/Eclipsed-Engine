@@ -3,15 +3,20 @@
 
 #include "Utilities/Reflection/Reflection.h"
 #include "utilities/Common/MainSingleton.h"
+
 #include "NetworkEngine/Server/Server.h"
+#include "NetworkEngine/Client/Client.h"
 
 #include "EntityEngine/Components/Base/Component.h"
 #include "EntityEngine/GameObject.h"
 
 namespace Eclipse::Replication
 {
-    ReplicatedVariable::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, void(Component::* anOnRepFunction)()) : ConnectedComponent(aComponent), OnRepFunction(anOnRepFunction)
+    template<typename T>
+    ReplicatedVariable<T>::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, void(T::* OnRepFunctionPtr)()) : OnRepFunction(OnRepFunctionPtr)
     {
+        ConnectedComponent = aComponent;
+
         bool variableExist = false;
 
         auto& reflectionList = Reflection::ReflectionManager::GetList();
@@ -36,7 +41,32 @@ namespace Eclipse::Replication
         ReplicationManager::ReplicatedVariableList.emplace(ID, this);
     }
 
-    void ReplicatedVariable::ReplicateThis(unsigned aID)
+    void BaseReplicatedVariable::ReplicateThis(unsigned aID)
+    {
+        if (!Utilities::MainSingleton::Exists<Client>())
+            return;
+        
+
+        char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];
+
+        size_t offset = 0;
+
+        memcpy(data + offset, &aID, sizeof(aID));
+        offset += sizeof(aID);
+
+        memcpy(data + offset, &dataAmount, sizeof(dataAmount));
+        offset += sizeof(dataAmount);
+
+        memcpy(data + offset, myVariableAddress, dataAmount);
+        offset += dataAmount;
+
+        NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_Variable, data, offset, false);
+
+        Client& client = Utilities::MainSingleton::GetInstance<Client>();
+        client.Send(message);
+    }
+
+    void BaseReplicatedVariable::ReplicateThisServer(unsigned aID)
     {
         char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];
 

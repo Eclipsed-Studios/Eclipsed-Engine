@@ -7,6 +7,12 @@
 
 namespace Eclipse
 {
+	void Client::CreateObjectMessage(const NetMessage& message)
+	{
+		if (!ComponentManager::HasGameObject(message.MetaData.GameObjectID))
+			ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
+	}
+
 	void Client::VariableMessage(const NetMessage& message)
 	{
 		int replicationVarID = 0;
@@ -24,12 +30,14 @@ namespace Eclipse
 		if (variableIt == Replication::ReplicationManager::ReplicatedVariableList.end())
 			return;
 
-		Component* component = variableIt->second->ConnectedComponent;
-		const auto& ReppedFunction = variableIt->second->OnRepFunction;
+		Replication::ReplicatedVariable<Component>* Variable = reinterpret_cast<Replication::ReplicatedVariable<Component>*>(variableIt->second);
+
+		Component* component = Variable->ConnectedComponent;
+		const auto& ReppedFunction = Variable->OnRepFunction;
 
 		(component->*ReppedFunction)();
 
-		void* variableData = variableIt->second->myVariableAddress;
+		void* variableData = Variable->myVariableAddress;
 		memcpy(variableData, message.data + offset, dataAmount);
 
 		offset += dataAmount;
@@ -58,6 +66,11 @@ namespace Eclipse
 		case MessageType::Msg_Variable:
 		{
 			VariableMessage(message);
+		}
+		break;
+		case MessageType::Msg_CreateObject:
+		{
+			CreateObjectMessage(message);
 		}
 		break;
 		}

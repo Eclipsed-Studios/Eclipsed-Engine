@@ -9,6 +9,14 @@
 
 #include "asio/asio/asio.hpp"
 
+
+
+#include "NetworkEngine/Replication/ReplicationManager.h"
+#include <unordered_set>
+#include "NetworkEngine/Replication/ReplicatedVariable.h"
+
+#include "EntityEngine/ComponentManager.h"
+
 namespace Eclipse
 {
 	using asio::ip::udp;
@@ -52,6 +60,40 @@ namespace Eclipse
 			socket.async_receive_from(asio::buffer(recieveBuffer), recieveEndpoint, std::bind(&Server::Recieve, this, asio::placeholders::error, asio::placeholders::bytes_transferred));
 		}
 
+		void HandleRequestedScene(const NetMessage& aMessage)
+		{
+			std::unordered_set<unsigned> ReplicatedGameObjects;
+
+			const auto& variableManager = Replication::ReplicationManager::ReplicatedVariableList;
+			for (auto& Variable : variableManager)
+				ReplicatedGameObjects.emplace(Variable.second->ConnectedComponent->gameObject->GetID());
+
+			NetMessage message;
+			message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_CreateObject, &message, 0, true);
+
+			for (const auto& gameobject : ReplicatedGameObjects)
+			{
+				message.MetaData.GameObjectID = gameobject;
+
+				Server& server = Utilities::MainSingleton::GetInstance<Server>();
+				server.Send(message, recieveEndpoint);
+			}
+
+		}
+
+		void HandleRecieve(const NetMessage& aMessage)
+		{
+			switch (aMessage.MetaData.Type)
+			{
+			case MessageType::Msg_RequestSceneInfo:
+				HandleRequestedScene(aMessage);
+				break;
+
+			default:
+				break;
+			}
+		}
+
 		void Recieve(const asio::error_code& error, std::size_t bytes_transferred)
 		{
 			if (error)
@@ -69,6 +111,8 @@ namespace Eclipse
 
 			NetMessage message;
 			memcpy(&message, recieveBuffer, bytes_transferred);
+
+			HandleRecieve(message);
 
 			hasClients = true;
 
@@ -108,6 +152,11 @@ namespace Eclipse
 		{
 			for (auto& endpoint : endpoints)
 				Send(&message, message.MetaData.dataSize, endpoint);
+		}
+
+		void Send(const NetMessage& message, const udp::endpoint& endpoint)
+		{
+			Send(&message, message.MetaData.dataSize, endpoint);
 		}
 
 	private:

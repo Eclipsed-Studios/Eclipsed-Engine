@@ -4,8 +4,22 @@
 
 #include "Utilities/Math/Vector/Vector3.h"
 
+#include <iostream>
+
 namespace Eclipse
 {
+	void Transform2D::position_OnRep()
+	{
+		
+	}
+	void Transform2D::rotation_OnRep()
+	{
+
+	}
+	void Transform2D::scale_OnRep()
+	{
+
+	}
 
 	void Transform2D::OnSceneLoaded()
 	{

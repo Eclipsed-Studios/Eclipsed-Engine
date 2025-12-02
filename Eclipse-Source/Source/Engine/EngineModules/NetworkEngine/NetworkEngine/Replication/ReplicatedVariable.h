@@ -7,20 +7,29 @@ namespace Eclipse
     class Component;
     namespace Replication
     {
-        class ReplicatedVariable
+
+        class BaseReplicatedVariable
         {
         public:
-            inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, void(Component::* anOnRepFunction)());
-            inline void ReplicateThis(unsigned aID);
-
-        public:
-            Component* ConnectedComponent;
-
             void* myVariableAddress;
             bool ManualVariableSending;
             int dataAmount;
-        
-            void(Component::* OnRepFunction)();
+
+            inline void ReplicateThisServer(unsigned aID);
+            inline void ReplicateThis(unsigned aID);
+
+            Component* ConnectedComponent;
+        };
+
+        template<typename T>
+        class ReplicatedVariable : public BaseReplicatedVariable
+        {
+        public:
+            inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, void(T::* OnRepFunctionPtr)());
+            
+
+        public:
+            void(T::* OnRepFunction)();
         };
     }
 

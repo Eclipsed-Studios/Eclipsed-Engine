@@ -28,16 +28,11 @@ namespace Eclipse::Replication
 
         NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_Connect, &ip, 0, true);
 
-        client->Send(message, [&message]() {
+        client->Send(message, [ip]() {
 
-            message.MetaData.Type = MessageType::Msg_RequestSceneInfo;
+            NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_RequestSceneInfo, &ip, 0, true);
 
-            client->Send(message, []() {
-
-                std::cout << "reqested" << std::endl;
-
-                });
-
+            client->Send(message);
             });
     }
 
@@ -70,11 +65,11 @@ namespace Eclipse::Replication
             {
                 for (auto& ReplicationVariable : ReplicatedVariableList)
                 {
-                    if (!ReplicationVariable.second->ManualVariableSending)
-                        ReplicationVariable.second->ReplicateThis(ReplicationVariable.first);
+                    if (!ReplicationVariable.second->ManualVariableSending && ReplicationVariable.second->ConnectedComponent->IsReplicated)
+                        ReplicationVariable.second->ReplicateThisServer(ReplicationVariable.first);
                 }
 
-                timer = 0.1f;
+                timer = 0.005f;
             }
         }
     }

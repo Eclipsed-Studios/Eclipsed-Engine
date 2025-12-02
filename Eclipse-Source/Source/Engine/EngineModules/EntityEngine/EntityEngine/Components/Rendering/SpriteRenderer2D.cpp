@@ -19,6 +19,16 @@
 
 namespace Eclipse
 {
+	void SpriteRenderer2D::textureID_OnRep()
+	{
+		SetTexture(textureID);
+	}
+
+	void SpriteRenderer2D::materialID_OnRep()
+	{
+		SetMaterial(materialID);
+	}
+
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
 		spriteRectMin = aMin * material.GetTexture().GetDimDivOne();
@@ -30,6 +40,8 @@ namespace Eclipse
 		sprite = Assets::Resources::Get<Texture>(aPath);
 		textureID = sprite.GetAssetID();
 		hasTexture = true;
+
+		REPLICATE(textureID);
 	}
 
 	void SpriteRenderer2D::SetTexture(const size_t& id)
@@ -37,6 +49,8 @@ namespace Eclipse
 		sprite = Assets::Resources::Get<Texture>(id);
 		textureID = sprite.GetAssetID();
 		hasTexture = true;
+
+		REPLICATE(textureID);
 	}
 
 	void SpriteRenderer2D::SetMaterial(const char* aPath)
@@ -44,6 +58,8 @@ namespace Eclipse
 		material = Assets::Resources::Get<Material>(aPath);
 		materialID = material.GetAssetID();
 		hasMaterial = true;
+
+		REPLICATE(materialID);
 	}
 
 	void SpriteRenderer2D::SetMaterial(const size_t& id)
@@ -51,6 +67,8 @@ namespace Eclipse
 		material = Assets::Resources::Get<Material>(id);
 		materialID = material.GetAssetID();
 		hasMaterial = true;
+
+		REPLICATE(materialID);
 	}
 
 	void SpriteRenderer2D::OnComponentAdded()

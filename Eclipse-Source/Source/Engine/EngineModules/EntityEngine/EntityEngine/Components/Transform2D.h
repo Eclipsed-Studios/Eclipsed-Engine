@@ -58,20 +58,9 @@ namespace Eclipse
 		void AddFunctionToRunOnDirtyUpdate(const std::function<void()>& aFunction);
 
 	private:
-
-
-
-		Eclipse::Reflection::SerializedVariable<Math::Vector2<float>> position{ "position", this, true, Math::Vector2f(0, 0) }; 
-		void position_OnRep(); 
-		Eclipse::Replication::ReplicatedVariable Replposition{ "position", this, true, position.ReplicatedVariableIndex, &position_OnRep }
-
-
-
-
-
-		//REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, position, Math::Vector2f(0, 0));
-		//REPLICATED_SERIALIZED_FIELD_DEFAULT(float, rotation, 0);
-		//REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1));
+		REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, position, Math::Vector2f(0, 0), Transform2D);
+		REPLICATED_SERIALIZED_FIELD_DEFAULT(float, rotation, 0, Transform2D);
+		REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1), Transform2D);
 
 		Math::Vector2f lastPosition;
 		float lastRotation;

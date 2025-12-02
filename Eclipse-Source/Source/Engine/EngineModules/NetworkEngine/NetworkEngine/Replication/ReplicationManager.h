@@ -8,16 +8,17 @@ namespace Eclipse
 {
     class Client;
     class Server;
+    class GameObject;
 }
 
 namespace Eclipse::Replication
 {
-    class ReplicatedVariable;
+    class BaseReplicatedVariable;
 
     class ReplicationManager
     {
     public:
-        friend class ReplicatedVariable;
+        friend class BaseReplicatedVariable;
 
         ReplicationManager() = default;
         ~ReplicationManager() = default;
@@ -32,6 +33,8 @@ namespace Eclipse::Replication
 
 
         static void CreateNetworkObject(unsigned aID);
+
+        static void SendSceneInfo();
 
         // void ReplicatedVariable::SendCreateObjectCommand(unsigned aObjectID)
         // {
@@ -54,7 +57,7 @@ namespace Eclipse::Replication
 
 
     public:
-        static inline std::unordered_map<unsigned, ReplicatedVariable*> ReplicatedVariableList;
+        static inline std::unordered_map<unsigned, BaseReplicatedVariable*> ReplicatedVariableList;
 
         static inline Client* client = nullptr;
         static inline Server* server = nullptr;

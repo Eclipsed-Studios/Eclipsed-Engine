@@ -95,7 +95,7 @@ namespace Eclipse
 
 
 	public:
-		//SERIALIZED_FIELD_DEFAULT(bool, IsReplicated, false);
+		SERIALIZED_FIELD_DEFAULT(bool, IsReplicated, true);
 
 		GameObject* gameObject;
 
