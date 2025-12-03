@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EntityEngine/ComponentManager.h"
-#include "EntityEngine/Components/Base/BaseComponent.h"
+#include "EclipsedEngine/Components/Component.h"
 
 namespace Eclipse
 {

@@ -3,8 +3,7 @@
 #include <vector>
 #include <functional>
 	
-#include "EntityEngine/BaseComponent.h"
-#include "EntityEngine/ComponentManager.h"
+#include "EclipsedEngine/Components/Component.h"
 
 #include <CoreEngine/Math/Vector/Vector2.h>
 
@@ -17,6 +16,6 @@ namespace Eclipse
 
 	class AudioSource : public Component
 	{
-		COMPONENT_BASE_2(AudioSource, 0)
+		BASE_SELECTION(AudioSource, 0)
     };
 }

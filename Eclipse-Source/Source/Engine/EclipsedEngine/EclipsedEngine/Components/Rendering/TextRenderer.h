@@ -5,7 +5,7 @@
 #include "AssetEngine/Assets/VertexShader.h"
 #include "AssetEngine/Assets/PixelShader.h"
 
-#include "AssetEngine/PathManager.h"
+#include "CoreEngine/PathManager.h"
 
 
 namespace Eclipse

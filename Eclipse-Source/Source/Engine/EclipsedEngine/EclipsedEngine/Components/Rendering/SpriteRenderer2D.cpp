@@ -14,7 +14,7 @@
 
 #include "OpenGL/glad/glad.h"
 
-#include "AssetEngine/PathManager.h"
+#include "CoreEngine/PathManager.h"
 #include "AssetEngine/Resources.h"
 
 namespace Eclipse
@@ -76,7 +76,7 @@ namespace Eclipse
 	void SpriteRenderer2D::Render()
 	{
 		CommandListManager::GetSpriteCommandList().Enqueue<RenderSprite2DCommand>(this);
-		DebugInformationCollector::UpdateRenderCalls();
+		//DebugInformationCollector::UpdateRenderCalls();
 	}
 
 	void SpriteRenderer2D::Draw(unsigned aProgramID)

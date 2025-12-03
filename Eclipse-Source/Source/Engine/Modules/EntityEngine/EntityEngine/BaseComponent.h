@@ -12,10 +12,10 @@
 
 #include "CoreEngine/Macros/MacroOverloadSelector.h"
 
-#define COMPONENT_FRIEND_CLASS         /*\*/
-/*friend class Editor::InspectorWindow;  \
+#define COMPONENT_FRIEND_CLASS         \
+friend class Editor::InspectorWindow;  \
 friend class ComponentManager;         \
-friend class SceneLoader;       */       
+friend class SceneLoader;           
 
 #define COMPONENT_BASE_1(type)												\
 COMPONENT_FRIEND_CLASS														\

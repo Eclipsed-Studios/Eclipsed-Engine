@@ -6,13 +6,12 @@ set_target_properties(EclipsedEngine PROPERTIES
     FOLDER "Engine"
 )
 
-target_link_libraries(EclipsedEngine PRIVATE 
+target_link_libraries(EclipsedEngine PUBLIC 
     AssetEngine
     AudioEngine
     CoreEngine
     EntityEngine
     GraphicsEngine
-    InputEngine
     NetworkEngine
     PhysicsEngine
 )

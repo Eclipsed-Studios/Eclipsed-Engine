@@ -13,7 +13,7 @@ namespace Eclipse
 {
 	class Transform2D : public Component
 	{
-		COMPONENT_BASE_2(Transform2D, UINT_MAX * 0.5f)
+		BASE_SELECTION(Transform2D, UINT_MAX * 0.5f)
 
 	public:
 		void OnSceneLoaded() override;

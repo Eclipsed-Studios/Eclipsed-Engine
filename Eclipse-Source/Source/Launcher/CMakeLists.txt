@@ -14,7 +14,7 @@ add_executable(Launcher "${LAUNCHER_ROOT}/main.cpp")
 
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
 
-
+target_link_libraries(Launcher PRIVATE EclipsedEngine)
 
 set_target_properties(Launcher PROPERTIES
 RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"

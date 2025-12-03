@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EntityEngine/Components/Base/BaseComponent.h"
+#include "EclipsedEngine/Components/Component.h"
 //
 //#include "CoreEngine/AssetManagement/Resources/SpriteSheetAnimation.h"
 //#include "CoreEngine/AssetManagement/ResourcePointer.h"

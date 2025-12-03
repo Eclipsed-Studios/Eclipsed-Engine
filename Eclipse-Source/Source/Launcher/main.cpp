@@ -1,6 +1,6 @@
 #include <iostream>
 
-//#include "EclipsedRuntime/Editor/EditorApplication.h"
+#include "EclipsedEngine/Editor/EditorApplication.h"
 #include <windows.h>
 
 int main()
@@ -9,7 +9,7 @@ int main()
     ShowWindow(console, SW_SHOW);
     //ShowWindow(console, SW_HIDE);
 
-    //Eclipse::Editor::EditorApplication editorApplication;
+    Eclipse::Editor::EditorApplication editorApplication;
 
     //editorApplication.Init();
 

@@ -1,7 +1,6 @@
 #include "ComponentManager.h"
 
 #include <algorithm>
-#include "Components/Transform2D.h"
 
 namespace Eclipse
 {

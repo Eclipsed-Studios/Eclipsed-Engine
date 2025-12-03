@@ -4,8 +4,8 @@
 
 #include "AssetEngine/Resources.h"
 
-#include "EntityEngine/Components/UI/RectTransform.h"
-#include "EntityEngine/Components/UI/Canvas.h"
+#include "EclipsedEngine/Components/UI/RectTransform.h"
+#include "EclipsedEngine/Components/UI/Canvas.h"
 
 #include "GraphicsEngine/RenderCommands/CommandList.h"
 

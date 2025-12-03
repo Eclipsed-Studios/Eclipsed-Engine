@@ -38,7 +38,6 @@ add_subdirectory(Source/Engine/Modules/AssetEngine)
 add_subdirectory(Source/Engine/Modules/AudioEngine)
 add_subdirectory(Source/Engine/Modules/EntityEngine)
 add_subdirectory(Source/Engine/Modules/GraphicsEngine)
-add_subdirectory(Source/Engine/Modules/InputEngine)
 add_subdirectory(Source/Engine/Modules/NetworkEngine)
 add_subdirectory(Source/Engine/Modules/PhysicsEngine)
 

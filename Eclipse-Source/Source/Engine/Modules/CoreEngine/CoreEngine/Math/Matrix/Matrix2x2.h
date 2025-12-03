@@ -1,7 +1,7 @@
 #pragma once
 #include <cstring>
 
-#include "Math/Vector/Vector2.h"
+#include "CoreEngine/Math/Vector/Vector2.h"
 
 namespace Eclipse::Math
 {
