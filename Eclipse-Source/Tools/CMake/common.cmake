@@ -89,7 +89,7 @@ function(CreateProject TYPE)
     target_sources(${CURRENT_DIR_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
         
     target_include_directories(${CURRENT_DIR_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
-    target_include_directories(${CURRENT_DIR_NAME} PUBLIC "${ROOT}")
+    target_include_directories(${CURRENT_DIR_NAME} PRIVATE "${ROOT}")
 
     target_precompile_headers(${CURRENT_DIR_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 

@@ -11,7 +11,7 @@ add_compile_definitions(LEAN_AND_MEAN)
 
 
 add_compile_definitions(
-    _ECLIPSED_EDITOR
+    ECLIPSED_EDITOR
     _ECLIPSED_EXPORT_DLL
     )
 
@@ -33,14 +33,19 @@ add_subdirectory(Source/Externals/Font-Awesome)
 
 
 
-add_subdirectory(Source/EngineModules/CoreEngine)
-add_subdirectory(Source/EngineModules/AssetEngine)
-add_subdirectory(Source/EngineModules/AudioEngine)
-add_subdirectory(Source/EngineModules/EntityEngine)
-add_subdirectory(Source/EngineModules/GraphicsEngine)
-add_subdirectory(Source/EngineModules/InputEngine)
-add_subdirectory(Source/EngineModules/NetworkEngine)
-add_subdirectory(Source/EngineModules/PhysicsEngine)
+add_subdirectory(Source/Engine/Modules/CoreEngine)
+add_subdirectory(Source/Engine/Modules/AssetEngine)
+add_subdirectory(Source/Engine/Modules/AudioEngine)
+add_subdirectory(Source/Engine/Modules/EntityEngine)
+add_subdirectory(Source/Engine/Modules/GraphicsEngine)
+add_subdirectory(Source/Engine/Modules/InputEngine)
+add_subdirectory(Source/Engine/Modules/NetworkEngine)
+add_subdirectory(Source/Engine/Modules/PhysicsEngine)
+
+add_subdirectory(Source/Engine/EclipsedEngine)
+
+add_subdirectory(Source/Launcher)
+
 
 
 
