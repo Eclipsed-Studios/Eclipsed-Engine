@@ -67,6 +67,7 @@ namespace Eclipse
         static CommandList& GetUICommandList() { return UICommandList; }
         static CommandList& GetSpriteCommandList() { return SpriteCommandList; }
         static CommandList& GetDebugDrawCommandList() { return DebugDrawCommandList; }
+        static CommandList& GetHappenAtBeginCommandList() { return HappenAtBeginCommandList; }
 
         static void ExecuteAllCommandLists()
         {
@@ -80,6 +81,7 @@ namespace Eclipse
             SpriteCommandList.Init();
             UICommandList.Init();
             DebugDrawCommandList.Init();
+            HappenAtBeginCommandList.Init();
         }
 
         static void ResetAllCommandLists()
@@ -93,5 +95,8 @@ namespace Eclipse
         static inline CommandList UICommandList;
         static inline CommandList SpriteCommandList;
         static inline CommandList DebugDrawCommandList;
+
+
+        static inline CommandList HappenAtBeginCommandList;
     };
 }

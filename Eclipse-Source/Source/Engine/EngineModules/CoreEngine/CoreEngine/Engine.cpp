@@ -23,6 +23,8 @@
 #include "AssetEngine/Resources.h"
 #include "AssetEngine/Assets/Texture.h"
 
+#include "GraphicsEngine/RenderCommands/CommandList.h"
+
 namespace Eclipse
 {
 	void Engine::Init()
@@ -43,6 +45,9 @@ namespace Eclipse
 
 	void Engine::Update()
 	{
+		CommandListManager::GetHappenAtBeginCommandList().Execute();
+		CommandListManager::GetHappenAtBeginCommandList().Reset();
+
 		DebugInformationCollector::ResetRenderCalls();
 
 		PlatformIntegration::IntegrationManager::Update();

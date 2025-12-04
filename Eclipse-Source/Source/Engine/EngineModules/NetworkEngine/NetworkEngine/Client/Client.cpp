@@ -1,5 +1,7 @@
 #include "Client.h"
 
+#include "GraphicsEngine/RenderCommands/CommandList.h"
+
 #include "NetworkEngine/Replication/ReplicatedVariable.h"
 #include "NetworkEngine/Shared/Message.h"
 
@@ -21,14 +23,18 @@ namespace Eclipse
 
 		for (auto& component : ComponentManager::GetComponents(message.MetaData.GameObjectID))
 		{
-			if (component->GetComponentName() == name)
+			const char* CurrentComponentName = component->GetComponentName();
+			if (!memcmp(name, CurrentComponentName, strlen(name)))
 				return;
 		}
+		std::string STRname = name;
 
-		Component* newCompoennt = ComponentRegistry::GetInspectorAddComponent(name)(message.MetaData.GameObjectID);
+		CommandListManager::GetHappenAtBeginCommandList().Enqueue([STRname, goid = message.MetaData.GameObjectID]{
+			Component* newCompoennt = ComponentRegistry::GetInspectorAddComponent(STRname)(goid);
 
-		newCompoennt->Awake();
-		newCompoennt->Start();
+			newCompoennt->Awake();
+			newCompoennt->Start();
+		});
 	}
 
 	void Client::CreateObjectMessage(const NetMessage& message)
