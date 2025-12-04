@@ -25,7 +25,7 @@ namespace Eclipse
 				return;
 		}
 
-		Component* newCompoennt = ComponentRegistry::GetAddComponent(name)(message.MetaData.GameObjectID, 5555);
+		Component* newCompoennt = ComponentRegistry::GetInspectorAddComponent(name)(message.MetaData.GameObjectID);
 
 		newCompoennt->Awake();
 		newCompoennt->Start();
