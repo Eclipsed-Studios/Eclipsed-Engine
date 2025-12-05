@@ -10,4 +10,17 @@ namespace Eclipse::Math
 
     constexpr float rad2Deg = 180.0f / pi;
     constexpr float deg2Rad = (1.0f / 180.0f * pi);
+
+
+    template<typename T>
+    inline T Max(const T& lhs, const T& rhs) {
+        if (lhs > rhs) return lhs;
+        else return rhs;
+    }
+
+    template<typename T>
+    inline T Min(const T& lhs, const T& rhs) {
+        if (lhs < rhs) return lhs;
+        else return rhs;
+    }
 }

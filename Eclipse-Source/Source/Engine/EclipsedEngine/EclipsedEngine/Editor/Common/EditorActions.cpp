@@ -142,7 +142,7 @@ namespace Eclipse::Editor
     }
     void EditorActions::PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator)
     {
-        aGameObject = ComponentManager::CreateGameObjectNoTransform();
+        aGameObject = ComponentManager::CreateGameObject();
         aGameObject->SetName(gameobject["Name"].GetString());
 
         for (auto& components : gameobject["Components"].GetArray())

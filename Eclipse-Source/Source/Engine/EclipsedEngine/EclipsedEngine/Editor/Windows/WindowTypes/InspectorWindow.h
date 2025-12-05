@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EclipsedRuntime/Editor/Windows/WindowBase.h"
+#include "EclipsedEngine/Editor/Windows/WindowBase.h"
 
 namespace Eclipse::Editor
 {

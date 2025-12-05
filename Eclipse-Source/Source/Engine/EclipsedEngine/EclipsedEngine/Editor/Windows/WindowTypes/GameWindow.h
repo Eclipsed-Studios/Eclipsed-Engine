@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Window.h"
-#include "EclipsedRuntime/Editor/Windows/WindowBase.h"
+#include "EclipsedEngine/Editor/Windows/WindowBase.h"
 
 
 #include "RenderingWindow.h"
-#include "Utilities/Math/Vector/Vector2.h"
+#include "CoreEngine/Math/Vector/Vector2.h"
 
 namespace Eclipse::Editor
 {

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "EclipsedEngine/Editor/EditorContext.h"
+#include "CoreEngine/Macros/defines.h"
 
 namespace Eclipse::Editor
 {
-    class EditorApplication
+    class ECLIPSED_API EditorApplication
     {
     public:
         void Init();

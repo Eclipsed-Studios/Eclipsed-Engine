@@ -3,6 +3,10 @@
 #include "AssetEngine/AssetFactory.h"
 
 #include <filesystem>
+#include "ImGui/imgui.h"
+
+#include "CoreEngine/Debug/DebugLogger.h"
+#include "CoreEngine/PathManager.h"
 
 namespace Eclipse::Editor
 {

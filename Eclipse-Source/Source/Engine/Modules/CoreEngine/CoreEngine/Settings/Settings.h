@@ -21,6 +21,8 @@ namespace Eclipse
 	protected:
 		rapidjson::Document doc;
 		std::string relPath = "";
+
+		bool fileOpenend = false;
 	};
 }
 

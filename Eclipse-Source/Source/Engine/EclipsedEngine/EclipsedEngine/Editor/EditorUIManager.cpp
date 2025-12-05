@@ -1,8 +1,8 @@
 #include "EditorUIManager.h"
 
 #include "ImGui/ImGui_Impl.h"
-#include "EclipsedRuntime/Editor/Common/TextureIconManager.h"
-#include "EclipsedRuntime/MainSingleton.h"
+#include "EclipsedEngine/Editor/Common/TextureIconManager.h"
+#include "CoreEngine/MainSingleton.h"
 
 //----------- Glad Includes ------------
 #include "glad/glad.h"
@@ -13,13 +13,15 @@
 #include "GLFW/glfw3native.h"
 #include "KHR/khrplatform.h"
 
+#include "Font-Awesome/7/IconsFontAwesome7.h"
+
 #include <iostream>
 
 namespace Eclipse::Editor
 {
 	void EditorUIManager::Init()
 	{
-		GLFWwindow* window = Eclipse::Utilities::MainSingleton::GetInstance<GLFWwindow*>();
+		GLFWwindow* window = MainSingleton::GetInstance<GLFWwindow*>();
 		ImGui_Impl::ImplementImGui(window);
 
 		IconManager::LoadIconsFile();

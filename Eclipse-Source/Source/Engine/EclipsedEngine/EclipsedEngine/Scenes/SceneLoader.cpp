@@ -166,7 +166,7 @@ namespace Eclipse
 				unsigned int id = obj["id"].GetUint();
 				std::string name = obj["name"].GetString();
 
-				GameObject* gObj = ComponentManager::CreateGameObjectNoTransformWithID(id);
+				GameObject* gObj = ComponentManager::CreateGameObject(id);
 				gObj->SetName(name);
 			}
 		}

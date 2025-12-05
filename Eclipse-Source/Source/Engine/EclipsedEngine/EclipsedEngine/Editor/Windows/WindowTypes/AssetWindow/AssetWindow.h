@@ -1,9 +1,9 @@
 #pragma once
 
-#include "EclipsedRuntime/Editor/Windows/WindowBase.h"
+#include "EclipsedEngine/Editor/Windows/WindowBase.h"
 
-#include "Utilities/Files/DirectoryTree.h"
-#include "EclipsedRuntime/Editor/Windows/WindowTypes/AssetWindow/AssetWindowContextMenu.h"
+#include "CoreEngine/Files/DirectoryTree.h"
+#include "EclipsedEngine/Editor/Windows/WindowTypes/AssetWindow/AssetWindowContextMenu.h"
 
 namespace Eclipse::Editor
 {

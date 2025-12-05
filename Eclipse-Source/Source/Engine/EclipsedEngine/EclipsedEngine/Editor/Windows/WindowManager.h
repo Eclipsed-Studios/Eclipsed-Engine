@@ -9,8 +9,6 @@ namespace Eclipse::Editor
 	class WindowManager final
 	{
 	public:
-		WindowManager();
-
 		void LoadLayouts();
 
 		void OpenWindow(const std::string& name, int aId);

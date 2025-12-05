@@ -53,6 +53,7 @@ namespace Eclipse::Assets
 
 
 		{ // Engine assets
+			auto path = PathManager::GetEngineAssets();
 			for (auto& entry : fs::recursive_directory_iterator(PathManager::GetEngineAssets()))
 			{
 				if (fs::is_directory(entry)) continue;

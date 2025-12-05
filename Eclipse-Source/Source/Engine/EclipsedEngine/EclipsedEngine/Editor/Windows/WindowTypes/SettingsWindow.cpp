@@ -4,16 +4,18 @@
 #include "PhysicsEngine/PhysicsEngine.h"
 #include "PhysicsEngine/PhysicsEngineSettings.h"
 
-#include "Utilities/Math/Math.h"
+#include "CoreEngine/Math/Math.h"
 
 #include <fstream>
-#include <rapidjson/rapidjson/stringbuffer.h>
-#include <rapidjson/rapidjson/prettywriter.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/document.h>
 
-#include "CoreEngine/Scenes/SceneManager.h"
+#include "EclipsedEngine/Scenes/SceneManager.h"
 
-#include "EclipsedRuntime/Editor/Common/DragAndDrop.h"
-#include "Utilities/Files/FileInfo.h"
+#include "EclipsedEngine/Editor/Common/DragAndDrop.h"
+#include "CoreEngine/Files/FileInfo.h"
+#include "CoreEngine/PathManager.h"
 
 namespace Eclipse::Editor
 {

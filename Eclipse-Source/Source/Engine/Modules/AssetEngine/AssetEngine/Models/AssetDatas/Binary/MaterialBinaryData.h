@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utilities/Math/Color.h"
+#include "CoreEngine/Math/Color.h"
 
 namespace Eclipse::Assets 
 {

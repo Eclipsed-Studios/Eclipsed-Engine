@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Component.h"
+#include "EntityEngine/Component.h"
 #include "EntityEngine/GameObject.h"
 
 #include <vector>
@@ -8,7 +8,6 @@
 #include <unordered_map>
 #include <typeindex>
 #include <assert.h>
-#include "Types.h"
 
 #define GetComp(Type, GOID)\
 ComponentManager::GetComponent<Type>(GOID)
@@ -23,6 +22,7 @@ namespace Eclipse
 		class EditorActions;
 	}
 
+	typedef unsigned ComponentIndex;
 
 	class GameObject;
 	class Component;
@@ -76,7 +76,6 @@ namespace Eclipse
 		static Eclipse::Component* AddComponentWithID(GameObjectID aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
 
 
-
 		template <typename T>
 		static unsigned GetComponentID();
 
@@ -89,9 +88,7 @@ namespace Eclipse
 
 		static void Destroy(GameObjectID aGOID);
 
-		static GameObject* CreateGameObject();
-		static GameObject* CreateGameObjectNoTransform();
-		static GameObject* CreateGameObjectNoTransformWithID(GameObjectID aId);
+		static GameObject* CreateGameObject(GameObjectID aId = 0);
 
 		static void Clear();
 

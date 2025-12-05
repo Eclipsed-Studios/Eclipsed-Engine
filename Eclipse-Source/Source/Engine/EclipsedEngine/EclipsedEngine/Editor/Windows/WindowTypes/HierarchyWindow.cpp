@@ -3,18 +3,18 @@
 
 #include "ImGui/imgui.h"
 #include "EntityEngine/ComponentManager.h"
-#include "EntityEngine/Components/Transform2D.h"
-#include "EntityEngine/Components/UI/Canvas.h"
-#include "EntityEngine/Components/UI/UIImage.h"
-#include "EntityEngine/Components/Rendering/TextRenderer.h"
-#include "EntityEngine/Components/UI/RectTransform.h"
-#include "InputEngine/Input.h"
+#include "EclipsedEngine/Components/Transform2D.h"
+#include "EclipsedEngine/Components/UI/Canvas.h"
+#include "EclipsedEngine/Components/UI/UIImage.h"
+#include "EclipsedEngine/Components/Rendering/TextRenderer.h"
+#include "EclipsedEngine/Components/UI/RectTransform.h"
+#include "CoreEngine/Input/Input.h"
 #include "EntityEngine/ECS.hpp"
 #include "EntityEngine/GameObject.h"
 
-#include "Utilities/WindowsSpecific/Clipboard.h"
-#include "CoreEngine/Scenes/SceneLoader.h"
-#include "EclipsedRuntime/Editor/EditorUIManager.h"
+#include "CoreEngine/Clipboard.h"
+#include "EclipsedEngine/Scenes/SceneLoader.h"
+#include "EclipsedEngine/Editor/EditorUIManager.h"
 
 #include "Font-Awesome/7/IconsFontAwesome7.h"
 
@@ -218,13 +218,15 @@ namespace Eclipse::Editor
 					if (ImGui::MenuItem("Canvas"))
 					{
 						GameObject* obj = ComponentManager::CreateGameObject();
+						obj->AddComponent<Transform2D>();
 						obj->AddComponent<Canvas>();
 
 						obj->SetName("Canvas");
 					}
 					else if (ImGui::MenuItem("Image"))
 					{
-						GameObject* obj = ComponentManager::CreateGameObjectNoTransform();
+						GameObject* obj = ComponentManager::CreateGameObject();
+						obj->AddComponent<Transform2D>();
 						obj->AddComponent<RectTransform>();
 						obj->AddComponent<UIImage>();
 
@@ -232,8 +234,9 @@ namespace Eclipse::Editor
 					}
 					else if (ImGui::MenuItem("Text"))
 					{
-						GameObject* obj = ComponentManager::CreateGameObjectNoTransform();
-						obj->AddComponent<RectTransform>();
+						GameObject* obj = ComponentManager::CreateGameObject();
+						obj->AddComponent<Transform2D>();
+						obj->AddComponent<TextRenderer>();
 						obj->AddComponent<TextRenderer>();
 
 						obj->SetName("New Text");

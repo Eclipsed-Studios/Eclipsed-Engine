@@ -1,5 +1,7 @@
 #pragma once
 
+#include <filesystem>
+
 namespace Eclipse::Editor
 {
 	struct IconData
@@ -32,7 +34,7 @@ namespace Eclipse::Editor
 	private:
 		static inline std::vector<std::string> filesToLoad;
 		static inline char buffer[1024];
-		static inline DWORD bytesReturned;
+		static inline unsigned long bytesReturned;
 
 		static inline const char* IconBundleFilePath = "Icons.bundle";
 		static inline std::unordered_map<size_t, IconData> loadedIcons;

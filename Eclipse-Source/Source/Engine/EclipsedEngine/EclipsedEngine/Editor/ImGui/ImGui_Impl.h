@@ -1,12 +1,12 @@
 #pragma once
 
 #define GLFW_EXPOSE_NATIVE_WIN32
-#include "ImGui/ImGui/imgui.h"
-#include "ImGui/ImGui/imgui_impl_glfw.h"
-#include "ImGui/ImGui/imgui_impl_opengl3.h"
-#include "ImGui/ImGui/implot.h"
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_glfw.h"
+#include "ImGui/imgui_impl_opengl3.h"
+#include "ImGui/implot.h"
 
-#include "AssetEngine/PathManager.h"
+#include "CoreEngine/PathManager.h"
 #include <string>
 
 namespace Eclipse::Editor

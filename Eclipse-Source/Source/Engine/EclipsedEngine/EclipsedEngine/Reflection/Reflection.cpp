@@ -1,8 +1,8 @@
 #include "Reflection.h"
 
-#include "ImGui/ImGui/imgui.h"
+#include "ImGui/imgui.h"
 
-#include "ImGui/ImGui/imgui.h"
+#include "ImGui/imgui.h"
 #include "SerializedVariable.h"
 
 namespace Eclipse::Reflection

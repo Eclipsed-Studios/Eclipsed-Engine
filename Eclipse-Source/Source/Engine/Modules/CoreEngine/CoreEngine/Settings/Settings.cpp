@@ -12,15 +12,16 @@ namespace Eclipse
 	{
 		std::ifstream ifs(PathManager::GetConfigDir() / relPath);
 		if (!ifs.is_open()) {
-			assert("The file could not be opened.");
+			return;
 		}
 
 		std::string jsonString((std::istreambuf_iterator<char>(ifs)),
 			std::istreambuf_iterator<char>());
 
 		ifs.close();
-
 		doc.Parse(jsonString.c_str());
+
+		fileOpenend = true;
 	}
 
 	Settings::~Settings()

@@ -3,14 +3,14 @@
 
 #include "EntityEngine/ComponentManager.h"
 
-#include "EclipsedRuntime/Editor/ImGui/ImGui_Impl.h"
+#include "EclipsedEngine/Editor/ImGui/ImGui_Impl.h"
 
-#include "Utilities/Reflection/Registry/ComponentRegistry.h"
+#include "EclipsedEngine/Reflection/Registry/ComponentRegistry.h"
 
-#include "EntityEngine/Components/Transform2D.h"
-#include "EntityEngine/Components/Rendering/SpriteRenderer2D.h"
-#include "EntityEngine/Components/Rendering/SpriteSheetAnimator.h"
-#include "EntityEngine/Components/AudioSource.h"
+#include "EclipsedEngine/Components/Transform2D.h"
+#include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "EclipsedEngine/Components/Rendering/SpriteSheetAnimator.h"
+#include "EclipsedEngine/Components/AudioSource.h"
 
 #include "SpriteEditor.h"
 
@@ -20,10 +20,11 @@
 
 #include "AssetEngine/AssetRegistry.h"
 
-#include "EclipsedRuntime/Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
-#include "EclipsedRuntime/Editor/Common/DragAndDrop.h"
+#include "EclipsedEngine/Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
+#include "EclipsedEngine/Editor/Common/DragAndDrop.h"
 
 #include <sstream>
+#include <fstream>
 
 namespace Eclipse::Editor
 {

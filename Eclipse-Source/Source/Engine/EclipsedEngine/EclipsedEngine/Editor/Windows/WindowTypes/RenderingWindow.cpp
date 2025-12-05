@@ -1,8 +1,8 @@
 #include "RenderingWindow.h"
 
-#include "EntityEngine/Components/Rendering/TextRenderer.h"
-#include "EntityEngine/Components/Rendering/Camera.h"
-#include "EntityEngine/Components/UI/Canvas.h"
+#include "EclipsedEngine/Components/Rendering/TextRenderer.h"
+#include "EclipsedEngine/Components/Rendering/Camera.h"
+#include "EclipsedEngine/Components/UI/Canvas.h"
 
 #include "PhysicsEngine/PhysicsEngine.h"
 

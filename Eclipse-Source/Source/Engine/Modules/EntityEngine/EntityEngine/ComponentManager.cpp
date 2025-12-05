@@ -1,6 +1,6 @@
 #include "ComponentManager.h"
 
-#include "Utilities/IDGenerator.h"
+#include "CoreEngine/IDGenerator.h"
 
 namespace Eclipse
 {
@@ -11,7 +11,7 @@ namespace Eclipse
 
 	void ComponentManager::OnLoadScene()
 	{
-		for (auto& component : myComponents)
+		for (Component* component : myComponents)
 			component->OnSceneLoaded();
 	}
 
@@ -282,34 +282,17 @@ namespace Eclipse
 
 	}
 
-	GameObject* ComponentManager::CreateGameObject()
+	GameObject* ComponentManager::CreateGameObject(GameObjectID aId)
 	{
-		GameObject* obj = new GameObject(myNextGameobjectID);
-		myEntityIdToEntity[myNextGameobjectID] = obj;
+		if (aId == 0) aId = myNextGameobjectID;
 
-		obj->AddComponent<Transform2D>();
-
-		myNextGameobjectID++;
-		return obj;
-	}
-
-	GameObject* ComponentManager::CreateGameObjectNoTransform()
-	{
-		GameObject* obj = new GameObject(myNextGameobjectID);
-		myEntityIdToEntity[myNextGameobjectID] = obj;
-
-		myNextGameobjectID++;
-		return obj;
-	}
-
-	GameObject* ComponentManager::CreateGameObjectNoTransformWithID(GameObjectID aId)
-	{
 		GameObject* obj = new GameObject(aId);
 		myEntityIdToEntity[aId] = obj;
 
 		if (myNextGameobjectID <= aId) myNextGameobjectID = aId + 1;
 		return obj;
 	}
+
 
 	void ComponentManager::BeginCollisions(GameObjectID aGOID)
 	{

@@ -1,7 +1,6 @@
 #include "ComponentManager.h"
 
 #include <algorithm>
-
 namespace Eclipse
 {
     inline unsigned GetUniqueComponentTypeId()

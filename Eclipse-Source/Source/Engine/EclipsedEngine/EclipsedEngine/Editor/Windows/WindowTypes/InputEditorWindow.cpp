@@ -4,17 +4,19 @@
 
 #include "EntityEngine/ComponentManager.h"
 
-#include "InputEngine/InputMapper.h"
-#include "InputEngine/Input.h"
+#include "CoreEngine/Input/InputMapper.h"
+#include "CoreEngine/Input/Input.h"
 
-#include "rapidjson/rapidjson/stringbuffer.h"
+#include "rapidjson/stringbuffer.h"
 
 #include "ImGui/imgui.h"
 
 #include <iostream>
 #include <filesystem>
 
-#include <rapidjson/rapidjson/document.h>
+#include <rapidjson/document.h>
+
+#include "CoreEngine/MainSingleton.h"
 
 namespace Eclipse::Editor
 {
@@ -204,9 +206,9 @@ namespace Eclipse::Editor
 	void ChangeButton(Keycode::Scancode& aKeycode)
 	{
 		ImGui::Text("Press Any Key");
-		if (Utilities::MainSingleton::GetInstance<Input>().GetAny())
+		if (MainSingleton::GetInstance<Input>().GetAny())
 		{
-			aKeycode = Utilities::MainSingleton::GetInstance<Input>().GetAnyKey();
+			aKeycode = MainSingleton::GetInstance<Input>().GetAnyKey();
 			ImGui::CloseCurrentPopup();
 		}
 

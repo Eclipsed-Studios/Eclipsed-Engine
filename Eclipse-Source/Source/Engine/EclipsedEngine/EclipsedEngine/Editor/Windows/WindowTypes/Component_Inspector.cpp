@@ -1,9 +1,9 @@
 #include "InspectorWindow.h"
 
-#include "EclipsedRuntime/Editor/Common/DragAndDrop.h"
+#include "EclipsedEngine/Editor/Common/DragAndDrop.h"
 
-#include "EntityEngine/Components/AudioSource.h"
-#include "EntityEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "EclipsedEngine/Components/AudioSource.h"
+#include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 
 #include "AssetEngine/AssetRegistry.h"
 

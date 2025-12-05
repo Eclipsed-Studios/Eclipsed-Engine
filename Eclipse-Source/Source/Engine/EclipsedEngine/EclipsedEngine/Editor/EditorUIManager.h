@@ -12,7 +12,6 @@ namespace Eclipse::Editor
 		void BeginFrame();
 		void Update();
 		void Render();
-		void EndFrame();
 
 	private:
 		void LoadFonts();

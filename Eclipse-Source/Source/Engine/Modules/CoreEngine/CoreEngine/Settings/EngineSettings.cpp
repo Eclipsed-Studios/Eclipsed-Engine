@@ -9,6 +9,8 @@ namespace Eclipse
 {
 	EngineSettings::EngineSettings() : Settings("settings.json")
 	{
+		if (!fileOpenend) return;
+
 		Engine_Name = doc[STRINGIFY(Engine_Name)].GetString();
 		Engine_Version = doc[STRINGIFY(Engine_Version)].GetString();
 
@@ -66,6 +68,31 @@ namespace Eclipse
 	}
 
 	float EngineSettings::GetResolutionRation() const
+	{
+		return myResolutionRatio;
+	}
+	
+	const Math::Vector2i& EngineSettings::GetGameResolution() const
+	{
+		return myGameWindowResolution;
+	}
+
+	Math::Vector2i& EngineSettings::GetGameResolution()
+	{
+		return myGameWindowResolution;
+	}
+	
+	void EngineSettings::SetGameResolution(const Math::Vector2i& res)
+	{
+		myGameWindowResolution = res;
+		myResolutionRatio = Resolution.y / Resolution.x;
+	}
+
+	float EngineSettings::GetGameResolutionRation() const
+	{
+		return myResolutionRatio;
+	}
+	float& EngineSettings::GetGameResolutionRation()
 	{
 		return myResolutionRatio;
 	}

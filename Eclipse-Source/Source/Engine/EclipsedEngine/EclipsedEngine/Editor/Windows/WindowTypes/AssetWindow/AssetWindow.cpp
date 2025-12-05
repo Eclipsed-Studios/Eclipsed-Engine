@@ -1,12 +1,13 @@
 #include "AssetWindow.h"
-#include "EclipsedRuntime/Editor/Common/TextureIconManager.h"
+#include "EclipsedEngine/Editor/Common/TextureIconManager.h"
 
-#include "CoreEngine/Scenes/SceneManager.h"
-#include "AssetEngine/PathManager.h"
-#include "EclipsedRuntime/Editor/EditorUIManager.h"
+#include "EclipsedEngine/Scenes/SceneManager.h"
+#include "CoreEngine/PathManager.h"
+#include "EclipsedEngine/Editor/EditorUIManager.h"
 
-#include "EclipsedRuntime/Editor/Windows/WindowTypes/InspectorWindow.h"
-#include "EclipsedRuntime/Editor/Common/DragAndDrop.h"
+#include "EclipsedEngine/Editor/Windows/WindowTypes/InspectorWindow.h"
+#include "EclipsedEngine/Editor/Common/DragAndDrop.h"
+#include "CoreEngine/Math/CommonMath.h"
 
 namespace Eclipse::Editor
 {
@@ -212,7 +213,7 @@ namespace Eclipse::Editor
 			float texHeight = data.height;
 
 			float scale = 0.6f;
-			float maxDim = std::min(availW, availH) * scale;
+			float maxDim = Math::Min(availW, availH)* scale;
 
 			float ratio = texWidth / texHeight;
 			float drawWidth, drawHeight;

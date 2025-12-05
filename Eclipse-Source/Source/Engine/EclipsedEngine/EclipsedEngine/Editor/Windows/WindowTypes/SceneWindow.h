@@ -1,10 +1,10 @@
 #ifdef ECLIPSED_EDITOR
 #pragma once
 
-#include "EclipsedRuntime/Editor/Windows/WindowBase.h"
+#include "EclipsedEngine/Editor/Windows/WindowBase.h"
 #include "RenderingWindow.h"
 
-#include "Utilities/Math/Vector/Vector2.h"
+#include "CoreEngine/Math/Vector/Vector2.h"
 
 #include <vector>
 

@@ -14,4 +14,6 @@ target_link_libraries(EclipsedEngine PUBLIC
     GraphicsEngine
     NetworkEngine
     PhysicsEngine
+
+    ImGui
 )

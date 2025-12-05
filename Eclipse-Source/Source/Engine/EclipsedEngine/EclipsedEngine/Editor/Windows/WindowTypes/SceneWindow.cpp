@@ -3,34 +3,35 @@
 
 #include "ImGui/imgui.h"
 
-#include "Utilities/Math/Math.h"
+#include "CoreEngine/Math/Math.h"
 
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 #include "GraphicsEngine/RenderCommands/CommandList.h"
 
-#include "InputEngine/Input.h"
+#include "CoreEngine/Input/Input.h"
 
 #include "GraphicsEngine/RenderCommands/RenderCommand.h"
 
 #include <iostream>
 
-#include "Utilities/Reflection/Registry/ComponentRegistry.h"
+#include "EclipsedEngine/Reflection/Registry/ComponentRegistry.h"
 
-#include "EntityEngine/Components/Base/Component.h"
-#include "EntityEngine/Components/Rendering/SpriteRenderer2D.h"
-#include "EntityEngine/Components/UI/Canvas.h"
+#include "EntityEngine/Component.h"
+#include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "EclipsedEngine/Components/UI/Canvas.h"
 
-#include "InputEngine/InputMapper.h"
-#include "EntityEngine/Components/Transform2D.h"
+#include "CoreEngine/Input/InputMapper.h"
+#include "EclipsedEngine/Components/Transform2D.h"
 
 #include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
 
 #include "OpenGL/glad/glad.h"
 
-#include "EntityEngine/Components/UI/RectTransform.h"
+#include "EclipsedEngine/Components/UI/RectTransform.h"
 
-#include "EclipsedRuntime/Editor/Common/EditorActions.h"
+#include "EclipsedEngine/Editor/Common/EditorActions.h"
 
+#include "CoreEngine/Math/CommonMath.h"
 
 namespace Eclipse
 {
@@ -77,7 +78,7 @@ namespace Eclipse
 		float scaleMagnitude = std::log2(myInspectorScale.x + 1.0f);
 		float dynamicFactor = baseFactor - (0.02f * scaleMagnitude);
 
-		dynamicFactor = std::max(1.001f, dynamicFactor);
+		dynamicFactor = Math::Max(1.001f, dynamicFactor);
 		float zoomFactor = (deltaYScroll > 0) ? dynamicFactor : 1.0f / dynamicFactor;
 
 		Math::Vector2f zoomCenter = normalizedMousePosition + myInspectorPosition;

@@ -2,23 +2,20 @@
 
 #include "ImGui/imgui.h"
 
-#include "rapidjson/rapidjson/document.h"
-#include "rapidjson/rapidjson/writer.h"
-#include "rapidjson/rapidjson/stringbuffer.h"
-#include "rapidjson/rapidjson/filewritestream.h"
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/filewritestream.h"
 #include <fstream>
 
-#include "EclipsedRuntime/Editor/Windows/WindowTypes/Window.h"
+#include "EclipsedEngine/Editor/Windows/WindowTypes/Window.h"
+#include "EclipsedEngine/Editor/ImGui/ImGui_Impl.h"
 
-#include "EclipsedRuntime/Editor/ImGui/ImGui_Impl.h"
+#include "CoreEngine/MainSingleton.h"
+#include "CoreEngine/Settings/EngineSettings.h"
 
 namespace Eclipse::Editor
 {
-	WindowManager::WindowManager()
-	{
-		//myDebugWindow.Open();
-	}
-
 	void WindowManager::LoadLayouts()
 	{
 		for (auto entry : std::filesystem::directory_iterator(PathManager::GetEngineAssets() / "Editor/Layouts/"))
@@ -292,7 +289,7 @@ namespace Eclipse::Editor
 
 		ImGui_Impl::currentEditorLayout = aName;
 
-		ImGui_Impl::ImplementImGui(Utilities::MainSingleton::GetInstance<GLFWwindow*>());
+		ImGui_Impl::ImplementImGui(MainSingleton::GetInstance<GLFWwindow*>());
 		ImGui_Impl::NewFrame();
 	}
 }

@@ -13,6 +13,9 @@
 
 #include "CoreEngine/PathManager.h"
 
+#include "CoreEngine/MainSingleton.h"
+#include "CoreEngine/Settings/EngineSettings.h"
+
 #include <fstream>
 
 
@@ -43,6 +46,8 @@ namespace Eclipse
 			out.write(engineRoot.c_str(), engineRoot.size());
 			out.close();
 		}
+
+		MainSingleton::RegisterInstance<EngineSettings>();
 
 		GraphicsEngine::Init();
 		engine.Init();

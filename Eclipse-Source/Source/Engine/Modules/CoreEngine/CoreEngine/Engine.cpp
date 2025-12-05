@@ -10,8 +10,6 @@ namespace Eclipse
 {
 	void Engine::Init()
 	{
-		MainSingleton::RegisterInstance<EngineSettings>();
-
 		Time::Init();
 		Input::Init();
 	}

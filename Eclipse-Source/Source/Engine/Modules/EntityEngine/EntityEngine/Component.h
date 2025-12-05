@@ -79,7 +79,12 @@ namespace Eclipse
 
 		virtual const char* GetComponentName() { return "Component"; }
 
+
+
 	protected:
+#ifdef ECLIPSED_EDITOR
+		virtual void UpdateInspector() {}
+#endif
 //#ifdef ECLIPSED_EDITOR
 //		void UpdateInspector() { Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); }
 //#endif

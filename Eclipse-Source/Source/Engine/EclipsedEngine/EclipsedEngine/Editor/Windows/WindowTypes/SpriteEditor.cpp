@@ -5,16 +5,21 @@
 #include "PhysicsEngine/PhysicsEngine.h"
 #include "PhysicsEngine/PhysicsEngineSettings.h"
 
-#include "Utilities/Math/Math.h"
+#include "CoreEngine/Math/Math.h"
 
-#include "InputEngine/Input.h"
+#include "CoreEngine/Input/Input.h"
 
 #include <iostream>
 
 #include <sstream>
+#include <fstream>
+#include <algorithm>
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/document.h"
+#include "rapidjson/filereadstream.h"
 
-#include "rapidjson/rapidjson/prettywriter.h"
-#include "rapidjson/rapidjson/stringbuffer.h"
+#include "CoreEngine/Math/CommonMath.h"
 
 #include "OpenGL/GLFW/glfw3.h"
 
@@ -44,7 +49,7 @@ namespace Eclipse::Editor
 		float scaleMagnitude = std::log2(myInspectorScale.x + 1.0f);
 		float dynamicFactor = baseFactor - (0.02f * scaleMagnitude);
 
-		dynamicFactor = std::max(1.001f, dynamicFactor);
+		dynamicFactor = Math::Max(1.001f, dynamicFactor);
 		float zoomFactor = (deltaYScroll > 0) ? dynamicFactor : 1.0f / dynamicFactor;
 
 		Math::Vector2f zoomCenter = normalizedMousePosition + myInspectorPosition;
