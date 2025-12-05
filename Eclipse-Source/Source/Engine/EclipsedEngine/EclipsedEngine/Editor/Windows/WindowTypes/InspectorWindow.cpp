@@ -110,7 +110,7 @@ namespace Eclipse::Editor
 			if (!comp->myInspectorWasDrawn) continue;
 
 			ImGui::Indent(20.f);
-			comp->UpdateInspector();
+			Reflection::ReflectionManager::DrawInspector(comp, comp->GetComponentName());
 			ImGui::Unindent(20.f);
 
 			ImGui::Dummy({ 0, 30 });
@@ -131,6 +131,14 @@ namespace Eclipse::Editor
 
 			ImGui::EndCombo();
 		}
+	}
+
+	void InspectorWindow::DrawComponentInspector(Component* comp)
+	{
+		int i = 0;
+		i++;
+		i--;
+		i = 924;
 	}
 
 	void InspectorWindow::DrawAssetInspector()

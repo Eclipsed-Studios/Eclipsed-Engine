@@ -1,5 +1,9 @@
 #pragma once
 
+#include <type_traits>
+#include <string>
+#include <vector>
+
 template<typename T>
 struct Is_String : std::disjunction<
     std::is_same<std::decay_t<T>, std::string>,

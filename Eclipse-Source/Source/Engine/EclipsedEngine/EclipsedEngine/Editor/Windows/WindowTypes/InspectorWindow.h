@@ -28,6 +28,8 @@ namespace Eclipse::Editor
 
 	private:
 		void DrawGameObjectInspector();
+		void DrawComponentInspector(Component* comp);
+
 		void DrawAssetInspector();
 
 		void DrawTextureAssetInspector();

@@ -1,11 +1,12 @@
 #pragma once
 
 #include <string>
+#include "CoreEngine/Macros/defines.h"
 
 namespace Eclipse { class Component; }
 namespace Eclipse::Reflection
 {
-	class AbstractSerializedVariable
+	class ECLIPSED_API AbstractSerializedVariable
 	{
 		friend class ReflectionManager;
 

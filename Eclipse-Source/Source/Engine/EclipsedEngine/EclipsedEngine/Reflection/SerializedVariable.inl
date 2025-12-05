@@ -200,7 +200,9 @@ namespace Eclipse::Reflection
 		}
 		else
 		{
-			ImGui::Text(GetName());
+			auto name = GetName();
+
+			ImGui::Text(name);
 			ImGui::SameLine();
 			DrawElement(data);
 		}

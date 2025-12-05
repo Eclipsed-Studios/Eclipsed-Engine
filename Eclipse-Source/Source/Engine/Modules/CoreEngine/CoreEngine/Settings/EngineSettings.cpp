@@ -58,6 +58,13 @@ namespace Eclipse
 	{
 		Resolution = res;
 
+		if(Resolution.x == 0.f || Resolution.y)
+		{
+			myOneDivResolution = { 0.f, 0.f };
+			myResolutionRatio = 0.f;
+			return;
+		}
+
 		myOneDivResolution = { 1.f / Resolution.x, 1.f / Resolution.y };
 		myResolutionRatio = Resolution.y / Resolution.x;
 	}
@@ -85,7 +92,13 @@ namespace Eclipse
 	void EngineSettings::SetGameResolution(const Math::Vector2i& res)
 	{
 		myGameWindowResolution = res;
-		myResolutionRatio = Resolution.y / Resolution.x;
+		if (myGameWindowResolution.x == 0.f || myGameWindowResolution.y)
+		{
+			myResolutionRatioGameView = 0.f;
+			return;
+		}
+
+		myResolutionRatioGameView = Resolution.y / Resolution.x;
 	}
 
 	float EngineSettings::GetGameResolutionRation() const

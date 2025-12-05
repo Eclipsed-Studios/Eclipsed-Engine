@@ -13,7 +13,7 @@
 #include "CoreEngine/Macros/MacroOverloadSelector.h"
 
 #define COMPONENT_FRIEND_CLASS         \
-friend class Editor::InspectorWindow;  \
+friend class Eclipse::Editor::InspectorWindow;  \
 friend class ComponentManager;         \
 friend class SceneLoader;           
 

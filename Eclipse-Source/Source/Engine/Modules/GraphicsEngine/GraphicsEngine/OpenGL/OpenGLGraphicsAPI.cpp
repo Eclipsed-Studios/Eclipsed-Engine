@@ -88,8 +88,6 @@ namespace Eclipse
 
     ErrorCode GraphicsEngine::InitOpenGL()
     {
-        std::cout << "Graphi motoj" << std::endl;
-
         glfwSetErrorCallback(error_callback);
 
         int iResult;

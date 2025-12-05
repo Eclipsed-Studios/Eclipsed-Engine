@@ -29,6 +29,8 @@ namespace Eclipse
 
 	inline GameObject* CreateGameObject()
 	{
-		return ComponentManager::CreateGameObject();
+		GameObject* ptr = ComponentManager::CreateGameObject();
+		ptr->AddComponent<Transform2D>();
+		return ptr;
 	}
 }
