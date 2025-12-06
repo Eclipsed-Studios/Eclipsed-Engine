@@ -11,5 +11,6 @@ namespace Eclipse
 		void Init();
 		
 		void Update();
+		void End();
 	};
 }

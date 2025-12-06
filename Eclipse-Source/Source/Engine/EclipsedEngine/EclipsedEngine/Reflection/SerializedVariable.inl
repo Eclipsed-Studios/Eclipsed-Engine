@@ -7,10 +7,14 @@
 #include "CoreEngine/Math/Math.h"
 #include "EclipsedEngine/Reflection/ReflectionTypeChecks.h"
 
+#include "EditorReflectionDrawHelper.h"
+#include <typeindex>
+
+
 namespace Eclipse::Reflection
 {
 
-//#ifdef ECLIPSED_EDITOR
+	//#ifdef ECLIPSED_EDITOR
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector)
@@ -34,19 +38,47 @@ namespace Eclipse::Reflection
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
 	{
 	}
-//#else
-//	template<typename T>
-//	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr)
-//		: AbstractSerializedVariable(aName, aCompPtr)
-//	{
-//	}
-//
-//	template<typename T>
-//	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue)
-//		: AbstractSerializedVariable(aName, aCompPtr), data(aDefaultValue)
-//	{
-//	}
-//#endif
+	template<typename T>
+	inline void SerializedVariable<T>::DrawInspector()
+	{
+
+		ImGui::Text(GetName());
+	}
+	//#else
+	//	template<typename T>
+	//	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr)
+	//		: AbstractSerializedVariable(aName, aCompPtr)
+	//	{
+	//	}
+	//
+	//	template<typename T>
+	//	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue)
+	//		: AbstractSerializedVariable(aName, aCompPtr), data(aDefaultValue)
+	//	{
+	//	}
+	//#endif
+
+	template<typename T>
+	concept HasGetType = requires(T type) { type.GetType(); };
+
+	template<typename T>
+	inline int SerializedVariable<T>::GetImGuiType() const
+	{
+		auto& t = typeid(T);
+
+		if (types.find(typeid(T)) != types.end())
+		{
+			return types.at(typeid(T));
+		}
+
+		if constexpr (HasGetType<T>)
+		{
+			const auto& tadwad = data.GetType();
+			return types.at(tadwad);
+		}
+
+		return 20000;
+	}
 
 	template<typename T>
 	inline void* SerializedVariable<T>::GetRawData()
@@ -61,6 +93,9 @@ namespace Eclipse::Reflection
 			return &data[0];
 
 		else if constexpr (Is_Vector<T>::value)
+			return &data[0];
+
+		else if constexpr (Is_Std_String<T>::value)
 			return &data[0];
 
 		else
@@ -124,7 +159,7 @@ namespace Eclipse::Reflection
 	}
 
 
-//#ifdef ECLIPSED_EDITOR
+	//#ifdef ECLIPSED_EDITOR
 	template<typename T>
 	bool ComboEnum(const char* label, T& e) {
 		unsigned currentIndex = static_cast<unsigned>(e);
@@ -151,62 +186,62 @@ namespace Eclipse::Reflection
 		return changed;
 	}
 
-	template<typename T>
-	inline void SerializedVariable<T>::DrawInspector()
-	{
+	//template<typename T>
+	//inline void SerializedVariable<T>::DrawInspector()
+	//{
+	//	//EditorReflectionDrawHelper::DrawReflectedVariable(*this);
+	//	if constexpr (Is_Vector<T>::value || Is_Array<T>::value)
+	//	{
+	//		isDrawn = ImGui::CollapsingHeader(GetName());
 
-		if constexpr (Is_Vector<T>::value || Is_Array<T>::value)
-		{
-			isDrawn = ImGui::CollapsingHeader(GetName());
+	//		if (!isDrawn) return;
 
-			if (!isDrawn) return;
+	//		ResolveTypeInfo();
+	//		for (int i = 0; i < GetCount(); ++i)
+	//		{
+	//			ImGui::Dummy({ 20, 0 });
+	//			ImGui::SameLine();
 
-			ResolveTypeInfo();
-			for (int i = 0; i < GetCount(); ++i)
-			{
-				ImGui::Dummy({ 20, 0 });
-				ImGui::SameLine();
+	//			ImGui::PushID(i);
 
-				ImGui::PushID(i);
+	//			if constexpr (Is_Vector<T>::value)
+	//			{
+	//				ImGui::SameLine();
 
-				if constexpr (Is_Vector<T>::value)
-				{
-					ImGui::SameLine();
+	//				if (ImGui::Button("-"))
+	//				{
+	//					data.erase(data.begin() + i);
+	//					ImGui::PopID();
+	//					return;
+	//				}
 
-					if (ImGui::Button("-"))
-					{
-						data.erase(data.begin() + i);
-						ImGui::PopID();
-						return;
-					}
+	//				ImGui::SameLine();
+	//			}
 
-					ImGui::SameLine();
-				}
+	//			DrawElement(data[i]);
+	//			ImGui::PopID();
+	//		}
 
-				DrawElement(data[i]);
-				ImGui::PopID();
-			}
+	//		if constexpr (Is_Vector<T>::value)
+	//		{
+	//			ImGui::Dummy({ 20, 0 });
+	//			ImGui::SameLine();
 
-			if constexpr (Is_Vector<T>::value)
-			{
-				ImGui::Dummy({ 20, 0 });
-				ImGui::SameLine();
+	//			if (ImGui::Button("Add"))
+	//			{
+	//				data.push_back({});
+	//			}
+	//		}
+	//	}
+	//	else
+	//	{
+	//		auto name = GetName();
 
-				if (ImGui::Button("Add"))
-				{
-					data.push_back({});
-				}
-			}
-		}
-		else
-		{
-			auto name = GetName();
-
-			ImGui::Text(name);
-			ImGui::SameLine();
-			DrawElement(data);
-		}
-	}
+	//		ImGui::Text(name);
+	//		ImGui::SameLine();
+	//		DrawElement(data);
+	//	}
+	//}
 
 	template<typename T>
 	template<typename U>
@@ -238,5 +273,5 @@ namespace Eclipse::Reflection
 			element = TemporaryName;
 		}
 	}
-//#endif
+	//#endif
 }

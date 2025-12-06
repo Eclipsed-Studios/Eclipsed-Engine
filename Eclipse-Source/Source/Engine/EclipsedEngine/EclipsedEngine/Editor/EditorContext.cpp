@@ -51,7 +51,7 @@ namespace Eclipse::Editor
 
 	void EditorContexts::Shutdown()
 	{
-
+		myRuntime.Shutdown();
 	}
 }
 #endif

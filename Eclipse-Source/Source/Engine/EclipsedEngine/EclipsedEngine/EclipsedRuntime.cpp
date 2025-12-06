@@ -100,6 +100,10 @@ namespace Eclipse
 	{
 		GraphicsEngine::EndFrame();
 	}
+	void EclipsedRuntime::Shutdown()
+	{
+		MainSingleton::Destroy();
+	}
 
 	bool EclipsedRuntime::BeginFrame()
 	{

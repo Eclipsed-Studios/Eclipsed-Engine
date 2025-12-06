@@ -24,6 +24,12 @@ namespace Eclipse::Math
     }
 
     template <typename T>
+    inline std::type_index Vector3<T>::GetType() const
+    {
+        return typeid(T);
+    }
+
+    template <typename T>
     inline T Vector3<T>::Dot(const Vector3& anotherVec) const
     {
         return x * anotherVec.x + y * anotherVec.y + z * anotherVec.z;

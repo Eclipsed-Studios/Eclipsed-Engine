@@ -14,6 +14,7 @@ namespace Eclipse
 		void Render();
 
 		void Update();
+		void Shutdown();
 		void EndFrame();
 		bool BeginFrame();
 

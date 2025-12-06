@@ -2,11 +2,16 @@
 
 #include "AbstractSerializedVariable.h"
 
+class EditorReflectionDrawHelper;
+
+
 namespace Eclipse::Reflection
 {
 	template<typename T>
 	class SerializedVariable final : public AbstractSerializedVariable
 	{
+		friend class EditorReflectionDrawHelper;
+
 	public:
 
 //#ifdef ECLIPSED_EDITOR
@@ -17,7 +22,7 @@ namespace Eclipse::Reflection
 		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue, T _min, T _max);
 //#else
 //		SerializedVariable(const char* aName, Component* aCompPtr);
-//		SerializedVariable(const char* aName, Component* aCompPtr, const T& aDefaultValue);
+//		SerializedVariable(co nst char* aName, Component* aCompPtr, const T& aDefaultValue);
 //#endif
 
 //#ifdef ECLIPSED_EDITOR
@@ -29,6 +34,8 @@ namespace Eclipse::Reflection
 		template<typename U>
 		void DrawString(U& element);
 //#endif
+
+		int GetImGuiType() const override;
 
 	public:
 		void* GetRawData() override;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <initializer_list>
+#include <typeindex>
 
 namespace Eclipse::Math
 {
@@ -12,6 +13,10 @@ namespace Eclipse::Math
 		Vector4(const T& aX, const T& aY, const T& aZ, const T& aW);
 		Vector4(const std::initializer_list<T> initList);
 		~Vector4() = default;
+
+	public:
+		std::type_index GetType() const;
+		static constexpr bool serializable = true;
 
 	public:
 		const Vector4 operator+(const Vector4& anotherVec) const;

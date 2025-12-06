@@ -27,16 +27,16 @@ namespace Eclipse
 
 	EngineSettings::~EngineSettings()
 	{
-		doc[STRINGIFY(Engine_Name)].SetString(Engine_Name.c_str(), doc.GetAllocator());
-		doc[STRINGIFY(Engine_Version)].SetString(Engine_Version.c_str(), doc.GetAllocator());
+		//doc.AddMember(STRINGIFY(Engine_Name), rapidjson::Value(Engine_Name.c_str(), doc.GetAllocator()).Move(), doc.GetAllocator());
+		//doc.AddMember(STRINGIFY(Engine_Version), rapidjson::Value(Engine_Version.c_str(), doc.GetAllocator()).Move(), doc.GetAllocator());
+		//	
+		//{
+		//	rapidjson::Value resolution(rapidjson::kObjectType);
+		//	resolution.AddMember("x", Resolution.x, doc.GetAllocator());
+		//	resolution.AddMember("y", Resolution.y, doc.GetAllocator());
 
-		{
-			rapidjson::Value resolution(rapidjson::kObjectType);
-			resolution.AddMember("x", Resolution.x, doc.GetAllocator());
-			resolution.AddMember("y", Resolution.y, doc.GetAllocator());
-
-			doc.AddMember(STRINGIFY(Resolution), resolution.Move(), doc.GetAllocator());
-		}
+		//	doc.AddMember(STRINGIFY(Resolution), resolution.Move(), doc.GetAllocator());
+		//}
 	}
 
 	const std::string& EngineSettings::GetEngineName()

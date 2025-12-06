@@ -7,16 +7,20 @@ namespace Eclipse
     {
         auto it = mySingletons.find(typeid(T));
         if (it != mySingletons.end())
-            return *static_cast<T*>(it->second);
+            return *static_cast<T*>(it->second.instance);
         throw std::runtime_error("Singleton not registered.");
     }
 
     template<typename T>
     inline T& MainSingleton::RegisterInstance()
     {
-        auto instance = new T();
+        SingletonEntry instance;
+
+        instance.instance = new T();
+        instance.deleter = [](void* ptr) {delete static_cast<T*>(ptr);};
+
         mySingletons[typeid(T)] = instance;
-        return *instance;
+        return *static_cast<T*>(instance.instance);
     }
 
     template<typename T>

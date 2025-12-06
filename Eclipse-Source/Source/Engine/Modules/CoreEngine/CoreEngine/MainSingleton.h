@@ -7,6 +7,12 @@
 
 namespace Eclipse
 {
+    struct SingletonEntry
+    {
+        void* instance;
+        void (*deleter)(void*);
+    };
+
     class MainSingleton
     {
     public:
@@ -19,8 +25,10 @@ namespace Eclipse
         template<typename T>
         static bool Exists();
 
+        static void Destroy();
+
     private:
-        static inline std::unordered_map<std::type_index, void*> mySingletons;
+        static inline std::unordered_map<std::type_index, SingletonEntry> mySingletons;
     };
 }
 

@@ -21,4 +21,8 @@ namespace Eclipse
 		Time::Init();
 		Input::Update();
 	}
+	void Engine::End()
+	{
+		MainSingleton::Destroy();
+	}
 }

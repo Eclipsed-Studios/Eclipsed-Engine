@@ -128,6 +128,11 @@ namespace Eclipse::Editor
 
 
 
+	void EditorRuntime::Shutdown()
+	{
+		eclipseRuntime.Shutdown();
+	}
+
 	void EditorRuntime::DrawPlayGameButtons()
 	{
 		const Math::Vector2i& resolution = MainSingleton::GetInstance<EngineSettings>().GetResolution();

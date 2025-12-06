@@ -26,6 +26,7 @@ namespace Eclipse::Editor
 		void EndFrameEngine();
 
 	public:
+		void Shutdown();
 		void EnterPlayMode();
 		void ExitPlayMode();
 		void PauseGame();
