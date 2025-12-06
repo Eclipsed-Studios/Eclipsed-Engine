@@ -66,6 +66,9 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
+		auto voi = PathManager::GetEngineLocal();
+
+
 		std::ifstream in(PathManager::GetEngineLocal() / "EngineSettings.json");
 
 		std::string jsonString((std::istreambuf_iterator<char>(in)),

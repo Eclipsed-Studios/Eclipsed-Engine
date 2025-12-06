@@ -422,6 +422,7 @@ namespace Eclipse
     void PhysicsEngine::DrawPhysicsObjects()
     {
         // TODO: Change to a define to not even compile debug physics if in not debug maybe potensially idk :P
+        // TODO: Fix spelling of potencially.
         if (myDrawDebugShapes)
             b2World_Draw(myWorld, &myDebugDraw);
     }

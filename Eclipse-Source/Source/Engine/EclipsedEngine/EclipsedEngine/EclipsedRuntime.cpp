@@ -16,6 +16,8 @@
 #include "CoreEngine/MainSingleton.h"
 #include "CoreEngine/Settings/EngineSettings.h"
 
+#include "Scenes/SceneManager.h"
+
 #include <fstream>
 
 
@@ -46,6 +48,8 @@ namespace Eclipse
 			out.write(engineRoot.c_str(), engineRoot.size());
 			out.close();
 		}
+
+		SceneManager::LoadSceneData();
 
 		MainSingleton::RegisterInstance<EngineSettings>();
 
