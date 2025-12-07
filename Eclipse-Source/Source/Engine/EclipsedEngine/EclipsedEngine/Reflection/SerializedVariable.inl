@@ -95,9 +95,6 @@ namespace Eclipse::Reflection
 		else if constexpr (Is_Vector<T>::value)
 			return &data[0];
 
-		else if constexpr (Is_Std_String<T>::value)
-			return &data[0];
-
 		else
 			return &data;
 	}

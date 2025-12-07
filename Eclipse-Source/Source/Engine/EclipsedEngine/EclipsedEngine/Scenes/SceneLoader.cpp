@@ -20,6 +20,8 @@
 
 #include "PhysicsEngine/PhysicsEngine.h"
 
+#include "CoreEngine/Debug/DebugLogger.h"
+
 namespace Eclipse
 {
 	void SceneLoader::Save(const char* aPath)
@@ -227,37 +229,46 @@ namespace Eclipse
 	void SceneLoader::LoadType(Reflection::AbstractSerializedVariable* aSerializedVariable, const rapidjson::Value& aValue)
 	{
 		using namespace rapidjson;
-		aSerializedVariable->ResolveTypeInfo();
-
-		if (!aValue.HasMember(aSerializedVariable->GetName()))
-			return;
-
-		const Value& val = aValue[aSerializedVariable->GetName()];
-
-		if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_String)
+		try
 		{
-			std::string strVal = val.GetString();
+			aSerializedVariable->ResolveTypeInfo();
 
-			std::string* str = (std::string*)aSerializedVariable->GetData();
-			str->resize(strVal.size());
+			if (!aValue.HasMember(aSerializedVariable->GetName()))
+				return;
 
-			memcpy(str->data(), strVal.data(), strVal.size());
+			const Value& val = aValue[aSerializedVariable->GetName()];
+
+			if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_String)
+			{
+				std::string strVal = val.GetString();
+
+				std::string* str = (std::string*)aSerializedVariable->GetData();
+
+				auto vc = strVal.size();
+				str->resize(strVal.size());
+
+				memcpy(str->data(), strVal.data(), strVal.size());
+			}
+			else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_List)
+			{
+				const unsigned count = val["size"].GetUint();
+				aSerializedVariable->Resize(count);
+
+				const std::string strVal = val["data"].GetString();
+
+				std::vector<unsigned char> decoded = Base64::Decode(strVal);
+				memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
+			}
+			else
+			{
+				std::string strVal = val.GetString();
+				std::vector<unsigned char> decoded = Base64::Decode(strVal);
+				memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
+			}
 		}
-		else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_List)
+		catch(...)
 		{
-			const unsigned count = val["size"].GetUint();
-			aSerializedVariable->Resize(count);
-
-			const std::string strVal = val["data"].GetString();
-
-			std::vector<unsigned char> decoded = Base64::Decode(strVal);
-			memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
-		}
-		else
-		{
-			std::string strVal = val.GetString();
-			std::vector<unsigned char> decoded = Base64::Decode(strVal);
-			memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
+			LOG_ERROR(std::string(aSerializedVariable->GetName()) + " | Failed to load.");
 		}
 	}
 }
