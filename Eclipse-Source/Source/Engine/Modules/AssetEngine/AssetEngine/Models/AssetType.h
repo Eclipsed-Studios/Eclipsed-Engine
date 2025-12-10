@@ -8,5 +8,6 @@ namespace Eclipse::Assets
 		Material,
 		VertexShader,
 		PixelShader,
+		AudioClip,
 	};
 }

@@ -11,6 +11,7 @@ public:														\
 	TYPE& operator=(const TYPE& other);						\
 	TYPE(TYPE&& other) noexcept;							\
 	TYPE& operator=(TYPE&& other) noexcept;					\
+    bool IsValid() const;                                   \
 private:													\
 	HANDLE* dataHandle = nullptr;
 
@@ -74,6 +75,11 @@ TYPE& TYPE::operator=(TYPE&& other) noexcept                                    
         other.dataHandle = nullptr;                                                               \
     }                                                                                             \
     return *this;                                                                                 \
+}                                                                                                 \
+                                                                                                  \
+bool TYPE::IsValid() const                                                                        \
+{                                                                                                 \
+    return dataHandle != nullptr;                                                                 \
 }
 
 

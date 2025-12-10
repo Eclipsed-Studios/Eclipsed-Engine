@@ -7,6 +7,8 @@
 
 #include <CoreEngine/Math/Vector/Vector2.h>
 
+#include "AssetEngine/Assets/AudioClip.h"
+
 namespace Eclipse
 {
 	namespace Editor
@@ -17,5 +19,8 @@ namespace Eclipse
 	class AudioSource : public Component
 	{
 		BASE_SELECTION(AudioSource, 0)
+
+	public:
+		SERIALIZED_FIELD(AudioClip, hitSound);
     };
 }

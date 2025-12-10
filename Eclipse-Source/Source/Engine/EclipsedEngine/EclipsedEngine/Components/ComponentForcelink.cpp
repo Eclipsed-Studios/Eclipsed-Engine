@@ -20,6 +20,8 @@
 #include "EclipsedEngine/Components/UI/RectTransform.h"
 #include "EclipsedEngine/Components/UI/UIImage.h"
 
+#include "EclipsedEngine/Components/AudioSource.h"
+
 void Eclipse::ComponentForcelink::LinkComponents()
 {
 	COMP_REG(Transform2D);
@@ -37,4 +39,5 @@ void Eclipse::ComponentForcelink::LinkComponents()
 	COMP_REG(Canvas);
 	COMP_REG(RectTransform);
 	COMP_REG(UIImage);
+	COMP_REG(AudioSource);
 }

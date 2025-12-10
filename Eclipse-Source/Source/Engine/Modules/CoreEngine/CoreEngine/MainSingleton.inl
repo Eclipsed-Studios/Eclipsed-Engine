@@ -3,6 +3,22 @@
 namespace Eclipse
 {
     template<typename T>
+    inline void MainSingleton::AddInstance(T& ref, bool useDestructor)
+    {
+        auto it = mySingletons.find(typeid(T));
+        if (it == mySingletons.end())
+        {
+            SingletonEntry instance;
+
+            instance.instance = ref;
+            instance.useDestructor = useDestructor;
+            instance.deleter = [](void* ptr) {delete static_cast<T*>(ptr);};
+
+            mySingletons[typeid(T)] = instance;
+        }
+    }
+
+    template<typename T>
     inline T& MainSingleton::GetInstance()
     {
         auto it = mySingletons.find(typeid(T));
@@ -12,11 +28,12 @@ namespace Eclipse
     }
 
     template<typename T>
-    inline T& MainSingleton::RegisterInstance()
+    inline T& MainSingleton::RegisterInstance(bool useDestructor)
     {
         SingletonEntry instance;
 
         instance.instance = new T();
+        instance.useDestructor = useDestructor;
         instance.deleter = [](void* ptr) {delete static_cast<T*>(ptr);};
 
         mySingletons[typeid(T)] = instance;

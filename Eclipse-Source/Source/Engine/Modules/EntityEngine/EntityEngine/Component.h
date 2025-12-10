@@ -80,7 +80,6 @@ namespace Eclipse
 		virtual const char* GetComponentName() { return "Component"; }
 
 
-
 	protected:
 #ifdef ECLIPSED_EDITOR
 		virtual void UpdateInspector() {}

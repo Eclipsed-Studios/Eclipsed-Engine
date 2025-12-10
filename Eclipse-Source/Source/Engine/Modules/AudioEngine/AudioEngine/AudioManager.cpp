@@ -2,21 +2,27 @@
 
 #include "fmod/fmod.hpp"
 
+#include "CoreEngine/MainSingleton.h"
+
 namespace Eclipse
 {
-	/*void AudioManager::Init() 
+    FMOD::System* AudioManager::mySystem;
+
+	void AudioManager::Init() 
 	{
         FMOD_RESULT result;
 
         result = FMOD::System_Create(&mySystem);
         result = mySystem->init(512, FMOD_INIT_NORMAL, nullptr);
+
+        MainSingleton::AddInstance<FMOD::System*>(mySystem);
 	}
 
 	void AudioManager::Update()
 	{
         mySystem->update();
 	}
-
+    /*
     void AudioManager::PlayAudio(AudioClip& anAudioClip, FMOD::Channel** aChannel)
     {
         mySystem->playSound(anAudioClip.mySound, nullptr, false, aChannel);

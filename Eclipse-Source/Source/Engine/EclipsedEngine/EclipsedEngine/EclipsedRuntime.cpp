@@ -17,8 +17,12 @@
 #include "CoreEngine/Settings/EngineSettings.h"
 
 #include "Scenes/SceneManager.h"
+#include "AudioEngine/AudioManager.h"
 
 #include <fstream>
+
+#include "AssetEngine/Resources.h"
+#include "AssetEngine/Assets/AudioClip.h"
 
 
 namespace Eclipse
@@ -56,6 +60,7 @@ namespace Eclipse
 		GraphicsEngine::Init();
 		engine.Init();
 
+		AudioManager::Init();
 
 		{ // PHYSICS
 			b2DebugDraw debugDraw = { 0 };
@@ -73,6 +78,7 @@ namespace Eclipse
 				};
 		}
 
+		Assets::Resources::Get<AudioClip>("Sounds/peak.mp3");
 	}
 
 	void EclipsedRuntime::UpdateGame()
@@ -84,6 +90,8 @@ namespace Eclipse
 		ComponentManager::EarlyUpdateComponents();
 		ComponentManager::UpdateComponents();
 		ComponentManager::LateUpdateComponents();
+
+		AudioManager::Update();
 	}
 
 	void EclipsedRuntime::Render()

@@ -24,5 +24,7 @@ namespace Eclipse::Assets
 		{".vglsl",  AssetType::VertexShader},
 
 		{".pglsl",  AssetType::PixelShader},
+
+		{".mp3",  AssetType::AudioClip},
 	};
 }

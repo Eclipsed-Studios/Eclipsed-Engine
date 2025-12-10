@@ -10,6 +10,11 @@
 #include "EditorReflectionDrawHelper.h"
 #include <typeindex>
 
+#include "AssetEngine/Assets/Material.h"
+#include "AssetEngine/Assets/AudioClip.h"
+#include "AssetEngine/Assets/Texture.h"
+//#include "AssetEngine/Assets/Material.h"
+
 
 namespace Eclipse::Reflection
 {
@@ -114,6 +119,22 @@ namespace Eclipse::Reflection
 		{
 			type = SerializedType_Custom_Type;
 			sizePerElement = sizeof(T);
+		}
+
+		else if constexpr (std::is_same<T, Material>::value)
+		{
+			type = SerializedType_Material;
+			sizePerElement = sizeof(Material);
+		}
+		else if constexpr (std::is_same<T, AudioClip>::value)
+		{
+			type = SerializedType_AudioClip;
+			sizePerElement = sizeof(AudioClip);
+		}
+		else if constexpr (std::is_same<T, Texture>::value)
+		{
+			type = SerializedType_Texture;
+			sizePerElement = sizeof(Texture);
 		}
 
 		else if constexpr (std::is_arithmetic<T>::value)

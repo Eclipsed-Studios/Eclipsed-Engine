@@ -57,5 +57,8 @@ namespace Eclipse
 
         PRIVATE_SERIALIZED_FIELD_DEFAULT(size_t, materialID, 0);
         PRIVATE_SERIALIZED_FIELD_DEFAULT(size_t, textureID, 0);
+
+
+        SERIALIZED_FIELD(Material, matmat);
     };
 }

@@ -11,16 +11,21 @@ namespace Eclipse
     {
         void* instance;
         void (*deleter)(void*);
+
+        bool useDestructor = false;
     };
 
     class MainSingleton
     {
     public:
         template<typename T>
+        static void AddInstance(T& ref, bool useDestructor = false);
+
+        template<typename T>
         static T& GetInstance();
 
         template<typename T>
-        static T& RegisterInstance();
+        static T& RegisterInstance( bool useDestructor = false);
 
         template<typename T>
         static bool Exists();

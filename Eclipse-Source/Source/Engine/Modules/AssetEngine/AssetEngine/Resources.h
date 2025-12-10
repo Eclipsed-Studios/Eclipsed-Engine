@@ -6,6 +6,7 @@
 #include "AssetEngine/Managers/MaterialManager.h"
 #include "AssetEngine/Managers/PixelShaderManager.h"
 #include "AssetEngine/Managers/VertexShaderManager.h"
+#include "AssetEngine/Managers/AudioClipManager.h"
 #include "CoreEngine/PathManager.h"
 
 namespace Eclipse::Assets
@@ -27,10 +28,11 @@ namespace Eclipse::Assets
 		static PixelShader GetDefaultPS();
 
 	private:
-		static inline TextureManager textureManager{};
-		static inline MaterialManager materialManager{};
-		static inline VertexShaderManager vertexShaderManager{};
-		static inline PixelShaderManager pixelShaderManager{};
+		static TextureManager textureManager;
+		static MaterialManager materialManager;
+		static VertexShaderManager vertexShaderManager;
+		static PixelShaderManager pixelShaderManager;
+		static AudioClipManager audioClipManager;
 	};
 
 	template<typename T>
@@ -52,6 +54,7 @@ namespace Eclipse::Assets
 		else if  constexpr (std::is_same<T, Material>::value) return std::move(materialManager.Get(id));
 		else if  constexpr (std::is_same<T, VertexShader>::value) return std::move(vertexShaderManager.Get(id));
 		else if  constexpr (std::is_same<T, PixelShader>::value) return std::move(pixelShaderManager.Get(id));
+		else if  constexpr (std::is_same<T, AudioClip>::value) return std::move(audioClipManager.Get(id));
 	}
 
 	template<typename T>
@@ -65,5 +68,6 @@ namespace Eclipse::Assets
 		else if  constexpr (std::is_same<T, Material>::value) return std::move(materialManager.Get(id));
 		else if  constexpr (std::is_same<T, VertexShader>::value) return std::move(vertexShaderManager.Get(id));
 		else if  constexpr (std::is_same<T, PixelShader>::value) return std::move(pixelShaderManager.Get(id));
+		else if  constexpr (std::is_same<T, AudioClip>::value) return std::move(audioClipManager.Get(id));
 	}
 }
