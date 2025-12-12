@@ -38,52 +38,38 @@ namespace Eclipse::Replication
 
         assert(variableExist);
 
-        ReplicationManager::ReplicatedVariableList.emplace(ID, this);
+        ReplicationManager::EmplaceReplicatedVariable(ID, this);
     }
 
     void BaseReplicatedVariable::ReplicateThis(unsigned aID)
     {
-        if (!Utilities::MainSingleton::Exists<Client>())
+        char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];
+
+        size_t offset = 0;
+
+        memcpy(data + offset, &aID, sizeof(aID));
+        offset += sizeof(aID);
+
+        memcpy(data + offset, &dataAmount, sizeof(dataAmount));
+        offset += sizeof(dataAmount);
+
+        memcpy(data + offset, myVariableAddress, dataAmount);
+        offset += dataAmount;
+
+        NetMessage message = NetMessage::BuildGameObjectMessage(ConnectedComponent->gameObject->GetID(), MessageType::Msg_Variable, data, offset, false);
+
+        if (Utilities::MainSingleton::Exists<Server>())
+        {
+            Server& server = Utilities::MainSingleton::GetInstance<Server>();
+            server.Send(message);
             return;
-        
+        }
+        else if (Utilities::MainSingleton::Exists<Client>())
+        {
+            Client& client = Utilities::MainSingleton::GetInstance<Client>();
+            client.Send(message);
+            return;
+        }
 
-        char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];
-
-        size_t offset = 0;
-
-        memcpy(data + offset, &aID, sizeof(aID));
-        offset += sizeof(aID);
-
-        memcpy(data + offset, &dataAmount, sizeof(dataAmount));
-        offset += sizeof(dataAmount);
-
-        memcpy(data + offset, myVariableAddress, dataAmount);
-        offset += dataAmount;
-
-        NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_Variable, data, offset, false);
-
-        Client& client = Utilities::MainSingleton::GetInstance<Client>();
-        client.Send(message);
-    }
-
-    void BaseReplicatedVariable::ReplicateThisServer(unsigned aID)
-    {
-        char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];
-
-        size_t offset = 0;
-
-        memcpy(data + offset, &aID, sizeof(aID));
-        offset += sizeof(aID);
-
-        memcpy(data + offset, &dataAmount, sizeof(dataAmount));
-        offset += sizeof(dataAmount);
-
-        memcpy(data + offset, myVariableAddress, dataAmount);
-        offset += dataAmount;
-
-        NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_Variable, data, offset, false);
-
-        Server& server = Utilities::MainSingleton::GetInstance<Server>();
-        server.Send(message);
     }
 }

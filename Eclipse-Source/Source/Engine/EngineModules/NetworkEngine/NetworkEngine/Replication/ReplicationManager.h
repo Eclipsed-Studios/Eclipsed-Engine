@@ -4,6 +4,8 @@
 
 #include "asio/asio/asio.hpp"
 
+#include "../shared/Message.h"
+
 namespace Eclipse
 {
     class Client;
@@ -23,6 +25,8 @@ namespace Eclipse::Replication
         ReplicationManager() = default;
         ~ReplicationManager() = default;
 
+        static void ReplicatedOnPlay();
+
         static void ReplicateVariable(unsigned aID);
 
         static void CreateServer();
@@ -31,33 +35,15 @@ namespace Eclipse::Replication
         static void Start();
         static void Update();
 
+        static void CreateComponentMessage(Eclipse::Component* aComponent, NetMessage& outMessage);
 
-        static void CreateNetworkObject(unsigned aID);
-
-        static void SendSceneInfo();
-
-        // void ReplicatedVariable::SendCreateObjectCommand(unsigned aObjectID)
-        // {
-        //     char* data = new char[sizeof(aObjectID) + sizeof(int)];
-
-
-
-        //     size_t offset = 0;
-        //     memcpy(data + offset, &aObjectID, sizeof(aObjectID));
-        //     offset += sizeof(aObjectID);
-
-        //     memcpy(data + offset, &aID, sizeof(aID));
-        //     offset += sizeof(aID);
-
-        //     NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_Variable, data, offset, false);
-
-        //     Server& server = Utilities::MainSingleton::GetInstance<Server>();
-        //     server.Send(message);
-        // }
-
+        static void EmplaceReplicatedVariable(unsigned ID, BaseReplicatedVariable* ReplicatedVariable) { ReplicatedVariabpePtr->emplace(ID, ReplicatedVariable); }
 
     public:
-        static inline std::unordered_map<unsigned, BaseReplicatedVariable*> ReplicatedVariableList;
+        static inline std::unordered_map<unsigned, BaseReplicatedVariable*> PossibleReplicatedVariableList;
+        static inline std::unordered_map<unsigned, BaseReplicatedVariable*> RealReplicatedVariableList;
+
+        static inline std::unordered_map<unsigned, BaseReplicatedVariable*>* ReplicatedVariabpePtr = &PossibleReplicatedVariableList;
 
         static inline Client* client = nullptr;
         static inline Server* server = nullptr;

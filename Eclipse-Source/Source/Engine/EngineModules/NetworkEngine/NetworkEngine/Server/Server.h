@@ -64,7 +64,7 @@ namespace Eclipse
 		{
 			std::unordered_set<unsigned> ReplicatedGameObjects;
 
-			const auto& variableManager = Replication::ReplicationManager::ReplicatedVariableList;
+			const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
 			for (auto& Variable : variableManager)
 				ReplicatedGameObjects.emplace(Variable.second->ConnectedComponent->gameObject->GetID());
 
@@ -74,18 +74,8 @@ namespace Eclipse
 
 				for (const auto& component : components)
 				{
-					const char* ComponentName = component->GetComponentName();
-					char Data[512];
-
-					int LengthOfComponentName = strlen(ComponentName);
-
-					memcpy(Data, &LengthOfComponentName, sizeof(int));
-					memcpy(Data + sizeof(int), ComponentName, LengthOfComponentName);
-
-					int DataAmount = LengthOfComponentName + sizeof(int);
-
 					NetMessage message;
-					message = NetMessage::BuildGameObjectMessage(component->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true);
+					Replication::ReplicationManager::CreateComponentMessage(component, message);
 
 					Server& server = Utilities::MainSingleton::GetInstance<Server>();
 					server.Send(message, recieveEndpoint);
@@ -99,24 +89,24 @@ namespace Eclipse
 		{
 			std::unordered_set<unsigned> ReplicatedGameObjects;
 
-			const auto& variableManager = Replication::ReplicationManager::ReplicatedVariableList;
+			const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
 			for (auto& Variable : variableManager)
-				ReplicatedGameObjects.emplace(Variable.second->ConnectedComponent->gameObject->GetID());
-
-			NetMessage message;
-			message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_CreateObject, &message, 0, true);
+				if (Variable.second->ConnectedComponent->IsReplicated)
+					ReplicatedGameObjects.emplace(Variable.second->ConnectedComponent->gameObject->GetID());
 
 			int Replgameobjectsize = ReplicatedGameObjects.size() - 1;
 
 			for (const auto& gameobject : ReplicatedGameObjects)
 			{
-				message.MetaData.GameObjectID = gameobject;
+				NetMessage message;
+				message = NetMessage::BuildGameObjectMessage(gameobject, MessageType::Msg_CreateObject, &message, 0, true);
 
 				Server& server = Utilities::MainSingleton::GetInstance<Server>();
 				server.Send(message, recieveEndpoint, [Replgameobjectsize, this]() {
 
-					if (TotalRecievedGO >= Replgameobjectsize)
+					if (TotalRecievedGO++ >= Replgameobjectsize)
 					{
+						TotalRecievedGO = 0;
 						SendComponentScene();
 					}
 
@@ -164,10 +154,13 @@ namespace Eclipse
 				if (!message.MetaData.SentGarantied)
 					garantiedMessageHandler.RecievedGarantied(message);
 
-				message.MetaData.SentGarantied = false;
-				message.MetaData.dataSize = 8;
+				if (message.MetaData.SentGarantied)
+				{
+					message.MetaData.SentGarantied = false;
+					message.MetaData.dataSize = 8;
 
-				Send(message);
+					Send(message);
+				}
 			}
 
 			for (auto& endpoint : endpoints)

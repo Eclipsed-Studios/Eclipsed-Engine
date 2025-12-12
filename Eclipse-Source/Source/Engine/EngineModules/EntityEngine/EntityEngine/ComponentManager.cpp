@@ -121,39 +121,8 @@ namespace Eclipse
 
 	Eclipse::Component* ComponentManager::AddComponent(GameObjectID aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size)
 	{
-		uint8_t* base = static_cast<uint8_t*>(myComponentData);
-		uint8_t* ptrToComponent = base + myComponentMemoryTracker;
-		size_t sizeOfNewComponent = size;
-		myComponentMemoryTracker += sizeOfNewComponent;
-
-		assert(myComponentMemoryTracker <= MAX_COMPONENT_MEMORY_BYTES && "MAX_COMPONENT_MEMORY_BYTES needs to be increased to add more components");
-
-		unsigned typeIndex = Utilities::IDGenerator::GetID();
-
-		if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
-		{
-			myEntityIdToEntity[aGOID] = CreateGameObject();
-		}
-
-		Eclipse::Component* component = createFunc(ptrToComponent);
-		component->SetComponentID();
-		component->gameObject = myEntityIdToEntity[aGOID];
-		component->myComponentComponentID = typeIndex;
-
+		Component* component = AddComponentWithID(aGOID, Component::GetNextComponentID(), createFunc, size);
 		component->OnComponentAdded();
-
-		myComponentsToStart.emplace_back(component);
-
-		myComponents.emplace_back(component);
-		size_t componentIndex = myComponents.size() - 1;
-
-		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
-		myComponents.back()->myComponentIndex = componentIndex;
-
-		if (myComponents.size() <= 1)
-			return component;
-
-		SortComponents();
 
 		return component;
 	}
@@ -183,6 +152,14 @@ namespace Eclipse
 
 		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
 		myComponents.back()->myComponentIndex = componentIndex;
+
+		if (Utilities::MainSingleton::Exists<Client>())
+		{
+			NetMessage message;
+			Replication::ReplicationManager::CreateComponentMessage(component, message);
+
+			Utilities::MainSingleton::GetInstance<Client>().Send(message);
+		}
 
 		if (myComponents.size() <= 1)
 			return component;
@@ -314,7 +291,9 @@ namespace Eclipse
 
 		obj->AddComponent<Transform2D>();
 
-		if (myNextGameobjectID <= aId) myNextGameobjectID = aId + 1;
+		if (myNextGameobjectID <= aId)
+			myNextGameobjectID = aId + 1;
+			
 		return obj;
 	}
 

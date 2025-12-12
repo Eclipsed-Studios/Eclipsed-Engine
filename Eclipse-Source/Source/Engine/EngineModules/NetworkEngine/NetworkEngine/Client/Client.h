@@ -11,6 +11,8 @@
 
 #include "Utilities/Settings/TemporarySettingsSingleton.h"
 
+#include <iostream>
+
 namespace Eclipse
 {
 	using asio::ip::udp;
@@ -75,12 +77,16 @@ namespace Eclipse
 
 			if (message.MetaData.IsGarantied)
 			{
-				garantiedMessageHandler.RecievedGarantied(message);
+				if (!message.MetaData.SentGarantied)
+					garantiedMessageHandler.RecievedGarantied(message);
 
-				message.MetaData.SentGarantied = false;
-				message.MetaData.dataSize = 8;
+				if (message.MetaData.SentGarantied)
+				{
+					message.MetaData.SentGarantied = false;
+					message.MetaData.dataSize = 8;
 
-				Send(message);
+					Send(message);
+				}
 			}
 
 			HandleRecieve(message);

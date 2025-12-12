@@ -12,9 +12,18 @@
 
 namespace Eclipse::Replication
 {
+    void ReplicationManager::ReplicatedOnPlay()
+    {
+        for (auto& ReplicationVariable : PossibleReplicatedVariableList)
+        {
+            if (ReplicationVariable.second->ConnectedComponent->IsReplicated)
+                RealReplicatedVariableList.emplace(ReplicationVariable);
+        }
+    }
+
     void ReplicationManager::ReplicateVariable(unsigned aID)
     {
-        ReplicatedVariableList.at(aID)->ReplicateThis(aID);
+        RealReplicatedVariableList.at(aID)->ReplicateThis(aID);
     }
 
     void ReplicationManager::CreateServer()
@@ -26,11 +35,11 @@ namespace Eclipse::Replication
         const char* ip = "127.0.0.1";
         client = &Utilities::MainSingleton::RegisterInstance<Client>(ioContext, ip);
 
-        NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_Connect, &ip, 0, true);
+        NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_Connect, &ip, 1, true);
 
         client->Send(message, [ip]() {
 
-            NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_RequestSceneInfo, &ip, 0, true);
+            NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_RequestSceneInfo, &ip, 1, true);
 
             client->Send(message);
             });
@@ -46,6 +55,10 @@ namespace Eclipse::Replication
 
         if (startClient)
             CreateClient();
+
+        ReplicatedOnPlay();
+
+        ReplicatedVariabpePtr = &RealReplicatedVariableList;
 
         startedGame = true;
     }
@@ -63,10 +76,10 @@ namespace Eclipse::Replication
 
             if (timer <= 0)
             {
-                for (auto& ReplicationVariable : ReplicatedVariableList)
+                for (auto& ReplicationVariable : RealReplicatedVariableList)
                 {
-                    if (!ReplicationVariable.second->ManualVariableSending && ReplicationVariable.second->ConnectedComponent->IsReplicated)
-                        ReplicationVariable.second->ReplicateThisServer(ReplicationVariable.first);
+                    // if (!ReplicationVariable.second->ManualVariableSending)
+                    //     ReplicationVariable.second->ReplicateThis(ReplicationVariable.first);
                 }
 
                 timer = 0.005f;
@@ -74,18 +87,18 @@ namespace Eclipse::Replication
         }
     }
 
-    void ReplicationManager::CreateNetworkObject(unsigned aID)
+    void ReplicationManager::CreateComponentMessage(Component* aComponent, NetMessage& outMessage)
     {
-        char* data = new char[sizeof(aID)];
+        const char* ComponentName = aComponent->GetComponentName();
+        char Data[512];
 
-        size_t offset = 0;
+        int LengthOfComponentName = strlen(ComponentName);
 
-        memcpy(data + offset, &aID, sizeof(aID));
-        offset += sizeof(aID);
+        memcpy(Data, &LengthOfComponentName, sizeof(int));
+        memcpy(Data + sizeof(int), ComponentName, LengthOfComponentName);
 
-        NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_Variable, data, offset, false);
+        int DataAmount = LengthOfComponentName + sizeof(int);
 
-        Server& server = Utilities::MainSingleton::GetInstance<Server>();
-        server.Send(message);
+        outMessage = NetMessage::BuildGameObjectMessage(aComponent->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true);
     }
 }

@@ -57,10 +57,7 @@ namespace Eclipse
         bool mirroredX = false;
         bool mirroredY = false;
 
-size_t materialID;
-size_t textureID;
-
-        // MANUAL_REPLICATED_PRIVATE_SERIALIZED_FIELD_DEFAULT(size_t, materialID, 0, SpriteRenderer2D);
-        // MANUAL_REPLICATED_PRIVATE_SERIALIZED_FIELD_DEFAULT(size_t, textureID, 0, SpriteRenderer2D);
+        MANUAL_REPLICATED_PRIVATE_SERIALIZED_FIELD_DEFAULT(size_t, materialID, 0, SpriteRenderer2D);
+        MANUAL_REPLICATED_PRIVATE_SERIALIZED_FIELD_DEFAULT(size_t, textureID, 0, SpriteRenderer2D);
     };
 }

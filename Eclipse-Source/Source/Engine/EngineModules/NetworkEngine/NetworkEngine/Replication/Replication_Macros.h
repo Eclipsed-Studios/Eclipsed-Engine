@@ -5,7 +5,7 @@
 #include "ReplicationManager.h"
 
 // Use this as a standalone Macro with the serilized variable as arg
-#define REPLICATE(Variable) Replication::ReplicationManager::ReplicatedVariableList.at(Variable.ReplicatedVariableIndex)->ReplicateThis(Variable.ReplicatedVariableIndex)
+#define REPLICATE(Variable) Replication::ReplicationManager::RealReplicatedVariableList.at(Variable.ReplicatedVariableIndex)->ReplicateThis(Variable.ReplicatedVariableIndex)
 
 #define REPLICATEHELPERMACRONOTUSE(Name, Auto, ReplicatedIndex, ThisType) Eclipse::Replication::ReplicatedVariable<ThisType> Repl##Name{#Name, this, Auto, ReplicatedIndex, &ThisType::Name##_OnRep}
 #define ONREPPEDFUNCTIONDEF(Name) void Name##_OnRep()

@@ -28,7 +28,7 @@ namespace Eclipse
 {
 	typedef unsigned RegisteredTypeIndex;
 
-	
+
 	class GameObject;
 	class ComponentManager;
 	class Component
@@ -47,6 +47,7 @@ namespace Eclipse
 		Component() = default;
 		virtual ~Component() = default;
 
+		static unsigned GetNextComponentID() { return ++nextComponentID; }
 		void SetComponentID() { myInstanceComponentID = ++nextComponentID; }
 		void SetComponentID(unsigned compID)
 		{
@@ -88,6 +89,9 @@ namespace Eclipse
 
 		virtual const char* GetComponentName() { return "Component"; }
 
+		bool IsOwner() { return myIsOwner; }
+		void SetIsOwner(bool anIsOwner) { myIsOwner = anIsOwner; }
+
 	protected:
 #ifdef ECLIPSED_EDITOR
 		void UpdateInspector() { Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); }
@@ -110,5 +114,7 @@ namespace Eclipse
 	protected:
 		// IF DEF EDITOR
 		bool myInspectorWasDrawn = false;
+
+		bool myIsOwner = true;
 	};
 }

@@ -46,39 +46,8 @@ namespace Eclipse
     template <typename T>
     inline T* ComponentManager::AddComponent(unsigned aGOID)
     {
-        uint8_t* base = static_cast<uint8_t*>(myComponentData);
-        uint8_t* ptrToComponent = base + myComponentMemoryTracker;
-        size_t sizeOfNewComponent = sizeof(T);
-        myComponentMemoryTracker += sizeOfNewComponent;
-
-        assert(myComponentMemoryTracker <= MAX_COMPONENT_MEMORY_BYTES && "MAX_COMPONENT_MEMORY_BYTES needs to be increased to add more components");
-
-        unsigned typeIndex = GetComponentID<T>();
-
-        if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
-        {
-            myEntityIdToEntity[aGOID] = CreateGameObject();
-        }
-
-        T* component = new(ptrToComponent)T();
-        component->SetComponentID();
-        component->gameObject = myEntityIdToEntity[aGOID];
-        component->myComponentComponentID = typeIndex;
-
+        T* component = AddComponentWithID<T>(aGOID, Component::GetNextComponentID());
         component->OnComponentAdded();
-
-        myComponentsToStart.emplace_back(component);
-
-        myComponents.emplace_back(component);
-        size_t componentIndex = myComponents.size() - 1;
-
-        myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
-        myComponents.back()->myComponentIndex = componentIndex;
-
-        if (myComponents.size() <= 1)
-            return component;
-
-        SortComponents();
 
         return component;
     }
@@ -88,14 +57,10 @@ namespace Eclipse
     {
         uint8_t* base = static_cast<uint8_t*>(myComponentData);
         uint8_t* ptrToComponent = base + myComponentMemoryTracker;
-        myComponentMemoryTracker += sizeof(T);
+        size_t sizeOfNewComponent = sizeof(T);
+        myComponentMemoryTracker += sizeOfNewComponent;
 
         unsigned typeIndex = GetComponentID<T>();
-
-        if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
-        {
-            myEntityIdToEntity[aGOID] = CreateGameObject();
-        }
 
         T* component = new(ptrToComponent)T();
         component->SetComponentID(aComponentID);
@@ -109,6 +74,14 @@ namespace Eclipse
 
         myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
         myComponents.back()->myComponentIndex = componentIndex;
+
+        if (Utilities::MainSingleton::Exists<Client>())
+        {
+            NetMessage message;
+            Replication::ReplicationManager::CreateComponentMessage(component, message);
+
+            Utilities::MainSingleton::GetInstance<Client>().Send(message);
+        }
 
         if (myComponents.size() <= 1)
             return component;

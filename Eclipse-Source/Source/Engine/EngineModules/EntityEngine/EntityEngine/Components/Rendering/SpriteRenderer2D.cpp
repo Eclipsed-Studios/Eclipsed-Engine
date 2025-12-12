@@ -19,15 +19,15 @@
 
 namespace Eclipse
 {
-	// void SpriteRenderer2D::textureID_OnRep()
-	// {
-	// 	SetTexture(textureID);
-	// }
+	void SpriteRenderer2D::textureID_OnRep()
+	{
+		SetTexture(textureID);
+	}
 
-	// void SpriteRenderer2D::materialID_OnRep()
-	// {
-	// 	SetMaterial(materialID);
-	// }
+	void SpriteRenderer2D::materialID_OnRep()
+	{
+		SetMaterial(materialID);
+	}
 
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{

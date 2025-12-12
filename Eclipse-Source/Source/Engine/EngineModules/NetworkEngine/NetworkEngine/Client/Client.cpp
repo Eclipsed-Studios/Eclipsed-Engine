@@ -34,13 +34,17 @@ namespace Eclipse
 
 			newCompoennt->Awake();
 			newCompoennt->Start();
+			newCompoennt->SetIsOwner(false);
 		});
 	}
 
 	void Client::CreateObjectMessage(const NetMessage& message)
 	{
 		if (!ComponentManager::HasGameObject(message.MetaData.GameObjectID))
-			ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
+		{
+			GameObject* gameobject = ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
+			gameobject->SetIsOwner(false);
+		}
 	}
 
 	void Client::VariableMessage(const NetMessage& message)
@@ -56,8 +60,8 @@ namespace Eclipse
 		memcpy(&dataAmount, message.data + offset, sizeof(dataAmount));
 		offset += sizeof(dataAmount);
 
-		auto variableIt = Replication::ReplicationManager::ReplicatedVariableList.find(replicationVarID);
-		if (variableIt == Replication::ReplicationManager::ReplicatedVariableList.end())
+		auto variableIt = Replication::ReplicationManager::RealReplicatedVariableList.find(replicationVarID);
+		if (variableIt == Replication::ReplicationManager::RealReplicatedVariableList.end())
 			return;
 
 		Replication::ReplicatedVariable<Component>* Variable = reinterpret_cast<Replication::ReplicatedVariable<Component>*>(variableIt->second);

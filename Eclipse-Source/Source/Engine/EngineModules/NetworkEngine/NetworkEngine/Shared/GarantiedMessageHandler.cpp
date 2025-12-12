@@ -2,6 +2,8 @@
 
 #include "NetworkEngine/Client/Client.h"
 
+#include "Utilities/Common/MainSingleton.h"
+
 #include <iostream>
 
 namespace Eclipse
@@ -19,6 +21,12 @@ namespace Eclipse
 
 			if (TryAgainTimer > 0.f)
 				continue;
+			
+			if (message.message.MetaData.Type == Msg_AddComponent)
+			{
+				std::cout << "componeb"  << std::endl;
+			}
+			
 
 			(FunctionOwner->*SendDirectlyFunc)(message.message, message.endpoint);
 
