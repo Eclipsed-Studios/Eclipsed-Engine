@@ -27,11 +27,13 @@ namespace Eclipse
         void Render() override;
         void Draw(unsigned aProgramID = 0);
 
-        void SetTexture(const char* aPath);
-        void SetTexture(const size_t& id);
+        void SetSprite(const char* aPath);
+        void SetSprite(const size_t& id);
+        void SetSprite(const Texture& aSprite);
 
         void SetMaterial(const char* aPath);
         void SetMaterial(const size_t& id);
+        void SetMaterial(const Material& aMaterial);
         Material* GetMaterial() { return nullptr; }
 
         void SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax);
@@ -45,20 +47,13 @@ namespace Eclipse
         Math::Vector2f spriteRectMax = { 1.f, 1.f };
 
     private:
-        Texture sprite;
-        Material material;
-
-        bool hasTexture = false;
+        bool hasSprite = false;
         bool hasMaterial = false;
-
 
         bool mirroredX = false;
         bool mirroredY = false;
 
-        PRIVATE_SERIALIZED_FIELD_DEFAULT(size_t, materialID, 0);
-        PRIVATE_SERIALIZED_FIELD_DEFAULT(size_t, textureID, 0);
-
-
-        SERIALIZED_FIELD(Material, matmat);
+        SERIALIZED_FIELD(Texture, sprite);
+        SERIALIZED_FIELD(Material, material);
     };
 }

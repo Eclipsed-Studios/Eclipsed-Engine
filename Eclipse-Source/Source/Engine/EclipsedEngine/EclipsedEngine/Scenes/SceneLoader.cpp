@@ -22,6 +22,8 @@
 
 #include "CoreEngine/Debug/DebugLogger.h"
 
+#include "AssetEngine/Resources.h"
+
 namespace Eclipse
 {
 	void SceneLoader::Save(const char* aPath)
@@ -122,7 +124,30 @@ namespace Eclipse
 			jsonVal.AddMember("data", Value(encoded.c_str(), alloc).Move(), alloc);
 		}
 
+		else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material ||
+			aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
+		{
+			size_t id = 0;
+			if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
+			{
+				Reflection::SerializedVariable<Texture>* asset = (Reflection::SerializedVariable<Texture>*)aSerialized;
+				id = asset->Get().GetAssetID();
+			}
+			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material)
+			{
+				Reflection::SerializedVariable<Material>* asset = (Reflection::SerializedVariable<Material>*)aSerialized;
+				id = asset->Get().GetAssetID();
+			}
+			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
+			{
+				Reflection::SerializedVariable<AudioClip>* asset = (Reflection::SerializedVariable<AudioClip>*)aSerialized;
+				id = asset->Get().GetAssetID();
+			}
 
+			int i = aSerialized->GetSizeInBytes();
+			std::string encoded = Base64::Encode(&id, i);
+			jsonVal.SetString(encoded.c_str(), alloc);
+		}
 
 		else
 		{
@@ -157,7 +182,7 @@ namespace Eclipse
 		ifs.close();
 
 		Document d;
-		if(d.Parse(jsonString.c_str()).HasParseError()) return;
+		if (d.Parse(jsonString.c_str()).HasParseError()) return;
 
 		if (!d.HasMember("GameObjects")) return;
 
@@ -184,7 +209,7 @@ namespace Eclipse
 		}
 
 		ComponentManager::OnLoadScene();
-		
+
 		// only if the game has started
 		//ComponentManager::AwakeStartComponents();
 	}
@@ -259,6 +284,33 @@ namespace Eclipse
 				std::vector<unsigned char> decoded = Base64::Decode(strVal);
 				memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
 			}
+
+			else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material ||
+				aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
+			{
+				std::string strVal = val.GetString();
+				std::vector<unsigned char> decoded = Base64::Decode(strVal);
+
+				size_t id = 0;
+				memcpy(&id, decoded.data(), decoded.size());
+
+				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
+				{
+					Reflection::SerializedVariable<Texture>* asset = (Reflection::SerializedVariable<Texture>*)aSerializedVariable;
+					*asset = Assets::Resources::Get<Texture>(id);
+				}
+				else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material)
+				{
+					Reflection::SerializedVariable<Material>* asset = (Reflection::SerializedVariable<Material>*)aSerializedVariable;
+					*asset = Assets::Resources::Get<Material>(id);
+				}
+				else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
+				{
+					Reflection::SerializedVariable<AudioClip>* asset = (Reflection::SerializedVariable<AudioClip>*)aSerializedVariable;
+					*asset = Assets::Resources::Get<AudioClip>(id);
+				}
+			}
+
 			else
 			{
 				std::string strVal = val.GetString();
@@ -266,7 +318,7 @@ namespace Eclipse
 				memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
 			}
 		}
-		catch(...)
+		catch (...)
 		{
 			LOG_ERROR(std::string(aSerializedVariable->GetName()) + " | Failed to load.");
 		}

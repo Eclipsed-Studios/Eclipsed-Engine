@@ -40,5 +40,8 @@ namespace Eclipse
 
 		void Use();
 		void Create();
+
+		static inline const char* colorID = "material.color";
+
 	};
 }

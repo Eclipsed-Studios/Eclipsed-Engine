@@ -59,6 +59,13 @@ namespace Eclipse
 
 	//	if (!myAudioClip && !myChannel)  return;
 
+
+
+	void AudioSource::OnDrawInspector()
+	{
+		ImGui::Text("Du är här!");
+	}
+
 	//	if (aState) // Play infinitely looping
 	//	{
 	//		myChannel->setMode(FMOD_LOOP_NORMAL);

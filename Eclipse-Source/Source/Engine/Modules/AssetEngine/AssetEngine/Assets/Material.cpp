@@ -3,8 +3,6 @@
 
 #include "AssetEngine/Assets/Texture.h"
 
-//#include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
-
 namespace Eclipse
 {
 	ASSET_OPERATORS_IMPL(Material, Assets::MaterialHandle);
@@ -60,8 +58,11 @@ namespace Eclipse
 
 	void Material::BindColor()
 	{
-		//Math::Vector4f col = dataHandle->color.ToVector();
-		//GraphicsEngine::SetUniform(UniformType::Vector4f, dataHandle->programID, "material.color", &col);
+
+		Math::Vector4f col = dataHandle->color.ToVector();
+		
+		GLuint location = glGetUniformLocation(dataHandle->programID, "material.color");
+		glUniform4f(location, col.x, col.x, col.x, col.x);
 	}
 
 	void Material::Use()

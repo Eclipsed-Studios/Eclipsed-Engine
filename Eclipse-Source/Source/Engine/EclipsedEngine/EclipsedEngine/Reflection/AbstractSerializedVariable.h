@@ -30,6 +30,7 @@ namespace Eclipse::Reflection
 	public:
 		virtual void* GetRawData() = 0;
 		virtual void* GetData() = 0;
+		virtual const void* GetData()const = 0;
 		virtual void ResolveTypeInfo() = 0;
 
 
@@ -117,9 +118,14 @@ namespace Eclipse::Reflection
 		SerializedTypes_ GetType() const;
 		virtual ImGuiDataType GetImGuiType() const = 0;
 
+		bool IsValid() const;
+
 	protected:
+		bool hasData = false;
+
 		const char* name = "";
 		Component* pComponent = nullptr;
+		bool componentHasDrawInspector = false;
 
 		SerializedTypes_ type = SerializedType_None;
 		unsigned sizePerElement = 0;

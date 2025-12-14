@@ -4,6 +4,14 @@
 #include <string>
 #include <vector>
 
+template<typename Base, typename Derived>
+concept HasOnDrawInspectorMethod =
+std::derived_from<Derived, Base>&&
+    requires {
+    &Base::OnDrawInspector();
+    &Derived::OnDrawInspector();
+};
+    
 template<typename T>
 struct Is_String : std::disjunction<
     std::is_same<std::decay_t<T>, std::string>,

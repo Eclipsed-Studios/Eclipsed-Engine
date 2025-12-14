@@ -85,6 +85,11 @@ namespace Eclipse::Reflection
 		return 20000;
 	}
 
+	inline bool AbstractSerializedVariable::IsValid() const
+	{
+		return hasData;
+	}
+
 	template<typename T>
 	inline void* SerializedVariable<T>::GetRawData()
 	{
@@ -93,6 +98,19 @@ namespace Eclipse::Reflection
 
 	template<typename T>
 	inline void* SerializedVariable<T>::GetData()
+	{
+		if constexpr (Is_Array<T>::value)
+			return &data[0];
+
+		else if constexpr (Is_Vector<T>::value)
+			return &data[0];
+
+		else
+			return &data;
+	}
+
+	template<typename T>
+	inline const void* SerializedVariable<T>::GetData() const
 	{
 		if constexpr (Is_Array<T>::value)
 			return &data[0];
@@ -164,6 +182,7 @@ namespace Eclipse::Reflection
 			type = SerializedType_Enum;
 			sizePerElement = sizeof(T::e);
 		}
+
 		else
 		{
 

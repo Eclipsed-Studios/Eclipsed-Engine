@@ -21,54 +21,56 @@ namespace Eclipse
 {
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
-		spriteRectMin = aMin * material.GetTexture().GetDimDivOne();
-		spriteRectMax = aMax * material.GetTexture().GetDimDivOne();
+		spriteRectMin = aMin * material->GetTexture().GetDimDivOne();
+		spriteRectMax = aMax * material->GetTexture().GetDimDivOne();
 	}
 
-	void SpriteRenderer2D::SetTexture(const char* aPath)
+#pragma region --- Set Sprite
+	void SpriteRenderer2D::SetSprite(const char* aPath)
 	{
 		sprite = Assets::Resources::Get<Texture>(aPath);
-		textureID = sprite.GetAssetID();
-		hasTexture = true;
+		hasSprite = true;
 	}
 
-	void SpriteRenderer2D::SetTexture(const size_t& id)
+	void SpriteRenderer2D::SetSprite(const size_t& id)
 	{
 		sprite = Assets::Resources::Get<Texture>(id);
-		textureID = sprite.GetAssetID();
-		hasTexture = true;
+		hasSprite = true;
 	}
+
+	void SpriteRenderer2D::SetSprite(const Texture& aSprite)
+	{
+		sprite = aSprite;
+		hasSprite = true;
+	}
+#pragma endregion
 
 	void SpriteRenderer2D::SetMaterial(const char* aPath)
 	{
 		material = Assets::Resources::Get<Material>(aPath);
-		materialID = material.GetAssetID();
 		hasMaterial = true;
 	}
 
 	void SpriteRenderer2D::SetMaterial(const size_t& id)
 	{
 		material = Assets::Resources::Get<Material>(id);
-		materialID = material.GetAssetID();
+		hasMaterial = true;
+	}
+
+	void SpriteRenderer2D::SetMaterial(const Material& aMaterial)
+	{
+		material = aMaterial;
 		hasMaterial = true;
 	}
 
 	void SpriteRenderer2D::OnComponentAdded()
 	{
-		if (textureID != 0)
-		{
-			SetTexture(textureID);
-		}
+		if (material->IsValid()) hasMaterial = true;
+		if (sprite->IsValid()) hasSprite = true;
 
-
-		if (materialID != 0)
-		{
-			SetMaterial(materialID);
-		}
-		else
+		if (!hasMaterial)
 		{
 			material = Assets::Resources::GetDefaultMaterial();
-			materialID = material.GetAssetID();
 			hasMaterial = true;
 		}
 	}
@@ -88,20 +90,20 @@ namespace Eclipse
 		float rotation = gameObject->transform->GetRotation();
 		Math::Vector2f scale = gameObject->transform->GetScale();
 
-		unsigned shaderID = material.GetShaderProgramID();
+		unsigned shaderID = material->GetShaderProgramID();
 
 		if (aProgramID)
 			shaderID = aProgramID;
 
-		if (hasTexture)
+		if (hasSprite)
 		{
-			material.BindShader();
-			sprite.Bind();
-			material.BindColor();
+			material->BindShader();
+			sprite->Bind();
+			material->BindColor();
 		}
 		else
 		{
-			material.Use();
+			material->Use();
 		}
 
 
@@ -114,13 +116,13 @@ namespace Eclipse
 		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.spriteRect", &spriteRect);
 
 		Math::Vector2f scaleMultiplier;
-		if (hasTexture)
+		if (hasSprite)
 		{
-			scaleMultiplier = sprite.GetTextureSizeNormilized();
+			scaleMultiplier = sprite->GetTextureSizeNormilized();
 		}
 		else
 		{
-			scaleMultiplier = material.GetTexture().GetTextureSizeNormilized();
+			scaleMultiplier = material->GetTexture().GetTextureSizeNormilized();
 		}
 
 		float aspectScale = size.y / size.x;

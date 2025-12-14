@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <functional>
-	
+
 #include "EclipsedEngine/Components/Component.h"
 
 #include <CoreEngine/Math/Vector/Vector2.h>
@@ -22,5 +22,12 @@ namespace Eclipse
 
 	public:
 		SERIALIZED_FIELD(AudioClip, hitSound);
-    };
+
+		void OnDrawInspector() override;
+
+	protected:
+		 bool HasDrawInspector() const override { return true; }
+
+	};
+
 }

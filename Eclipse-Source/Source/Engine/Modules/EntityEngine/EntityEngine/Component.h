@@ -15,6 +15,7 @@ namespace Eclipse
 	namespace Reflection
 	{
 		class ReflectionManager;
+		class AbstractSerializedVariable;
 	}
 }
 
@@ -30,6 +31,7 @@ namespace Eclipse
 		friend class Editor::SceneWindow;
 		friend class Editor::InspectorWindow;
 		friend class Reflection::ReflectionManager;
+		friend class Reflection::AbstractSerializedVariable;
 
 		friend class ComponentManager;
 		friend class SceneLoader;
@@ -70,6 +72,9 @@ namespace Eclipse
 		virtual void Update() {}
 		virtual void LateUpdate() {}
 
+		// If defined then the default inspector will be overwritten.
+		virtual void OnDrawInspector() {}
+
 		virtual void Render() {}
 
 		virtual void OnCollisionEnter() {}
@@ -105,5 +110,7 @@ namespace Eclipse
 	protected:
 		// IF DEF EDITOR
 		bool myInspectorWasDrawn = false;
+		virtual bool HasDrawInspector() const { return false; }
+		virtual bool DrawDefaultInspector() const { return true; }
 	};
 }
