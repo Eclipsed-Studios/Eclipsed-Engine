@@ -67,9 +67,10 @@ namespace Eclipse::Editor
 		}
 
 		ImGui::SetCursorPosX(totalIndent + 24);
-		std::string itemName = std::string(aGameObject->GetName() + "##" + std::to_string(id));
-		ImVec2 textSize = ImGui::CalcTextSize(itemName.c_str());
-		bool clickedButton = ImGui::Button(itemName.c_str(), ImVec2(textSize.x, 20));
+		std::string buttonName = std::string(aGameObject->GetName() + "##" + std::to_string(id));
+		const char* itemName = aGameObject->GetName().c_str();
+		ImVec2 textSize = ImGui::CalcTextSize(itemName);
+		bool clickedButton = ImGui::Button(buttonName.c_str(), ImVec2(textSize.x + 10, 20));
 
 		if (id == CurrentGameObjectID)
 			clickedButton = false;

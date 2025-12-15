@@ -17,13 +17,22 @@ class  Random
 {
 public:
 	template<typename T>
-	inline static T GetValue()
+	inline static T Rand()
 	{
-		std::random_device rd;
-		std::mt19937 eng(rd());
-
-		std::uniform_int_distribution<T> distribution(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
-		return distribution(eng);
+		if constexpr (std::is_integral_v<T>)
+		{
+			std::uniform_int_distribution<T> dis(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+			return dis(Generator());
+		}
+		else if constexpr (std::is_floating_point_v<T>)
+		{
+			std::uniform_real_distribution<T> dis(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+			return dis(Generator());
+		}
+		else
+		{
+			static_assert(std::is_arithmetic_v<T>, "Unsupported type for Random::Rand");
+		}
 	}
 
 	static std::mt19937& Generator()
@@ -35,7 +44,7 @@ public:
 
 public:
 	template<typename T>
-	inline static T GetValue(T aMin, T aMax)
+	inline static T RandRange(T aMin, T aMax)
 	{
 		if constexpr (std::is_integral_v<T>)
 		{
@@ -49,15 +58,8 @@ public:
 		}
 		else
 		{
-			static_assert(std::is_arithmetic_v<T>, "Unsupported type for Random::GetValue");
+			static_assert(std::is_arithmetic_v<T>, "Unsupported type for Random::RandRange");
 		}
-	}
-
-	inline static float GetFloat(float min = 0.0f, float max = 1.0f)
-	{
-		static std::mt19937 gen(std::random_device{}());
-		std::uniform_real_distribution<> dis(min, max);
-		return (float)dis(gen);
 	}
 };
 #endif

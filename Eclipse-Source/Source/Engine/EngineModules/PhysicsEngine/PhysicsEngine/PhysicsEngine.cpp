@@ -358,6 +358,7 @@ namespace Eclipse
 
     void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
     {
+        LoadLayersFromJSON(myCollisionLayers);
         PathManager::OnProjectSet += LoadLayers;
 
         mySubstepCount = aSubstepCount;

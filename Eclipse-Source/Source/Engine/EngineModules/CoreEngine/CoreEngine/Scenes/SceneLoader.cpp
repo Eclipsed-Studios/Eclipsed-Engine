@@ -180,6 +180,8 @@ namespace Eclipse
 			it++;
 		}
 
+
+		ComponentManager::OnAddedAllComponentsLoadScene();
 		ComponentManager::OnLoadScene();
 		
 		// only if the game has started
@@ -216,11 +218,6 @@ namespace Eclipse
 			{
 				if (pComp->myInstanceComponentID == id) LoadType(var, val);
 			}
-		}
-
-		for (auto& [id, comp] : compMap)
-		{
-			comp->OnComponentAdded();
 		}
 	}
 	void SceneLoader::LoadType(Reflection::AbstractSerializedVariable* aSerializedVariable, const rapidjson::Value& aValue)

@@ -67,17 +67,13 @@ namespace Eclipse::Editor
 			gameObject->SetName(nameBuffer);
 		}
 
-		ImGui::BeginDisabled();
-		ImGui::Text("ID");
-		ImGui::SameLine();
 		unsigned localID = gameObject->GetID();
 
 		std::stringstream idStream;
-		idStream << localID;
+		idStream << "ID: " << localID;
 
 		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() - 36);
-		ImGui::DragInt("##ID FIELDS", (int*)&localID);
-		ImGui::EndDisabled();
+		ImGui::Text(idStream.str().c_str());
 
 		ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 48);
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6);

@@ -11,12 +11,21 @@ namespace Eclipse
 {
 	void Client::AddComponentMessage(const NetMessage& message)
 	{
+		if (!ComponentManager::HasGameObject(message.MetaData.GameObjectID))
+		{
+			GameObject* gameobject = ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
+			gameobject->SetIsOwner(true);
+		}
+
+		int ComponentID = 0;
+		memcpy(&ComponentID, message.data, sizeof(int));
+
 		int ComponentNameCharCount = 0;
-		memcpy(&ComponentNameCharCount, message.data, sizeof(int));
+		memcpy(&ComponentNameCharCount, message.data + sizeof(int), sizeof(int));
 
 		char NameBuffer[512];
 
-		memcpy(NameBuffer, message.data + sizeof(int), ComponentNameCharCount);
+		memcpy(NameBuffer, message.data + sizeof(int) + sizeof(int), ComponentNameCharCount);
 		memset(NameBuffer + ComponentNameCharCount, '\0', 1);
 
 		const char* name = NameBuffer;
@@ -27,15 +36,15 @@ namespace Eclipse
 			if (!memcmp(name, CurrentComponentName, strlen(name)))
 				return;
 		}
-		std::string STRname = name;
 
-		CommandListManager::GetHappenAtBeginCommandList().Enqueue([STRname, goid = message.MetaData.GameObjectID]{
-			Component* newCompoennt = ComponentRegistry::GetInspectorAddComponent(STRname)(goid);
+		std::string StringName = name;
+		CommandListManager::GetHappenAtBeginCommandList().Enqueue([StringName, goid = message.MetaData.GameObjectID, ComponentID] {
+			Component* newCompoennt = ComponentRegistry::GetAddComponent(StringName)(ComponentID, goid);
 
 			newCompoennt->Awake();
 			newCompoennt->Start();
 			newCompoennt->SetIsOwner(false);
-		});
+			});
 	}
 
 	void Client::CreateObjectMessage(const NetMessage& message)

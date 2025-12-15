@@ -83,10 +83,11 @@ namespace Eclipse
 				if (message.MetaData.SentGarantied)
 				{
 					message.MetaData.SentGarantied = false;
-					message.MetaData.dataSize = 8;
 
-					Send(message);
+					Send(&message, 8, recieveEndpoint);
 				}
+
+				message.MetaData.IsGarantied = false;
 			}
 
 			HandleRecieve(message);
@@ -102,6 +103,14 @@ namespace Eclipse
 		void SendManager()
 		{
 
+		}
+
+		void Send(const void* value, size_t byteSize, const udp::endpoint& endpoint)
+		{
+			if (!isConnected)
+				return;
+
+			socket.async_send_to(asio::buffer(value, byteSize), endpoint, std::bind(&Client::SendManager, this));
 		}
 
 		void Send(NetMessage& message)
@@ -127,7 +136,7 @@ namespace Eclipse
 		template <class T>
 		friend class GarantiedMessageHandler;
 
-		// Does check for garantied messages do not use this function
+		// Does not check for garantied messages do not use this function
 		void SendDirectly_NoChecks(NetMessage& message, const udp::endpoint& endpoint)
 		{
 			socket.async_send_to(asio::buffer(&message, message.MetaData.dataSize), endpoint, std::bind(&Client::SendManager, this));

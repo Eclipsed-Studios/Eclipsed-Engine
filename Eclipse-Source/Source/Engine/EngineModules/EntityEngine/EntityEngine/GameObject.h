@@ -44,7 +44,7 @@ namespace Eclipse
 		void SetName(const std::string& aName);
 		const std::string& GetName() const;
 
-		GameObjectID GetID() const;
+		unsigned GetID() const;
 
 		operator Eclipse::GameObjectID() const;
 
@@ -55,7 +55,7 @@ namespace Eclipse
 		std::vector<GameObject*> children;
 		size_t myChildIndex = 0;
 
-		GameObjectID myID;
+		unsigned myID;
 		std::string myName = "Gameobject";
 
 		Math::Vector4f myPixelPickColor;

@@ -188,7 +188,7 @@ namespace Eclipse
 		CommandListManager::GetSpriteCommandList().Execute();
 
 		Math::Vector4ui colorValue = GraphicsEngine::ReadPixel({ windowRelativeMousePosition.x + 10, windowRelativeMousePosition.y - 8 });
-		int pickedID = colorValue.x + colorValue.y * 256 + colorValue.z * 256 * 256;
+		unsigned pickedID = colorValue.x + colorValue.y * 256 + colorValue.z * 256 * 256;
 
 		if (HierarchyWindow::CurrentGameObjectID == pickedID && HierarchyWindow::CurrentGameObjectID)
 		{

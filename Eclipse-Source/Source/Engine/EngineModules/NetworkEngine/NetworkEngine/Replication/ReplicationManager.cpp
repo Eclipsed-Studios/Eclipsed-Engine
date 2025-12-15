@@ -68,36 +68,36 @@ namespace Eclipse::Replication
         if (client)
             client->Update();
         if (server)
-        {
             server->Update();
 
-            static float timer = 0.f;
-            timer -= Time::GetDeltaTime();
+        static float timer = 0.f;
+        timer -= Time::GetDeltaTime();
 
-            if (timer <= 0)
+        if (timer <= 0)
+        {
+            for (auto& ReplicationVariable : RealReplicatedVariableList)
             {
-                for (auto& ReplicationVariable : RealReplicatedVariableList)
-                {
-                    // if (!ReplicationVariable.second->ManualVariableSending)
-                    //     ReplicationVariable.second->ReplicateThis(ReplicationVariable.first);
-                }
-
-                timer = 0.005f;
+                if (!ReplicationVariable.second->ManualVariableSending)
+                    ReplicationVariable.second->ReplicateThis(ReplicationVariable.first);
             }
+
+            timer = 0.005f;
         }
     }
 
     void ReplicationManager::CreateComponentMessage(Component* aComponent, NetMessage& outMessage)
     {
-        const char* ComponentName = aComponent->GetComponentName();
         char Data[512];
-
+        
+        const char* ComponentName = aComponent->GetComponentName();
+        
         int LengthOfComponentName = strlen(ComponentName);
+        
+        memcpy(Data, &aComponent->myInstanceComponentID, sizeof(int));
+        memcpy(Data + sizeof(int), &LengthOfComponentName, sizeof(int));
+        memcpy(Data + sizeof(int) + sizeof(int), ComponentName, LengthOfComponentName);
 
-        memcpy(Data, &LengthOfComponentName, sizeof(int));
-        memcpy(Data + sizeof(int), ComponentName, LengthOfComponentName);
-
-        int DataAmount = LengthOfComponentName + sizeof(int);
+        int DataAmount = LengthOfComponentName + sizeof(int) + sizeof(int);
 
         outMessage = NetMessage::BuildGameObjectMessage(aComponent->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true);
     }

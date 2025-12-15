@@ -11,8 +11,18 @@ namespace Eclipse
 
 	void ComponentManager::OnLoadScene()
 	{
+		SortComponents();
+
 		for (auto& component : myComponents)
 			component->OnSceneLoaded();
+	}
+
+	void ComponentManager::OnAddedAllComponentsLoadScene()
+	{
+		SortComponents();
+
+		for (auto& component : myComponents)
+			component->OnComponentAdded();
 	}
 
 	void ComponentManager::AwakeStartComponents()
@@ -44,7 +54,6 @@ namespace Eclipse
 		delete myComponentData;
 
 		myComponentMemoryTracker = 0;
-		myNextGameobjectID = 1;
 		myComponentsToStart.clear();
 
 		for (auto& [id, obj] : myEntityIdToEntity)
@@ -176,8 +185,10 @@ namespace Eclipse
 
 	std::vector<Component*> ComponentManager::GetComponents(GameObjectID aGOID)
 	{
-		std::vector<Component*> components;
+		if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
+			return {};
 
+		std::vector<Component*> components;
 		for (auto& component : myEntityIDToVectorOfComponentIDs.at(aGOID))
 		{
 			components.emplace_back(myComponents[component.second]);
@@ -275,43 +286,49 @@ namespace Eclipse
 
 	GameObject* ComponentManager::CreateGameObject()
 	{
-		GameObject* obj = new GameObject(myNextGameobjectID);
-		myEntityIdToEntity[myNextGameobjectID] = obj;
+		unsigned GamobjectID = GetNextGameObjectID();
+
+		GameObject* obj = new GameObject(GamobjectID);
+		myEntityIdToEntity[GamobjectID] = obj;
 
 		obj->AddComponent<Transform2D>();
 
-		myNextGameobjectID++;
 		return obj;
 	}
 
 	GameObject* ComponentManager::CreateGameObject(GameObjectID aId)
 	{
+		unsigned GamobjectID = GetNextGameObjectID();
+
 		GameObject* obj = new GameObject(aId);
 		myEntityIdToEntity[aId] = obj;
 
 		obj->AddComponent<Transform2D>();
 
-		if (myNextGameobjectID <= aId)
-			myNextGameobjectID = aId + 1;
-			
+		if (GamobjectID <= aId)
+			GamobjectID = aId + 1;
+
 		return obj;
 	}
 
 	GameObject* ComponentManager::CreateGameObjectNoTransform()
 	{
-		GameObject* obj = new GameObject(myNextGameobjectID);
-		myEntityIdToEntity[myNextGameobjectID] = obj;
+		unsigned GamobjectID = GetNextGameObjectID();
 
-		myNextGameobjectID++;
+		GameObject* obj = new GameObject(GamobjectID);
+		myEntityIdToEntity[GamobjectID] = obj;
+
 		return obj;
 	}
 
 	GameObject* ComponentManager::CreateGameObjectNoTransformWithID(GameObjectID aId)
 	{
+		unsigned GamobjectID = GetNextGameObjectID();
+
 		GameObject* obj = new GameObject(aId);
 		myEntityIdToEntity[aId] = obj;
 
-		if (myNextGameobjectID <= aId) myNextGameobjectID = aId + 1;
+		if (GamobjectID <= aId) GamobjectID = aId + 1;
 		return obj;
 	}
 

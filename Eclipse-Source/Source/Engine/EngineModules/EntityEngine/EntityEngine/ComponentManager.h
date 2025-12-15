@@ -39,6 +39,7 @@ namespace Eclipse
 
 		static void Init();
 
+		static void OnAddedAllComponentsLoadScene();
 		static void OnLoadScene();
 
 		static void AwakeStartComponents();
@@ -91,6 +92,11 @@ namespace Eclipse
 
 		static void Destroy(unsigned aGOID);
 
+		static unsigned GetNextGameObjectID()
+		{
+			return Random::RandRange<unsigned>(0, 0x00FFFFFF);
+		}
+
 		static GameObject* CreateGameObject();
 		static GameObject* CreateGameObject(unsigned aId);
 		static GameObject* CreateGameObjectNoTransform();
@@ -103,7 +109,6 @@ namespace Eclipse
 		static inline uint8_t* myComponentData;
 
 		static inline std::vector<Component*> myComponents;
-		static inline unsigned myNextGameobjectID = 1;
 
 		static inline std::vector<Component*> myComponentsToStart;
 

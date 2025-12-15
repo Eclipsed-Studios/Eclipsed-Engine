@@ -16,6 +16,16 @@
             "name": "Default",
             "relativePath": "Default.scene",
             "idx": 0
+        },
+        {
+            "name": "NetworkingTesting",
+            "relativePath": "NetworkingTesting.scene",
+            "idx": 1
+        },
+        {
+            "name": "NetworkingTestingClient",
+            "relativePath": "NetworkingTestingClient.scene",
+            "idx": 2
         }
     ]
 }

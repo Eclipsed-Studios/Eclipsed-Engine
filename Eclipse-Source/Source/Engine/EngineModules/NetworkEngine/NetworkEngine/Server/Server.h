@@ -74,6 +74,8 @@ namespace Eclipse
 
 				for (const auto& component : components)
 				{
+					if (!component->IsReplicated)
+						continue;
 					NetMessage message;
 					Replication::ReplicationManager::CreateComponentMessage(component, message);
 
@@ -157,10 +159,11 @@ namespace Eclipse
 				if (message.MetaData.SentGarantied)
 				{
 					message.MetaData.SentGarantied = false;
-					message.MetaData.dataSize = 8;
 
-					Send(message);
+					Send(&message, 8, recieveEndpoint);
 				}
+
+				message.MetaData.IsGarantied = false;
 			}
 
 			for (auto& endpoint : endpoints)

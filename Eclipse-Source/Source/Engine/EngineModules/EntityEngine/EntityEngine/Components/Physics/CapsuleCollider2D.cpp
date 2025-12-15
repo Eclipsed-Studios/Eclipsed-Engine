@@ -14,7 +14,27 @@ namespace Eclipse
 {
 	void CapsuleCollider2D::CreateCollider()
 	{
-		PhysicsEngine::CreateCapsuleCollider(&myInternalCollider, myBodyRef, myInternalRadius, myInternalHalfHeight, myLayer);
+		PhysicsEngine::CreateCapsuleCollider(&myInternalCollider, myBodyRef, Radius, HalfHeight, myLayer);
+	}
+
+	void CapsuleCollider2D::EditorUpdate()
+	{
+		if (myLastRadius != Radius)
+		{
+			myLastRadius = Radius;
+			OnTransformDirty();
+		}
+
+		if (myLastHalfHeight != HalfHeight)
+		{
+			myLastHalfHeight = HalfHeight;
+			OnTransformDirty();
+		}
+
+		if (myLastColliderPivot.x != ColliderPivot->x || myLastColliderPivot.y != ColliderPivot->y)
+		{
+			OnTransformDirty();
+		}
 	}
 
 	void CapsuleCollider2D::SetRadius(float aRadius)
@@ -23,7 +43,6 @@ namespace Eclipse
 		Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
 
 		Radius = aRadius;
-		myInternalRadius = Radius * std::max(size.x, size.y);
 	}
 
 	void CapsuleCollider2D::SetHalfHeight(float aHalfHeight)
@@ -32,7 +51,6 @@ namespace Eclipse
 		Math::Vector2f size = Math::Vector2f(transform->GetScale().x, transform->GetScale().y) * 0.01f;
 
 		HalfHeight = aHalfHeight;
-		myInternalHalfHeight = HalfHeight * size.y;
 	}
 
 	void CapsuleCollider2D::OnTransformDirty()

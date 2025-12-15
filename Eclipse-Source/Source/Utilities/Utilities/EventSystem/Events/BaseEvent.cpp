@@ -8,7 +8,7 @@ namespace Eclipse
 	{
 		eventName = anEventName;
 
-		id = Random::GetValue<int>();
+		id = Random::Rand<int>();
 		EventSystem::Subscribe(eventName.c_str(), this);
 	}
 

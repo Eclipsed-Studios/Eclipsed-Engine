@@ -9,6 +9,8 @@
 #include "Utilities/Reflection/Reflection.h"
 #include "Utilities/Reflection/Reflection_Macros.h"
 
+#include "Utilities/Math/Random.h"
+
 namespace Eclipse
 {
 	namespace Editor
@@ -47,20 +49,19 @@ namespace Eclipse
 		Component() = default;
 		virtual ~Component() = default;
 
-		static unsigned GetNextComponentID() { return ++nextComponentID; }
-		void SetComponentID() { myInstanceComponentID = ++nextComponentID; }
+		static unsigned GetNextComponentID() 
+		{
+			return Random::Rand<unsigned>();
+		}
+
+		void SetComponentID() 
+		{ 
+			myInstanceComponentID = GetNextComponentID(); 
+		}
+
 		void SetComponentID(unsigned compID)
 		{
 			myInstanceComponentID = compID;
-
-			if (nextComponentID <= compID)
-			{
-				nextComponentID = compID++;
-			}
-			else
-			{
-				nextComponentID++;
-			}
 		}
 
 		virtual unsigned GetUpdatePriority() const = 0;
@@ -94,7 +95,11 @@ namespace Eclipse
 
 	protected:
 #ifdef ECLIPSED_EDITOR
-		void UpdateInspector() { Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); }
+		void UpdateInspector() { 
+			std::stringstream stream;
+			stream << "ID: " << myInstanceComponentID;
+			ImGui::Text(stream.str().c_str());
+			Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); }
 #endif
 
 
@@ -103,8 +108,8 @@ namespace Eclipse
 
 		GameObject* gameObject;
 
-	protected:
 		unsigned myInstanceComponentID = 0;
+	protected:
 		unsigned myComponentIndex = 0;
 
 	private:

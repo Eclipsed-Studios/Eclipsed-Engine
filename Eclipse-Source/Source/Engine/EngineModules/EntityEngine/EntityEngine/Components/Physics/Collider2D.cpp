@@ -12,12 +12,12 @@ namespace Eclipse
     void Collider2D::OnDestroy()
     {
         auto rigidBody = gameObject->GetComponent<RigidBody2D>();
-        if (!rigidBody)
+        if (!BodyCreatedByRB)
         {
             PhysicsEngine::DeleteShape(&myInternalCollider);
             PhysicsEngine::DeleteBody(&myBodyRef);
         }
-        else if (rigidBody->bodyHasBeenCreated)
+        else if (rigidBody)
         {
             PhysicsEngine::DeleteShape(&myInternalCollider);
         }
@@ -45,13 +45,16 @@ namespace Eclipse
                 PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, myTransform->GetPosition());
             }
             else
+            {
+                BodyCreatedByRB = true;
                 myBodyRef = rigidBody->myBody;
+            }
 
             myCreatedInternally = true;
 
-            myTransform->AddFunctionToRunOnDirtyUpdate([this]() { 
-                this->OnTransformDirty(); 
-            });
+            myTransform->AddFunctionToRunOnDirtyUpdate([this]() {
+                this->OnTransformDirty();
+                });
 
             CreateCollider();
         }

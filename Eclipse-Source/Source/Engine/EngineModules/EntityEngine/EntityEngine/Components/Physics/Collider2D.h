@@ -52,5 +52,7 @@ namespace Eclipse
     private:
         bool myCreatedInternally = false;
         int myLastLayer;
+
+        bool BodyCreatedByRB = false;
     };
 }

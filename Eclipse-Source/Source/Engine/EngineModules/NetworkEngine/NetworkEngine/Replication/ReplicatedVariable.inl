@@ -43,6 +43,10 @@ namespace Eclipse::Replication
 
     void BaseReplicatedVariable::ReplicateThis(unsigned aID)
     {
+        if (!ConnectedComponent->IsOwner())
+            return;
+        
+
         char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];
 
         size_t offset = 0;

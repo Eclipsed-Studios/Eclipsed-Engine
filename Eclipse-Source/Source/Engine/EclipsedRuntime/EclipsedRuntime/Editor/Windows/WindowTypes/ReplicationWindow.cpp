@@ -8,13 +8,7 @@ namespace Eclipse::Editor
 {
     void ReplicationWindow::Update()
     {
-        static bool collisionLayersShown = false;
-        collisionLayersShown = ImGui::CollapsingHeader("Collision Layers");
-
-        static bool sceneShown = false;
-        sceneShown = ImGui::CollapsingHeader("Scene Build Settings");
-
-        if (sceneShown) DrawSceneEditor();
+        DrawSceneEditor();
     }
 
     void ReplicationWindow::DrawSceneEditor()

@@ -12,6 +12,8 @@ namespace Eclipse
         BASE_SELECTION(CapsuleCollider2D, 5)
 
     public:
+        void EditorUpdate() override;
+
         void CreateCollider() override;
 
         void OnTransformDirty();
@@ -20,10 +22,10 @@ namespace Eclipse
         void SetHalfHeight(float aHalfHeight);
 
     private:
-        float myInternalRadius;
-        float myInternalHalfHeight;
+        SERIALIZED_FIELD_DEFAULT(float, Radius, 0.5f);
+        SERIALIZED_FIELD_DEFAULT(float, HalfHeight, 1.f);
 
-        SERIALIZED_FIELD(float, Radius);
-        SERIALIZED_FIELD(float, HalfHeight);
+        float myLastRadius;
+        float myLastHalfHeight;
     };
 }
