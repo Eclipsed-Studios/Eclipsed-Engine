@@ -162,13 +162,13 @@ namespace Eclipse
 		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
 		myComponents.back()->myComponentIndex = componentIndex;
 
-		if (Utilities::MainSingleton::Exists<Client>())
-		{
-			NetMessage message;
-			Replication::ReplicationManager::CreateComponentMessage(component, message);
+		//if (Utilities::MainSingleton::Exists<Client>())
+		//{
+		//	NetMessage message;
+		//	Replication::ReplicationManager::CreateComponentMessage(component, message);
 
-			Utilities::MainSingleton::GetInstance<Client>().Send(message);
-		}
+		//	Utilities::MainSingleton::GetInstance<Client>().Send(message);
+		//}
 
 		if (myComponents.size() <= 1)
 			return component;
@@ -286,12 +286,12 @@ namespace Eclipse
 
 	GameObject* ComponentManager::CreateGameObject(GameObjectID aId)
 	{
-		if (aId == 0) aId = myNextGameobjectID;
+		if (aId == 0) aId = GetNextGameObjectID();
 
 		GameObject* obj = new GameObject(aId);
 		myEntityIdToEntity[aId] = obj;
 
-		if (GamobjectID <= aId) GamobjectID = aId + 1;
+		//if (GamobjectID <= aId) GamobjectID = aId + 1;
 		return obj;
 	}
 

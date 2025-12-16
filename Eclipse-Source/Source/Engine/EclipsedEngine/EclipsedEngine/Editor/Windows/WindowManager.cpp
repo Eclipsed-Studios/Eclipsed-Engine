@@ -141,15 +141,17 @@ namespace Eclipse::Editor
 
 			if (ImGui::BeginMenu("Network"))
 			{
-				ImGui::Checkbox("##Start Server Checkbox", &Replication::ReplicationManager::startServer);
-				ImGui::SameLine();
-				ImGui::Text("Start Server");
+				ImGui::Text("This code is commented.");
 
-				ImGui::Checkbox("##Start Client Checkbox", &Replication::ReplicationManager::startClient);
-				ImGui::SameLine();
-				ImGui::Text("Start Client");
+				//ImGui::Checkbox("##Start Server Checkbox", &Replication::ReplicationManager::startServer);
+				//ImGui::SameLine();
+				//ImGui::Text("Start Server");
 
-				ImGui::EndMenu();
+				//ImGui::Checkbox("##Start Client Checkbox", &Replication::ReplicationManager::startClient);
+				//ImGui::SameLine();
+				//ImGui::Text("Start Client");
+
+				//ImGui::EndMenu();
 			}
 
 			ImGui::SameLine(ImGui::GetWindowWidth() - (ImGui::CalcTextSize("Debug").x * 2) + 10);

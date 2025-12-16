@@ -6,7 +6,7 @@
 #include "Types.h"
 #include "CoreEngine/Macros/defines.h"
 
-#include "Utilities/Math/Random.h"
+#include "CoreEngine/Math/Random.h"
 
 namespace Eclipse
 {

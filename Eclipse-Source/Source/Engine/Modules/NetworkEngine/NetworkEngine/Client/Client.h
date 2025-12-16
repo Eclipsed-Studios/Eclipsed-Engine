@@ -2,12 +2,12 @@
 //
 //#include <thread>
 //
-//#include "CoreEngine/MainSingleton.h"
+//#include "Utilities/Common/MainSingleton.h"
 //
 //#include "NetworkEngine/Shared/Message.h"
 //#include "NetworkEngine/Shared/GarantiedMessageHandler.h"
 //
-//#include "asio/asio.hpp"
+//#include "asio/asio/asio.hpp"
 //
 //#include "Utilities/Settings/TemporarySettingsSingleton.h"
 //

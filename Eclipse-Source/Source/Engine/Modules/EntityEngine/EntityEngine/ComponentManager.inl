@@ -73,13 +73,13 @@ namespace Eclipse
         myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
         myComponents.back()->myComponentIndex = componentIndex;
 
-        if (Utilities::MainSingleton::Exists<Client>())
-        {
-            NetMessage message;
-            Replication::ReplicationManager::CreateComponentMessage(component, message);
+        //if (Utilities::MainSingleton::Exists<Client>())
+        //{
+        //    NetMessage message;
+        //    Replication::ReplicationManager::CreateComponentMessage(component, message);
 
-            Utilities::MainSingleton::GetInstance<Client>().Send(message);
-        }
+        //    Utilities::MainSingleton::GetInstance<Client>().Send(message);
+        //}
 
         if (myComponents.size() <= 1)
             return component;

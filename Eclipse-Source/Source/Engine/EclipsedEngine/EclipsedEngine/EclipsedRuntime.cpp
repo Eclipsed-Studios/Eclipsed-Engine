@@ -119,7 +119,7 @@ namespace Eclipse
 
 	void EclipsedRuntime::EndFrame()
 	{
-		Replication::ReplicationManager::Update();
+		//Replication::ReplicationManager::Update();
 
 		GraphicsEngine::EndFrame();
 	}
@@ -138,16 +138,16 @@ namespace Eclipse
 
 	void EclipsedRuntime::ShutDown()
 	{
-		if (Utilities::MainSingleton::Exists<Server>())
-		{
-			auto& server = Utilities::MainSingleton::GetInstance<Server>();
-			server.ShutDown();
-		}
+		//if (Utilities::MainSingleton::Exists<Server>())
+		//{
+		//	auto& server = Utilities::MainSingleton::GetInstance<Server>();
+		//	server.ShutDown();
+		//}
 
-		if (Utilities::MainSingleton::Exists<Client>())
-		{
-			auto& client = Utilities::MainSingleton::GetInstance<Client>();
-			client.ShutDown();
-		}
+		//if (Utilities::MainSingleton::Exists<Client>())
+		//{
+		//	auto& client = Utilities::MainSingleton::GetInstance<Client>();
+		//	client.ShutDown();
+		//}
 	}
 }
