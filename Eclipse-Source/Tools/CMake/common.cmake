@@ -59,3 +59,65 @@ function(AddFilesToFolders SOURCES REL_PATH)
         endif()
     endforeach()
 endfunction()
+
+
+
+set(BINARY_PATH ${CMAKE_SOURCE_DIR}/Library)
+
+
+function(CreateProject TYPE)
+    cmake_minimum_required(VERSION 3.19.2)
+
+    get_filename_component(CURRENT_DIR_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+
+    set(ROOT "${CMAKE_CURRENT_SOURCE_DIR}/${CURRENT_DIR_NAME}")
+    file(GLOB_RECURSE SOURCES
+        "${ROOT}/*.cpp"
+        "${ROOT}/*.c"
+        "${ROOT}/*.h"
+        "${ROOT}/*.hpp"
+        "${ROOT}/*.inl"
+    )
+
+
+    set(${CURRENT_DIR_NAME}_Include ${SOURCES})
+
+    add_library(${CURRENT_DIR_NAME} ${TYPE})
+
+
+    target_sources(${CURRENT_DIR_NAME} PRIVATE ${SOURCES})
+    target_sources(${CURRENT_DIR_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
+        
+    target_include_directories(${CURRENT_DIR_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+    target_include_directories(${CURRENT_DIR_NAME} PRIVATE "${ROOT}")
+
+    target_precompile_headers(${CURRENT_DIR_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
+
+    set_target_properties(${CURRENT_DIR_NAME} PROPERTIES
+ ARCHIVE_OUTPUT_DIRECTORY                ${BINARY_PATH}
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG          ${BINARY_PATH}
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE        ${BINARY_PATH}
+    ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO ${BINARY_PATH}
+    ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL     ${BINARY_PATH}
+
+    LIBRARY_OUTPUT_DIRECTORY                ${BINARY_PATH}
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG          ${BINARY_PATH}
+    LIBRARY_OUTPUT_DIRECTORY_RELEASE        ${BINARY_PATH}
+    LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${BINARY_PATH}
+    LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL     ${BINARY_PATH}
+
+    RUNTIME_OUTPUT_DIRECTORY                ${CMAKE_SOURCE_DIR}/Bin
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG          ${CMAKE_SOURCE_DIR}/Bin
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE        ${CMAKE_SOURCE_DIR}/Bin
+    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_SOURCE_DIR}/Bin
+    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     ${CMAKE_SOURCE_DIR}/Bin
+
+    FOLDER "Engine/EngineModules"
+    )
+
+    target_include_directories(${CURRENT_DIR_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
+
+    source_group(TREE "${ROOT}" FILES ${SOURCES})
+
+    set_target_properties(${CURRENT_DIR_NAME} PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
+endfunction()

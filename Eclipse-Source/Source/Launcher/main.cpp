@@ -1,17 +1,17 @@
 #include <iostream>
 
-#include "EclipsedRuntime/Editor/EditorApplication.h"
+#include "EclipsedEngine/Editor/EditorApplication.h"
+#include <windows.h>
 
-
-
-//#define WIN32_LEAN_AND_MEAN
-//#include <windows.h>
+#include <filesystem>
 
 int main()
 {
-    //HWND console = GetConsoleWindow();
-    //ShowWindow(console, SW_SHOW);
+    HWND console = GetConsoleWindow();
+    ShowWindow(console, SW_SHOW);
     //ShowWindow(console, SW_HIDE);
+
+    auto p = std::filesystem::current_path();
 
     Eclipse::Editor::EditorApplication editorApplication;
 

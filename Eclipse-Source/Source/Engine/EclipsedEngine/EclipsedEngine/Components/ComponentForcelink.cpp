@@ -1,0 +1,43 @@
+#include "ComponentForcelink.h"
+
+#include "EclipsedEngine/Reflection/Registry/ComponentRegistry.h"
+
+#include "EclipsedEngine/Components/AudioSource.h"
+#include "EclipsedEngine/Components/Transform2D.h"
+#include "EclipsedEngine/Components/Physics/BoxCollider2D.h"
+#include "EclipsedEngine/Components/Physics/CapsuleCollider2D.h"
+#include "EclipsedEngine/Components/Physics/CircleCollider2D.h"
+#include "EclipsedEngine/Components/Physics/PolygonCollider2D.h"
+#include "EclipsedEngine/Components/Physics/RigidBody2D.h"
+
+#include "EclipsedEngine/Components/Rendering/Camera.h"
+#include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "EclipsedEngine/Components/Rendering/SpriteSheetAnimator.h"
+#include "EclipsedEngine/Components/Rendering/TextRenderer.h"
+
+#include "EclipsedEngine/Components/UI/Button.h"
+#include "EclipsedEngine/Components/UI/Canvas.h"
+#include "EclipsedEngine/Components/UI/RectTransform.h"
+#include "EclipsedEngine/Components/UI/UIImage.h"
+
+#include "EclipsedEngine/Components/AudioSource.h"
+
+void Eclipse::ComponentForcelink::LinkComponents()
+{
+	COMP_REG(Transform2D);
+	COMP_REG(BoxCollider2D);
+	COMP_REG(CapsuleCollider2D);
+	COMP_REG(CircleCollider2D);
+	COMP_REG(PolygonCollider2D);
+	COMP_REG(RigidBody2D);
+
+	COMP_REG(Camera);
+	COMP_REG(SpriteRenderer2D);
+	COMP_REG(TextRenderer);
+
+	COMP_REG(Button);
+	COMP_REG(Canvas);
+	COMP_REG(RectTransform);
+	COMP_REG(UIImage);
+	COMP_REG(AudioSource);
+}

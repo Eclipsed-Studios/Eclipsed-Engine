@@ -1,9 +1,0 @@
-set(ENTITY_ENGINE_ROOT "${CMAKE_SOURCE_DIR}/Source/Engine/EngineModules/EntityEngine")
-
-file(GLOB_RECURSE ENTITY_ENGINE_SOURCES
-    "${ENTITY_ENGINE_ROOT}/*.cpp"
-    "${ENTITY_ENGINE_ROOT}/*.h"
-    "${ENTITY_ENGINE_ROOT}/*.hpp"
-    "${ENTITY_ENGINE_ROOT}/*.inl"
-    "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
-    )

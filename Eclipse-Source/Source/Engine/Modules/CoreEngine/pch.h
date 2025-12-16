@@ -1,0 +1,69 @@
+#pragma once
+
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <iostream>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
+#include <thread>
+#include <mutex>
+
+// ----------- Events
+#include "CoreEngine/EventSystem/events.h"
+#include "CoreEngine/EventSystem/EventSystem.h"
+#include "CoreEngine/EventSystem/Events/BaseEvent.h"
+#include "CoreEngine/EventSystem/Events/Event.h"
+#include "CoreEngine/EventSystem/Events/EventT.h"
+
+// ----------- Files
+#include "CoreEngine/Files/DirectoryTree.h"
+#include "CoreEngine/Files/File.h"
+#include "CoreEngine/Files/FileInfo.h"
+#include "CoreEngine/Files/FileUtilities.h"
+#include "CoreEngine/Files/FileWatcher.h"
+
+// ----------- Input
+#include "CoreEngine/Input/Input.h"
+#include "CoreEngine/Input/InputAction.h"
+#include "CoreEngine/Input/InputMapper.h"
+#include "CoreEngine/Input/Keycodes.h"
+
+// ----------- Macros
+#include "CoreEngine/Macros/defines.h"
+
+// ----------- Math
+#include "CoreEngine/Math/Color.h"
+#include "CoreEngine/Math/CommonMath.h"
+#include "CoreEngine/Math/Math.h"
+#include "CoreEngine/Math/Random.h"
+#include "CoreEngine/Math/Rect.h"
+#include "CoreEngine/Math/RectSizePos.h"
+#include "CoreEngine/Math/Matrix/Matrix2x2.h"
+#include "CoreEngine/Math/Matrix/Matrix3x3.h"
+#include "CoreEngine/Math/Vector/Vector2.h"
+#include "CoreEngine/Math/Vector/Vector3.h"
+#include "CoreEngine/Math/Vector/Vector4.h"
+
+// ----------- Platform Integration
+#include "CoreEngine/PlatformIntegration/DiscordIntegration.h"
+#include "CoreEngine/PlatformIntegration/IntegrationManager.h"
+
+// ----------- Settings
+#include "CoreEngine/Settings/Settings.h"
+#include "CoreEngine/Settings/EngineSettings.h"
+
+// ----------- Containers
+#include "CoreEngine/Containers/RingBuffer.h"
+
+// ----------- Other
+#include "CoreEngine/BitMask.hpp"
+#include "CoreEngine/ClipBoard.h"
+#include "CoreEngine/Engine.h"
+#include "CoreEngine/ErrorCodes.h"
+#include "CoreEngine/MainSingleton.h"
+#include "CoreEngine/PathManager.h"
+#include "CoreEngine/SerializedEnum.hpp"
+#include "CoreEngine/Timer.h"
+#include "CoreEngine/TypeChecks.h"
