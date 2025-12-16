@@ -7,11 +7,12 @@
 #include "CoreEngine/Math/Vector/Vector4.h"
 
 #include "Types.h"
+#include "CoreEngine/Macros/defines.h"
 
 namespace Eclipse
 {
 	class ComponentManager;
-	class GameObject
+	class ECLIPSED_API GameObject
 	{
 		friend class ComponentManager;
 

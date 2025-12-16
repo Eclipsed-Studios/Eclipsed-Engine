@@ -1,7 +1,10 @@
 #pragma once
 
+#include "CoreEngine/Object.h"
+
 #include <string>
 #include "Types.h"
+#include "CoreEngine/Macros/defines.h"
 
 namespace Eclipse
 {
@@ -23,7 +26,7 @@ namespace Eclipse
 {
 	class GameObject;
 	class ComponentManager;
-	class Component
+	class ECLIPSED_API Component : public Object
 	{
 		friend class ReplicatedVariable;
 		friend class Editor::EditorActions;

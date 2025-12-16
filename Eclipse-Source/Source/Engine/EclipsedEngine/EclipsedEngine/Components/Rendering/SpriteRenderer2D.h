@@ -9,6 +9,7 @@
 #include "CoreEngine/Math/Color.h"
 
 #include "AssetEngine/Assets/Material.h"
+#include "CoreEngine/Macros/defines.h"
 
 namespace Eclipse
 {
@@ -16,8 +17,8 @@ namespace Eclipse
     class Shader;
 
     class Transform2D;
-
-    class SpriteRenderer2D : public Component
+    
+    class ECLIPSED_API SpriteRenderer2D : public Component
     {
         COMPONENT_BASE_2(SpriteRenderer2D, 0)
 
@@ -38,8 +39,8 @@ namespace Eclipse
 
         void SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax);
 
-        void SetXMirror(bool aMirror) { mirroredX = aMirror; }
-        void SetYMirror(bool aMirror) { mirroredY = aMirror; }
+        void SetXMirror(bool aMirror);/* { mirroredX = aMirror; }*/
+        void SetYMirror(bool aMirror); /*{ mirroredY = aMirror; }*/
 
         //void DrawInspector() override;
 

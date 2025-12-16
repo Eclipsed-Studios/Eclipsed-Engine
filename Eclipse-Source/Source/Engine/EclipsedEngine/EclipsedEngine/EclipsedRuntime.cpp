@@ -23,10 +23,16 @@
 
 #include "AssetEngine/Resources.h"
 #include "AssetEngine/Assets/AudioClip.h"
+#include "EclipsedEngine/Components/Transform2D.h"
+#include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 
 
 namespace Eclipse
 {
+	template Transform2D* ComponentManager::GetComponent<Transform2D>(GameObjectID);
+	template SpriteRenderer2D* ComponentManager::GetComponent<SpriteRenderer2D>(GameObjectID);
+
+
 	void EclipsedRuntime::StartEngine(const std::string& path)
 	{
 		PathManager::Init(path);

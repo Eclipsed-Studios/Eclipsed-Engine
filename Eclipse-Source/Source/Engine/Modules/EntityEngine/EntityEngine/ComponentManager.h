@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <typeindex>
 #include <assert.h>
+#include "CoreEngine/Macros/defines.h"
 
 #define GetComp(Type, GOID)\
 ComponentManager::GetComponent<Type>(GOID)
@@ -26,7 +27,7 @@ namespace Eclipse
 
 	class GameObject;
 	class Component;
-	class ComponentManager
+	class ECLIPSED_API ComponentManager
 	{
 		friend class Editor::EditorActions;
 		friend class Editor::HierarchyWindow;

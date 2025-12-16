@@ -1,64 +1,80 @@
-#pragma once
-
-#include <thread>
-#include <mutex>
-
-#include "Message.h"
-//#include "MessageQueue.h"
-
-#include <unordered_map>
-
-namespace Eclipse
-{
-	class Client;
-	class GarantiedMessageHandler
-	{
-	public:
-		GarantiedMessageHandler(Client* aClientReference) : ClientReference(aClientReference)
-		{
-
-		}
-
-		~GarantiedMessageHandler()
-		{
-
-		}
-
-		void Update();
-		void Enqueue(const NetMessage& message);
-		void RecievedGarantied(const NetMessage& aMessage);
-
-		void UpdateDeltaTime(float deltaTime)
-		{
-			DeltaTime = deltaTime;
-		}
-
-	private:
-
-		std::mutex mapChangeMutex;
-
-		float TimeBetweenTryAgains = 0.1f;
-
-		Client* ClientReference;
-
-		//Temporary
-		float DeltaTime = 0.f;
-
-	public:
-		struct GarantiedMessage
-		{
-			GarantiedMessage(const NetMessage& aMessage)
-			{
-				memcpy(&message, &aMessage, 512);
-			}
-
-			float TryAgainTimer = 0;
-			NetMessage message;
-		};
-
-		//MessageQueue GarantiedMsgs;
-		std::unordered_map<unsigned, GarantiedMessage> GarantiedMsgs;
-
-		int toatlFailed;
-	};
-}
+//#pragma once
+//
+//#include <unordered_map>
+//#include <thread>
+//#include <mutex>
+//
+//#include "asio/asio/asio.hpp"
+//
+//#include "Message.h"
+//
+//namespace Eclipse
+//{
+//	using asio::ip::udp;
+//
+//	class Client;
+//
+//	template <class T>
+//	class GarantiedMessageHandler
+//	{
+//	public:
+//		GarantiedMessageHandler(void (T::* aSendDirectlyFunc)(NetMessage&, const udp::endpoint&), T* owner) : FunctionOwner(owner), SendDirectlyFunc(aSendDirectlyFunc)
+//		{
+//
+//		}
+//
+//		~GarantiedMessageHandler()
+//		{
+//
+//		}
+//
+//		void Update();
+//		void Enqueue(const NetMessage& message, const udp::endpoint& anEndpoint);
+//		void Enqueue(const NetMessage& message, const udp::endpoint& anEndpoint, const std::function<void()>& aLambdaFunctionToRunOnRecieve);
+//		void RecievedGarantied(const NetMessage& aMessage);
+//
+//		void UpdateDeltaTime(float deltaTime)
+//		{
+//			DeltaTime = deltaTime;
+//		}
+//
+//	private:
+//		float TimeBetweenTryAgains = 0.1f;
+//
+//		std::mutex mapChangeMutex;
+//
+//
+//		T* FunctionOwner;
+//		void (T::* SendDirectlyFunc)(NetMessage&, const udp::endpoint&);
+//
+//		//Temporary
+//		float DeltaTime = 0.f;
+//
+//	public:
+//		struct GarantiedMessage
+//		{
+//			GarantiedMessage(const NetMessage& aMessage, const udp::endpoint& anEndpoint) : endpoint(anEndpoint), HasLambda(false)
+//			{
+//				memcpy(&message, &aMessage, 512);
+//			}
+//			GarantiedMessage(const NetMessage& aMessage, const udp::endpoint& anEndpoint, const std::function<void()>& aLambdaToRunOnRecieve) : endpoint(anEndpoint), HasLambda(true), LambdaToRunOnRecieve(aLambdaToRunOnRecieve)
+//			{
+//				memcpy(&message, &aMessage, 512);
+//			}
+//
+//			udp::endpoint endpoint;
+//			NetMessage message;
+//
+//			float TryAgainTimer = 0;
+//			float TimeAtFirstSend = 0;
+//
+//			bool HasLambda;
+//			std::function<void()> LambdaToRunOnRecieve;
+//		};
+//
+//		//MessageQueue GarantiedMsgs;
+//		std::unordered_map<unsigned, GarantiedMessage> GarantiedMsgs;
+//
+//		int toatlFailed;
+//	};
+//}

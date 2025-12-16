@@ -25,6 +25,12 @@ namespace Eclipse
 		spriteRectMax = aMax * material->GetTexture().GetDimDivOne();
 	}
 
+	void SpriteRenderer2D::SetXMirror(bool aMirror) 
+	{
+		mirroredX = aMirror; 
+	}
+	void SpriteRenderer2D::SetYMirror(bool aMirror) { mirroredY = aMirror; }
+
 #pragma region --- Set Sprite
 	void SpriteRenderer2D::SetSprite(const char* aPath)
 	{
