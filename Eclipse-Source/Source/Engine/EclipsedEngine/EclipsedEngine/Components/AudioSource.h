@@ -18,16 +18,7 @@ namespace Eclipse
 
 	class AudioSource : public Component
 	{
-		//BASE_SELECTION(AudioSource, 0)
-
-		COMPONENT_FRIEND_CLASS																				\
-			BASE_OBJECT_IMPL(type)																				\
-	public:																								\
-			virtual unsigned GetUpdatePriority() const override { return updatePriority; }						\
-			inline type() = default;																			\
-			virtual ~type() = default;																			\
-			virtual const char* GetComponentName() override { return #type; }							\
-	protected:
+		BASE_SELECTION(AudioSource, 0)
 
 	public:
 		SERIALIZED_FIELD(AudioClip, hitSound);

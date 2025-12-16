@@ -5,7 +5,7 @@ namespace Eclipse
 	template<typename T>
 	TypeID TypeRegistry::GetTypeID()
 	{
-		static TypeID id = nextId++;
+		static TypeID id = gTypeRegistryNextID++;
 		return id;
 	}
 }

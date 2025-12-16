@@ -98,8 +98,6 @@ namespace Eclipse
 
 
 	public:
-		//SERIALIZED_FIELD_DEFAULT(bool, IsReplicated, false);
-
 		GameObject* gameObject;
 
 	protected:

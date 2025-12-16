@@ -2,21 +2,22 @@
 
 #include <unordered_map>
 
-//#include "CoreEngine/Macros/defines.h"
+#include "CoreEngine/Macros/defines.h"
 
 namespace Eclipse
 {
 	using TypeID = unsigned;
 
-	class TypeRegistry
+	class ECLIPSED_API TypeRegistry
 	{
 	public:
 		template<typename T>
 		static TypeID GetTypeID();
-
-	private:
-		inline static unsigned nextId = 0;
 	};
+
+	ECLIPSED_API extern unsigned gTypeRegistryNextID;
 }
+
+
 
 #include "TypeIDGenerator.inl"

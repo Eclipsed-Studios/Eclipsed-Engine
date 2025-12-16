@@ -2,7 +2,7 @@
 
 #include <string>
 
-#define BASE_OBJECT_IMPL(TYPE)
+
 
 
 namespace Eclipse
