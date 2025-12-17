@@ -8,6 +8,7 @@ namespace Eclipse
 {
 	class DebugLogger
 	{
+	public:
 		enum class MessageTypes;
 		struct ConsoleMessage;
 

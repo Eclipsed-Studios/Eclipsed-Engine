@@ -63,7 +63,7 @@ namespace Eclipse::Reflection
 			return *this;
 		}
 
-		void GetReplicationID()
+		unsigned GetReplicationID()
 		{
 			return ReplicatedVariableIndex;
 		}

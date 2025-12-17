@@ -11,6 +11,7 @@
 
 namespace Eclipse
 {
+
 	class ComponentManager;
 	class ECLIPSED_API GameObject
 	{
@@ -74,6 +75,6 @@ namespace Eclipse
 	template<typename T>
 	inline T* GameObject::GetComponent()
 	{
-		return ComponentManager::template GetComponent<T>(myID);
+		return  ComponentManager::template GetComponent<T>(myID);
 	}
 }

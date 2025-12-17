@@ -114,17 +114,17 @@ namespace Eclipse
             return;
         }
 
-        int backComponenetIndex = myComponents.back()->myComponentIndex;
-        unsigned backGameObject = *myComponents.back()->gameObject;
+        //int backComponenetIndex = myComponents.back()->myComponentIndex;
+        //unsigned backGameObject = *myComponents.back()->gameObject;
 
-        auto& backEntityIDComponents = myEntityIDToVectorOfComponentIDs.at(backGameObject);
+        //auto& backEntityIDComponents = myEntityIDToVectorOfComponentIDs.at(backGameObject);
 
-        myComponents.at(componentIndex) = myComponents.back();
-        myComponents.pop_back();
+        //myComponents.at(componentIndex) = myComponents.back();
+        //myComponents.pop_back();
 
-        for (auto& entity : backEntityIDComponents)
-            if (backComponenetIndex == entity.second)
-                backEntityIDComponents.at(entity.first) = componentIndex;
+        //for (auto& entity : backEntityIDComponents)
+        //    if (backComponenetIndex == entity.second)
+        //        backEntityIDComponents.at(entity.first) = componentIndex;
     }
 
 }
