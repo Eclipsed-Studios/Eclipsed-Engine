@@ -1,4 +1,4 @@
-#include "C:/Projects/Eclipsed/Eclipsed-Engine/Eclipse-Source/build/Source/Engine/Modules/CoreEngine/CMakeFiles/CoreEngine.dir/Debug/cmake_pch.hxx"
+#include "MainSingleton.h"
 
 void Eclipse::MainSingleton::Destroy()
 {
