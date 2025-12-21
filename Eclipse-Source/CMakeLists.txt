@@ -18,7 +18,20 @@ add_compile_definitions(
 set_property(GLOBAL PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
 
 
+# Declare cache variable with a default value if not set
+if(NOT DEFINED EXE_OUTPUT_DIR OR EXE_OUTPUT_DIR STREQUAL "")
+    set(EXE_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/Bin" CACHE PATH "Where to place executables" FORCE)
+else()
+    # Make sure it's in the cache without overwriting
+    set(EXE_OUTPUT_DIR "${EXE_OUTPUT_DIR}" CACHE PATH "Where to place executables")
+endif()
 
+# set(EXE_OUTPUT_DIR "${EXE_OUTPUT_DIR}"
+#     CACHE PATH "Where to place executables")
+
+# if(NOT EXE_OUTPUT_DIR)
+#     set(EXE_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/Bin" CACHE PATH "Where to place executables")
+# endif()
 
 
 # ---- Externals
