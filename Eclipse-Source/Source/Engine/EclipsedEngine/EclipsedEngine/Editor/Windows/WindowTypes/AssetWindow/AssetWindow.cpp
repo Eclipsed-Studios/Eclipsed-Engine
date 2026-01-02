@@ -9,12 +9,20 @@
 #include "EclipsedEngine/Editor/Common/DragAndDrop.h"
 #include "CoreEngine/Math/CommonMath.h"
 
+#include "CoreEngine/Files/FileWatcher.h"
+
 namespace Eclipse::Editor
 {
 	void AssetWindow::Open()
 	{
 		dirTree = Utilities::DirectoryTree(PathManager::GetAssetDir());
 		Active_View_Node = dirTree.GetRoot();
+
+		FileWatcher::Subscribe(PathManager::GetAssetDir().generic_string(),
+			[this](const Editor::FileWatcherEvent& e)
+			{
+				shouldReloadAssets = true;
+			});
 	}
 
 	void AssetWindow::Update()
@@ -24,6 +32,16 @@ namespace Eclipse::Editor
 		DrawAssetView();
 
 		ctxMenu.Draw();
+
+		if (shouldReloadAssets)
+		{
+			shouldReloadAssets = false;
+			dirTree.Reload();
+			Active_View_Node = dirTree.GetRoot();
+
+			IconManager::LoadAllTextureIcons();
+			IconManager::ExportLoadedTextures();
+		}
 	}
 
 	void AssetWindow::LoadAssets()
@@ -110,7 +128,10 @@ namespace Eclipse::Editor
 		namespace fs = std::filesystem;
 
 		std::string pathCombiner = PathManager::GetAssetDir().generic_string();
-		fs::path p = std::string("Assets/") + Active_View_Node->info.relativeFilePath.string();
+
+		fs::path p = std::string("Assets");
+		if(Active_View_Node != nullptr) p /= Active_View_Node->info.relativeFilePath.string();
+
 		for (auto& path : p)
 		{
 			if (path.empty()) return;
@@ -248,7 +269,11 @@ namespace Eclipse::Editor
 		ImGui::PopStyleColor();
 		ImGui::PopFont();
 
+		if (node != nullptr)
+		{
 		DragAndDrop::BeginSource(node->info.relativeFilePath.string().c_str(), node->info.relativeFilePath.string().size(), node->info);
+
+		}
 
 		std::string label = node->info.filePath.filename().string();
 		const float maxSize = buttonSize - 86.f;
@@ -340,4 +365,5 @@ namespace Eclipse::Editor
 			break;
 		}
 	}
+
 }

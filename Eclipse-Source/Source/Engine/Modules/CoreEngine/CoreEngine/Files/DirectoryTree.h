@@ -19,6 +19,8 @@ namespace Eclipse::Utilities
 		DirectoryTree() = default;
 		DirectoryTree(const std::filesystem::path& path);
 
+		void Reload();
+
 	private:
 		void Internal_SetupRoot(const std::filesystem::path& path);
 		void Internal_BuildChildren(std::unique_ptr<FileNode>& node) const;
@@ -30,6 +32,11 @@ namespace Eclipse::Utilities
 		const FileNode* GetRoot() const;
 
 		FileNode* GetNode(const std::filesystem::path& path);
+
+	public:
+		void Insert(const char* path);
+		void Remove(const char* path);
+		FileNode* Find(const char* path);
 
 	private:
 		std::unique_ptr<FileNode> root = nullptr;

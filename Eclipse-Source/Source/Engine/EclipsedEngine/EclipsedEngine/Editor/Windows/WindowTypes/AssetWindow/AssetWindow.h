@@ -25,6 +25,7 @@ namespace Eclipse::Editor
 
 
 		void OpenFile(const Utilities::FileInfo& fifo);
+		void OnFileAdded(const Editor::FileWatcherEvent& e);
 
 	private:
 		bool CheckFileDoubleClicked();
@@ -50,6 +51,8 @@ namespace Eclipse::Editor
 		Utilities::FileNode* Active_Hierarchy_Node;
 
 		AssetWindowContextMenu ctxMenu{};
+
+		bool shouldReloadAssets = 0;
 
 	public:
 		static inline std::filesystem::path ActivePath;
