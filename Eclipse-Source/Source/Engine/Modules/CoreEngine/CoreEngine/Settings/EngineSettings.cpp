@@ -11,9 +11,6 @@ namespace Eclipse
 	{
 		if (!fileOpenend) return;
 
-		Engine_Name = doc[STRINGIFY(Engine_Name)].GetString();
-		Engine_Version = doc[STRINGIFY(Engine_Version)].GetString();
-
 		{
 			rapidjson::Value& resVal = doc[STRINGIFY(Resolution)];
 

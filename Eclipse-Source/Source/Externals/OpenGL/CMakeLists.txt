@@ -1,4 +1,5 @@
 find_package(OpenGL REQUIRED)
+include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 
 cmake_minimum_required(VERSION 3.19.2)
 
@@ -19,7 +20,12 @@ target_link_libraries(Opengl INTERFACE
 )
 
 set_target_properties(Opengl PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Libs"
+    ARCHIVE_OUTPUT_DIRECTORY "${EXE_OUTPUT_DIR}/Libs"
+    ARCHIVE_OUTPUT_DIRECTORY                "${EXE_OUTPUT_DIR}/Libs"
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG          "${EXE_OUTPUT_DIR}/Libs"
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE        "${EXE_OUTPUT_DIR}/Libs"
+    ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${EXE_OUTPUT_DIR}/Libs"
+    ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL     "${EXE_OUTPUT_DIR}/Libs"
 )
 
 set_target_properties(Opengl PROPERTIES FOLDER "Externals")
