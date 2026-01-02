@@ -40,9 +40,9 @@ namespace Eclipse::Reflection
 		ResolveTypeInfo();
 		ImGuiDataType iType = GetImGuiType();
 
-		bool drawDefualt = pComponent->DrawDefaultInspector();
+		//bool drawDefualt = pComponent->DrawDefaultInspector();
 
-		if (drawDefualt)
+		if (/*drawDefault*/true)
 		{
 			int size = 0;
 			int elements = 1;
@@ -144,9 +144,9 @@ namespace Eclipse::Reflection
 			ImGui::SetCursorPosX(startPos.x);
 		}
 
+		pComponent->OnDrawInspector();
 		if (pComponent->HasDrawInspector())
 		{
-			pComponent->OnDrawInspector();
 		}
 	}
 
