@@ -12,6 +12,26 @@ namespace Eclipse::Utilities
 		Internal_BuildChildren(root);
 	}
 
+	void DirectoryTree::Reload()
+	{
+		Internal_SetupRoot(relativePath);
+		Internal_BuildChildren(root);
+	}
+
+	void DirectoryTree::Insert(const char* path)
+	{
+
+	}
+
+	void DirectoryTree::Remove(const char* path)
+	{
+	}
+
+	FileNode* DirectoryTree::Find(const char* path)
+	{
+		return nullptr;
+	}
+
 	void DirectoryTree::Internal_SetupRoot(const std::filesystem::path& path)
 	{
 		root = std::make_unique<FileNode>();
@@ -58,7 +78,10 @@ namespace Eclipse::Utilities
 
 	FileNode* DirectoryTree::Internal_GetNode(const std::filesystem::path& path, std::unique_ptr<FileNode>& node)
 	{
-		if (std::filesystem::equivalent(node->info.filePath, path))
+		std::filesystem::path lhs = node->info.filePath;
+		std::filesystem::path rhs = path;
+
+		if (std::filesystem::equivalent(lhs, rhs))
 			return node.get();
 
 		for (auto& child : node->children)
