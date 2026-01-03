@@ -127,7 +127,7 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		std::string pathCombiner = PathManager::GetAssetDir().generic_string();
+		std::filesystem::path pathCombiner = PathManager::GetAssetDir();
 
 		fs::path p = std::string("Assets");
 		if(Active_View_Node != nullptr) p /= Active_View_Node->info.relativeFilePath.string();
@@ -146,8 +146,8 @@ namespace Eclipse::Editor
 				ImGui::Text(">");
 				ImGui::PopFont();
 
-				pathCombiner += path.string();
-				pathCombiner.push_back('/');
+				pathCombiner /= path.string();
+				//pathCombiner.push_back('/');
 				ImGui::SameLine();
 			}
 
