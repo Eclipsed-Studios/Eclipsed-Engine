@@ -101,7 +101,7 @@ namespace Eclipse
 		if (aProgramID)
 			shaderID = aProgramID;
 
-		if (hasSprite)
+		if (sprite.IsValid())
 		{
 			material->BindShader();
 			sprite->Bind();

@@ -60,6 +60,7 @@ namespace Eclipse::Reflection
 		SerializedVariable<T>& operator=(const T& aValue) noexcept
 		{
 			data = aValue;
+			hasData = true;
 			return *this;
 		}
 

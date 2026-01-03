@@ -120,8 +120,8 @@ namespace Eclipse::Reflection
 
 		bool IsValid() const;
 
-	protected:
 		bool hasData = false;
+	protected:
 
 		const char* name = "";
 		Component* pComponent = nullptr;
