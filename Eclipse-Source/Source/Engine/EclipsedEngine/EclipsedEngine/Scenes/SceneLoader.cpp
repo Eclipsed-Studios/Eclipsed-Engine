@@ -131,16 +131,19 @@ namespace Eclipse
 			if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
 			{
 				Reflection::SerializedVariable<Texture>* asset = (Reflection::SerializedVariable<Texture>*)aSerialized;
+				if (!asset->Get().IsValid()) return;
 				id = asset->Get().GetAssetID();
 			}
 			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material)
 			{
 				Reflection::SerializedVariable<Material>* asset = (Reflection::SerializedVariable<Material>*)aSerialized;
+				if (!asset->Get().IsValid()) return;
 				id = asset->Get().GetAssetID();
 			}
 			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
 			{
 				Reflection::SerializedVariable<AudioClip>* asset = (Reflection::SerializedVariable<AudioClip>*)aSerialized;
+				if (!asset->Get().IsValid()) return;
 				id = asset->Get().GetAssetID();
 			}
 
