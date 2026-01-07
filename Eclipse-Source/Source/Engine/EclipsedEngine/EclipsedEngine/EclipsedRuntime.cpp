@@ -31,6 +31,7 @@
 #include "NetworkEngine/Client/Client.h"
 #include "NetworkEngine/Server/Server.h"
 
+#include "Settings/SettingsRegistry.h"
 
 namespace Eclipse
 {
@@ -41,6 +42,7 @@ namespace Eclipse
 	void EclipsedRuntime::StartEngine(const std::string& path)
 	{
 		PathManager::Init(path);
+
 
 		Assets::AssetPipeline::Init();
 
@@ -72,6 +74,7 @@ namespace Eclipse
 		engine.Init();
 
 		AudioManager::Init();
+		//Settings::SettingsRegistry::SaveDefaults();
 
 		{ // PHYSICS
 			b2DebugDraw debugDraw = { 0 };
@@ -88,6 +91,8 @@ namespace Eclipse
 					ComponentManager::EndCollisions(aUserData.gameobject);
 				};
 		}
+
+		Settings::SettingsRegistry::Load();
 	}
 
 	void EclipsedRuntime::UpdateGame()
@@ -125,6 +130,7 @@ namespace Eclipse
 	}
 	void EclipsedRuntime::Shutdown()
 	{
+		Settings::SettingsRegistry::Save();
 		MainSingleton::Destroy();
 	}
 

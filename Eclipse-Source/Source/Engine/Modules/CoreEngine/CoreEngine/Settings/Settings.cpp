@@ -8,10 +8,12 @@
 
 namespace Eclipse
 {
-	Settings::Settings(const char* path) : relPath(path)
+	HejsanKOmis::HejsanKOmis(const char* path) : relPath(path)
 	{
 		std::ifstream ifs(PathManager::GetConfigDir() / relPath);
 		if (!ifs.is_open()) {
+			ifs.close();
+			Save();
 			return;
 		}
 
@@ -24,7 +26,12 @@ namespace Eclipse
 		fileOpenend = true;
 	}
 
-	Settings::~Settings()
+	HejsanKOmis::~HejsanKOmis()
+	{
+		Save();
+	}
+
+	void HejsanKOmis::Save()
 	{
 		rapidjson::Document::AllocatorType& allocator = doc.GetAllocator();
 

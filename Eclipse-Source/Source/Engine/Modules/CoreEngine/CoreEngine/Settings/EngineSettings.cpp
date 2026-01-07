@@ -7,7 +7,7 @@
 
 namespace Eclipse
 {
-	EngineSettings::EngineSettings() : Settings("settings.json")
+	EngineSettings::EngineSettings() : HejsanKOmis("settings.json")
 	{
 		if (!fileOpenend) return;
 
@@ -38,12 +38,14 @@ namespace Eclipse
 
 	const std::string& EngineSettings::GetEngineName()
 	{
-		return Engine_Name;
+		static std::string name = "Eclipsed Engine";
+		return name;
 	}
 
 	const std::string& EngineSettings::GetEngineVersion()
 	{
-		return Engine_Version;
+		static std::string version = "0.1.0";
+		return version;
 	}
 
 	const Math::Vector2i& EngineSettings::GetResolution() const
