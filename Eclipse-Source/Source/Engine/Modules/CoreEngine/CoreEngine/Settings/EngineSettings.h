@@ -6,7 +6,7 @@
 
 namespace Eclipse
 {
-	class EngineSettings : public Settings
+	class EngineSettings : public HejsanKOmis
 	{
 	public:
 		EngineSettings();
@@ -31,9 +31,6 @@ namespace Eclipse
 		float& GetGameResolutionRation() ;
 
 	private:
-		std::string Engine_Name = "Eclipsed";
-		std::string Engine_Version = "0.0.0";
-
 		Math::Vector2i Resolution = { 1280, 720 };
 		Math::Vector2f myOneDivResolution = { 0.f, 0.f };
 		float myResolutionRatio = 0.f;

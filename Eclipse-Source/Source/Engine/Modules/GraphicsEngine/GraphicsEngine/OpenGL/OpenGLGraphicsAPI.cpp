@@ -1,6 +1,7 @@
 #include "OpenGLGraphicsAPI.h"
 
 #include <stdio.h>
+#include <string>
 #include <iostream>
 
 #include "CoreEngine/Math/Vector/Vector2.h"

@@ -205,7 +205,7 @@ namespace Eclipse::Editor
 
 		using namespace rapidjson;
 
-		std::ifstream ifs(PathManager::GetEngineLocal() / "editor.json");
+		std::ifstream ifs(PathManager::GetConfigDir() / "editor.json");
 		if (!ifs.is_open()) {
 
 		}

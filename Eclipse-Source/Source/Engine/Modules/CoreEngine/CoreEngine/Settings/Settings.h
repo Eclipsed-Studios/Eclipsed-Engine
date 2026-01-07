@@ -5,11 +5,14 @@
 
 namespace Eclipse
 {
-	class Settings
+	class HejsanKOmis
 	{
 	public:
-		Settings(const char* path);
-		~Settings();
+		HejsanKOmis(const char* path);
+		~HejsanKOmis();
+
+	public:
+		void Save();
 
 	public:
 		template<typename T>
