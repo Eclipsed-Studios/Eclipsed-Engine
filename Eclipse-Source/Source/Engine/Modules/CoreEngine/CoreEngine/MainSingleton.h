@@ -24,8 +24,8 @@ namespace Eclipse
         template<typename T>
         static T& GetInstance();
 
-        template<typename T>
-        static T& RegisterInstance( bool useDestructor = false);
+        template<typename T, typename ...Args>
+        static T& RegisterInstance( bool useDestructor = false, Args&&... args);
 
         template<typename T>
         static bool Exists();

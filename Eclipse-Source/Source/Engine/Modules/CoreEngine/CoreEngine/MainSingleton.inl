@@ -27,12 +27,12 @@ namespace Eclipse
         throw std::runtime_error("Singleton not registered.");
     }
 
-    template<typename T>
-    inline T& MainSingleton::RegisterInstance(bool useDestructor)
+    template<typename T, typename ...Args>
+    inline T& MainSingleton::RegisterInstance(bool useDestructor, Args&&... args)
     {
         SingletonEntry instance;
 
-        instance.instance = new T();
+        instance.instance = new T(std::forward<Args>(args)...);
         instance.useDestructor = useDestructor;
         instance.deleter = [](void* ptr) {delete static_cast<T*>(ptr);};
 

@@ -9,7 +9,7 @@
 struct b2Polygon;
 namespace Eclipse
 {
-    class Collider2D : public Component
+    class ECLIPSED_API Collider2D : public Component
     {
         BASE_SELECTION(Collider2D)
 

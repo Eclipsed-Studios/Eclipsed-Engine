@@ -107,6 +107,8 @@ namespace Eclipse
 
 
 	public:
+		//SERIALIZED_FIELD_DEFAULT(bool, IsReplicated, true);
+
 		GameObject* gameObject;
 
 		unsigned myInstanceComponentID = 0;

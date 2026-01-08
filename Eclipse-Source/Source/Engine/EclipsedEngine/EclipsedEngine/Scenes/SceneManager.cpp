@@ -68,8 +68,9 @@ namespace Eclipse
 
 		auto voi = PathManager::GetEngineLocal();
 
+		auto paths = PathManager::GetEngineLocal() / "EngineSettings.json";
 
-		std::ifstream in(PathManager::GetEngineLocal() / "EngineSettings.json");
+		std::ifstream in(paths);
 
 		std::string jsonString((std::istreambuf_iterator<char>(in)),
 			std::istreambuf_iterator<char>());

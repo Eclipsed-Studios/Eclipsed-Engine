@@ -6,9 +6,7 @@
 #include "PhysicsEngine/PhysicsEngine.h"
 #include "EntityEngine/ComponentManager.h"
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
-//#ifdef ECLIPSED_EDITOR
-//#include "CoreEngine/PhysicsDebugDrawer/PhysicsDebugDrawer.h"
-//#endif
+
 #include "AssetEngine/AssetPipeline.h"
 
 #include "CoreEngine/PathManager.h"
@@ -26,12 +24,14 @@
 #include "EclipsedEngine/Components/Transform2D.h"
 #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 
-#include "NetworkEngine/Replication/ReplicationManager.h"
+#include "Replication/ReplicationManager.h"
 
 #include "NetworkEngine/Client/Client.h"
 #include "NetworkEngine/Server/Server.h"
 
 #include "Settings/SettingsRegistry.h"
+
+#include "EclipsedEngine/Editor/PhysicsDebugDrawer.h"
 
 namespace Eclipse
 {
@@ -79,7 +79,7 @@ namespace Eclipse
 		{ // PHYSICS
 			b2DebugDraw debugDraw = { 0 };
 
-			//PhysicsDebugDrawer::Init(&debugDraw);
+			PhysicsDebugDrawer::Init(&debugDraw);
 
 			PhysicsEngine::Init(8, { 0.f, -9.81f }, debugDraw);
 			PhysicsEngine::myBeginContactCallback = [](UserData& aUserData)

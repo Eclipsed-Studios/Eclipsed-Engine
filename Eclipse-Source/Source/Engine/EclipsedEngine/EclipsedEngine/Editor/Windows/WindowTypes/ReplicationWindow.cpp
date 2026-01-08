@@ -2,7 +2,7 @@
 
 #include "ImGui/imgui.h"
 
-#include "NetworkEngine/Replication/ReplicationManager.h"
+#include "EclipsedEngine/Replication/ReplicationManager.h"
 
 namespace Eclipse::Editor
 {

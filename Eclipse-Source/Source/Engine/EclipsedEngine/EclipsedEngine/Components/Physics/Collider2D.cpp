@@ -17,7 +17,7 @@ namespace Eclipse
             PhysicsEngine::DeleteShape(&myInternalCollider);
             PhysicsEngine::DeleteBody(&myBodyRef);
         }
-        else if (rigidBody)
+        else if (rigidBody && rigidBody->bodyHasBeenCreated)
         {
             PhysicsEngine::DeleteShape(&myInternalCollider);
         }

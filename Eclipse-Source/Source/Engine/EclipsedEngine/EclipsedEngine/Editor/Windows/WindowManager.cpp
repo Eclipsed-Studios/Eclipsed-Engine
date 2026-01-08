@@ -14,7 +14,7 @@
 #include "CoreEngine/MainSingleton.h"
 #include "CoreEngine/Settings/EngineSettings.h"
 
-#include "NetworkEngine/Replication/ReplicationManager.h"
+#include "EclipsedEngine/Replication/ReplicationManager.h"
 
 namespace Eclipse::Editor
 {
@@ -141,17 +141,15 @@ namespace Eclipse::Editor
 
 			if (ImGui::BeginMenu("Network"))
 			{
-				ImGui::Text("This code is commented.");
+				ImGui::Checkbox("##Start Server Checkbox", &Replication::ReplicationManager::startServer);
+				ImGui::SameLine();
+				ImGui::Text("Start Server");
 
-				//ImGui::Checkbox("##Start Server Checkbox", &Replication::ReplicationManager::startServer);
-				//ImGui::SameLine();
-				//ImGui::Text("Start Server");
+				ImGui::Checkbox("##Start Client Checkbox", &Replication::ReplicationManager::startClient);
+				ImGui::SameLine();
+				ImGui::Text("Start Client");
 
-				//ImGui::Checkbox("##Start Client Checkbox", &Replication::ReplicationManager::startClient);
-				//ImGui::SameLine();
-				//ImGui::Text("Start Client");
-
-				//ImGui::EndMenu();
+				ImGui::EndMenu();
 			}
 
 			ImGui::SameLine(ImGui::GetWindowWidth() - (ImGui::CalcTextSize("Debug").x * 2) + 10);

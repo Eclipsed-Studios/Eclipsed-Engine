@@ -18,6 +18,8 @@
 
 #include "Font-Awesome/7/IconsFontAwesome7.h"
 
+#include "InspectorWindow.h"
+
 namespace Eclipse::Editor
 {
 	void HierarchyWindow::HierarchyButton(GameObject* aGameObject, float totalIndent)
