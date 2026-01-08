@@ -7,7 +7,7 @@
 #include "AssetEngine/AssetRegistry.h"
 #include "CoreEngine/PathManager.h"
 
-#include "AssetEngine/Resources.h"#
+#include "AssetEngine/Resources.h"
 #include <fstream>
 
 namespace Eclipse::Assets

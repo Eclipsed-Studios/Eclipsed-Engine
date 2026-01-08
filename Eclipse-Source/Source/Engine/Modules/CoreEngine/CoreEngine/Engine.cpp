@@ -18,7 +18,7 @@ namespace Eclipse
 	{
 		PlatformIntegration::IntegrationManager::Update();
 
-		Time::Init();
+		Time::Update();
 		Input::Update();
 	}
 	void Engine::End()

@@ -6,7 +6,7 @@
 
 namespace Eclipse
 {
-    class BoxCollider2D : public Collider2D
+    class ECLIPSED_API BoxCollider2D : public Collider2D
     {
         BASE_SELECTION(BoxCollider2D, 5)
 

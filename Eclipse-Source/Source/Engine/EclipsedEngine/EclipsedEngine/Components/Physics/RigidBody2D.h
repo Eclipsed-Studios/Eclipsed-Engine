@@ -12,7 +12,7 @@
 
 namespace Eclipse
 {
-    class RigidBody2D : public Component
+    class ECLIPSED_API RigidBody2D : public Component
     {
         BASE_SELECTION(RigidBody2D, 10)
 

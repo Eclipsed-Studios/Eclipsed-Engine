@@ -9,9 +9,9 @@ namespace Eclipse
     std::chrono::high_resolution_clock Time::clock;
     std::chrono::duration<float> Time::duration;
 
-    float Time::myDeltaTime;
-    float Time::myTotalTime;
-    float Time::myTimeScale;
+    float Time::myDeltaTime = 0;
+    float Time::myTotalTime = 0;
+    float Time::myTimeScale = 1;
 
     void Time::Init()
     {
