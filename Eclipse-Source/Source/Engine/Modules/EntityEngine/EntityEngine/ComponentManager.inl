@@ -62,7 +62,7 @@ namespace Eclipse
 
         T* component = new(ptrToComponent)T();
         component->SetComponentID(aComponentID);
-        component->gameObject = myEntityIdToEntity[aGOID];
+        component->gameObject = myEntityIdToEntity.at(aGOID);
         component->myComponentComponentID = typeIndex;
 
         myComponentsToStart.emplace_back(component);

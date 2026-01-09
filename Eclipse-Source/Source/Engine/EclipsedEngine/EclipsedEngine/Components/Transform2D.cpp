@@ -8,6 +8,19 @@
 
 namespace Eclipse
 {
+	void Transform2D::position_OnRep()
+	{
+
+	}
+	void Transform2D::rotation_OnRep()
+	{
+
+	}
+	void Transform2D::scale_OnRep()
+	{
+
+	}
+
 	void Transform2D::OnSceneLoaded()
 	{
 		gameObject->transform = this;
@@ -182,14 +195,14 @@ namespace Eclipse
 			lastPosition = position;
 			myIsDirty = true;
 
-			
+
 		}
 		if (scale->x != lastScale.x || scale->y != lastScale.y)
 		{
 			lastScale = scale;
 			myIsDirty = true;
 
-			
+
 		}
 		if (lastRotation != rotation)
 		{

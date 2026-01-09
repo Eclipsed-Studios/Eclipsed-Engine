@@ -7,14 +7,24 @@ namespace Eclipse::Replication
     class ReplicationHelper
     {
     public:
-        ReplicationHelper() = default;
-        ~ReplicationHelper() = default;
+        class ClientHelp
+        {
+        public:
+            static void RecieveAddComponentMessage(const NetMessage& message);
+            static void RecieveCreateObjectMessage(const NetMessage& message);
+            static void RecieveVariableMessage(const NetMessage& message);
 
-        static void RecieveAddComponentMessage(const NetMessage& message);
-        static void RecieveCreateObjectMessage(const NetMessage& message);
-        static void RecieveVariableMessage(const NetMessage& message);
-        
-        static void HandleRecieve(const NetMessage& message);
+            static void HandleRecieve(const NetMessage& message);
+        };
+
+    public:
+        class ServerHelp
+        {
+        public:
+            static void SendComponentScene();
+            static void HandleRequestedScene(const NetMessage& aMessage);
+
+            static void HandleRecieve(const NetMessage& aMessage);
+        };
     };
-
 }

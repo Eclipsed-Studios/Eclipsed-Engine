@@ -144,14 +144,19 @@ namespace Eclipse
 
 		unsigned typeIndex = Utilities::IDGenerator::GetID();
 
+		// This should not be here clarifictation, 
+		// If the object does not exist when adding component then you are not allowed to add a component to it)
+		// I keep it as a comment if somthing breaks and we can get it back
+	/*
 		if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
 		{
 			myEntityIdToEntity[aGOID] = CreateGameObject();
 		}
+	*/
 
 		Eclipse::Component* component = createFunc(ptrToComponent);
 		component->SetComponentID(aComponentID);
-		component->gameObject = myEntityIdToEntity[aGOID];
+		component->gameObject = myEntityIdToEntity.at(aGOID);
 		component->myComponentComponentID = typeIndex;
 
 		myComponentsToStart.emplace_back(component);
@@ -199,7 +204,7 @@ namespace Eclipse
 
 	bool ComponentManager::HasGameObject(GameObjectID aGOID)
 	{
-		return myEntityIDToVectorOfComponentIDs.find(aGOID) != myEntityIDToVectorOfComponentIDs.end();
+		return myEntityIdToEntity.find(aGOID) != myEntityIdToEntity.end();
 	}
 
 	void ComponentManager::CommitDestroy()

@@ -32,12 +32,12 @@ namespace Eclipse::Replication
 
    void ReplicationManager::CreateServer()
    {
-       server = &Eclipse::MainSingleton::RegisterInstance<Server>(false, ioContext);
+       server = &Eclipse::MainSingleton::RegisterInstance<Server>(false, ioContext, [](const NetMessage& aMessage){Replication::ReplicationHelper::ServerHelp::HandleRecieve(aMessage);});
    }
    void ReplicationManager::CreateClient()
    {
        const char* ip = "127.0.0.1";
-       client = &Eclipse::MainSingleton::RegisterInstance<Client>(false, ioContext, ip, [](const NetMessage& aMessage){Replication::ReplicationHelper::HandleRecieve(aMessage);});
+       client = &Eclipse::MainSingleton::RegisterInstance<Client>(false, ioContext, ip, [](const NetMessage& aMessage){Replication::ReplicationHelper::ClientHelp::HandleRecieve(aMessage);});
 
        NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_Connect, &ip, 1, true);
 

@@ -73,7 +73,6 @@ namespace Eclipse::Editor
 		std::stringstream idStream;
 		idStream << "ID: " << localID;
 
-		ImGui::SetNextItemWidth(ImGui::GetWindowWidth() - 36);
 		ImGui::Text(idStream.str().c_str());
 
 		ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 48);
@@ -104,6 +103,11 @@ namespace Eclipse::Editor
 		{
 			ImGui_Impl::DrawComponentHeader(comp->GetComponentName(), comp->myInspectorWasDrawn);
 			if (!comp->myInspectorWasDrawn) continue;
+
+			unsigned localComponentID = comp->myInstanceComponentID;
+			std::stringstream componentIDStream;
+			componentIDStream << "ID: " << localComponentID;
+			ImGui::Text(componentIDStream.str().c_str());
 
 			ImGui::Indent(20.f);
 			Reflection::ReflectionManager::DrawInspector(comp, comp->GetComponentName());
