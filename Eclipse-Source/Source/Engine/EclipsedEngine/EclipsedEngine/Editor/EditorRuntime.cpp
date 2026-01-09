@@ -154,7 +154,7 @@ namespace Eclipse::Editor
 
 				SceneLoader::Save(SceneManager::GetActiveScene());
 
-				//Replication::ReplicationManager::Start();
+				Replication::ReplicationManager::Start();
 
 				ImGui::End();
 				return;

@@ -9,11 +9,7 @@
 
 #include "asio/asio.hpp"
 
-#include "EclipsedEngine/Replication/ReplicationManager.h"
-#include "EclipsedEngine/Replication/ReplicatedVariable.h"
 #include <unordered_set>
-
-#include "EntityEngine/ComponentManager.h"
 
 namespace Eclipse
 {
@@ -38,11 +34,12 @@ namespace Eclipse
 			recieveThread.join();
 		}
 
-		Server(asio::io_context& ioContext) :
+		Server(asio::io_context& ioContext, std::function<void(const NetMessage& aNetMessage)> aHandleRecieveFunc) :
 			myIOContext(ioContext),
 			socket(ioContext, udp::endpoint(udp::v4(), asio::ip::port_type(18888))),
 			recieveThread(&Server::RecieveThread, this),
-			garantiedMessageHandler(&Server::SendDirectly_NoChecks, this)
+			garantiedMessageHandler(&Server::SendDirectly_NoChecks, this),
+			HandleRecieveFunc(aHandleRecieveFunc)
 		{
 			StartRecieve();
 			memset(recieveBuffer, 0, sizeof(recieveBuffer));
@@ -58,73 +55,9 @@ namespace Eclipse
 			socket.async_receive_from(asio::buffer(recieveBuffer), recieveEndpoint, std::bind(&Server::Recieve, this, asio::placeholders::error, asio::placeholders::bytes_transferred));
 		}
 
-		void SendComponentScene()
-		{
-			std::unordered_set<unsigned> ReplicatedGameObjects;
-
-			const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
-			for (auto& Variable : variableManager)
-				ReplicatedGameObjects.emplace(Variable.second->ConnectedComponent->gameObject->GetID());
-
-			for (const auto& gameobject : ReplicatedGameObjects)
-			{
-				std::vector<Component*> components = ComponentManager::GetComponents(gameobject);
-
-				for (const auto& component : components)
-				{
-					// if (!component->IsReplicated)
-					// 	continue;
-					NetMessage message;
-					Replication::ReplicationManager::CreateComponentMessage(component, message);
-
-					Server& server = Eclipse::MainSingleton::GetInstance<Server>();
-					server.Send(message, recieveEndpoint);
-				}
-			}
-		}
-
-		int TotalRecievedGO = 0;
-
-		void HandleRequestedScene(const NetMessage& aMessage)
-		{
-			std::unordered_set<unsigned> ReplicatedGameObjects;
-
-			const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
-			for (auto& Variable : variableManager)
-				//if (Variable.second->ConnectedComponent->IsReplicated)
-					ReplicatedGameObjects.emplace(Variable.second->ConnectedComponent->gameObject->GetID());
-
-			int Replgameobjectsize = ReplicatedGameObjects.size() - 1;
-
-			for (const auto& gameobject : ReplicatedGameObjects)
-			{
-				NetMessage message;
-				message = NetMessage::BuildGameObjectMessage(gameobject, MessageType::Msg_CreateObject, &message, 0, true);
-
-				Server& server = Eclipse::MainSingleton::GetInstance<Server>();
-				server.Send(message, recieveEndpoint, [Replgameobjectsize, this]() {
-
-					if (TotalRecievedGO++ >= Replgameobjectsize)
-					{
-						TotalRecievedGO = 0;
-						SendComponentScene();
-					}
-
-					});
-			}
-		}
-
 		void HandleRecieve(const NetMessage& aMessage)
 		{
-			switch (aMessage.MetaData.Type)
-			{
-			case MessageType::Msg_RequestSceneInfo:
-				HandleRequestedScene(aMessage);
-				break;
-
-			default:
-				break;
-			}
+			HandleRecieveFunc(aMessage);
 		}
 
 		void Recieve(const asio::error_code& error, std::size_t bytes_transferred)
@@ -194,11 +127,20 @@ namespace Eclipse
 				Send(&message, message.MetaData.dataSize, endpoint);
 		}
 
+		void SendToPrev(const NetMessage& message)
+		{
+			Send(&message, message.MetaData.dataSize, recieveEndpoint);
+		}
+
 		void Send(const NetMessage& message, const udp::endpoint& endpoint)
 		{
 			Send(&message, message.MetaData.dataSize, endpoint);
 		}
 
+		void SendPrev(const NetMessage& message, const std::function<void()>& aLambdaToRunAfterRecieve)
+		{
+			garantiedMessageHandler.Enqueue(message, recieveEndpoint, aLambdaToRunAfterRecieve);
+		}
 		void Send(const NetMessage& message, const udp::endpoint& endpoint, const std::function<void()>& aLambdaToRunAfterRecieve)
 		{
 			garantiedMessageHandler.Enqueue(message, endpoint, aLambdaToRunAfterRecieve);
@@ -215,6 +157,8 @@ namespace Eclipse
 		}
 
 	private:
+		std::function<void(const NetMessage& aNetMessage)> HandleRecieveFunc;
+
 		udp::socket socket;
 
 		char recieveBuffer[512]{};

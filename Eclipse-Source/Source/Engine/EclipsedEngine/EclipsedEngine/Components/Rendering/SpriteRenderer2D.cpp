@@ -1,11 +1,7 @@
 #include "SpriteRenderer2D.h"
 
 #include "EclipsedEngine/Components/Transform2D.h"
-
-//#include "AssetManagement/Resources/Shaders/Shader.h"
 #include "GraphicsEngine/Sprite.h"
-
-//#include "AssetManagement/Resources/Texture.h"
 
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 #include "GraphicsEngine/RenderCommands/CommandList.h"
@@ -14,20 +10,29 @@
 
 #include "OpenGL/glad/glad.h"
 
-#include "CoreEngine/PathManager.h"
 #include "AssetEngine/Resources.h"
 
 namespace Eclipse
 {
+	void SpriteRenderer2D::sprite_OnRep()
+	{
+
+	}
+	
+	void SpriteRenderer2D::material_OnRep()
+	{
+
+	}
+
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
 		spriteRectMin = aMin * material->GetTexture().GetDimDivOne();
 		spriteRectMax = aMax * material->GetTexture().GetDimDivOne();
 	}
 
-	void SpriteRenderer2D::SetXMirror(bool aMirror) 
+	void SpriteRenderer2D::SetXMirror(bool aMirror)
 	{
-		mirroredX = aMirror; 
+		mirroredX = aMirror;
 	}
 	void SpriteRenderer2D::SetYMirror(bool aMirror) { mirroredY = aMirror; }
 
@@ -101,7 +106,7 @@ namespace Eclipse
 		if (aProgramID)
 			shaderID = aProgramID;
 
-		
+
 
 		if (sprite.IsValid())
 		{
