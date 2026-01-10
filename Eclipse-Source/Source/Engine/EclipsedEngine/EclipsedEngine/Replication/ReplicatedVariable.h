@@ -4,6 +4,11 @@
 
 namespace Eclipse
 {
+    namespace Reflection
+    {
+        class AbstractSerializedVariable;
+    }
+
    class Component;
    namespace Replication
    {
@@ -11,7 +16,7 @@ namespace Eclipse
        class BaseReplicatedVariable
        {
        public:
-           void* myVariableAddress;
+           Reflection::AbstractSerializedVariable* myReflectVariable;
            bool ManualVariableSending;
            int dataAmount;
 

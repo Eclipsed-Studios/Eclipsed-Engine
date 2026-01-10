@@ -78,7 +78,7 @@ namespace Eclipse::Reflection
 		//#ifdef ECLIPSED_EDITOR
 		T myMin, myMax;
 		bool hasMinMax = false;
-	
+
 		bool isDrawn = false;
 		//#endif
 	};
