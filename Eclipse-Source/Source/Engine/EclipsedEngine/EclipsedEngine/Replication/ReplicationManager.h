@@ -54,6 +54,5 @@ namespace Eclipse::Replication
        static inline bool startedGame = false;
 
        static inline asio::io_context ioContext;
-   private:
    };
 }

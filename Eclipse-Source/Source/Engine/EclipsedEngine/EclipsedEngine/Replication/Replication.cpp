@@ -11,15 +11,17 @@
 #include "EclipsedEngine/Replication/ReplicationManager.h"
 #include "EclipsedEngine/Replication/ReplicatedVariable.h"
 
+#include <iostream>
+
 namespace Eclipse::Replication
 {
     void ReplicationHelper::ClientHelp::RecieveAddComponentMessage(const NetMessage& message)
     {
-        if (!ComponentManager::HasGameObject(message.MetaData.GameObjectID))
-        {
-            GameObject* gameobject = ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
-            gameobject->SetIsOwner(true);
-        }
+        // if (!ComponentManager::HasGameObject(message.MetaData.GameObjectID))
+        // {
+        //     GameObject* gameobject = ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
+        //     gameobject->SetIsOwner(true);
+        // }
 
         int ComponentID = 0;
         memcpy(&ComponentID, message.data, sizeof(int));
@@ -48,6 +50,8 @@ namespace Eclipse::Replication
             newCompoennt->Awake();
             newCompoennt->Start();
             newCompoennt->SetIsOwner(false);
+
+            newCompoennt->OnComponentAdded();
             });
     }
 
@@ -84,26 +88,27 @@ namespace Eclipse::Replication
 
         (component->*ReppedFunction)();
 
-        void* variableData = Variable->myVariableAddress;
+        void* variableData = Variable->myReflectVariable->GetData();
         memcpy(variableData, message.data + offset, dataAmount);
 
         offset += dataAmount;
 
+        /*myReflectVariable->GetData()
+            // Debug recieve numbers
+            static Math::Vector4f vec;
+            memcpy(vec.data, Variable->myReflectVariable->GetData(), dataAmount);
+            std::cout << replicationVarID << ", ";
+            if (dataAmount > 0)
+                std::cout << "  X: " << vec.X;
+            if (dataAmount > 4)
+                std::cout << "  Y: " << vec.Y;
+            if (dataAmount > 8)
+                std::cout << "  Z: " << vec.Z;
+            if (dataAmount > 12)
+                std::cout << "  W: " << vec.Z;
+            std::cout << std::endl;
+        */
 
-        // // Debug recieve numbers
-// static Math::Vector4f vec;
-// memcpy(vec.data, variableIt->second->myVariableAddress, dataAmount);
-// std::cout << replicationVarID << ", ";
-// if (dataAmount > 0)
-//     std::cout << "  X: " << vec.X;
-// if (dataAmount > 4)
-//     std::cout << "  Y: " << vec.Y;
-// if (dataAmount > 8)
-//     std::cout << "  Z: " << vec.Z;
-// if (dataAmount > 12)
-//     std::cout << "  W: " << vec.Z;
-
-// std::cout << std::endl;
     }
 
     void ReplicationHelper::ClientHelp::HandleRecieve(const NetMessage& message)

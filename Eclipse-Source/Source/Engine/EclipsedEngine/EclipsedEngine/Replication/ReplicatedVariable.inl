@@ -27,9 +27,9 @@ namespace Eclipse::Replication
            if (variable->GetName() == aName)
            {
                variable->ResolveTypeInfo();
-
                ManualVariableSending = !anAutomatic;
-               myVariableAddress = variable->GetData();
+               myReflectVariable = variable;
+               
                dataAmount = variable->GetSizeInBytes();
                variableExist = true;
                break;

@@ -42,11 +42,10 @@ namespace Eclipse::Reflection
 
 	void ReflectionManager::DrawInspector(Component* aComp, const char* name)
 	{
-		VariableList& list = registeredVariables[aComp];
+		VariableList& list = registeredVariables.at(aComp);
 
 		for (auto& element : list)
 		{
-
 			if (!element->canDrawInspector) continue;
 			element->DrawTest();
 

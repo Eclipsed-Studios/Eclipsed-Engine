@@ -186,6 +186,7 @@ namespace Eclipse
 	void GraphicsEngine::BeginFrame()
 	{
 		CommandListManager::GetHappenAtBeginCommandList().Execute();
+		CommandListManager::GetHappenAtBeginCommandList().Reset();
 
 		glfwMakeContextCurrent(myWindow);
 		glfwPollEvents();

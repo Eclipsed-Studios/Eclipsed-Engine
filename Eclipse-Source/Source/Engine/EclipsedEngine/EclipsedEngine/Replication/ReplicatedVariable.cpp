@@ -18,7 +18,7 @@ namespace Eclipse::Replication
         memcpy(data + offset, &dataAmount, sizeof(dataAmount));
         offset += sizeof(dataAmount);
 
-        memcpy(data + offset, myVariableAddress, dataAmount);
+        memcpy(data + offset, myReflectVariable->GetData(), dataAmount);
         offset += dataAmount;
 
         NetMessage message = NetMessage::BuildGameObjectMessage(ConnectedComponent->gameObject->GetID(), MessageType::Msg_Variable, data, offset, false);
