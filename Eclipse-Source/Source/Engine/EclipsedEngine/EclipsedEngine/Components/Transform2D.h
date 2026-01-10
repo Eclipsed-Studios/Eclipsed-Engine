@@ -54,9 +54,9 @@ namespace Eclipse
 		void AddFunctionToRunOnDirtyUpdate(const std::function<void()>& aFunction);
 
 	private:
-		REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, position, Math::Vector2f(4567, 745), Transform2D);
-		REPLICATED_SERIALIZED_FIELD_DEFAULT(float, rotation, 454, Transform2D);
-		REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(468, 5435), Transform2D);
+		REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, position, Math::Vector2f(0, 0), Transform2D);
+		REPLICATED_SERIALIZED_FIELD_DEFAULT(float, rotation, 0, Transform2D);
+		REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1), Transform2D);
 
 		Math::Vector2f lastPosition;
 		float lastRotation;
