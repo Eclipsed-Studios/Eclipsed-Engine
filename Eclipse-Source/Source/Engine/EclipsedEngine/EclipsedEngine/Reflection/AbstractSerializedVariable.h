@@ -63,7 +63,7 @@ namespace Eclipse::Reflection
 		};
 
 
-		std::unordered_map<ImGuiDataType, int> sizes = {
+		std::unordered_map<ImGuiDataType, size_t> sizes = {
 			{ImGuiDataType_S8, sizeof(char)},
 			{ImGuiDataType_U8, sizeof(unsigned char)},
 

@@ -137,7 +137,7 @@ namespace Eclipse
 			Send(&message, message.MetaData.dataSize, endpoint);
 		}
 
-		void SendPrev(const NetMessage& message, const std::function<void()>& aLambdaToRunAfterRecieve)
+		void SendToPrev(const NetMessage& message, const std::function<void()>& aLambdaToRunAfterRecieve)
 		{
 			garantiedMessageHandler.Enqueue(message, recieveEndpoint, aLambdaToRunAfterRecieve);
 		}

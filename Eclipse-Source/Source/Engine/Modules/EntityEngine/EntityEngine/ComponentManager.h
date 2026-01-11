@@ -10,6 +10,10 @@
 #include <assert.h>
 #include "CoreEngine/Macros/defines.h"
 
+#include <string>
+
+#include <functional>
+
 #define GetComp(Type, GOID)\
 ComponentManager::GetComponent<Type>(GOID)
 
@@ -38,6 +42,17 @@ namespace Eclipse
 		ComponentManager() = default;
 		~ComponentManager() = default;
 
+		static void SetCreateComponentReplicated(std::function<void(Component*)> aCreateComponentReplicated) { CreateComponentReplicated = aCreateComponentReplicated; }
+
+		static void SetDeleteReplicationComponent(std::function<void(unsigned)> aDeleteReplicatedComponent) { DeleteReplicatedComponent = aDeleteReplicatedComponent; }
+		static void SetDestroyGameObjectReplicated(std::function<void(unsigned)> aDestroyGameObjectReplicated) { DestroyGameObjectReplicated = aDestroyGameObjectReplicated; }
+
+		static void SetBeforeAfterComponentConstruction(std::function<void()> aBeforeComponentConstruction, std::function<void()> aAfterComponentConstruction)
+		{
+			BeforeComponentConstruction = aBeforeComponentConstruction;
+			AfterComponentConstruction = aAfterComponentConstruction;
+		}
+
 		static void Init();
 
 		static void OnAddedAllComponentsLoadScene();
@@ -64,13 +79,13 @@ namespace Eclipse
 		static T* GetComponent(unsigned aGOID);
 
 		template <typename T>
-		static T* AddComponent(unsigned aGOID);
+		static T* AddComponent(unsigned aGOID, bool IsReplicated = false);
 
 		template <typename T>
 		static void RemoveComponent(unsigned aGOID);
 
 		template <typename T>
-		static T* AddComponentWithID(unsigned aGOID, unsigned aComponentID);
+		static T* AddComponentWithID(unsigned aGOID, unsigned aComponentID, bool IsReplicated = false);
 
 
 		static Eclipse::Component* AddComponent(unsigned aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
@@ -102,11 +117,22 @@ namespace Eclipse
 		static void Clear();
 
 	private:
+		static inline std::function<void(Component*)> CreateComponentReplicated;
+
+
+		static inline std::function<void()> BeforeComponentConstruction;
+		static inline std::function<void()> AfterComponentConstruction;
+		
+		static inline std::function<void(unsigned)> DestroyGameObjectReplicated;
+		static inline std::function<void(unsigned)> DeleteReplicatedComponent;
+
+
 		static inline size_t myComponentMemoryTracker = 0;
 		static inline uint8_t* myComponentData;
 
 		static inline std::vector<Component*> myComponents;
 
+		static inline std::vector<Component*> myComponentsToStartNextFrame;
 		static inline std::vector<Component*> myComponentsToStart;
 
 		// Gameobject to components
@@ -114,6 +140,7 @@ namespace Eclipse
 		static inline std::unordered_map<unsigned, std::unordered_map<unsigned, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
 
 		static inline std::vector<unsigned> gameobjectsToRemove;
+
 	};
 }
 

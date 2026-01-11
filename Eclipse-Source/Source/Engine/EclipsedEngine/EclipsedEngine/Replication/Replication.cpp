@@ -45,6 +45,7 @@ namespace Eclipse::Replication
 
         std::string StringName = name;
         CommandListManager::GetHappenAtBeginCommandList().Enqueue([StringName, goid = message.MetaData.GameObjectID, ComponentID] {
+
             Component* newCompoennt = ComponentRegistry::GetAddComponent(StringName)(goid, ComponentID);
 
             newCompoennt->Awake();
@@ -53,35 +54,48 @@ namespace Eclipse::Replication
 
             newCompoennt->OnComponentAdded();
             });
+
     }
 
     void ReplicationHelper::ClientHelp::RecieveCreateObjectMessage(const NetMessage& message)
     {
+        if (ComponentManager::HasGameObject(message.MetaData.GameObjectID))
+            return;
+
+        GameObject* gameobject = ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
+        gameobject->SetIsOwner(false);
+    }
+
+    void ReplicationHelper::ClientHelp::RecieveDeleteObjectMessage(const NetMessage& message)
+    {
         if (!ComponentManager::HasGameObject(message.MetaData.GameObjectID))
-        {
-            GameObject* gameobject = ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
-            gameobject->SetIsOwner(false);
-        }
+            return;
+
+        ComponentManager::Destroy(message.MetaData.GameObjectID);
     }
 
     void ReplicationHelper::ClientHelp::RecieveVariableMessage(const NetMessage& message)
     {
-        int replicationVarID = 0;
+        unsigned replicationVarIndex = 0;
+        unsigned componentID = 0;
         int dataAmount = 0;
 
         size_t offset = 0;
 
-        memcpy(&replicationVarID, message.data + offset, sizeof(replicationVarID));
-        offset += sizeof(replicationVarID);
+        memcpy(&componentID, message.data + offset, sizeof(componentID));
+        offset += sizeof(componentID);
+
+        memcpy(&replicationVarIndex, message.data + offset, sizeof(replicationVarIndex));
+        offset += sizeof(replicationVarIndex);
 
         memcpy(&dataAmount, message.data + offset, sizeof(dataAmount));
         offset += sizeof(dataAmount);
 
-        auto variableIt = Replication::ReplicationManager::RealReplicatedVariableList.find(replicationVarID);
+        auto variableIt = Replication::ReplicationManager::RealReplicatedVariableList.find(componentID);
         if (variableIt == Replication::ReplicationManager::RealReplicatedVariableList.end())
             return;
 
-        Replication::ReplicatedVariable<Component>* Variable = reinterpret_cast<Replication::ReplicatedVariable<Component>*>(variableIt->second);
+        Replication::ReplicatedVariable<Component>* Variable = reinterpret_cast<Replication::ReplicatedVariable<Component>*>(variableIt->second[replicationVarIndex]);
 
         Component* component = Variable->ConnectedComponent;
         const auto& ReppedFunction = Variable->OnRepFunction;
@@ -125,6 +139,11 @@ namespace Eclipse::Replication
             ReplicationHelper::ClientHelp::RecieveCreateObjectMessage(message);
         }
         break;
+        case MessageType::Msg_DeleteObject:
+        {
+            ReplicationHelper::ClientHelp::RecieveDeleteObjectMessage(message);
+        }
+        break;
         case MessageType::Msg_AddComponent:
         {
             ReplicationHelper::ClientHelp::RecieveAddComponentMessage(message);
@@ -133,15 +152,16 @@ namespace Eclipse::Replication
         }
     }
 
-
-
     void ReplicationHelper::ServerHelp::SendComponentScene()
     {
         std::unordered_set<unsigned> ReplicatedGameObjects;
 
         const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
         for (auto& Variable : variableManager)
-            ReplicatedGameObjects.emplace(Variable.second->ConnectedComponent->gameObject->GetID());
+        {
+            unsigned gameobjectID = Variable.second[0]->ConnectedComponent->gameObject->GetID();
+            ReplicatedGameObjects.emplace(gameobjectID);
+        }
 
         for (const auto& gameobject : ReplicatedGameObjects)
         {
@@ -149,46 +169,20 @@ namespace Eclipse::Replication
 
             for (const auto& component : components)
             {
-                // if (!component->IsReplicated)
-                // 	continue;
+                if (!component->IsReplicated)
+                	continue;
                 NetMessage message;
                 Replication::ReplicationManager::CreateComponentMessage(component, message);
 
                 Server& server = Eclipse::MainSingleton::GetInstance<Server>();
-                server.SendToPrev(message);
+                server.SendToPrev(message, []() { return; });
             }
         }
     }
 
     void ReplicationHelper::ServerHelp::HandleRequestedScene(const NetMessage& aMessage)
     {
-        static int TotalRecievedGO = 0;
-
-        std::unordered_set<unsigned> ReplicatedGameObjects;
-
-        const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
-        for (auto& Variable : variableManager)
-            //if (Variable.second->ConnectedComponent->IsReplicated)
-            ReplicatedGameObjects.emplace(Variable.second->ConnectedComponent->gameObject->GetID());
-
-        int Replgameobjectsize = ReplicatedGameObjects.size() - 1;
-
-        for (const auto& gameobject : ReplicatedGameObjects)
-        {
-            NetMessage message;
-            message = NetMessage::BuildGameObjectMessage(gameobject, MessageType::Msg_CreateObject, &message, 0, true);
-
-            Server& server = Eclipse::MainSingleton::GetInstance<Server>();
-            server.SendPrev(message, [Replgameobjectsize]() {
-
-                if (TotalRecievedGO++ >= Replgameobjectsize)
-                {
-                    TotalRecievedGO = 0;
-                    SendComponentScene();
-                }
-
-                });
-        }
+        SendComponentScene();
     }
 
     void ReplicationHelper::ServerHelp::HandleRecieve(const NetMessage& aMessage)

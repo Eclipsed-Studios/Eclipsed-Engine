@@ -14,95 +14,133 @@
 
 #include <functional>
 
+#include "EntityEngine/Component.h"
+
 namespace Eclipse::Replication
 {
-   void ReplicationManager::ReplicatedOnPlay()
-   {
-       for (auto& ReplicationVariable : PossibleReplicatedVariableList)
-       {
-           //if (ReplicationVariable.second->ConnectedComponent->IsReplicated)
-               RealReplicatedVariableList.emplace(ReplicationVariable);
-       }
-   }
+    void ReplicationManager::ReplicatedOnPlay()
+    {
+        for (auto& ReplicatedVariableLists : PossibleReplicatedVariableList)
+        {
+            RealReplicatedVariableList.emplace(ReplicatedVariableLists);
+        }
 
-   void ReplicationManager::ReplicateVariable(unsigned aID)
-   {
-       RealReplicatedVariableList.at(aID)->ReplicateThis(aID);
-   }
+        ReplicatedVariabpePtr = &RealReplicatedVariableList;
+    }
 
-   void ReplicationManager::CreateServer()
-   {
-       server = &Eclipse::MainSingleton::RegisterInstance<Server>(false, ioContext, [](const NetMessage& aMessage){Replication::ReplicationHelper::ServerHelp::HandleRecieve(aMessage);});
-   }
-   void ReplicationManager::CreateClient()
-   {
-       const char* ip = "127.0.0.1";
-       client = &Eclipse::MainSingleton::RegisterInstance<Client>(false, ioContext, ip, [](const NetMessage& aMessage){Replication::ReplicationHelper::ClientHelp::HandleRecieve(aMessage);});
+    void ReplicationManager::ReplicateVariable(unsigned aComponentID, unsigned aVariableID)
+    {
+        RealReplicatedVariableList.at(aComponentID)[aVariableID]->ReplicateThis(aComponentID);
+    }
 
-       NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_Connect, &ip, 1, true);
+    void ReplicationManager::CreateServer()
+    {
+        server = &Eclipse::MainSingleton::RegisterInstance<Server>(false, ioContext, [](const NetMessage& aMessage) {Replication::ReplicationHelper::ServerHelp::HandleRecieve(aMessage);});
+    }
+    void ReplicationManager::CreateClient()
+    {
+        const char* ip = "127.0.0.1";
+        client = &Eclipse::MainSingleton::RegisterInstance<Client>(false, ioContext, ip, [](const NetMessage& aMessage) {Replication::ReplicationHelper::ClientHelp::HandleRecieve(aMessage);});
 
-       client->Send(message, [ip]() {
+        NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_Connect, &ip, 1, true);
 
-           NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_RequestSceneInfo, &ip, 1, true);
+        client->Send(message, [ip]() {
 
-           client->Send(message);
-           });
-   }
+            NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_RequestSceneInfo, &ip, 1, true);
 
-   void ReplicationManager::Start()
-   {
-       if (startedGame)
-           return;
+            client->Send(message);
+            });
+    }
 
-       if (startServer)
-           CreateServer();
+    void ReplicationManager::Start()
+    {
+        if (startedGame)
+            return;
 
-       if (startClient)
-           CreateClient();
+        if (startServer)
+            CreateServer();
 
-       ReplicatedOnPlay();
+        if (startClient)
+            CreateClient();
 
-       ReplicatedVariabpePtr = &RealReplicatedVariableList;
+        ReplicatedOnPlay();
 
-       startedGame = true;
-   }
+        startedGame = true;
+    }
 
-   void ReplicationManager::Update()
-   {
-       if (client)
-           client->Update();
-       if (server)
-           server->Update();
+    void ReplicationManager::Update()
+    {
+        if (client)
+            client->Update();
+        if (server)
+            server->Update();
 
-       static float timer = 0.f;
-       timer -= Time::GetDeltaTime();
+        static float timer = 0.f;
+        timer -= Time::GetDeltaTime();
 
-       if (timer <= 0)
-       {
-           for (auto& ReplicationVariable : RealReplicatedVariableList)
-           {
-               if (!ReplicationVariable.second->ManualVariableSending)
-                   ReplicationVariable.second->ReplicateThis(ReplicationVariable.first);
-           }
+        if (timer <= 0)
+        {
+            for (auto& [_, ReplicationVariableList] : RealReplicatedVariableList)
+            {
+                for (int i = 0; i < ReplicationVariableList.size(); i++)
+                {
+                    auto& Variable = ReplicationVariableList[i];
+                    if (!Variable->ManualVariableSending)
+                        Variable->ReplicateThis(i);
+                }
 
-           timer = 0.005f;
-       }
-   }
+            }
 
-   void ReplicationManager::CreateComponentMessage(Component* aComponent, NetMessage& outMessage)
-   {
-       char Data[512];
-       
-       const char* ComponentName = aComponent->GetComponentName();
-       
-       int LengthOfComponentName = strlen(ComponentName);
-       
-       memcpy(Data, &aComponent->myInstanceComponentID, sizeof(int));
-       memcpy(Data + sizeof(int), &LengthOfComponentName, sizeof(int));
-       memcpy(Data + sizeof(int) + sizeof(int), ComponentName, LengthOfComponentName);
+            timer = 0.005f;
+        }
+    }
 
-       int DataAmount = LengthOfComponentName + sizeof(int) + sizeof(int);
+    // This might be stupid if one thinks about it but if you only want the object then do that
+    void ReplicationManager::CreateGOMessage(int aGameobjectID, NetMessage& outMessage)
+    {
+        outMessage = NetMessage::BuildGameObjectMessage(aGameobjectID, MessageType::Msg_CreateObject, &aGameobjectID, 0, true);
+    }
 
-       outMessage = NetMessage::BuildGameObjectMessage(aComponent->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true);
-   }
+    void ReplicationManager::DeleteGOMessage(int aGameobjectID, NetMessage& outMessage)
+    {
+        outMessage = NetMessage::BuildGameObjectMessage(aGameobjectID, MessageType::Msg_DeleteObject, &aGameobjectID, 0, true);
+    }
+
+    void ReplicationManager::CreateComponentMessage(Component* aComponent, NetMessage& outMessage)
+    {
+        char Data[512];
+
+        const char* ComponentName = aComponent->GetComponentName();
+
+        int LengthOfComponentName = strlen(ComponentName);
+
+        memcpy(Data, &aComponent->myInstanceComponentID, sizeof(int));
+        memcpy(Data + sizeof(int), &LengthOfComponentName, sizeof(int));
+        memcpy(Data + sizeof(int) + sizeof(int), ComponentName, LengthOfComponentName);
+
+        int DataAmount = LengthOfComponentName + sizeof(int) + sizeof(int);
+
+        outMessage = NetMessage::BuildGameObjectMessage(aComponent->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true);
+    }
+
+
+    void ReplicationManager::SetBeforeReplicatedList()
+    {
+        BeforeReplicatedVariableList = &(*ReplicatedVariabpePtr);
+        ReplicatedVariabpePtr = &TemporaryReplicatedVariableList;
+    }
+
+    void ReplicationManager::SetAfterReplicatedList()
+    {
+        ReplicatedVariabpePtr = &(*BeforeReplicatedVariableList);
+
+        for (auto& [_, ReplicatedVariableList] : ReplicationManager::TemporaryReplicatedVariableList)
+        {
+            for (auto Var : ReplicatedVariableList)
+                (*ReplicatedVariabpePtr)[Var->ConnectedComponent->myInstanceComponentID].emplace_back(Var);
+        }
+
+        ReplicationManager::TemporaryReplicatedVariableList.erase(0);
+
+    }
 }

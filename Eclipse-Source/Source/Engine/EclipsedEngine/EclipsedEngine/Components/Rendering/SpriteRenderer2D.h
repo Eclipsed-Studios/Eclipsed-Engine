@@ -54,7 +54,7 @@ namespace Eclipse
         bool mirroredX = false;
         bool mirroredY = false;
 
-        REPLICATED_SERIALIZED_FIELD(Texture, sprite, SpriteRenderer2D);
-        REPLICATED_SERIALIZED_FIELD(Material, material, SpriteRenderer2D);
+        SERIALIZED_FIELD(Texture, sprite);
+        SERIALIZED_FIELD(Material, material);
     };
 }

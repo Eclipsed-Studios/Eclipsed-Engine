@@ -109,6 +109,8 @@ namespace Eclipse::Editor
 			componentIDStream << "ID: " << localComponentID;
 			ImGui::Text(componentIDStream.str().c_str());
 
+			ImGui::Checkbox("Is Replicated", &comp->IsReplicated);
+
 			ImGui::Indent(20.f);
 			Reflection::ReflectionManager::DrawInspector(comp, comp->GetComponentName());
 			ImGui::Unindent(20.f);

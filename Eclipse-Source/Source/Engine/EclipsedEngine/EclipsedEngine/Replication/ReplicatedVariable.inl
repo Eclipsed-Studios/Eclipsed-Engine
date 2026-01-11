@@ -38,6 +38,6 @@ namespace Eclipse::Replication
 
        assert(variableExist);
 
-       ReplicationManager::EmplaceReplicatedVariable(ID, this);
+       ReplicationManager::EmplaceReplicatedVariable(0, this);
    }
 }
