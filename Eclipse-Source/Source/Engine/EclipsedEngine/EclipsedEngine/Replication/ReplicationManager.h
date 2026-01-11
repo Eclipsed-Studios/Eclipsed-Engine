@@ -7,52 +7,74 @@
 
 namespace Eclipse
 {
-   class Client;
-   class Server;
-   class GameObject;
-   class Component;
+    class Client;
+    class Server;
+    class GameObject;
+    class Component;
 }
 
 namespace Eclipse::Replication
 {
-   class BaseReplicatedVariable;
+    class BaseReplicatedVariable;
 
-   class ReplicationManager
-   {
-   public:
-       friend class BaseReplicatedVariable;
+    class ReplicationManager
+    {
+    public:
+        friend class BaseReplicatedVariable;
 
-       ReplicationManager() = default;
-       ~ReplicationManager() = default;
+        ReplicationManager() = default;
+        ~ReplicationManager() = default;
 
-       static void ReplicatedOnPlay();
+        static void ReplicatedOnPlay();
 
-       static void ReplicateVariable(unsigned aID);
+        static void ReplicateVariable(unsigned aComponentID, unsigned aVariableID);
 
-       static void CreateServer();
-       static void CreateClient();
+        static void CreateServer();
+        static void CreateClient();
 
-       static void Start();
-       static void Update();
+        static void Start();
+        static void Update();
 
-       static void CreateComponentMessage(Eclipse::Component* aComponent, NetMessage& outMessage);
+        
+        static void CreateGOMessage(int aGameobjectID, NetMessage& outMessage);
+        static void DeleteGOMessage(int aGameobjectID, NetMessage& outMessage);
 
-       static void EmplaceReplicatedVariable(unsigned ID, BaseReplicatedVariable* ReplicatedVariable) { ReplicatedVariabpePtr->emplace(ID, ReplicatedVariable); }
+        static void CreateComponentMessage(Eclipse::Component* aComponent, NetMessage& outMessage);
 
-   public:
-       static inline std::unordered_map<unsigned, BaseReplicatedVariable*> PossibleReplicatedVariableList;
-       static inline std::unordered_map<unsigned, BaseReplicatedVariable*> RealReplicatedVariableList;
+        static void EmplaceReplicatedVariable(unsigned ComponentID, BaseReplicatedVariable* Variable)
+        {
+            // Suppose to add componentid if it does not exist
+            (*ReplicatedVariabpePtr)[ComponentID].emplace_back(Variable);
+        }
 
-       static inline std::unordered_map<unsigned, BaseReplicatedVariable*>* ReplicatedVariabpePtr = &PossibleReplicatedVariableList;
+        static void DeleteReplicatedComponent(unsigned aComponentID)
+        {
+            ReplicatedVariabpePtr->erase(aComponentID);
+        }
 
-       static inline Client* client = nullptr;
-       static inline Server* server = nullptr;
+    private:
+        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>>* BeforeReplicatedVariableList;
+    public:
+        static void SetBeforeReplicatedList();
+        static void SetAfterReplicatedList();
 
-       static inline bool startServer = false;
-       static inline bool startClient = true;
+    public:
 
-       static inline bool startedGame = false;
+        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>> TemporaryReplicatedVariableList;
 
-       static inline asio::io_context ioContext;
-   };
+        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>> PossibleReplicatedVariableList;
+        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>> RealReplicatedVariableList;
+
+        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>>* ReplicatedVariabpePtr = &PossibleReplicatedVariableList;
+
+        static inline Client* client = nullptr;
+        static inline Server* server = nullptr;
+
+        static inline bool startServer = false;
+        static inline bool startClient = true;
+
+        static inline bool startedGame = false;
+
+        static inline asio::io_context ioContext;
+    };
 }

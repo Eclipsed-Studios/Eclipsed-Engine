@@ -206,9 +206,9 @@ namespace Eclipse::Editor
 	void ChangeButton(Keycode::Scancode& aKeycode)
 	{
 		ImGui::Text("Press Any Key");
-		if (MainSingleton::GetInstance<Input>().GetAny())
+		if (Input::GetAny())
 		{
-			aKeycode = MainSingleton::GetInstance<Input>().GetAnyKey();
+			aKeycode = Input::GetAnyKey();
 			ImGui::CloseCurrentPopup();
 		}
 

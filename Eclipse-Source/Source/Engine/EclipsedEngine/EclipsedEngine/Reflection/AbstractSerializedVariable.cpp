@@ -49,7 +49,7 @@ namespace Eclipse::Reflection
 			//if(iType == ImGuiDataType_String) size = 
 
 
-			size = sizes.at(iType);
+			size = sizes[iType];
 			if (type == SerializedType_Custom_Type) elements = sizePerElement / size;
 
 			ImVec2 startPos = ImGui::GetCursorPos();

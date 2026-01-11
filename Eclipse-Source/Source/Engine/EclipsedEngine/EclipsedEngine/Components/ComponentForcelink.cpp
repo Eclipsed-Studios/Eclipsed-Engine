@@ -10,6 +10,9 @@
 #include "EclipsedEngine/Components/Physics/PolygonCollider2D.h"
 #include "EclipsedEngine/Components/Physics/RigidBody2D.h"
 
+#include "EclipsedEngine/Components/Player.h"
+#include "EclipsedEngine/Components/PlayerSpawner.h"
+
 #include "EclipsedEngine/Components/Rendering/Camera.h"
 #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 #include "EclipsedEngine/Components/Rendering/SpriteSheetAnimator.h"
@@ -30,6 +33,9 @@ void Eclipse::ComponentForcelink::LinkComponents()
 	COMP_REG(CircleCollider2D);
 	COMP_REG(PolygonCollider2D);
 	COMP_REG(RigidBody2D);
+
+	COMP_REG(Player);
+	COMP_REG(PlayerSpawner);
 
 	COMP_REG(Camera);
 	COMP_REG(SpriteRenderer2D);

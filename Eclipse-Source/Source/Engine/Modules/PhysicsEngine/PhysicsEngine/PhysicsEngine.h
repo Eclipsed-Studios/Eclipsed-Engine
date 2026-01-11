@@ -57,6 +57,7 @@ namespace Eclipse
         
         static void ChangeLayer(b2ShapeId& aShapeID, Layer aLayer);
         static void ChangeBodyType(b2BodyId& aBodyID, BodyType aBodyType);
+        static void ChangeRBLocks(b2BodyId& aBodyID, bool XLock, bool YLock, bool RotationLock);
 
         static void RemoveRigidBody(b2BodyId& aBodyID);
         static void RemoveCollider(b2ShapeId& aShape);

@@ -42,16 +42,16 @@ namespace Eclipse
     }
 
     template <typename T>
-    inline T* ComponentManager::AddComponent(unsigned aGOID)
+    inline T* ComponentManager::AddComponent(unsigned aGOID, bool IsReplicated)
     {
-        T* component = AddComponentWithID<T>(aGOID, Component::GetNextComponentID());
+        T* component = AddComponentWithID<T>(aGOID, Component::GetNextComponentID(), IsReplicated);
         component->OnComponentAdded();
 
         return component;
     }
 
     template<typename T>
-    inline T* ComponentManager::AddComponentWithID(unsigned aGOID, unsigned aComponentID)
+    inline T* ComponentManager::AddComponentWithID(unsigned aGOID, unsigned aComponentID, bool IsReplicated)
     {
         uint8_t* base = static_cast<uint8_t*>(myComponentData);
         uint8_t* ptrToComponent = base + myComponentMemoryTracker;
@@ -60,12 +60,22 @@ namespace Eclipse
 
         unsigned typeIndex = GetComponentID<T>();
 
+        if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
+            myEntityIdToEntity.emplace(aGOID, CreateGameObject(aGOID));
+
+        BeforeComponentConstruction();
+
         T* component = new(ptrToComponent)T();
         component->SetComponentID(aComponentID);
+        component->IsReplicated = IsReplicated;
+
+        AfterComponentConstruction();
+
+
         component->gameObject = myEntityIdToEntity.at(aGOID);
         component->myComponentComponentID = typeIndex;
 
-        myComponentsToStart.emplace_back(component);
+        myComponentsToStartNextFrame.emplace_back(component);
 
         myComponents.emplace_back(component);
         size_t componentIndex = myComponents.size() - 1;
@@ -73,13 +83,10 @@ namespace Eclipse
         myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
         myComponents.back()->myComponentIndex = componentIndex;
 
-        //if (Utilities::MainSingleton::Exists<Client>())
-        //{
-        //    NetMessage message;
-        //    Replication::ReplicationManager::CreateComponentMessage(component, message);
-
-        //    Utilities::MainSingleton::GetInstance<Client>().Send(message);
-        //}
+        if (IsReplicated)
+        {
+            CreateComponentReplicated(component);
+        }
 
         if (myComponents.size() <= 1)
             return component;
@@ -113,6 +120,8 @@ namespace Eclipse
             myComponents.pop_back();
             return;
         }
+
+        DeleteReplicatedVariable(component->myInstanceComponentID);
 
         //int backComponenetIndex = myComponents.back()->myComponentIndex;
         //unsigned backGameObject = *myComponents.back()->gameObject;

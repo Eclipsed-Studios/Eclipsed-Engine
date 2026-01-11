@@ -12,6 +12,10 @@ namespace Eclipse::Replication
 
         size_t offset = 0;
 
+        unsigned componentID = ConnectedComponent->myInstanceComponentID;
+        memcpy(data + offset, &componentID, sizeof(componentID));
+        offset += sizeof(componentID);
+ 
         memcpy(data + offset, &aID, sizeof(aID));
         offset += sizeof(aID);
 

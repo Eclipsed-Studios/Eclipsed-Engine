@@ -20,6 +20,8 @@
 
 #include "InspectorWindow.h"
 
+#include "Editor/EditorRuntime.h"
+
 namespace Eclipse::Editor
 {
 	void HierarchyWindow::HierarchyButton(GameObject* aGameObject, float totalIndent)
@@ -263,7 +265,6 @@ namespace Eclipse::Editor
 
 				gameobjectIdsThatAreOpen.erase(currentObject);
 				HierarchyWindow::CurrentGameObjectID = 0;
-
 			}
 		}
 
@@ -286,6 +287,9 @@ namespace Eclipse::Editor
 			RecursiveDeleteChildren(child);
 		}
 
+		if (!aGameObject->IsOwner())
+			return;
+			
 		ComponentManager::Destroy(aGameObject->GetID());
 	}
 }

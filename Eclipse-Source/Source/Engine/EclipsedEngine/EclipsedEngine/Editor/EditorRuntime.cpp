@@ -37,6 +37,36 @@ namespace Eclipse::Editor
 
 
 		FileWatcher::Subscribe((PathManager::GetProjectRoot() / "Source").generic_string(), [this](const FileWatcherEvent& e) {SetGameChanged(e);});
+
+
+		// TODO: Transfer into Replication.h or ReplicationManager.h
+		{
+			ComponentManager::SetCreateComponentReplicated([](Component* aComponent)
+				{
+					if (!MainSingleton::Exists<Client>())
+						return;
+
+					NetMessage message;
+					Replication::ReplicationManager::CreateComponentMessage(aComponent, message);
+					MainSingleton::GetInstance<Client>().Send(message);
+				});
+
+			ComponentManager::SetDestroyGameObjectReplicated([](unsigned aGameObject)
+				{
+					if (!MainSingleton::Exists<Client>())
+						return;
+
+					NetMessage message;
+					Replication::ReplicationManager::DeleteGOMessage(aGameObject, message);
+					MainSingleton::GetInstance<Client>().Send(message);
+				});
+
+			ComponentManager::SetDeleteReplicationComponent([](unsigned aComponentID) { Replication::ReplicationManager::DeleteReplicatedComponent(aComponentID); });
+			ComponentManager::SetBeforeAfterComponentConstruction(
+				[]() { Replication::ReplicationManager::SetBeforeReplicatedList(); },
+				[]() { Replication::ReplicationManager::SetAfterReplicatedList(); });
+		}
+
 		LoadDLL();
 	}
 

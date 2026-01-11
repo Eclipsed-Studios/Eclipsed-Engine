@@ -55,13 +55,19 @@ namespace Eclipse
 
 		void SetComponentID() 
 		{ 
-			myInstanceComponentID = GetNextComponentID(); 
+			myInstanceComponentID = GetNextComponentID();
+
+			// If ID is 0 then try again once only
+			if(!myInstanceComponentID)
+				GetNextComponentID();
 		}
 
 		void SetComponentID(unsigned compID)
 		{
 			myInstanceComponentID = compID;
 		}
+
+		void UpdateReplicationVars();
 
 		virtual unsigned GetUpdatePriority() const = 0;
 
@@ -108,6 +114,8 @@ namespace Eclipse
 
 	public:
 		//SERIALIZED_FIELD_DEFAULT(bool, IsReplicated, true);
+
+		bool IsReplicated = false;
 
 		GameObject* gameObject;
 

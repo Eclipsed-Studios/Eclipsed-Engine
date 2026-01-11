@@ -81,6 +81,7 @@ namespace Eclipse
     void RigidBody2D::SetRotationLocked(bool aValue)
     {
         myRigidBodySettings.LockRotation = aValue;
+        PhysicsEngine::ChangeRBLocks(myBody, myRigidBodySettings.LockXPos, myRigidBodySettings.LockYPos, myRigidBodySettings.LockRotation);
     }
     bool RigidBody2D::GetRotationLocked()
     {
@@ -90,6 +91,7 @@ namespace Eclipse
     void RigidBody2D::SetXPosLocked(bool aValue)
     {
         myRigidBodySettings.LockXPos = aValue;
+        PhysicsEngine::ChangeRBLocks(myBody, myRigidBodySettings.LockXPos, myRigidBodySettings.LockYPos, myRigidBodySettings.LockRotation);
     }
     bool RigidBody2D::GetXPosLocked()
     {
@@ -99,6 +101,7 @@ namespace Eclipse
     void RigidBody2D::SetYPosLocked(bool aValue)
     {
         myRigidBodySettings.LockYPos = aValue;
+        PhysicsEngine::ChangeRBLocks(myBody, myRigidBodySettings.LockXPos, myRigidBodySettings.LockYPos, myRigidBodySettings.LockRotation);
     }
     bool RigidBody2D::GetYPosLocked()
     {

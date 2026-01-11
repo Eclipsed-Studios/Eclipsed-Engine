@@ -13,41 +13,40 @@
 #include "AssetEngine/Assets/Material.h"
 #include "AssetEngine/Assets/AudioClip.h"
 #include "AssetEngine/Assets/Texture.h"
-//#include "AssetEngine/Assets/Material.h"
+
+#include "CoreEngine/Math/Random.h"
 
 
 namespace Eclipse::Reflection
 {
-
-	static int ReplicatedIDCounter = 1;
 
 //#ifdef ECLIPSED_EDITOR
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector)
 	{
-		ReplicatedVariableIndex = ReplicatedIDCounter++;
+		ReplicatedVariableIndex = Random::Rand<unsigned>();
 	}
 
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue)
 	{
-		ReplicatedVariableIndex = ReplicatedIDCounter++;
+		ReplicatedVariableIndex = Random::Rand<unsigned>();
 	}
 
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, T _min, T _max)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), myMin(_min), myMax(_max), hasMinMax(true)
 	{
-		ReplicatedVariableIndex = ReplicatedIDCounter++;
+		ReplicatedVariableIndex = Random::Rand<unsigned>();
 	}
 
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue, T _min, T _max)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
 	{
-		ReplicatedVariableIndex = ReplicatedIDCounter++;
+		ReplicatedVariableIndex = Random::Rand<unsigned>();
 	}
 	template<typename T>
 	inline void SerializedVariable<T>::DrawInspector()

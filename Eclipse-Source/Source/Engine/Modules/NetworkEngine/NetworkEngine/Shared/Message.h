@@ -10,6 +10,7 @@ namespace Eclipse
 		Msg_Disconnect,
 
 		Msg_CreateObject,
+		Msg_DeleteObject,
 		Msg_AddComponent,
 		
 		Msg_Variable,
@@ -32,14 +33,14 @@ namespace Eclipse
 			int messageID;
 
 			MessageType Type;
-			int GameObjectID;
+			unsigned GameObjectID;
 			int dataSize;
 		} MetaData;
 
 		char data[512 - sizeof(MetaData)];
 
 	public:
-		static inline NetMessage BuildGameObjectMessage(int aGameObjectID, MessageType messageType, const void* data, int aByteSize, bool IsGarantied)
+		static inline NetMessage BuildGameObjectMessage(unsigned aGameObjectID, MessageType messageType, const void* data, int aByteSize, bool IsGarantied)
 		{
 			NetMessage message;
 

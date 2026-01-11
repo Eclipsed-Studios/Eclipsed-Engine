@@ -22,7 +22,7 @@ namespace Eclipse
 
 	public:
 		template<typename T>
-		T* AddComponent();
+		T* AddComponent(bool IsReplicated = false);
 
 		template<typename T>
 		T* GetComponent();
@@ -67,9 +67,9 @@ namespace Eclipse
 	};
 
 	template<typename T>
-	inline T* GameObject::AddComponent()
+	inline T* GameObject::AddComponent(bool IsReplicated)
 	{
-		return ComponentManager::template AddComponent<T>(myID);
+		return ComponentManager::template AddComponent<T>(myID, IsReplicated);
 	}
 
 	template<typename T>

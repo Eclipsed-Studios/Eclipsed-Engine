@@ -27,7 +27,7 @@ namespace Eclipse
 
 	void ComponentManager::AwakeStartComponents()
 	{
-		if (myComponentsToStart.empty())
+		if (myComponentsToStart.empty() && myComponentsToStartNextFrame.empty())
 			return;
 
 		std::sort(myComponentsToStart.begin(), myComponentsToStart.end(), [&](Component* aComp0, Component* aComp1)
@@ -40,6 +40,8 @@ namespace Eclipse
 		StartComponents();
 
 		myComponentsToStart.clear();
+		myComponentsToStart = myComponentsToStartNextFrame;
+		myComponentsToStartNextFrame.clear();
 	}
 
 	void ComponentManager::Clear()
@@ -69,13 +71,19 @@ namespace Eclipse
 
 	void ComponentManager::AwakeComponents()
 	{
-		for (auto& component : myComponentsToStart)
+		for (int i = 0; i < myComponentsToStart.size(); i++)
+		{
+			auto& component = myComponentsToStart[i];
 			component->Awake();
+		}
 	}
 	void ComponentManager::StartComponents()
 	{
-		for (auto& component : myComponentsToStart)
+		for (int i = 0; i < myComponentsToStart.size(); i++)
+		{
+			auto& component = myComponentsToStart[i];
 			component->Start();
+		}
 	}
 
 	void ComponentManager::EditorUpdateComponents()
@@ -144,18 +152,17 @@ namespace Eclipse
 
 		unsigned typeIndex = Utilities::IDGenerator::GetID();
 
-		// This should not be here clarifictation, 
-		// If the object does not exist when adding component then you are not allowed to add a component to it)
-		// I keep it as a comment if somthing breaks and we can get it back
-	/*
 		if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
-		{
-			myEntityIdToEntity[aGOID] = CreateGameObject();
-		}
-	*/
+			myEntityIdToEntity[aGOID] = CreateGameObject(aGOID);
+
+
+		BeforeComponentConstruction();
 
 		Eclipse::Component* component = createFunc(ptrToComponent);
 		component->SetComponentID(aComponentID);
+
+		AfterComponentConstruction();
+
 		component->gameObject = myEntityIdToEntity.at(aGOID);
 		component->myComponentComponentID = typeIndex;
 
@@ -167,13 +174,7 @@ namespace Eclipse
 		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
 		myComponents.back()->myComponentIndex = componentIndex;
 
-		//if (Utilities::MainSingleton::Exists<Client>())
-		//{
-		//	NetMessage message;
-		//	Replication::ReplicationManager::CreateComponentMessage(component, message);
-
-		//	Utilities::MainSingleton::GetInstance<Client>().Send(message);
-		//}
+		//CreateComponentReplicated(component);
 
 		if (myComponents.size() <= 1)
 			return component;
@@ -219,6 +220,8 @@ namespace Eclipse
 			for (auto& componentAtGO : myEntityIDToVectorOfComponentIDs.at(goID))
 			{
 				Component*& component = myComponents[componentAtGO.second];
+
+				DeleteReplicatedComponent(component->myInstanceComponentID);
 
 				component->OnDestroy();
 				component->~Component();
@@ -286,6 +289,8 @@ namespace Eclipse
 
 	void ComponentManager::Destroy(GameObjectID aGOID)
 	{
+		DestroyGameObjectReplicated(aGOID);
+
 		gameobjectsToRemove.emplace_back(aGOID);
 	}
 

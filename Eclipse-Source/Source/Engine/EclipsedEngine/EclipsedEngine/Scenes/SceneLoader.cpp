@@ -48,6 +48,8 @@ namespace Eclipse
 			value.AddMember("owner", pComp->gameObject->GetID(), alloc);
 			value.AddMember("id", pComp->myInstanceComponentID, alloc);
 
+			value.AddMember("IsReplicated", pComp->IsReplicated, alloc);
+
 			components[compName][pComp->myInstanceComponentID] = value;
 		}
 
@@ -231,8 +233,15 @@ namespace Eclipse
 		{
 			const unsigned id = val["id"].GetUint();
 			const unsigned owner = val["owner"].GetUint();
+			Component* component = addComponent(owner, id);
 
-			compMap.emplace(id, addComponent(owner, id));
+			if (val.HasMember("IsReplicated"))
+			{
+				bool isReplicated = val["IsReplicated"].GetBool();
+				component->IsReplicated = isReplicated;
+			}
+
+			compMap.emplace(id, component);
 		}
 
 		for (const Value& val : aValue.GetArray())
