@@ -11,13 +11,11 @@ namespace Eclipse
 	template <class T>
 	void GarantiedMessageHandler<T>::Update()
 	{
-		for (std::pair<unsigned, GarantiedMessage> garantiedMessage : GarantiedMsgs)
+		for (auto& [_, message] : GarantiedMsgs)
 		{
-			GarantiedMessage message = garantiedMessage.second;
-
 			float& TryAgainTimer = message.TryAgainTimer;
 
-			TryAgainTimer -= DeltaTime;
+			TryAgainTimer -= Time::GetDeltaTime();
 
 			if (TryAgainTimer > 0.f)
 				continue;

@@ -5,9 +5,10 @@
 #include "ReplicationManager.h"
 
 // Use this as a standalone Macro with the serilized variable as arg
-#define REPLICATE(Variable) Replication::ReplicationManager::RealReplicatedVariableList.at(Variable.ReplicatedVariableIndex)->ReplicateThis(Variable.ReplicatedVariableIndex)
+#define REPLICATE(Variable) Replication::ReplicationManager::RealReplicatedVariableList.at(myInstanceComponentID)[sprite.ReplicatedVariableIndex]->ReplicateThis(sprite.ReplicatedVariableIndex, false);
+#define REPLICATEGARANTIED(Variable) Replication::ReplicationManager::RealReplicatedVariableList.at(myInstanceComponentID)[sprite.ReplicatedVariableIndex]->ReplicateThis(sprite.ReplicatedVariableIndex, true);
 
-#define REPLICATEHELPERMACRONOTUSE(Name, Auto, ReplicatedIndex, ThisType) Eclipse::Replication::ReplicatedVariable<ThisType> Repl##Name{#Name, this, Auto, ReplicatedIndex, &ThisType::Name##_OnRep}
+#define REPLICATEHELPERMACRONOTUSE(Name, Auto, ReplicatedIndex, ThisType) Eclipse::Replication::ReplicatedVariable<ThisType> Repl##Name{#Name, this, Auto, ReplicatedIndex, ReplicationIndex, &ThisType::Name##_OnRep}
 #define ONREPPEDFUNCTIONDEF(Name) void Name##_OnRep()
 
 #define REPLICATED_SERIALIZED_FIELD_DEFAULT(Type, Name, DefaultValue, ThisType) \

@@ -28,7 +28,10 @@ namespace Eclipse
 
             myTransform = gameObject->GetComponent<Transform2D>();
 
-            const Math::Vector2f& startPosition = myTransform->GetPosition();
+            Math::Vector2f startPosition = {0, 0};
+            if (myTransform)
+                startPosition = myTransform->GetPosition();
+
             PhysicsEngine::CreateRigidBody(&myBody, &myUserData, BodyType, LockRotation.Get(), LockXPos.Get(), LockYPos.Get(), startPosition);
             bodyHasBeenCreated = true;
 

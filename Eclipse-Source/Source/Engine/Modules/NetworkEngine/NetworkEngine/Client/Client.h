@@ -121,11 +121,6 @@ namespace Eclipse
 			garantiedMessageHandler.Enqueue(message, serverEndpoint, aLambdaToRunAfterRecieve);
 		}
 
-		void SetDeltaTime(float aDeltaTime)
-		{
-			garantiedMessageHandler.UpdateDeltaTime(aDeltaTime);
-		}
-
 	private:
 		template <class T>
 		friend class GarantiedMessageHandler;

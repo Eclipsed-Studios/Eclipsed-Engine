@@ -16,6 +16,7 @@ namespace Eclipse
 		Msg_Variable,
 		
 		Msg_RequestSceneInfo,
+		Msg_SentAllObjects,
 
 		Msg_Custom,
 	};

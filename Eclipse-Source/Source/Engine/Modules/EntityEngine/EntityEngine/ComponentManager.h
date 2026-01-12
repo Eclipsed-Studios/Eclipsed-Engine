@@ -132,7 +132,7 @@ namespace Eclipse
 
 		static inline std::vector<Component*> myComponents;
 
-		static inline std::vector<Component*> myComponentsToStartNextFrame;
+		static inline std::vector<Component*> myComponentsToStartBuffer;
 		static inline std::vector<Component*> myComponentsToStart;
 
 		// Gameobject to components

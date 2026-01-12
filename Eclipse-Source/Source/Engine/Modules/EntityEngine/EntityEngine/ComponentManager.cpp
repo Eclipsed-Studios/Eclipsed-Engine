@@ -22,12 +22,15 @@ namespace Eclipse
 		SortComponents();
 
 		for (auto& component : myComponents)
+		{
 			component->OnComponentAdded();
+			//component->ComponentCreated();
+		}
 	}
 
 	void ComponentManager::AwakeStartComponents()
 	{
-		if (myComponentsToStart.empty() && myComponentsToStartNextFrame.empty())
+		if (myComponentsToStart.empty() && myComponentsToStartBuffer.empty())
 			return;
 
 		std::sort(myComponentsToStart.begin(), myComponentsToStart.end(), [&](Component* aComp0, Component* aComp1)
@@ -40,8 +43,8 @@ namespace Eclipse
 		StartComponents();
 
 		myComponentsToStart.clear();
-		myComponentsToStart = myComponentsToStartNextFrame;
-		myComponentsToStartNextFrame.clear();
+		myComponentsToStart = myComponentsToStartBuffer;
+		myComponentsToStartBuffer.clear();
 	}
 
 	void ComponentManager::Clear()
@@ -99,9 +102,7 @@ namespace Eclipse
 	void ComponentManager::UpdateComponents()
 	{
 		for (auto& component : myComponents)
-		{
 			component->Update();
-		}
 	}
 	void ComponentManager::LateUpdateComponents()
 	{
@@ -140,6 +141,8 @@ namespace Eclipse
 	{
 		Component* component = AddComponentWithID(aGOID, Component::GetNextComponentID(), createFunc, size);
 		component->OnComponentAdded();
+
+		//component->ComponentCreated();
 
 		return component;
 	}

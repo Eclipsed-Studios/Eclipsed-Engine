@@ -64,14 +64,6 @@ namespace Eclipse::Reflection
 			return *this;
 		}
 
-		unsigned GetReplicationID()
-		{
-			return ReplicatedVariableIndex;
-		}
-
-		// Is 0 if not replicated
-		unsigned ReplicatedVariableIndex = 0;
-
 	private:
 		T data;
 

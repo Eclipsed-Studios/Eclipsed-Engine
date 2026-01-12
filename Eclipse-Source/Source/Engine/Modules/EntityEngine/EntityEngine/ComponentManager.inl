@@ -46,6 +46,7 @@ namespace Eclipse
     {
         T* component = AddComponentWithID<T>(aGOID, Component::GetNextComponentID(), IsReplicated);
         component->OnComponentAdded();
+        //component->ComponentCreated();
 
         return component;
     }
@@ -75,7 +76,7 @@ namespace Eclipse
         component->gameObject = myEntityIdToEntity.at(aGOID);
         component->myComponentComponentID = typeIndex;
 
-        myComponentsToStartNextFrame.emplace_back(component);
+        myComponentsToStart.emplace_back(component);
 
         myComponents.emplace_back(component);
         size_t componentIndex = myComponents.size() - 1;

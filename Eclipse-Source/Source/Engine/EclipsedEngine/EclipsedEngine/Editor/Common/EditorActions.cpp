@@ -137,7 +137,10 @@ namespace Eclipse::Editor
                 component->OnSceneLoaded();
 
             for (auto& component : ComponentManager::GetComponents(child->GetID()))
+            {
                 component->OnComponentAdded();
+                //component->ComponentCreated();
+            }
         }
     }
     void EditorActions::PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator)
@@ -236,7 +239,10 @@ namespace Eclipse::Editor
                 component->OnSceneLoaded();
 
             for (auto& component : ComponentManager::GetComponents(newGameobject->GetID()))
+            {
                 component->OnComponentAdded();
+                //component->ComponentCreated();
+            }
 
             HierarchyWindow::CurrentGameObjectID = newGameobject->GetID();
         }

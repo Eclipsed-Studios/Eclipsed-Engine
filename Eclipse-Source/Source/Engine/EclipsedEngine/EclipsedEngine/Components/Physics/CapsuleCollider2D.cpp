@@ -17,6 +17,9 @@ namespace Eclipse
 
 	void CapsuleCollider2D::EditorUpdate()
 	{
+		if (!myTransform)
+			return;
+
 		if (myLastRadius != Radius)
 		{
 			myLastRadius = Radius;
