@@ -4,6 +4,7 @@
 #include "EclipsedEngine/Components/Physics/RigidBody2D.h"
 
 #include "CoreEngine/Input/Input.h"
+#include "CoreEngine/Timer.h"
 
 namespace Eclipse
 {
@@ -23,11 +24,13 @@ namespace Eclipse
         {
             if (!rb)
                 return;
-            
-            int leftRight = Input::GetKey(Keycode::D) - Input::GetKey(Keycode::A);
 
+            int leftRight = Input::GetKey(Keycode::D) - Input::GetKey(Keycode::A);
             if (leftRight)
-                rb->SetVelocity(Math::Vector2f(leftRight, rb->GetVelocity().Y));
+                rb->SetVelocity(Math::Vector2f(leftRight * Time::GetDeltaTime() * 1000, rb->GetVelocity().Y));
+
+            if (Input::GetKeyDown(Keycode::SPACE))
+                rb->SetVelocity(Math::Vector2f(0, 6));
         }
 
 

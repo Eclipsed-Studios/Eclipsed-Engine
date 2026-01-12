@@ -2,11 +2,10 @@
 
 namespace Eclipse::Replication
 {
-    void BaseReplicatedVariable::ReplicateThis(unsigned aID)
+    void BaseReplicatedVariable::ReplicateThis(unsigned aID, bool Isgarantied)
     {
         if (!ConnectedComponent->IsOwner())
             return;
-
 
         char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];
 
@@ -15,7 +14,7 @@ namespace Eclipse::Replication
         unsigned componentID = ConnectedComponent->myInstanceComponentID;
         memcpy(data + offset, &componentID, sizeof(componentID));
         offset += sizeof(componentID);
- 
+
         memcpy(data + offset, &aID, sizeof(aID));
         offset += sizeof(aID);
 
@@ -25,20 +24,9 @@ namespace Eclipse::Replication
         memcpy(data + offset, myReflectVariable->GetData(), dataAmount);
         offset += dataAmount;
 
-        NetMessage message = NetMessage::BuildGameObjectMessage(ConnectedComponent->gameObject->GetID(), MessageType::Msg_Variable, data, offset, false);
+        NetMessage message = NetMessage::BuildGameObjectMessage(ConnectedComponent->gameObject->GetID(), MessageType::Msg_Variable, data, offset, Isgarantied);
 
-        if (Eclipse::MainSingleton::Exists<Server>())
-        {
-            Server& server = Eclipse::MainSingleton::GetInstance<Server>();
-            server.Send(message);
-            return;
-        }
-        else if (Eclipse::MainSingleton::Exists<Client>())
-        {
-            Client& client = Eclipse::MainSingleton::GetInstance<Client>();
-            client.Send(message);
-            return;
-        }
-
+        Client& client = Eclipse::MainSingleton::GetInstance<Client>();
+        client.Send(message);
     }
 }

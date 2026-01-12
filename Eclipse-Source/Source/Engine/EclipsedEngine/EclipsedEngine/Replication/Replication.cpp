@@ -48,13 +48,25 @@ namespace Eclipse::Replication
 
             Component* newCompoennt = ComponentRegistry::GetAddComponent(StringName)(goid, ComponentID);
 
-            newCompoennt->Awake();
-            newCompoennt->Start();
             newCompoennt->SetIsOwner(false);
+            //ComponentsToStartOnDemand.emplace_back(newCompoennt);
 
             newCompoennt->OnComponentAdded();
+
+            newCompoennt->Awake();
+            newCompoennt->Start();
             });
 
+    }
+
+    void ReplicationHelper::ClientHelp::RecieveStartRecievedComponents(const NetMessage& message)
+    {
+        for (Component* component : ComponentsToStartOnDemand)
+        {
+
+        }
+
+        ComponentsToStartOnDemand.clear();
     }
 
     void ReplicationHelper::ClientHelp::RecieveCreateObjectMessage(const NetMessage& message)
@@ -100,12 +112,12 @@ namespace Eclipse::Replication
         Component* component = Variable->ConnectedComponent;
         const auto& ReppedFunction = Variable->OnRepFunction;
 
-        (component->*ReppedFunction)();
-
         void* variableData = Variable->myReflectVariable->GetData();
         memcpy(variableData, message.data + offset, dataAmount);
-
         offset += dataAmount;
+
+        (component->*ReppedFunction)();
+
 
         /*myReflectVariable->GetData()
             // Debug recieve numbers
@@ -139,6 +151,11 @@ namespace Eclipse::Replication
             ReplicationHelper::ClientHelp::RecieveCreateObjectMessage(message);
         }
         break;
+        case MessageType::Msg_SentAllObjects:
+        {
+            ReplicationHelper::ClientHelp::RecieveStartRecievedComponents(message);
+        }
+        break;
         case MessageType::Msg_DeleteObject:
         {
             ReplicationHelper::ClientHelp::RecieveDeleteObjectMessage(message);
@@ -149,6 +166,22 @@ namespace Eclipse::Replication
             ReplicationHelper::ClientHelp::RecieveAddComponentMessage(message);
         }
         break;
+        }
+    }
+
+    void ReplicationHelper::ServerHelp::SendVariableScene()
+    {
+        const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
+        for (auto& Component : variableManager)
+        {
+            for (int i = 0; i < Component.second.size(); i++)
+            {
+                auto& Variable = Component.second[i];
+                if (Variable->ConnectedComponent->IsReplicated)
+                {
+                    Variable->ReplicateThis(i, true);
+                }
+            }
         }
     }
 
@@ -170,17 +203,37 @@ namespace Eclipse::Replication
             for (const auto& component : components)
             {
                 if (!component->IsReplicated)
-                	continue;
+                    continue;
+
                 NetMessage message;
                 Replication::ReplicationManager::CreateComponentMessage(component, message);
 
+                static int TotalCoponentMessagesRecieved = 0;
+
                 Server& server = Eclipse::MainSingleton::GetInstance<Server>();
-                server.SendToPrev(message, []() { return; });
+                server.SendToPrev(message, [components]()
+                    {
+                        if (TotalCoponentMessagesRecieved++ >= components.size() - 1)
+                        {
+                            NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SentAllObjects, nullptr, 0, true);
+                            Server& server = Eclipse::MainSingleton::GetInstance<Server>();
+                            server.SendToPrev(msg, [components]()
+                                {
+                                    SendVariableScene();
+
+                                    return;
+                                });
+
+                            TotalCoponentMessagesRecieved = 0;
+                        }
+
+                        return;
+                    });
             }
         }
     }
 
-    void ReplicationHelper::ServerHelp::HandleRequestedScene(const NetMessage& aMessage)
+    void ReplicationHelper::ServerHelp::HandleRequestedScene()
     {
         SendComponentScene();
     }
@@ -190,7 +243,7 @@ namespace Eclipse::Replication
         switch (aMessage.MetaData.Type)
         {
         case MessageType::Msg_RequestSceneInfo:
-            HandleRequestedScene(aMessage);
+            HandleRequestedScene();
             break;
 
         default:

@@ -33,11 +33,6 @@ namespace Eclipse
 		void Enqueue(const NetMessage& message, const udp::endpoint& anEndpoint, const std::function<void()>& aLambdaFunctionToRunOnRecieve);
 		void RecievedGarantied(const NetMessage& aMessage);
 
-		void UpdateDeltaTime(float deltaTime)
-		{
-			DeltaTime = deltaTime;
-		}
-
 	private:
 		float TimeBetweenTryAgains = 0.1f;
 
@@ -46,9 +41,6 @@ namespace Eclipse
 
 		T* FunctionOwner;
 		void (T::* SendDirectlyFunc)(NetMessage&, const udp::endpoint&);
-
-		//Temporary
-		float DeltaTime = 0.f;
 
 	public:
 		struct GarantiedMessage

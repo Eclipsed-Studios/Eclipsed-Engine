@@ -89,21 +89,31 @@ namespace Eclipse
 
 				if (message.MetaData.SentGarantied)
 				{
-					message.MetaData.SentGarantied = false;
+					for (auto& endpoint : endpoints)
+					{
+						if (recieveEndpoint.port() == endpoint.port())
+							continue;
 
+						Send(message, endpoint, []() { return; });
+					}
+
+					message.MetaData.SentGarantied = false;
 					Send(&message, 8, recieveEndpoint);
 				}
 
 				message.MetaData.IsGarantied = false;
 			}
-
-			for (auto& endpoint : endpoints)
+			else
 			{
-				if (recieveEndpoint.port() == endpoint.port())
-					continue;
+				for (auto& endpoint : endpoints)
+				{
+					if (recieveEndpoint.port() == endpoint.port())
+						continue;
 
-				Send(&message, message.MetaData.dataSize, endpoint);
+					Send(&message, message.MetaData.dataSize, endpoint);
+				}
 			}
+
 
 			StartRecieve();
 		}

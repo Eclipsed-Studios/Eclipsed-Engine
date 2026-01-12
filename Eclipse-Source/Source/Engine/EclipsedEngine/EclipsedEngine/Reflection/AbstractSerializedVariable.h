@@ -121,6 +121,12 @@ namespace Eclipse::Reflection
 		bool IsValid() const;
 
 		bool hasData = false;
+
+		unsigned GetReplicationID()
+		{
+			return ReplicatedVariableIndex;
+		}
+		unsigned ReplicatedVariableIndex = 0;
 	protected:
 
 		const char* name = "";

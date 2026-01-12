@@ -12,32 +12,33 @@
 
 namespace Eclipse::Replication
 {
-   template<typename T>
-   ReplicatedVariable<T>::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, void(T::* OnRepFunctionPtr)()) : OnRepFunction(OnRepFunctionPtr)
-   {
-       ConnectedComponent = aComponent;
+    template<typename T>
+    ReplicatedVariable<T>::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, int aReplicationIndex, void(T::* OnRepFunctionPtr)()) : OnRepFunction(OnRepFunctionPtr)
+    {
+        ConnectedComponent = aComponent;
 
-       bool variableExist = false;
+        bool variableExist = false;
 
-       auto& reflectionList = Reflection::ReflectionManager::GetList();
-       auto& variableList = reflectionList.at(aComponent);
+        auto& reflectionList = Reflection::ReflectionManager::GetList();
+        auto& variableList = reflectionList.at(aComponent);
 
-       for (auto& variable : variableList)
-       {
-           if (variable->GetName() == aName)
-           {
-               variable->ResolveTypeInfo();
-               ManualVariableSending = !anAutomatic;
-               myReflectVariable = variable;
-               
-               dataAmount = variable->GetSizeInBytes();
-               variableExist = true;
-               break;
-           }
-       }
+        for (auto& variable : variableList)
+        {
+            if (variable->GetName() == aName)
+            {
+                variable->ResolveTypeInfo();
+                ManualVariableSending = !anAutomatic;
+                myReflectVariable = variable;
+                myReflectVariable->ReplicatedVariableIndex = aReplicationIndex++;
 
-       assert(variableExist);
+                dataAmount = variable->GetSizeInBytes();
+                variableExist = true;
+                break;
+            }
+        }
 
-       ReplicationManager::EmplaceReplicatedVariable(0, this);
-   }
+        assert(variableExist);
+
+        ReplicationManager::EmplaceReplicatedVariable(0, this);
+    }
 }

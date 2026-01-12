@@ -24,7 +24,7 @@ namespace Eclipse
         using InspectorAddComponentMap = std::unordered_map<std::string, std::function<Component* (unsigned)>>;
 
         static ENGINE_API AddComponentMap addComponentMap;
-        static ENGINE_API  InspectorAddComponentMap inspectorAddComponentMap;
+        static ENGINE_API InspectorAddComponentMap inspectorAddComponentMap;
 
     public:
         static bool IsRegisteredInspector(const std::string& typeName);

@@ -48,17 +48,17 @@ namespace Eclipse
 		Component() = default;
 		virtual ~Component() = default;
 
-		static unsigned GetNextComponentID() 
+		static unsigned GetNextComponentID()
 		{
 			return Random::Rand<unsigned>();
 		}
 
-		void SetComponentID() 
-		{ 
+		void SetComponentID()
+		{
 			myInstanceComponentID = GetNextComponentID();
 
 			// If ID is 0 then try again once only
-			if(!myInstanceComponentID)
+			if (!myInstanceComponentID)
 				GetNextComponentID();
 		}
 
@@ -72,6 +72,8 @@ namespace Eclipse
 		virtual unsigned GetUpdatePriority() const = 0;
 
 	public:
+		//void ComponentCreated() { HasBeenCreated = true; }
+		
 		virtual void OnSceneLoaded() {}
 
 		virtual void OnComponentAdded() {}
@@ -79,6 +81,7 @@ namespace Eclipse
 
 		virtual void Awake() {}
 		virtual void Start() {}
+		virtual void StartNextFrame() {}
 
 		virtual void EditorUpdate() {}
 
@@ -102,18 +105,20 @@ namespace Eclipse
 		void SetIsOwner(bool anIsOwner) { myIsOwner = anIsOwner; }
 
 	protected:
-	
+
 	protected:
 #ifdef ECLIPSED_EDITOR
 		virtual void UpdateInspector() {}
 #endif
-//#ifdef ECLIPSED_EDITOR
-//		void UpdateInspector() { Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); }
-//#endif
+		//#ifdef ECLIPSED_EDITOR
+		//		void UpdateInspector() { Reflection::ReflectionManager::DrawInspector(this, GetComponentName()); }
+		//#endif
 
 
 	public:
 		//SERIALIZED_FIELD_DEFAULT(bool, IsReplicated, true);
+
+		bool HasBeenCreated = false;
 
 		bool IsReplicated = false;
 
@@ -131,8 +136,11 @@ namespace Eclipse
 		// IF DEF EDITOR
 		bool myInspectorWasDrawn = false;
 
-		bool myIsOwner = true;
 		virtual bool HasDrawInspector() const { return false; }
 		virtual bool DrawDefaultInspector() const { return true; }
+
+		bool myIsOwner = true;
+		// Used with replication macros
+		int ReplicationIndex = 0;
 	};
 }

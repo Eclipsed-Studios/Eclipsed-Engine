@@ -21,7 +21,7 @@ namespace Eclipse
 
         // }
 
-        void Start() override
+        void Awake() override
         {
             GameObject* gameobject = ComponentManager::CreateGameObject();
 
@@ -29,16 +29,38 @@ namespace Eclipse
             transfomr->SetPosition(0, 1);
             transfomr->SetScale(30, 30);
 
-            SpriteRenderer2D* spriteRenderer = gameobject->AddComponent<SpriteRenderer2D>(true);
+            spriteRenderer = gameobject->AddComponent<SpriteRenderer2D>(true);
 
             RigidBody2D* rb = gameobject->AddComponent<RigidBody2D>();
             rb->SetRotationLocked(true);
-            
+
             gameobject->AddComponent<CapsuleCollider2D>(true);
             gameobject->AddComponent<Player>();
 
             //HasSpawnedHere = true;
         }
+
+        void Update()
+        {
+            if (SetSpriteNextframe && !HasCreated)
+            {
+                spriteRenderer->SetSprite(PlayerSprite);
+                HasCreated = true;
+            }
+
+            SetSpriteNextframe = true;
+
+            if (Input::GetKeyDown(Keycode::J))
+                spriteRenderer->SetSprite(OtherSprite);
+        }
+
+        bool SetSpriteNextframe = false;
+        bool HasCreated = false;
+
+        SpriteRenderer2D* spriteRenderer;
+
+        SERIALIZED_FIELD(Texture, PlayerSprite);
+        SERIALIZED_FIELD(Texture, OtherSprite);
 
         //REPLICATED_SERIALIZED_FIELD_DEFAULT(int, HasSpawnedHere, 0, PlayerSpawner);
     };

@@ -20,7 +20,7 @@ namespace Eclipse
            bool ManualVariableSending;
            int dataAmount;
 
-           void ReplicateThis(unsigned aID);
+           void ReplicateThis(unsigned aID, bool Isgarantied = false);
 
            Component* ConnectedComponent;
        };
@@ -29,7 +29,7 @@ namespace Eclipse
        class ReplicatedVariable : public BaseReplicatedVariable
        {
        public:
-           inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, void(T::* OnRepFunctionPtr)());
+           inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, int aReplicationIndex, void(T::* OnRepFunctionPtr)());
            
 
        public:

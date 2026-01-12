@@ -14,15 +14,10 @@
 
 namespace Eclipse
 {
-	// void SpriteRenderer2D::sprite_OnRep()
-	// {
-		
-	// }
-	
-	// void SpriteRenderer2D::material_OnRep()
-	// {
-
-	// }
+	void SpriteRenderer2D::SpriteID_OnRep()
+	{
+		SetSprite(SpriteID);
+	}
 
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
@@ -41,18 +36,36 @@ namespace Eclipse
 	{
 		sprite = Assets::Resources::Get<Texture>(aPath);
 		hasSprite = true;
+
+		if (IsOwner())
+		{
+			SpriteID = sprite->GetAssetID();
+			REPLICATEGARANTIED(SpriteID);
+		}
 	}
 
 	void SpriteRenderer2D::SetSprite(const size_t& id)
 	{
 		sprite = Assets::Resources::Get<Texture>(id);
 		hasSprite = true;
+
+		if (IsOwner())
+		{
+			SpriteID = sprite->GetAssetID();
+			REPLICATEGARANTIED(SpriteID);
+		}
 	}
 
 	void SpriteRenderer2D::SetSprite(const Texture& aSprite)
 	{
 		sprite = aSprite;
 		hasSprite = true;
+
+		if (IsOwner())
+		{
+			SpriteID = sprite->GetAssetID();
+			REPLICATEGARANTIED(SpriteID);
+		}
 	}
 #pragma endregion
 
@@ -88,6 +101,9 @@ namespace Eclipse
 
 	void SpriteRenderer2D::Render()
 	{
+		if (!gameObject->transform)
+			return;
+
 		CommandListManager::GetSpriteCommandList().Enqueue<RenderSprite2DCommand>(this);
 		//DebugInformationCollector::UpdateRenderCalls();
 	}
