@@ -106,7 +106,7 @@ namespace Eclipse::Replication
         outMessage = NetMessage::BuildGameObjectMessage(aGameobjectID, MessageType::Msg_DeleteObject, &aGameobjectID, 0, true);
     }
 
-    void ReplicationManager::CreateComponentMessage(Component* aComponent, NetMessage& outMessage)
+    void ReplicationManager::CreateComponentMessage(Component* aComponent, NetMessage& outMessage, bool aStartLater)
     {
         char Data[512];
 
@@ -120,7 +120,7 @@ namespace Eclipse::Replication
 
         int DataAmount = LengthOfComponentName + sizeof(int) + sizeof(int);
 
-        outMessage = NetMessage::BuildGameObjectMessage(aComponent->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true);
+        outMessage = NetMessage::BuildGameObjectMessage(aComponent->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true, aStartLater);
     }
 
 

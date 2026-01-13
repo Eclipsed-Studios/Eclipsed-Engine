@@ -44,29 +44,41 @@ namespace Eclipse::Replication
         }
 
         std::string StringName = name;
-        CommandListManager::GetHappenAtBeginCommandList().Enqueue([StringName, goid = message.MetaData.GameObjectID, ComponentID] {
 
-            Component* newCompoennt = ComponentRegistry::GetAddComponent(StringName)(goid, ComponentID);
+        Component* newCompoennt = ComponentRegistry::GetAddComponent(StringName)(message.MetaData.GameObjectID, ComponentID);
+        newCompoennt->SetIsOwner(false);
 
-            newCompoennt->SetIsOwner(false);
-            //ComponentsToStartOnDemand.emplace_back(newCompoennt);
+        if (message.MetaData.StartLater)
+        {
+            ComponentsToStartOnDemand.emplace_back(newCompoennt);
+        }
+        else
+        {
+            CommandListManager::GetHappenAtBeginCommandList().Enqueue([newCompoennt] {
+                newCompoennt->OnComponentAdded();
 
-            newCompoennt->OnComponentAdded();
-
-            newCompoennt->Awake();
-            newCompoennt->Start();
-            });
-
+                newCompoennt->Awake();
+                newCompoennt->Start();
+                });
+        }
     }
 
     void ReplicationHelper::ClientHelp::RecieveStartRecievedComponents(const NetMessage& message)
     {
-        for (Component* component : ComponentsToStartOnDemand)
-        {
+        CommandListManager::GetHappenAtBeginCommandList().Enqueue([]() {
+            std::sort(ComponentsToStartOnDemand.begin(), ComponentsToStartOnDemand.end(), [&](Component* aComp0, Component* aComp1)
+                {
+                    return aComp0->GetUpdatePriority() > aComp1->GetUpdatePriority();
+                });
+            for (Component* component : ComponentsToStartOnDemand)
+            {
+                component->OnComponentAdded();
 
-        }
-
-        ComponentsToStartOnDemand.clear();
+                component->Awake();
+                component->Start();
+            }
+            ComponentsToStartOnDemand.clear();
+            });
     }
 
     void ReplicationHelper::ClientHelp::RecieveCreateObjectMessage(const NetMessage& message)
@@ -196,6 +208,15 @@ namespace Eclipse::Replication
             ReplicatedGameObjects.emplace(gameobjectID);
         }
 
+        int ComponentCount = 0;
+
+        const std::vector<Component*>& allComponents = ComponentManager::GetAllComponents();
+        for (const auto& component : allComponents)
+        {
+            if (component->IsReplicated)
+                ComponentCount++;
+        }
+
         for (const auto& gameobject : ReplicatedGameObjects)
         {
             std::vector<Component*> components = ComponentManager::GetComponents(gameobject);
@@ -206,14 +227,14 @@ namespace Eclipse::Replication
                     continue;
 
                 NetMessage message;
-                Replication::ReplicationManager::CreateComponentMessage(component, message);
+                Replication::ReplicationManager::CreateComponentMessage(component, message, true);
 
                 static int TotalCoponentMessagesRecieved = 0;
 
                 Server& server = Eclipse::MainSingleton::GetInstance<Server>();
-                server.SendToPrev(message, [components]()
+                server.SendToPrev(message, [components, ComponentCount]()
                     {
-                        if (TotalCoponentMessagesRecieved++ >= components.size() - 1)
+                        if (TotalCoponentMessagesRecieved++ >= ComponentCount)
                         {
                             NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SentAllObjects, nullptr, 0, true);
                             Server& server = Eclipse::MainSingleton::GetInstance<Server>();

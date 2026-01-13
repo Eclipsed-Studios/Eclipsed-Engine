@@ -39,7 +39,7 @@ namespace Eclipse::Replication
         static void CreateGOMessage(int aGameobjectID, NetMessage& outMessage);
         static void DeleteGOMessage(int aGameobjectID, NetMessage& outMessage);
 
-        static void CreateComponentMessage(Eclipse::Component* aComponent, NetMessage& outMessage);
+        static void CreateComponentMessage(Eclipse::Component* aComponent, NetMessage& outMessage, bool aStartLater = false);
 
         static void EmplaceReplicatedVariable(unsigned ComponentID, BaseReplicatedVariable* Variable)
         {

@@ -9,33 +9,35 @@ namespace Eclipse
         class AbstractSerializedVariable;
     }
 
-   class Component;
-   namespace Replication
-   {
+    class Component;
+    namespace Replication
+    {
 
-       class BaseReplicatedVariable
-       {
-       public:
-           Reflection::AbstractSerializedVariable* myReflectVariable;
-           bool ManualVariableSending;
-           int dataAmount;
+        class BaseReplicatedVariable
+        {
+        public:
+            bool IsAsset = false;
 
-           void ReplicateThis(unsigned aID, bool Isgarantied = false);
+            Reflection::AbstractSerializedVariable* myReflectVariable;
+            bool ManualVariableSending;
+            int dataAmount;
 
-           Component* ConnectedComponent;
-       };
+            void ReplicateThis(unsigned aID, bool Isgarantied = false);
 
-       template<typename T>
-       class ReplicatedVariable : public BaseReplicatedVariable
-       {
-       public:
-           inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, int aReplicationIndex, void(T::* OnRepFunctionPtr)());
-           
+            Component* ConnectedComponent;
+        };
 
-       public:
-           void(T::* OnRepFunction)();
-       };
-   }
+        template<typename T>
+        class ReplicatedVariable : public BaseReplicatedVariable
+        {
+        public:
+            inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, int aReplicationIndex, void(T::* OnRepFunctionPtr)());
+
+
+        public:
+            void(T::* OnRepFunction)();
+        };
+    }
 
 }
 
