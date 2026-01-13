@@ -28,11 +28,15 @@ namespace Eclipse::Replication
             {
                 variable->ResolveTypeInfo();
                 ManualVariableSending = !anAutomatic;
+                variableExist = true;
+
                 myReflectVariable = variable;
+                dataAmount = variable->GetSizeInBytes();
+
                 myReflectVariable->ReplicatedVariableIndex = aReplicationIndex++;
 
-                dataAmount = variable->GetSizeInBytes();
-                variableExist = true;
+                //IsAsset = 
+
                 break;
             }
         }

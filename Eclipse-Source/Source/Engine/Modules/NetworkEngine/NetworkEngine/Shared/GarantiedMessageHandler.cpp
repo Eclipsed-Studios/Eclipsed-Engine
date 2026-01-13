@@ -11,6 +11,7 @@ namespace Eclipse
 	template <class T>
 	void GarantiedMessageHandler<T>::Update()
 	{
+		mapChangeMutex.lock();
 		for (auto& [_, message] : GarantiedMsgs)
 		{
 			float& TryAgainTimer = message.TryAgainTimer;
@@ -30,6 +31,7 @@ namespace Eclipse
 
 			TryAgainTimer = TimeBetweenTryAgains;
 		}
+		mapChangeMutex.unlock();
 	}
 
 	template <class T>

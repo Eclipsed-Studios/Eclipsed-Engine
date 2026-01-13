@@ -30,7 +30,8 @@ namespace Eclipse
 		{
 			bool IsGarantied;
 			bool SentGarantied;
-			bool Trash[2];
+			bool StartLater;
+			bool Trash;
 			int messageID;
 
 			MessageType Type;
@@ -41,7 +42,7 @@ namespace Eclipse
 		char data[512 - sizeof(MetaData)];
 
 	public:
-		static inline NetMessage BuildGameObjectMessage(unsigned aGameObjectID, MessageType messageType, const void* data, int aByteSize, bool IsGarantied)
+		static inline NetMessage BuildGameObjectMessage(unsigned aGameObjectID, MessageType messageType, const void* data, int aByteSize, bool IsGarantied, bool aStartLater = false)
 		{
 			NetMessage message;
 
@@ -49,6 +50,7 @@ namespace Eclipse
 
 			message.MetaData.IsGarantied = IsGarantied;
 			message.MetaData.SentGarantied = true;
+			message.MetaData.StartLater = aStartLater;
 			message.MetaData.messageID = ++messageIDIncrementor;
 
 			message.MetaData.Type = messageType;
