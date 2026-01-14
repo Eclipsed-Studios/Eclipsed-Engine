@@ -1,18 +1,24 @@
 #pragma once
 
-#include "Shader.h"
+#include "Asset.h"
 
 namespace Eclipse
 {
 	namespace Assets
 	{
-		struct ShaderHandle;
-		class ShaderManager;
+		struct SpriteAnimationHandle;
+		class AnimationManager;
 	}
 
-	class VertexShader final : public Shaders
+	class SpriteAnimation final
 	{
-		using Shaders::Shaders;
-		using Shaders::operator=;
+		ASSET_OPERATORS_DEF(SpriteAnimation, Assets::SpriteAnimationHandle, Assets::AnimationManager);
+
+	public:
+		size_t GetFrameCount() const;
+		const std::vector<unsigned>& GetFrames() const;
+		int GetFrame(size_t aIndex) const;
+
+		const std::string& GetAnimationNameID() const;
 	};
 }

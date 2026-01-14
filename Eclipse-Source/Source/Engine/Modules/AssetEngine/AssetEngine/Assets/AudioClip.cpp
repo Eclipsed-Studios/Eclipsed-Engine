@@ -6,9 +6,4 @@
 namespace Eclipse
 {
 	ASSET_OPERATORS_IMPL(AudioClip, Assets::AudioClipHandle);
-
-	size_t AudioClip::GetAssetID()const
-	{
-		return dataHandle->assetID;
-	}
 }

@@ -1,45 +1,47 @@
 #pragma once
 
 #include "EclipsedEngine/Components/Component.h"
-//
-//#include "CoreEngine/AssetManagement/Resources/SpriteSheetAnimation.h"
-//#include "CoreEngine/AssetManagement/ResourcePointer.h"
-//#include "CoreEngine/ECS/ComponentManager.h"
+#include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
+
+#include "AssetEngine/Assets/SpriteAnimation.h"
 
 namespace Eclipse
 {
-    //class SpriteRendrer2D;
+   class SpriteRenderer2D;
 
-    //class SpriteSheetAnimator2D : public Component
-    //{
-    //    BASE_SELECTION(SpriteSheetAnimator2D, 0)
+   class ECLIPSED_API SpriteSheetAnimator2D : public Component
+   {
+      BASE_SELECTION(SpriteSheetAnimator2D, 10)
 
-    //public:
-    //    void OnSceneLoaded() override;
-    //    void Update() override;
+   public:
+      void Awake() override;
+      void Update() override;
 
-    //    void SetSpriteSheet(const char* aPath);
+      void SetSpriteSheet(const char* aPath);
 
-    //    void Play() { myIsPlaying = true; }
-    //    void Pause() { myIsPlaying = false; }
+      void Play() { myIsPlaying = true; }
+      void Pause() { myIsPlaying = false; }
 
-    //    void SetCurrentAnimation(const char* anAnimationName, bool aLoop = true);
+      void SetCurrentAnimation(const char* anAnimationName, bool aLoop = true);
 
-    //private:
-    //    SpriteRenderer2D* mySpriteRenderer = nullptr;
+   private:
 
-    //    ResourcePointer<SpriteSheetAnimation> mySpriteSheetAnimations;
+      //SERIALIZED_FIELD_DEFAULT(std::string, mySpriteSheetAnimationPath, "");
 
-    //    SERIALIZED_FIELD_DEFAULT(std::string, mySpriteSheetAnimationPath, "");
+   private:
 
-    //private:
-    //    std::string myActiveAnimation;
+      std::vector<unsigned> TemporarySpriteAnimation{ 0,1,2,3,4,5,6,7,0};
 
-    //    float myTimePerFrame = 0.04f;
-    //    float myTimeAccumulator = 0.f;
-    //    int myCurrentFrame = 0;
+      SpriteRenderer2D* mySpriteRenderer;
 
-    //    bool myIsPlaying = false;
-    //    bool myLoop = true;
-    //};
+      std::string myActiveAnimation;
+
+      float myTimePerFrame = 0.04f;
+      float myTimeAccumulator = 0.f;
+      
+      REPLICATED_SERIALIZED_FIELD_DEFAULT(int, myCurrentFrame, 0, SpriteSheetAnimator2D);
+
+      bool myIsPlaying = true;
+      bool myLoop = true;
+   };
 }

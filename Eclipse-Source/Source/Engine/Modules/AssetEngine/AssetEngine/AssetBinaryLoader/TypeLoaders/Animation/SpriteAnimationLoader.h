@@ -10,5 +10,6 @@ namespace Eclipse::Assets
 	{
 	public:
 		SpriteAnimationHandle* Load(const size_t& id) override;
+		void Load(const size_t& id, SpriteAnimationHandle* handle) override;
 	};
 }

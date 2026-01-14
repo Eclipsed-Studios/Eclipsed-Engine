@@ -39,7 +39,7 @@ namespace Eclipse
 		Client(asio::io_context& ioContext, const char* ip, std::function<void(const NetMessage& aNetMessage)> aHandleRecieveFunc) :
 			myIOContext(ioContext),
 			socket(ioContext),
-			serverEndpoint(*(udp::resolver(ioContext)).resolve(udp::v4(), ip, "18888").begin()),
+			serverEndpoint(*(udp::resolver(ioContext)).resolve(udp::v4(), ip, "24434").begin()),
 			recieveThread(&Client::RecieveThread, this),
 			garantiedMessageHandler(&Client::SendDirectly_NoChecks, this),
 			HandleRecieveFunc(aHandleRecieveFunc)

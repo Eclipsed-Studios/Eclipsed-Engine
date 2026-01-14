@@ -62,7 +62,8 @@ namespace Eclipse::Assets
 
 		LoadMetaFile(id, handle);
 
-		handle->dimDivOne = 1.f / (static_cast<float>(handle->height) / static_cast<float>(handle->width));
+		handle->dimDivOne.X = 1.f / static_cast<float>(handle->width);
+		handle->dimDivOne.Y = 1.f / static_cast<float>(handle->height);
 		handle->sizeNormalized = Math::Vector2f{ 1.f, static_cast<float>(handle->height) / handle->width };
 
 

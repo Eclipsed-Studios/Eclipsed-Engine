@@ -4,6 +4,7 @@
 #include "EclipsedEngine/Components/Physics/CapsuleCollider2D.h"
 
 #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
+#include "EclipsedEngine/Components/Rendering/SpriteSheetAnimator.h"
 #include "EclipsedEngine/Components/Player.h"
 #include "EclipsedEngine/Components/Transform2D.h"
 
@@ -23,17 +24,19 @@ namespace Eclipse
 
         void Awake() override
         {
-            unsigned componentCount = 3;
+            unsigned componentCount = 4;
             NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SendMultipleComponents, &componentCount, sizeof(unsigned), true);
             MainSingleton::GetInstance<Client>().Send(msg);
 
             GameObject* gameobject = ComponentManager::CreateGameObject();
 
-            Transform2D* transfomr = gameobject->AddComponent<Transform2D>(true);
-            transfomr->SetPosition(0, 1);
-            transfomr->SetScale(30, 30);
+            Transform2D* transform = gameobject->AddComponent<Transform2D>(true);
+            transform->SetPosition(0, 1);
+            transform->SetScale(30, 30);
 
             spriteRenderer = gameobject->AddComponent<SpriteRenderer2D>(true);
+            spriteRenderer->SetSprite(PlayerSprite);
+            gameobject->AddComponent<SpriteSheetAnimator2D>(true);
 
             RigidBody2D* rb = gameobject->AddComponent<RigidBody2D>();
             rb->SetRotationLocked(true);
