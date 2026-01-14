@@ -12,6 +12,7 @@ public:														\
 	TYPE(TYPE&& other) noexcept;							\
 	TYPE& operator=(TYPE&& other) noexcept;					\
     bool IsValid() const;                                   \
+    void IsAsset() {}                                       \
 private:													\
 	HANDLE* dataHandle = nullptr;
 

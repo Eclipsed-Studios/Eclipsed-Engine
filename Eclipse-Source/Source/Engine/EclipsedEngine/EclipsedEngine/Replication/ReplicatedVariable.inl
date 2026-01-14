@@ -10,10 +10,13 @@
 #include "EclipsedEngine/Components/Component.h"
 #include "EntityEngine/GameObject.h"
 
+#include "AssetEngine/Models/AssetDatas/Handles/AssetHandle.h"
+
 namespace Eclipse::Replication
 {
     template<typename T>
-    ReplicatedVariable<T>::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, unsigned ID, int aReplicationIndex, void(T::* OnRepFunctionPtr)()) : OnRepFunction(OnRepFunctionPtr)
+    ReplicatedVariable<T>::ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic,
+        unsigned ID, int aReplicationIndex, void(T::* OnRepFunctionPtr)(), bool aIsAsset) : OnRepFunction(OnRepFunctionPtr)
     {
         ConnectedComponent = aComponent;
 
@@ -27,15 +30,20 @@ namespace Eclipse::Replication
             if (variable->GetName() == aName)
             {
                 variable->ResolveTypeInfo();
+                
                 ManualVariableSending = !anAutomatic;
                 variableExist = true;
 
+                IsAsset = aIsAsset;
+
                 myReflectVariable = variable;
-                dataAmount = variable->GetSizeInBytes();
 
-                myReflectVariable->ReplicatedVariableIndex = aReplicationIndex++;
+                if (aIsAsset)
+                    dataAmount = 8;
+                else
+                    dataAmount = variable->GetSizeInBytes();
 
-                //IsAsset = 
+                variable->ReplicatedVariableIndex = aReplicationIndex++;
 
                 break;
             }

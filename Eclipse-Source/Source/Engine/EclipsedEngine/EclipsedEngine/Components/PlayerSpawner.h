@@ -23,9 +23,13 @@ namespace Eclipse
 
         void Awake() override
         {
+            unsigned componentCount = 3;
+            NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SendMultipleComponents, &componentCount, sizeof(unsigned), true);
+            MainSingleton::GetInstance<Client>().Send(msg);
+
             GameObject* gameobject = ComponentManager::CreateGameObject();
 
-            auto transfomr = gameobject->AddComponent<Transform2D>(true);
+            Transform2D* transfomr = gameobject->AddComponent<Transform2D>(true);
             transfomr->SetPosition(0, 1);
             transfomr->SetScale(30, 30);
 
@@ -34,7 +38,8 @@ namespace Eclipse
             RigidBody2D* rb = gameobject->AddComponent<RigidBody2D>();
             rb->SetRotationLocked(true);
 
-            gameobject->AddComponent<CapsuleCollider2D>(true);
+            CapsuleCollider2D* capsule = gameobject->AddComponent<CapsuleCollider2D>(true);
+
             gameobject->AddComponent<Player>();
 
             //HasSpawnedHere = true;

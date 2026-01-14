@@ -2,7 +2,7 @@
 
 namespace Eclipse::Replication
 {
-    void BaseReplicatedVariable::ReplicateThis(unsigned aID, bool Isgarantied)
+    void BaseReplicatedVariable::ReplicateThis(unsigned aID, bool aIsGarantied)
     {
         if (!ConnectedComponent->IsOwner())
             return;
@@ -21,10 +21,19 @@ namespace Eclipse::Replication
         memcpy(data + offset, &dataAmount, sizeof(dataAmount));
         offset += sizeof(dataAmount);
 
-        memcpy(data + offset, myReflectVariable->GetData(), dataAmount);
-        offset += dataAmount;
+        if (IsAsset)
+        {
+            Assets::AssetHandle** handle = reinterpret_cast<Assets::AssetHandle**>(myReflectVariable->GetData());
+            memcpy(data + offset, *handle, dataAmount);
+            offset += dataAmount;
+        }
+        else
+        {
+            memcpy(data + offset, myReflectVariable->GetData(), dataAmount);
+            offset += dataAmount;
+        }
 
-        NetMessage message = NetMessage::BuildGameObjectMessage(ConnectedComponent->gameObject->GetID(), MessageType::Msg_Variable, data, offset, Isgarantied);
+        NetMessage message = NetMessage::BuildGameObjectMessage(ConnectedComponent->gameObject->GetID(), MessageType::Msg_Variable, data, offset, aIsGarantied);
 
         Client& client = Eclipse::MainSingleton::GetInstance<Client>();
         client.Send(message);

@@ -14,9 +14,9 @@
 
 namespace Eclipse
 {
-	void SpriteRenderer2D::SpriteID_OnRep()
+	void SpriteRenderer2D::sprite_OnRep()
 	{
-		SetSprite(SpriteID);
+		SetSprite(12882873142810365928);
 	}
 
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
@@ -37,11 +37,7 @@ namespace Eclipse
 		sprite = Assets::Resources::Get<Texture>(aPath);
 		hasSprite = true;
 
-		if (IsOwner())
-		{
-			SpriteID = sprite->GetAssetID();
-			REPLICATEGARANTIED(SpriteID);
-		}
+		REPLICATEGARANTIED(sprite);
 	}
 
 	void SpriteRenderer2D::SetSprite(const size_t& id)
@@ -49,11 +45,7 @@ namespace Eclipse
 		sprite = Assets::Resources::Get<Texture>(id);
 		hasSprite = true;
 
-		if (IsOwner())
-		{
-			SpriteID = sprite->GetAssetID();
-			REPLICATEGARANTIED(SpriteID);
-		}
+		REPLICATEGARANTIED(sprite);
 	}
 
 	void SpriteRenderer2D::SetSprite(const Texture& aSprite)
@@ -61,11 +53,7 @@ namespace Eclipse
 		sprite = aSprite;
 		hasSprite = true;
 
-		if (IsOwner())
-		{
-			SpriteID = sprite->GetAssetID();
-			REPLICATEGARANTIED(SpriteID);
-		}
+		REPLICATEGARANTIED(sprite);
 	}
 #pragma endregion
 

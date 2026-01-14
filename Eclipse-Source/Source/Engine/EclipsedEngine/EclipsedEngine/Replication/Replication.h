@@ -15,7 +15,9 @@ namespace Eclipse::Replication
         class ClientHelp
         {
         public:
-            static void RecieveStartRecievedComponents(const NetMessage& message);
+            static void StartReplicatedComponents();
+
+            static void RecieveAmountOfComponents(const NetMessage& message);
             static void RecieveAddComponentMessage(const NetMessage& message);
             static void RecieveCreateObjectMessage(const NetMessage& message);
             static void RecieveDeleteObjectMessage(const NetMessage& message);
@@ -24,6 +26,8 @@ namespace Eclipse::Replication
             static void HandleRecieve(const NetMessage& message);
 
             static inline std::vector<Component*> ComponentsToStartOnDemand;
+
+            static inline unsigned myComponentsToRecieved = 9999;
         };
 
     public:
