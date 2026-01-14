@@ -91,7 +91,7 @@ namespace Eclipse::Replication
 
             }
 
-            timer = 0.005f;
+            timer = 0.05f;
         }
     }
 

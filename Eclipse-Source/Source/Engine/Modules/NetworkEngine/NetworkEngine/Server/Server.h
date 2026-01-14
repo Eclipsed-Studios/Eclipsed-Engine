@@ -72,7 +72,10 @@ namespace Eclipse
 					endpointFound = true;
 
 			if (!endpointFound)
+			{
 				endpoints.emplace_back(recieveEndpoint);
+				perClientAmountRecievedBack.emplace_back(0);
+			}
 
 
 			NetMessage message;
@@ -156,6 +159,12 @@ namespace Eclipse
 			garantiedMessageHandler.Enqueue(message, endpoint, aLambdaToRunAfterRecieve);
 		}
 
+		std::vector<udp::endpoint>& GetEndpoints()
+		{
+			return endpoints;
+		}
+
+		std::vector<unsigned> perClientAmountRecievedBack;
 	private:
 		template <class T>
 		friend class GarantiedMessageHandler;

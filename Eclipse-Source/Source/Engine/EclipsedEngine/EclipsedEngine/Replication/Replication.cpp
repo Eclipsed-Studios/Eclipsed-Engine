@@ -11,6 +11,8 @@
 #include "EclipsedEngine/Replication/ReplicationManager.h"
 #include "EclipsedEngine/Replication/ReplicatedVariable.h"
 
+#include "AssetEngine/Resources.h"
+
 #include <iostream>
 
 namespace Eclipse::Replication
@@ -47,23 +49,25 @@ namespace Eclipse::Replication
 
         Component* newCompoennt = ComponentRegistry::GetAddComponent(StringName)(message.MetaData.GameObjectID, ComponentID);
         newCompoennt->SetIsOwner(false);
+        newCompoennt->IsReplicated = true;
 
-        if (message.MetaData.StartLater)
-        {
-            ComponentsToStartOnDemand.emplace_back(newCompoennt);
-        }
-        else
-        {
-            CommandListManager::GetHappenAtBeginCommandList().Enqueue([newCompoennt] {
-                newCompoennt->OnComponentAdded();
+        //ComponentsToStartOnDemand.emplace_back(newCompoennt);
 
-                newCompoennt->Awake();
-                newCompoennt->Start();
-                });
+        ComponentsToStartOnDemand.emplace_back(newCompoennt);
+        if (ComponentsToStartOnDemand.size() >= myComponentsToRecieved)
+        {
+            StartReplicatedComponents();
+            myComponentsToRecieved = 9999;
         }
     }
 
-    void ReplicationHelper::ClientHelp::RecieveStartRecievedComponents(const NetMessage& message)
+    void ReplicationHelper::ClientHelp::RecieveAmountOfComponents(const NetMessage& message)
+    {
+        memcpy(&myComponentsToRecieved, message.data, sizeof(size_t));
+        int whio = 0;
+    }
+
+    void ReplicationHelper::ClientHelp::StartReplicatedComponents()
     {
         CommandListManager::GetHappenAtBeginCommandList().Enqueue([]() {
             std::sort(ComponentsToStartOnDemand.begin(), ComponentsToStartOnDemand.end(), [&](Component* aComp0, Component* aComp1)
@@ -98,6 +102,33 @@ namespace Eclipse::Replication
         ComponentManager::Destroy(message.MetaData.GameObjectID);
     }
 
+    void RefreshAsset(Reflection::AbstractSerializedVariable* aVariable, size_t aAssetID)
+    {
+        aVariable->ResolveTypeInfo();
+
+        switch (aVariable->GetType())
+        {
+        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Material:
+        {
+            Material& material = *(static_cast<Material*>(aVariable->GetData()));
+            material = Eclipse::Assets::Resources::Get<Material>(aAssetID);
+        }
+        break;
+        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_AudioClip:
+        {
+            AudioClip& assset = *(static_cast<AudioClip*>(aVariable->GetData()));
+            assset = Eclipse::Assets::Resources::Get<AudioClip>(aAssetID);
+        }
+        break;
+        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Texture:
+        {
+            Texture& assset = *(static_cast<Texture*>(aVariable->GetData()));
+            assset = Eclipse::Assets::Resources::Get<Texture>(aAssetID);
+        }
+        break;
+        }
+    }
+
     void ReplicationHelper::ClientHelp::RecieveVariableMessage(const NetMessage& message)
     {
         unsigned replicationVarIndex = 0;
@@ -124,9 +155,17 @@ namespace Eclipse::Replication
         Component* component = Variable->ConnectedComponent;
         const auto& ReppedFunction = Variable->OnRepFunction;
 
-        void* variableData = Variable->myReflectVariable->GetData();
-        memcpy(variableData, message.data + offset, dataAmount);
-        offset += dataAmount;
+        if (Variable->IsAsset)
+        {
+            size_t AssetID = 0;
+            memcpy(&AssetID, message.data + offset, 8);
+            RefreshAsset(Variable->myReflectVariable, AssetID);
+        }
+        else
+        {
+            void* variableData = Variable->myReflectVariable->GetData();
+            memcpy(variableData, message.data + offset, dataAmount);
+        }
 
         (component->*ReppedFunction)();
 
@@ -163,9 +202,9 @@ namespace Eclipse::Replication
             ReplicationHelper::ClientHelp::RecieveCreateObjectMessage(message);
         }
         break;
-        case MessageType::Msg_SentAllObjects:
+        case MessageType::Msg_SendMultipleComponents:
         {
-            ReplicationHelper::ClientHelp::RecieveStartRecievedComponents(message);
+            ReplicationHelper::ClientHelp::RecieveAmountOfComponents(message);
         }
         break;
         case MessageType::Msg_DeleteObject:
@@ -217,39 +256,42 @@ namespace Eclipse::Replication
                 ComponentCount++;
         }
 
-        for (const auto& gameobject : ReplicatedGameObjects)
+        Server& server = Eclipse::MainSingleton::GetInstance<Server>();
+
+        NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SendMultipleComponents, &ComponentCount, sizeof(unsigned), true);
+        server.Send(msg);
+
+        int size = server.GetEndpoints().size();
+        for (auto& endpoint : server.GetEndpoints())
         {
-            std::vector<Component*> components = ComponentManager::GetComponents(gameobject);
 
-            for (const auto& component : components)
+            for (const auto& gameobject : ReplicatedGameObjects)
             {
-                if (!component->IsReplicated)
-                    continue;
+                std::vector<Component*> components = ComponentManager::GetComponents(gameobject);
 
-                NetMessage message;
-                Replication::ReplicationManager::CreateComponentMessage(component, message, true);
+                for (const auto& component : components)
+                {
+                    if (!component->IsReplicated)
+                        continue;
 
-                static int TotalCoponentMessagesRecieved = 0;
+                    NetMessage message;
+                    Replication::ReplicationManager::CreateComponentMessage(component, message, true);
 
-                Server& server = Eclipse::MainSingleton::GetInstance<Server>();
-                server.SendToPrev(message, [components, ComponentCount]()
-                    {
-                        if (TotalCoponentMessagesRecieved++ >= ComponentCount)
+                    static int TotalCoponentMessagesRecieved = 0;
+
+                    Server& server = Eclipse::MainSingleton::GetInstance<Server>();
+
+                    server.Send(message, endpoint, [ComponentCount, size]()
                         {
-                            NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SentAllObjects, nullptr, 0, true);
-                            Server& server = Eclipse::MainSingleton::GetInstance<Server>();
-                            server.SendToPrev(msg, [components]()
-                                {
-                                    SendVariableScene();
+                            if (TotalCoponentMessagesRecieved++ >= ComponentCount * size)
+                            {
+                                SendVariableScene();
+                            }
 
-                                    return;
-                                });
+                            return;
+                        });
+                }
 
-                            TotalCoponentMessagesRecieved = 0;
-                        }
-
-                        return;
-                    });
             }
         }
     }
