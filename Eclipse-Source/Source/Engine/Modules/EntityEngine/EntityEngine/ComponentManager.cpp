@@ -77,7 +77,8 @@ namespace Eclipse
 		for (int i = 0; i < myComponentsToStart.size(); i++)
 		{
 			auto& component = myComponentsToStart[i];
-			component->Awake();
+			if (component->myIsOwner)
+				component->Awake();
 		}
 	}
 	void ComponentManager::StartComponents()
@@ -85,7 +86,8 @@ namespace Eclipse
 		for (int i = 0; i < myComponentsToStart.size(); i++)
 		{
 			auto& component = myComponentsToStart[i];
-			component->Start();
+			if (component->myIsOwner)
+				component->Start();
 		}
 	}
 

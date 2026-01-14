@@ -7,11 +7,6 @@ namespace Eclipse
 {
 	ASSET_OPERATORS_IMPL(Shaders, Assets::ShaderHandle);
 
-	size_t Shaders::GetAssetID() const
-	{
-		return dataHandle->assetID;
-	}
-
 	unsigned Shaders::GetProgramID() const
 	{
 		return dataHandle->shaderID;

@@ -16,13 +16,13 @@ namespace Eclipse
 {
 	void SpriteRenderer2D::sprite_OnRep()
 	{
-		SetSprite(12882873142810365928);
+		SetSprite(sprite->GetAssetID());
 	}
 
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
-		spriteRectMin = aMin * material->GetTexture().GetDimDivOne();
-		spriteRectMax = aMax * material->GetTexture().GetDimDivOne();
+		spriteRectMin = aMin * sprite->GetDimDivOne();
+		spriteRectMax = aMax * sprite->GetDimDivOne();
 	}
 
 	void SpriteRenderer2D::SetXMirror(bool aMirror)
@@ -73,6 +73,12 @@ namespace Eclipse
 	{
 		material = aMaterial;
 		hasMaterial = true;
+	}
+
+
+	Texture SpriteRenderer2D::GetSprite()
+	{
+		return sprite;
 	}
 
 	void SpriteRenderer2D::OnComponentAdded()

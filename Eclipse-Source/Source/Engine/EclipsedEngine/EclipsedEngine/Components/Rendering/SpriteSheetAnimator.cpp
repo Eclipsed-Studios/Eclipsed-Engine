@@ -1,71 +1,95 @@
 #include "SpriteSheetAnimator.h"
 
-#include "SpriteRenderer2D.h"
+#include "Components/Rendering/SpriteRenderer2D.h"
 
 #include "EntityEngine/ComponentManager.h"
+#include "CoreEngine/Timer.h"
 
 namespace Eclipse
 {
-    //COMPONENT_REGISTRATION(SpriteSheetAnimator2D);
+    void SpriteSheetAnimator2D::myCurrentFrame_OnRep()
+    {
+        const std::vector<unsigned>& animationFramesIdx = TemporarySpriteAnimation;
+        if (animationFramesIdx.empty())
+            return;
+        if (!mySpriteRenderer)
+            return;
 
-    //void SpriteSheetAnimator2D::Update()
-    //{
-    //    if (!myIsPlaying || !mySpriteRenderer)
-    //        return;
+        const std::vector<Math::RectSizePos>& spriteRects = mySpriteRenderer->GetSprite().GetRects();
+        if (spriteRects.empty())
+            return;
 
-    //    myTimeAccumulator += Time::GetDeltaTime();
+        const Math::RectSizePos& rect = spriteRects[animationFramesIdx[myCurrentFrame]];
+        mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
+    }
 
-    //    if (myTimeAccumulator >= myTimePerFrame)
-    //    {
-    //        const std::vector<unsigned>& animationFramesIdx = mySpriteSheetAnimations->GetAnimation(myActiveAnimation);
-    //        if (animationFramesIdx.empty())
-    //            return;
+    void SpriteSheetAnimator2D::Update()
+    {
+        if (!myIsOwner)
+            return;
 
-    //        myTimeAccumulator -= myTimePerFrame;
+        if (!myIsPlaying || !mySpriteRenderer)
+            return;
 
-    //        if (myCurrentFrame == animationFramesIdx.size() - 1)
-    //        {
-    //            myCurrentFrame = 0;
+        myTimeAccumulator += Time::GetDeltaTime();
 
-    //            if (!myLoop)
-    //            {
-    //                myIsPlaying = false;
-    //                return;
-    //            }
-    //        }
+        if (myTimeAccumulator >= myTimePerFrame)
+        {
+            //const std::vector<unsigned>& animationFramesIdx = mySpriteSheetAnimations->GetAnimation(myActiveAnimation);
+            const std::vector<unsigned>& animationFramesIdx = TemporarySpriteAnimation;
+            if (animationFramesIdx.empty())
+                return;
 
-    //        const std::vector<Math::RectSizePos>& spriteRects = mySpriteRenderer->GetMaterial()->myTexture->GetSpriteRects();
-    //        const Math::RectSizePos& rect = spriteRects[animationFramesIdx[myCurrentFrame++]];
-    //        mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
-    //    }
-    //}
+            myTimeAccumulator -= myTimePerFrame;
 
-    //void SpriteSheetAnimator2D::OnSceneLoaded()
-    //{
-    //    SetSpriteSheet(mySpriteSheetAnimationPath->c_str());
+            if (myCurrentFrame == animationFramesIdx.size() - 1)
+            {
+                myCurrentFrame = 0;
 
-    //    mySpriteRenderer = gameObject->GetComponent<SpriteRenderer2D>();
+                if (!myLoop)
+                {
+                    myIsPlaying = false;
+                    return;
+                }
+            }
 
-    //    const std::vector<Math::RectSizePos>& spriteRects = mySpriteRenderer->GetMaterial()->myTexture->GetSpriteRects();
-    //    const Math::RectSizePos& rect = spriteRects[0];
-    //    mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
-    //}
+            const std::vector<Math::RectSizePos>& spriteRects = mySpriteRenderer->GetSprite().GetRects();
 
-    //void SpriteSheetAnimator2D::SetSpriteSheet(const char* aPath)
-    //{
-    //    mySpriteSheetAnimationPath = aPath;
-    //    mySpriteSheetAnimations = Resources::Get<SpriteSheetAnimation>(aPath);
+            if (spriteRects.empty())
+                return;
 
-    //    //mySpriteSheet.Load(aPath);
-    //    myCurrentFrame = 0;
-    //    myTimeAccumulator = 0.f;
-    //}
+            const Math::RectSizePos& rect = spriteRects[animationFramesIdx[myCurrentFrame++]];
+            mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
+        }
+    }
 
-    //void SpriteSheetAnimator2D::SetCurrentAnimation(const char* anAnimationName, bool aLoop)
-    //{
-    //    myActiveAnimation = anAnimationName;
+    void SpriteSheetAnimator2D::Awake()
+    {
+        mySpriteRenderer = gameObject->GetComponent<SpriteRenderer2D>();
 
-    //    myLoop = aLoop;
-    //    myIsPlaying = true;
-    //}
+        // const std::vector<Math::RectSizePos>& spriteRects = mySpriteRenderer->GetSprite().GetRects();
+
+        // if (spriteRects.empty())
+        //     return;
+
+        // const Math::RectSizePos& rect = spriteRects[0];
+        // mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
+    }
+
+    void SpriteSheetAnimator2D::SetSpriteSheet(const char* aPath)
+    {
+        //mySpriteSheetAnimations = Resources::Get<SpriteSheetAnimation>(aPath);
+
+        //mySpriteSheet.Load(aPath);
+        myCurrentFrame = 0;
+        myTimeAccumulator = 0.f;
+    }
+
+    void SpriteSheetAnimator2D::SetCurrentAnimation(const char* anAnimationName, bool aLoop)
+    {
+        myActiveAnimation = anAnimationName;
+
+        myLoop = aLoop;
+        myIsPlaying = true;
+    }
 }

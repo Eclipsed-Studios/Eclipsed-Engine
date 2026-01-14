@@ -14,8 +14,5 @@ namespace Eclipse
 	class AudioClip final
 	{
 		ASSET_OPERATORS_DEF(AudioClip, Assets::AudioClipHandle, Assets::AudioClipManager);
-
-	public:
-		size_t GetAssetID() const;
 	};
 }

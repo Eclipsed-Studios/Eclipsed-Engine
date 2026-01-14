@@ -20,13 +20,15 @@ namespace Eclipse
     
     class ECLIPSED_API SpriteRenderer2D : public Component
     {
-        COMPONENT_BASE_2(SpriteRenderer2D, 0)
+        COMPONENT_BASE_2(SpriteRenderer2D, 20)
 
     public:
         void OnComponentAdded() override;
 
         void Render() override;
         void Draw(unsigned aProgramID = 0);
+
+        Texture GetSprite();
 
         void SetSprite(const char* aPath);
         void SetSprite(const size_t& id);

@@ -14,7 +14,7 @@ namespace Eclipse::Assets
 	{
 		static AssetRegistry instance{};
 
-		if(metafilePath.empty()) metafilePath = PathManager::GetCookedAssetsDir() / "assets.data";
+		if (metafilePath.empty()) metafilePath = PathManager::GetCookedAssetsDir() / "assets.data";
 
 		return instance;
 	}
@@ -85,9 +85,12 @@ namespace Eclipse::Assets
 
 	const std::vector<size_t>& AssetRegistry::GetAllAssetsOfType(AssetType type)
 	{
-		if (assetTypeToID.find(type) != assetTypeToID.end()) return assetTypeToID[type];
+		if (assetTypeToID.find(type) != assetTypeToID.end())
+			return assetTypeToID[type];
 
-		return {};
+		static const std::vector<size_t> empty{};
+
+		return empty;
 	}
 
 	void AssetRegistry::RegisterAsset(const std::filesystem::path& fullPath, const std::filesystem::path& relativePath, AssetType type)
@@ -115,12 +118,13 @@ namespace Eclipse::Assets
 
 	const AssetRegistryEntry& AssetRegistry::GetRegisteredAsset(const size_t& id)
 	{
-		if (registeredAssets.find(id) == registeredAssets.end()) 
-			return {};
+		if (registeredAssets.find(id) != registeredAssets.end())
+			return registeredAssets[id];
 
-		return registeredAssets[id];
+		static const AssetRegistryEntry empty{};
+		return empty;
 	}
-	
+
 	const AssetRegistryEntry& AssetRegistry::GetRegisteredAsset(const std::filesystem::path& relativePath)
 	{
 		return GetRegisteredAsset(GetIdFromPath(relativePath));
@@ -162,7 +166,7 @@ namespace Eclipse::Assets
 		const size_t id = GetIdFromPath(path);
 		return registeredAssets[id].wasChanged;
 	}
-	
+
 	size_t AssetRegistry::GetIdFromPath(const std::filesystem::path& relativePath)
 	{
 		return std::hash<std::string>{}(relativePath.generic_string());

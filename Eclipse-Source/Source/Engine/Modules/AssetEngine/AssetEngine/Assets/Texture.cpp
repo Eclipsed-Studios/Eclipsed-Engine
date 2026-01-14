@@ -7,6 +7,11 @@ namespace Eclipse
 {
 	ASSET_OPERATORS_IMPL(Texture, Assets::TextureHandle)
 
+		const std::vector<Math::RectSizePos>& Texture::GetRects()
+	{
+		return dataHandle->rects;
+	}
+
 	int Texture::GetWidth() const
 	{
 		return dataHandle->width;
@@ -22,11 +27,6 @@ namespace Eclipse
 		return (float)dataHandle->width / (float)dataHandle->height;
 	}
 
-	size_t Texture::GetAssetID() const
-	{
-		return dataHandle->assetID;
-	}
-
 	unsigned Texture::GetTextureID() const
 	{
 		return dataHandle->textureID;
@@ -37,11 +37,10 @@ namespace Eclipse
 		return dataHandle->sizeNormalized;
 	}
 
-	float Texture::GetDimDivOne() const
+	Math::Vector2f Texture::GetDimDivOne() const
 	{
 		return dataHandle->dimDivOne;
 	}
-
 
 	void Texture::Bind(int slot) const
 	{
