@@ -36,7 +36,7 @@ namespace Eclipse
 
 		Server(asio::io_context& ioContext, std::function<void(const NetMessage& aNetMessage)> aHandleRecieveFunc) :
 			myIOContext(ioContext),
-			socket(ioContext, udp::endpoint(udp::v4(), asio::ip::port_type(18888))),
+			socket(ioContext, udp::endpoint(udp::v4(), asio::ip::port_type(24434))),
 			recieveThread(&Server::RecieveThread, this),
 			garantiedMessageHandler(&Server::SendDirectly_NoChecks, this),
 			HandleRecieveFunc(aHandleRecieveFunc)
@@ -81,6 +81,12 @@ namespace Eclipse
 			NetMessage message;
 			memcpy(&message, recieveBuffer, bytes_transferred);
 
+			// if (bytes_transferred == 24)
+			// {
+			// 	int y = 0;
+			// }
+			
+
 			HandleRecieve(message);
 
 			hasClients = true;
@@ -92,19 +98,22 @@ namespace Eclipse
 
 				if (message.MetaData.SentGarantied)
 				{
+					message.MetaData.SentGarantied = false;
+					Send(&message, 8, recieveEndpoint);
+					message.MetaData.SentGarantied = true;
+					
 					for (auto& endpoint : endpoints)
 					{
 						if (recieveEndpoint.port() == endpoint.port())
 							continue;
+						
+						message.MetaData.messageID = ++message.messageIDIncrementor;
 
-						Send(message, endpoint, []() { return; });
+						SendGarantied(message, endpoint);
 					}
 
-					message.MetaData.SentGarantied = false;
-					Send(&message, 8, recieveEndpoint);
+					message.MetaData.IsGarantied = false;
 				}
-
-				message.MetaData.IsGarantied = false;
 			}
 			else
 			{
@@ -150,6 +159,11 @@ namespace Eclipse
 			Send(&message, message.MetaData.dataSize, endpoint);
 		}
 
+		void SendGarantied(const NetMessage& message, const udp::endpoint& endpoint)
+		{
+			garantiedMessageHandler.Enqueue(message, endpoint);
+		}
+
 		void SendToPrev(const NetMessage& message, const std::function<void()>& aLambdaToRunAfterRecieve)
 		{
 			garantiedMessageHandler.Enqueue(message, recieveEndpoint, aLambdaToRunAfterRecieve);
@@ -169,7 +183,6 @@ namespace Eclipse
 		template <class T>
 		friend class GarantiedMessageHandler;
 
-		// Does check for garantied messages do not use this function
 		void SendDirectly_NoChecks(NetMessage& message, const udp::endpoint& endpoint)
 		{
 			socket.async_send_to(asio::buffer(&message, message.MetaData.dataSize), endpoint, std::bind(&Server::SendManager, this));

@@ -22,6 +22,7 @@ namespace Eclipse::Replication
             static void RecieveCreateObjectMessage(const NetMessage& message);
             static void RecieveDeleteObjectMessage(const NetMessage& message);
             static void RecieveVariableMessage(const NetMessage& message);
+            static void RecieveRequestVariablesMessage(const NetMessage& message);
 
             static void HandleRecieve(const NetMessage& message);
 
@@ -34,7 +35,7 @@ namespace Eclipse::Replication
         class ServerHelp
         {
         public:
-            static void SendVariableScene();
+            static void RequestVariablesFromClient();
             static void SendComponentScene();
             static void HandleRequestedScene();
 
