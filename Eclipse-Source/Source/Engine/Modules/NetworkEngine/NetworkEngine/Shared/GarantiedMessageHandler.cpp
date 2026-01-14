@@ -40,7 +40,7 @@ namespace Eclipse
 		NetMessage cpyMessage;
 		std::memcpy(&cpyMessage, &message, message.MetaData.dataSize);
 
-		GarantiedMessage grntMessage(message, anEndpoint);
+		GarantiedMessage grntMessage(cpyMessage, anEndpoint);
 
 		grntMessage.TimeAtFirstSend = Time::GetTotalTime();
 		
@@ -82,9 +82,7 @@ namespace Eclipse
 		//TemporarySettingsSingleton::Get().ping = (int)(secondsPing * 1000.f);
 		
 		if (garantiedMessage.HasLambda)
-		{
 			garantiedMessage.LambdaToRunOnRecieve();
-		}
 		
 
 		mapChangeMutex.lock();

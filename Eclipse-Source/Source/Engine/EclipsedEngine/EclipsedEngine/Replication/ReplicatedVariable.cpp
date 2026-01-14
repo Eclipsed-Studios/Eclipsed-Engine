@@ -2,9 +2,9 @@
 
 namespace Eclipse::Replication
 {
-    void BaseReplicatedVariable::ReplicateThis(unsigned aID, bool aIsGarantied)
+    void BaseReplicatedVariable::ReplicateThis(unsigned aID, bool aIsGarantied, bool aAlwaysSend)
     {
-        if (!ConnectedComponent->IsOwner())
+        if (!ConnectedComponent->IsOwner() && !aAlwaysSend)
             return;
 
         char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];

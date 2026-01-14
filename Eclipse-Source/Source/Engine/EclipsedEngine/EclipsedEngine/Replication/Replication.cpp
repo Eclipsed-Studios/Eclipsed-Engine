@@ -64,7 +64,6 @@ namespace Eclipse::Replication
     void ReplicationHelper::ClientHelp::RecieveAmountOfComponents(const NetMessage& message)
     {
         memcpy(&myComponentsToRecieved, message.data, sizeof(size_t));
-        int whio = 0;
     }
 
     void ReplicationHelper::ClientHelp::StartReplicatedComponents()
@@ -126,6 +125,22 @@ namespace Eclipse::Replication
             assset = Eclipse::Assets::Resources::Get<Texture>(aAssetID);
         }
         break;
+        }
+    }
+
+    void ReplicationHelper::ClientHelp::RecieveRequestVariablesMessage(const NetMessage& message)
+    {
+        const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
+        for (auto& Component : variableManager)
+        {
+            for (int i = 0; i < Component.second.size(); i++)
+            {
+                auto& Variable = Component.second[i];
+                if (Variable->ConnectedComponent->IsReplicated)
+                {
+                    Variable->ReplicateThis(i, true);
+                }
+            }
         }
     }
 
@@ -192,6 +207,11 @@ namespace Eclipse::Replication
     {
         switch (message.MetaData.Type)
         {
+        case MessageType::Msg_RequestVariables:
+        {
+            ReplicationHelper::ClientHelp::RecieveRequestVariablesMessage(message);
+        }
+        break;
         case MessageType::Msg_Variable:
         {
             ReplicationHelper::ClientHelp::RecieveVariableMessage(message);
@@ -220,20 +240,11 @@ namespace Eclipse::Replication
         }
     }
 
-    void ReplicationHelper::ServerHelp::SendVariableScene()
+    void ReplicationHelper::ServerHelp::RequestVariablesFromClient()
     {
-        const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
-        for (auto& Component : variableManager)
-        {
-            for (int i = 0; i < Component.second.size(); i++)
-            {
-                auto& Variable = Component.second[i];
-                if (Variable->ConnectedComponent->IsReplicated)
-                {
-                    Variable->ReplicateThis(i, true);
-                }
-            }
-        }
+        Server& server = Eclipse::MainSingleton::GetInstance<Server>();
+        NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_RequestVariables, nullptr, 0, true);
+        server.Send(msg);
     }
 
     void ReplicationHelper::ServerHelp::SendComponentScene()
@@ -285,7 +296,7 @@ namespace Eclipse::Replication
                         {
                             if (TotalCoponentMessagesRecieved++ >= ComponentCount * size)
                             {
-                                SendVariableScene();
+                                RequestVariablesFromClient();
                             }
 
                             return;

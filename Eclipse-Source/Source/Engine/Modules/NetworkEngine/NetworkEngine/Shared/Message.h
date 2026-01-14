@@ -13,10 +13,12 @@ namespace Eclipse
 		Msg_DeleteObject,
 		Msg_AddComponent,
 		
+		Msg_RequestVariables,
 		Msg_Variable,
 		
 		Msg_RequestSceneInfo,
 		Msg_SendMultipleComponents,
+		
 
 		Msg_Custom,
 	};
@@ -25,6 +27,8 @@ namespace Eclipse
 	{
 	public:
 		~NetMessage() = default;
+
+		static inline int messageIDIncrementor = 0;
 
 		struct MetaData
 		{
@@ -45,8 +49,6 @@ namespace Eclipse
 		static inline NetMessage BuildGameObjectMessage(unsigned aGameObjectID, MessageType messageType, const void* data, int aByteSize, bool IsGarantied, bool aStartLater = false)
 		{
 			NetMessage message;
-
-			static int messageIDIncrementor = 0;
 
 			message.MetaData.IsGarantied = IsGarantied;
 			message.MetaData.SentGarantied = true;

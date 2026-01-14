@@ -20,7 +20,7 @@ namespace Eclipse
             bool ManualVariableSending;
             int dataAmount;
 
-            void ReplicateThis(unsigned aID, bool aIsGarantied = false);
+            void ReplicateThis(unsigned aID, bool aIsGarantied = false, bool aAlwaysSend = false);
 
             Component* ConnectedComponent;
         };

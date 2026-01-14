@@ -311,7 +311,7 @@ namespace Eclipse
 
 	void ComponentManager::BeginCollisions(GameObjectID aGOID)
 	{
-		auto& components = myEntityIDToVectorOfComponentIDs.at(aGOID);
+		auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
 
 		for (auto& component : components)
 			for (auto& [_, componentIndex] : components)
@@ -319,7 +319,7 @@ namespace Eclipse
 	}
 	void ComponentManager::EndCollisions(GameObjectID aGOID)
 	{
-		auto& components = myEntityIDToVectorOfComponentIDs.at(aGOID);
+		auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
 
 		for (auto& component : components)
 			for (auto& [_, componentIndex] : components)
