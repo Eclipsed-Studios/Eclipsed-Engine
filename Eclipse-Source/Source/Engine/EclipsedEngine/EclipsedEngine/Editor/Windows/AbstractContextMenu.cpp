@@ -1,5 +1,7 @@
 #include "AbstractContextMenu.h"
 
+#include "ImGui/imgui.h"
+
 namespace Eclipse::Editor
 {
 	AbstractContextMenu::AbstractContextMenu(const char* name) : ctxName(name)
@@ -13,6 +15,8 @@ namespace Eclipse::Editor
 		{
 			ImGui::OpenPopup(ctxName);
 		}
+
+		UpdateAlways();
 
 		if (BeginMenu())
 		{
