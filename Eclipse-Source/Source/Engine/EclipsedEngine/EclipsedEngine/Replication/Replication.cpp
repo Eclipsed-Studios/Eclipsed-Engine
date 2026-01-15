@@ -263,7 +263,7 @@ namespace Eclipse::Replication
         const std::vector<Component*>& allComponents = ComponentManager::GetAllComponents();
         for (const auto& component : allComponents)
         {
-            if (component->IsReplicated)
+            if (component->IsReplicated && component->IsOwner())
                 ComponentCount++;
         }
 
