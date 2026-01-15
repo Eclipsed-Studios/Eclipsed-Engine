@@ -4,7 +4,7 @@
 #include "EclipsedEngine/Components/Physics/CapsuleCollider2D.h"
 
 #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
-#include "EclipsedEngine/Components/Rendering/SpriteSheetAnimator.h"
+#include "EclipsedEngine/Components/Rendering/SpriteSheetAnimator2D.h"
 #include "EclipsedEngine/Components/Player.h"
 #include "EclipsedEngine/Components/Transform2D.h"
 

@@ -313,18 +313,18 @@ namespace Eclipse
 
 	void ComponentManager::BeginCollisions(GameObjectID aGOID)
 	{
-		auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
+		// auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
 
-		for (auto& component : components)
-			for (auto& [_, componentIndex] : components)
-				myComponents[componentIndex]->OnCollisionEnter();
+		// for (auto& component : components)
+		// 	for (auto& [_, componentIndex] : components)
+		// 		myComponents[componentIndex]->OnCollisionEnter();
 	}
 	void ComponentManager::EndCollisions(GameObjectID aGOID)
 	{
-		auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
+		// auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
 
-		for (auto& component : components)
-			for (auto& [_, componentIndex] : components)
-				myComponents[componentIndex]->OnCollisionExit();
+		// for (auto& component : components)
+		// 	for (auto& [_, componentIndex] : components)
+		// 		myComponents[componentIndex]->OnCollisionExit();
 	}
 }

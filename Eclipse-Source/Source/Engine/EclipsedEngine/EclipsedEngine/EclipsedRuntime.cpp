@@ -41,11 +41,10 @@ namespace Eclipse
 
 	void EclipsedRuntime::StartEngine(const std::string& path)
 	{
+		Replication::ReplicationManager::Init();
+
 		PathManager::Init(path);
-
-
 		Assets::AssetPipeline::Init();
-
 		{
 			const char* appData = std::getenv("APPDATA");
 
