@@ -132,7 +132,7 @@ namespace Eclipse
 
 		void SendManager()
 		{
-
+			
 		}
 
 		void Send(const void* value, size_t byteSize, const udp::endpoint& endpoint)

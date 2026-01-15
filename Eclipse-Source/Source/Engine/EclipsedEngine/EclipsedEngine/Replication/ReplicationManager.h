@@ -32,6 +32,8 @@ namespace Eclipse::Replication
         static void CreateServer();
         static void CreateClient();
 
+        static void Init();
+
         static void Start();
         static void Update();
 
@@ -76,5 +78,7 @@ namespace Eclipse::Replication
         static inline bool startedGame = false;
 
         static inline asio::io_context ioContext;
+
+        static inline std::string IP = "";
     };
 }

@@ -141,6 +141,20 @@ namespace Eclipse::Editor
 
 			if (ImGui::BeginMenu("Network"))
 			{
+				ImGui::Text("IP: ");
+				ImGui::SameLine();
+
+				char IP[17];
+				memcpy(IP, Replication::ReplicationManager::IP.c_str(), Replication::ReplicationManager::IP.size() + 1);
+				if(ImGui::InputText("##IpToUse", IP, 16))
+				{
+					std::ofstream stream("NetworkIp.ntwrk");
+					stream << IP;
+					stream.close();
+
+					Replication::ReplicationManager::IP = IP;
+				}
+
 				ImGui::Checkbox("##Start Server Checkbox", &Replication::ReplicationManager::startServer);
 				ImGui::SameLine();
 				ImGui::Text("Start Server");

@@ -16,6 +16,8 @@
 
 #include "EntityEngine/Component.h"
 
+#include <fstream>
+
 namespace Eclipse::Replication
 {
     void ReplicationManager::ReplicatedOnPlay()
@@ -39,17 +41,24 @@ namespace Eclipse::Replication
     }
     void ReplicationManager::CreateClient()
     {
-        const char* ip = "127.0.0.1";
+        const char* ip = ReplicationManager::IP.c_str();
         client = &Eclipse::MainSingleton::RegisterInstance<Client>(false, ioContext, ip, [](const NetMessage& aMessage) {Replication::ReplicationHelper::ClientHelp::HandleRecieve(aMessage);});
 
-        NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_Connect, &ip, 1, true);
+        NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_Connect, nullptr, 0, true);
 
         client->Send(message, [ip]() {
-
-            NetMessage message = NetMessage::BuildGameObjectMessage(1, MessageType::Msg_RequestSceneInfo, &ip, 1, true);
-
+            NetMessage message = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_RequestSceneInfo, nullptr, 0, true);
             client->Send(message);
             });
+    }
+
+    void ReplicationManager::Init()
+    {
+        std::fstream stream("NetworkIp.ntwrk");
+        char IpString[16];
+        stream.getline(IpString, 16);
+        
+        IP = IpString;
     }
 
     void ReplicationManager::Start()
