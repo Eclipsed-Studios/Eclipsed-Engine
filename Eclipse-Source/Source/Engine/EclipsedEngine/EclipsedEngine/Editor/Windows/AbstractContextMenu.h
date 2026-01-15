@@ -9,6 +9,7 @@ namespace Eclipse::Editor
 		void Draw();
 
 		virtual void Update() = 0;
+		virtual void UpdateAlways() {}
 
 		bool BeginMenu() const ;
 		void EndMenu() const ;

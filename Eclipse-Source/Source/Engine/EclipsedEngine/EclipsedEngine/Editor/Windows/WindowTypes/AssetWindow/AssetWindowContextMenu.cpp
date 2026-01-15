@@ -8,6 +8,8 @@
 #include "CoreEngine/Debug/DebugLogger.h"
 #include "CoreEngine/PathManager.h"
 
+#include <fstream>
+
 namespace Eclipse::Editor
 {
 	AssetWindowContextMenu::AssetWindowContextMenu() : AbstractContextMenu("AssetsCtxMenu") {}
@@ -15,6 +17,31 @@ namespace Eclipse::Editor
 	void AssetWindowContextMenu::SetActivePath(const std::filesystem::path& aPath)
 	{
 		activePath = aPath;
+	}
+
+	void AssetWindowContextMenu::UpdateAlways()
+	{
+		if (Renaming)
+		{
+			ImGui::Begin("Rename", (bool*)1, ImGuiWindowFlags_AlwaysAutoResize);
+
+			ImGui::InputText("New name", tempName, 512);
+
+
+			if (ImGui::Button("OK"))
+			{
+				std::string renamePathExt = activePathAtRenaming.extension().string();
+
+				memcpy(tempName + strlen(tempName), renamePathExt.c_str(), renamePathExt.size() + 1);
+
+				std::filesystem::path newName = activePathAtRenaming.parent_path() / tempName;
+
+				std::filesystem::rename(activePathAtRenaming, newName);
+				Renaming = false;
+			}
+
+			ImGui::End();
+		}
 	}
 
 	void AssetWindowContextMenu::Update()
@@ -31,6 +58,15 @@ namespace Eclipse::Editor
 		}
 
 		if (activePath.empty()) ImGui::BeginDisabled();
+
+		if (ImGui::MenuItem("Rename"))
+		{
+			activePathAtRenaming = activePath;
+			std::string str = activePathAtRenaming.filename().replace_extension().string();
+			memcpy(tempName, str.c_str(), str.size() + 1);
+
+			Renaming = true;
+		}
 
 		if (ImGui::MenuItem("Open"))
 		{
@@ -54,7 +90,7 @@ namespace Eclipse::Editor
 	{
 		if (ImGui::MenuItem("Folder"))
 		{
-			LOG_ERROR("Creating Folder not implemented.");
+			std::filesystem::create_directory(PathManager::GetAssetDir() / activePath / "NewFolder");
 		}
 
 		if (ImGui::MenuItem("Material"))
@@ -70,7 +106,8 @@ namespace Eclipse::Editor
 
 		if (ImGui::MenuItem("Scene"))
 		{
-			LOG_ERROR("Creating Scene not implemented.");
+			std::ofstream outputStream(PathManager::GetAssetDir() / activePath / "NewScene.scene");
+			outputStream.close();
 		}
 
 		if (ImGui::MenuItem("Physics Material"))

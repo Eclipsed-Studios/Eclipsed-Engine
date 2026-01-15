@@ -70,9 +70,17 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Launcher) 
 
 
-# make_directory("${CMAKE_SOURCE_DIR}/Bin")
-# file(GLOB DLLs "${CMAKE_SOURCE_DIR}/Tools/DLLs/*")
-# file(COPY ${DLLs} DESTINATION "${CMAKE_SOURCE_DIR}/Bin")
+make_directory("${CMAKE_SOURCE_DIR}/Bin")
+
+file(GLOB DLLs "${CMAKE_SOURCE_DIR}/Assets/DLLs/*")
+file(COPY ${DLLs} DESTINATION "${CMAKE_SOURCE_DIR}/Bin")
+
+make_directory("${CMAKE_SOURCE_DIR}/Bin/Local")
+file(GLOB DLLs "${CMAKE_SOURCE_DIR}/Assets/Settings/*")
+file(COPY ${DLLs} DESTINATION "${CMAKE_SOURCE_DIR}/Bin/Local")
+
+file(GLOB EngineAssets "${CMAKE_SOURCE_DIR}/Assets/EngineAssets")
+file(COPY ${EngineAssets} DESTINATION "${CMAKE_SOURCE_DIR}/Bin")
 
 
 
