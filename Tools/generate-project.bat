@@ -2,7 +2,7 @@
 setlocal
 
 :: Target folder
-set LOCAL_DIR=..\Eclipse-Source\Local
+set LOCAL_DIR=..\Eclipse-Source\Bin
 
 :: Make folder if it doesn't exist
 if not exist "%LOCAL_DIR%" (
@@ -13,7 +13,7 @@ if not exist "%LOCAL_DIR%" (
 pushd "%LOCAL_DIR%"
 
 :: Target file
-set PROJECT_FILE=project
+set PROJECT_FILE=.ini
 
 :: Create the file if it doesn't exist
 if not exist "%PROJECT_FILE%" (
