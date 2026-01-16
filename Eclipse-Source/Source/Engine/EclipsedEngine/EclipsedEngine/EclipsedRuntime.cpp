@@ -29,7 +29,7 @@
 #include "NetworkEngine/Client/Client.h"
 #include "NetworkEngine/Server/Server.h"
 
-#include "Settings/SettingsRegistry.h"
+#include "CoreEngine/Settings/SettingsRegistry.h"
 
 #include "EclipsedEngine/Editor/PhysicsDebugDrawer.h"
 
@@ -65,9 +65,10 @@ namespace Eclipse
 			out.close();
 		}
 
+		Settings::SettingsRegistry::Load();
 		SceneManager::LoadSceneData();
 
-		MainSingleton::RegisterInstance<EngineSettings>();
+		//MainSingleton::RegisterInstance<EngineSettings>();
 
 		GraphicsEngine::Init();
 		engine.Init();
@@ -91,7 +92,6 @@ namespace Eclipse
 				};
 		}
 
-		Settings::SettingsRegistry::Load();
 	}
 
 	void EclipsedRuntime::UpdateGame()
