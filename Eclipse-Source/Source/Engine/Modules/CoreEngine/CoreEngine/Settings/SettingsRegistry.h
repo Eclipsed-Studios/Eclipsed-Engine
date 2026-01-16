@@ -7,7 +7,6 @@
 #include "CoreEngine/Math/Vector/Vector2.h"
 #include <stdexcept>
 #include "rapidjson/document.h"
-#include "EclipsedEngine/Editor/Windows/WindowData.h"
 
 #define SETTING_TYPE(_TYPE) _TYPE, std::vector<_TYPE>
 
@@ -21,7 +20,7 @@ namespace Eclipse::Settings
 		SETTING_TYPE(float),
 		SETTING_TYPE(std::string),
 		SETTING_TYPE(Math::Vector2f),
-		SETTING_TYPE(Editor::WindowData)>;
+		SETTING_TYPE(Math::Vector2i)>;
 
 	struct SettingsLayer { std::unordered_map<std::string, SettingValue> values; };
 

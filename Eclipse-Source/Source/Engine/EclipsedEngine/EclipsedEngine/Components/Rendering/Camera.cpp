@@ -46,7 +46,7 @@ namespace Eclipse
     {
         if (drawCameraGizmos)
         {
-            MainSingleton::GetInstance<EngineSettings>();
+            //MainSingleton::GetInstance<EngineSettings>();
 
             float size = 1;
 

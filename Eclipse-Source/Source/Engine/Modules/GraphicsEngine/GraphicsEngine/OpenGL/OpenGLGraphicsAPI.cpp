@@ -18,7 +18,8 @@
 #include "OpenGL/glad/glad.h"
 
 #include"CoreEngine/MainSingleton.h"
-#include "CoreEngine/Settings/EngineSettings.h"
+#include "CoreEngine/Settings/SettingsRegistry.h"
+#include "CoreEngine/Settings/DefaultSettings.h"
 
 #undef CreateWindow
 
@@ -28,13 +29,13 @@ namespace Eclipse
 
 	void SetWindowDimenstion()
 	{
-		EngineSettings& settings = MainSingleton::GetInstance<EngineSettings>();
+		const Math::Vector2f& resolution = Settings::SettingsRegistry::Get<Math::Vector2f>("graphics.resolution");
 
-		Math::Vector2f oneDivRes = settings.GetOneDivResolution();
+		Math::Vector2f oneDivRes = { 1.f / resolution.x, 1.f / resolution.y };
 
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Vector2f, "resolutionMultiplier", &oneDivRes);
 
-		float resolutionRatio = settings.GetResolutionRation();
+		float resolutionRatio = resolution.y / resolution.x;
 		GraphicsEngine::UpdateGlobalUniform(UniformType::Float, "resolutionRatio", &resolutionRatio);
 
 		for (auto& callBackFunc : resolutionChangeCallbackFunctions)
@@ -43,11 +44,8 @@ namespace Eclipse
 
 	void WindowChangeDimenstions(GLFWwindow* window, int width, int height)
 	{
-		EngineSettings& settings = MainSingleton::GetInstance<EngineSettings>();
-
 		glViewport(0, 0, width, height);
-		settings.SetResolution({ width, height });
-
+		Settings::SettingsRegistry::Set<Math::Vector2i>("graphics.resolution", Math::Vector2i(width, height));
 		SetWindowDimenstion();
 	}
 
@@ -61,12 +59,12 @@ namespace Eclipse
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-		EngineSettings& settings = MainSingleton::GetInstance<EngineSettings>();
-		float width = settings.GetResolution().x;
-		float height = settings.GetResolution().y;
+		Math::Vector2f resolution = Settings::SettingsRegistry::Get<Math::Vector2f>("graphics.resolution");
+		float width = resolution.x;
+		float height = resolution.y;
 
-		std::string engineName = settings.GetEngineName();
-		std::string engineVersion = settings.GetEngineVersion();
+		std::string engineName = Settings::Engine::EngineName;
+		std::string engineVersion = Settings::Engine::EngineVersion;
 
 		std::string title = engineName + " " + engineVersion;
 

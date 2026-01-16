@@ -13,6 +13,8 @@
 #include "EntityEngine/ComponentManager.h"
 
 #include <fstream>
+#include "CoreEngine/Settings/SettingsRegistry.h"
+
 
 namespace Eclipse
 {
@@ -66,91 +68,71 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
-		auto voi = PathManager::GetEngineLocal();
+		std::vector<std::string> names = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneNames");
+		if (names.empty()) return;
 
-		auto paths = PathManager::GetEngineLocal() / "EngineSettings.json";
+		std::vector<std::string> paths = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneRelativePaths");
 
-		std::ifstream in(paths);
-
-		std::string jsonString((std::istreambuf_iterator<char>(in)),
-			std::istreambuf_iterator<char>());
-
-		in.close();
-
-		Document d;
-		if (!jsonString.empty())
+		for (int i = 0; i < names.size(); i++)
 		{
-			d.Parse(jsonString.c_str());
+			nameToIdx[names[i]] = i;
+			scenePaths.push_back(paths[i]);
 		}
 
-		Document::AllocatorType& alloc = d.GetAllocator();
 
-		if (d.HasMember("scenes"))
-		{
-			Value& val = d["scenes"].GetArray();
 
-			scenePaths.resize(val.Size());
+		//auto paths = PathManager::GetEngineLocal() / "EngineSettings.json";
 
-			for (SizeType i = 0; i < val.Size(); i++)
-			{
-				const Value& sceneObj = val[i];
+		//std::ifstream in(paths);
 
-				std::string name = sceneObj["name"].GetString();
-				std::string relativePath = sceneObj["relativePath"].GetString();
-				int idx = sceneObj["idx"].GetInt();
+		//std::string jsonString((std::istreambuf_iterator<char>(in)),
+		//	std::istreambuf_iterator<char>());
 
-				nameToIdx[name] = idx;
+		//in.close();
 
-				if (scenePaths.empty()) scenePaths.push_back(relativePath);
-				else scenePaths[idx] = relativePath;
-			}
-		}
+		//Document d;
+		//if (!jsonString.empty())
+		//{
+		//	d.Parse(jsonString.c_str());
+		//}
+
+		//Document::AllocatorType& alloc = d.GetAllocator();
+
+		//if (d.HasMember("scenes"))
+		//{
+		//	Value& val = d["scenes"].GetArray();
+
+		//	scenePaths.resize(val.Size());
+
+		//	for (SizeType i = 0; i < val.Size(); i++)
+		//	{
+		//		const Value& sceneObj = val[i];
+
+		//		std::string name = sceneObj["name"].GetString();
+		//		std::string relativePath = sceneObj["relativePath"].GetString();
+		//		int idx = sceneObj["idx"].GetInt();
+
+		//		nameToIdx[name] = idx;
+
+		//		if (scenePaths.empty()) scenePaths.push_back(relativePath);
+		//		else scenePaths[idx] = relativePath;
+		//	}
+		//}
 	}
 
 	void SceneManager::SaveSceneData()
 	{
-		using namespace rapidjson;
+		std::vector<std::string>& names = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneNames");
+		std::vector<std::string>& paths = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneRelativePaths");
 
-		std::ifstream in(PathManager::GetEngineAssets());
-
-		std::string jsonString((std::istreambuf_iterator<char>(in)),
-			std::istreambuf_iterator<char>());
-
-		in.close();
-
-		Document d;
-		if (!jsonString.empty())
-		{
-			d.Parse(jsonString.c_str());
-		}
-
-		Document::AllocatorType& alloc = d.GetAllocator();
-
-		if (!d.HasMember("scenes"))
-		{
-			d.AddMember("scenes", Value(kArrayType), alloc);
-		}
-
-		Value& val = d["scenes"].GetArray();
-		val.Clear();
+		names.clear();
+		paths.clear();
 
 		for (auto& [name, idx] : nameToIdx)
 		{
-			Value sceneData(kObjectType);
-			sceneData.AddMember("name", Value(name.c_str(), alloc).Move(), alloc);
-			sceneData.AddMember("relativePath", Value(scenePaths[idx].c_str(), alloc).Move(), alloc);
-			sceneData.AddMember("idx", idx, alloc);
-
-			val.PushBack(sceneData, alloc);
+			names.push_back(name);
+			paths.push_back(scenePaths[idx]);
 		}
-
-		StringBuffer buffer;
-		PrettyWriter<StringBuffer> writer(buffer);
-		d.Accept(writer);
-
-		std::ofstream ofs(PathManager::GetEngineAssets());
-		ofs << buffer.GetString();
-		ofs.close();
 	}
 
 	void SceneManager::ClearScene()

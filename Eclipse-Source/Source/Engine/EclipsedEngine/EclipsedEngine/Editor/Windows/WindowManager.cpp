@@ -17,7 +17,7 @@
 #include "EclipsedEngine/Replication/ReplicationManager.h"
 
 #include "EclipsedEngine/Editor/Windows/WindowData.h"
-#include "EclipsedEngine/Settings/SettingsRegistry.h"
+#include "CoreEngine/Settings/SettingsRegistry.h"
 
 namespace Eclipse::Editor
 {
@@ -45,7 +45,7 @@ namespace Eclipse::Editor
 		data.id = newWindow->instanceID;
 		data.name = newWindow->windowName;
 
-		Settings::SettingsRegistry::AddToList("editor.open-windows", data);
+		//Settings::SettingsRegistry::AddToList("editor.open-windows", data);
 	}
 	void WindowManager::UpdateMainMenuBar()
 	{

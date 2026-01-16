@@ -16,6 +16,7 @@ namespace Eclipse::Settings
 		{
 			const inline bool Fullscreen = false;
 			const inline Math::Vector2i Resolution = { 1280, 720 };
+			const inline int NumberOfRenderBuffers = 0;
 		}
 
 		namespace Engine

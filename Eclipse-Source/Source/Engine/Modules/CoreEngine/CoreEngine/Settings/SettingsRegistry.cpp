@@ -7,7 +7,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
-#include "EclipsedEngine/JsonSerializer.h"
+#include "CoreEngine/JsonSerializer.h"
 
 #include "DefaultSettings.h"
 
@@ -55,6 +55,7 @@ namespace Eclipse::Settings
 
 		{ // DATA
 			d.AddMember("fullscreen", Default::Graphics::Fullscreen, allocator);
+			d.AddMember("numberOfRenderBuffers", Default::Graphics::NumberOfRenderBuffers, allocator);
 
 			{
 				Value resolution(kObjectType);
@@ -375,6 +376,24 @@ namespace Eclipse::Settings
 		if (std::holds_alternative<std::string>(value))
 			return rapidjson::Value(std::get<std::string>(value).c_str(), allocator);
 
+		if (std::holds_alternative<std::vector<std::string>>(value))
+		{
+			rapidjson::Value arr(rapidjson::kArrayType);
+
+			const auto& vec = std::get<std::vector<std::string>>(value);
+			for (const auto& str : vec)
+			{
+				rapidjson::Value s;
+				s.SetString(str.c_str(),
+					static_cast<rapidjson::SizeType>(str.size()),
+					allocator);
+
+				arr.PushBack(s, allocator);
+			}
+
+			return arr;
+		}
+
 		if (std::holds_alternative<Math::Vector2f>(value))
 		{
 			auto v = std::get<Math::Vector2f>(value);
@@ -416,6 +435,18 @@ namespace Eclipse::Settings
 		if (jsonValue.IsFloat())  return jsonValue.GetFloat();
 		if (jsonValue.IsDouble()) return jsonValue.GetDouble();
 		if (jsonValue.IsString()) return std::string(jsonValue.GetString());
+		if (jsonValue.IsArray())
+		{
+			std::vector<std::string> st;
+			for (const auto& v : jsonValue.GetArray())
+			{
+				if (v.IsString())
+				{
+					st.emplace_back(v.GetString());
+				}
+			}
+			return st;
+		}
 
 		if (jsonValue.IsObject())
 		{
@@ -427,14 +458,14 @@ namespace Eclipse::Settings
 				}
 			}
 
-			if (jsonValue.HasMember("type"))
-			{
-				std::string type = jsonValue["type"].GetString();
-				if (type == s(Editor::WindowData))
-				{
-					return Editor::WindowData::Deserialize(jsonValue);
-				}
-			}
+			//if (jsonValue.HasMember("type"))
+			//{
+			//	std::string type = jsonValue["type"].GetString();
+			//	if (type == s(Editor::WindowData))
+			//	{
+			//		return Editor::WindowData::Deserialize(jsonValue);
+			//	}
+			//}
 		}
 
 		throw std::runtime_error("Unsupported JSON value");
