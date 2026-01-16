@@ -7,10 +7,13 @@
 #include "rapidjson/document.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
+#include "EclipsedEngine/JsonSerializer.h"
 
 #include "DefaultSettings.h"
 
 #include "CoreEngine/PathManager.h"
+
+#define s(T) #T
 
 using namespace rapidjson;
 
@@ -227,6 +230,16 @@ namespace Eclipse::Settings
 
 	void SettingsRegistry::Load()
 	{
+		rapidjson::Document doc;
+		doc.SetObject();
+		JsonData<const int&>::ToJson(24, doc.GetAllocator());
+
+		Math::Vector2f pos = Math::Vector2f(2, 35.0934f);
+		JsonData<Math::Vector2f>::ToJson(pos, doc.GetAllocator());
+
+		Math::Vector2i awdawd = Math::Vector2i(-3, 9);
+		JsonData<Math::Vector2i>::ToJson(awdawd, doc.GetAllocator());
+
 		Clear();
 
 		if (!std::filesystem::exists(PathManager::GetConfigDir() / "graphics")) SaveGraphicsDefaults();
@@ -362,29 +375,42 @@ namespace Eclipse::Settings
 		if (std::holds_alternative<std::string>(value))
 			return rapidjson::Value(std::get<std::string>(value).c_str(), allocator);
 
-		if (std::holds_alternative<Math::Vector2i>(value))
-		{
-			rapidjson::Value obj(rapidjson::kObjectType);
-			auto v = std::get<Math::Vector2i>(value);
-			obj.AddMember("x", v.x, allocator);
-			obj.AddMember("y", v.y, allocator);
-			return obj;
-		}
-
 		if (std::holds_alternative<Math::Vector2f>(value))
 		{
-			rapidjson::Value obj(rapidjson::kObjectType);
 			auto v = std::get<Math::Vector2f>(value);
-			obj.AddMember("x", v.x, allocator);
-			obj.AddMember("y", v.y, allocator);
-			return obj;
+			return Math::Vector2f::Serialize(v, allocator);
 		}
+
+		//if (std::holds_alternative<Editor::WindowData>(value))
+		//{
+		//	auto v = std::get<Editor::WindowData>(value);
+		//	return Editor::WindowData::Serialize(v, allocator);
+		//}
+		//else if (std::holds_alternative<std::vector<Editor::WindowData>>(value))
+		//{
+		//	auto v = std::get<std::vector<Editor::WindowData>>(value);
+
+		//	rapidjson::Value l(rapidjson::kArrayType);
+
+		//	for (auto value : v)
+		//	{
+		//		l.PushBack("")
+		//	}
+		//	return Editor::WindowData::Serialize(v, allocator);
+
+		//}
 
 		throw std::runtime_error("Unsupported SettingValue type");
 	}
 
+	template<typename T>
+	using decay = std::remove_cvref_t<T>;
+
 	SettingValue SettingsRegistry::JsonToVariant(const rapidjson::Value& jsonValue)
 	{
+
+
+
 		if (jsonValue.IsBool())   return jsonValue.GetBool();
 		if (jsonValue.IsInt())    return jsonValue.GetInt();
 		if (jsonValue.IsFloat())  return jsonValue.GetFloat();
@@ -395,20 +421,18 @@ namespace Eclipse::Settings
 		{
 			if (jsonValue.HasMember("x") && jsonValue.HasMember("y"))
 			{
-				if (jsonValue["x"].IsInt() && jsonValue["y"].IsInt())
-				{
-					return Math::Vector2i{
-						jsonValue["x"].GetInt(),
-						jsonValue["y"].GetInt()
-					};
-				}
-
 				if (jsonValue["x"].IsNumber() && jsonValue["y"].IsNumber())
 				{
-					return Math::Vector2f{
-						jsonValue["x"].GetFloat(),
-						jsonValue["y"].GetFloat()
-					};
+					return Math::Vector2f::Deserialize(jsonValue);
+				}
+			}
+
+			if (jsonValue.HasMember("type"))
+			{
+				std::string type = jsonValue["type"].GetString();
+				if (type == s(Editor::WindowData))
+				{
+					return Editor::WindowData::Deserialize(jsonValue);
 				}
 			}
 		}

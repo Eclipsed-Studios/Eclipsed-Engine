@@ -2,25 +2,27 @@
 
 #include <variant>
 #include <string>
+#include <vector>
 #include <unordered_map>
 #include "CoreEngine/Math/Vector/Vector2.h"
 #include <stdexcept>
 #include "rapidjson/document.h"
+#include "EclipsedEngine/Editor/Windows/WindowData.h"
 
-// Layers
-/*
-	Graphics
-	Engine
-	Editor
-	User
-	Build
-	Network
-	Physics
-*/
+#define SETTING_TYPE(_TYPE) _TYPE, std::vector<_TYPE>
 
 namespace Eclipse::Settings
 {
-	using SettingValue = std::variant<bool, int, double, float, std::string, Math::Vector2i, Math::Vector2f>; // Needs to be updated depending on the types added.
+	using SettingValue = std::variant<
+		SETTING_TYPE(bool), 
+		SETTING_TYPE(int),
+		SETTING_TYPE(unsigned int),
+		SETTING_TYPE(double),
+		SETTING_TYPE(float),
+		SETTING_TYPE(std::string),
+		SETTING_TYPE(Math::Vector2f),
+		SETTING_TYPE(Editor::WindowData)>;
+
 	struct SettingsLayer { std::unordered_map<std::string, SettingValue> values; };
 
 	class SettingsRegistry
@@ -57,11 +59,15 @@ namespace Eclipse::Settings
 		static SettingValue& Set(const char* settingKey, T value);
 		static SettingValue& Set(const char* settingKey);
 
+		template<typename T>
+		static void AddToList(const char* settingKey, T value);
+
 	private:
 		static void Clear();
 		static void LoadLayer(const char* layerName);
 		static void SaveLayer(const char* layerName);
 
+	private:
 		static rapidjson::Value VariantToJson(const SettingValue& SettingValue, rapidjson::Document::AllocatorType& allocator);
 		static SettingValue JsonToVariant(const rapidjson::Value& jsonValue);
 
@@ -94,5 +100,19 @@ namespace Eclipse::Settings
 		SettingValue& stored = Set(settingKey);
 
 		return stored;
+	}
+
+	template<typename T>
+	inline void SettingsRegistry::AddToList(const char* settingKey, T value)
+	{
+		SettingValue& setting = GetValue(settingKey);
+
+		if (!std::holds_alternative<std::vector<std::decay_t<T>>>(setting))
+		{
+			setting = std::vector<std::decay_t<T>>{};
+		}
+
+		std::get<std::vector<std::decay_t<T>>>(setting)
+			.push_back(std::forward<T>(value));
 	}
 }

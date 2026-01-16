@@ -1,5 +1,8 @@
 #include "GameCompiler.h"
 
+#include "CoreEngine/PathManager.h"
+#include <filesystem>
+
 namespace Eclipse
 {
 	void GameCompiler::CompileGame()
@@ -18,14 +21,16 @@ namespace Eclipse
 
 	void GameCompiler::GenerateProject()
 	{
-		std::string sourceDir = PathManager::GetProjectRoot().generic_string();
-		std::string buildCmakeCommand = "cd /d \"" + sourceDir + "\" && cmake -G \"Visual Studio 17 2022\" -T host=x64 -S . -B build";
+		std::string sourceDir = (PathManager::GetEngineRoot().parent_path().parent_path() / "Tools/").generic_string();
+		std::string buildCmakeCommand = "cd /d \"" + sourceDir + "\" && generate-game.bat \""
+			+ PathManager::GetProjectRoot().generic_string() + "\" \"" 
+			+ PathManager::GetEngineRoot().parent_path().generic_string() + "\"";
 		std::system(buildCmakeCommand.c_str());
 	}
 
 	void GameCompiler::Compile()
 	{
-		std::string buildDir = (PathManager::GetProjectRoot() / "build").generic_string();
+		std::string buildDir = (PathManager::GetProjectRoot() / "Library/Binary").generic_string();
 		std::string buildDLLCommand = "cd /d \"" + buildDir + "\" && cmake --build .";
 		std::system(buildDLLCommand.c_str());
 	}

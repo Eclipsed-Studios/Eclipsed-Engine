@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "CoreEngine/Macros/defines.h"
+
 namespace Eclipse 
 { 
 	class Component;
@@ -12,7 +14,7 @@ namespace Eclipse
 namespace Eclipse::Reflection
 {
 	class AbstractSerializedVariable;
-	class ReflectionManager
+	class ECLIPSED_API ReflectionManager
 	{
 	private:
 		using VariableList = std::vector<AbstractSerializedVariable*>;

@@ -18,13 +18,34 @@ namespace Eclipse::Settings
 			const inline Math::Vector2i Resolution = { 1280, 720 };
 		}
 
+		namespace Engine
+		{
+
+		}
+
 		namespace Editor
 		{
 
 		}
 
-		namespace User
+		namespace User // Game related
 		{
+
+		}
+
+		namespace Build
+		{
+
+		}
+
+		namespace Network
+		{
+
+		}
+
+		namespace Physics
+		{
+			const inline Math::Vector2f Gravity = { 0.f, -9.82f};
 
 		}
 	}
