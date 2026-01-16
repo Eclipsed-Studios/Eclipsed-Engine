@@ -18,6 +18,17 @@ add_compile_definitions(
 set_property(GLOBAL PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
 
 
+set(LAUNCH_ARGS "--defaultArg" CACHE STRING "Arguments to pass to launcher")
+
+if(NOT DEFINED PROJECT_DIR OR PROJECT_DIR STREQUAL "")
+    # Create a new project.
+else()
+    set(PROJECT_DIR "${PROJECT_DIR}" CACHE PATH "Where to place executables")
+endif()
+
+
+
+
 # Declare cache variable with a default value if not set
 if(NOT DEFINED EXE_OUTPUT_DIR OR EXE_OUTPUT_DIR STREQUAL "")
     set(EXE_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/Bin" CACHE PATH "Where to place executables" FORCE)
@@ -57,6 +68,9 @@ add_subdirectory(Source/Engine/Modules/PhysicsEngine)
 add_subdirectory(Source/Engine/EclipsedEngine)
 
 add_subdirectory(Source/Launcher)
+
+
+add_subdirectory(${PROJECT_DIR} "${PROJECT_DIR}/Library/Engine-Binary")
 
 
 

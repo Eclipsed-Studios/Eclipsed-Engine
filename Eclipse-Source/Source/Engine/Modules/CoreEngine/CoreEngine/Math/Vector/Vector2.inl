@@ -129,6 +129,25 @@ namespace Eclipse::Math
 		return aVec0.AngleBetween(aVec1);
 	}
 
+	template<typename T>
+	inline rapidjson::Value Vector2<T>::Serialize(const Vector2<T>& aVec, rapidjson::Document::AllocatorType& alloc)
+	{
+		rapidjson::Value val(rapidjson::kObjectType);
+		val.AddMember("x", aVec.x, alloc);
+		val.AddMember("y", aVec.y, alloc);
+		return val;
+	}
+
+	template<typename T>
+	inline Vector2<T> Vector2<T>::Deserialize(const rapidjson::Value& aValue)
+	{
+		Vector2<T> vec;
+		vec.x = aValue["x"].GetFloat();
+		vec.y = aValue["y"].GetFloat();
+
+		return vec;
+	}
+
 #pragma region ===== OPERATORS =====
 
 	template <typename T>

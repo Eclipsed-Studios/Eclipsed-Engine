@@ -13,6 +13,7 @@ file(GLOB_RECURSE LAUNCHER_SOURCES
 add_executable(Launcher "${LAUNCHER_ROOT}/main.cpp")
 
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
+    target_include_directories(Launcher PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
 
 target_link_libraries(Launcher PRIVATE EclipsedEngine)
 

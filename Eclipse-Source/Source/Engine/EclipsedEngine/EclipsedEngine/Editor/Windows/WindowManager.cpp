@@ -16,6 +16,9 @@
 
 #include "EclipsedEngine/Replication/ReplicationManager.h"
 
+#include "EclipsedEngine/Editor/Windows/WindowData.h"
+#include "EclipsedEngine/Settings/SettingsRegistry.h"
+
 namespace Eclipse::Editor
 {
 	void WindowManager::LoadLayouts()
@@ -37,6 +40,12 @@ namespace Eclipse::Editor
 
 		newWindow->Open();
 		IdToWindow[newWindow->instanceID] = newWindow;
+
+		WindowData data;
+		data.id = newWindow->instanceID;
+		data.name = newWindow->windowName;
+
+		Settings::SettingsRegistry::AddToList("editor.open-windows", data);
 	}
 	void WindowManager::UpdateMainMenuBar()
 	{

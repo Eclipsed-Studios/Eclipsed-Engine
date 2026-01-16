@@ -15,7 +15,7 @@ namespace Eclipse
 		static TypeID GetTypeID();
 	};
 
-	ECLIPSED_API extern unsigned gTypeRegistryNextID;
+	inline unsigned gTypeRegistryNextID = 1;
 }
 
 

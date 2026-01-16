@@ -6,6 +6,8 @@
 
 namespace Eclipse::Editor
 {
+
+
 	class WindowManager final
 	{
 	public:

@@ -3,6 +3,8 @@
 #include <initializer_list>
 #include <typeindex>
 
+#include "rapidjson/document.h"
+
 namespace Eclipse::Math
 {
 	template <typename T>
@@ -74,6 +76,11 @@ namespace Eclipse::Math
 
 		T AngleBetween(const Vector2& anotherVec) const;
 		static T AngleBetween(const Vector2& aVec0, const Vector2& aVec1);
+
+	public:
+		static rapidjson::Value Serialize(const Vector2& aVec, rapidjson::Document::AllocatorType& alloc);
+		static Vector2 Deserialize(const rapidjson::Value& aValue);
+		
 
 	public:
 		union
