@@ -15,13 +15,16 @@ add_compile_definitions(
     _ECLIPSED_EXPORT_DLL
     )
 
+
 set_property(GLOBAL PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
 
 
 set(LAUNCH_ARGS "--defaultArg" CACHE STRING "Arguments to pass to launcher")
 
 if(NOT DEFINED PROJECT_DIR OR PROJECT_DIR STREQUAL "")
-    # Create a new project.
+    file(READ "${EXE_OUTPUT_DIR}/.ini" PROJECT_DIR)
+    string(REPLACE "\n" "" PROJECT_DIR "${PROJECT_DIR}")
+    string(REPLACE " " "" PROJECT_DIR "${PROJECT_DIR}")
 else()
     set(PROJECT_DIR "${PROJECT_DIR}" CACHE PATH "Where to place executables")
 endif()
@@ -69,9 +72,9 @@ add_subdirectory(Source/Engine/EclipsedEngine)
 
 add_subdirectory(Source/Launcher)
 
+message(PROJECT_SOURCE_DIR="${PROJECT_DIR}/Library/Engine-Binary")
 
 add_subdirectory(${PROJECT_DIR} "${PROJECT_DIR}/Library/Engine-Binary")
-
 
 
 
