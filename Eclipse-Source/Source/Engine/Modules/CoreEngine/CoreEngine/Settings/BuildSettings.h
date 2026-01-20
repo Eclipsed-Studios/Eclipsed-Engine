@@ -8,11 +8,13 @@ namespace Eclipse::Settings
 	struct BuildSettings : public BaseSettings<BuildSettings>
 	{
 		SETTINGS_DATA{
-			Math::Vector2<int> Resolution;
+			std::vector<std::string> SceneIndex;
 
-			SERIALIZE(MAKE_NVP(Resolution))
+			SERIALIZE(MAKE_NVP(SceneIndex))
 		};
 
-		BASE_SETTINGS(BuildSettings, "BuildSettings.json");
+		GET_SET(SceneIndex)
+
+		BASE_SETTINGS(BuildSettings, "build");
 	};
 }

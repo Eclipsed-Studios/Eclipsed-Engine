@@ -11,6 +11,8 @@
 
 #include "CoreEngine/Files/FileWatcher.h"
 
+#include "CoreEngine/Settings/EditorSettings.h"
+
 namespace Eclipse::Editor
 {
 	void AssetWindow::Open()
@@ -357,8 +359,11 @@ namespace Eclipse::Editor
 		switch (fifo.type)
 		{
 		case Utilities::FileInfo::FileType_Scene:
-			SceneManager::LoadScene(fifo.filePath.string());
-			break;
+		{
+			std::string path = std::filesystem::relative(fifo.filePath, PathManager::GetAssetDir()).generic_string();
+			SceneManager::LoadScene(path);
+			Settings::EditorSettings::SetLastActiveScene(path);
+		}break;
 
 		default:
 			system(fifo.filePath.string().c_str());

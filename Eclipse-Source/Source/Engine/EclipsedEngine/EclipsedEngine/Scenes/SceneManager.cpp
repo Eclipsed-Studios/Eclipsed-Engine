@@ -11,6 +11,7 @@
 #include "GraphicsEngine/RenderCommands/CommandList.h"
 
 #include "EntityEngine/ComponentManager.h"
+#include "CoreEngine/Settings/BuildSettings.h"
 
 #include <fstream>
 //#include "CoreEngine/Settings/.h"
@@ -21,12 +22,17 @@ namespace Eclipse
 	{
 		if (nameOrPath.empty()) return;
 
-		if (std::filesystem::exists(nameOrPath))
-		{
-			ActiveSceneName = std::filesystem::path(nameOrPath).filename().stem().string();
+		std::string path = nameOrPath;
+		if (!std::filesystem::path(nameOrPath).has_extension()) {
+			path += ".scene";
 		}
 
-		SceneLoader::Load((PathManager::GetAssetDir() / scenePaths[nameToIdx[ActiveSceneName]]).generic_string().c_str());
+		if (std::filesystem::exists(PathManager::GetAssetDir() / path))
+		{
+			ActiveSceneName = std::filesystem::path(path).filename().stem().string();
+		}
+
+		SceneLoader::Load((PathManager::GetAssetDir() / path).generic_string().c_str());
 	}
 
 	void SceneManager::LoadScene(unsigned idx)
@@ -67,71 +73,19 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
-		//std::vector<std::string> names = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneNames");
-		//if (names.empty()) return;
+		const std::vector<std::string>& sceneIndex = Settings::BuildSettings::GetSceneIndex();
+		if (sceneIndex.empty()) return;
 
-		//std::vector<std::string> paths = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneRelativePaths");
-
-		//for (int i = 0; i < names.size(); i++)
-		//{
-		//	nameToIdx[names[i]] = i;
-		//	scenePaths.push_back(paths[i]);
-		//}
-
-
-
-		//auto paths = PathManager::GetEngineLocal() / "EngineSettings.json";
-
-		//std::ifstream in(paths);
-
-		//std::string jsonString((std::istreambuf_iterator<char>(in)),
-		//	std::istreambuf_iterator<char>());
-
-		//in.close();
-
-		//Document d;
-		//if (!jsonString.empty())
-		//{
-		//	d.Parse(jsonString.c_str());
-		//}
-
-		//Document::AllocatorType& alloc = d.GetAllocator();
-
-		//if (d.HasMember("scenes"))
-		//{
-		//	Value& val = d["scenes"].GetArray();
-
-		//	scenePaths.resize(val.Size());
-
-		//	for (SizeType i = 0; i < val.Size(); i++)
-		//	{
-		//		const Value& sceneObj = val[i];
-
-		//		std::string name = sceneObj["name"].GetString();
-		//		std::string relativePath = sceneObj["relativePath"].GetString();
-		//		int idx = sceneObj["idx"].GetInt();
-
-		//		nameToIdx[name] = idx;
-
-		//		if (scenePaths.empty()) scenePaths.push_back(relativePath);
-		//		else scenePaths[idx] = relativePath;
-		//	}
-		//}
+		for (int i = 0; i < sceneIndex.size(); i++)
+		{
+			nameToIdx[std::filesystem::path(sceneIndex[i]).filename().stem().generic_string()] = i;
+			scenePaths.push_back(sceneIndex[i]);
+		}
 	}
 
 	void SceneManager::SaveSceneData()
 	{
-		//std::vector<std::string>& names = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneNames");
-		//std::vector<std::string>& paths = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneRelativePaths");
-
-		//names.clear();
-		//paths.clear();
-
-		//for (auto& [name, idx] : nameToIdx)
-		//{
-		//	names.push_back(name);
-		//	paths.push_back(scenePaths[idx]);
-		//}
+		Settings::BuildSettings::SetSceneIndex(scenePaths);
 	}
 
 	void SceneManager::ClearScene()

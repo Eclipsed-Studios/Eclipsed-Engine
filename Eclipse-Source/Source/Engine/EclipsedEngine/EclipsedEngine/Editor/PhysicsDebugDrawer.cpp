@@ -25,7 +25,7 @@ void PhysicsDebugDrawer::DrawPolygon(const b2Vec2* vertices, int vertexCount, b2
 }
 void PhysicsDebugDrawer::DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context)
 {
-    const Math::Vector2i& resolution = Settings::GraphicsSettings::GetData().Resolution;
+    const Math::Vector2i& resolution = Settings::GraphicsSettings::GetResolution();
     float resRatio = resolution.y / resolution.x;
 
     Math::Vector2f position({ transform.p.x, transform.p.y });

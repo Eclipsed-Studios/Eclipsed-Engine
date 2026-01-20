@@ -19,6 +19,10 @@ namespace Eclipse::Settings
 				)
 		};
 
+		GET_SET(Resolution)
+		GET_SET(Fullscreen)
+		GET_SET(NumberOfRenderBuffers)
+
 		BASE_SETTINGS(GraphicsSettings, "graphics");
 	};
 }
