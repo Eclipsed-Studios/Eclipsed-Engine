@@ -5,13 +5,17 @@
 #include "PlatformIntegration/IntegrationManager.h"
 
 #include "CoreEngine/Settings/EngineSettings.h"
+#include "Settings/EngineSettings.h"
+#include "Settings/GraphicsSettings.h"
+
 
 namespace Eclipse
 {
 	void Engine::Init()
 	{
+		EventSystem::Trigger("Engine-Load");
 		Time::Init();
-		Input::Init();
+
 	}
 
 	void Engine::Update()
@@ -23,6 +27,7 @@ namespace Eclipse
 	}
 	void Engine::End()
 	{
+		EventSystem::Trigger("Engine-Shutdown");
 		MainSingleton::Destroy();
 	}
 }

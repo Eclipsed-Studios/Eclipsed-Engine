@@ -18,7 +18,7 @@
 #include "OpenGL/glad/glad.h"
 
 #include"CoreEngine/MainSingleton.h"
-#include "CoreEngine/Settings/SettingsRegistry.h"
+#include "CoreEngine/Settings/GraphicsSettings.h"
 #include "CoreEngine/Settings/DefaultSettings.h"
 
 #undef CreateWindow
@@ -29,7 +29,7 @@ namespace Eclipse
 
 	void SetWindowDimenstion()
 	{
-		const Math::Vector2f& resolution = Settings::SettingsRegistry::Get<Math::Vector2f>("graphics.resolution");
+		const Math::Vector2i& resolution = Settings::GraphicsSettings::GetData().Resolution;
 
 		Math::Vector2f oneDivRes = { 1.f / resolution.x, 1.f / resolution.y };
 
@@ -45,7 +45,8 @@ namespace Eclipse
 	void WindowChangeDimenstions(GLFWwindow* window, int width, int height)
 	{
 		glViewport(0, 0, width, height);
-		Settings::SettingsRegistry::Set<Math::Vector2i>("graphics.resolution", Math::Vector2i(width, height));
+		
+		Settings::GraphicsSettings::GetData().Resolution = Math::Vector2i(width, height);
 		SetWindowDimenstion();
 	}
 
@@ -59,7 +60,7 @@ namespace Eclipse
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-		Math::Vector2f resolution = Settings::SettingsRegistry::Get<Math::Vector2f>("graphics.resolution");
+		Math::Vector2i resolution = Settings::GraphicsSettings::GetData().Resolution;
 		float width = resolution.x;
 		float height = resolution.y;
 

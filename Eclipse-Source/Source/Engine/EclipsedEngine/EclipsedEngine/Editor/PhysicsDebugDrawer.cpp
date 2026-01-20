@@ -5,7 +5,7 @@
 #include "CoreEngine/MainSingleton.h"
 #include "CoreEngine/Settings/EngineSettings.h"
 
-#include "CoreEngine/Settings/SettingsRegistry.h"
+#include "CoreEngine/Settings/GraphicsSettings.h"
 
 using namespace Eclipse;
 
@@ -25,7 +25,7 @@ void PhysicsDebugDrawer::DrawPolygon(const b2Vec2* vertices, int vertexCount, b2
 }
 void PhysicsDebugDrawer::DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context)
 {
-    const Math::Vector2i& resolution = Settings::SettingsRegistry::Get<Math::Vector2i>("graphics.resolution");
+    const Math::Vector2i& resolution = Settings::GraphicsSettings::GetData().Resolution;
     float resRatio = resolution.y / resolution.x;
 
     Math::Vector2f position({ transform.p.x, transform.p.y });

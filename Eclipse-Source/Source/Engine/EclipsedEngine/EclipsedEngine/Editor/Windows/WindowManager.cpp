@@ -17,7 +17,7 @@
 #include "EclipsedEngine/Replication/ReplicationManager.h"
 
 #include "EclipsedEngine/Editor/Windows/WindowData.h"
-#include "CoreEngine/Settings/SettingsRegistry.h"
+//#include "CoreEngine/Settings/SettingsRegistry.h"
 
 namespace Eclipse::Editor
 {

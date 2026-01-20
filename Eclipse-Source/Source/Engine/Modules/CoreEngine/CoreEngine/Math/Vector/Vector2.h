@@ -5,6 +5,8 @@
 
 #include "rapidjson/document.h"
 
+#include "CoreEngine/Settings/SettingsBase.hpp"
+
 namespace Eclipse::Math
 {
 	template <typename T>
@@ -20,6 +22,8 @@ namespace Eclipse::Math
 		std::type_index GetType() const;
 
 		static constexpr bool serializable = true;
+
+		SERIALIZE(MAKE_NVP(x), MAKE_NVP(y))
 
 	public:
 		const Vector2 operator+(const Vector2& anotherVec) const;

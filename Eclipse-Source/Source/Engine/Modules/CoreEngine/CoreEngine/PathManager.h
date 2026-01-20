@@ -2,8 +2,6 @@
 
 #include <filesystem>
 
-#include "CoreEngine/EventSystem/Events/Event.h"
-
 namespace Eclipse
 {
 	class PathManager
@@ -42,8 +40,5 @@ namespace Eclipse
 		static inline std::filesystem::path cacheDir = "Cache";
 		static inline std::filesystem::path cookedAssetsDir = cacheDir / "CookedAssets";
 		static inline std::filesystem::path settingsDir = "Settings";
-
-	public:
-		static inline Event OnProjectSet;
 	};
 }
