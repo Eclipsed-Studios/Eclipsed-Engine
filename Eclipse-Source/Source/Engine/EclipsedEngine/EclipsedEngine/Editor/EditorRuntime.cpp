@@ -23,7 +23,7 @@
 #include "CoreEngine/Settings/EngineSettings.h"
 
 #include "Font-Awesome/7/IconsFontAwesome7.h"
-#include "CoreEngine/Settings/SettingsRegistry.h"
+#include "CoreEngine/Settings/GraphicsSettings.h"
 
 
 namespace Eclipse::Editor
@@ -168,7 +168,7 @@ namespace Eclipse::Editor
 
 	void EditorRuntime::DrawPlayGameButtons()
 	{
-		const Math::Vector2f& resolution = Settings::SettingsRegistry::Get<Math::Vector2f>("graphics.resolution");
+		const Math::Vector2i& resolution = Settings::GraphicsSettings::GetData().Resolution;
 
 
 		int windowSizeX = resolution.x * 0.5f;

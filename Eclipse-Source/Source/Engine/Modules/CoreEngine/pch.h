@@ -10,13 +10,6 @@
 #include <thread>
 #include <mutex>
 
-// ----------- Events
-#include "CoreEngine/EventSystem/events.h"
-#include "CoreEngine/EventSystem/EventSystem.h"
-#include "CoreEngine/EventSystem/Events/BaseEvent.h"
-#include "CoreEngine/EventSystem/Events/Event.h"
-#include "CoreEngine/EventSystem/Events/EventT.h"
-
 // ----------- Files
 #include "CoreEngine/Files/DirectoryTree.h"
 #include "CoreEngine/Files/File.h"
@@ -51,8 +44,8 @@
 #include "CoreEngine/PlatformIntegration/IntegrationManager.h"
 
 // ----------- Settings
-#include "CoreEngine/Settings/Settings.h"
 #include "CoreEngine/Settings/EngineSettings.h"
+#include "CoreEngine/Settings/GraphicsSettings.h"
 
 // ----------- Containers
 #include "CoreEngine/Containers/RingBuffer.h"

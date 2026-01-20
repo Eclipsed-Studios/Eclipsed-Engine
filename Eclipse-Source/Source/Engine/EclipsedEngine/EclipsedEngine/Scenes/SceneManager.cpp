@@ -13,8 +13,7 @@
 #include "EntityEngine/ComponentManager.h"
 
 #include <fstream>
-#include "CoreEngine/Settings/SettingsRegistry.h"
-
+//#include "CoreEngine/Settings/.h"
 
 namespace Eclipse
 {
@@ -68,16 +67,16 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
-		std::vector<std::string> names = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneNames");
-		if (names.empty()) return;
+		//std::vector<std::string> names = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneNames");
+		//if (names.empty()) return;
 
-		std::vector<std::string> paths = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneRelativePaths");
+		//std::vector<std::string> paths = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneRelativePaths");
 
-		for (int i = 0; i < names.size(); i++)
-		{
-			nameToIdx[names[i]] = i;
-			scenePaths.push_back(paths[i]);
-		}
+		//for (int i = 0; i < names.size(); i++)
+		//{
+		//	nameToIdx[names[i]] = i;
+		//	scenePaths.push_back(paths[i]);
+		//}
 
 
 
@@ -122,17 +121,17 @@ namespace Eclipse
 
 	void SceneManager::SaveSceneData()
 	{
-		std::vector<std::string>& names = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneNames");
-		std::vector<std::string>& paths = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneRelativePaths");
+		//std::vector<std::string>& names = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneNames");
+		//std::vector<std::string>& paths = Settings::SettingsRegistry::Get<std::vector<std::string>>("build.sceneRelativePaths");
 
-		names.clear();
-		paths.clear();
+		//names.clear();
+		//paths.clear();
 
-		for (auto& [name, idx] : nameToIdx)
-		{
-			names.push_back(name);
-			paths.push_back(scenePaths[idx]);
-		}
+		//for (auto& [name, idx] : nameToIdx)
+		//{
+		//	names.push_back(name);
+		//	paths.push_back(scenePaths[idx]);
+		//}
 	}
 
 	void SceneManager::ClearScene()

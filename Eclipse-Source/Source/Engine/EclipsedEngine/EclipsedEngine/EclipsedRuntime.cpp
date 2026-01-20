@@ -29,7 +29,7 @@
 #include "NetworkEngine/Client/Client.h"
 #include "NetworkEngine/Server/Server.h"
 
-#include "CoreEngine/Settings/SettingsRegistry.h"
+#include "CoreEngine/Settings/GraphicsSettings.h"
 
 #include "EclipsedEngine/Editor/PhysicsDebugDrawer.h"
 
@@ -65,13 +65,15 @@ namespace Eclipse
 			out.close();
 		}
 
-		Settings::SettingsRegistry::Load();
-		SceneManager::LoadSceneData();
+		engine.Init();
+
+		//SceneManager::LoadSceneData();
 
 		//MainSingleton::RegisterInstance<EngineSettings>();
 
 		GraphicsEngine::Init();
-		engine.Init();
+		Input::Init();
+
 
 		AudioManager::Init();
 		//Settings::SettingsRegistry::SaveDefaults();
@@ -129,8 +131,8 @@ namespace Eclipse
 	}
 	void EclipsedRuntime::Shutdown()
 	{
-		Settings::SettingsRegistry::Save();
 		MainSingleton::Destroy();
+		engine.End();
 	}
 
 	bool EclipsedRuntime::BeginFrame()
