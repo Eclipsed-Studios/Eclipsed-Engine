@@ -4,9 +4,7 @@
 
 #include "PlatformIntegration/IntegrationManager.h"
 
-#include "CoreEngine/Settings/EngineSettings.h"
-#include "Settings/EngineSettings.h"
-#include "Settings/GraphicsSettings.h"
+#include "CoreEngine/Settings/Settings.h"
 
 
 namespace Eclipse

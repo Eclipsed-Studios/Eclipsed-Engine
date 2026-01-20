@@ -19,7 +19,7 @@
 
 #include"CoreEngine/MainSingleton.h"
 #include "CoreEngine/Settings/GraphicsSettings.h"
-#include "CoreEngine/Settings/DefaultSettings.h"
+#include "CoreEngine/Settings/EngineSettings.h"
 
 #undef CreateWindow
 
@@ -29,7 +29,7 @@ namespace Eclipse
 
 	void SetWindowDimenstion()
 	{
-		const Math::Vector2i& resolution = Settings::GraphicsSettings::GetData().Resolution;
+		const Math::Vector2i& resolution = Settings::GraphicsSettings::GetResolution();
 
 		Math::Vector2f oneDivRes = { 1.f / resolution.x, 1.f / resolution.y };
 
@@ -46,7 +46,7 @@ namespace Eclipse
 	{
 		glViewport(0, 0, width, height);
 		
-		Settings::GraphicsSettings::GetData().Resolution = Math::Vector2i(width, height);
+		Settings::GraphicsSettings::SetResolution(Math::Vector2i(width, height));
 		SetWindowDimenstion();
 	}
 
@@ -60,12 +60,12 @@ namespace Eclipse
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-		Math::Vector2i resolution = Settings::GraphicsSettings::GetData().Resolution;
+		Math::Vector2i resolution = Settings::GraphicsSettings::GetResolution();
 		float width = resolution.x;
 		float height = resolution.y;
 
-		std::string engineName = Settings::Engine::EngineName;
-		std::string engineVersion = Settings::Engine::EngineVersion;
+		std::string engineName = Settings::EngineSettings::GetEngineName();
+		std::string engineVersion = Settings::EngineSettings::GetEngineVersion();
 
 		std::string title = engineName + " " + engineVersion;
 

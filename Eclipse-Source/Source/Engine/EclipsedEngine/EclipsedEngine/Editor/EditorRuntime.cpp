@@ -24,6 +24,7 @@
 
 #include "Font-Awesome/7/IconsFontAwesome7.h"
 #include "CoreEngine/Settings/GraphicsSettings.h"
+#include "CoreEngine/Settings/EditorSettings.h"
 
 
 namespace Eclipse::Editor
@@ -68,6 +69,7 @@ namespace Eclipse::Editor
 				[]() { Replication::ReplicationManager::SetAfterReplicatedList(); });
 		}
 
+		SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
 		LoadDLL();
 	}
 
@@ -168,7 +170,7 @@ namespace Eclipse::Editor
 
 	void EditorRuntime::DrawPlayGameButtons()
 	{
-		const Math::Vector2i& resolution = Settings::GraphicsSettings::GetData().Resolution;
+		const Math::Vector2i& resolution = Settings::GraphicsSettings::GetResolution();
 
 
 		int windowSizeX = resolution.x * 0.5f;

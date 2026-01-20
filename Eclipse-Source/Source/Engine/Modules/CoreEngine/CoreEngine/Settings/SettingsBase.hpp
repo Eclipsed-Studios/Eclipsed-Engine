@@ -11,7 +11,7 @@
 #include "CoreEngine/PathManager.h"
 #include "CoreEngine/EventSystem/EventSystem.h"
 
-#define BASE_SETTINGS(_SETTING, _NAME)																\
+#define BASE_SETTINGS(_SETTING, _NAME)																		\
 _SETTING() = default;																						\
 ~_SETTING() = default; 																						\
 struct TEMP { 																								\
@@ -31,12 +31,17 @@ static constexpr const char* SettingsName() { return _SETTING::Name; }
 #define SETTINGS_DATA struct Data
 
 #define MAKE_NVP(Var) CEREAL_NVP(Var)
+
 #define SERIALIZE(...)                                  \
     template <class Archive>                            \
     void serialize(Archive& ar)                         \
     {                                                   \
         ar(__VA_ARGS__);                                \
     }
+
+#define GET_SET(_TYPE)																		\
+	static const decltype(Data::_TYPE)& Get##_TYPE() {return GetData()._TYPE;}				\
+	static void Set##_TYPE(const decltype(Data::_TYPE)& data) {GetData()._TYPE = data;}
 
 namespace Eclipse::Settings 
 {

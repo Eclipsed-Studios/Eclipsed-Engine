@@ -67,7 +67,7 @@ namespace Eclipse
 
 		engine.Init();
 
-		//SceneManager::LoadSceneData();
+		SceneManager::LoadSceneData();
 
 		//MainSingleton::RegisterInstance<EngineSettings>();
 
