@@ -23,7 +23,6 @@ set(LAUNCH_ARGS "--defaultArg" CACHE STRING "Arguments to pass to launcher")
 
 if(NOT DEFINED PROJECT_DIR OR PROJECT_DIR STREQUAL "")
     file(READ "${EXE_OUTPUT_DIR}/.ini" PROJECT_DIR)
-    string(REPLACE "\n" "" PROJECT_DIR "${PROJECT_DIR}")
     string(REPLACE " " "" PROJECT_DIR "${PROJECT_DIR}")
 else()
     set(PROJECT_DIR "${PROJECT_DIR}" CACHE PATH "Where to place executables")
