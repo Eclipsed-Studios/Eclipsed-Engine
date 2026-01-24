@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_PCH_INSTANTIATE_TEMPLATES ON)
 set(CMAKE_UNITY_BUILD ON)
 
+# Or set a common base directory
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/custom-build)
+
 project(Eclipsed-Engine LANGUAGES CXX)
 
 add_compile_definitions(LEAN_AND_MEAN)
@@ -23,6 +26,7 @@ set(LAUNCH_ARGS "--defaultArg" CACHE STRING "Arguments to pass to launcher")
 
 if(NOT DEFINED PROJECT_DIR OR PROJECT_DIR STREQUAL "")
     file(READ "${EXE_OUTPUT_DIR}/.ini" PROJECT_DIR)
+    string(REPLACE "\n" "" PROJECT_DIR "${PROJECT_DIR}")
     string(REPLACE " " "" PROJECT_DIR "${PROJECT_DIR}")
 else()
     set(PROJECT_DIR "${PROJECT_DIR}" CACHE PATH "Where to place executables")

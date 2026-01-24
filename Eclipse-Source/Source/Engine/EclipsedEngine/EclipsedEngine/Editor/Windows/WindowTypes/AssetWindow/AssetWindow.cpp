@@ -37,12 +37,15 @@ namespace Eclipse::Editor
 
 		if (shouldReloadAssets)
 		{
+			//std::filesystem::path LastPath = ctxMenu.GetActivePath();
 			shouldReloadAssets = false;
 			dirTree.Reload();
 			Active_View_Node = dirTree.GetRoot();
 
 			IconManager::LoadAllTextureIcons();
 			IconManager::ExportLoadedTextures();
+
+			//ctxMenu.SetActivePath(LastPath);
 		}
 	}
 

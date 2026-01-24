@@ -10,10 +10,18 @@
 
 #include <fstream>
 
+#include <shellapi.h>
+
 namespace Eclipse::Editor
 {
 	AssetWindowContextMenu::AssetWindowContextMenu() : AbstractContextMenu("AssetsCtxMenu") {}
 
+
+
+	const std::filesystem::path& AssetWindowContextMenu::GetActivePath()
+	{
+		return activePath;
+	}
 	void AssetWindowContextMenu::SetActivePath(const std::filesystem::path& aPath)
 	{
 		activePath = aPath;
@@ -54,7 +62,8 @@ namespace Eclipse::Editor
 
 		if (ImGui::MenuItem("Show in Explorer"))
 		{
-			LOG_ERROR("Show in Explorer not implemented.");
+			std::string command = "/select,\"" + activePath.string() + "\"";
+			ShellExecute(NULL, "open", "explorer.exe", command.c_str(), NULL, 10);
 		}
 
 		if (activePath.empty()) ImGui::BeginDisabled();
@@ -70,12 +79,12 @@ namespace Eclipse::Editor
 
 		if (ImGui::MenuItem("Open"))
 		{
-			LOG_ERROR("Open not implemented.");
+			ShellExecute(NULL, "open", activePath.string().c_str(), NULL, NULL, 10);
 		}
 
 		if (ImGui::MenuItem("Delete"))
 		{
-			LOG_ERROR("Delete not implemented.");
+			std::filesystem::remove(activePath);
 		}
 
 		if (activePath.empty()) ImGui::EndDisabled();
@@ -90,38 +99,103 @@ namespace Eclipse::Editor
 	{
 		if (ImGui::MenuItem("Folder"))
 		{
+			std::filesystem::path savedPath;
+			if (activePath.has_extension())
+			{
+				activePath.remove_filename();
+				savedPath = activePath;
+			}
+			else
+				savedPath = activePath;
+
 			std::filesystem::create_directory(PathManager::GetAssetDir() / activePath / "NewFolder");
+
+			activePath = savedPath;
 		}
 
 		if (ImGui::MenuItem("Material"))
 		{
-			auto path = (PathManager::GetAssetDir() / "Test.mat").generic_string();
+			std::filesystem::path savedPath;
+			if (activePath.has_extension())
+			{
+				activePath.remove_filename();
+				savedPath = activePath;
+			}
+			else
+				savedPath = activePath;
+
+			std::string path = (activePath / "Test.mat").generic_string();
 			Assets::AssetFactory::CreateMaterial(path.c_str());
+
+			activePath = savedPath;
 		}
 
 		if (ImGui::MenuItem("Component"))
 		{
+			std::filesystem::path savedPath;
+			if (activePath.has_extension())
+			{
+				activePath.remove_filename();
+				savedPath = activePath;
+			}
+			else
+				savedPath = activePath;
+
 			LOG_ERROR("Creating Component not implemented.");
+
+			activePath = savedPath;
 		}
 
 		if (ImGui::MenuItem("Scene"))
 		{
+			std::filesystem::path savedPath;
+			if (activePath.has_extension())
+			{
+				activePath.remove_filename();
+				savedPath = activePath;
+			}
+			else
+				savedPath = activePath;
+
 			std::ofstream outputStream(PathManager::GetAssetDir() / activePath / "NewScene.scene");
 			outputStream.close();
+
+			activePath = savedPath;
 		}
 
 		if (ImGui::MenuItem("Physics Material"))
 		{
+			std::filesystem::path savedPath;
+			if (activePath.has_extension())
+			{
+				activePath.remove_filename();
+				savedPath = activePath;
+			}
+			else
+				savedPath = activePath;
+
 			LOG_ERROR("Creating Physics Material not implemented.");
+
+			activePath = savedPath;
 		}
 
-		//if (ImGui::MenuItem("Prefab"))
-		//{
-		//	std::ofstream outputStream(PathManager::GetAssetDir()/activePath/"New prefab.eprf");
+		if (ImGui::MenuItem("Prefab"))
+		{
+			std::filesystem::path savedPath;
+			if (activePath.has_extension())
+			{
+				activePath.remove_filename();
+				savedPath = activePath;
+			}
+			else
+				savedPath = activePath;
 
-		//	outputStream << "Test";
-		//	outputStream.close();
+			std::ofstream outputStream(PathManager::GetAssetDir() / activePath / "New prefab.eprf");
 
-		//}
+			outputStream << "Test";
+			outputStream.close();
+
+			activePath = savedPath;
+		}
 	}
 }
