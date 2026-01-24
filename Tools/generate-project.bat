@@ -29,17 +29,26 @@ for /f "usebackq delims=" %%A in ("%PROJECT_FILE%") do (
 )
 
 :afterRead
-:: If the file was empty, set a default value
-if "%PROJECT_DIR%"=="" set /p PROJECT_DIR=Enter the path to the project: 
+if "%PROJECT_DIR%"=="" (
+	echo No path found inside %LOCAL_DIR%\.ini
+	goto :SetProjectDir
+)
+if not exist "%PROJECT_DIR%" (
+	echo Path: "%PROJECT_DIR%", does not contain an .ini file
+	goto :SetProjectDir
+)
 
-echo %PROJECT_DIR% >> "%PROJECT_FILE%"
+echo %PROJECT_DIR% > "%PROJECT_FILE%"
 
 popd
 
+goto afterSet
 
+:SetProjectDir
+set /p PROJECT_DIR=Enter the path to the project:
+goto :afterRead
 
-
-
+:afterSet
 
 
 
