@@ -9,6 +9,8 @@ namespace Eclipse::Editor
 		AssetWindowContextMenu();
 
 		void SetActivePath(const std::filesystem::path& aPath);
+		const std::filesystem::path& GetActivePath();
+		
 		void Update() override;
 		void UpdateAlways() override;
 
