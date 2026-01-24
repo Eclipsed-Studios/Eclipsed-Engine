@@ -7,7 +7,7 @@ namespace Eclipse::Assets
 {
 	PixelShader PixelShaderManager::GetDefault()
 	{
-		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Shaders/DefaultSprite.pglsl");
+		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("Assets/EngineAssets/Default/Shaders/DefaultSprite.pglsl");
 		return Get(id);
 	}
 

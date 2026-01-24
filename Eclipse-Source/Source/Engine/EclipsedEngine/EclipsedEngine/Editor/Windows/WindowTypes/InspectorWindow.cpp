@@ -255,10 +255,10 @@ namespace Eclipse::Editor
 			if (data.vertexShaderID != 0)
 			{
 				auto& entry = registry.GetRegisteredAsset(data.vertexShaderID);
-				text = entry.path.filename().generic_string();
+				//text = entry.path.filename().generic_string();
 			}
 
-			if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_PixelShader))
+			if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_VertexShader))
 			{
 				data.vertexShaderID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
 				changed = true;

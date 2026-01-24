@@ -13,7 +13,7 @@ namespace Eclipse::Assets
 
 	Material MaterialManager::GetDefault()
 	{
-		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Materials/Default_2D_Material.mat");
+		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("Assets/EngineAssets/Default/Materials/Default_2D_Material.mat");
 		return Get(id);
 	}
 

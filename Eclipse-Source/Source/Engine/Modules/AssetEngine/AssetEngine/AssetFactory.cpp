@@ -8,25 +8,27 @@
 #include "AssetEngine/AssetBinaryLoader/TypeLoaders/VertexShader/VertexShaderLoader.h"
 #include "AssetEngine/AssetBinaryLoader/TypeLoaders/PixelShader/PixelShaderLoader.h"
 
+#include "CoreEngine/PathManager.h"
+
 namespace Eclipse::Assets
 {
+
+
 	void AssetFactory::CreateMaterial(const char* path)
 	{
-		std::ofstream out(path, std::ios::binary);
+		//std::ofstream out(path, std::ios::binary);
 
 		Texture texture = Resources::GetDefaultTexture();
 		VertexShader vs = Resources::GetDefaultVS();
 		PixelShader ps = Resources::GetDefaultPS();
 
-		size_t textureID = texture.GetAssetID();
-		size_t vsID = vs.GetAssetID();
-		size_t psID = ps.GetAssetID();
+		MaterialData data;
+		data.Texture = texture.GetAssetID();
+		data.VertexShader = vs.GetAssetID();
+		data.PixelShader = ps.GetAssetID();
 
-		Math::Color color = { 1.f, 1.f, 1.f, 1.f };
-		out.write(reinterpret_cast<const char*>(&textureID), sizeof(size_t)); // Texture id
-		out.write(reinterpret_cast<const char*>(&psID), sizeof(size_t)); // ps
-		out.write(reinterpret_cast<const char*>(&vsID), sizeof(size_t)); // vs
-		out.write(reinterpret_cast<const char*>(&color), sizeof(Math::Color)); // color
-		out.close();
+		std::ofstream out(path);
+		cereal::JSONOutputArchive archive(out);
+		archive(data);
 	}
 }

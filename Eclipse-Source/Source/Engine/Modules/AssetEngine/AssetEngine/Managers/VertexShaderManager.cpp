@@ -7,7 +7,7 @@ namespace Eclipse::Assets
 {
 	VertexShader VertexShaderManager::GetDefault()
 	{
-		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Shaders/DefaultSprite.vglsl");
+		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("Assets/EngineAssets/Default/Shaders/DefaultSprite.vglsl");
 		return Get(id);
 	}
 
