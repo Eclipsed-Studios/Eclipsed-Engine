@@ -8,7 +8,7 @@ namespace Eclipse::Assets
 {
 	Texture TextureManager::GetDefault()
 	{
-		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("EngineAssets/Default/Textures/Default_Texture.png");
+		static size_t id = AssetRegistry::GetInstance().GetIdFromPath("Assets/EngineAssets/Default/Textures/Default_Texture.png");
 		return Get(id);
 	}
 

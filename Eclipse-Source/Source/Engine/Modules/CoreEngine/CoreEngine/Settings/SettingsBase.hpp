@@ -21,10 +21,10 @@ struct TEMP { 																								\
 	}																										\
 };																											\
 static inline TEMP temp = {};																				\
-		static inline _SETTING::Data& GetData() {															\
-static _SETTING::Data data{};																				\
-return data;																								\
-		}																									\
+static inline _SETTING::Data& GetData() {																	\
+	static _SETTING::Data data{};																			\
+	return data;																							\
+}																											\
 static constexpr const char* Name = _NAME;																	\
 static constexpr const char* SettingsName() { return _SETTING::Name; }	
 

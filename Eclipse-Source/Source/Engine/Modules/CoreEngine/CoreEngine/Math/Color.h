@@ -3,6 +3,8 @@
 #include <initializer_list>
 #include "CoreEngine/Math/Vector/Vector4.h"
 
+#include "CoreEngine/Settings/SettingsBase.hpp"
+
 namespace Eclipse::Math
 {
 	class Color final
@@ -22,6 +24,11 @@ namespace Eclipse::Math
 		}
 
 		Vector4f ToVector() { return { r, g, b, a }; }
+
+		SERIALIZE(MAKE_NVP(r),
+			MAKE_NVP(g),
+			MAKE_NVP(b),
+			MAKE_NVP(a))
 
 	public:
 		union

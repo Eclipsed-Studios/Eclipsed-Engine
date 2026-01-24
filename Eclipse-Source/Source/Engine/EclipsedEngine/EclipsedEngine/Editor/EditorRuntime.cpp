@@ -69,8 +69,8 @@ namespace Eclipse::Editor
 				[]() { Replication::ReplicationManager::SetAfterReplicatedList(); });
 		}
 
-		SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
-		LoadDLL();
+		//SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
+		//LoadDLL();
 	}
 
 	void EditorRuntime::SetGameChanged(const FileWatcherEvent&)
