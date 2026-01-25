@@ -33,6 +33,7 @@ namespace Eclipse::Editor
 			{Utilities::FileInfo::FileType_VertexShader, "DND_VERTEX_SHADER"},
 			{Utilities::FileInfo::FileType_PixelShader, "DND_PIXEL_SHADER"},
 			{Utilities::FileInfo::FileType_Material, "DND_MATERIAL"},
+			{Utilities::FileInfo::FileType_Prefab, "DND_PREFAB"},
 		};
 	};
 }

@@ -179,23 +179,23 @@ namespace Eclipse::Editor
 			activePath = savedPath;
 		}
 
-		if (ImGui::MenuItem("Prefab"))
-		{
-			std::filesystem::path savedPath;
-			if (activePath.has_extension())
-			{
-				activePath.remove_filename();
-				savedPath = activePath;
-			}
-			else
-				savedPath = activePath;
+		// if (ImGui::MenuItem("Prefab"))
+		// {
+		// 	std::filesystem::path savedPath;
+		// 	if (activePath.has_extension())
+		// 	{
+		// 		activePath.remove_filename();
+		// 		savedPath = activePath;
+		// 	}
+		// 	else
+		// 		savedPath = activePath;
 
-			std::ofstream outputStream(PathManager::GetAssetDir() / activePath / "New prefab.eprf");
+		// 	std::ofstream outputStream(activePath / "New prefab.eprf");
 
-			outputStream << "Test";
-			outputStream.close();
+		// 	outputStream << "Test";
+		// 	outputStream.close();
 
-			activePath = savedPath;
-		}
+		// 	activePath = savedPath;
+		// }
 	}
 }

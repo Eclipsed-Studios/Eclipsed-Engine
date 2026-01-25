@@ -14,7 +14,8 @@ namespace Eclipse
       BASE_SELECTION(SpriteSheetAnimator2D, 10)
 
    public:
-      void Awake() override;
+      void OnComponentAdded() override;
+
       void Update() override;
 
       void SetSpriteSheet(const char* aPath);

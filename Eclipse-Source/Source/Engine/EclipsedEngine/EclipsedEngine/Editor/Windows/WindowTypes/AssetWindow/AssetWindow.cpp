@@ -6,6 +6,7 @@
 #include "EclipsedEngine/Editor/EditorUIManager.h"
 
 #include "EclipsedEngine/Editor/Windows/WindowTypes/InspectorWindow.h"
+#include "EclipsedEngine/Editor/Windows/WindowTypes/HierarchyWindow.h"
 #include "EclipsedEngine/Editor/Common/DragAndDrop.h"
 #include "CoreEngine/Math/CommonMath.h"
 
@@ -135,7 +136,7 @@ namespace Eclipse::Editor
 		std::filesystem::path pathCombiner = PathManager::GetAssetDir();
 
 		fs::path p = std::string("Assets");
-		if(Active_View_Node != nullptr) p /= Active_View_Node->info.relativeFilePath.string();
+		if (Active_View_Node != nullptr) p /= Active_View_Node->info.relativeFilePath.string();
 
 		for (auto& path : p)
 		{
@@ -176,6 +177,11 @@ namespace Eclipse::Editor
 		DrawAssetViewBreadcrumb();
 
 		ImGui::Separator();
+
+		ImVec2 cursorXY = ImGui::GetCursorPos();
+
+
+		//ImGui::GetForegroundDrawList()->AddRectFilled(cursorXY, windowSize, ImColor(0, 0, 0, 1));
 
 		ImGui::Indent(10.f);
 
@@ -239,7 +245,7 @@ namespace Eclipse::Editor
 			float texHeight = data.height;
 
 			float scale = 0.6f;
-			float maxDim = Math::Min(availW, availH)* scale;
+			float maxDim = Math::Min(availW, availH) * scale;
 
 			float ratio = texWidth / texHeight;
 			float drawWidth, drawHeight;
@@ -271,12 +277,30 @@ namespace Eclipse::Editor
 			ImGui::Button(icon, buttonSizeVec);
 		}
 
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_Childing_Reordering"))
+			{
+				IM_ASSERT(payload->DataSize == sizeof(unsigned));
+				unsigned draggedEntityID = *reinterpret_cast<unsigned*>(payload->Data);
+
+				std::filesystem::path pathToPlacePrefab;
+				if (node->isDirectory)
+					pathToPlacePrefab = node->info.filePath;
+				else
+					pathToPlacePrefab = PathManager::GetAssetDir();
+
+				HierarchyWindow::CreatePrefab(draggedEntityID, pathToPlacePrefab);
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		ImGui::PopStyleColor();
 		ImGui::PopFont();
 
 		if (node != nullptr)
 		{
-		DragAndDrop::BeginSource(node->info.relativeFilePath.string().c_str(), node->info.relativeFilePath.string().size(), node->info);
+			DragAndDrop::BeginSource(node->info.relativeFilePath.string().c_str(), node->info.relativeFilePath.string().size(), node->info);
 
 		}
 
@@ -317,7 +341,7 @@ namespace Eclipse::Editor
 
 		ImGui::PopFont();
 
-	
+
 
 		ImGui::PopID();
 

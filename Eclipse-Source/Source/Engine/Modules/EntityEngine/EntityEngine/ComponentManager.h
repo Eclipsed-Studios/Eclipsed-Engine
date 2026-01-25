@@ -102,6 +102,7 @@ namespace Eclipse
 
 
 		static bool HasGameObject(unsigned aGOID);
+		static GameObject* GetGameObject(unsigned aGOID);
 
 		static void CommitDestroy();
 

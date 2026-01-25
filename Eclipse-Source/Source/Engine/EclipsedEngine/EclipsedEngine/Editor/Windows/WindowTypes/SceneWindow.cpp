@@ -33,6 +33,20 @@
 
 #include "CoreEngine/Math/CommonMath.h"
 
+#include "Editor/Windows/WindowTypes/HierarchyWindow.h"
+#include "Editor/Windows/WindowTypes/InspectorWindow.h"
+
+#include "Editor/Common/DragAndDrop.h"
+
+#include "CoreEngine/Clipboard.h"
+
+#include "CoreEngine/Files/FileInfo.h"
+
+#include "rapidjson/document.h"
+
+#include <filesystem>
+#include <ostream>
+
 namespace Eclipse
 {
 	using namespace Editor;
@@ -195,8 +209,10 @@ namespace Eclipse
 		{
 			if (ImGui::IsKeyDown(ImGuiKey_LeftAlt) || ImGui::IsKeyDown(ImGuiKey_RightAlt))
 			{
-				EditorActions::CopyObject();
-				EditorActions::PasteObject();
+				EditorActions::CopyObject(HierarchyWindow::CurrentGameObjectID, true);
+
+				char* data = (char*)ClipBoard::GetClipboardData();
+				EditorActions::PasteObject(data);
 			}
 
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(HierarchyWindow::CurrentGameObjectID);
@@ -211,7 +227,7 @@ namespace Eclipse
 		}
 
 		HierarchyWindow::CurrentGameObjectID = pickedID;
-		InspectorWindow::SetActiveType(ActiveItemTypes_GameObject);
+		InspectorWindow::SetActiveType(Eclipse::Editor::ActiveItemTypes_GameObject);
 	}
 
 
@@ -360,9 +376,60 @@ namespace Eclipse
 
 		myLastWindowResolution = { myWindowSize.x, myWindowSize.y };
 
+
+		// if (Editor::DragAndDrop::BeginTarget("DND_PREFAB", Utilities::FileInfo::FileType_Prefab))
+		// {
+		// 	int i = 8;
+		// }
+		// if (Editor::DragAndDrop::BeginTarget("DND_SCENE", Utilities::FileInfo::FileType_Scene))
+		// {
+		// 	int i = 8;
+		// }
+
 		ImVec2 CursorPos = ImGui::GetCursorPos();
 		ImGui::SetCursorPos(ImVec2(CursorPos.x - 8, CursorPos.y - 7));
 		ImGui::Image(mySceneTexture, ImVec2(myWindowSize.x, myWindowSize.y), ImVec2(0, 1), ImVec2(1, 0));
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_PREFAB"))
+			{
+				char* charString = reinterpret_cast<char*>(malloc(payload->DataSize + 1));
+				memcpy(charString, payload->Data, payload->DataSize);
+				memset(charString + payload->DataSize, '\0', 1);
+
+				std::filesystem::path path = PathManager::GetAssetDir() / charString;
+
+				free(charString);
+
+				std::ifstream stream(path);
+				if (!stream.is_open()) {
+					return;
+				}
+
+				size_t prefSize = std::filesystem::file_size(path);
+
+				char* data = reinterpret_cast<char*>(malloc(prefSize + 1));
+				stream.read(data, prefSize);
+				memset(data + prefSize, '\0', 1);
+				stream.close();
+
+				Editor::EditorActions::PasteObject(data);
+
+				free(data);
+			}
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_SCENE"))
+			{
+				// Scene loading
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+
+
+
+
+
 
 		GraphicsEngine::BindFrameBuffer(0);
 	}

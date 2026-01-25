@@ -4,6 +4,7 @@
 
 #include "CoreEngine/Files/DirectoryTree.h"
 #include "EclipsedEngine/Editor/Windows/WindowTypes/AssetWindow/AssetWindowContextMenu.h"
+#include "CoreEngine/Files/FileWatcher.h"
 
 namespace Eclipse::Editor
 {

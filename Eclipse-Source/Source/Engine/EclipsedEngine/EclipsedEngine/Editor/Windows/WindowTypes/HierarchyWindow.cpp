@@ -12,9 +12,15 @@
 #include "EntityEngine/ECS.hpp"
 #include "EntityEngine/GameObject.h"
 
+#include "Editor/Common/EditorActions.h"
+#include "Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
+#include "rapidjson/stringbuffer.h"
+
 #include "CoreEngine/Clipboard.h"
 #include "EclipsedEngine/Scenes/SceneLoader.h"
 #include "EclipsedEngine/Editor/EditorUIManager.h"
+
+#include "EntityEngine/ComponentManager.h"
 
 #include "Font-Awesome/7/IconsFontAwesome7.h"
 
@@ -75,6 +81,19 @@ namespace Eclipse::Editor
 		const char* itemName = aGameObject->GetName().c_str();
 		ImVec2 textSize = ImGui::CalcTextSize(itemName);
 		bool clickedButton = ImGui::Button(buttonName.c_str(), ImVec2(textSize.x + 10, 20));
+
+		if (ImGui::IsItemHovered())
+		{
+			gameobjectrightclicked = true;
+
+			if (ImGui::IsMouseReleased(1))
+			{
+				ImGui::OpenPopup("GameobjectHierarchyRightClicked");
+				SelectedGameobjectID = id;
+			}
+		}
+		else
+			gameobjectrightclicked = false;
 
 		if (id == CurrentGameObjectID)
 			clickedButton = false;
@@ -205,10 +224,38 @@ namespace Eclipse::Editor
 		gameobjectIdsThatAreOpen.emplace(aParent->GetID());
 	}
 
+	void HierarchyWindow::CreatePrefab(unsigned aGameobjectID, std::filesystem::path aPath)
+	{
+		std::string GameObjectName = ComponentManager::GetGameObject(aGameobjectID)->GetName();
+
+		rapidjson::StringBuffer objectJson = EditorActions::CopyObject(aGameobjectID, false);
+		std::ofstream outputStream(aPath / (GameObjectName + ".eprf"));
+		outputStream << objectJson.GetString();
+	}
 
 	void HierarchyWindow::Update()
 	{
-		if (ImGui::BeginPopupContextWindow("##CTX_MENU_RIGHT_CLICK", ImGuiPopupFlags_MouseButtonRight))
+		if (ImGui::BeginPopup("GameobjectHierarchyRightClicked"))
+		{
+			if (ImGui::BeginMenu("Actions"))
+			{
+				if (ImGui::MenuItem("Make Prefab"))
+				{
+					if (AssetWindow::ActivePath.has_extension())
+						AssetWindow::ActivePath.remove_filename();
+
+					CreatePrefab(SelectedGameobjectID, AssetWindow::ActivePath);
+				}
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndPopup();
+		}
+
+
+
+		if (!gameobjectrightclicked && ImGui::BeginPopupContextWindow("##CTX_MENU_RIGHT_CLICK", ImGuiPopupFlags_MouseButtonRight))
 		{
 			if (ImGui::BeginMenu("Create new..."))
 			{
@@ -289,7 +336,7 @@ namespace Eclipse::Editor
 
 		if (!aGameObject->IsOwner())
 			return;
-			
+
 		ComponentManager::Destroy(aGameObject->GetID());
 	}
 }

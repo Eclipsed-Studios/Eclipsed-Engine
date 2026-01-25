@@ -22,6 +22,8 @@ namespace Eclipse
 			void AssignParentChildren(GameObject* targetGO, GameObject* aGameObject);
 			void Update() override;
 
+			static void CreatePrefab(unsigned aGameobjectID, std::filesystem::path aPath);
+
 		public:
 			static inline unsigned CurrentGameObjectID;
 
@@ -30,6 +32,10 @@ namespace Eclipse
 			bool CheckCopomentType(GameObject* aGameobject, GameObject* aParent);
 
 			std::set<unsigned> gameobjectIdsThatAreOpen;
+
+			unsigned SelectedGameobjectID;
+			
+			bool gameobjectrightclicked;
 		};
 	}
 }
