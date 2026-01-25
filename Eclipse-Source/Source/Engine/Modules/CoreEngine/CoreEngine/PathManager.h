@@ -24,7 +24,7 @@ namespace Eclipse
 		static std::filesystem::path GetRelCookedAssetsDir() { return cacheDir / cookedAssetsDir; }
 		static std::filesystem::path GetRelConfigDir() { return settingsDir; }
 		static std::filesystem::path GetEngineRoot() { return engineSourceRoot; }
-		static std::filesystem::path GetEngineAssets() { return engineSourceRoot / "Assets/EngineAssets"; }		
+		static std::filesystem::path GetEngineAssets() { return engineSourceRoot / "EngineAssets"; }		
 		static std::filesystem::path GetEngineLocal() { return engineSourceRoot / "Local"; }
 
 		// Helpers
