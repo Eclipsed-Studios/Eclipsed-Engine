@@ -44,8 +44,12 @@ namespace Eclipse
 
 	void WindowChangeDimenstions(GLFWwindow* window, int width, int height)
 	{
+		if (!width || !height)
+			return;
+
+
 		glViewport(0, 0, width, height);
-		
+
 		Settings::GraphicsSettings::SetResolution(Math::Vector2i(width, height));
 		SetWindowDimenstion();
 	}

@@ -67,7 +67,7 @@ namespace Eclipse
         }
     }
 
-    void SpriteSheetAnimator2D::Awake()
+    void SpriteSheetAnimator2D::OnComponentAdded()
     {
         mySpriteRenderer = gameObject->GetComponent<SpriteRenderer2D>();
         if (!mySpriteRenderer)

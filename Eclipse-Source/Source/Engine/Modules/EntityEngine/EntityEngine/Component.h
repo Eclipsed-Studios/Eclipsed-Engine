@@ -130,7 +130,6 @@ namespace Eclipse
 
 	private:
 		RegisteredTypeIndex myComponentComponentID;
-		static inline unsigned nextComponentID = 0;
 
 	protected:
 		// IF DEF EDITOR

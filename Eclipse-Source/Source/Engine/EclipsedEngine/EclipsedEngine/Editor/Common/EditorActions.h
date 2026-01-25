@@ -1,6 +1,7 @@
 #pragma once
 
 #include "rapidjson/rapidjson.h"
+#include "rapidjson/stringbuffer.h"
 #include "rapidjson/document.h"
 
 #include <vector>
@@ -38,12 +39,12 @@ namespace Eclipse
             static void Save();
 
             static void CopyGameObject(unsigned activeGO, rapidjson::Value& gameobjectJson, rapidjson::Document::AllocatorType& anAllocator);
-            static void CopyObject();
+            static rapidjson::StringBuffer CopyObject(int aObjectID, bool aCopyToClipboard);
             static void Copy();
 
             static void StartChildren(std::vector<GameObject*>& aChildComponents);
             static void PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator);
-            static void PasteObject();
+            static void PasteObject(char* aData);
             static void Paste();
 
             static void ReactToAction(Action anAction);

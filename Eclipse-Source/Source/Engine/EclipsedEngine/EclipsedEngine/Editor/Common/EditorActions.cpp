@@ -51,14 +51,19 @@ namespace Eclipse::Editor
             rapidjson::Value component(rapidjson::kObjectType);
 
             rapidjson::Value componentVars(rapidjson::kObjectType);
-            for (auto& var : reflectionList.at(pComp))
+            if (reflectionList.find(pComp) != reflectionList.end())
             {
-                SceneLoader::WriteMember(componentVars, var, anAllocator);
+                for (auto& var : reflectionList.at(pComp))
+                {
+                    SceneLoader::WriteMember(componentVars, var, anAllocator);
+                }
             }
+
+
             component.AddMember(rapidjson::Value(compName.c_str(), anAllocator).Move(), componentVars, anAllocator);
             componentArray.PushBack(component, anAllocator);
         }
-        gameobjectJson.AddMember("Name", rapidjson::Value(ComponentManager::myEntityIdToEntity.at(HierarchyWindow::CurrentGameObjectID)->GetName().c_str(), anAllocator), anAllocator);
+        gameobjectJson.AddMember("Name", rapidjson::Value(ComponentManager::myEntityIdToEntity.at(activeGO)->GetName().c_str(), anAllocator), anAllocator);
         gameobjectJson.AddMember("Components", componentArray, anAllocator);
 
         rapidjson::Value childArray(rapidjson::kArrayType);
@@ -81,10 +86,10 @@ namespace Eclipse::Editor
             gameobjectJson.AddMember("Children", childArray, anAllocator);
         }
     }
-    void EditorActions::CopyObject()
+    rapidjson::StringBuffer EditorActions::CopyObject(int aObjectID, bool aCopyToClipboard)
     {
-        if (HierarchyWindow::CurrentGameObjectID <= 0)
-            return;
+        if (aObjectID <= 0)
+            return nullptr;
 
         rapidjson::Document d;
         d.SetObject();
@@ -99,7 +104,7 @@ namespace Eclipse::Editor
         rapidjson::Value gameobjectJson(rapidjson::kObjectType);
         gameobjectJson.SetObject();
 
-        CopyGameObject(HierarchyWindow::CurrentGameObjectID, gameobjectJson, jsonAllocator);
+        CopyGameObject(aObjectID, gameobjectJson, jsonAllocator);
 
         gameObjectArrayJson.PushBack(gameobjectJson, jsonAllocator);
         d.AddMember("Gameobjects", gameObjectArrayJson, jsonAllocator);
@@ -111,14 +116,17 @@ namespace Eclipse::Editor
         const char* bufferString = buffer.GetString();
         int stringLength = strlen(bufferString);
 
-        ClipBoard::CopyToClipboard(bufferString, stringLength);
+        if (aCopyToClipboard)
+            ClipBoard::CopyToClipboard(bufferString, stringLength);
+
+        return buffer;
     }
 
     void EditorActions::Copy()
     {
         if (true)
         {
-            CopyObject();
+            CopyObject(HierarchyWindow::CurrentGameObjectID, true);
         }
         else if (false)
         {
@@ -153,7 +161,7 @@ namespace Eclipse::Editor
             for (auto coIt = components.MemberBegin(); coIt != components.MemberEnd(); coIt++)
             {
                 Component* component;
-                component = ComponentRegistry::GetAddComponent(coIt->name.GetString())(*aGameObject, Component::nextComponentID++);
+                component = ComponentRegistry::GetAddComponent(coIt->name.GetString())(*aGameObject, Component::GetNextComponentID());
 
                 auto& reflectedList = Reflection::ReflectionManager::GetList();
                 if (reflectedList.find(component) == reflectedList.end())
@@ -162,36 +170,11 @@ namespace Eclipse::Editor
                 auto& reflectedVars = reflectedList.at(component);
 
                 int refIndex = 0;
+
                 for (auto varIt = coIt->value.MemberBegin(); varIt != coIt->value.MemberEnd(); varIt++)
                 {
                     auto& reflectedVariable = reflectedVars.at(refIndex++);
-                    reflectedVariable->ResolveTypeInfo();
-
-                    if (reflectedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_String)
-                    {
-                        std::string strVal = varIt->value.GetString();
-
-                        std::string* str = (std::string*)reflectedVariable->GetData();
-                        str->resize(strVal.size());
-
-                        memcpy(str->data(), strVal.data(), strVal.size());
-                    }
-                    else if (reflectedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_List)
-                    {
-                        const unsigned count = varIt->value["size"].GetUint();
-                        reflectedVariable->Resize(count);
-
-                        const std::string strVal = varIt->value["data"].GetString();
-
-                        std::vector<unsigned char> decoded = Base64::Decode(strVal);
-                        memcpy(reflectedVariable->GetData(), decoded.data(), decoded.size());
-                    }
-                    else
-                    {
-                        std::string strVal = varIt->value.GetString();
-                        std::vector<unsigned char> decoded = Base64::Decode(strVal);
-                        memcpy(reflectedVariable->GetData(), decoded.data(), decoded.size());
-                    }
+                    SceneLoader::LoadType(reflectedVariable, coIt->value);
                 }
             }
         }
@@ -209,15 +192,14 @@ namespace Eclipse::Editor
             }
         }
     }
-    void EditorActions::PasteObject()
+    void EditorActions::PasteObject(char* aData)
     {
-        char* data = (char*)ClipBoard::GetClipboardData();
-
         rapidjson::Document d;
         d.SetObject();
         rapidjson::Document::AllocatorType& jsonAllocator = d.GetAllocator();
 
-        d.Parse(data);
+        if (d.Parse(aData).HasParseError())
+            return;
 
         if (!d.IsObject())
             return;
@@ -235,14 +217,18 @@ namespace Eclipse::Editor
             if (newGameobject->GetChildCount() > 0)
                 StartChildren(newGameobject->GetChildren());
 
-            for (auto& component : ComponentManager::GetComponents(newGameobject->GetID()))
-                component->OnSceneLoaded();
+            auto components = ComponentManager::GetComponents(newGameobject->GetID());
 
-            for (auto& component : ComponentManager::GetComponents(newGameobject->GetID()))
-            {
+            std::sort(components.begin(), components.end(), [&](Component* aComp0, Component* aComp1)
+                {
+                    return aComp0->GetUpdatePriority() > aComp1->GetUpdatePriority();
+                });
+
+            for (auto& component : components)
                 component->OnComponentAdded();
-                //component->ComponentCreated();
-            }
+
+            for (auto& component : components)
+                component->OnSceneLoaded();
 
             HierarchyWindow::CurrentGameObjectID = newGameobject->GetID();
         }
@@ -252,7 +238,8 @@ namespace Eclipse::Editor
     {
         if (true)
         {
-            PasteObject();
+            char* data = (char*)ClipBoard::GetClipboardData();
+            PasteObject(data);
         }
         else if (false)
         {

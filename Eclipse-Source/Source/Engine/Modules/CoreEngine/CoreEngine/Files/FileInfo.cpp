@@ -47,6 +47,7 @@ namespace Eclipse::Utilities
 			{".pglsl", FileInfo::FileType_PixelShader},
 
 			{".scene", FileInfo::FileType_Scene},
+			{".eprf", FileInfo::FileType_Prefab},
 
 			{".wav", FileInfo::FileType_Audio},
 			{".mp3", FileInfo::FileType_Audio},

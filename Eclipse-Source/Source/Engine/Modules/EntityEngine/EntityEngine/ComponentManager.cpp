@@ -213,6 +213,14 @@ namespace Eclipse
 		return myEntityIdToEntity.find(aGOID) != myEntityIdToEntity.end();
 	}
 
+	GameObject* ComponentManager::GetGameObject(unsigned aGOID)
+	{
+		if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
+			return nullptr;
+		
+		return myEntityIdToEntity.at(aGOID);
+	}
+
 	void ComponentManager::CommitDestroy()
 	{
 		if (gameobjectsToRemove.empty())
