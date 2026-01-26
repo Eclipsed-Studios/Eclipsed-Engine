@@ -33,6 +33,8 @@
 
 #include "EclipsedEngine/Editor/PhysicsDebugDrawer.h"
 
+#include "CoreEngine/Debug/DebugLogger.h"
+
 namespace Eclipse
 {
 	template Transform2D* ComponentManager::GetComponent<Transform2D>(GameObjectID);
@@ -93,7 +95,11 @@ namespace Eclipse
 					ComponentManager::EndCollisions(aUserData.gameobject);
 				};
 		}
+		for (size_t i = 0; i < 10'000; i++)
+		{
+			LOG(std::to_string(i));
 
+		}
 	}
 
 	void EclipsedRuntime::UpdateGame()
@@ -118,6 +124,8 @@ namespace Eclipse
 
 	void EclipsedRuntime::Update()
 	{
+
+
 		engine.Update();
 		ComponentManager::EditorUpdateComponents();
 

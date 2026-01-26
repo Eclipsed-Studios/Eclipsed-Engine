@@ -31,7 +31,7 @@ namespace Eclipse
 
 	class GameObject;
 	class ComponentManager;
-	class ECLIPSED_API Component : public Object
+	class Component : public Object
 	{
 		friend class ReplicatedVariable;
 		friend class Editor::EditorActions;

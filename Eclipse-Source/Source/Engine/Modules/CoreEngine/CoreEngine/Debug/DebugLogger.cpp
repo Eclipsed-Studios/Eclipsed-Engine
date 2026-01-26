@@ -4,25 +4,14 @@
 
 namespace Eclipse
 {
-	RingBuffer<DebugLogger::ConsoleMessage, 10'000> DebugLogger::messageBuffer;
+	RingBuffer<DebugMessage, DebugLogger::BufferSize> DebugLogger::messageBuffer;
 
-	void DebugLogger::AddMessage(const std::string& aMessage, const char* aFile, int aLine, MessageTypes aMessageType)
+	void DebugLogger::AddMessage(const DebugMessage& message)
 	{
-		const auto now = std::time(nullptr);
-		const auto currentTime = std::localtime(&now);
-
-		std::stringstream timeString;
-		timeString << std::put_time(currentTime, "%H:%M:%S");
-
-		messageBuffer.Push({
-			aMessageType,
-			aMessage,
-			timeString.str(), 
-			aFile,
-			aLine });
+		messageBuffer.Push(message);
 	}
 
-	const RingBuffer<DebugLogger::ConsoleMessage, 10'000>& DebugLogger::GetMessages()
+	const RingBuffer<DebugMessage, DebugLogger::BufferSize>& DebugLogger::GetMessages()
 	{
 		return messageBuffer;
 	}

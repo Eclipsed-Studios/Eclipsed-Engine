@@ -63,7 +63,7 @@ namespace Eclipse::Editor
 		if (ImGui::MenuItem("Show in Explorer"))
 		{
 			std::string command = "/select,\"" + activePath.string() + "\"";
-			ShellExecute(NULL, "open", "explorer.exe", command.c_str(), NULL, 10);
+			//ShellExecute(NULL, "open", "explorer.exe", command.c_str(), NULL, 10);
 		}
 
 		if (activePath.empty()) ImGui::BeginDisabled();
@@ -79,7 +79,7 @@ namespace Eclipse::Editor
 
 		if (ImGui::MenuItem("Open"))
 		{
-			ShellExecute(NULL, "open", activePath.string().c_str(), NULL, NULL, 10);
+			//ShellExecute(NULL, "open", activePath.string().c_str(), NULL, NULL, 10);
 		}
 
 		if (ImGui::MenuItem("Delete"))
