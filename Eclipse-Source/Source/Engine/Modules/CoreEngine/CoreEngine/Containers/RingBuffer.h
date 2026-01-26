@@ -16,6 +16,8 @@ namespace Eclipse
 		size_t Count() const;
 		void Clear();
 
+		std::array<T, capacity>& GetBuffer();
+
 	private:
 		std::array<T, capacity> buffer{};
 		size_t index = 0;

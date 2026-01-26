@@ -3,44 +3,33 @@
 #ifdef ECLIPSED_EDITOR
 #include "CoreEngine/Containers/RingBuffer.h"
 #include <string>
+#include "DebugMessage.h"
+#include "DebugMessageFactory.h"
 
 namespace Eclipse
 {
 	class DebugLogger
 	{
-	public:
-		enum class MessageTypes;
-		struct ConsoleMessage;
+	private:
+		static inline constexpr int BufferSize = 10'000;
 
 	public:
-		static void AddMessage(const std::string& aMessage, const char* aFile, int aLine, MessageTypes aMessageType);
+		friend class ConsoleWindow;
 
-		static const RingBuffer<ConsoleMessage, 10'000>& GetMessages();
+	public:
+		static void AddMessage(const DebugMessage& message);
+
+		static const RingBuffer<DebugMessage, DebugLogger::BufferSize>& GetMessages();
 		static void Clear();
 
-	public:
-		enum class MessageTypes
-		{
-			Message, Warning, Error
-		};
-
-		struct ConsoleMessage
-		{
-			MessageTypes type;
-			std::string message;
-			std::string timeString;
-			std::string file;
-			int line;
-		};
-
 	private:
-		static RingBuffer<ConsoleMessage, 10'000> messageBuffer;
+		static RingBuffer<DebugMessage, DebugLogger::BufferSize> messageBuffer;
 	};
 }
 
-#define LOG(MESSAGE) Eclipse::DebugLogger::AddMessage(MESSAGE, __FILE__, __LINE__, Eclipse::DebugLogger::MessageTypes::Message)
-#define LOG_WARNING(MESSAGE) Eclipse::DebugLogger::AddMessage(MESSAGE, __FILE__, __LINE__, Eclipse::DebugLogger::MessageTypes::Warning)
-#define LOG_ERROR(MESSAGE) Eclipse::DebugLogger::AddMessage(MESSAGE, __FILE__, __LINE__, Eclipse::DebugLogger::MessageTypes::Error)
+#define LOG(MESSAGE) Eclipse::DebugLogger::AddMessage(Eclipse::DebugMessageFactory::ConstructSourceCodeMessage(MESSAGE, __FILE__, __LINE__, Eclipse::DiagnosticSeverity::Info))
+#define LOG_WARNING(MESSAGE) Eclipse::DebugLogger::AddMessage(Eclipse::DebugMessageFactory::ConstructSourceCodeMessage(MESSAGE, __FILE__, __LINE__, Eclipse::DiagnosticSeverity::Warning))
+#define LOG_ERROR(MESSAGE) Eclipse::DebugLogger::AddMessage(Eclipse::DebugMessageFactory::ConstructSourceCodeMessage(MESSAGE, __FILE__, __LINE__, Eclipse::DiagnosticSeverity::Error))
 #else
 #define LOG(MESSAGE)
 #define LOG_WARNING(MESSAGE)

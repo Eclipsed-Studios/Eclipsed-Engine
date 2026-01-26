@@ -21,7 +21,7 @@ namespace Eclipse
 
 	void GameCompiler::GenerateProject()
 	{
-		std::string sourceDir = (PathManager::GetEngineRoot().parent_path().parent_path() / "Tools/").generic_string();
+		std::string sourceDir = (PathManager::GetEngineRoot().parent_path() / "Tools/").generic_string();
 		std::string buildCmakeCommand = "cd /d \"" + sourceDir + "\" && generate-game.bat \""
 			+ PathManager::GetProjectRoot().generic_string() + "\" \"" 
 			+ PathManager::GetEngineRoot().parent_path().generic_string() + "\"";

@@ -40,4 +40,10 @@ namespace Eclipse
 		size = 0;
 		index = 0;
 	}
+
+	template<typename T, size_t capacity>
+	inline std::array<T, capacity>& RingBuffer<T, capacity>::GetBuffer()
+	{
+		return buffer;
+	}
 }

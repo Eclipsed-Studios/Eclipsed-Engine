@@ -1,12 +1,8 @@
 #pragma once
 
 #include "EclipsedEngine/Editor/Windows/WindowBase.h"
-
-
-namespace Eclipse
-{
-	struct Message;
-}
+#include "CoreEngine/Debug/DebugMessage.h"
+#include "CoreEngine/Debug/DebugLogger.h"
 
 namespace Eclipse::Editor
 {
@@ -18,7 +14,7 @@ namespace Eclipse::Editor
 		void Update() override;
 
 	private:
-		void DisplayMessage(const Message& aMessage);
+		void DisplayMessage(const DebugMessage& aMessage);
 
 	private:
 		bool myAlwaysAtBottom = false;
