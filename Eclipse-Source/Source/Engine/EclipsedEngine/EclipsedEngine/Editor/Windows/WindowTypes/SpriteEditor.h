@@ -6,6 +6,7 @@
 #include "RenderingWindow.h"
 
 #include "CoreEngine/Math/Vector/Vector2.h"
+#include "CoreEngine/Math/Vector/Vector4.h"
 
 #include "CoreEngine/Math/RectSizePos.h"
 #include "AssetEngine/Assets/Texture.h"

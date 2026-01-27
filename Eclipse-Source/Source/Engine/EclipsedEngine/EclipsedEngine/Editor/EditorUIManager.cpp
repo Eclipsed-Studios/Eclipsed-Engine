@@ -47,6 +47,16 @@ namespace Eclipse::Editor
 		ImGui_Impl::Render();
 	}
 
+	void EditorUIManager::Shutdown()
+	{
+		myWindowManager.End();
+		ImGui::SaveIniSettingsToDisk("imgui.ini");
+
+		ImGui_ImplOpenGL3_Shutdown(); 
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
+	}
+
 	void EditorUIManager::LoadFonts()
 	{
 		ImGuiIO& io = ImGui::GetIO();
