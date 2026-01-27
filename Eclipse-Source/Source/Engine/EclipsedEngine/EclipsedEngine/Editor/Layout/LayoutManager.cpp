@@ -52,6 +52,14 @@ std::vector<Eclipse::Editor::LayoutWindowData> Eclipse::Editor::LayoutManager::O
 		}
 	}
 
+	if (layoutName == "CurrentLayout")
+	{
+		if (d.HasMember("Reference"))
+		{
+			myActiveLayout = d["Reference"].GetString();
+		}
+	}
+
 	return data;
 }
 
@@ -108,6 +116,11 @@ void Eclipse::Editor::LayoutManager::SaveLayout(const std::string& name)
 
 	d.AddMember("OpenWindows", layoutList.Move(), d.GetAllocator());
 
+	if (name == "CurrentLayout")
+	{
+		d.AddMember("Reference", rapidjson::Value(myActiveLayout.c_str(), d.GetAllocator()).Move(), d.GetAllocator());
+	}
+
 	rapidjson::StringBuffer buffer;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
 	d.Accept(writer);
@@ -138,7 +151,7 @@ void Eclipse::Editor::LayoutManager::Update()
 
 		ImGui::Spacing();
 
-		if (ImGui::Button("Save", ImVec2(120, 0)))
+		if (ImGui::Button("Save", ImVec2(120, 0)) ||ImGui::IsKeyPressed(ImGuiKey_Enter) || ImGui::IsKeyPressed(ImGuiKey_KeypadEnter))
 		{
 			if (strlen(myNameSelectBuffer) > 0)
 			{
@@ -181,6 +194,11 @@ void Eclipse::Editor::LayoutManager::LoadLayouts()
 const std::vector<std::string>& Eclipse::Editor::LayoutManager::GetLayouts()
 {
 	return myLayouts;
+}
+
+std::string Eclipse::Editor::LayoutManager::GetActiveLayoutName()
+{
+	return myActiveLayout;
 }
 
 std::string Eclipse::Editor::LayoutManager::GetNewLayoutName()

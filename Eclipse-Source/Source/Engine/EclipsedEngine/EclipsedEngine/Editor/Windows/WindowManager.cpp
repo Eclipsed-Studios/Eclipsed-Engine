@@ -145,13 +145,11 @@ namespace Eclipse::Editor
 				ImGui::EndMenu();
 			}
 
-			const char* currentLayoutName = "Layout: Default";
+			int size = ImGui::CalcTextSize("Layout: ").x + 50;
+			ImGui::SameLine(ImGui::GetWindowWidth() - (size * 2) - 50);
+			ImGui::SetNextItemWidth(size * 2);
 
-			ImGui::SameLine(ImGui::GetWindowWidth() - (ImGui::CalcTextSize(currentLayoutName).x * 2) - 50);
-			ImGui::SetNextItemWidth(ImGui::CalcTextSize(currentLayoutName).x * 2);
-
-			static std::string currentItem = "Default";
-			if (ImGui::BeginCombo("##Layouts", std::string("Layout: " + currentItem).c_str()))
+			if (ImGui::BeginCombo("##Layouts", std::string("Layout: " + LayoutManager::GetActiveLayoutName()).c_str()))
 			{
 				/*if (ImGui::Button("Export"))
 				{
@@ -182,16 +180,13 @@ namespace Eclipse::Editor
 
 				for (auto& layout : LayoutManager::GetLayouts())
 				{
-					bool isSelected = currentItem == layout;
+					bool isSelected = LayoutManager::GetActiveLayoutName() == layout;
+					if (isSelected) continue;
 
 					if (ImGui::Selectable(layout.c_str(), isSelected))
 					{
-						currentItem = layout;
-						OpenLayout(currentItem.c_str());
+						OpenLayout(layout.c_str());
 					}
-
-					if (isSelected)
-						ImGui::SetItemDefaultFocus();
 				}
 
 				ImGui::EndCombo();
