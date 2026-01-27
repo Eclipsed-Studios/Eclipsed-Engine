@@ -107,40 +107,7 @@ namespace Eclipse::Editor
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::BeginMenu("Layouts"))
-			{
-				if (ImGui::BeginMenu("Saved Layouts"))
-				{
-					if (ImGui::MenuItem("Default"))
-					{
-						OpenLayout("Default");
-						return;
-					}
-					if (ImGui::MenuItem("Testing"))
-					{
-						OpenLayout("Testing");
-						return;
-					}
-					ImGui::EndMenu();
-				}
-
-				if (ImGui::BeginMenu("Saving"))
-				{
-					if (ImGui::MenuItem("Default"))
-					{
-						ImGui::SaveIniSettingsToDisk((PathManager::GetEngineAssets() / "Editor/Layouts/Default.ini").generic_string().c_str());
-					}
-					if (ImGui::MenuItem("Testing"))
-					{
-						ImGui::SaveIniSettingsToDisk((PathManager::GetEngineAssets() / "Editor/Layouts/Testing.ini").generic_string().c_str());
-					}
-
-					ImGui::EndMenu();
-				}
-
-				ImGui::EndMenu();
-			}
-
+		
 			if (ImGui::MenuItem("Build"))
 			{
 				// AssetExporter::ExportAll();
@@ -215,7 +182,7 @@ namespace Eclipse::Editor
 					{
 						currentItem = layout;
 						const auto& layoutWindows = LayoutManager::OpenLayout(layout.c_str());
-						if (!layoutWindows.empty()) break;
+						if (layoutWindows.empty()) break;
 
 						for (auto& window : IdToWindow)
 						{
@@ -307,12 +274,12 @@ namespace Eclipse::Editor
 		ImGui::LoadIniSettingsFromDisk("imgui.ini");
 		using namespace rapidjson;
 
-		const std::vector<Settings::OpenEditorWindows>& openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
+		//const std::vector<Settings::OpenEditorWindows>& openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
 
-		for (const Settings::OpenEditorWindows& openWindow : Settings::EditorSettings::GetCurrentlyOpenEditorWindows())
-		{
-			OpenWindow(openWindow.Name.c_str(), openWindow.ID);
-		}
+		//for (const Settings::OpenEditorWindows& openWindow : Settings::EditorSettings::GetCurrentlyOpenEditorWindows())
+		//{
+		//	OpenWindow(openWindow.Name.c_str(), openWindow.ID);
+		//}
 	}
 
 	void WindowManager::End()
@@ -374,101 +341,5 @@ namespace Eclipse::Editor
 
 			ImGui::EndMenu();
 		}
-	}
-
-	void WindowManager::OpenLayout(const char* aName)
-	{
-		ImGui_Impl::currentEditorLayout = aName;
-
-		rapidjson::Document d;
-		d.Parse(myLayouts[std::string(aName)].c_str());
-
-		if (d.HasParseError()) return;
-
-		if (d.HasMember("OpenWindows"))
-		{
-
-
-
-			for (const auto& v : d["OpenWindows"].GetArray())
-			{
-				int id = v["id"].GetInt();
-				std::string name = v["name"].GetString();
-
-				OpenWindow(name.c_str(), id);
-			}
-		}
-	}
-
-	void WindowManager::ExportLayout()
-	{
-		std::string folderName = Files::SaveFileDialog();
-		std::vector<Settings::OpenEditorWindows> openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
-
-		rapidjson::Document d;
-		d.SetObject();
-
-		rapidjson::Value layoutList(rapidjson::kArrayType);
-		for (const Settings::OpenEditorWindows& window : openWindows)
-		{
-			rapidjson::Value val(rapidjson::kObjectType);
-			val.AddMember("id", window.ID, d.GetAllocator());
-			val.AddMember("name", rapidjson::Value(window.Name.c_str(), d.GetAllocator()).Move(), d.GetAllocator());
-
-			layoutList.PushBack(val, d.GetAllocator());
-		}
-
-		d.AddMember("OpenWindows", layoutList.Move(), d.GetAllocator());
-
-		rapidjson::StringBuffer buffer;
-		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-		d.Accept(writer);
-
-		std::ofstream out(folderName + ".edlayout");
-
-		out << buffer.GetString();
-		out.close();
-	}
-
-	void WindowManager::ImportLayout()
-	{
-		std::string fileName = Files::SelectFileDialog();
-
-		std::ifstream in(fileName);
-
-		if (!in.is_open()) return;
-
-		std::string jsonString((std::istreambuf_iterator<char>(in)),
-			std::istreambuf_iterator<char>());
-
-		in.close();
-
-		myLayouts[fileName] = jsonString;
-	}
-
-	void WindowManager::SaveLayoutToMemory()
-	{
-		std::vector<Settings::OpenEditorWindows> openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
-
-		rapidjson::Document d;
-		d.SetObject();
-
-		rapidjson::Value layoutList(rapidjson::kArrayType);
-		for (const Settings::OpenEditorWindows& window : openWindows)
-		{
-			rapidjson::Value val(rapidjson::kObjectType);
-			val.AddMember("id", window.ID, d.GetAllocator());
-			val.AddMember("name", rapidjson::Value(window.Name.c_str(), d.GetAllocator()).Move(), d.GetAllocator());
-
-			layoutList.PushBack(val, d.GetAllocator());
-		}
-
-		d.AddMember("OpenWindows", layoutList.Move(), d.GetAllocator());
-
-		rapidjson::StringBuffer buffer;
-		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-		d.Accept(writer);
-
-		myLayouts["NewLayout"] = buffer.GetString();
 	}
 }
