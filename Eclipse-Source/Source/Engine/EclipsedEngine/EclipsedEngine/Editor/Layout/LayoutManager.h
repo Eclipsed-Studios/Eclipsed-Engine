@@ -33,6 +33,7 @@ namespace Eclipse::Editor
 
 		static const std::vector<std::string>& GetLayouts();
 
+		static std::string GetActiveLayoutName();
 		static std::string GetNewLayoutName();
 
 		static void SaveActiveLayout();
