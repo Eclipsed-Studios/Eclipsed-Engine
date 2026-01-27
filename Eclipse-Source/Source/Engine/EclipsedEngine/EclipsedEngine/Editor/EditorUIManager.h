@@ -13,6 +13,8 @@ namespace Eclipse::Editor
 		void Update();
 		void Render();
 
+		void Shutdown();
+
 	private:
 		void LoadFonts();
 

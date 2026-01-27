@@ -19,24 +19,30 @@
 #include "EclipsedEngine/Editor/Windows/WindowData.h"
 //#include "CoreEngine/Settings/SettingsRegistry.h"
 
+#include "CoreEngine/Settings/EditorSettings.h"
+
+#include "CoreEngine/Debug/DebugLogger.h"
+
+#include "CoreEngine/Files/FileUtilities.h"
+
+#include "EclipsedEngine/Editor/Layout/LayoutManager.h"
+
 namespace Eclipse::Editor
 {
-	void WindowManager::LoadLayouts()
-	{
-		for (auto entry : std::filesystem::directory_iterator(PathManager::GetEngineAssets() / "Editor/Layouts/"))
-		{
-
-
-			myLayouts.push_back(entry.path().filename().string());
-		}
-	}
-
 	void WindowManager::OpenWindow(const std::string& name, int aId)
 	{
 		AbstractWindow* window = static_cast<AbstractWindow*>(WindowRegistry::GetWindow(name));
 		if (window == nullptr) return;
 
+
 		AbstractWindow* newWindow = window->GetNewWindow(aId);
+
+		if (aId == -1)
+		{
+			auto openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
+			openWindows.push_back({ newWindow->instanceID, newWindow->windowName });
+			Settings::EditorSettings::SetCurrentlyOpenEditorWindows(openWindows);
+		}
 
 		newWindow->Open();
 		IdToWindow[newWindow->instanceID] = newWindow;
@@ -155,7 +161,7 @@ namespace Eclipse::Editor
 
 				char IP[17];
 				memcpy(IP, Replication::ReplicationManager::IP.c_str(), Replication::ReplicationManager::IP.size() + 1);
-				if(ImGui::InputText("##IpToUse", IP, 16))
+				if (ImGui::InputText("##IpToUse", IP, 16))
 				{
 					std::ofstream stream("NetworkIp.ntwrk");
 					stream << IP;
@@ -175,11 +181,64 @@ namespace Eclipse::Editor
 				ImGui::EndMenu();
 			}
 
-			ImGui::SameLine(ImGui::GetWindowWidth() - (ImGui::CalcTextSize("Debug").x * 2) + 10);
-			if (ImGui::Button("Debug"))
+			const char* currentLayoutName = "Layout: Default";
+
+			ImGui::SameLine(ImGui::GetWindowWidth() - (ImGui::CalcTextSize(currentLayoutName).x * 2) - 50);
+			ImGui::SetNextItemWidth(ImGui::CalcTextSize(currentLayoutName).x * 2);
+
+			static std::string currentItem = "Default";
+			if (ImGui::BeginCombo("##Layouts", std::string("Layout: " + currentItem).c_str()))
 			{
-				myShowDebugWindow = !myShowDebugWindow;
+				/*if (ImGui::Button("Export"))
+				{
+					LayoutManager::Expo();
+				}
+				*/
+
+				if (ImGui::Button("Import"))
+				{
+					LayoutManager::ImportLayout();
+				}
+				ImGui::SameLine();
+				if (ImGui::Button("Save layout as"))
+				{
+					LayoutManager::SaveAsNewLayout();
+				}
+
+				ImGui::SeparatorText("Layouts");
+
+				for (auto& layout : LayoutManager::GetLayouts())
+				{
+					bool isSelected = currentItem == layout;
+
+					if (ImGui::Selectable(layout.c_str(), isSelected))
+					{
+						currentItem = layout;
+						const auto& layoutWindows = LayoutManager::OpenLayout(layout.c_str());
+						if (!layoutWindows.empty()) break;
+
+						for (auto& window : IdToWindow)
+						{
+							window.second->myIsOpen = false;
+						}
+
+						for (const auto& window : layoutWindows)
+						{
+							OpenWindow(window.name.c_str(), window.id);
+						}
+					}
+
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+
+				ImGui::EndCombo();
 			}
+
+			//if (ImGui::Button("Debug"))
+			//{
+			//	myShowDebugWindow = !myShowDebugWindow;
+			//}
 
 			ImGui::EndMainMenuBar();
 		}
@@ -188,6 +247,8 @@ namespace Eclipse::Editor
 	void WindowManager::Update()
 	{
 		UpdateMainMenuBar();
+
+		LayoutManager::Update();
 
 		for (auto it = IdToWindow.begin(); it != IdToWindow.end(); )
 		{
@@ -202,11 +263,30 @@ namespace Eclipse::Editor
 			else
 			{
 				std::string imguiWindowName = window->windowName + "##" + std::to_string(id);
+				ImGui::PushID(id);
 				ImGui::Begin(imguiWindowName.c_str(), &window->myIsOpen, window->flags);
 				window->PreUpdate();
 				window->Update();
 				window->PostUpdate();
 				ImGui::End();
+				ImGui::PopID();
+
+				if (!window->myIsOpen)
+				{
+					auto openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
+					for (auto it = openWindows.begin(); it != openWindows.end();)
+					{
+						if (it->ID == window->instanceID) {
+							openWindows.erase(it);
+							Settings::EditorSettings::SetCurrentlyOpenEditorWindows(openWindows);
+							Settings::EditorSettings::Save();
+							break;
+						}
+
+						it++;
+					}
+					Settings::EditorSettings::SetCurrentlyOpenEditorWindows(openWindows);
+				}
 
 				++it;
 			}
@@ -222,75 +302,56 @@ namespace Eclipse::Editor
 
 	void WindowManager::Begin()
 	{
-		LoadLayouts();
+		LayoutManager::LoadLayouts();
 
+		ImGui::LoadIniSettingsFromDisk("imgui.ini");
 		using namespace rapidjson;
 
-		std::ifstream ifs(PathManager::GetConfigDir() / "editor.json");
-		if (!ifs.is_open()) {
+		const std::vector<Settings::OpenEditorWindows>& openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
 
-		}
-
-		std::string jsonString((std::istreambuf_iterator<char>(ifs)),
-			std::istreambuf_iterator<char>());
-
-		ifs.close();
-
-		Document d;
-		d.Parse(jsonString.c_str());
-
-		if (d.HasMember("OpenWindows"))
+		for (const Settings::OpenEditorWindows& openWindow : Settings::EditorSettings::GetCurrentlyOpenEditorWindows())
 		{
-			const Value& windowList = d["OpenWindows"];
-			for (auto& window : windowList.GetArray())
-			{
-				const Value& vID = window["id"];
-				const Value& vName = window["name"];
-
-				const int id = vID.GetInt();
-				const std::string name = vName.GetString();
-
-				OpenWindow(name, id);
-			}
+			OpenWindow(openWindow.Name.c_str(), openWindow.ID);
 		}
 	}
 
 	void WindowManager::End()
 	{
-		using namespace rapidjson;
+		LayoutManager::SaveLayout();
+		//using namespace rapidjson;
 
-		Document d;
-		d.SetObject();
-		Document::AllocatorType& allocator = d.GetAllocator();
+		//Document d;
+		//d.SetObject();
+		//Document::AllocatorType& allocator = d.GetAllocator();
 
-		Value windowList(kArrayType);
-		for (const auto& [id, pWindow] : IdToWindow)
-		{
-			Value window(kObjectType);
-			window.AddMember(
-				"id",
-				id,
-				allocator
-			);
+		//Value windowList(kArrayType);
+		//for (const auto& [id, pWindow] : IdToWindow)
+		//{
+		//	Value window(kObjectType);
+		//	window.AddMember(
+		//		"id",
+		//		id,
+		//		allocator
+		//	);
 
-			window.AddMember(
-				"name",
-				Value(pWindow->windowName.c_str(), allocator).Move(),
-				allocator
-			);
+		//	window.AddMember(
+		//		"name",
+		//		Value(pWindow->windowName.c_str(), allocator).Move(),
+		//		allocator
+		//	);
 
-			windowList.PushBack(window, allocator);
-		}
+		//	windowList.PushBack(window, allocator);
+		//}
 
-		d.AddMember("OpenWindows", windowList, allocator);
+		//d.AddMember("OpenWindows", windowList, allocator);
 
-		StringBuffer buffer;
-		Writer<StringBuffer> writer(buffer);
-		d.Accept(writer);
+		//StringBuffer buffer;
+		//Writer<StringBuffer> writer(buffer);
+		//d.Accept(writer);
 
-		std::ofstream ofs(PathManager::GetConfigDir() / "editor.json");
-		ofs << buffer.GetString();
-		ofs.close();
+		//std::ofstream ofs(PathManager::GetConfigDir() / "editor.json");
+		//ofs << buffer.GetString();
+		//ofs.close();
 	}
 
 	void WindowManager::AddWindowToCategory(const std::vector<std::string>& categories, size_t idx, const std::string& windowName)
@@ -317,13 +378,97 @@ namespace Eclipse::Editor
 
 	void WindowManager::OpenLayout(const char* aName)
 	{
-		ImGui_ImplGlfw_Shutdown();
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui::DestroyContext();
-
 		ImGui_Impl::currentEditorLayout = aName;
 
-		ImGui_Impl::ImplementImGui(MainSingleton::GetInstance<GLFWwindow*>());
-		ImGui_Impl::NewFrame();
+		rapidjson::Document d;
+		d.Parse(myLayouts[std::string(aName)].c_str());
+
+		if (d.HasParseError()) return;
+
+		if (d.HasMember("OpenWindows"))
+		{
+
+
+
+			for (const auto& v : d["OpenWindows"].GetArray())
+			{
+				int id = v["id"].GetInt();
+				std::string name = v["name"].GetString();
+
+				OpenWindow(name.c_str(), id);
+			}
+		}
+	}
+
+	void WindowManager::ExportLayout()
+	{
+		std::string folderName = Files::SaveFileDialog();
+		std::vector<Settings::OpenEditorWindows> openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
+
+		rapidjson::Document d;
+		d.SetObject();
+
+		rapidjson::Value layoutList(rapidjson::kArrayType);
+		for (const Settings::OpenEditorWindows& window : openWindows)
+		{
+			rapidjson::Value val(rapidjson::kObjectType);
+			val.AddMember("id", window.ID, d.GetAllocator());
+			val.AddMember("name", rapidjson::Value(window.Name.c_str(), d.GetAllocator()).Move(), d.GetAllocator());
+
+			layoutList.PushBack(val, d.GetAllocator());
+		}
+
+		d.AddMember("OpenWindows", layoutList.Move(), d.GetAllocator());
+
+		rapidjson::StringBuffer buffer;
+		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+		d.Accept(writer);
+
+		std::ofstream out(folderName + ".edlayout");
+
+		out << buffer.GetString();
+		out.close();
+	}
+
+	void WindowManager::ImportLayout()
+	{
+		std::string fileName = Files::SelectFileDialog();
+
+		std::ifstream in(fileName);
+
+		if (!in.is_open()) return;
+
+		std::string jsonString((std::istreambuf_iterator<char>(in)),
+			std::istreambuf_iterator<char>());
+
+		in.close();
+
+		myLayouts[fileName] = jsonString;
+	}
+
+	void WindowManager::SaveLayoutToMemory()
+	{
+		std::vector<Settings::OpenEditorWindows> openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
+
+		rapidjson::Document d;
+		d.SetObject();
+
+		rapidjson::Value layoutList(rapidjson::kArrayType);
+		for (const Settings::OpenEditorWindows& window : openWindows)
+		{
+			rapidjson::Value val(rapidjson::kObjectType);
+			val.AddMember("id", window.ID, d.GetAllocator());
+			val.AddMember("name", rapidjson::Value(window.Name.c_str(), d.GetAllocator()).Move(), d.GetAllocator());
+
+			layoutList.PushBack(val, d.GetAllocator());
+		}
+
+		d.AddMember("OpenWindows", layoutList.Move(), d.GetAllocator());
+
+		rapidjson::StringBuffer buffer;
+		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+		d.Accept(writer);
+
+		myLayouts["NewLayout"] = buffer.GetString();
 	}
 }

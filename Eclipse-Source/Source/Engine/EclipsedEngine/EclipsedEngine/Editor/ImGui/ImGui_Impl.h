@@ -2,9 +2,9 @@
 
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_glfw.h"
-#include "ImGui/imgui_impl_opengl3.h"
-#include "ImGui/implot.h"
+#include "ImGui/backends/imgui_impl_glfw.h"
+#include "ImGui/backends/imgui_impl_opengl3.h"
+#include "ImGui/External/implot.h"
 
 #include "CoreEngine/PathManager.h"
 #include <string>

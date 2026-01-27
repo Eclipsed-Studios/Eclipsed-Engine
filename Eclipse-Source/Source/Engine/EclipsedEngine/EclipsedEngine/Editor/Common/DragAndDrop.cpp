@@ -364,9 +364,13 @@ bool DragAndDrop::TextBox(
     // ARROW AREA BUTTON
     // ===============================================================
     ImGui::SetCursorScreenPos(arrowAreaPos);
-    ImGui::SetItemAllowOverlap();
+    ImGui::PushItemFlag(ImGuiSelectableFlags_AllowOverlap, true);
     bool arrowClickedResult = ImGui::InvisibleButton("##ArrowArea", arrowAreaSize);
+    ImGui::PopItemFlag();
+
     bool arrowHovered = ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem);
+
+    
 
     // --- Draw arrow hover highlight ---
     if (arrowHovered)

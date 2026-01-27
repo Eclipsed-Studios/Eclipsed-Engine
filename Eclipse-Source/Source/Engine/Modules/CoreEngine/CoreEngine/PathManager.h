@@ -13,7 +13,7 @@ namespace Eclipse
 
 	public:
 		// Core directories
-		static std::filesystem::path GetProjectRoot() { return projectRoot / projectRoot; }
+		static std::filesystem::path GetProjectRoot() { return projectRoot; }
 		static std::filesystem::path GetAssetDir() { return projectRoot / assetDir; }
 		static std::filesystem::path GetCacheDir()  {return projectRoot / cacheDir; }
 		static std::filesystem::path GetCookedAssetsDir()  {return projectRoot / cookedAssetsDir; }
