@@ -12,16 +12,22 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_internal.h"
 
+std::string Eclipse::Editor::LayoutManager::myActiveLayout;
+
+
 bool Eclipse::Editor::LayoutManager::myOpenNameSelectPopup;
 char Eclipse::Editor::LayoutManager::myNameSelectBuffer[128] = "";
 
 std::vector<std::string> Eclipse::Editor::LayoutManager::myLayouts;
+
+std::function<void()> Eclipse::Editor::LayoutManager::onSaveCallback;
 
 std::vector<Eclipse::Editor::LayoutWindowData> Eclipse::Editor::LayoutManager::OpenLayout(const std::string_view& layoutName)
 {
 	std::ifstream in(GetLayoutPath(std::string(layoutName)));
 
 	if (!in.is_open()) return {};
+	myActiveLayout = layoutName;
 
 	std::string jsonString((std::istreambuf_iterator<char>(in)),
 		std::istreambuf_iterator<char>());
@@ -77,15 +83,14 @@ void Eclipse::Editor::LayoutManager::SaveLayout()
 	SaveLayout("CurrentLayout");
 }
 
-void Eclipse::Editor::LayoutManager::SaveAsNewLayout()
+void Eclipse::Editor::LayoutManager::SaveAsNewLayout(std::function<void()> callback)
 {
 	myOpenNameSelectPopup = true;
+	onSaveCallback = callback;
 }
 
 void Eclipse::Editor::LayoutManager::SaveLayout(const std::string& name)
 {
-
-
 	std::vector<Settings::OpenEditorWindows> openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
 
 	rapidjson::Document d;
@@ -116,6 +121,11 @@ void Eclipse::Editor::LayoutManager::SaveLayout(const std::string& name)
 	out.close();
 }
 
+void Eclipse::Editor::LayoutManager::NewLayout()
+{
+	myOpenNameSelectPopup = true;
+}
+
 void Eclipse::Editor::LayoutManager::Update()
 {
 	if (myOpenNameSelectPopup)
@@ -132,7 +142,14 @@ void Eclipse::Editor::LayoutManager::Update()
 		{
 			if (strlen(myNameSelectBuffer) > 0)
 			{
-				SaveLayout(myNameSelectBuffer);
+				std::ofstream out(GetLayoutPath(myNameSelectBuffer));
+				myLayouts.push_back(myNameSelectBuffer);
+
+				if (onSaveCallback != nullptr)
+				{
+					onSaveCallback();
+				}
+
 				myOpenNameSelectPopup = false;
 				ImGui::CloseCurrentPopup();
 			}
@@ -156,7 +173,7 @@ void Eclipse::Editor::LayoutManager::LoadLayouts()
 	{
 		std::string name = entry.path().filename().stem().string();
 
-		if (name == "CurrentLayout") OpenLayout(name);
+		if (name == "CurrentLayout") continue;
 		else myLayouts.push_back(name);
 	}
 }
@@ -164,6 +181,16 @@ void Eclipse::Editor::LayoutManager::LoadLayouts()
 const std::vector<std::string>& Eclipse::Editor::LayoutManager::GetLayouts()
 {
 	return myLayouts;
+}
+
+std::string Eclipse::Editor::LayoutManager::GetNewLayoutName()
+{
+	return std::string(myNameSelectBuffer);
+}
+
+void Eclipse::Editor::LayoutManager::SaveActiveLayout()
+{
+	SaveLayout(myActiveLayout);
 }
 
 
