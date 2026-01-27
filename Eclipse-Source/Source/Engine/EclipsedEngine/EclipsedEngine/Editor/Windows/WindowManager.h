@@ -25,6 +25,9 @@ namespace Eclipse::Editor
 	private:
 		bool myShowDebugWindow = false;
 
+		void OpenNewLayout();
+		void OpenLayout(const char* layout);
+
 	private:
 		std::unordered_map<int, AbstractWindow*> IdToWindow;
 	};

@@ -37,12 +37,9 @@ namespace Eclipse::Editor
 
 		AbstractWindow* newWindow = window->GetNewWindow(aId);
 
-		if (aId == -1)
-		{
-			auto openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
-			openWindows.push_back({ newWindow->instanceID, newWindow->windowName });
-			Settings::EditorSettings::SetCurrentlyOpenEditorWindows(openWindows);
-		}
+		auto openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
+		openWindows.push_back({ newWindow->instanceID, newWindow->windowName });
+		Settings::EditorSettings::SetCurrentlyOpenEditorWindows(openWindows);
 
 		newWindow->Open();
 		IdToWindow[newWindow->instanceID] = newWindow;
@@ -107,7 +104,7 @@ namespace Eclipse::Editor
 				ImGui::EndMenu();
 			}
 
-		
+
 			if (ImGui::MenuItem("Build"))
 			{
 				// AssetExporter::ExportAll();
@@ -166,10 +163,19 @@ namespace Eclipse::Editor
 				{
 					LayoutManager::ImportLayout();
 				}
+
 				ImGui::SameLine();
-				if (ImGui::Button("Save layout as"))
+				if (ImGui::Button("Save"))
 				{
-					LayoutManager::SaveAsNewLayout();
+					LayoutManager::SaveActiveLayout();
+				}
+
+				ImGui::SameLine();
+				if (ImGui::Button("New"))
+				{
+					LayoutManager::SaveAsNewLayout([this]() {
+						this->OpenLayout(LayoutManager::GetNewLayoutName().c_str());
+						});
 				}
 
 				ImGui::SeparatorText("Layouts");
@@ -181,18 +187,7 @@ namespace Eclipse::Editor
 					if (ImGui::Selectable(layout.c_str(), isSelected))
 					{
 						currentItem = layout;
-						const auto& layoutWindows = LayoutManager::OpenLayout(layout.c_str());
-						if (layoutWindows.empty()) break;
-
-						for (auto& window : IdToWindow)
-						{
-							window.second->myIsOpen = false;
-						}
-
-						for (const auto& window : layoutWindows)
-						{
-							OpenWindow(window.name.c_str(), window.id);
-						}
+						OpenLayout(currentItem.c_str());
 					}
 
 					if (isSelected)
@@ -258,18 +253,12 @@ namespace Eclipse::Editor
 				++it;
 			}
 		}
-
-		//if (myShowDebugWindow)
-		//{
-		//	myDebugWindow.PreUpdate();
-		//	myDebugWindow.Update();
-		//	myDebugWindow.PostUpdate();
-		//}
 	}
 
 	void WindowManager::Begin()
 	{
 		LayoutManager::LoadLayouts();
+		OpenLayout("CurrentLayout");
 
 		ImGui::LoadIniSettingsFromDisk("imgui.ini");
 		using namespace rapidjson;
@@ -285,40 +274,6 @@ namespace Eclipse::Editor
 	void WindowManager::End()
 	{
 		LayoutManager::SaveLayout();
-		//using namespace rapidjson;
-
-		//Document d;
-		//d.SetObject();
-		//Document::AllocatorType& allocator = d.GetAllocator();
-
-		//Value windowList(kArrayType);
-		//for (const auto& [id, pWindow] : IdToWindow)
-		//{
-		//	Value window(kObjectType);
-		//	window.AddMember(
-		//		"id",
-		//		id,
-		//		allocator
-		//	);
-
-		//	window.AddMember(
-		//		"name",
-		//		Value(pWindow->windowName.c_str(), allocator).Move(),
-		//		allocator
-		//	);
-
-		//	windowList.PushBack(window, allocator);
-		//}
-
-		//d.AddMember("OpenWindows", windowList, allocator);
-
-		//StringBuffer buffer;
-		//Writer<StringBuffer> writer(buffer);
-		//d.Accept(writer);
-
-		//std::ofstream ofs(PathManager::GetConfigDir() / "editor.json");
-		//ofs << buffer.GetString();
-		//ofs.close();
 	}
 
 	void WindowManager::AddWindowToCategory(const std::vector<std::string>& categories, size_t idx, const std::string& windowName)
@@ -340,6 +295,24 @@ namespace Eclipse::Editor
 			}
 
 			ImGui::EndMenu();
+		}
+	}
+	void WindowManager::OpenNewLayout()
+	{
+	}
+	void WindowManager::OpenLayout(const char* layout)
+	{
+		const auto& layoutWindows = LayoutManager::OpenLayout(layout);
+
+		for (auto& window : IdToWindow)
+		{
+			window.second->myIsOpen = false;
+			Settings::EditorSettings::SetCurrentlyOpenEditorWindows({});
+		}
+
+		for (const auto& window : layoutWindows)
+		{
+			OpenWindow(window.name.c_str(), window.id);
 		}
 	}
 }
