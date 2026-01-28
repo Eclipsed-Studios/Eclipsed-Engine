@@ -151,12 +151,6 @@ namespace Eclipse::Editor
 
 			if (ImGui::BeginCombo("##Layouts", std::string("Layout: " + LayoutManager::GetActiveLayoutName()).c_str()))
 			{
-				/*if (ImGui::Button("Export"))
-				{
-					LayoutManager::Expo();
-				}
-				*/
-
 				if (ImGui::Button("Import"))
 				{
 					LayoutManager::ImportLayout();
@@ -252,6 +246,8 @@ namespace Eclipse::Editor
 
 	void WindowManager::Begin()
 	{
+		Settings::EditorSettings::SetCurrentlyOpenEditorWindows({});
+
 		LayoutManager::LoadLayouts();
 		OpenLayout("CurrentLayout");
 
