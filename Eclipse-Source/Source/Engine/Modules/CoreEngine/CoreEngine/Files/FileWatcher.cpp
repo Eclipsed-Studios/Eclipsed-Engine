@@ -43,6 +43,7 @@ namespace Eclipse::Editor
 					std::string pathString(std::filesystem::path(fileName).string());
 					//pathString.insert(0, ASSET_PATH);
 
+					std::lock_guard<std::mutex> lock(watchedDirectoriesMutex);
 					aDir.events.push_back({ pathString, (int)info->Action });
 
 					if (info->NextEntryOffset != 0)
