@@ -1,6 +1,13 @@
 include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 
-CreateProject(SHARED)
+option(BUILD_GAME "Build game as static library." FALSE)
+message(TESTING -  ${BUILD_GAME})
+
+if(BUILD_GAME)
+    CreateProject(STATIC)
+else()
+    CreateProject(SHARED)
+endif()
 
 set_target_properties(EclipsedEngine PROPERTIES
     FOLDER "Engine"
@@ -19,3 +26,8 @@ target_link_libraries(EclipsedEngine PUBLIC
 
     ImGui
 )
+
+
+if(BUILD_GAME)
+    target_link_libraries(EclipsedEngine PUBLIC Game)
+endif()

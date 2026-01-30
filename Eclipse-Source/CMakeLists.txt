@@ -12,6 +12,8 @@ project(Eclipsed-Engine LANGUAGES CXX)
 
 add_compile_definitions(LEAN_AND_MEAN)
 
+option(INCLUDE_GAME "Includes game" FALSE)
+option(BUILD_GAME "Build game as static library." FALSE)
 
 add_compile_definitions(
     ECLIPSED_EDITOR
@@ -75,10 +77,16 @@ add_subdirectory(Source/Engine/EclipsedEngine)
 
 add_subdirectory(Source/Launcher)
 
+
 message(PROJECT_SOURCE_DIR="${PROJECT_DIR}/Library/Engine-Binary")
 
-add_subdirectory(${PROJECT_DIR} "${PROJECT_DIR}/Library/Engine-Binary")
+if(ECLIPSED_EDITOR)
+    add_subdirectory(Source/Tools/AssetExporter)
+endif()
 
+if(INCLUDE_GAME)
+    add_subdirectory(${PROJECT_DIR}  ${PROJECT_DIR})
+endif()
 
 
 

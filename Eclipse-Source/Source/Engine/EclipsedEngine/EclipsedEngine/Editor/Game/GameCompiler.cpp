@@ -21,17 +21,17 @@ namespace Eclipse
 
 	void GameCompiler::GenerateProject()
 	{
-		std::string sourceDir = (PathManager::GetEngineRoot().parent_path() / "Tools/").generic_string();
+		std::string sourceDir = (PathManager::GetEngineRoot().parent_path().parent_path() / "Tools/").generic_string();
 		std::string buildCmakeCommand = "cd /d \"" + sourceDir + "\" && generate-game.bat \""
-			+ PathManager::GetProjectRoot().generic_string() + "\" \"" 
+			+ PathManager::GetProjectSourceRoot().generic_string() + "\" \"" 
 			+ PathManager::GetEngineRoot().parent_path().generic_string() + "\"";
 		std::system(buildCmakeCommand.c_str());
 	}
 
 	void GameCompiler::Compile()
 	{
-		std::string buildDir = (PathManager::GetProjectRoot() / "Library/Binary").generic_string();
-		std::string buildDLLCommand = "cd /d \"" + buildDir + "\" && cmake --build .";
+		std::string buildDir = (PathManager::GetProjectSourceRoot()).generic_string();
+		std::string buildDLLCommand = "cd /d \"" + buildDir + "\" && cmake --build Library/Engine-Build";
 		std::system(buildDLLCommand.c_str());
 	}
 }

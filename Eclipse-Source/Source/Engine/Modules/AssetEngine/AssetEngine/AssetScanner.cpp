@@ -11,7 +11,9 @@ namespace Eclipse::Assets
 
 		std::vector<AssetScannerEntry> assetList;
 		{ // Project assets
-			for (auto& entry : fs::recursive_directory_iterator(PathManager::GetAssetDir()))
+
+			auto v = PathManager::GetAssetDir();
+			for (auto& entry : fs::recursive_directory_iterator())
 			{
 				if (fs::is_directory(entry)) continue;
 
