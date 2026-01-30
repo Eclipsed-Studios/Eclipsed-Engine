@@ -12,12 +12,15 @@ namespace Eclipse
 		static bool ProjectSet();
 
 	public:
-		// Core directories
-		static std::filesystem::path GetProjectRoot() { return projectRoot; }
-		static std::filesystem::path GetAssetDir() { return projectRoot / assetDir; }
-		static std::filesystem::path GetCacheDir()  {return projectRoot / cacheDir; }
-		static std::filesystem::path GetCookedAssetsDir()  {return projectRoot / cookedAssetsDir; }
-		static std::filesystem::path GetConfigDir() { return projectRoot / settingsDir; }
+		// THe path to all the game assets.
+		static std::filesystem::path GetProjectRoot() { return projectRoot / "Project"; }
+
+		// The path to the root and the cmake binary
+		static std::filesystem::path GetProjectSourceRoot() { return projectRoot; }
+		static std::filesystem::path GetAssetDir() { return GetProjectRoot() / assetDir; }
+		static std::filesystem::path GetCacheDir()  {return GetProjectRoot() / cacheDir; }
+		static std::filesystem::path GetCookedAssetsDir()  {return GetProjectRoot() / cookedAssetsDir; }
+		static std::filesystem::path GetConfigDir() { return GetProjectRoot() / settingsDir; }
 
 		static std::filesystem::path GetRelAssetDir() { return assetDir; }
 		static std::filesystem::path GetRelCacheDir() { return cacheDir; }
