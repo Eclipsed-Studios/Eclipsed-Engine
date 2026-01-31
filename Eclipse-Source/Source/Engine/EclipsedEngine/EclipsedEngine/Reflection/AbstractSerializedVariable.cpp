@@ -57,6 +57,24 @@ namespace Eclipse::Reflection
 
 			switch (type)
 			{
+			case SerializedType_Prefab:
+			{
+				ImGui::SameLine();
+
+				std::string name = "No prefab.";
+
+				Prefab* prefab = (Prefab*)GetData();
+				if (prefab->IsValid())
+				{
+					name = Assets::AssetRegistry::GetInstance().GetRegisteredAsset(prefab->GetAssetID()).path.filename().stem().string();
+				}
+
+				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Prefab))
+				{
+					*prefab = Assets::Resources::Get<Prefab>(Editor::DragAndDrop::payloadBuffer);
+				}
+			} break;
+
 			case SerializedType_Material:
 			{
 				ImGui::SameLine();
@@ -134,6 +152,10 @@ namespace Eclipse::Reflection
 				}
 				break;
 
+			case SerializedType_Bool:
+				ImGui::SameLine();
+				ImGui::Checkbox(("##" + std::to_string(iType) + GetName()).c_str(), (bool*)GetData());
+				break;
 			case SerializedType_Custom_Type:
 			case SerializedType_Fundamental:
 				ImGui::SameLine();

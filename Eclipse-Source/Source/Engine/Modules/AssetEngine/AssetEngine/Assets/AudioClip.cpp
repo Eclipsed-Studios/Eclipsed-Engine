@@ -1,6 +1,5 @@
 #include "AudioClip.h"
 
-#include <glad/glad.h>
 #include "AssetEngine/Models/AssetDatas/Handles/AudioClipHandle.h"
 
 namespace Eclipse

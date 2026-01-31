@@ -13,6 +13,8 @@
 
 #include "AssetEngine/Resources.h"
 
+#include "EclipsedEngine/ECS/SpawnObject.h"
+
 #include <iostream>
 
 namespace Eclipse::Replication
@@ -101,12 +103,36 @@ namespace Eclipse::Replication
         ComponentManager::Destroy(message.MetaData.GameObjectID);
     }
 
+    void ReplicationHelper::ClientHelp::RecieveInstantiatePrefabMessage(const NetMessage& message)
+    {
+        unsigned prefabID;
+        memcpy(&prefabID, message.data, sizeof(unsigned));
+        int offset = sizeof(unsigned);
+
+        unsigned componentCount;
+        memcpy(&componentCount, message.data + offset, sizeof(unsigned));
+        offset = sizeof(unsigned);
+
+        std::vector<unsigned> componentsIDs;
+        componentsIDs.resize(componentCount);
+        memcpy(componentsIDs.data(), message.data + offset, sizeof(unsigned) * componentCount);
+
+        Prefab prefab = Assets::Resources::Get<Prefab>(prefabID);
+        Instantiate(prefab);
+    }
+
     void RefreshAsset(Reflection::AbstractSerializedVariable* aVariable, size_t aAssetID)
     {
         aVariable->ResolveTypeInfo();
 
         switch (aVariable->GetType())
         {
+        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Texture:
+        {
+            Texture& assset = *(static_cast<Texture*>(aVariable->GetData()));
+            assset = Eclipse::Assets::Resources::Get<Texture>(aAssetID);
+        }
+        break;
         case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Material:
         {
             Material& material = *(static_cast<Material*>(aVariable->GetData()));
@@ -119,10 +145,10 @@ namespace Eclipse::Replication
             assset = Eclipse::Assets::Resources::Get<AudioClip>(aAssetID);
         }
         break;
-        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Texture:
+        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Prefab:
         {
-            Texture& assset = *(static_cast<Texture*>(aVariable->GetData()));
-            assset = Eclipse::Assets::Resources::Get<Texture>(aAssetID);
+            Prefab& assset = *(static_cast<Prefab*>(aVariable->GetData()));
+            assset = Eclipse::Assets::Resources::Get<Prefab>(aAssetID);
         }
         break;
         }
@@ -215,6 +241,11 @@ namespace Eclipse::Replication
         case MessageType::Msg_Variable:
         {
             ReplicationHelper::ClientHelp::RecieveVariableMessage(message);
+        }
+        break;
+        case MessageType::Msg_InstantiatePrefab:
+        {
+            ReplicationHelper::ClientHelp::RecieveCreateObjectMessage(message);
         }
         break;
         case MessageType::Msg_CreateObject:

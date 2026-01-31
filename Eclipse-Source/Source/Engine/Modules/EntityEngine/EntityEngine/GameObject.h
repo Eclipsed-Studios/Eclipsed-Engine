@@ -27,6 +27,8 @@ namespace Eclipse
 		template<typename T>
 		T* GetComponent();
 
+		std::vector<Component*> GetComponents();
+
 		const Math::Vector4f& GetPixelPickingIDColor() { return myPixelPickColor; }
 
 		GameObject*& GetParent();

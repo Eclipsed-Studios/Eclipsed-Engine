@@ -10,9 +10,10 @@
 #include "EditorReflectionDrawHelper.h"
 #include <typeindex>
 
+#include "AssetEngine/Assets/Texture.h"
 #include "AssetEngine/Assets/Material.h"
 #include "AssetEngine/Assets/AudioClip.h"
-#include "AssetEngine/Assets/Texture.h"
+#include "AssetEngine/Assets/Prefab.h"
 
 #include "CoreEngine/Math/Random.h"
 
@@ -20,33 +21,33 @@
 namespace Eclipse::Reflection
 {
 
-//#ifdef ECLIPSED_EDITOR
+	//#ifdef ECLIPSED_EDITOR
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector)
 	{
-		
+
 	}
 
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue)
 	{
-		
+
 	}
 
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, T _min, T _max)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), myMin(_min), myMax(_max), hasMinMax(true)
 	{
-		
+
 	}
 
 	template<typename T>
 	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue, T _min, T _max)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
 	{
-		
+
 	}
 	template<typename T>
 	inline void SerializedVariable<T>::DrawInspector()
@@ -144,6 +145,11 @@ namespace Eclipse::Reflection
 			sizePerElement = sizeof(T);
 		}
 
+		else if constexpr (std::is_same<T, Texture>::value)
+		{
+			type = SerializedType_Texture;
+			sizePerElement = sizeof(Texture);
+		}
 		else if constexpr (std::is_same<T, Material>::value)
 		{
 			type = SerializedType_Material;
@@ -154,10 +160,15 @@ namespace Eclipse::Reflection
 			type = SerializedType_AudioClip;
 			sizePerElement = sizeof(AudioClip);
 		}
-		else if constexpr (std::is_same<T, Texture>::value)
+		else if constexpr (std::is_same<T, Prefab>::value)
 		{
-			type = SerializedType_Texture;
-			sizePerElement = sizeof(Texture);
+			type = SerializedType_Prefab;
+			sizePerElement = sizeof(Prefab);
+		}
+		else if constexpr (std::is_same<T, bool>::value)
+		{
+			type = SerializedType_Bool;
+			sizePerElement = sizeof(T);
 		}
 
 		else if constexpr (std::is_arithmetic<T>::value)

@@ -96,9 +96,11 @@ namespace Eclipse::Reflection
 			SerializedType_Material,
 			SerializedType_AudioClip,
 			SerializedType_Texture,
+			SerializedType_Prefab,
 
 			SerializedType_Enum,
 			SerializedType_Custom_Type,
+			SerializedType_Bool,
 			SerializedType_Fundamental,
 
 			SerializedType_List,

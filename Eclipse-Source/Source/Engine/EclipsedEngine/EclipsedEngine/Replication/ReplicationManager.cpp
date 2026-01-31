@@ -57,7 +57,7 @@ namespace Eclipse::Replication
         std::fstream stream("NetworkIp.ntwrk");
         char IpString[16];
         stream.getline(IpString, 16);
-        
+
         IP = IpString;
     }
 
@@ -130,6 +130,22 @@ namespace Eclipse::Replication
         int DataAmount = LengthOfComponentName + sizeof(int) + sizeof(int);
 
         outMessage = NetMessage::BuildGameObjectMessage(aComponent->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true, aStartLater);
+    }
+
+    void ReplicationManager::CreatePrefabMessage(unsigned aGOID, unsigned PrefabAssetID, std::vector<unsigned> aComponentIDs, NetMessage& outMessage)
+    {
+        char Data[512];
+
+        unsigned componentsCount = aComponentIDs.size();
+        
+        int totalComponentPrefabsize = aComponentIDs.size() * sizeof(unsigned);
+        int DataAmount = sizeof(PrefabAssetID) + sizeof(componentsCount) + totalComponentPrefabsize;
+
+        memcpy(Data, &PrefabAssetID, sizeof(PrefabAssetID));
+        memcpy(Data, &componentsCount, sizeof(componentsCount));
+        memcpy(Data, aComponentIDs.data(), totalComponentPrefabsize);
+
+        outMessage = NetMessage::BuildGameObjectMessage(aGOID, MessageType::Msg_InstantiatePrefab, Data, DataAmount, true, false);
     }
 
 

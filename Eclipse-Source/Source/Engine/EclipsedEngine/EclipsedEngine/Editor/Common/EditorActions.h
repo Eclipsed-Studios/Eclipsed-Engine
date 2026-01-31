@@ -42,9 +42,6 @@ namespace Eclipse
             static rapidjson::StringBuffer CopyObject(int aObjectID, bool aCopyToClipboard);
             static void Copy();
 
-            static void StartChildren(std::vector<GameObject*>& aChildComponents);
-            static void PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator);
-            static void PasteObject(char* aData);
             static void Paste();
 
             static void ReactToAction(Action anAction);

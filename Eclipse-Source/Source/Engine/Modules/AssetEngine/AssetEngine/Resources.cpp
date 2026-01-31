@@ -7,6 +7,7 @@ namespace Eclipse::Assets
 	VertexShaderManager Resources::vertexShaderManager {};
 	PixelShaderManager Resources::pixelShaderManager {};
 	AudioClipManager Resources::audioClipManager {};
+	PrefabManager Resources::prefabManager {};
 
 	void Resources::Update()
 	{
@@ -15,6 +16,7 @@ namespace Eclipse::Assets
 		vertexShaderManager.Update();
 		pixelShaderManager.Update();
 		audioClipManager.Update();
+		prefabManager.Update();
 	}
 
 	Material Resources::GetDefaultMaterial()

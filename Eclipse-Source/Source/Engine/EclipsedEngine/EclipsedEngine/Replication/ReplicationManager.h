@@ -37,11 +37,14 @@ namespace Eclipse::Replication
         static void Start();
         static void Update();
 
-        
+        static void ClearList() { PossibleReplicatedVariableList.clear(); RealReplicatedVariableList.clear(); };
+
         static void CreateGOMessage(int aGameobjectID, NetMessage& outMessage);
         static void DeleteGOMessage(int aGameobjectID, NetMessage& outMessage);
 
         static void CreateComponentMessage(Eclipse::Component* aComponent, NetMessage& outMessage, bool aStartLater = false);
+
+        static void CreatePrefabMessage(unsigned aGOID, unsigned PrefabAssetID, std::vector<unsigned>, NetMessage& outMessage);
 
         static void EmplaceReplicatedVariable(unsigned ComponentID, BaseReplicatedVariable* Variable)
         {

@@ -61,6 +61,11 @@ namespace Eclipse
 		return myName;
 	}
 
+	std::vector<Component*> GameObject::GetComponents()
+	{
+		return ComponentManager::GetComponents(myID);
+	}
+
 	GameObjectID GameObject::GetID() const
 	{
 		return myID;
