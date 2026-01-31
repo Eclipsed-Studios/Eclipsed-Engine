@@ -21,6 +21,7 @@ namespace Eclipse::Replication
             static void RecieveAddComponentMessage(const NetMessage& message);
             static void RecieveCreateObjectMessage(const NetMessage& message);
             static void RecieveDeleteObjectMessage(const NetMessage& message);
+            static void RecieveInstantiatePrefabMessage(const NetMessage& message);
             static void RecieveVariableMessage(const NetMessage& message);
             static void RecieveRequestVariablesMessage(const NetMessage& message);
 

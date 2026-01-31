@@ -14,6 +14,7 @@ public:														\
 	TYPE& operator=(TYPE&& other) noexcept;					\
     bool IsValid() const;                                   \
     void IsAsset() {}                                       \
+    HANDLE* GetHandle() { return dataHandle; }                \
 private:													\
 	HANDLE* dataHandle = nullptr;
 

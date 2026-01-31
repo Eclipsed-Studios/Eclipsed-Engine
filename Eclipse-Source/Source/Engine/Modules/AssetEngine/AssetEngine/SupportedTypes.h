@@ -18,13 +18,15 @@ namespace Eclipse::Assets
 		{".hdr",  AssetType::Texture},
 		{".pic",  AssetType::Texture},
 		{".pnm",  AssetType::Texture},
-
+		
 		{".mat",  AssetType::Material},
-
+		
 		{".vglsl",  AssetType::VertexShader},
-
+		
 		{".pglsl",  AssetType::PixelShader},
-
+		
 		{".mp3",  AssetType::AudioClip},
+	
+		{".eprf",  AssetType::Prefab},
 	};
 }

@@ -42,6 +42,8 @@
 
 #include "CoreEngine/Files/FileInfo.h"
 
+#include "EclipsedEngine/ECS/SpawnObject.h"
+
 #include "rapidjson/document.h"
 
 #include <filesystem>
@@ -212,7 +214,8 @@ namespace Eclipse
 				EditorActions::CopyObject(HierarchyWindow::CurrentGameObjectID, true);
 
 				char* data = (char*)ClipBoard::GetClipboardData();
-				EditorActions::PasteObject(data);
+				GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(data);
+				HierarchyWindow::CurrentGameObjectID = gameobject->GetID();
 			}
 
 			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(HierarchyWindow::CurrentGameObjectID);
@@ -414,7 +417,7 @@ namespace Eclipse
 				memset(data + prefSize, '\0', 1);
 				stream.close();
 
-				Editor::EditorActions::PasteObject(data);
+				InternalSpawnObjectClass::CreateObjectFromJsonString(data);
 
 				free(data);
 			}

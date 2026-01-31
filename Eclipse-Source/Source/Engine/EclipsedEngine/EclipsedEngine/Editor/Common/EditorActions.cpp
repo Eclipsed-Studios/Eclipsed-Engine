@@ -15,6 +15,8 @@
 #include "EclipsedEngine/Reflection/Registry/ComponentRegistry.h"
 #include "CoreEngine/ChatGPT_Dump/Base64.hpp"
 
+#include "EclipsedEngine/ECS/SpawnObject.h"
+
 namespace Eclipse::Editor
 {
     void EditorActions::SaveScene()
@@ -59,8 +61,14 @@ namespace Eclipse::Editor
                 }
             }
 
+            rapidjson::Value isReplicatedValue(rapidjson::kObjectType);
+            isReplicatedValue.SetBool(pComp->IsReplicated);
 
+            
             component.AddMember(rapidjson::Value(compName.c_str(), anAllocator).Move(), componentVars, anAllocator);
+            
+            component.AddMember("IsReplicated", isReplicatedValue, anAllocator);
+
             componentArray.PushBack(component, anAllocator);
         }
         gameobjectJson.AddMember("Name", rapidjson::Value(ComponentManager::myEntityIdToEntity.at(activeGO)->GetName().c_str(), anAllocator), anAllocator);
@@ -134,112 +142,13 @@ namespace Eclipse::Editor
         }
     }
 
-    void EditorActions::StartChildren(std::vector<GameObject*>& aChildComponents)
-    {
-        for (auto& child : aChildComponents)
-        {
-            if (child->GetChildCount() > 0)
-                StartChildren(child->GetChildren());
-
-            for (auto& component : ComponentManager::GetComponents(child->GetID()))
-                component->OnSceneLoaded();
-
-            for (auto& component : ComponentManager::GetComponents(child->GetID()))
-            {
-                component->OnComponentAdded();
-                //component->ComponentCreated();
-            }
-        }
-    }
-    void EditorActions::PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator)
-    {
-        aGameObject = ComponentManager::CreateGameObject();
-        aGameObject->SetName(gameobject["Name"].GetString());
-
-        for (auto& components : gameobject["Components"].GetArray())
-        {
-            for (auto coIt = components.MemberBegin(); coIt != components.MemberEnd(); coIt++)
-            {
-                Component* component;
-                component = ComponentRegistry::GetAddComponent(coIt->name.GetString())(*aGameObject, Component::GetNextComponentID());
-
-                auto& reflectedList = Reflection::ReflectionManager::GetList();
-                if (reflectedList.find(component) == reflectedList.end())
-                    continue;
-
-                auto& reflectedVars = reflectedList.at(component);
-
-                int refIndex = 0;
-
-                for (auto varIt = coIt->value.MemberBegin(); varIt != coIt->value.MemberEnd(); varIt++)
-                {
-                    auto& reflectedVariable = reflectedVars.at(refIndex++);
-                    SceneLoader::LoadType(reflectedVariable, coIt->value);
-                }
-            }
-        }
-
-        if (gameobject.HasMember("Children"))
-        {
-            auto childArray = gameobject["Children"].GetArray();
-            for (auto& child : childArray)
-            {
-                GameObject* newGameObject;
-                PasteGameObject(newGameObject, child, anAllocator);
-
-                aGameObject->AddChild(newGameObject);
-                newGameObject->SetParent(aGameObject);
-            }
-        }
-    }
-    void EditorActions::PasteObject(char* aData)
-    {
-        rapidjson::Document d;
-        d.SetObject();
-        rapidjson::Document::AllocatorType& jsonAllocator = d.GetAllocator();
-
-        if (d.Parse(aData).HasParseError())
-            return;
-
-        if (!d.IsObject())
-            return;
-
-        if (!d.HasMember("CopyType"))
-            return;
-        if (d["CopyType"].GetInt() != 1)
-            return;
-
-        for (auto& gameobject : d["Gameobjects"].GetArray())
-        {
-            GameObject* newGameobject;
-            PasteGameObject(newGameobject, gameobject, jsonAllocator);
-
-            if (newGameobject->GetChildCount() > 0)
-                StartChildren(newGameobject->GetChildren());
-
-            auto components = ComponentManager::GetComponents(newGameobject->GetID());
-
-            std::sort(components.begin(), components.end(), [&](Component* aComp0, Component* aComp1)
-                {
-                    return aComp0->GetUpdatePriority() > aComp1->GetUpdatePriority();
-                });
-
-            for (auto& component : components)
-                component->OnComponentAdded();
-
-            for (auto& component : components)
-                component->OnSceneLoaded();
-
-            HierarchyWindow::CurrentGameObjectID = newGameobject->GetID();
-        }
-    }
-
     void EditorActions::Paste()
     {
         if (true)
         {
             char* data = (char*)ClipBoard::GetClipboardData();
-            PasteObject(data);
+            GameObject* newGameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(data);
+            HierarchyWindow::CurrentGameObjectID = newGameobject->GetID();
         }
         else if (false)
         {

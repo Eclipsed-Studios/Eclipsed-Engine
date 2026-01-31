@@ -125,6 +125,8 @@ namespace Eclipse
 		GameObject* gameObject;
 
 		unsigned myInstanceComponentID = 0;
+
+		bool IsDeleted = false;
 	protected:
 		unsigned myComponentIndex = 0;
 

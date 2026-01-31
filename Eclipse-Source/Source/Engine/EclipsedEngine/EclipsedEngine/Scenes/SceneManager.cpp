@@ -86,6 +86,7 @@ namespace Eclipse
 	void SceneManager::SaveSceneData()
 	{
 		Settings::BuildSettings::SetSceneIndex(scenePaths);
+		Settings::BuildSettings::Save();
 	}
 
 	void SceneManager::ClearScene()

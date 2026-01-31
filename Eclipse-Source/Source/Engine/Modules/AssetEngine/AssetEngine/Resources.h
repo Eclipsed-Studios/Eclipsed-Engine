@@ -7,6 +7,7 @@
 #include "AssetEngine/Managers/PixelShaderManager.h"
 #include "AssetEngine/Managers/VertexShaderManager.h"
 #include "AssetEngine/Managers/AudioClipManager.h"
+#include "AssetEngine/Managers/PrefabManager.h"
 #include "CoreEngine/PathManager.h"
 
 namespace Eclipse::Assets
@@ -33,6 +34,7 @@ namespace Eclipse::Assets
 		static VertexShaderManager vertexShaderManager;
 		static PixelShaderManager pixelShaderManager;
 		static AudioClipManager audioClipManager;
+		static PrefabManager prefabManager;
 	};
 
 	template<typename T>
@@ -55,6 +57,7 @@ namespace Eclipse::Assets
 		else if  constexpr (std::is_same<T, VertexShader>::value) return std::move(vertexShaderManager.Get(id));
 		else if  constexpr (std::is_same<T, PixelShader>::value) return std::move(pixelShaderManager.Get(id));
 		else if  constexpr (std::is_same<T, AudioClip>::value) return std::move(audioClipManager.Get(id));
+		else if  constexpr (std::is_same<T, Prefab>::value) return std::move(prefabManager.Get(id));
 	}
 
 	template<typename T>
@@ -69,5 +72,6 @@ namespace Eclipse::Assets
 		else if  constexpr (std::is_same<T, VertexShader>::value) return std::move(vertexShaderManager.Get(id));
 		else if  constexpr (std::is_same<T, PixelShader>::value) return std::move(pixelShaderManager.Get(id));
 		else if  constexpr (std::is_same<T, AudioClip>::value) return std::move(audioClipManager.Get(id));
+		else if  constexpr (std::is_same<T, Prefab>::value) return std::move(prefabManager.Get(id));
 	}
 }

@@ -9,5 +9,6 @@ namespace Eclipse::Assets
 		VertexShader,
 		PixelShader,
 		AudioClip,
+		Prefab,
 	};
 }

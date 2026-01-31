@@ -1,14 +1,18 @@
 #pragma once
 
-#include "EclipsedEngine/Components/Physics/RigidBody2D.h"
-#include "EclipsedEngine/Components/Physics/CapsuleCollider2D.h"
+// #include "EclipsedEngine/Components/Physics/RigidBody2D.h"
+// #include "EclipsedEngine/Components/Physics/CapsuleCollider2D.h"
 
-#include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
-#include "EclipsedEngine/Components/Rendering/SpriteSheetAnimator2D.h"
-#include "EclipsedEngine/Components/Player.h"
-#include "EclipsedEngine/Components/Transform2D.h"
+// #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
+// #include "EclipsedEngine/Components/Rendering/SpriteSheetAnimator2D.h"
+// #include "EclipsedEngine/Components/Player.h"
+// #include "EclipsedEngine/Components/Transform2D.h"
+
+#include "AssetEngine/Assets/Prefab.h"
 
 #include "EclipsedEngine/Components/Component.h"
+
+#include "EclipsedEngine/ECS/SpawnObject.h"
 
 namespace Eclipse
 {
@@ -24,52 +28,62 @@ namespace Eclipse
 
         void Awake() override
         {
-            unsigned componentCount = 4;
-            NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SendMultipleComponents, &componentCount, sizeof(unsigned), true);
-            MainSingleton::GetInstance<Client>().Send(msg);
+            Instantiate(playerPrefab, true);
 
-            GameObject* gameobject = ComponentManager::CreateGameObject();
+            // unsigned componentCount = 4;
+            // NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SendMultipleComponents, &componentCount, sizeof(unsigned), true);
+            // MainSingleton::GetInstance<Client>().Send(msg);
 
-            Transform2D* transform = gameobject->AddComponent<Transform2D>(true);
-            transform->SetPosition(0, 1);
-            transform->SetScale(30, 30);
+            // GameObject* gameobject = ComponentManager::CreateGameObject();
 
-            spriteRenderer = gameobject->AddComponent<SpriteRenderer2D>(true);
-            spriteRenderer->SetSprite(PlayerSprite);
-            gameobject->AddComponent<SpriteSheetAnimator2D>(true);
+            // Transform2D* transform = gameobject->AddComponent<Transform2D>(true);
+            // transform->SetPosition(0, 1);
+            // transform->SetScale(30, 30);
 
-            RigidBody2D* rb = gameobject->AddComponent<RigidBody2D>();
-            rb->SetRotationLocked(true);
+            // spriteRenderer = gameobject->AddComponent<SpriteRenderer2D>(true);
+            // spriteRenderer->SetSprite(PlayerSprite);
+            // gameobject->AddComponent<SpriteSheetAnimator2D>(true);
 
-            CapsuleCollider2D* capsule = gameobject->AddComponent<CapsuleCollider2D>(true);
+            // RigidBody2D* rb = gameobject->AddComponent<RigidBody2D>();
+            // rb->SetRotationLocked(true);
 
-            gameobject->AddComponent<Player>();
+            // CapsuleCollider2D* capsule = gameobject->AddComponent<CapsuleCollider2D>(true);
+
+            // gameobject->AddComponent<Player>();
+
+
+
+
+
 
             //HasSpawnedHere = true;
         }
 
-        void Update()
-        {
-            if (SetSpriteNextframe && !HasCreated)
-            {
-                spriteRenderer->SetSprite(PlayerSprite);
-                HasCreated = true;
-            }
+        // void Update()
+        // {
+        //     if (SetSpriteNextframe && !HasCreated)
+        //     {
+        //         spriteRenderer->SetSprite(PlayerSprite);
+        //         HasCreated = true;
+        //     }
 
-            SetSpriteNextframe = true;
+        //     SetSpriteNextframe = true;
 
-            if (Input::GetKeyDown(Keycode::J))
-                spriteRenderer->SetSprite(OtherSprite);
-        }
+        //     if (Input::GetKeyDown(Keycode::J))
+        //         spriteRenderer->SetSprite(OtherSprite);
+        // }
 
-        bool SetSpriteNextframe = false;
-        bool HasCreated = false;
+        // bool SetSpriteNextframe = false;
+        // bool HasCreated = false;
 
-        SpriteRenderer2D* spriteRenderer;
+        // SpriteRenderer2D* spriteRenderer;
 
-        SERIALIZED_FIELD(Texture, PlayerSprite);
-        SERIALIZED_FIELD(Texture, OtherSprite);
+        // SERIALIZED_FIELD(Texture, PlayerSprite);
+        // SERIALIZED_FIELD(Texture, OtherSprite);
 
         //REPLICATED_SERIALIZED_FIELD_DEFAULT(int, HasSpawnedHere, 0, PlayerSpawner);
+
+        SERIALIZED_FIELD(Prefab, playerPrefab);
+
     };
 }
