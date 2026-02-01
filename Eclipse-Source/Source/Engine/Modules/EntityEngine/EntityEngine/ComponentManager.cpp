@@ -200,7 +200,7 @@ namespace Eclipse
 			return {};
 
 		std::vector<Component*> components;
-		
+
 		for (auto& component : myEntityIDToVectorOfComponentIDs.at(aGOID))
 			components.emplace_back(myComponents[component.second]);
 
@@ -293,7 +293,8 @@ namespace Eclipse
 
 	GameObject* ComponentManager::CreateGameObject(GameObjectID aId)
 	{
-		if (aId == 0) aId = GetNextGameObjectID();
+		if (aId == 0)
+			aId = GetNextGameObjectID();
 
 		GameObject* obj = new GameObject(aId);
 		myEntityIdToEntity[aId] = obj;
