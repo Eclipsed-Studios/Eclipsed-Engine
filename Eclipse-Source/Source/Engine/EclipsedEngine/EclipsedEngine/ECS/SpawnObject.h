@@ -21,44 +21,26 @@ namespace Eclipse
     {
     public:
         static GameObject* CreateObjectFromJsonString(const char* aData);
+        static GameObject* CreateObjectFromJsonStringSpecifiedIds(const char* aData,
+            int aGameobjectID, const std::vector<unsigned>& aComponentsID);
 
     private:
         static void StartChildren(std::vector<GameObject*>& aChildComponents);
-        static void PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator);
-    };
 
+        static void PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator);
+        static void PasteGameObjectSpecifiedIds(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator,
+            int aGameobjectID, const std::vector<unsigned>& aComponentsID);
+    };
 
     ECLIPSED_API inline GameObject*& Instantiate(Prefab& aPrefab, bool Replicated = false)
     {
         GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(aPrefab.GetHandle()->data);
+        gameobject->prefabAssetID = aPrefab.GetAssetID();
+
+        gameobject->IsPrefab = true;
 
         if (Replicated)
-        {
-            if (MainSingleton::Exists<Client>())
-            {
-                unsigned componentCount = 4;
-                NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SendMultipleComponents, &componentCount, sizeof(unsigned), true);
-                MainSingleton::GetInstance<Client>().Send(msg);
-
-                std::vector<unsigned> componentIDs;
-                std::vector<Component*> components = gameobject->GetComponents();
-
-                for (auto& component : components)
-                {
-                    NetMessage message;
-                    Replication::ReplicationManager::CreateComponentMessage(component, message);
-                    MainSingleton::GetInstance<Client>().Send(message);
-                    //componentIDs.emplace_back(component->myInstanceComponentID);
-                }
-
-                // NetMessage message;
-
-                // Replication::ReplicationManager::CreatePrefabMessage(gameobject->GetID(), aPrefab.GetAssetID(), componentIDs, message);
-
-                // Client& client = Eclipse::MainSingleton::GetInstance<Client>();
-                // client.Send(message);
-            }
-        }
+            Replication::ReplicationManager::SendPrefabObject(gameobject, aPrefab);
 
         aPrefab.GetHandle()->gameobject = gameobject;
         return aPrefab.GetHandle()->gameobject;

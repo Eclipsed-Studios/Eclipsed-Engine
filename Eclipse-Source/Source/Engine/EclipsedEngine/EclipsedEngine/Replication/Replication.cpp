@@ -103,6 +103,15 @@ namespace Eclipse::Replication
         ComponentManager::Destroy(message.MetaData.GameObjectID);
     }
 
+    void InstantiateNetworkGameobject(Prefab& aPrefab, unsigned goID, const std::vector<unsigned>& ComponentIds)
+    {
+        GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonStringSpecifiedIds(aPrefab.GetHandle()->data, goID, ComponentIds);
+        gameobject->IsPrefab = true;
+        aPrefab.GetHandle()->gameobject = gameobject;
+
+        gameobject->SetIsOwner(false);
+    }
+
     void ReplicationHelper::ClientHelp::RecieveInstantiatePrefabMessage(const NetMessage& message)
     {
         unsigned prefabID;
@@ -118,7 +127,7 @@ namespace Eclipse::Replication
         memcpy(componentsIDs.data(), message.data + offset, sizeof(unsigned) * componentCount);
 
         Prefab prefab = Assets::Resources::Get<Prefab>(prefabID);
-        Instantiate(prefab);
+        InstantiateNetworkGameobject(prefab, message.MetaData.GameObjectID, componentsIDs);
     }
 
     void RefreshAsset(Reflection::AbstractSerializedVariable* aVariable, size_t aAssetID)
@@ -278,7 +287,7 @@ namespace Eclipse::Replication
         server.Send(msg);
     }
 
-    void ReplicationHelper::ServerHelp::SendComponentScene()
+    void ReplicationHelper::ServerHelp::SendComponentsScene()
     {
         std::unordered_set<unsigned> ReplicatedGameObjects;
 
@@ -294,7 +303,7 @@ namespace Eclipse::Replication
         const std::vector<Component*>& allComponents = ComponentManager::GetAllComponents();
         for (const auto& component : allComponents)
         {
-            if (component->IsReplicated && component->IsOwner())
+            if (component->IsReplicated && component->IsOwner() && !component->gameObject->IsPrefab)
                 ComponentCount++;
         }
 
@@ -306,9 +315,17 @@ namespace Eclipse::Replication
         int size = server.GetEndpoints().size();
         for (auto& endpoint : server.GetEndpoints())
         {
-
             for (const auto& gameobject : ReplicatedGameObjects)
             {
+                GameObject* object = ComponentManager::GetGameObject(gameobject);
+                if (object->IsPrefab && object->IsOwner())
+                {
+                    Prefab prefab = Assets::Resources::Get<Prefab>(object->prefabAssetID);
+                    Replication::ReplicationManager::SendPrefabObject(object, prefab);
+
+                    continue;
+                }
+
                 std::vector<Component*> components = ComponentManager::GetComponents(gameobject);
 
                 for (const auto& component : components)
@@ -326,9 +343,7 @@ namespace Eclipse::Replication
                     server.Send(message, endpoint, [ComponentCount, size]()
                         {
                             if (TotalCoponentMessagesRecieved++ >= ComponentCount * size)
-                            {
                                 RequestVariablesFromClient();
-                            }
 
                             return;
                         });
@@ -340,7 +355,7 @@ namespace Eclipse::Replication
 
     void ReplicationHelper::ServerHelp::HandleRequestedScene()
     {
-        SendComponentScene();
+        SendComponentsScene();
     }
 
     void ReplicationHelper::ServerHelp::HandleRecieve(const NetMessage& aMessage)

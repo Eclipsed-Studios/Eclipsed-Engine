@@ -37,7 +37,7 @@ namespace Eclipse::Replication
         {
         public:
             static void RequestVariablesFromClient();
-            static void SendComponentScene();
+            static void SendComponentsScene();
             static void HandleRequestedScene();
 
             static void HandleRecieve(const NetMessage& aMessage);
