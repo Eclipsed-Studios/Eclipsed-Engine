@@ -27,6 +27,8 @@ namespace Eclipse
 		template<typename T>
 		T* GetComponent();
 
+		std::vector<Component*> GetComponents();
+
 		const Math::Vector4f& GetPixelPickingIDColor() { return myPixelPickColor; }
 
 		GameObject*& GetParent();
@@ -53,7 +55,10 @@ namespace Eclipse
 
 		class Transform2D* transform = nullptr;
 
+		bool IsPrefab = false;
+		unsigned prefabAssetID;
 	private:
+
 		GameObject* parent = nullptr;
 		std::vector<GameObject*> children;
 		size_t myChildIndex = 0;

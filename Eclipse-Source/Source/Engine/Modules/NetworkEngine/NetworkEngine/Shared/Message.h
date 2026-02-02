@@ -12,6 +12,8 @@ namespace Eclipse
 		Msg_CreateObject,
 		Msg_DeleteObject,
 		Msg_AddComponent,
+
+		Msg_InstantiatePrefab,
 		
 		Msg_RequestVariables,
 		Msg_Variable,

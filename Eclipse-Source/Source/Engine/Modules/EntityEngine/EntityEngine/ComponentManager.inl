@@ -85,9 +85,7 @@ namespace Eclipse
         myComponents.back()->myComponentIndex = componentIndex;
 
         if (IsReplicated)
-        {
             CreateComponentReplicated(component);
-        }
 
         if (myComponents.size() <= 1)
             return component;

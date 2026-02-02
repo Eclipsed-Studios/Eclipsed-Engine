@@ -3,14 +3,18 @@
 #include <unordered_map>
 
 #include "asio/asio.hpp"
+
 #include "NetworkEngine/Shared/Message.h"
 
 namespace Eclipse
 {
     class Client;
     class Server;
+    
     class GameObject;
     class Component;
+
+    class Prefab;
 }
 
 namespace Eclipse::Replication
@@ -37,11 +41,7 @@ namespace Eclipse::Replication
         static void Start();
         static void Update();
 
-        
-        static void CreateGOMessage(int aGameobjectID, NetMessage& outMessage);
-        static void DeleteGOMessage(int aGameobjectID, NetMessage& outMessage);
-
-        static void CreateComponentMessage(Eclipse::Component* aComponent, NetMessage& outMessage, bool aStartLater = false);
+        static void ClearList() { PossibleReplicatedVariableList.clear(); RealReplicatedVariableList.clear(); };
 
         static void EmplaceReplicatedVariable(unsigned ComponentID, BaseReplicatedVariable* Variable)
         {
@@ -53,6 +53,17 @@ namespace Eclipse::Replication
         {
             ReplicatedVariabpePtr->erase(aComponentID);
         }
+
+
+    public:
+    // Create replication messages
+        static void CreateGOMessage(int aGameobjectID, NetMessage& outMessage);
+        static void DeleteGOMessage(int aGameobjectID, NetMessage& outMessage);
+        static void CreateComponentMessage(Eclipse::Component* aComponent, NetMessage& outMessage, bool aStartLater = false);
+        static void CreatePrefabMessage(unsigned aGOID, unsigned PrefabAssetID, std::vector<unsigned>, NetMessage& outMessage);
+    public:
+        // Direct send functions
+        static void SendPrefabObject(GameObject* gameobject, Prefab& aPrefab);
 
     private:
         static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>>* BeforeReplicatedVariableList;

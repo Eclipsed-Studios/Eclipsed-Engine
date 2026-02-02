@@ -21,16 +21,4 @@ namespace Eclipse
 	{
 		ComponentManager::RemoveComponent<T>(aGOID);
 	}
-
-	inline GameObject* Instantiate()
-	{
-		return ComponentManager::CreateGameObject();
-	}
-
-	inline GameObject* CreateGameObject()
-	{
-		GameObject* ptr = ComponentManager::CreateGameObject();
-		ptr->AddComponent<Transform2D>();
-		return ptr;
-	}
 }
