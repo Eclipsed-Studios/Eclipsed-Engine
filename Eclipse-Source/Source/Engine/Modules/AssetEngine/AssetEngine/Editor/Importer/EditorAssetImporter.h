@@ -1,0 +1,23 @@
+#pragma once
+
+#include <filesystem>
+
+#include "TypeImporters/EditorTextureImporter.h"
+#include "TypeImporters/EditorMaterialImporter.h"
+#include "TypeImporters/EditorShaderImporter.h"
+
+namespace Eclipse
+{
+	class EditorAssetImporter
+	{
+	public:
+		static void Import(const std::filesystem::path& aPath);
+		static void ImportAll(const std::filesystem::path& aRootPath);
+
+	private:
+		static inline TextureImporter textureImporter;
+		static inline MaterialImporter materialImporter;
+		static inline VertexShaderImporter vertexShaderImporter;
+		static inline PixelShaderImporter pixelShaderImporter;
+	};
+}

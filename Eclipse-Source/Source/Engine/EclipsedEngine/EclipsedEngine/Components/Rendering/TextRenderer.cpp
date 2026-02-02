@@ -19,8 +19,8 @@ namespace Eclipse
 {
 	TextMaterial::TextMaterial()
 	{
-		pixelShader = Assets::Resources::Get<PixelShader>("EngineAssets/Default/Shaders/Text.pglsl");
-		vertexShader = Assets::Resources::Get<VertexShader>("EngineAssets/Default/Shaders/Text.vglsl");
+		pixelShader = Resources::Get<PixelShader>("EngineAssets/Default/Shaders/Text.pglsl");
+		vertexShader = Resources::Get<VertexShader>("EngineAssets/Default/Shaders/Text.vglsl");
 
 		programID = glCreateProgram();
 		glAttachShader(programID, vertexShader.GetProgramID());

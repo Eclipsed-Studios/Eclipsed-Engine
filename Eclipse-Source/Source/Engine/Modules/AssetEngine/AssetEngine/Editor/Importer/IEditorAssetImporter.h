@@ -1,0 +1,54 @@
+#pragma once
+
+#include <filesystem>
+#include <fstream>
+#include "AssetEngine/Editor/Importer/ImportSettings/AssetImportSettings.h"
+#include <cereal/archives/json.hpp>
+
+namespace Eclipse
+{
+	class IEditorAssetImporter
+	{
+	public:
+		virtual ~IEditorAssetImporter() = default;
+
+		virtual bool CanImport(const std::filesystem::path& aPath) const;
+
+		void Import(const std::filesystem::path& aPath);
+
+		virtual void Export(const AssetMetaSettings& metaSettings, std::ofstream& outStream, const std::filesystem::path& aPath) = 0;
+
+		bool ArtifactUpToData(const std::filesystem::path& aPath);
+
+	protected:
+		std::filesystem::path GetArtifactPath(const std::string& guid);
+		AssetMetaSettings LoadOrCreateMeta(const std::filesystem::path& aPath);
+
+		template<typename T>
+		T ValidateJsonFile(const std::filesystem::path& aPath);
+
+	protected:
+		const std::filesystem::path path = "F:/Projects/Eclipsed-Engine/RPS-Project/Project";
+	};
+
+	template<typename T>
+	inline T IEditorAssetImporter::ValidateJsonFile(const std::filesystem::path& aPath)
+	{
+		T data;
+
+		try
+		{
+			std::ifstream in(aPath);
+			cereal::JSONInputArchive ar(in);
+			ar(data);
+		}
+		catch (const cereal::Exception& e)
+		{
+			std::ofstream in(aPath);
+			cereal::JSONOutputArchive ar(in);
+			ar(data);
+		}
+
+		return data;
+	}
+}

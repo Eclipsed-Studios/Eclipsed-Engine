@@ -780,7 +780,7 @@ namespace Eclipse::Editor
 
 	void SpriteEditor::SetTexture(const char* aPath)
 	{ 
-		myTexture = Assets::Resources::Get<Texture>(aPath);
+		myTexture = Resources::Get<Texture>(aPath);
 		activeRelativePath = aPath;
 		textureSet = true;
 
@@ -793,8 +793,9 @@ namespace Eclipse::Editor
 
 		//glBindTexture(GL_TEXTURE_2D, myTexture->GetTextureID());
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, SamplingType::Point);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, SamplingType::Point);
+		// TODO: ADD SAMPLING
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, SamplingType::Point);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, SamplingType::Point);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 

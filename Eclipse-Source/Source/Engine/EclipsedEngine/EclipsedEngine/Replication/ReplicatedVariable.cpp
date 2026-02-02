@@ -1,5 +1,8 @@
 #include "ReplicatedVariable.h"
 
+#include "AssetEngine/Data/AssetData.h"
+
+
 namespace Eclipse::Replication
 {
     void BaseReplicatedVariable::ReplicateThis(unsigned aID, bool aIsGarantied, bool aAlwaysSend)
@@ -23,7 +26,7 @@ namespace Eclipse::Replication
 
         if (IsAsset)
         {
-            Assets::AssetHandle** handle = reinterpret_cast<Assets::AssetHandle**>(myReflectVariable->GetData());
+            AssetData** handle = reinterpret_cast<AssetData**>(myReflectVariable->GetData());
             memcpy(data + offset, *handle, dataAmount);
             offset += dataAmount;
         }

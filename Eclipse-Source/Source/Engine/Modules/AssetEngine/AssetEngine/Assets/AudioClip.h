@@ -1,18 +1,13 @@
 #pragma once
 
-#include "Asset.h"
-
+#include "AssetEngine/Data/AudioData.h"
+#include "BaseAsset.h"
 
 namespace Eclipse
 {
-	namespace Assets
+	class AudioClip
 	{
-		struct AudioClipHandle;
-		class AudioClipManager;
-	}
-
-	class AudioClip final
-	{
-		ASSET_OPERATORS_DEF(AudioClip, Assets::AudioClipHandle, Assets::AudioClipManager);
+	public:
+		BASE_ASSET(AudioClip)
 	};
 }

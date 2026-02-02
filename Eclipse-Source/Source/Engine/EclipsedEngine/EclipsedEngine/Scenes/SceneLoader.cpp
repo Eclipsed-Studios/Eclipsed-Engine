@@ -129,7 +129,7 @@ namespace Eclipse
 		else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material ||
 			aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
 		{
-			size_t id = 0;
+			std::string id = "";
 			if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
 			{
 				Reflection::SerializedVariable<Texture>* asset = (Reflection::SerializedVariable<Texture>*)aSerialized;
@@ -149,9 +149,7 @@ namespace Eclipse
 				id = asset->Get().GetAssetID();
 			}
 
-			int i = aSerialized->GetSizeInBytes();
-			std::string encoded = Base64::Encode(&id, i);
-			jsonVal.SetString(encoded.c_str(), alloc);
+			jsonVal.SetString(id.c_str(), alloc);
 		}
 
 		else
@@ -300,23 +298,23 @@ namespace Eclipse
 				std::string strVal = val.GetString();
 				std::vector<unsigned char> decoded = Base64::Decode(strVal);
 
-				size_t id = 0;
+				std::string id = 0;
 				memcpy(&id, decoded.data(), decoded.size());
 
 				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
 				{
 					Reflection::SerializedVariable<Texture>* asset = (Reflection::SerializedVariable<Texture>*)aSerializedVariable;
-					*asset = Assets::Resources::Get<Texture>(id);
+					*asset = Resources::Get<Texture>(id);
 				}
 				else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material)
 				{
 					Reflection::SerializedVariable<Material>* asset = (Reflection::SerializedVariable<Material>*)aSerializedVariable;
-					*asset = Assets::Resources::Get<Material>(id);
+					*asset = Resources::Get<Material>(id);
 				}
 				else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
 				{
 					Reflection::SerializedVariable<AudioClip>* asset = (Reflection::SerializedVariable<AudioClip>*)aSerializedVariable;
-					*asset = Assets::Resources::Get<AudioClip>(id);
+					*asset = Resources::Get<AudioClip>(id);
 				}
 			}
 

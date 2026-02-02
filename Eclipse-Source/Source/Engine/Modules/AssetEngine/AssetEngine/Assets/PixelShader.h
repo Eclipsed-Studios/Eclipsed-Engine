@@ -1,18 +1,17 @@
 #pragma once
 
-#include "Shader.h"
+#include "AssetEngine/Data/ShaderData.h"
+#include "BaseAsset.h"
 
 namespace Eclipse
 {
-	namespace Assets
+	class PixelShader
 	{
-		struct ShaderHandle;
-		class ShaderManager;
-	}
+		BASE_ASSET(PixelShader);
 
-	class PixelShader final : public Shaders
-	{
-		using Shaders::Shaders;
-		using Shaders::operator=;
+	public:
+		unsigned GetProgramID();
+
+		void Bind();
 	};
 }

@@ -32,23 +32,15 @@ namespace Eclipse
 	void SpriteRenderer2D::SetYMirror(bool aMirror) { mirroredY = aMirror; }
 
 #pragma region --- Set Sprite
-	void SpriteRenderer2D::SetSprite(const char* aPath)
+	void SpriteRenderer2D::SetSprite(const std::string& aGuid)
 	{
-		sprite = Assets::Resources::Get<Texture>(aPath);
+		sprite = Resources::Get<Eclipse::Texture>(aGuid);
 		hasSprite = true;
 
 		REPLICATEGARANTIED(sprite);
 	}
 
-	void SpriteRenderer2D::SetSprite(const size_t& id)
-	{
-		sprite = Assets::Resources::Get<Texture>(id);
-		hasSprite = true;
-
-		REPLICATEGARANTIED(sprite);
-	}
-
-	void SpriteRenderer2D::SetSprite(const Texture& aSprite)
+	void SpriteRenderer2D::SetSprite(const Eclipse::Texture& aSprite)
 	{
 		sprite = aSprite;
 		hasSprite = true;
@@ -56,20 +48,13 @@ namespace Eclipse
 		REPLICATEGARANTIED(sprite);
 	}
 #pragma endregion
-
-	void SpriteRenderer2D::SetMaterial(const char* aPath)
+	void SpriteRenderer2D::SetMaterial(const std::string& aGuid)
 	{
-		material = Assets::Resources::Get<Material>(aPath);
+		material = Resources::Get<Eclipse::Material>(aGuid);
 		hasMaterial = true;
 	}
 
-	void SpriteRenderer2D::SetMaterial(const size_t& id)
-	{
-		material = Assets::Resources::Get<Material>(id);
-		hasMaterial = true;
-	}
-
-	void SpriteRenderer2D::SetMaterial(const Material& aMaterial)
+	void SpriteRenderer2D::SetMaterial(const Eclipse::Material& aMaterial)
 	{
 		material = aMaterial;
 		hasMaterial = true;
@@ -88,7 +73,7 @@ namespace Eclipse
 
 		if (!hasMaterial)
 		{
-			material = Assets::Resources::GetDefaultMaterial();
+			//material = Resources::GetDefaultMaterial();
 			hasMaterial = true;
 		}
 	}

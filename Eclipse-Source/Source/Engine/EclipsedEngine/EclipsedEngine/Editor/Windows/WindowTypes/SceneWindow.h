@@ -21,7 +21,7 @@ namespace Eclipse
 			EDITOR_WINDOW_BASE_2(SceneWindow, "Scene")
 
 		private:
-			void GizmoManager(Transform2D* aTransform);
+			void GizmoManager(Eclipse::Transform2D* aTransform);
 
 			void ObjectSnappingGizmo();
 
@@ -55,7 +55,7 @@ namespace Eclipse
 			Math::Vector2f mySpriteMoveVector = { 0, 0 };
 
 		private:
-			SpriteRenderer2D* mySelectedObject = nullptr;
+			::Eclipse::SpriteRenderer2D* mySelectedObject = nullptr;
 			unsigned mySelectedSpriteHighlightProgram;
 
 		private:

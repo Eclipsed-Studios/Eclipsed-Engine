@@ -29,7 +29,11 @@ namespace Eclipse::Replication
             static inline std::vector<Component*> ComponentsToStartOnDemand;
 
             static inline unsigned myComponentsToRecieved = 9999;
+
+            // Placing here cause other is bad.
+            static void RefreshAsset(Reflection::AbstractSerializedVariable* aVariable, std::string aAssetID);
         };
+
 
     public:
         class ServerHelp

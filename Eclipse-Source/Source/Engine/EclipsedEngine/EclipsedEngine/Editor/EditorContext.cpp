@@ -2,7 +2,7 @@
 
 #include "CoreEngine/Engine.h"
 
-#include "AssetEngine/AssetPipeline.h"
+#include "AssetEngine/Editor/Importer/EditorAssetImporter.h"
 
 #include <stdlib.h>
 
@@ -14,6 +14,8 @@ namespace Eclipse::Editor
 {
 	void EditorContexts::Init(const std::string& projectPath)
 	{
+		EditorAssetImporter::ImportAll(std::filesystem::path(projectPath) / "Assets");
+
 		myRuntime.Init(projectPath);
 		myUIManager.Init();
 	}

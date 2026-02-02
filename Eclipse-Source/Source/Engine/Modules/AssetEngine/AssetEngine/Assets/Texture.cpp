@@ -1,51 +1,41 @@
 #include "Texture.h"
 
-#include <glad/glad.h>
-#include "AssetEngine/Models/AssetDatas/Handles/TextureHandle.h"
-
 namespace Eclipse
 {
-	ASSET_OPERATORS_IMPL(Texture, Assets::TextureHandle)
-
-		const std::vector<Math::RectSizePos>& Texture::GetRects()
-	{
-		return dataHandle->rects;
-	}
-
 	int Texture::GetWidth() const
 	{
-		return dataHandle->width;
+		return data->width;
 	}
 
 	int Texture::GetHeight() const
 	{
-		return dataHandle->height;
+		return data->height;
 	}
 
 	float Texture::GetAspectRatio() const
 	{
-		return (float)dataHandle->width / (float)dataHandle->height;
+		return (float)data->width / (float)data->height;
 	}
 
 	unsigned Texture::GetTextureID() const
 	{
-		return dataHandle->textureID;
+		return data->textureID;
 	}
 
 	const Math::Vector2f& Texture::GetTextureSizeNormilized() const
 	{
-		return dataHandle->sizeNormalized;
+		return data->sizeNormalized;
 	}
 
 	Math::Vector2f Texture::GetDimDivOne() const
 	{
-		return dataHandle->dimDivOne;
+		return data->dimDivOne;
 	}
 
 	void Texture::Bind(int slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);
-		glBindTexture(GL_TEXTURE_2D, dataHandle->textureID);
+		glBindTexture(GL_TEXTURE_2D, data->textureID);
 	}
 
 	void Texture::Unbind(int slot) const

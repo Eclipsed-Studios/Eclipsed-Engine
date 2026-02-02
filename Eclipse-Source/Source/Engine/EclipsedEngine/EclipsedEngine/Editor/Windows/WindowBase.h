@@ -40,7 +40,7 @@ public:                                                                         
 private:                                                                            \
     struct AutoRegister {                                                           \
         AutoRegister() {                                                            \
-            Eclipse::Editor::WindowRegistry::RegisterWindow<type>(name); \
+            WindowRegistry::RegisterWindow<type>(name); \
         }                                                                          \
     };                                                                             \
     static inline AutoRegister _register = {};

@@ -17,7 +17,6 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "EclipsedEngine/Components/ComponentForcelink.h"
-#include "AssetEngine/AssetPipeline.h"
 #include "CoreEngine/PathManager.h"
 #include "CoreEngine/MainSingleton.h"
 #include "CoreEngine/Settings/EngineSettings.h"

@@ -144,20 +144,20 @@ namespace Eclipse::Reflection
 			sizePerElement = sizeof(T);
 		}
 
-		else if constexpr (std::is_same<T, Material>::value)
+		else if constexpr (std::is_same<T, Eclipse::Material>::value)
 		{
 			type = SerializedType_Material;
-			sizePerElement = sizeof(Material);
+			sizePerElement = sizeof(Eclipse::Material);
 		}
-		else if constexpr (std::is_same<T, AudioClip>::value)
+		else if constexpr (std::is_same<T, Eclipse::AudioClip>::value)
 		{
 			type = SerializedType_AudioClip;
-			sizePerElement = sizeof(AudioClip);
+			sizePerElement = sizeof(Eclipse::AudioClip);
 		}
-		else if constexpr (std::is_same<T, Texture>::value)
+		else if constexpr (std::is_same<T, Eclipse::Texture>::value)
 		{
 			type = SerializedType_Texture;
-			sizePerElement = sizeof(Texture);
+			sizePerElement = sizeof(Eclipse::Texture);
 		}
 
 		else if constexpr (std::is_arithmetic<T>::value)

@@ -1,18 +1,18 @@
 #pragma once
 
-#include "Shader.h"
+#include "AssetEngine/Data/ShaderData.h"
+#include "BaseAsset.h"
+
 
 namespace Eclipse
 {
-	namespace Assets
+	class VertexShader
 	{
-		struct ShaderHandle;
-		class ShaderManager;
-	}
+		BASE_ASSET(VertexShader);
 
-	class VertexShader final : public Shaders
-	{
-		using Shaders::Shaders;
-		using Shaders::operator=;
+	public:
+		unsigned GetProgramID() const;
+
+		void Bind();
 	};
 }

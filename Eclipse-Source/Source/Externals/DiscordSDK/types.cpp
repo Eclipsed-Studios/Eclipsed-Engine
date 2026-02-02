@@ -164,46 +164,46 @@ Timestamp ActivityTimestamps::GetEnd() const
     return internal_.end;
 }
 
-void ActivityAssets::SetLargeImage(char const* largeImage)
+void ActivitySetLargeImage(char const* largeImage)
 {
     strncpy(internal_.large_image, largeImage, 128);
     internal_.large_image[128 - 1] = '\0';
 }
 
-char const* ActivityAssets::GetLargeImage() const
+char const* ActivityGetLargeImage() const
 {
     return internal_.large_image;
 }
 
-void ActivityAssets::SetLargeText(char const* largeText)
+void ActivitySetLargeText(char const* largeText)
 {
     strncpy(internal_.large_text, largeText, 128);
     internal_.large_text[128 - 1] = '\0';
 }
 
-char const* ActivityAssets::GetLargeText() const
+char const* ActivityGetLargeText() const
 {
     return internal_.large_text;
 }
 
-void ActivityAssets::SetSmallImage(char const* smallImage)
+void ActivitySetSmallImage(char const* smallImage)
 {
     strncpy(internal_.small_image, smallImage, 128);
     internal_.small_image[128 - 1] = '\0';
 }
 
-char const* ActivityAssets::GetSmallImage() const
+char const* ActivityGetSmallImage() const
 {
     return internal_.small_image;
 }
 
-void ActivityAssets::SetSmallText(char const* smallText)
+void ActivitySetSmallText(char const* smallText)
 {
     strncpy(internal_.small_text, smallText, 128);
     internal_.small_text[128 - 1] = '\0';
 }
 
-char const* ActivityAssets::GetSmallText() const
+char const* ActivityGetSmallText() const
 {
     return internal_.small_text;
 }

@@ -9,12 +9,13 @@ file(GLOB_RECURSE ASSET_EXPORT_SOURCES
 
 add_executable(AssetExporter "${ASSET_EXPORT_ROOT}/main.cpp")
 
-target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
-    target_include_directories(Launcher PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
+target_include_directories(AssetExporter PUBLIC ${CMAKE_SOURCE_DIR}/Source/Tools/AssetExporter/)
+    target_include_directories(AssetExporter PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
 
-target_link_libraries(Launcher PRIVATE EclipsedEngine)
-
-set_target_properties(Launcher PROPERTIES
+    target_link_libraries(AssetExporter PRIVATE AssetEngine)
+    target_link_libraries(AssetExporter PRIVATE CoreEngine)
+    
+set_target_properties(AssetExporter PROPERTIES
 RUNTIME_OUTPUT_DIRECTORY "${EXE_OUTPUT_DIR}"
 RUNTIME_OUTPUT_DIRECTORY_DEBUG "${EXE_OUTPUT_DIR}"
 RUNTIME_OUTPUT_DIRECTORY_RELEASE "${EXE_OUTPUT_DIR}"
@@ -29,4 +30,4 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin")
 
 
-set_target_properties(Launcher PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
+set_target_properties(AssetExporter PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
