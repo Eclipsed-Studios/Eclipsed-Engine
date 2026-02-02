@@ -1,7 +1,5 @@
 #include "AssetWindowContextMenu.h"
 
-#include "AssetEngine/AssetFactory.h"
-
 #include <filesystem>
 #include "ImGui/imgui.h"
 
@@ -125,7 +123,7 @@ namespace Eclipse::Editor
 				savedPath = activePath;
 
 			std::string path = (activePath / "Test.mat").generic_string();
-			Assets::AssetFactory::CreateMaterial(path.c_str());
+			std::ofstream otu(path);
 
 			activePath = savedPath;
 		}

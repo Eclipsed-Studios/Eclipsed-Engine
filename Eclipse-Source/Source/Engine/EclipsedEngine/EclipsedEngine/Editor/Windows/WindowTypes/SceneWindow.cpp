@@ -47,9 +47,11 @@
 #include <filesystem>
 #include <ostream>
 
-namespace Eclipse
+#include "EclipsedEngine/Components/Transform2D.h"
+
+namespace Eclipse::Editor
 {
-	using namespace Editor;
+	//using namespace Editor;
 
 	void SceneWindow::ZoomToObject()
 	{
@@ -60,7 +62,7 @@ namespace Eclipse
 		if (ImGui::IsAnyItemActive())
 			return;
 
-		Transform2D* transform = ComponentManager::GetComponent<Transform2D>(HierarchyWindow::CurrentGameObjectID);
+		::Eclipse::Transform2D* transform = ComponentManager::GetComponent<::Eclipse::Transform2D>(HierarchyWindow::CurrentGameObjectID);
 		if (transform)
 		{
 			myInspectorPosition = transform->GetPosition();
@@ -69,7 +71,7 @@ namespace Eclipse
 			return;
 		}
 
-		RectTransform* rectTransform = ComponentManager::GetComponent<RectTransform>(HierarchyWindow::CurrentGameObjectID);
+		::Eclipse::RectTransform* rectTransform = ComponentManager::GetComponent<::Eclipse::RectTransform>(HierarchyWindow::CurrentGameObjectID);
 		if (rectTransform)
 		{
 			myInspectorPosition = rectTransform->Position;
@@ -168,7 +170,7 @@ namespace Eclipse
 		Math::Vector2f mouseDeltaECL = Math::Vector2f((mouseDelta.x / myWindowSize.x) * (myWindowSize.x / myWindowSize.y), (mouseDelta.y / myWindowSize.y) * -1.f) * (1.f / myInspectorScale) * 2.f;
 
 		int currentGO = HierarchyWindow::CurrentGameObjectID;
-		Transform2D* transform = ComponentManager::GetComponent<Transform2D>(currentGO);
+		::Eclipse::Transform2D* transform = ComponentManager::GetComponent<::Eclipse::Transform2D>(currentGO);
 
 		mySpriteMoveVector += mouseDeltaECL;
 
@@ -215,7 +217,7 @@ namespace Eclipse
 				EditorActions::PasteObject(data);
 			}
 
-			Transform2D* transform = ComponentManager::GetComponent<Transform2D>(HierarchyWindow::CurrentGameObjectID);
+			::Eclipse::Transform2D* transform = ComponentManager::GetComponent<::Eclipse::Transform2D>(HierarchyWindow::CurrentGameObjectID);
 
 			if (!transform)
 				return;
@@ -245,7 +247,7 @@ namespace Eclipse
 		ImGui::SetCursorPosX(0);
 	}
 
-	void SceneWindow::GizmoManager(Transform2D* aTransform)
+	void SceneWindow::GizmoManager(::Eclipse::Transform2D* aTransform)
 	{
 		Math::Vector2f transformPos = aTransform->GetPosition();
 		Math::Vector2f position = aTransform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f);
@@ -307,11 +309,11 @@ namespace Eclipse
 
 		if (HierarchyWindow::CurrentGameObjectID)
 		{
-			mySelectedObject = GetComp(SpriteRenderer2D, HierarchyWindow::CurrentGameObjectID);
+			mySelectedObject = GetComp(::Eclipse::SpriteRenderer2D, HierarchyWindow::CurrentGameObjectID);
 
 			if (mySelectedObject && mySelectedObject->GetMaterial())
 			{
-				Transform2D* transform = GetComp(Transform2D, HierarchyWindow::CurrentGameObjectID);
+				::Eclipse::Transform2D* transform = GetComp(::Eclipse::Transform2D, HierarchyWindow::CurrentGameObjectID);
 
 				DebugDrawer::Get().Begin();
 				Math::Vector2f textureScale = mySelectedObject->GetMaterial()->GetTexture().GetTextureSizeNormilized();
@@ -414,7 +416,7 @@ namespace Eclipse
 				memset(data + prefSize, '\0', 1);
 				stream.close();
 
-				Editor::EditorActions::PasteObject(data);
+				EditorActions::PasteObject(data);
 
 				free(data);
 			}

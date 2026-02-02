@@ -1,62 +1,58 @@
 #include "Material.h"
-#include "AssetEngine/Models/AssetDatas/Handles/MaterialHandle.h"
 
-#include "AssetEngine/Assets/Texture.h"
+#include "CoreEngine/Math/Vector/Vector4.h"
 
 namespace Eclipse
 {
-	ASSET_OPERATORS_IMPL(Material, Assets::MaterialHandle);
-
-
 	Texture& Material::GetTexture()
 	{
-		return dataHandle->texture;
+		return data->texture;
 	}
 	const Texture& Material::GetTexture() const
 	{
-		return dataHandle->texture;
+		return data->texture;
 	}
 
 	VertexShader& Material::GetVertexShader()
 	{
-		return dataHandle->vs;
+		return data->vertexShader;
 	}
 	const VertexShader& Material::GetVertexShader() const
 	{
-		return dataHandle->vs;
+		return data->vertexShader;
 	}
 
 	PixelShader& Material::GetPixelShader()
 	{
-		return dataHandle->ps;
+		return data->pixelShader;
 	}
 
 	const PixelShader& Material::GetPixelShader() const
 	{
-		return dataHandle->ps;
+		return data->pixelShader;
 	}
 
 	unsigned Material::GetShaderProgramID() const
 	{
-		return dataHandle->programID;
+		return data->programID;
 	}
 
 	void Material::BindTexture()
 	{
-		dataHandle->texture.Bind();
+		data->texture.Bind();
 	}
 
 	void Material::BindShader()
 	{
-		glUseProgram(dataHandle->programID);
+		glUseProgram(data->programID);
 	}
 
 	void Material::BindColor()
 	{
 
-		Math::Vector4f col = dataHandle->color.ToVector();
-		
-		GLuint location = glGetUniformLocation(dataHandle->programID, "material.color");
+		Math::Vector4f col = data->color.ToVector();
+
+		GLuint location = glGetUniformLocation(data->programID, "material.color");
 		glUniform4f(location, col.x, col.x, col.x, col.x);
 	}
 
@@ -69,9 +65,9 @@ namespace Eclipse
 
 	void Material::Create()
 	{
-		dataHandle->programID = glCreateProgram();
-		glAttachShader(dataHandle->programID, dataHandle->vs.GetProgramID());
-		glAttachShader(dataHandle->programID, dataHandle->ps.GetProgramID());
-		glLinkProgram(dataHandle->programID);
+		data->programID = glCreateProgram();
+		glAttachShader(data->programID, data->vertexShader.GetProgramID());
+		glAttachShader(data->programID, data->pixelShader.GetProgramID());
+		glLinkProgram(data->programID);
 	}
 }

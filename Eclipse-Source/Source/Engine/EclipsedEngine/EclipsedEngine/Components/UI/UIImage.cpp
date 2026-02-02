@@ -13,7 +13,7 @@ namespace Eclipse
 {
     //void UIImage::OnComponentAdded()
     //{
-    //    myMaterial = Assets::Resourcess::Get<Materials>();
+    //    myMaterial = Resourcess::Get<Materials>();
     //    myMaterial = new Material((PathManager::GetEngineAssets() / "Default/Shaders/ScreenSpaceSpritePixelShader.glsl").generic_string().c_str(), (PathManager::GetEngineAssets() / "Default/Shaders/ScreenSpaceSpriteVertexShader.glsl").generic_string().c_str());
     //}
 

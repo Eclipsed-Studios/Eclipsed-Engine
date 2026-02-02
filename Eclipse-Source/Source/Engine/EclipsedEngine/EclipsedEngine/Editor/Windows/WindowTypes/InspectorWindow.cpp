@@ -16,10 +16,6 @@
 
 #include "ImGui/imgui.h"
 
-#include "AssetEngine/Models/AssetDatas/Binary/MaterialBinaryData.h"
-
-#include "AssetEngine/AssetRegistry.h"
-
 #include "EclipsedEngine/Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
 #include "EclipsedEngine/Editor/Common/DragAndDrop.h"
 
@@ -167,113 +163,113 @@ namespace Eclipse::Editor
 
 	void InspectorWindow::DrawMaterialAssetInspector()
 	{
-		static Assets::MaterialBinaryData data;
+	//	static MaterialBinaryData data;
 
-		std::ifstream in(AssetWindow::ActivePath, std::ios::binary);
-		in.read(reinterpret_cast<char*>(&data), sizeof(Assets::MaterialBinaryData));
-		in.close();
+	//	std::ifstream in(AssetWindow::ActivePath, std::ios::binary);
+	//	in.read(reinterpret_cast<char*>(&data), sizeof(MaterialBinaryData));
+	//	in.close();
 
-		bool changed = ImGui::ColorEdit4("Material Color", data.color.data,
-			ImGuiColorEditFlags_AlphaBar |
-			ImGuiColorEditFlags_AlphaPreview |
-			ImGuiColorEditFlags_PickerHueWheel |
-			ImGuiColorEditFlags_DisplayRGB |
-			ImGuiColorEditFlags_NoInputs);
+	//	bool changed = ImGui::ColorEdit4("Material Color", data.color.data,
+	//		ImGuiColorEditFlags_AlphaBar |
+	//		ImGuiColorEditFlags_AlphaPreview |
+	//		ImGuiColorEditFlags_PickerHueWheel |
+	//		ImGuiColorEditFlags_DisplayRGB |
+	//		ImGuiColorEditFlags_NoInputs);
 
-		Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
+	//	AssetRegistry& registry = AssetRegistry::GetInstance();
 
-		{ // Texture dnd
-			bool textClicked = false, arrowClicked = false;
-			std::string text = "No Texture";
-			if (data.textureID != 0)
-			{
-				auto& entry = registry.GetRegisteredAsset(data.textureID);
-				text = entry.path.filename().generic_string();
-			}
+	//	{ // Texture dnd
+	//		bool textClicked = false, arrowClicked = false;
+	//		std::string text = "No Texture";
+	//		if (data.textureID != 0)
+	//		{
+	//			auto& entry = registry.GetRegisteredAsset(data.textureID);
+	//			text = entry.path.filename().generic_string();
+	//		}
 
-			if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_Texture, &textClicked, &arrowClicked))
-			{
-				data.textureID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
-				changed = true;
-			}
+	//		if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_Texture, &textClicked, &arrowClicked))
+	//		{
+	//			data.textureID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
+	//			changed = true;
+	//		}
 
-			if (arrowClicked)
-			{
-				ImGui::OpenPopup("##dropdown_popup");
-			}
+	//		if (arrowClicked)
+	//		{
+	//			ImGui::OpenPopup("##dropdown_popup");
+	//		}
 
-			if (ImGui::BeginPopup("##dropdown_popup"))
-			{
-				// Optional: title or search bar
-				ImGui::TextUnformatted("Select Texture");
-				ImGui::Separator();
+	//		if (ImGui::BeginPopup("##dropdown_popup"))
+	//		{
+	//			// Optional: title or search bar
+	//			ImGui::TextUnformatted("Select Texture");
+	//			ImGui::Separator();
 
-				if (ImGui::Selectable("None"))
-				{
-					data.textureID = 0;
-					changed = true;
-				}
+	//			if (ImGui::Selectable("None"))
+	//			{
+	//				data.textureID = 0;
+	//				changed = true;
+	//			}
 
-				for (const size_t& assetId : registry.GetAllAssetsOfType(Assets::AssetType::Texture))
-				{
-					const Assets::AssetRegistryEntry& entry = registry.GetRegisteredAsset(assetId);
-					std::string name = entry.path.filename().string();
+	//			for (const size_t& assetId : registry.GetAllAssetsOfType(AssetType::Texture))
+	//			{
+	//				const AssetRegistryEntry& entry = registry.GetRegisteredAsset(assetId);
+	//				std::string name = entry.path.filename().string();
 
-					if (ImGui::Selectable(name.c_str()))
-					{
-						data.textureID = assetId;
-						ImGui::CloseCurrentPopup();
-						changed = true;
-					}
-				}
+	//				if (ImGui::Selectable(name.c_str()))
+	//				{
+	//					data.textureID = assetId;
+	//					ImGui::CloseCurrentPopup();
+	//					changed = true;
+	//				}
+	//			}
 
-				ImGui::EndPopup();
-			}
-		}
+	//			ImGui::EndPopup();
+	//		}
+	//	}
 
-		ImGui::Spacing();
+	//	ImGui::Spacing();
 
-		{ // Pixel shader dnd
-			std::string text = "No Pixel Shader";
-			if (data.pixelShaderID != 0)
-			{
-				auto& entry = registry.GetRegisteredAsset(data.pixelShaderID);
-				text = entry.path.filename().generic_string();
-			}
+	//	{ // Pixel shader dnd
+	//		std::string text = "No Pixel Shader";
+	//		if (data.pixelShaderID != 0)
+	//		{
+	//			auto& entry = registry.GetRegisteredAsset(data.pixelShaderID);
+	//			text = entry.path.filename().generic_string();
+	//		}
 
-			if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_PixelShader))
-			{
-				data.pixelShaderID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
-				changed = true;
-			}
-		}
+	//		if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_PixelShader))
+	//		{
+	//			data.pixelShaderID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
+	//			changed = true;
+	//		}
+	//	}
 
-		ImGui::Spacing();
+	//	ImGui::Spacing();
 
-		{ // Vertex shader dnd
-			std::string text = "No Vertex Shader";
-			if (data.vertexShaderID != 0)
-			{
-				auto& entry = registry.GetRegisteredAsset(data.vertexShaderID);
-				//text = entry.path.filename().generic_string();
-			}
+	//	{ // Vertex shader dnd
+	//		std::string text = "No Vertex Shader";
+	//		if (data.vertexShaderID != 0)
+	//		{
+	//			auto& entry = registry.GetRegisteredAsset(data.vertexShaderID);
+	//			//text = entry.path.filename().generic_string();
+	//		}
 
-			if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_VertexShader))
-			{
-				data.vertexShaderID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
-				changed = true;
-			}
-		}
+	//		if (DragAndDrop::BeginTarget(text.c_str(), Utilities::FileInfo::FileType_VertexShader))
+	//		{
+	//			data.vertexShaderID = registry.GetIdFromPath(DragAndDrop::payloadBuffer);
+	//			changed = true;
+	//		}
+	//	}
 
-		if (changed)
-		{
-			auto rel = std::filesystem::relative(AssetWindow::ActivePath, PathManager::GetAssetDir());
+	//	if (changed)
+	//	{
+	//		auto rel = std::filesystem::relative(AssetWindow::ActivePath, PathManager::GetAssetDir());
 
-			registry.RegisterChange(rel);
+	//		registry.RegisterChange(rel);
 
-			std::ofstream out(AssetWindow::ActivePath, std::ios::binary);
-			out.write(reinterpret_cast<const char*>(&data), sizeof(Assets::MaterialBinaryData));
-			out.close();
-		}
-	}
+	//		std::ofstream out(AssetWindow::ActivePath, std::ios::binary);
+	//		out.write(reinterpret_cast<const char*>(&data), sizeof(MaterialBinaryData));
+	//		out.close();
+	//	}
+	//}
 }

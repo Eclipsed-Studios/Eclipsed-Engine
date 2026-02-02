@@ -12,11 +12,13 @@ namespace Eclipse::Editor
 {
 	enum class EventType : unsigned
 	{
+		Unknown = 3000,
 		Modified = FILE_ACTION_MODIFIED,
 		FileAdded = FILE_ACTION_ADDED,
 		FileRemoved = FILE_ACTION_REMOVED,
 		RenamedOld = FILE_ACTION_RENAMED_OLD_NAME,
 		RenamedNew = FILE_ACTION_RENAMED_NEW_NAME,
+		Moved = 200,
 	};
 
 	struct FileWatcherEvent

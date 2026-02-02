@@ -7,7 +7,7 @@
 #include "EntityEngine/ComponentManager.h"
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
-#include "AssetEngine/AssetPipeline.h"
+#include "AssetEngine/Resources.h"
 
 #include "CoreEngine/PathManager.h"
 
@@ -46,7 +46,6 @@ namespace Eclipse
 		Replication::ReplicationManager::Init();
 
 		PathManager::Init(path);
-		Assets::AssetPipeline::Init();
 		{
 			const char* appData = std::getenv("APPDATA");
 

@@ -30,12 +30,10 @@ namespace Eclipse
 
         Texture GetSprite();
 
-        void SetSprite(const char* aPath);
-        void SetSprite(const size_t& id);
+        void SetSprite(const std::string& aGuid);
         void SetSprite(const Texture& aSprite);
 
-        void SetMaterial(const char* aPath);
-        void SetMaterial(const size_t& id);
+        void SetMaterial(const std::string& aGuid);
         void SetMaterial(const Material& aMaterial);
         Material* GetMaterial() { return nullptr; }
 

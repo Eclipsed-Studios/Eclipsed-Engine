@@ -10,7 +10,8 @@
 #include "EclipsedEngine/Components/Component.h"
 #include "EntityEngine/GameObject.h"
 
-#include "AssetEngine/Models/AssetDatas/Handles/AssetHandle.h"
+#include "AssetEngine/Data/AssetData.h"
+//#include "AssetEngine/Models/AssetDatas/Handles/AssetHandle.h"
 
 namespace Eclipse::Replication
 {
@@ -39,7 +40,7 @@ namespace Eclipse::Replication
                 myReflectVariable = variable;
 
                 if (aIsAsset)
-                    dataAmount = 8;
+                    dataAmount = 32;
                 else
                     dataAmount = variable->GetSizeInBytes();
 

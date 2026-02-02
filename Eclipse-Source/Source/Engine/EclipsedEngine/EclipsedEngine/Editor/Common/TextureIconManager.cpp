@@ -3,8 +3,6 @@
 #include <filesystem>
 #include <fstream>
 
-#include "AssetEngine/AssetImporter/Helpers/STB_Helper.h"
-
 #include <OpenGL/glad/glad.h>
 
 #include "CoreEngine/Files/FileWatcher.h"
@@ -13,6 +11,17 @@
 #include "CoreEngine/Files/FileInfo.h"
 #include "CoreEngine/Files/File.h"
 //#include "CoreEngine/AssetManagement/Resources.h"
+
+
+#ifndef STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image/stb_image.h"
+#endif // !STB_IMAGE_IMPLEMENTATION
+
+#ifndef STB_IMAGE_RESIZE_IMPLEMENTATION
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "stb_image/stb_image_resize.h"
+#endif // !STB_IMAGE_RESIZE_IMPLEMENTATION
 
 namespace Eclipse::Editor
 {
@@ -140,7 +149,7 @@ namespace Eclipse::Editor
 
 		{ // Load texture
 			int width = 0, height = 0;
-			unsigned char* pixels = Assets::STB_Helper::Load_Texture_STB(path.string().c_str(), width, height, data.channels);
+			unsigned char* pixels = stbi_load(path.string().c_str(), &width, &height, &data.channels, 0);
 			if (!pixels)
 			{
 				loadedIcons.erase(id);
@@ -158,13 +167,16 @@ namespace Eclipse::Editor
 				data.width = (float)width / (float)height * 128.f;
 			}
 
-			unsigned char* resizedPixels = Assets::STB_Helper::Resize_STB(pixels, width, height, data.width, data.height, data.channels);
+			unsigned char* resized = new unsigned char[width * height * data.channels];
+			stbir_resize_uint8(pixels, width, height, 0, resized, data.width, data.height, 0, data.channels);
+			stbi_image_free(pixels);
+
 
 			const int size = data.width * data.height * data.channels;
 			data.data.resize(size);
-			memcpy(data.data.data(), resizedPixels, size);
+			memcpy(data.data.data(), resized, size);
 
-			Assets::STB_Helper::FreeData_STB(resizedPixels);
+			stbi_image_free(resized);
 		}
 
 		CreateOpenGLTextureFromData(data);

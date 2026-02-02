@@ -101,33 +101,6 @@ namespace Eclipse::Replication
         ComponentManager::Destroy(message.MetaData.GameObjectID);
     }
 
-    void RefreshAsset(Reflection::AbstractSerializedVariable* aVariable, size_t aAssetID)
-    {
-        aVariable->ResolveTypeInfo();
-
-        switch (aVariable->GetType())
-        {
-        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Material:
-        {
-            Material& material = *(static_cast<Material*>(aVariable->GetData()));
-            material = Eclipse::Assets::Resources::Get<Material>(aAssetID);
-        }
-        break;
-        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_AudioClip:
-        {
-            AudioClip& assset = *(static_cast<AudioClip*>(aVariable->GetData()));
-            assset = Eclipse::Assets::Resources::Get<AudioClip>(aAssetID);
-        }
-        break;
-        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Texture:
-        {
-            Texture& assset = *(static_cast<Texture*>(aVariable->GetData()));
-            assset = Eclipse::Assets::Resources::Get<Texture>(aAssetID);
-        }
-        break;
-        }
-    }
-
     void ReplicationHelper::ClientHelp::RecieveRequestVariablesMessage(const NetMessage& message)
     {
         const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
@@ -172,8 +145,8 @@ namespace Eclipse::Replication
 
         if (Variable->IsAsset)
         {
-            size_t AssetID = 0;
-            memcpy(&AssetID, message.data + offset, 8);
+            std::string AssetID = "";
+            memcpy(&AssetID, message.data + offset, 32);
             RefreshAsset(Variable->myReflectVariable, AssetID);
         }
         else
@@ -235,6 +208,33 @@ namespace Eclipse::Replication
         case MessageType::Msg_AddComponent:
         {
             ReplicationHelper::ClientHelp::RecieveAddComponentMessage(message);
+        }
+        break;
+        }
+    }
+
+    void ReplicationHelper::ClientHelp::RefreshAsset(Reflection::AbstractSerializedVariable* aVariable, std::string aAssetID)
+    {
+        aVariable->ResolveTypeInfo();
+
+        switch (aVariable->GetType())
+        {
+        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Material:
+        {
+            Eclipse::Material& material = *(static_cast<Eclipse::Material*>(aVariable->GetData()));
+            material = Eclipse::Resources::Get<Eclipse::Material>(aAssetID);
+        }
+        break;
+        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_AudioClip:
+        {
+            Eclipse::AudioClip& assset = *(static_cast<Eclipse::AudioClip*>(aVariable->GetData()));
+            assset = Eclipse::Resources::Get<Eclipse::AudioClip>(aAssetID);
+        }
+        break;
+        case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Texture:
+        {
+            Eclipse::Texture& assset = *(static_cast<Eclipse::Texture*>(aVariable->GetData()));
+            assset = Eclipse::Resources::Get<Eclipse::Texture>(aAssetID);
         }
         break;
         }

@@ -1,22 +1,13 @@
 #pragma once
 
-#include "Asset.h"
-
-#include "Texture.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
+#include "AssetEngine/Data/MaterialData.h"
+#include "BaseAsset.h"
 
 namespace Eclipse
 {
-	namespace Assets
+	class Material
 	{
-		struct MaterialHandle;
-		class MaterialManager;
-	}
-
-	class Material final
-	{
-		ASSET_OPERATORS_DEF(Material, Assets::MaterialHandle, Assets::MaterialManager);
+		BASE_ASSET(Material);
 
 	public:
 		Texture& GetTexture();
@@ -39,6 +30,5 @@ namespace Eclipse
 		void Create();
 
 		static inline const char* colorID = "material.color";
-
 	};
 }

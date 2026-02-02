@@ -37,14 +37,17 @@ namespace Eclipse::Editor
 			{
 				FILE_NOTIFY_INFORMATION* info = (FILE_NOTIFY_INFORMATION*)buffer;
 
+				std::vector<FileWatcherEvent> events;
+				EventType previousEvent = EventType::Unknown;
+
 				do
 				{
+					std::lock_guard<std::mutex> lock(watchedDirectoriesMutex);
+
 					std::wstring fileName(info->FileName, info->FileNameLength / sizeof(WCHAR));
 					std::string pathString(std::filesystem::path(fileName).string());
-					//pathString.insert(0, ASSET_PATH);
 
-					std::lock_guard<std::mutex> lock(watchedDirectoriesMutex);
-					aDir.events.push_back({ pathString, (int)info->Action });
+					aDir.events.push_back({ aDir.watchPath +  "/" + pathString, (int)info->Action});
 
 					if (info->NextEntryOffset != 0)
 						info = (FILE_NOTIFY_INFORMATION*)((LPBYTE)info + info->NextEntryOffset);
@@ -64,7 +67,7 @@ namespace Eclipse::Editor
 		WatchedDirectory& dir = watchedDirectories[aPath];
 
 		dir.onChangedEvent = func;
-		dir.thread  = std::thread(&FileWatcher::WatchPath, std::ref(watchedDirectories[aPath]));
+		dir.thread = std::thread(&FileWatcher::WatchPath, std::ref(watchedDirectories[aPath]));
 		dir.watchPath = aPath;
 		dir.thread.detach();
 	}

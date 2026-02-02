@@ -5,8 +5,6 @@
 #include "EclipsedEngine/Components/AudioSource.h"
 #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 
-#include "AssetEngine/AssetRegistry.h"
-
 namespace Eclipse
 {
 	//void AudioSource::DrawInspector()
@@ -60,7 +58,7 @@ namespace Eclipse
 
 	//void SpriteRenderer2D::DrawInspector()
 	//{
-	//	Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
+	//	AssetRegistry& registry = AssetRegistry::GetInstance();
 
 	//	ImGui::Text("Texture");
 	//	ImGui::SameLine();
