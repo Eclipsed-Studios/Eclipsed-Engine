@@ -126,8 +126,12 @@ namespace Eclipse
 			jsonVal.AddMember("data", Value(encoded.c_str(), alloc).Move(), alloc);
 		}
 
-		else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material ||
-			aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
+		else if (
+			aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Prefab ||
+			aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture ||
+			aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material ||
+			aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip
+			)
 		{
 			std::string id = "";
 			if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
@@ -145,6 +149,12 @@ namespace Eclipse
 			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
 			{
 				Reflection::SerializedVariable<AudioClip>* asset = (Reflection::SerializedVariable<AudioClip>*)aSerialized;
+				if (!asset->Get().IsValid()) return;
+				id = asset->Get().GetAssetID();
+			}
+			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Prefab)
+			{
+				Reflection::SerializedVariable<Prefab>* asset = (Reflection::SerializedVariable<Prefab>*)aSerialized;
 				if (!asset->Get().IsValid()) return;
 				id = asset->Get().GetAssetID();
 			}
@@ -170,6 +180,7 @@ namespace Eclipse
 
 		ComponentManager::Clear();
 		Reflection::ReflectionManager::ClearList();
+		Replication::ReplicationManager::ClearList();
 
 		PhysicsEngine::CleanUp();
 		PhysicsEngine::InitWorld();
@@ -258,6 +269,7 @@ namespace Eclipse
 			}
 		}
 	}
+
 	void SceneLoader::LoadType(Reflection::AbstractSerializedVariable* aSerializedVariable, const rapidjson::Value& aValue)
 	{
 		using namespace rapidjson;
@@ -292,8 +304,12 @@ namespace Eclipse
 				memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
 			}
 
-			else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material ||
-				aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
+			else if (
+				aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Prefab ||
+				aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture ||
+				aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material ||
+				aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip
+				)
 			{
 				std::string strVal = val.GetString();
 				std::vector<unsigned char> decoded = Base64::Decode(strVal);
@@ -301,6 +317,11 @@ namespace Eclipse
 				std::string id = 0;
 				memcpy(&id, decoded.data(), decoded.size());
 
+				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Prefab)
+				{
+					Reflection::SerializedVariable<Prefab>* asset = (Reflection::SerializedVariable<Prefab>*)aSerializedVariable;
+					*asset = Assets::Resources::Get<Prefab>(id);
+				}
 				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
 				{
 					Reflection::SerializedVariable<Texture>* asset = (Reflection::SerializedVariable<Texture>*)aSerializedVariable;

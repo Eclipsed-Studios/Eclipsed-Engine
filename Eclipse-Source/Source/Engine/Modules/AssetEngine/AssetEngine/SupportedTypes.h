@@ -2,20 +2,10 @@
 
 #include <unordered_map>
 #include <string>
+#include "AssetEngine/Models/AssetType.h"
 
-namespace Eclipse
+namespace Eclipse::Assets
 {
-	enum class AssetType
-	{
-		Unknown,
-		Texture,
-		Material,
-		VertexShader,
-		PixelShader,
-		Shader,
-		AudioClip,
-	};
-
 	inline std::unordered_map<std::string, AssetType> extensionToAssetType =
 	{
 		{".png",  AssetType::Texture},
@@ -28,24 +18,15 @@ namespace Eclipse
 		{".hdr",  AssetType::Texture},
 		{".pic",  AssetType::Texture},
 		{".pnm",  AssetType::Texture},
-
+		
 		{".mat",  AssetType::Material},
-
+		
 		{".vglsl",  AssetType::VertexShader},
-
+		
 		{".pglsl",  AssetType::PixelShader},
-		{".fglsl",  AssetType::PixelShader},
-
+		
 		{".mp3",  AssetType::AudioClip},
+	
+		{".eprf",  AssetType::Prefab},
 	};
-
-	inline AssetType GetAssetTypeFromExtension(const std::string& extension)
-	{
-		auto it = extensionToAssetType.find(extension);
-		if (it != extensionToAssetType.end()) {
-			return it->second;
-		}
-
-		return AssetType::Unknown;
-	}
 }

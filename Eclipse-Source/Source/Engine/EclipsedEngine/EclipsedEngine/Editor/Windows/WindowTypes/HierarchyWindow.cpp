@@ -92,8 +92,6 @@ namespace Eclipse::Editor
 				SelectedGameobjectID = id;
 			}
 		}
-		else
-			gameobjectrightclicked = false;
 
 		if (id == CurrentGameObjectID)
 			clickedButton = false;
@@ -261,7 +259,7 @@ namespace Eclipse::Editor
 			{
 				if (ImGui::MenuItem("GameObject"))
 				{
-					GameObject* obj = CreateGameObject();
+					GameObject* obj = ComponentManager::CreateGameObject();
 
 					obj->SetName("New GameObject");
 				}
@@ -302,16 +300,21 @@ namespace Eclipse::Editor
 			ImGui::EndPopup();
 		}
 
+		gameobjectrightclicked = false;
+
 		if (ImGui::IsKeyPressed(ImGuiKey_Delete))
 		{
 			unsigned currentObject = HierarchyWindow::CurrentGameObjectID;
 			if (currentObject > 0)
 			{
-				GameObject* gameobject = ComponentManager::myEntityIdToEntity.at(currentObject);
-				RecursiveDeleteChildren(gameobject);
+				if (ComponentManager::myEntityIdToEntity.find(currentObject) != ComponentManager::myEntityIdToEntity.end())
+				{
+					GameObject* gameobject = ComponentManager::myEntityIdToEntity.at(currentObject);
+					RecursiveDeleteChildren(gameobject);
 
-				gameobjectIdsThatAreOpen.erase(currentObject);
-				HierarchyWindow::CurrentGameObjectID = 0;
+					gameobjectIdsThatAreOpen.erase(currentObject);
+					HierarchyWindow::CurrentGameObjectID = 0;
+				}
 			}
 		}
 

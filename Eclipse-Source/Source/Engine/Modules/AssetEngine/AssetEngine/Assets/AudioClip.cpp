@@ -1,6 +1,8 @@
-//#include "Texture.h"
-//
-//Eclipse::Texture::Texture(TextureData* textureData)
-//	: data(textureData)
-//{
-//}
+#include "AudioClip.h"
+
+#include "AssetEngine/Models/AssetDatas/Handles/AudioClipHandle.h"
+
+namespace Eclipse
+{
+	ASSET_OPERATORS_IMPL(AudioClip, Assets::AudioClipHandle);
+}

@@ -200,10 +200,9 @@ namespace Eclipse
 			return {};
 
 		std::vector<Component*> components;
+
 		for (auto& component : myEntityIDToVectorOfComponentIDs.at(aGOID))
-		{
 			components.emplace_back(myComponents[component.second]);
-		}
 
 		return components;
 	}
@@ -217,7 +216,7 @@ namespace Eclipse
 	{
 		if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
 			return nullptr;
-		
+
 		return myEntityIdToEntity.at(aGOID);
 	}
 
@@ -236,6 +235,8 @@ namespace Eclipse
 
 				DeleteReplicatedComponent(component->myInstanceComponentID);
 
+				component->IsDeleted = true;
+
 				component->OnDestroy();
 				component->~Component();
 
@@ -250,46 +251,29 @@ namespace Eclipse
 			int sizeOfComponentsRemove = componentsToRemove.size();
 			int sizeAfterRemoval = (sizeOfComponents - sizeOfComponentsRemove);
 
+			std::sort(componentsToRemove.begin(), componentsToRemove.end());
+
 			std::vector<bool> used(sizeOfComponents, false);
 
-			for (int i = 0; i < sizeOfComponentsRemove; i++)
+			for (int i = sizeOfComponentsRemove - 1; i >= 0; i--)
 			{
 				int componentIndex = componentsToRemove[i];
-				int replaceIndex = sizeOfComponents - 1 - i;
+				std::swap(myComponents[componentIndex], myComponents.back());
+				myComponents.pop_back();
+			}
 
-				// if (sizeOfComponents - 1 - i) == to any of componentsToRemove then go back until that is not true anymore
-				bool found;
-				do
+			int componentToStartSize = 0;
+			for (int i = myComponentsToStart.size() - 1; i >= 0; i--)
+			{
+				auto& component = myComponentsToStart[i];
+				if (component->IsDeleted)
 				{
-					found = false;
-					for (int j = 0; j < sizeOfComponentsRemove; j++)
-					{
-						if (replaceIndex == componentsToRemove[j] || used[replaceIndex])
-						{
-							replaceIndex--;
-							found = true;
-							break;
-						}
-					}
-				} while (found && replaceIndex >= 0);
-
-				if (replaceIndex < 0)
-					continue;
-
-				used[replaceIndex] = true;
-
-				if (componentIndex > sizeAfterRemoval)
-				{
-					myComponents.insert(myComponents.begin() + sizeAfterRemoval, myComponents[replaceIndex]);
-					sizeAfterRemoval++;
-				}
-				else
-				{
-					myComponents[componentIndex] = myComponents[replaceIndex];
+					std::swap(component, myComponentsToStart[myComponentsToStart.size() - componentToStartSize - 1]);
+					componentToStartSize++;
 				}
 			}
 
-			myComponents.resize(sizeAfterRemoval);
+			myComponentsToStart.resize(myComponentsToStart.size() - componentToStartSize);
 
 			SortComponents();
 
@@ -309,7 +293,8 @@ namespace Eclipse
 
 	GameObject* ComponentManager::CreateGameObject(GameObjectID aId)
 	{
-		if (aId == 0) aId = GetNextGameObjectID();
+		if (aId == 0)
+			aId = GetNextGameObjectID();
 
 		GameObject* obj = new GameObject(aId);
 		myEntityIdToEntity[aId] = obj;

@@ -1,41 +1,77 @@
 #pragma once
 
-#include "AssetEngine/Runtime/Managers/AssetManager.h"
-#include "AssetEngine/SupportedTypes.h"
-#include <string>
-#include <filesystem>
-#include <fstream>
+#include "AssetEngine/AssetRegistry.h"
 
-namespace Eclipse
+#include "AssetEngine/Managers/TextureManager.h"
+#include "AssetEngine/Managers/MaterialManager.h"
+#include "AssetEngine/Managers/PixelShaderManager.h"
+#include "AssetEngine/Managers/VertexShaderManager.h"
+#include "AssetEngine/Managers/AudioClipManager.h"
+#include "AssetEngine/Managers/PrefabManager.h"
+#include "CoreEngine/PathManager.h"
+
+namespace Eclipse::Assets
 {
-	class Resources	{
+	class Resources
+	{
 	public:
 		template<typename T>
-		static T Get(const std::string& aGuid);
+		static T Get(const char* path);
+
+		template<typename T>
+		static T Get(const size_t& id);
+
+		static void Update();
+
+		static Material GetDefaultMaterial();
+		static Texture GetDefaultTexture();
+		static VertexShader GetDefaultVS();
+		static PixelShader GetDefaultPS();
 
 	private:
+		static TextureManager textureManager;
+		static MaterialManager materialManager;
 		static VertexShaderManager vertexShaderManager;
 		static PixelShaderManager pixelShaderManager;
-		static MaterialManager materialManager;
-		static TextureManager textureManager;
+		static AudioClipManager audioClipManager;
+		static PrefabManager prefabManager;
 	};
 
 	template<typename T>
-	inline T Resources::Get(const std::string& aGuid)
+	T Resources::Get(const char* path)
 	{
-		if (aGuid.empty()) return {};
+		std::filesystem::path resolvedPath = path;
+		if (std::filesystem::path(path).is_absolute())
+		{
+			resolvedPath = std::filesystem::relative(path, PathManager::GetAssetDir());
+		}
 
-		const std::filesystem::path ad = "F:/Projects/Eclipsed-Engine/RPS-Project/Project";
-		std::filesystem::path exportFolderPath = ad / "Artifacts" / aGuid.substr(0, 2) / aGuid;
+		Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
 
-		std::ifstream in(exportFolderPath, std::ios::binary);
+		if (!registry.IsRegistered(path)) return {};
 
-		AssetType type = AssetType::Unknown;
-		in.read(reinterpret_cast<char*>(&type), sizeof(int));
+		size_t id = registry.GetIdFromPath(path);
 
-		if constexpr (std::is_same<T, Texture>::value) return textureManager.Get(aGuid, in);
-		else if constexpr (std::is_same<T, VertexShader>::value) return vertexShaderManager.Get(aGuid, in);
-		else if constexpr (std::is_same<T, PixelShader>::value) return pixelShaderManager.Get(aGuid, in);
-		else if constexpr (std::is_same<T, Material>::value) return materialManager.Get(aGuid, in);
+		if constexpr (std::is_same<T, Texture>::value) return std::move(textureManager.Get(id));
+		else if  constexpr (std::is_same<T, Material>::value) return std::move(materialManager.Get(id));
+		else if  constexpr (std::is_same<T, VertexShader>::value) return std::move(vertexShaderManager.Get(id));
+		else if  constexpr (std::is_same<T, PixelShader>::value) return std::move(pixelShaderManager.Get(id));
+		else if  constexpr (std::is_same<T, AudioClip>::value) return std::move(audioClipManager.Get(id));
+		else if  constexpr (std::is_same<T, Prefab>::value) return std::move(prefabManager.Get(id));
+	}
+
+	template<typename T>
+	T Resources::Get(const size_t& id)
+	{
+		Assets::AssetRegistry& registry = Assets::AssetRegistry::GetInstance();
+
+		if (!registry.IsRegistered(id)) return {};
+
+		if constexpr (std::is_same<T, Texture>::value) return std::move(textureManager.Get(id));
+		else if  constexpr (std::is_same<T, Material>::value) return std::move(materialManager.Get(id));
+		else if  constexpr (std::is_same<T, VertexShader>::value) return std::move(vertexShaderManager.Get(id));
+		else if  constexpr (std::is_same<T, PixelShader>::value) return std::move(pixelShaderManager.Get(id));
+		else if  constexpr (std::is_same<T, AudioClip>::value) return std::move(audioClipManager.Get(id));
+		else if  constexpr (std::is_same<T, Prefab>::value) return std::move(prefabManager.Get(id));
 	}
 }

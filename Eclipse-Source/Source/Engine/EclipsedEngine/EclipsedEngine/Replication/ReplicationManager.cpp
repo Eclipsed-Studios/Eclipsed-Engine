@@ -1,22 +1,22 @@
 #include "ReplicationManager.h"
 
-#include "ReplicatedVariable.h"
-
 #include "CoreEngine/Timer.h"
 #include "CoreEngine/MainSingleton.h"
 
-#include "NetworkEngine/Client/Client.h"
-#include "NetworkEngine/Server/Server.h"
-
-#include "EclipsedEngine/Replication/Replication.h"
-
-#include <iostream>
-
-#include <functional>
-
 #include "EntityEngine/Component.h"
 
+#include "AssetEngine/Assets/Prefab.h"
+
+#include "NetworkEngine/Client/Client.h"
+#include "NetworkEngine/Server/Server.h"
+#include "EclipsedEngine/Replication/Replication.h"
+#include "ReplicatedVariable.h"
+
+#include <iostream>
+#include <functional>
 #include <fstream>
+
+
 
 namespace Eclipse::Replication
 {
@@ -57,7 +57,7 @@ namespace Eclipse::Replication
         std::fstream stream("NetworkIp.ntwrk");
         char IpString[16];
         stream.getline(IpString, 16);
-        
+
         IP = IpString;
     }
 
@@ -132,6 +132,47 @@ namespace Eclipse::Replication
         outMessage = NetMessage::BuildGameObjectMessage(aComponent->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true, aStartLater);
     }
 
+    void ReplicationManager::CreatePrefabMessage(unsigned aGOID, unsigned PrefabAssetID, std::vector<unsigned> aComponentIDs, NetMessage& outMessage)
+    {
+        char Data[512];
+
+        unsigned componentsCount = aComponentIDs.size();
+
+        int totalComponentPrefabsize = aComponentIDs.size() * sizeof(unsigned);
+        int DataAmount = sizeof(PrefabAssetID) + sizeof(componentsCount) + totalComponentPrefabsize;
+
+        memcpy(Data, &PrefabAssetID, sizeof(PrefabAssetID));
+        memcpy(Data, &componentsCount, sizeof(componentsCount));
+        memcpy(Data, aComponentIDs.data(), totalComponentPrefabsize);
+
+        outMessage = NetMessage::BuildGameObjectMessage(aGOID, MessageType::Msg_InstantiatePrefab, Data, DataAmount, true, false);
+    }
+
+
+    void ReplicationManager::SendPrefabObject(GameObject* gameobject, Prefab& aPrefab)
+    {
+        std::vector<unsigned> componentIDs;
+        std::vector<Component*> components = gameobject->GetComponents();
+
+        for (auto& component : components)
+            componentIDs.emplace_back(component->myInstanceComponentID);
+
+        NetMessage message;
+        Replication::ReplicationManager::CreatePrefabMessage(gameobject->GetID(), aPrefab.GetAssetID(), componentIDs, message);
+
+        if (Eclipse::MainSingleton::Exists<Server>())
+        {
+            Server& server = Eclipse::MainSingleton::GetInstance<Server>();
+            server.Send(message);
+            return;
+        }
+        else if (Eclipse::MainSingleton::Exists<Client>())
+        {
+            Client& client = Eclipse::MainSingleton::GetInstance<Client>();
+            client.Send(message);
+            return;
+        }
+    }
 
     void ReplicationManager::SetBeforeReplicatedList()
     {
