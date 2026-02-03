@@ -160,7 +160,6 @@ namespace Eclipse::Editor
 
 			unsigned char* resized = new unsigned char[width * height * data.channels];
 			resized = STB_Helper::Resize_STB(pixels, width, height, data.width, data.height, data.channels);
-			STB_Helper::FreeData_STB(pixels);
 
 
 			const int size = data.width * data.height * data.channels;
