@@ -28,9 +28,4 @@ namespace Eclipse
 	{
 		return  GetAssetDir() / assetPath;
 	}
-
-	std::filesystem::path PathManager::GetCookedAssetPath(const std::filesystem::path& assetPath) 
-	{
-		return  GetCacheDir() / assetPath;
-	}
 }
