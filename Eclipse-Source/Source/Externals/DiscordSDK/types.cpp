@@ -164,49 +164,49 @@ Timestamp ActivityTimestamps::GetEnd() const
     return internal_.end;
 }
 
-void ActivitySetLargeImage(char const* largeImage)
-{
-    strncpy(internal_.large_image, largeImage, 128);
-    internal_.large_image[128 - 1] = '\0';
-}
-
-char const* ActivityGetLargeImage() const
-{
-    return internal_.large_image;
-}
-
-void ActivitySetLargeText(char const* largeText)
-{
-    strncpy(internal_.large_text, largeText, 128);
-    internal_.large_text[128 - 1] = '\0';
-}
-
-char const* ActivityGetLargeText() const
-{
-    return internal_.large_text;
-}
-
-void ActivitySetSmallImage(char const* smallImage)
-{
-    strncpy(internal_.small_image, smallImage, 128);
-    internal_.small_image[128 - 1] = '\0';
-}
-
-char const* ActivityGetSmallImage() const
-{
-    return internal_.small_image;
-}
-
-void ActivitySetSmallText(char const* smallText)
-{
-    strncpy(internal_.small_text, smallText, 128);
-    internal_.small_text[128 - 1] = '\0';
-}
-
-char const* ActivityGetSmallText() const
-{
-    return internal_.small_text;
-}
+//void ActivitySetLargeImage(char const* largeImage)
+//{
+//    strncpy(internal_.large_image, largeImage, 128);
+//    internal_.large_image[128 - 1] = '\0';
+//}
+//
+//char const* ActivityGetLargeImage() const
+//{
+//    return internal_.large_image;
+//}
+//
+//void ActivitySetLargeText(char const* largeText)
+//{
+//    strncpy(internal_.large_text, largeText, 128);
+//    internal_.large_text[128 - 1] = '\0';
+//}
+//
+//char const* ActivityGetLargeText() const
+//{
+//    return internal_.large_text;
+//}
+//
+//void ActivitySetSmallImage(char const* smallImage)
+//{
+//    strncpy(internal_.small_image, smallImage, 128);
+//    internal_.small_image[128 - 1] = '\0';
+//}
+//
+//char const* ActivityGetSmallImage() const
+//{
+//    return internal_.small_image;
+//}
+//
+//void ActivitySetSmallText(char const* smallText)
+//{
+//    strncpy(internal_.small_text, smallText, 128);
+//    internal_.small_text[128 - 1] = '\0';
+//}
+//
+//char const* ActivityGetSmallText() const
+//{
+//    return internal_.small_text;
+//}
 
 void PartySize::SetCurrentSize(std::int32_t currentSize)
 {

@@ -320,7 +320,7 @@ namespace Eclipse
 				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Prefab)
 				{
 					Reflection::SerializedVariable<Prefab>* asset = (Reflection::SerializedVariable<Prefab>*)aSerializedVariable;
-					*asset = Assets::Resources::Get<Prefab>(id);
+					*asset = Resources::Get<Prefab>(id);
 				}
 				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
 				{

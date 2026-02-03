@@ -247,83 +247,83 @@ namespace Eclipse::Replication
         server.Send(msg);
     }
 
-    void ReplicationHelper::ServerHelp::SendComponentScene()
-    {
-        std::unordered_set<unsigned> ReplicatedGameObjects;
+    //void ReplicationHelper::ServerHelp::SendComponentScene()
+    //{
+    //    std::unordered_set<unsigned> ReplicatedGameObjects;
 
-        const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
-        for (auto& Variable : variableManager)
-        {
-            unsigned gameobjectID = Variable.second[0]->ConnectedComponent->gameObject->GetID();
-            ReplicatedGameObjects.emplace(gameobjectID);
-        }
+    //    const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
+    //    for (auto& Variable : variableManager)
+    //    {
+    //        unsigned gameobjectID = Variable.second[0]->ConnectedComponent->gameObject->GetID();
+    //        ReplicatedGameObjects.emplace(gameobjectID);
+    //    }
 
-        int ComponentCount = 0;
+    //    int ComponentCount = 0;
 
-        const std::vector<Component*>& allComponents = ComponentManager::GetAllComponents();
-        for (const auto& component : allComponents)
-        {
-            if (component->IsReplicated && component->IsOwner())
-                ComponentCount++;
-        }
+    //    const std::vector<Component*>& allComponents = ComponentManager::GetAllComponents();
+    //    for (const auto& component : allComponents)
+    //    {
+    //        if (component->IsReplicated && component->IsOwner())
+    //            ComponentCount++;
+    //    }
 
-        Server& server = Eclipse::MainSingleton::GetInstance<Server>();
+    //    Server& server = Eclipse::MainSingleton::GetInstance<Server>();
 
-        NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SendMultipleComponents, &ComponentCount, sizeof(unsigned), true);
-        server.Send(msg);
+    //    NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SendMultipleComponents, &ComponentCount, sizeof(unsigned), true);
+    //    server.Send(msg);
 
-        int size = server.GetEndpoints().size();
-        for (auto& endpoint : server.GetEndpoints())
-        {
+    //    int size = server.GetEndpoints().size();
+    //    for (auto& endpoint : server.GetEndpoints())
+    //    {
 
-            for (const auto& gameobject : ReplicatedGameObjects)
-            {
-                std::vector<Component*> components = ComponentManager::GetComponents(gameobject);
+    //        for (const auto& gameobject : ReplicatedGameObjects)
+    //        {
+    //            std::vector<Component*> components = ComponentManager::GetComponents(gameobject);
 
-                for (const auto& component : components)
-                {
-                    if (!component->IsReplicated)
-                        continue;
+    //            for (const auto& component : components)
+    //            {
+    //                if (!component->IsReplicated)
+    //                    continue;
 
-                    NetMessage message;
-                    Replication::ReplicationManager::CreateComponentMessage(component, message, true);
+    //                NetMessage message;
+    //                Replication::ReplicationManager::CreateComponentMessage(component, message, true);
 
-                    static int TotalCoponentMessagesRecieved = 0;
+    //                static int TotalCoponentMessagesRecieved = 0;
 
-                    Server& server = Eclipse::MainSingleton::GetInstance<Server>();
+    //                Server& server = Eclipse::MainSingleton::GetInstance<Server>();
 
-                    server.Send(message, endpoint, [ComponentCount, size]()
-                        {
-                            if (TotalCoponentMessagesRecieved++ >= ComponentCount * size)
-                            {
-                                RequestVariablesFromClient();
-                            }
+    //                server.Send(message, endpoint, [ComponentCount, size]()
+    //                    {
+    //                        if (TotalCoponentMessagesRecieved++ >= ComponentCount * size)
+    //                        {
+    //                            //RequestVariablesFromClient();
+    //                        }
 
-                            return;
-                        });
-                }
+    //                        return;
+    //                    });
+    //            }
 
-            }
-        }
+    //        }
+    //    }
     }
 
-    void ReplicationHelper::ServerHelp::HandleRequestedScene()
-    {
-        SendComponentScene();
-    }
+    //void ReplicationHelper::ServerHelp::HandleRequestedScene()
+    //{
+    //    //SendComponentScene();
+    //}
 
-    void ReplicationHelper::ServerHelp::HandleRecieve(const NetMessage& aMessage)
-    {
-        switch (aMessage.MetaData.Type)
-        {
-        case MessageType::Msg_RequestSceneInfo:
-            HandleRequestedScene();
-            break;
+    //void ReplicationHelper::ServerHelp::HandleRecieve(const NetMessage& aMessage)
+    //{
+    //    switch (aMessage.MetaData.Type)
+    //    {
+    //    case MessageType::Msg_RequestSceneInfo:
+    //        HandleRequestedScene();
+    //        break;
 
-        default:
-            break;
-        }
-    }
+    //    default:
+    //        break;
+    //    }
+    //}
 
 
-}
+//}

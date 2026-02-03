@@ -1,18 +1,14 @@
 #pragma once
 
-#include "Asset.h"
+#include "AssetEngine/Data/PrefabData.h"
+#include "BaseAsset.h"
 
 
 namespace Eclipse
 {
-	namespace Assets
+	class Prefab 
 	{
-		struct PrefabHandle;
-		class PrefabManager;
-	}
+		BASE_ASSET(Prefab);
 
-	class Prefab final
-	{
-		ASSET_OPERATORS_DEF(Prefab, Assets::PrefabHandle, Assets::PrefabManager);
 	};
 }
