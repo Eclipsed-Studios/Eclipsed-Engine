@@ -7,7 +7,7 @@ namespace Eclipse::Editor
 {
 	class ReplicationWindow final : public AbstractWindow
 	{
-		EDITOR_WINDOW_BASE_3(ReplicationWindow, "Replication", "Settings");
+		EDITOR_WINDOW_BASE_3(ReplicationWindow, "Replication", "Settings")
 
 	public:
 		void Update() override;
