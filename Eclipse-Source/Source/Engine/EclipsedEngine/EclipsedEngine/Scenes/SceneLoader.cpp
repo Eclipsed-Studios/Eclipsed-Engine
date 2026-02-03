@@ -311,11 +311,7 @@ namespace Eclipse
 				aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip
 				)
 			{
-				std::string strVal = val.GetString();
-				std::vector<unsigned char> decoded = Base64::Decode(strVal);
-
-				std::string id = 0;
-				memcpy(&id, decoded.data(), decoded.size());
+				std::string id = val.GetString();
 
 				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Prefab)
 				{

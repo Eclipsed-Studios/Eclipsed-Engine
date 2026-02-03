@@ -18,13 +18,11 @@ namespace Eclipse
 		// The path to the root and the cmake binary
 		static std::filesystem::path GetProjectSourceRoot() { return projectRoot; }
 		static std::filesystem::path GetAssetDir() { return GetProjectRoot() / assetDir; }
-		static std::filesystem::path GetCacheDir()  {return GetProjectRoot() / cacheDir; }
-		static std::filesystem::path GetCookedAssetsDir()  {return GetProjectRoot() / cookedAssetsDir; }
+		static std::filesystem::path GetArtifactDir()  {return GetProjectRoot() / artifactDir; }
 		static std::filesystem::path GetConfigDir() { return GetProjectRoot() / settingsDir; }
 
 		static std::filesystem::path GetRelAssetDir() { return assetDir; }
-		static std::filesystem::path GetRelCacheDir() { return cacheDir; }
-		static std::filesystem::path GetRelCookedAssetsDir() { return cacheDir / cookedAssetsDir; }
+		static std::filesystem::path GetRelCacheDir() { return artifactDir; }
 		static std::filesystem::path GetRelConfigDir() { return settingsDir; }
 		static std::filesystem::path GetEngineRoot() { return engineSourceRoot; }
 		static std::filesystem::path GetEngineAssets() { return engineSourceRoot / "EngineAssets"; }		
@@ -32,7 +30,6 @@ namespace Eclipse
 
 		// Helpers
 		static std::filesystem::path GetRawAssetPath(const std::filesystem::path& assetPath);
-		static std::filesystem::path GetCookedAssetPath(const std::filesystem::path& assetPath);
 
 	private:
 		static inline std::filesystem::path engineSourceRoot;
@@ -40,8 +37,7 @@ namespace Eclipse
 		static inline std::filesystem::path projectRoot;
 
 		static inline std::filesystem::path assetDir = "Assets";
-		static inline std::filesystem::path cacheDir = "Cache";
-		static inline std::filesystem::path cookedAssetsDir = cacheDir / "CookedAssets";
+		static inline std::filesystem::path artifactDir = "Artifacts";
 		static inline std::filesystem::path settingsDir = "Settings";
 	};
 }
