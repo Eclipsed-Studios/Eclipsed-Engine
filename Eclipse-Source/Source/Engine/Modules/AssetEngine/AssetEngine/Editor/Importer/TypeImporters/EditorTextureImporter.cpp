@@ -8,17 +8,7 @@
 
 #include <fstream>
 #include <cereal/archives/json.hpp>
-
-#ifndef STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image/stb_image.h"
-#endif // !STB_IMAGE_IMPLEMENTATION
-
-#ifndef STB_IMAGE_RESIZE_IMPLEMENTATION
-#define STB_IMAGE_RESIZE_IMPLEMENTATION
-#include "stb_image/stb_image_resize.h"
-#endif // !STB_IMAGE_RESIZE_IMPLEMENTATION
-
+#include "AssetEngine/Helper/STB_Helper.h"
 #include "AssetEngine/Data/TextureData.h"
 #include "AssetEngine/SupportedTypes.h"
 
@@ -29,8 +19,7 @@ namespace Eclipse
 		unsigned char* pixelData;
 		TextureData data;
 		{
-			stbi_set_flip_vertically_on_load(true);
-			pixelData = stbi_load(aPath.generic_string().c_str(), &data.width, &data.height, &data.channels, 0);
+			pixelData = STB_Helper::Load_Texture_STB(aPath.generic_string().c_str(), data.width, data.height, data.channels, true);
 		}
 
 		int type = (int)AssetType::Texture;
@@ -40,6 +29,6 @@ namespace Eclipse
 		outStream.write(reinterpret_cast<const char*>(&data.channels), sizeof(int));
 		outStream.write(reinterpret_cast<const char*>(pixelData), data.width * data.height * data.channels);
 
-		stbi_image_free(pixelData);
+		STB_Helper::FreeData_STB(pixelData);
 	}
 }

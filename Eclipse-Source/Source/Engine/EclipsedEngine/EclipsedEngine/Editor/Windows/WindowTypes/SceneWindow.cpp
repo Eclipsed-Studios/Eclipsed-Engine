@@ -1,4 +1,4 @@
-#ifdef ECLIPSED_EDITOR
+
 #include "SceneWindow.h"
 
 #include "ImGui/imgui.h"
@@ -49,11 +49,7 @@
 
 #include "EclipsedEngine/Components/Transform2D.h"
 
-namespace Eclipse::Editor
-{
-	//using namespace Editor;
-
-	void SceneWindow::ZoomToObject()
+	void Eclipse::Editor::SceneWindow::ZoomToObject()
 	{
 		if (!HierarchyWindow::CurrentGameObjectID)
 			return;
@@ -81,7 +77,7 @@ namespace Eclipse::Editor
 		}
 	}
 
-	void SceneWindow::ScrollManager()
+	void Eclipse::Editor::SceneWindow::ScrollManager()
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		float deltaYScroll = io.MouseWheel;
@@ -104,7 +100,7 @@ namespace Eclipse::Editor
 		myInspectorScale *= { zoomFactor, zoomFactor };
 	}
 
-	void SceneWindow::MouseManager()
+	void Eclipse::Editor::SceneWindow::MouseManager()
 	{
 		{
 			ImVec2 mousePos = ImGui::GetMousePos();
@@ -159,7 +155,7 @@ namespace Eclipse::Editor
 		SpriteDragging();
 	}
 
-	void SceneWindow::SpriteDragging()
+	void Eclipse::Editor::SceneWindow::SpriteDragging()
 	{
 		if (!draggingSprite)
 			return;
@@ -188,7 +184,7 @@ namespace Eclipse::Editor
 			draggingSprite = false;
 	}
 
-	void SceneWindow::SpriteSelecter()
+	void Eclipse::Editor::SceneWindow::SpriteSelecter()
 	{
 		if (!ImGui::IsMouseClicked(0))
 			return;
@@ -230,11 +226,11 @@ namespace Eclipse::Editor
 		}
 
 		HierarchyWindow::CurrentGameObjectID = pickedID;
-		InspectorWindow::SetActiveType(Eclipse::Editor::ActiveItemTypes_GameObject);
+		InspectorWindow::SetActiveType(ActiveItemTypes_GameObject);
 	}
 
 
-	void SceneWindow::ObjectSnappingGizmo()
+	void Eclipse::Editor::SceneWindow::ObjectSnappingGizmo()
 	{
 		ImGui::Checkbox("Snap##MoreSnappingIDSThatShouldBEUSED!!!ANDITISNOW:D", &myIsSnapping);
 
@@ -248,7 +244,7 @@ namespace Eclipse::Editor
 		ImGui::SetCursorPosX(0);
 	}
 
-	void SceneWindow::GizmoManager(::Eclipse::Transform2D* aTransform)
+	/*void Eclipse::Editor::SceneWindow::GizmoManager(::Eclipse::Transform2D* aTransform)
 	{
 		Math::Vector2f transformPos = aTransform->GetPosition();
 		Math::Vector2f position = aTransform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f);
@@ -291,9 +287,9 @@ namespace Eclipse::Editor
 				myGizmoMoveX = true;
 			}
 		}
-	}
+	}*/
 
-	void SceneWindow::Update()
+	void Eclipse::Editor::SceneWindow::Update()
 	{
 		ImVec2 windowSize = ImGui::GetWindowSize();
 		myWindowSize = { windowSize.x, windowSize.y };
@@ -437,7 +433,7 @@ namespace Eclipse::Editor
 		GraphicsEngine::BindFrameBuffer(0);
 	}
 
-	void SceneWindow::InitSceneBuffer()
+	void Eclipse::Editor::SceneWindow::InitSceneBuffer()
 	{
 		glGenFramebuffers(1, &mySceneFrameBuffer);
 		glBindFramebuffer(GL_FRAMEBUFFER, mySceneFrameBuffer);
@@ -453,7 +449,7 @@ namespace Eclipse::Editor
 		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mySceneTexture, 0);
 	}
 
-	void SceneWindow::InitSelectedObjectShader()
+	void Eclipse::Editor::SceneWindow::InitSelectedObjectShader()
 	{
 		// unsigned vertexShaderID = 0;
 		// unsigned pixelShaderID = 0;
@@ -467,7 +463,7 @@ namespace Eclipse::Editor
 		// glLinkProgram(mySelectedSpriteHighlightProgram);
 	}
 
-	void SceneWindow::Open()
+	void Eclipse::Editor::SceneWindow::Open()
 	{
 		flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollWithMouse;
 
@@ -477,5 +473,3 @@ namespace Eclipse::Editor
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-}
-#endif

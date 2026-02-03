@@ -22,150 +22,148 @@
 #include <sstream>
 #include <fstream>
 
-namespace Eclipse::Editor
+void Eclipse::Editor::InspectorWindow::Update()
 {
-	void InspectorWindow::Update()
+	switch (activeType)
 	{
-		switch (activeType)
-		{
-		case Eclipse::Editor::ActiveItemTypes_GameObject: DrawGameObjectInspector();
-			break;
-		case Eclipse::Editor::ActiveItemTypes_Asset: DrawAssetInspector();
-			break;
-		}
+	case Eclipse::Editor::ActiveItemTypes_GameObject: DrawGameObjectInspector();
+		break;
+	case Eclipse::Editor::ActiveItemTypes_Asset: DrawAssetInspector();
+		break;
+	}
+}
+
+void Eclipse::Editor::InspectorWindow::DrawGameObjectInspector()
+{
+	if (!lockInspector)
+	{
+		CurrentGameObjectID = HierarchyWindow::CurrentGameObjectID;
 	}
 
-	void InspectorWindow::DrawGameObjectInspector()
+	const unsigned& id = CurrentGameObjectID;
+	if (id == 0 || !ComponentManager::HasGameObject(id))
+		return;
+
+	// Transform2D* idTransform = ComponentManager::GetComponent<Transform2D>(id);
+	// DebugDrawer::DrawSquare(idTransform->GetPosition(), idTransform->GetScale() * 0.5f, {1, 0.6f, 0.f, 1.f});
+
+	auto& compList = ComponentManager::myEntityIDToVectorOfComponentIDs[id];
+	auto& gameObject = ComponentManager::myEntityIdToEntity[id];
+
+	// TODO: This bad, it copies every frame. But who cares, am i right?
+	strncpy(nameBuffer, gameObject->GetName().c_str(), NAME_BUFFER_LENGTH);
+
+	ImGui::Text("Name");
+	ImGui::SameLine();
+
+	ImGui::SetNextItemWidth(120);
+	if (ImGui::InputText((std::string("##") + std::to_string(id)).c_str(), nameBuffer, NAME_BUFFER_LENGTH))
 	{
-		if (!lockInspector)
-		{
-			CurrentGameObjectID = HierarchyWindow::CurrentGameObjectID;
-		}
+		gameObject->SetName(nameBuffer);
+	}
 
-		const unsigned& id = CurrentGameObjectID;
-		if (id == 0 || !ComponentManager::HasGameObject(id))
-			return;
+	unsigned localID = gameObject->GetID();
 
-		// Transform2D* idTransform = ComponentManager::GetComponent<Transform2D>(id);
-		// DebugDrawer::DrawSquare(idTransform->GetPosition(), idTransform->GetScale() * 0.5f, {1, 0.6f, 0.f, 1.f});
+	std::stringstream idStream;
+	idStream << "ID: " << localID;
 
-		auto& compList = ComponentManager::myEntityIDToVectorOfComponentIDs[id];
-		auto& gameObject = ComponentManager::myEntityIdToEntity[id];
+	ImGui::Text(idStream.str().c_str());
 
-		// TODO: This bad, it copies every frame. But who cares, am i right?
-		strncpy(nameBuffer, gameObject->GetName().c_str(), NAME_BUFFER_LENGTH);
+	ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 48);
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6);
+	ImGui::Text(ICON_FA_LOCK);
+	ImGui::SameLine();
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 6);
+	ImGui::Checkbox("##lockinspector", &lockInspector);
 
-		ImGui::Text("Name");
+	ImGui::Dummy({ 0, 10 });
+	ImGui::Separator();
+	ImGui::Dummy({ 0, 5 });
+
+
+	std::vector<Component*> comps;
+	for (auto& [type, id] : compList)
+	{
+		Component* comp = ComponentManager::myComponents[id];
+		comps.push_back(comp);
+	}
+
+	std::sort(comps.begin(), comps.end(),
+		[](Component* a, Component* b) {
+			return a->GetUpdatePriority() > b->GetUpdatePriority();
+		});
+
+	for (Component* comp : comps)
+	{
+		ImGui_Impl::DrawComponentHeader(comp->GetComponentName(), comp->myInspectorWasDrawn);
+		if (!comp->myInspectorWasDrawn) continue;
+
+		unsigned localComponentID = comp->myInstanceComponentID;
+		std::stringstream componentIDStream;
+		componentIDStream << "ID: " << localComponentID;
+		ImGui::Text(componentIDStream.str().c_str());
+
+
+		ImGui::Text("Is Replicated");
 		ImGui::SameLine();
+		ImGui::Checkbox(("##IsReplicatedBool" + componentIDStream.str()).c_str(), &comp->IsReplicated);
 
-		ImGui::SetNextItemWidth(120);
-		if (ImGui::InputText((std::string("##") + std::to_string(id)).c_str(), nameBuffer, NAME_BUFFER_LENGTH))
-		{
-			gameObject->SetName(nameBuffer);
-		}
+		ImGui::Indent(20.f);
+		Reflection::ReflectionManager::DrawInspector(comp, comp->GetComponentName());
+		ImGui::Unindent(20.f);
 
-		unsigned localID = gameObject->GetID();
-
-		std::stringstream idStream;
-		idStream << "ID: " << localID;
-
-		ImGui::Text(idStream.str().c_str());
-
-		ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 48);
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6);
-		ImGui::Text(ICON_FA_LOCK);
-		ImGui::SameLine();
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 6);
-		ImGui::Checkbox("##lockinspector", &lockInspector);
-
-		ImGui::Dummy({ 0, 10 });
+		ImGui::Dummy({ 0, 30 });
 		ImGui::Separator();
-		ImGui::Dummy({ 0, 5 });
+	}
 
 
-		std::vector<Component*> comps;
-		for (auto& [type, id] : compList)
+	if (ImGui::BeginCombo("##ADD_COMPONENTS", "Add Component"))
+	{
+		for (auto& [name, addFunc] : ComponentRegistry::GetInspectorAddComponentMap())
 		{
-			Component* comp = ComponentManager::myComponents[id];
-			comps.push_back(comp);
-		}
-
-		std::sort(comps.begin(), comps.end(),
-			[](Component* a, Component* b) {
-				return a->GetUpdatePriority() > b->GetUpdatePriority();
-			});
-
-		for (Component* comp : comps)
-		{
-			ImGui_Impl::DrawComponentHeader(comp->GetComponentName(), comp->myInspectorWasDrawn);
-			if (!comp->myInspectorWasDrawn) continue;
-
-			unsigned localComponentID = comp->myInstanceComponentID;
-			std::stringstream componentIDStream;
-			componentIDStream << "ID: " << localComponentID;
-			ImGui::Text(componentIDStream.str().c_str());
-
-
-			ImGui::Text("Is Replicated");
-			ImGui::SameLine();
-			ImGui::Checkbox(("##IsReplicatedBool" + componentIDStream.str()).c_str(), &comp->IsReplicated);
-
-			ImGui::Indent(20.f);
-			Reflection::ReflectionManager::DrawInspector(comp, comp->GetComponentName());
-			ImGui::Unindent(20.f);
-
-			ImGui::Dummy({ 0, 30 });
-			ImGui::Separator();
-		}
-
-
-		if (ImGui::BeginCombo("##ADD_COMPONENTS", "Add Component"))
-		{
-			for (auto& [name, addFunc] : ComponentRegistry::GetInspectorAddComponentMap())
+			if (ImGui::Button(name.c_str(), ImVec2(-FLT_MIN, 0)))
 			{
-				if (ImGui::Button(name.c_str(), ImVec2(-FLT_MIN, 0)))
-				{
-					addFunc(id);
-					ImGui::CloseCurrentPopup();
-				}
+				addFunc(id);
+				ImGui::CloseCurrentPopup();
 			}
-
-			ImGui::EndCombo();
 		}
+
+		ImGui::EndCombo();
 	}
+}
 
-	void InspectorWindow::DrawComponentInspector(Component* comp)
+void Eclipse::Editor::InspectorWindow::DrawComponentInspector(Component* comp)
+{
+	int i = 0;
+	i++;
+	i--;
+	i = 924;
+}
+
+void Eclipse::Editor::InspectorWindow::DrawAssetInspector()
+{
+	ImGui::Text(AssetWindow::ActivePath.filename().string().c_str());
+
+	Utilities::FileInfo info = Utilities::FileInfo::GetFileInfo(AssetWindow::ActivePath);
+	if (info.type == Utilities::FileInfo::FileType_Texture)
+		DrawTextureAssetInspector();
+	else if (info.type == Utilities::FileInfo::FileType_Material)
+		DrawMaterialAssetInspector();
+
+}
+
+void Eclipse::Editor::InspectorWindow::DrawTextureAssetInspector()
+{
+	if (ImGui::Button("Open Editor"))
 	{
-		int i = 0;
-		i++;
-		i--;
-		i = 924;
+		std::filesystem::path relPath = std::filesystem::relative(Eclipse::Editor::AssetWindow::ActivePath, PathManager::GetAssetDir());
+
+		Eclipse::Editor::SpriteEditor::SetTexture(relPath.string().c_str());
 	}
+}
 
-	void InspectorWindow::DrawAssetInspector()
-	{
-		ImGui::Text(AssetWindow::ActivePath.filename().string().c_str());
-
-		Utilities::FileInfo info = Utilities::FileInfo::GetFileInfo(AssetWindow::ActivePath);
-		if (info.type == Utilities::FileInfo::FileType_Texture)
-			DrawTextureAssetInspector();
-		else if (info.type == Utilities::FileInfo::FileType_Material)
-			DrawMaterialAssetInspector();
-
-	}
-
-	void InspectorWindow::DrawTextureAssetInspector()
-	{
-		if (ImGui::Button("Open Editor"))
-		{
-			std::filesystem::path relPath = std::filesystem::relative(AssetWindow::ActivePath, PathManager::GetAssetDir());
-
-			SpriteEditor::SetTexture(relPath.string().c_str());
-		}
-	}
-
-	void InspectorWindow::DrawMaterialAssetInspector()
-	{
+void Eclipse::Editor::InspectorWindow::DrawMaterialAssetInspector()
+{
 	//	static MaterialBinaryData data;
 
 	//	std::ifstream in(AssetWindow::ActivePath, std::ios::binary);
