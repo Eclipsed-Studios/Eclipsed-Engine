@@ -37,117 +37,117 @@ namespace Eclipse::Reflection
 
 	void AbstractSerializedVariable::DrawTest()
 	{
-		//ResolveTypeInfo();
-		//ImGuiDataType iType = GetImGuiType();
+		ResolveTypeInfo();
+		ImGuiDataType iType = GetImGuiType();
 
-		////bool drawDefualt = pComponent->DrawDefaultInspector();
+		//bool drawDefualt = pComponent->DrawDefaultInspector();
 
-		//if (/*drawDefault*/true)
-		//{
-		//	int size = 0;
-		//	int elements = 1;
-		//	//if(iType == ImGuiDataType_String) size = 
-
-
-		//	size = sizes[iType];
-		//	if (type == SerializedType_Custom_Type) elements = sizePerElement / size;
-
-		//	ImVec2 startPos = ImGui::GetCursorPos();
-		//	ImGui::Text(GetName());
-
-		//	switch (type)
-		//	{
-		//	case SerializedType_Material:
-		//	{
-		//		ImGui::SameLine();
-
-		//		std::string name = "No material.";
-
-		//		Material* mat = (Material*)GetData();
-		//		if (mat->IsValid())
-		//		{
-		//			name = AssetRegistry::GetInstance().GetRegisteredAsset(mat->GetAssetID()).path.filename().stem().string();
-		//		}
-
-		//		if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Material))
-		//		{
-		//			*mat = Resources::Get<Material>(Editor::DragAndDrop::payloadBuffer);
-		//		}
-		//	} break;
+		if (/*drawDefault*/true)
+		{
+			int size = 0;
+			int elements = 1;
+			//if(iType == ImGuiDataType_String) size = 
 
 
-		//	case SerializedType_AudioClip:
-		//	{
-		//		ImGui::SameLine();
+			size = sizes[iType];
+			if (type == SerializedType_Custom_Type) elements = sizePerElement / size;
 
-		//		std::string name = "No audio clip.";
+			ImVec2 startPos = ImGui::GetCursorPos();
+			ImGui::Text(GetName());
 
-		//		AudioClip* clip = (AudioClip*)GetData();
-		//		if (clip->IsValid())
-		//		{
-		//			name = AssetRegistry::GetInstance().GetRegisteredAsset(clip->GetAssetID()).path.filename().stem().string();
-		//		}
+			switch (type)
+			{
+			case SerializedType_Material:
+			{
+				ImGui::SameLine();
 
-		//		if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Audio))
-		//		{
-		//			*clip = Resources::Get<AudioClip>(Editor::DragAndDrop::payloadBuffer);
-		//		}
-		//	} break;
+				std::string name = "No material.";
 
-		//	case SerializedType_Texture:
-		//	{
-		//		ImGui::SameLine();
+				Material* mat = (Material*)GetData();
+				if (mat->IsValid())
+				{
+					//name = Resources::Get.GetRegisteredAsset(mat->GetAssetID()).path.filename().stem().string();
+				}
 
-		//		std::string name = "No texture.";
-
-		//		Texture* texture = (Texture*)GetData();
-		//		if (texture->IsValid())
-		//		{
-		//			name = AssetRegistry::GetInstance().GetRegisteredAsset(texture->GetAssetID()).path.filename().stem().string();
-		//		}
-
-		//		if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Texture))
-		//		{
-		//			*texture = Resources::Get<Texture>(Editor::DragAndDrop::payloadBuffer);
-		//		}
-		//	} break;
+				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Material))
+				{
+					*mat = Resources::Get<Material>(Editor::DragAndDrop::payloadBuffer);
+				}
+			} break;
 
 
-		//	case SerializedType_List:
-		//	case SerializedType_Array:
-		//	case SerializedType_Component:
-		//	case SerializedType_Gameobject:
-		//	case SerializedType_Enum:
-		//		break;
+			case SerializedType_AudioClip:
+			{
+				ImGui::SameLine();
+
+				std::string name = "No audio clip.";
+
+				AudioClip* clip = (AudioClip*)GetData();
+				if (clip->IsValid())
+				{
+					//name = AssetRegistry::GetInstance().GetRegisteredAsset(clip->GetAssetID()).path.filename().stem().string();
+				}
+
+				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Audio))
+				{
+					*clip = Resources::Get<AudioClip>(Editor::DragAndDrop::payloadBuffer);
+				}
+			} break;
+
+			case SerializedType_Texture:
+			{
+				ImGui::SameLine();
+
+				std::string name = "No texture.";
+
+				Texture* texture = (Texture*)GetData();
+				if (texture->IsValid())
+				{
+					//name = AssetRegistry::GetInstance().GetRegisteredAsset(texture->GetAssetID()).path.filename().stem().string();
+				}
+
+				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Texture))
+				{
+					*texture = Resources::Get<Texture>(Editor::DragAndDrop::payloadBuffer);
+				}
+			} break;
+
+
+			case SerializedType_List:
+			case SerializedType_Array:
+			case SerializedType_Component:
+			case SerializedType_Gameobject:
+			case SerializedType_Enum:
+				break;
 
 
 
-		//	case SerializedType_String:
-		//		ImGui::SameLine();
+			case SerializedType_String:
+				ImGui::SameLine();
 
-		//		char TemporaryName[256];
-		//		std::strcpy(TemporaryName, static_cast<const char*>(GetData()));
+				char TemporaryName[256];
+				std::strcpy(TemporaryName, static_cast<const char*>(GetData()));
 
-		//		if (ImGui::InputText(("##" + std::to_string(iType) + GetName()).c_str(), TemporaryName, 256, ImGuiInputTextFlags_EnterReturnsTrue))
-		//		{
-		//			memcpy(GetData(), &TemporaryName, strlen(TemporaryName) + 1);
-		//		}
-		//		break;
+				if (ImGui::InputText(("##" + std::to_string(iType) + GetName()).c_str(), TemporaryName, 256, ImGuiInputTextFlags_EnterReturnsTrue))
+				{
+					memcpy(GetData(), &TemporaryName, strlen(TemporaryName) + 1);
+				}
+				break;
 
-		//	case SerializedType_Custom_Type:
-		//	case SerializedType_Fundamental:
-		//		ImGui::SameLine();
-		//		ImGui::DragScalarN(("##" + std::to_string(iType) + GetName()).c_str(), iType, GetData(), elements);
-		//		break;
-		//	}
+			case SerializedType_Custom_Type:
+			case SerializedType_Fundamental:
+				ImGui::SameLine();
+				ImGui::DragScalarN(("##" + std::to_string(iType) + GetName()).c_str(), iType, GetData(), elements);
+				break;
+			}
 
-		//	ImGui::SetCursorPosX(startPos.x);
-		//}
+			ImGui::SetCursorPosX(startPos.x);
+		}
 
-		//pComponent->OnDrawInspector();
-		//if (pComponent->HasDrawInspector())
-		//{
-		//}
+		pComponent->OnDrawInspector();
+		if (pComponent->HasDrawInspector())
+		{
+		}
 	}
 
 	const char* AbstractSerializedVariable::GetName() const { return name; }

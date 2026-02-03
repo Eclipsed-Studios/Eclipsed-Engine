@@ -26,8 +26,7 @@ namespace Eclipse
 	{
 		if (aGuid.empty()) return {};
 
-		const std::filesystem::path ad = "F:/Projects/Eclipsed-Engine/RPS-Project/Project";
-		std::filesystem::path exportFolderPath = ad / "Artifacts" / aGuid.substr(0, 2) / aGuid;
+		std::filesystem::path exportFolderPath = PathManager::GetProjectRoot() / "Artifacts" / aGuid.substr(0, 2) / aGuid;
 
 		std::ifstream in(exportFolderPath, std::ios::binary);
 
