@@ -26,9 +26,6 @@ namespace Eclipse
 
 		template<typename T>
 		T ValidateJsonFile(const std::filesystem::path& aPath);
-
-	protected:
-		const std::filesystem::path path = "F:/Projects/Eclipsed-Engine/RPS-Project/Project";
 	};
 
 	template<typename T>

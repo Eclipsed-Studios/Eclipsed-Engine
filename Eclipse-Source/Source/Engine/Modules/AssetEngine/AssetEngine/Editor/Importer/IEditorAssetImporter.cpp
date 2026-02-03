@@ -11,12 +11,12 @@
 #include "AssetEngine/Editor/Importer/ImportSettings/AssetImportSettings.h"
 #include "AssetEngine/Editor/GUID/GuidGenerator.h"
 
+#include "CoreEngine/PathManager.h"
+
 using namespace std::filesystem;
 
 namespace Eclipse
 {
-	const std::filesystem::path path = "F:/Projects/Eclipsed-Engine/RPS-Project/Project";
-
 	bool IEditorAssetImporter::CanImport(const std::filesystem::path& aPath) const
 	{
 		std::string ext = aPath.extension().generic_string();
@@ -53,7 +53,8 @@ namespace Eclipse
 		AssetMetaSettings metafile;
 		archive(metafile);
 
-		std::filesystem::path exportFolderPath = path / "Artifacts" / metafile.guid.substr(0, 2) / metafile.guid;
+		
+		std::filesystem::path exportFolderPath = PathManager::GetProjectRoot() / "Artifacts" / metafile.guid.substr(0, 2) / metafile.guid;
 
 		auto time0 = std::filesystem::last_write_time(exportFolderPath).time_since_epoch().count();
 		auto time1 = std::filesystem::last_write_time(metafilepath).time_since_epoch().count();
@@ -63,7 +64,7 @@ namespace Eclipse
 
 	std::filesystem::path IEditorAssetImporter::GetArtifactPath(const std::string& aGuid)
 	{
-		std::filesystem::path folder = path / "Artifacts" / aGuid.substr(0, 2);
+		std::filesystem::path folder = PathManager::GetProjectRoot() / "Artifacts" / aGuid.substr(0, 2);
 		std::filesystem::create_directories(folder);
 
 		return folder / aGuid;

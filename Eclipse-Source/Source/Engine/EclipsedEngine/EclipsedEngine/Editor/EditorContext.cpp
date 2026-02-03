@@ -14,10 +14,10 @@ namespace Eclipse::Editor
 {
 	void EditorContexts::Init(const std::string& projectPath)
 	{
-		EditorAssetImporter::ImportAll(std::filesystem::path(projectPath) / "Assets");
-
 		myRuntime.Init(projectPath);
 		myUIManager.Init();
+
+		EditorAssetImporter::ImportAll(PathManager::GetAssetDir());
 	}
 
 	bool EditorContexts::BeginFrame()
