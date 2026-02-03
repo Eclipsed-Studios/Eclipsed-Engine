@@ -3,7 +3,7 @@
 #include "EntityEngine/GameObject.h"
 #include "AssetEngine/Assets/Prefab.h"
 
-#include "AssetEngine/Models/AssetDatas/Handles/PrefabHandle.h"
+#include "AssetEngine/Data/PrefabData.h"
 
 #include <vector>
 #include "rapidjson/document.h"
@@ -34,7 +34,7 @@ namespace Eclipse
 
     ECLIPSED_API inline GameObject*& Instantiate(Prefab& aPrefab, bool Replicated = false)
     {
-        GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(aPrefab.GetHandle()->data);
+        GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(aPrefab.GetData()->data);
         gameobject->prefabAssetID = aPrefab.GetAssetID();
 
         gameobject->IsPrefab = true;
@@ -42,7 +42,7 @@ namespace Eclipse
         if (Replicated)
             Replication::ReplicationManager::SendPrefabObject(gameobject, aPrefab);
 
-        aPrefab.GetHandle()->gameobject = gameobject;
-        return aPrefab.GetHandle()->gameobject;
+        aPrefab.GetData()->gameobject = gameobject;
+        return aPrefab.GetData()->gameobject;
     }
 }

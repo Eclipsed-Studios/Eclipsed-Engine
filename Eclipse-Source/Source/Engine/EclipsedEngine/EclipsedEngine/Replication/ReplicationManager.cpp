@@ -158,7 +158,7 @@ namespace Eclipse::Replication
             componentIDs.emplace_back(component->myInstanceComponentID);
 
         NetMessage message;
-        Replication::ReplicationManager::CreatePrefabMessage(gameobject->GetID(), aPrefab.GetAssetID(), componentIDs, message);
+        //Replication::ReplicationManager::CreatePrefabMessage(gameobject->GetID(), aPrefab.GetAssetID(), componentIDs, message);
 
         if (Eclipse::MainSingleton::Exists<Server>())
         {

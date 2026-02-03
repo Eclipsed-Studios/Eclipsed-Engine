@@ -41,7 +41,7 @@
 #include "CoreEngine/Clipboard.h"
 
 #include "CoreEngine/Files/FileInfo.h"
-
+#include "EclipsedEngine/ECS/SpawnObject.h"
 #include "rapidjson/document.h"
 
 #include <filesystem>
@@ -214,7 +214,8 @@ namespace Eclipse::Editor
 				EditorActions::CopyObject(HierarchyWindow::CurrentGameObjectID, true);
 
 				char* data = (char*)ClipBoard::GetClipboardData();
-				EditorActions::PasteObject(data);
+				GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(data);
+				HierarchyWindow::CurrentGameObjectID = gameobject->GetID();
 			}
 
 			::Eclipse::Transform2D* transform = ComponentManager::GetComponent<::Eclipse::Transform2D>(HierarchyWindow::CurrentGameObjectID);
@@ -416,7 +417,7 @@ namespace Eclipse::Editor
 				memset(data + prefSize, '\0', 1);
 				stream.close();
 
-				EditorActions::PasteObject(data);
+				InternalSpawnObjectClass::CreateObjectFromJsonString(data);
 
 				free(data);
 			}

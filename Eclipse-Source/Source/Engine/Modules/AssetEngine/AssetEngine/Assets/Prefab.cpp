@@ -1,8 +1,12 @@
-#include "Prefab.h"
+#pragma once
 
-#include "AssetEngine/Models/AssetDatas/Handles/PrefabHandle.h"
+#include "AssetEngine/Data/PrefabData.h"
+#include "BaseAsset.h"
 
 namespace Eclipse
 {
-	ASSET_OPERATORS_IMPL(Prefab, Assets::PrefabHandle);
+	class Prefab
+	{
+		BASE_ASSET(Prefab);
+	};
 }

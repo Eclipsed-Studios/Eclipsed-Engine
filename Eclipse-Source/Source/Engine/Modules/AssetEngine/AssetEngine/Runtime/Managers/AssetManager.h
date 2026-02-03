@@ -8,10 +8,12 @@
 #include "AssetEngine/Assets/VertexShader.h"
 #include "AssetEngine/Assets/PixelShader.h"
 #include "AssetEngine/Assets/Material.h"
+#include "AssetEngine/Assets/Prefab.h"
 
 #include "AssetEngine/Runtime/Loader/TypeLoaders/TextureLoader.h"
 #include "AssetEngine/Runtime/Loader/TypeLoaders/ShaderLoader.h"
 #include "AssetEngine/Runtime/Loader/TypeLoaders/MaterialLoader.h"
+#include "AssetEngine/Runtime/Loader/TypeLoaders/PrefabLoader.h"
 
 namespace Eclipse
 {
@@ -22,6 +24,7 @@ namespace Eclipse
 	using PixelShaderManager = AssetManager<PixelShader, PixelShaderData, PixelShaderLoader>;
 	using TextureManager = AssetManager<Texture, TextureData, TextureLoader>;
 	using MaterialManager = AssetManager<Material, MaterialData, MaterialLoader>;
+	using PrefabManager = AssetManager<Prefab, PrefabData, PrefabLoader>;
 
 	template<typename AssetType, typename Handle, typename Loader>
 	class AssetManager
