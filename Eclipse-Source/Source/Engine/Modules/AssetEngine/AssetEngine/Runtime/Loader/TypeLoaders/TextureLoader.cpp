@@ -28,7 +28,7 @@ namespace Eclipse
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
 
-		int rgbTypeOffset = 3 - data->textureID;
+		int rgbTypeOffset = 3 - data->channels;
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - rgbTypeOffset, data->width, data->height, 0, GL_RGB - rgbTypeOffset, GL_UNSIGNED_BYTE, pixelData);
 		glGenerateMipmap(GL_TEXTURE_2D);
