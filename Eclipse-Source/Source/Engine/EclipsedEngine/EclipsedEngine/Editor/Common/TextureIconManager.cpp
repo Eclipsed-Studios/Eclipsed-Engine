@@ -62,7 +62,7 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		std::ifstream in(PathManager::GetArtifactDir() / IconBundleFilePath, std::ios::binary);
+		std::ifstream in(PathManager::GetProjectRoot() / "Local" / IconBundleFilePath, std::ios::binary);
 
 		int count = 0;
 		in.read(reinterpret_cast<char*>(&count), sizeof(int));
@@ -177,7 +177,7 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		auto path = PathManager::GetArtifactDir() / IconBundleFilePath;
+		auto path = PathManager::GetProjectRoot() / "Local" / IconBundleFilePath;
 		std::string pathString = path.generic_string();
 
 		{

@@ -27,6 +27,6 @@ namespace Eclipse::Settings
 			SERIALIZE(MAKE_NVP(test))
 		};
 
-		BASE_SETTINGS(EngineSettings, "TestSettings");
+		BASE_SETTINGS(EngineSettings, "engine");
 	};
 }
