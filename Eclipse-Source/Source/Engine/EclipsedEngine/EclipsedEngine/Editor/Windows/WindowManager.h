@@ -29,6 +29,6 @@ namespace Eclipse::Editor
 		void OpenLayout(const char* layout);
 
 	private:
-		std::unordered_map<int, AbstractWindow*> IdToWindow;
+		std::unordered_map<int, AbstractWindow*> IdToWindow{};
 	};
 }
