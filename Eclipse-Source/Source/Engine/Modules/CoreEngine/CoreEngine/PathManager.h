@@ -21,7 +21,8 @@ namespace Eclipse
 		static std::filesystem::path GetEditorPath() { return GetProjectPath() / "Editor"; }
 		static std::filesystem::path GetAssetsPath() { return GetProjectPath() / "Assets"; }
 		static std::filesystem::path GetEngineAssetsPath() { return GetAssetsPath() / "EngineAssets"; }
-		static std::filesystem::path GetArtifactsPath() { return GetProjectPath() / "Local/Artifacts"; }
+		static std::filesystem::path GetProjectLocalPath() { return GetProjectPath() / "Local"; }
+		static std::filesystem::path GetArtifactsPath() { return GetProjectLocalPath() / "Artifacts"; }
 		static std::filesystem::path GetGameDllBuildPath() { return GetProjectPath() / "Local/Build"; }
 
 		static std::filesystem::path GetSettingsPath() { return GetProjectPath() / "Settings"; }
