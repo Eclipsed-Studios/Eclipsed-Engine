@@ -10,6 +10,8 @@
 
 #include "CoreEngine/Timer.h"
 
+#include "CoreEngine/Settings/PhysicsSettings.h"
+
 #undef min
 namespace Eclipse
 {
@@ -332,20 +334,29 @@ namespace Eclipse
 
     void LoadLayersFromJSON(std::array<uint64_t, MAX_LAYERS>& aCollisionLayers)
     {
-        std::string sPath = (PathManager::GetProjectRoot() / "Settings/CollisionLayers.json").generic_string();
-        const char* layerPath = sPath.c_str();
+        auto& layers = Settings::PhysicsSettings::GetPhysicsLayers();
+        for (int i = 0; i < layers.size(); i++)
+        {
+            aCollisionLayers[i] = layers[i];
+        }
 
-        FILE* fileP = fopen(layerPath, "rb");
-        char readBuffer[2048];
-        rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
+        
 
-        rapidjson::Document document;
-        document.ParseStream(fileReadStream);
-        fclose(fileP);
 
-        auto layers = document["Layers"].GetArray();
-        for (unsigned i = 0; i < layers.Size(); i++)
-            aCollisionLayers[i] = layers[i].GetInt();
+        //std::string sPath = (PathManager::GetSettingsPath() / "CollisionLayers.json").generic_string();
+        //const char* layerPath = sPath.c_str();
+
+        //FILE* fileP = fopen(layerPath, "rb");
+        //char readBuffer[2048];
+        //rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
+
+        //rapidjson::Document document;
+        //document.ParseStream(fileReadStream);
+        //fclose(fileP);
+
+        //auto layers = document["Layers"].GetArray();
+        //for (unsigned i = 0; i < layers.Size(); i++)
+        //    aCollisionLayers[i] = layers[i].GetInt();
     }
 
     void PhysicsEngine::InitWorld()

@@ -156,7 +156,7 @@ void Eclipse::Editor::InspectorWindow::DrawTextureAssetInspector()
 {
 	if (ImGui::Button("Open Editor"))
 	{
-		std::filesystem::path relPath = std::filesystem::relative(Eclipse::Editor::AssetWindow::ActivePath, PathManager::GetAssetDir());
+		std::filesystem::path relPath = std::filesystem::relative(Eclipse::Editor::AssetWindow::ActivePath, PathManager::GetAssetsPath());
 
 		Eclipse::Editor::SpriteEditor::SetTexture(relPath.string().c_str());
 	}
@@ -264,7 +264,7 @@ void Eclipse::Editor::InspectorWindow::DrawMaterialAssetInspector()
 
 	//	if (changed)
 	//	{
-	//		auto rel = std::filesystem::relative(AssetWindow::ActivePath, PathManager::GetAssetDir());
+	//		auto rel = std::filesystem::relative(AssetWindow::ActivePath, PathManager::GetAssetsPath());
 
 	//		registry.RegisterChange(rel);
 

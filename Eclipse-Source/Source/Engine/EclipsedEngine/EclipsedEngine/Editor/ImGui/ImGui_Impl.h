@@ -21,7 +21,7 @@ namespace Eclipse::Editor
             ImGui::CreateContext();
             ImGui::StyleColorsDark();
 
-            std::string path = (PathManager::GetEngineAssets() / "Editor/Layouts/").generic_string() + currentEditorLayout + ".ini";
+            std::string path = (PathManager::GetEngineAssetsPath() / "Editor/Layouts/").generic_string() + currentEditorLayout + ".ini";
 
             ImGuiIO& io = ImGui::GetIO();
             io.IniFilename = NULL;
@@ -116,7 +116,7 @@ namespace Eclipse::Editor
             }
 
             //io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/Quicksand-Medium.ttf", 16);
-            io.FontDefault = io.Fonts->AddFontFromFileTTF((PathManager::GetEngineAssets() / "Fonts/ARIAL.TTF").generic_string().c_str(), 16);
+            io.FontDefault = io.Fonts->AddFontFromFileTTF((PathManager::GetEngineAssetsPath() / "Fonts/ARIAL.TTF").generic_string().c_str(), 16);
 
             ImGui_ImplGlfw_InitForOpenGL(aWindow, true);
             ImGui_ImplOpenGL3_Init("#version 460");

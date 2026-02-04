@@ -17,7 +17,7 @@ namespace Eclipse::Editor
 		myRuntime.Init(projectPath);
 		myUIManager.Init();
 
-		EditorAssetImporter::ImportAll(PathManager::GetAssetDir());
+		EditorAssetImporter::ImportAll(PathManager::GetAssetsPath());
 	}
 
 	bool EditorContexts::BeginFrame()

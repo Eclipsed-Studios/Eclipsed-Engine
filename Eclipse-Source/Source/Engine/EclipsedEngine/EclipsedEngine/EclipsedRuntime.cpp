@@ -94,11 +94,6 @@ namespace Eclipse
 					ComponentManager::EndCollisions(aUserData.gameobject);
 				};
 		}
-		for (size_t i = 0; i < 10'000; i++)
-		{
-			LOG(std::to_string(i));
-
-		}
 	}
 
 	void EclipsedRuntime::UpdateGame()

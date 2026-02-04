@@ -533,7 +533,7 @@ namespace Eclipse::Editor
 	{
 		myRects.clear();
 
-		std::filesystem::path filePath = PathManager::GetAssetDir() / relativePath;
+		std::filesystem::path filePath = PathManager::GetAssetsPath() / relativePath;
 		filePath.replace_extension("meta");
 
 		FILE* fileP = fopen(filePath.string().c_str(), "rb");
@@ -612,7 +612,7 @@ namespace Eclipse::Editor
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
 		document.Accept(writer);
 
-		std::filesystem::path filePath = PathManager::GetAssetDir() / relativePath;
+		std::filesystem::path filePath = PathManager::GetAssetsPath() / relativePath;
 		filePath.replace_extension("meta");
 
 		std::ofstream ofs(filePath);

@@ -23,7 +23,7 @@ namespace Eclipse::Editor
 				IM_ASSERT(payload->DataSize == sizeof(unsigned));
 				unsigned draggedEntityID = *reinterpret_cast<unsigned*>(payload->Data);
 
-				std::filesystem::path pathToPlacePrefab = PathManager::GetAssetDir();
+				std::filesystem::path pathToPlacePrefab = PathManager::GetAssetsPath();
 				HierarchyWindow::CreatePrefab(draggedEntityID, pathToPlacePrefab);
 			}
 			ImGui::EndDragDropTarget();

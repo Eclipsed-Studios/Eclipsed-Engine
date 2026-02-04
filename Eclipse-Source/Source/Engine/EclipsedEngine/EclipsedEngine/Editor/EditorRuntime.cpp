@@ -86,8 +86,8 @@ namespace Eclipse::Editor
 
 		GameLoader::UnloadGameDLL();
 
-		std::filesystem::remove(PathManager::GetProjectRoot() / "Cache/Debug/Game.dll");
-		std::filesystem::remove(PathManager::GetProjectRoot() / "Cache/Debug/Game.pdb");
+		std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.dll");
+		std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.pdb");
 
 		GameCompiler::CompileGame();
 		GameLoader::LoadGameDLL();

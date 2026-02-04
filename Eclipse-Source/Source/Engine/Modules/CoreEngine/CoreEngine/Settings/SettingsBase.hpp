@@ -5,6 +5,7 @@
 #include "cereal/access.hpp"
 #include "cereal/archives/json.hpp"
 #include "cereal/types/string.hpp"
+#include "cereal/types/array.hpp"
 #include "cereal/types/vector.hpp"
 #include "cereal/cereal.hpp"
 
@@ -50,7 +51,7 @@ namespace Eclipse::Settings
 	{
 		static inline void Save()
 		{
-			std::ofstream out(PathManager::GetConfigDir() / Derived::Name);
+			std::ofstream out(PathManager::GetSettingsPath() / Derived::Name);
 
 			cereal::JSONOutputArchive archive(out);
 			archive(cereal::make_nvp(Derived::Name, Derived::GetData()));
@@ -58,7 +59,7 @@ namespace Eclipse::Settings
 
 		static inline void Load()
 		{
-			std::filesystem::path path = PathManager::GetConfigDir() / Derived::Name;
+			std::filesystem::path path = PathManager::GetSettingsPath() / Derived::Name;
 			std::ifstream in(path);
 			if (!in.is_open()) {
 				Save();
