@@ -54,7 +54,7 @@ namespace Eclipse
 		archive(metafile);
 
 		
-		std::filesystem::path exportFolderPath = PathManager::GetProjectRoot() / "Artifacts" / metafile.guid.substr(0, 2) / metafile.guid;
+		std::filesystem::path exportFolderPath = PathManager::GetProjectRoot() / "Local/Artifacts" / metafile.guid.substr(0, 2) / metafile.guid;
 
 		auto time0 = std::filesystem::last_write_time(exportFolderPath).time_since_epoch().count();
 		auto time1 = std::filesystem::last_write_time(metafilepath).time_since_epoch().count();
@@ -64,7 +64,7 @@ namespace Eclipse
 
 	std::filesystem::path IEditorAssetImporter::GetArtifactPath(const std::string& aGuid)
 	{
-		std::filesystem::path folder = PathManager::GetProjectRoot() / "Artifacts" / aGuid.substr(0, 2);
+		std::filesystem::path folder = PathManager::GetProjectRoot() / "Local/Artifacts" / aGuid.substr(0, 2);
 		std::filesystem::create_directories(folder);
 
 		return folder / aGuid;

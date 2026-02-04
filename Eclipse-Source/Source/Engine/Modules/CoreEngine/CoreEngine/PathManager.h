@@ -37,7 +37,7 @@ namespace Eclipse
 		static inline std::filesystem::path projectRoot;
 
 		static inline std::filesystem::path assetDir = "Assets";
-		static inline std::filesystem::path artifactDir = "Artifacts";
+		static inline std::filesystem::path artifactDir = "Local/Artifacts";
 		static inline std::filesystem::path settingsDir = "Settings";
 	};
 }
