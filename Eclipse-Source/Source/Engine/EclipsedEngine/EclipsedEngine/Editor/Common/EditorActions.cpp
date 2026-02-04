@@ -17,186 +17,188 @@
 
 #include "EclipsedEngine/ECS/SpawnObject.h"
 
+#include "CoreEngine/Debug/DebugLogger.h"
+
 namespace Eclipse::Editor
 {
-    void EditorActions::SaveScene()
-    {
-        SceneManager::SaveActiveScene();
-    }
-    void EditorActions::Save()
-    {
-        if (true)
-        {
-            SaveScene();
-        }
-        else if (false)
-        {
-            // Save active thingy like sprite editor
-        }
+	void EditorActions::SaveScene()
+	{
+		SceneManager::SaveActiveScene();
+	}
+	void EditorActions::Save()
+	{
+		if (true)
+		{
+			SaveScene();
+		}
+		else if (false)
+		{
+			// Save active thingy like sprite editor
+		}
 
-    }
+	}
 
-    void EditorActions::CopyGameObject(unsigned activeGO, rapidjson::Value& gameobjectJson, rapidjson::Document::AllocatorType& anAllocator)
-    {
-        rapidjson::Value componentArray(rapidjson::kArrayType);
-        componentArray.SetArray();
+	void EditorActions::CopyGameObject(unsigned activeGO, rapidjson::Value& gameobjectJson, rapidjson::Document::AllocatorType& anAllocator)
+	{
+		rapidjson::Value componentArray(rapidjson::kArrayType);
+		componentArray.SetArray();
 
-        auto& reflectionList = Reflection::ReflectionManager::GetList();
-        auto components = ComponentManager::GetComponents(activeGO);
-        for (Component* pComp : components)
-        {
-            std::string compName = pComp->GetComponentName();
+		auto& reflectionList = Reflection::ReflectionManager::GetList();
+		auto components = ComponentManager::GetComponents(activeGO);
+		for (Component* pComp : components)
+		{
+			std::string compName = pComp->GetComponentName();
 
-            if (compName == "Component")
-                continue;
+			if (compName == "Component")
+				continue;
 
-            rapidjson::Value component(rapidjson::kObjectType);
+			rapidjson::Value component(rapidjson::kObjectType);
 
-            rapidjson::Value componentVars(rapidjson::kObjectType);
-            if (reflectionList.find(pComp) != reflectionList.end())
-            {
-                for (auto& var : reflectionList.at(pComp))
-                {
-                    SceneLoader::WriteMember(componentVars, var, anAllocator);
-                }
-            }
+			rapidjson::Value componentVars(rapidjson::kObjectType);
+			if (reflectionList.find(pComp) != reflectionList.end())
+			{
+				for (auto& var : reflectionList.at(pComp))
+				{
+					SceneLoader::WriteMember(componentVars, var, anAllocator);
+				}
+			}
 
-            rapidjson::Value isReplicatedValue(rapidjson::kObjectType);
-            isReplicatedValue.SetBool(pComp->IsReplicated);
+			rapidjson::Value isReplicatedValue(rapidjson::kObjectType);
+			isReplicatedValue.SetBool(pComp->IsReplicated);
 
-            
-            component.AddMember(rapidjson::Value(compName.c_str(), anAllocator).Move(), componentVars, anAllocator);
-            
-            component.AddMember("IsReplicated", isReplicatedValue, anAllocator);
 
-            componentArray.PushBack(component, anAllocator);
-        }
-        gameobjectJson.AddMember("Name", rapidjson::Value(ComponentManager::myEntityIdToEntity.at(activeGO)->GetName().c_str(), anAllocator), anAllocator);
-        gameobjectJson.AddMember("Components", componentArray, anAllocator);
+			component.AddMember(rapidjson::Value(compName.c_str(), anAllocator).Move(), componentVars, anAllocator);
 
-        rapidjson::Value childArray(rapidjson::kArrayType);
-        childArray.SetArray();
+			component.AddMember("IsReplicated", isReplicatedValue, anAllocator);
 
-        auto& activeGameObjectObject = ComponentManager::myEntityIdToEntity.at(activeGO);
+			componentArray.PushBack(component, anAllocator);
+		}
+		gameobjectJson.AddMember("Name", rapidjson::Value(ComponentManager::myEntityIdToEntity.at(activeGO)->GetName().c_str(), anAllocator), anAllocator);
+		gameobjectJson.AddMember("Components", componentArray, anAllocator);
 
-        if (activeGameObjectObject->GetChildCount())
-        {
-            for (auto& child : ComponentManager::myEntityIdToEntity.at(activeGO)->GetChildren())
-            {
-                rapidjson::Value childObject(rapidjson::kObjectType);
-                childObject.SetObject();
+		rapidjson::Value childArray(rapidjson::kArrayType);
+		childArray.SetArray();
 
-                CopyGameObject(child->GetID(), childObject, anAllocator);
+		auto& activeGameObjectObject = ComponentManager::myEntityIdToEntity.at(activeGO);
 
-                childArray.PushBack(childObject, anAllocator);
-            }
+		if (activeGameObjectObject->GetChildCount())
+		{
+			for (auto& child : ComponentManager::myEntityIdToEntity.at(activeGO)->GetChildren())
+			{
+				rapidjson::Value childObject(rapidjson::kObjectType);
+				childObject.SetObject();
 
-            gameobjectJson.AddMember("Children", childArray, anAllocator);
-        }
-    }
-    rapidjson::StringBuffer EditorActions::CopyObject(int aObjectID, bool aCopyToClipboard)
-    {
-        if (aObjectID <= 0)
-            return nullptr;
+				CopyGameObject(child->GetID(), childObject, anAllocator);
 
-        rapidjson::Document d;
-        d.SetObject();
+				childArray.PushBack(childObject, anAllocator);
+			}
 
-        rapidjson::Document::AllocatorType& jsonAllocator = d.GetAllocator();
+			gameobjectJson.AddMember("Children", childArray, anAllocator);
+		}
+	}
+	rapidjson::StringBuffer EditorActions::CopyObject(int aObjectID, bool aCopyToClipboard)
+	{
+		if (aObjectID <= 0)
+			return nullptr;
 
-        d.AddMember("CopyType", 1, jsonAllocator);
+		rapidjson::Document d;
+		d.SetObject();
 
-        rapidjson::Value gameObjectArrayJson(rapidjson::kArrayType);
-        gameObjectArrayJson.SetArray();
+		rapidjson::Document::AllocatorType& jsonAllocator = d.GetAllocator();
 
-        rapidjson::Value gameobjectJson(rapidjson::kObjectType);
-        gameobjectJson.SetObject();
+		d.AddMember("CopyType", 1, jsonAllocator);
 
-        CopyGameObject(aObjectID, gameobjectJson, jsonAllocator);
+		rapidjson::Value gameObjectArrayJson(rapidjson::kArrayType);
+		gameObjectArrayJson.SetArray();
 
-        gameObjectArrayJson.PushBack(gameobjectJson, jsonAllocator);
-        d.AddMember("Gameobjects", gameObjectArrayJson, jsonAllocator);
+		rapidjson::Value gameobjectJson(rapidjson::kObjectType);
+		gameobjectJson.SetObject();
 
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        d.Accept(writer);
+		CopyGameObject(aObjectID, gameobjectJson, jsonAllocator);
 
-        const char* bufferString = buffer.GetString();
-        int stringLength = strlen(bufferString);
+		gameObjectArrayJson.PushBack(gameobjectJson, jsonAllocator);
+		d.AddMember("Gameobjects", gameObjectArrayJson, jsonAllocator);
 
-        if (aCopyToClipboard)
-            ClipBoard::CopyToClipboard(bufferString, stringLength);
+		rapidjson::StringBuffer buffer;
+		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+		d.Accept(writer);
 
-        return buffer;
-    }
+		const char* bufferString = buffer.GetString();
+		int stringLength = strlen(bufferString);
 
-    void EditorActions::Copy()
-    {
-        if (true)
-        {
-            CopyObject(HierarchyWindow::CurrentGameObjectID, true);
-        }
-        else if (false)
-        {
+		if (aCopyToClipboard)
+			ClipBoard::CopyToClipboard(bufferString, stringLength);
 
-        }
-    }
+		return buffer;
+	}
 
-    void EditorActions::Paste()
-    {
-        if (true)
-        {
-            char* data = (char*)ClipBoard::GetClipboardData();
-            GameObject* newGameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(data);
-            HierarchyWindow::CurrentGameObjectID = newGameobject->GetID();
-        }
-        else if (false)
-        {
+	void EditorActions::Copy()
+	{
+		if (true)
+		{
+			CopyObject(HierarchyWindow::CurrentGameObjectID, true);
+		}
+		else if (false)
+		{
 
-        }
-    }
+		}
+	}
 
-    void EditorActions::Update()
-    {
-        if (ImGui::IsAnyItemActive())
-            return;
+	void EditorActions::Paste()
+	{
+		if (true)
+		{
+			char* data = (char*)ClipBoard::GetClipboardData();
+			GameObject* newGameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(data);
+			HierarchyWindow::CurrentGameObjectID = newGameobject->GetID();
+		}
+		else if (false)
+		{
 
-        EditorActions::Action action = A_NONE;
+		}
+	}
 
-        bool ctrl = ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl);
-        if (ctrl)
-        {
-            bool shift = ImGui::IsKeyDown(ImGuiKey_LeftShift) || ImGui::IsKeyDown(ImGuiKey_RightShift);
-            if (ImGui::IsKeyPressed(ImGuiKey_S)) action = EditorActions::Action::A_Save;
+	void EditorActions::Update()
+	{
+		if (ImGui::IsAnyItemActive())
+			return;
 
-            else if (ImGui::IsKeyPressed(ImGuiKey_C)) action = EditorActions::Action::A_Copy;
-            else if (ImGui::IsKeyPressed(ImGuiKey_V)) action = EditorActions::Action::A_Paste;
-            else if (ImGui::IsKeyPressed(ImGuiKey_D)) action = EditorActions::Action::A_Duplicate;
+		EditorActions::Action action = A_NONE;
 
-            else if (ImGui::IsKeyPressed(ImGuiKey_Z)) action = EditorActions::Action::A_Undo;
-            else if (ImGui::IsKeyPressed(ImGuiKey_R) || (shift && ImGui::IsKeyPressed(ImGuiKey_Z))) action = EditorActions::Action::A_Redo;
-        }
+		bool ctrl = ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl);
+		if (ctrl)
+		{
+			bool shift = ImGui::IsKeyDown(ImGuiKey_LeftShift) || ImGui::IsKeyDown(ImGuiKey_RightShift);
+			if (ImGui::IsKeyPressed(ImGuiKey_S)) action = EditorActions::Action::A_Save;
 
-        ReactToAction(action);
-    }
+			else if (ImGui::IsKeyPressed(ImGuiKey_C)) action = EditorActions::Action::A_Copy;
+			else if (ImGui::IsKeyPressed(ImGuiKey_V)) action = EditorActions::Action::A_Paste;
+			else if (ImGui::IsKeyPressed(ImGuiKey_D)) action = EditorActions::Action::A_Duplicate;
 
-    void EditorActions::ReactToAction(EditorActions::Action anAction)
-    {
-        switch (anAction)
-        {
-        case EditorActions::Action::A_Save:
-            Save();
-            break;
-        case EditorActions::Action::A_Copy:
-            Copy();
-            break;
-        case EditorActions::Action::A_Paste:
-            Paste();
-            break;
-        case EditorActions::Action::A_Duplicate:
-            Copy();
-            Paste();
-            break;
-        }
-    }
+			else if (ImGui::IsKeyPressed(ImGuiKey_Z)) action = EditorActions::Action::A_Undo;
+			else if (ImGui::IsKeyPressed(ImGuiKey_R) || (shift && ImGui::IsKeyPressed(ImGuiKey_Z))) action = EditorActions::Action::A_Redo;
+		}
+
+		ReactToAction(action);
+	}
+
+	void EditorActions::ReactToAction(EditorActions::Action anAction)
+	{
+		switch (anAction)
+		{
+		case EditorActions::Action::A_Save:
+			Save();
+			break;
+		case EditorActions::Action::A_Copy:
+			Copy();
+			break;
+		case EditorActions::Action::A_Paste:
+			Paste();
+			break;
+		case EditorActions::Action::A_Duplicate:
+			Copy();
+			Paste();
+			break;
+		}
+	}
 }

@@ -23,9 +23,4 @@ namespace Eclipse
 	{
 		return !projectRoot.empty();
 	}
-
-	std::filesystem::path PathManager::GetRawAssetPath(const std::filesystem::path& assetPath)
-	{
-		return  GetAssetDir() / assetPath;
-	}
 }

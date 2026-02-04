@@ -29,7 +29,7 @@ namespace Eclipse
 		static const char* GetActiveScene();
 
 	private:
-		static inline std::string ActiveSceneName;
+		static inline std::string ActiveScene;
 
 	private:
 		static inline std::unordered_map<std::string, unsigned> nameToIdx;

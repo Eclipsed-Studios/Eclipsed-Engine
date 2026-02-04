@@ -32,7 +32,7 @@ namespace Eclipse
     {
         FMOD_MODE mode = true ? FMOD_LOOP_NORMAL : FMOD_DEFAULT;
 
-        std::string path = (PathManager::GetAssetDir() / std::string(anAudioClip.GetRelativePath())).generic_string();
+        std::string path = (PathManager::GetAssetsPath() / std::string(anAudioClip.GetRelativePath())).generic_string();
         mySystem->createSound(path.c_str(), mode, nullptr, &anAudioClip.mySound);
     }
 

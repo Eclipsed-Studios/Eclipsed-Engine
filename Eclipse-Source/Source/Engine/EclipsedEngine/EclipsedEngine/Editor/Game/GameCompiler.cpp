@@ -23,14 +23,14 @@ namespace Eclipse
 	{
 		std::string sourceDir = (PathManager::GetEngineRoot().parent_path().parent_path() / "Tools/").generic_string();
 		std::string buildCmakeCommand = "cd /d \"" + sourceDir + "\" && generate-game.bat \""
-			+ PathManager::GetProjectSourceRoot().generic_string() + "\" \"" 
+			+ PathManager::GetProjectRoot().generic_string() + "\" \""
 			+ PathManager::GetEngineRoot().parent_path().generic_string() + "\"";
 		std::system(buildCmakeCommand.c_str());
 	}
 
 	void GameCompiler::Compile()
 	{
-		std::string buildDir = (PathManager::GetProjectSourceRoot()).generic_string();
+		std::string buildDir = (PathManager::GetProjectRoot()).generic_string();
 		std::string buildDLLCommand = "cd /d \"" + buildDir + "\" && cmake --build Library/Engine-Build";
 		std::system(buildDLLCommand.c_str());
 	}

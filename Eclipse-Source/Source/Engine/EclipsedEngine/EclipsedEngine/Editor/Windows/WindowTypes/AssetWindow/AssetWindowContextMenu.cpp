@@ -106,7 +106,7 @@ namespace Eclipse::Editor
 			else
 				savedPath = activePath;
 
-			std::filesystem::create_directory(PathManager::GetAssetDir() / activePath / "NewFolder");
+			std::filesystem::create_directory(PathManager::GetAssetsPath() / activePath / "NewFolder");
 
 			activePath = savedPath;
 		}
@@ -155,7 +155,7 @@ namespace Eclipse::Editor
 			else
 				savedPath = activePath;
 
-			std::ofstream outputStream(PathManager::GetAssetDir() / activePath / "NewScene.scene");
+			std::ofstream outputStream(PathManager::GetAssetsPath() / activePath / "NewScene.scene");
 			outputStream.close();
 
 			activePath = savedPath;

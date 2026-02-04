@@ -66,10 +66,10 @@ namespace Eclipse::Editor
 		icons_config.MergeMode = true;
 		icons_config.PixelSnapH = true;
 
-		std::string arial = (PathManager::GetEngineAssets() / "Fonts/ARIAL.TTF").generic_string();
-		std::string faSolid900 = (PathManager::GetEngineAssets() / "Fonts/FontAwesome/7/fa-solid-900.otf").generic_string();
-		std::string faBrands400 = (PathManager::GetEngineAssets() / "Fonts/FontAwesome/7/fa-brands-400.otf").generic_string();
-		std::string faRegular400 = (PathManager::GetEngineAssets() / "Fonts/FontAwesome/7/fa-regular-400.otf").generic_string();
+		std::string arial = (PathManager::GetEngineAssetsPath() / "Fonts/ARIAL.TTF").generic_string();
+		std::string faSolid900 = (PathManager::GetEngineAssetsPath() / "Fonts/FontAwesome/7/fa-solid-900.otf").generic_string();
+		std::string faBrands400 = (PathManager::GetEngineAssetsPath() / "Fonts/FontAwesome/7/fa-brands-400.otf").generic_string();
+		std::string faRegular400 = (PathManager::GetEngineAssetsPath() / "Fonts/FontAwesome/7/fa-regular-400.otf").generic_string();
 
 		FontTiny = io.Fonts->AddFontFromFileTTF(arial.c_str(), 12.0f);
 		io.Fonts->AddFontFromFileTTF(faSolid900.c_str(), 12.0f, &icons_config, icons_ranges);

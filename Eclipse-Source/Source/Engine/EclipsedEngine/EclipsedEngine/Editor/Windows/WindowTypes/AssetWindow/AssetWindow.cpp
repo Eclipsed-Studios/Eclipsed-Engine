@@ -18,10 +18,10 @@ namespace Eclipse::Editor
 {
 	void AssetWindow::Open()
 	{
-		dirTree = Utilities::DirectoryTree(PathManager::GetAssetDir());
+		dirTree = Utilities::DirectoryTree(PathManager::GetAssetsPath());
 		Active_View_Node = dirTree.GetRoot();
 
-		FileWatcher::Subscribe(PathManager::GetAssetDir().generic_string(),
+		FileWatcher::Subscribe(PathManager::GetAssetsPath().generic_string(),
 			[this](const Editor::FileWatcherEvent& e)
 			{
 				shouldReloadAssets = true;
@@ -87,7 +87,7 @@ namespace Eclipse::Editor
 		static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_DrawLinesFull | ImGuiTreeNodeFlags_DrawLinesToNodes | ImGuiTreeNodeFlags_DefaultOpen;
 		if (ImGui::TreeNodeEx(ICON_FA_FOLDER " Assets", base_flags))
 		{
-			Utilities::FileNode* startNode = dirTree.GetNode(PathManager::GetAssetDir());
+			Utilities::FileNode* startNode = dirTree.GetNode(PathManager::GetAssetsPath());
 
 			DrawAssetHierachyEntry(startNode);
 			ImGui::TreePop();
@@ -133,7 +133,7 @@ namespace Eclipse::Editor
 	{
 		namespace fs = std::filesystem;
 
-		std::filesystem::path pathCombiner = PathManager::GetAssetDir();
+		std::filesystem::path pathCombiner = PathManager::GetAssetsPath();
 
 		fs::path p = std::string("Assets");
 		if (Active_View_Node != nullptr) p /= Active_View_Node->info.relativeFilePath.string();
@@ -288,7 +288,7 @@ namespace Eclipse::Editor
 				if (node->isDirectory)
 					pathToPlacePrefab = node->info.filePath;
 				else
-					pathToPlacePrefab = PathManager::GetAssetDir();
+					pathToPlacePrefab = PathManager::GetAssetsPath();
 
 				HierarchyWindow::CreatePrefab(draggedEntityID, pathToPlacePrefab);
 			}
@@ -386,9 +386,8 @@ namespace Eclipse::Editor
 		{
 		case Utilities::FileInfo::FileType_Scene:
 		{
-			std::string path = std::filesystem::relative(fifo.filePath, PathManager::GetAssetDir()).generic_string();
-			SceneManager::LoadScene(path);
-			Settings::EditorSettings::SetLastActiveScene(path);
+			SceneManager::LoadScene(fifo.filePath.generic_string());
+			Settings::EditorSettings::SetLastActiveScene(fifo.filePath.generic_string());
 		}break;
 
 		default:

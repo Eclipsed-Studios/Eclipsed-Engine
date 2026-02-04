@@ -182,7 +182,9 @@ void Eclipse::Editor::LayoutManager::Update()
 
 void Eclipse::Editor::LayoutManager::LoadLayouts()
 {
-	for (auto entry : std::filesystem::directory_iterator(PathManager::GetProjectRoot() / "Editor/Layouts/"))
+	auto i = PathManager::GetEditorPath() / "Layouts/";
+
+	for (auto entry : std::filesystem::directory_iterator(PathManager::GetEditorPath() / "Layouts/"))
 	{
 		std::string name = entry.path().filename().stem().string();
 
@@ -214,5 +216,5 @@ void Eclipse::Editor::LayoutManager::SaveActiveLayout()
 
 std::filesystem::path Eclipse::Editor::LayoutManager::GetLayoutPath(const std::string& filename)
 {
-	return PathManager::GetProjectRoot() / "Editor/Layouts/" / (filename + ".edlayout");
+	return PathManager::GetEditorPath() / "Layouts/" / (filename + ".edlayout");
 }

@@ -12,9 +12,11 @@
 
 #include "EntityEngine/ComponentManager.h"
 #include "CoreEngine/Settings/BuildSettings.h"
+#include "CoreEngine/Settings/EditorSettings.h"
 
 #include <fstream>
 //#include "CoreEngine/Settings/.h"
+#include "CoreEngine/Debug/DebugLogger.h"
 
 namespace Eclipse
 {
@@ -27,26 +29,30 @@ namespace Eclipse
 			path += ".scene";
 		}
 
-		if (std::filesystem::exists(PathManager::GetAssetDir() / path))
+		std::string fullPath = (PathManager::GetAssetsPath() / path).generic_string();
+		if (std::filesystem::exists(path) || std::filesystem::exists(fullPath))
 		{
-			ActiveSceneName = std::filesystem::path(path).filename().stem().string();
+			ActiveScene = nameOrPath;
+			SceneLoader::Load(fullPath.c_str());
 		}
-
-		SceneLoader::Load((PathManager::GetAssetDir() / path).generic_string().c_str());
+		else
+		{
+			LOG_WARNING("Scene dont exist at asset root path. | " + nameOrPath);
+		}
 	}
 
 	void SceneManager::LoadScene(unsigned idx)
 	{
 		if (scenePaths.empty()) return;
 
-		SceneLoader::Load((PathManager::GetAssetDir() / scenePaths[idx]).generic_string().c_str());
+		SceneLoader::Load((PathManager::GetAssetsPath() / scenePaths[idx]).generic_string().c_str());
 
-		ActiveSceneName = std::filesystem::path(scenePaths[idx]).filename().stem().string();
+		ActiveScene = std::filesystem::path(scenePaths[idx]).filename().stem().string();
 	}
 
 	void SceneManager::ReloadActiveScene()
 	{
-		LoadScene(ActiveSceneName);
+		LoadScene(ActiveScene);
 	}
 
 	void SceneManager::SaveScenes()
@@ -55,9 +61,9 @@ namespace Eclipse
 
 	void SceneManager::SaveActiveScene()
 	{
-		if (ActiveSceneName.empty()) return;
-
-		SceneLoader::Save((PathManager::GetAssetDir() / scenePaths[nameToIdx[ActiveSceneName]]).generic_string().c_str());
+		if (ActiveScene.empty()) return;
+		
+		SceneLoader::Save(ActiveScene.c_str());
 	}
 
 	void SceneManager::AddScene(const std::string& aPath)
@@ -91,7 +97,7 @@ namespace Eclipse
 
 	void SceneManager::ClearScene()
 	{
-		ActiveSceneName = "";
+		ActiveScene = "";
 
 		CommandListManager::ResetAllCommandLists();
 
@@ -103,5 +109,8 @@ namespace Eclipse
 
 	std::unordered_map<std::string, unsigned>& SceneManager::GetNameToIdx() { return nameToIdx; }
 	std::vector<std::string>& SceneManager::GetScenePaths() { return scenePaths; }
-	const char* SceneManager::GetActiveScene() { return ActiveSceneName.c_str(); }
+	const char* SceneManager::GetActiveScene() 
+	{ 
+		return ActiveScene.c_str(); 
+	}
 }
