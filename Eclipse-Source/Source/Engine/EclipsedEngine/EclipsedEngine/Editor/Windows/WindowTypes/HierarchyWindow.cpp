@@ -257,13 +257,24 @@ namespace Eclipse::Editor
 		{
 			if (ImGui::BeginMenu("Create new..."))
 			{
-				if (ImGui::MenuItem("GameObject"))
+				if (ImGui::MenuItem("Empty GameObject"))
 				{
 					GameObject* obj = ComponentManager::CreateGameObject();
+					obj->AddComponent<Transform2D>();
 
 					obj->SetName("New GameObject");
 				}
-				else if (ImGui::BeginMenu("UI"))
+				if (ImGui::BeginMenu("Special"))
+				{
+					if (ImGui::MenuItem("No Transform Object"))
+					{
+						GameObject* obj = ComponentManager::CreateGameObject();
+
+						obj->SetName("New No Transform Object");
+					}
+					ImGui::EndMenu();
+				}
+				if (ImGui::BeginMenu("UI"))
 				{
 					if (ImGui::MenuItem("Canvas"))
 					{
