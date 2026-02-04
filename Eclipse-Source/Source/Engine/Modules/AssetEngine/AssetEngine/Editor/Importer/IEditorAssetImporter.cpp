@@ -64,7 +64,7 @@ namespace Eclipse
 
 	std::filesystem::path IEditorAssetImporter::GetArtifactPath(const std::string& aGuid)
 	{
-		std::filesystem::path folder = PathManager::GetProjectRoot() / "Local/Artifacts" / aGuid.substr(0, 2);
+		std::filesystem::path folder = PathManager::GetArtifactsPath() / aGuid.substr(0, 2);
 		std::filesystem::create_directories(folder);
 
 		return folder / aGuid;

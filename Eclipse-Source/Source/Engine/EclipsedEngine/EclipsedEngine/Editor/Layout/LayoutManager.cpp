@@ -182,7 +182,7 @@ void Eclipse::Editor::LayoutManager::Update()
 
 void Eclipse::Editor::LayoutManager::LoadLayouts()
 {
-	auto i = PathManager::GetEditorPath() / "Layouts/";
+	std::filesystem::create_directories(PathManager::GetEditorPath() / "Layouts/");
 
 	for (auto entry : std::filesystem::directory_iterator(PathManager::GetEditorPath() / "Layouts/"))
 	{
