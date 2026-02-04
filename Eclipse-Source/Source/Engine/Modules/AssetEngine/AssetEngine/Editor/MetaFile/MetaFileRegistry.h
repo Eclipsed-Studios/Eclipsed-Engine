@@ -6,8 +6,6 @@
 
 namespace Eclipse
 {
-	using GUID = std::string;
-
 	class MetaFileRegistry
 	{
 	public:
@@ -16,5 +14,6 @@ namespace Eclipse
 		static bool MetaFileExists(const std::filesystem::path& aPath);
 
 		static std::string GetGUID(const std::filesystem::path& aPath);
+		static std::string GetGUIDMeta(const std::filesystem::path& aPath);
 	};
 }

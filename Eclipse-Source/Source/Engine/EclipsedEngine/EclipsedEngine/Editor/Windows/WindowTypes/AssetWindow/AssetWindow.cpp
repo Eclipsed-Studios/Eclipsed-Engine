@@ -300,8 +300,7 @@ namespace Eclipse::Editor
 
 		if (node != nullptr)
 		{
-			DragAndDrop::BeginSource(node->info.relativeFilePath.string().c_str(), node->info.relativeFilePath.string().size(), node->info);
-
+			DragAndDrop::BeginSource(node->info.filePath.string().c_str(), node->info.filePath.string().size(), node->info);
 		}
 
 		std::string label = node->info.filePath.filename().string();

@@ -34,6 +34,19 @@ namespace Eclipse
 
 	std::string MetaFileRegistry::GetGUID(const std::filesystem::path& aPath)
 	{
+		std::filesystem::path path = GetMetaFilePath(aPath);
+
+		std::ifstream in(path);
+		cereal::JSONInputArchive ar(in);
+
+		AssetMetaSettings settings;
+		ar(settings);
+
+		return settings.guid;
+	}
+
+	std::string MetaFileRegistry::GetGUIDMeta(const std::filesystem::path& aPath)
+	{
 		std::ifstream in(aPath);
 		cereal::JSONInputArchive ar(in);
 

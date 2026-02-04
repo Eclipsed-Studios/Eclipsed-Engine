@@ -19,21 +19,21 @@ namespace Eclipse
 		data->dimDivOne.Y = 1.f / static_cast<float>(data->height);
 		data->sizeNormalized = Math::Vector2f{ 1.f, static_cast<float>(data->height) / data->width };
 
-		//glGenTextures(1, &data->textureID);
-		//glBindTexture(GL_TEXTURE_2D, data->textureID);
+		glGenTextures(1, &data->textureID);
+		glBindTexture(GL_TEXTURE_2D, data->textureID);
 
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, 0x2901);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, 0x2901);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, 0x2901);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, 0x2901);
 
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
 
-		//int rgbTypeOffset = 3 - data->textureID;
+		int rgbTypeOffset = 3 - data->textureID;
 
-		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - rgbTypeOffset, data->width, data->height, 0, GL_RGB - rgbTypeOffset, GL_UNSIGNED_BYTE, pixelData);
-		//glGenerateMipmap(GL_TEXTURE_2D);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB - rgbTypeOffset, data->width, data->height, 0, GL_RGB - rgbTypeOffset, GL_UNSIGNED_BYTE, pixelData);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
-		//glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		delete[] pixelData;
 

@@ -22,7 +22,7 @@ namespace Eclipse::Editor
 
 
 	public:
-		static inline char payloadBuffer[256];
+		static inline char payloadBuffer[512];
 		static inline int index = 0;
 
 		static inline std::unordered_map<Utilities::FileInfo::FileType_, const char*> dnd_id =

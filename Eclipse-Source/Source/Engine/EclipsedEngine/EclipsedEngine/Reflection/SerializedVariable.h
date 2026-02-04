@@ -41,6 +41,8 @@ namespace Eclipse::Reflection
 		void* GetRawData() override;
 		void* GetData() override;
 
+		T* GetHandle();
+
 		const void* GetData()const override;
 		void ResolveTypeInfo() override;
 		void Resize(const size_t& size) override;

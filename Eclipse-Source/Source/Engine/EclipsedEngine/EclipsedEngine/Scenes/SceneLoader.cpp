@@ -327,6 +327,8 @@ namespace Eclipse
 				{
 					Reflection::SerializedVariable<Material>* asset = (Reflection::SerializedVariable<Material>*)aSerializedVariable;
 					*asset = Resources::Get<Material>(id);
+
+					asset->Get().Create();
 				}
 				else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
 				{

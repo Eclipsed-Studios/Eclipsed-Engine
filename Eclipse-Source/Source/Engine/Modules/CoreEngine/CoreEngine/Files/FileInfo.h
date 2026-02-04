@@ -41,6 +41,8 @@ namespace Eclipse::Utilities
 		FileType_ type;
 		std::filesystem::path filePath;
 		std::filesystem::path relativeFilePath;
+		
+		std::string assetID;
 
 	public:
 		const char* GetIcon() const;

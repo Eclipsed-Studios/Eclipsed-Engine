@@ -8,8 +8,10 @@
 #include "AssetEngine/Assets/Texture.h"
 #include "AssetEngine/Resources.h"
 
+#include "AssetEngine/Editor/MetaFile/MetaFileRegistry.h"
 #include "ReflectionTypeChecks.h"
 #include "EntityEngine/Component.h"
+
 
 namespace Eclipse::Reflection
 {
@@ -66,12 +68,15 @@ namespace Eclipse::Reflection
 				Material* mat = (Material*)GetData();
 				if (mat->IsValid())
 				{
-					//name = Resources::Get.GetRegisteredAsset(mat->GetAssetID()).path.filename().stem().string();
+					name = mat->GetAssetID();
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Material))
 				{
-					*mat = Resources::Get<Material>(Editor::DragAndDrop::payloadBuffer);
+					std::string guid = MetaFileRegistry::GetGUID(Editor::DragAndDrop::payloadBuffer);
+					*mat = Resources::Get<Material>(guid);
+					
+					mat->Create();
 				}
 			} break;
 
@@ -85,12 +90,13 @@ namespace Eclipse::Reflection
 				AudioClip* clip = (AudioClip*)GetData();
 				if (clip->IsValid())
 				{
-					//name = AssetRegistry::GetInstance().GetRegisteredAsset(clip->GetAssetID()).path.filename().stem().string();
+					name = clip->GetAssetID();
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Audio))
 				{
-					*clip = Resources::Get<AudioClip>(Editor::DragAndDrop::payloadBuffer);
+					std::string guid = MetaFileRegistry::GetGUID(Editor::DragAndDrop::payloadBuffer);
+					*clip = Resources::Get<AudioClip>(guid);
 				}
 			} break;
 
@@ -103,12 +109,13 @@ namespace Eclipse::Reflection
 				Texture* texture = (Texture*)GetData();
 				if (texture->IsValid())
 				{
-					//name = AssetRegistry::GetInstance().GetRegisteredAsset(texture->GetAssetID()).path.filename().stem().string();
+					name = texture->GetAssetID();
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Texture))
 				{
-					*texture = Resources::Get<Texture>(Editor::DragAndDrop::payloadBuffer);
+					std::string guid = MetaFileRegistry::GetGUID(Editor::DragAndDrop::payloadBuffer);
+					*texture = Resources::Get<Texture>(guid);
 				}
 			} break;
 

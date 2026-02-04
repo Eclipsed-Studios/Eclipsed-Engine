@@ -33,13 +33,14 @@ namespace Eclipse::Editor
         {
             if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
             {
-                std::memset(payloadBuffer, 0, sizeof(payloadBuffer));
+                size_t assetPayloadSize = size;
 
-                memcpy(&payloadBuffer[0], payload, size);
+                memcpy(&payloadBuffer[0], payload, assetPayloadSize);
+                std::memset(&payloadBuffer[assetPayloadSize], 0, 1);
                 const char* dnd = DragAndDrop::dnd_id[info.type];
 
-                index = size;
-                ImGui::SetDragDropPayload(dnd, payloadBuffer, size + 1);
+                index = assetPayloadSize;
+                ImGui::SetDragDropPayload(dnd, payloadBuffer, assetPayloadSize);
 
                 ImGui::Text(payload);
                 ImGui::EndDragDropSource();
@@ -167,7 +168,7 @@ namespace Eclipse::Editor
         //ImGui::SetCursorScreenPos(pos);
         //bool clicked = ImGui::InvisibleButton("##hitbox", boxSize);
 
-        //// Clip text so it doesn’t overflow the box
+        //// Clip text so it doesnï¿½t overflow the box
         //ImVec2 textPos(pos.x + padding.x, pos.y + padding.y);
         //ImVec2 clipMax(pos.x + boxSize.x - padding.x, pos.y + boxSize.y - padding.y);
 
@@ -369,8 +370,6 @@ bool DragAndDrop::TextBox(
     ImGui::PopItemFlag();
 
     bool arrowHovered = ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem);
-
-    
 
     // --- Draw arrow hover highlight ---
     if (arrowHovered)

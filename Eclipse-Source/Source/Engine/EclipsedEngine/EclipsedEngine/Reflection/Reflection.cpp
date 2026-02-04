@@ -25,13 +25,6 @@ namespace Eclipse::Reflection
 			list.erase(it);
 		}
 
-		if (registeredVariables.size() == 5)
-		{
-			int i = 0;
-			i++;
-			i = 8274;
-		}
-
 
 		if (list.empty()) {
 			registeredVariables.erase(ptr->pComponent);
@@ -48,7 +41,7 @@ namespace Eclipse::Reflection
 		for (auto& element : list)
 		{
 			if (!element->canDrawInspector) continue;
-			element->DrawTest();
+				element->DrawTest();
 
 			//element->DrawInspector();
 		}

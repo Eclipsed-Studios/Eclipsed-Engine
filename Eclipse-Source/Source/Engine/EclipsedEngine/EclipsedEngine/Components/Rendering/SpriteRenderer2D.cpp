@@ -91,6 +91,10 @@ namespace Eclipse
 	{
 		if (!hasMaterial)
 			return;
+		if (!material.GetHandle()->data)
+			return;
+		if (!sprite.GetHandle()->data)
+			return;
 
 		Math::Vector2f position = gameObject->transform->GetPosition();
 		float rotation = gameObject->transform->GetRotation();
@@ -103,7 +107,7 @@ namespace Eclipse
 
 
 
-		if (sprite.IsValid())
+		if (sprite.GetHandle())
 		{
 			material->BindShader();
 			sprite->Bind();
@@ -124,7 +128,7 @@ namespace Eclipse
 		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.spriteRect", &spriteRect);
 
 		Math::Vector2f scaleMultiplier;
-		if (hasSprite)
+		if (sprite.GetHandle())
 		{
 			scaleMultiplier = sprite->GetTextureSizeNormilized();
 		}
