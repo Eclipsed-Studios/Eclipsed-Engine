@@ -8,7 +8,7 @@ namespace Eclipse
 {
     class ECLIPSED_API BoxCollider2D : public Collider2D
     {
-        BASE_SELECTION(BoxCollider2D, 5)
+        BASE_SELECTION(BoxCollider2D, 10)
 
     public:
         void CreateCollider() override;

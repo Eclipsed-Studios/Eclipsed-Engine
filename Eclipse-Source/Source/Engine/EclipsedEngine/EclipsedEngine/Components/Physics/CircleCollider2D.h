@@ -8,7 +8,7 @@ namespace Eclipse
 {
     class CircleCollider2D : public Collider2D
     {
-        BASE_SELECTION(CircleCollider2D, 5)
+        BASE_SELECTION(CircleCollider2D, 10)
 
     public:
         void CreateCollider() override;

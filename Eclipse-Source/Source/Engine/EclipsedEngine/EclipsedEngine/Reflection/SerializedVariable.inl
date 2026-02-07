@@ -166,6 +166,12 @@ namespace Eclipse::Reflection
 			sizePerElement = sizeof(Eclipse::Texture);
 		}
 
+		else if constexpr (std::is_same<T, bool>::value)
+		{
+			type = SerializedType_Bool;
+			sizePerElement = sizeof(T);
+		}
+		
 		else if constexpr (std::is_arithmetic<T>::value)
 		{
 			type = SerializedType_Fundamental;

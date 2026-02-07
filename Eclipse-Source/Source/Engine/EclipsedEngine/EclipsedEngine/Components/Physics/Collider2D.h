@@ -11,12 +11,11 @@ namespace Eclipse
 {
     class ECLIPSED_API Collider2D : public Component
     {
-        BASE_SELECTION(Collider2D)
+        BASE_SELECTION(Collider2D, 10)
 
     public:
-        //~Collider2D();
+        void Awake() override;
 
-    public:
         void OnDestroy();
 
         void OnComponentAdded() override;
@@ -31,7 +30,7 @@ namespace Eclipse
 
     protected:
 
-        virtual void CreateCollider() = 0;
+        virtual void CreateCollider() {}
         virtual void DeltaChanges() {}
 
     protected:

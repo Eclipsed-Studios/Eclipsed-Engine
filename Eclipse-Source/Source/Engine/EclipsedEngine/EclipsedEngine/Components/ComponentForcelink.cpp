@@ -4,6 +4,7 @@
 
 #include "EclipsedEngine/Components/AudioSource.h"
 #include "EclipsedEngine/Components/Transform2D.h"
+#include "EclipsedEngine/Components/Physics/Collider2D.h"
 #include "EclipsedEngine/Components/Physics/BoxCollider2D.h"
 #include "EclipsedEngine/Components/Physics/CapsuleCollider2D.h"
 #include "EclipsedEngine/Components/Physics/CircleCollider2D.h"
@@ -25,6 +26,7 @@
 void Eclipse::ComponentForcelink::LinkComponents()
 {
 	COMP_REG(Transform2D);
+	COMP_REG(Collider2D);
 	COMP_REG(BoxCollider2D);
 	COMP_REG(CapsuleCollider2D);
 	COMP_REG(CircleCollider2D);

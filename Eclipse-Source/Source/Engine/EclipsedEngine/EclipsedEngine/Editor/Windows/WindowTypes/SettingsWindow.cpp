@@ -17,6 +17,8 @@
 #include "CoreEngine/Files/FileInfo.h"
 #include "CoreEngine/PathManager.h"
 
+#include "CoreEngine/Settings/PhysicsSettings.h"
+
 namespace Eclipse::Editor
 {
     void GameSettingsWindow::Update()
@@ -62,7 +64,7 @@ namespace Eclipse::Editor
             ImGui::TableHeadersRow();
 
             static std::vector<std::string> sceneOrder;
-            if (sceneOrder.empty() || sceneOrder.size() < SceneManager::GetNameToIdx().size()) 
+            if (sceneOrder.empty() || sceneOrder.size() < SceneManager::GetNameToIdx().size())
             {
                 sceneOrder.clear();
 
@@ -201,24 +203,28 @@ namespace Eclipse::Editor
 
     void GameSettingsWindow::SaveLayerEditToJSON()
     {
-        std::string filePath = (PathManager::GetProjectRoot() / "Settings/CollisionLayers.json").generic_string();
-        rapidjson::Document document;
-        document.SetObject();
-        auto& allocator = document.GetAllocator();
+        Settings::PhysicsSettings::SetPhysicsLayers(PhysicsEngine::myCollisionLayers);
 
-        rapidjson::Value layersArray(rapidjson::kArrayType);
-        for (int i = 0; i < layerCount; i++) {
-            layersArray.PushBack(PhysicsEngine::myCollisionLayers[i], allocator);
-        }
+        Settings::PhysicsSettings::Save();
 
-        document.AddMember("Layers", layersArray, allocator);
+        // std::string filePath = (PathManager::GetProjectRoot() / "Settings/CollisionLayers.json").generic_string();
+        // rapidjson::Document document;
+        // document.SetObject();
+        // auto& allocator = document.GetAllocator();
 
-        rapidjson::StringBuffer buffer;
-        rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
-        document.Accept(writer);
+        // rapidjson::Value layersArray(rapidjson::kArrayType);
+        // for (int i = 0; i < layerCount; i++) {
+        //     layersArray.PushBack(PhysicsEngine::myCollisionLayers[i], allocator);
+        // }
 
-        std::ofstream ofs(filePath);
-        ofs << buffer.GetString();
-        ofs.close();
+        // document.AddMember("Layers", layersArray, allocator);
+
+        // rapidjson::StringBuffer buffer;
+        // rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+        // document.Accept(writer);
+
+        // std::ofstream ofs(filePath);
+        // ofs << buffer.GetString();
+        // ofs.close();
     }
 }
