@@ -73,7 +73,9 @@ namespace Eclipse
 
 		if (!hasMaterial)
 		{
-			//material = Resources::GetDefaultMaterial();
+			material = Resources::GetDefault<Material>();
+			material->Create();
+
 			hasMaterial = true;
 		}
 	}
@@ -91,10 +93,6 @@ namespace Eclipse
 	{
 		if (!hasMaterial)
 			return;
-		if (!material.GetHandle()->data)
-			return;
-		if (!sprite.GetHandle()->data)
-			return;
 
 		Math::Vector2f position = gameObject->transform->GetPosition();
 		float rotation = gameObject->transform->GetRotation();
@@ -105,9 +103,7 @@ namespace Eclipse
 		if (aProgramID)
 			shaderID = aProgramID;
 
-
-
-		if (sprite.GetHandle())
+		if (sprite->IsValid())
 		{
 			material->BindShader();
 			sprite->Bind();
@@ -128,14 +124,10 @@ namespace Eclipse
 		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "material.spriteRect", &spriteRect);
 
 		Math::Vector2f scaleMultiplier;
-		if (sprite.GetHandle())
-		{
+		if (sprite->IsValid())
 			scaleMultiplier = sprite->GetTextureSizeNormilized();
-		}
 		else
-		{
 			scaleMultiplier = material->GetTexture().GetTextureSizeNormilized();
-		}
 
 		float aspectScale = size.y / size.x;
 		Math::Vector2f spriteScaleMultiplier = { scaleMultiplier.x, scaleMultiplier.y * aspectScale };

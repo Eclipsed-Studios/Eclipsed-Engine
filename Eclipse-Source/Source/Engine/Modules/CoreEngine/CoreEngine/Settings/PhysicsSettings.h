@@ -8,15 +8,14 @@
 
 #include <array>
 
-
 namespace Eclipse::Settings
 {
 	struct PhysicsSettings : public BaseSettings<PhysicsSettings>
 	{
-		static constexpr int MaxPhysicsLayers = 16;
+		#define MAX_LAYERS 16
 
 		SETTINGS_DATA{
-		std::array<unsigned long long, MaxPhysicsLayers> PhysicsLayers;
+		std::array<unsigned long long, MAX_LAYERS> PhysicsLayers;
 
 			SERIALIZE(
 				MAKE_NVP(PhysicsLayers)

@@ -14,7 +14,7 @@ namespace Eclipse
 {
     class ECLIPSED_API RigidBody2D : public Component
     {
-        BASE_SELECTION(RigidBody2D, 10)
+        BASE_SELECTION(RigidBody2D, 5)
 
     public:
         friend class Collider2D;
@@ -25,10 +25,9 @@ namespace Eclipse
 
         friend class PolygonCollider2D;
 
-        void OnDestroy() override;
+        void Awake() override;
 
-        void OnComponentAdded() override;
-        void OnSceneLoaded() override;
+        void OnDestroy() override;
         
         void EarlyUpdate() override;
 
@@ -51,6 +50,8 @@ namespace Eclipse
 
         void SetYPosLocked(bool aValue);
         bool GetYPosLocked();
+
+        bool ColliderAttached = false;
 
     private:
         RigidBodySettings myRigidBodySettings;
