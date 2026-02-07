@@ -15,7 +15,7 @@
 #include "AssetEngine/Assets/Texture.h"
 
 #include "CoreEngine/Math/Random.h"
-
+#include "EclipsedEngine/Editor/Windows/EditorField.h"
 
 namespace Eclipse::Reflection
 {
@@ -299,7 +299,8 @@ namespace Eclipse::Reflection
 
 		ImGui::SetNextItemWidth(availX);
 
-		if constexpr (std::is_same<U, float>::value) ImGui::DragFloat(GetNameID().c_str(), &element, 0.001f, hasMinMax ? myMin : 0.f, hasMinMax ? myMax : 0.f);
+		if constexpr (std::is_same<U, float>::value) Editor::EditorField::Draw(element);
+		//if constexpr (std::is_same<U, float>::value) ImGui::DragFloat(GetNameID().c_str(), &element, 0.001f, hasMinMax ? myMin : 0.f, hasMinMax ? myMax : 0.f);
 		else if constexpr (std::is_same<U, int>::value) ImGui::DragInt(GetNameID().c_str(), &element, 1.f, hasMinMax ? myMin : 0, hasMinMax ? myMax : 0);
 		else if constexpr (std::is_same<U, Math::Vector2<float>>::value) ImGui::DragFloat2(GetNameID().c_str(), &element.x, 0.001f);
 		else if constexpr (std::is_same<U, bool>::value) ImGui::Checkbox(GetNameID().c_str(), &element);

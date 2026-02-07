@@ -13,6 +13,8 @@
 #include "EntityEngine/Component.h"
 
 
+#include "EclipsedEngine/Editor/Windows/EditorField.h"
+
 namespace Eclipse::Reflection
 {
 	AbstractSerializedVariable::~AbstractSerializedVariable()
@@ -143,7 +145,9 @@ namespace Eclipse::Reflection
 
 			case SerializedType_Custom_Type:
 			case SerializedType_Fundamental:
+
 				ImGui::SameLine();
+			
 				ImGui::DragScalarN(("##" + std::to_string(iType) + GetName()).c_str(), iType, GetData(), elements);
 				break;
 			}

@@ -25,19 +25,18 @@
 #include "CoreEngine/Settings/GraphicsSettings.h"
 #include "CoreEngine/Settings/EditorSettings.h"
 
-
 namespace Eclipse::Editor
 {
 	void EditorRuntime::Init(const std::string& path)
 	{
 		PathManager::Init(path);
 
-
 		ComponentForcelink::LinkComponents();
 		eclipseRuntime.StartEngine(path);
 
 
-		FileWatcher::Subscribe((PathManager::GetProjectRoot() / "Source").generic_string(), [this](const FileWatcherEvent& e) {SetGameChanged(e);});
+		std::string te = (PathManager::GetAssetsPath() / "").generic_string();
+		FileWatcher::Subscribe(te, [this](const FileWatcherEvent& e) { this->SetGameChanged(e); });
 
 
 		// TODO: Transfer into Replication.h or ReplicationManager.h
@@ -68,15 +67,20 @@ namespace Eclipse::Editor
 				[]() { Replication::ReplicationManager::SetAfterReplicatedList(); });
 		}
 
-		SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
-		LoadDLL();
+		if (std::filesystem::exists(PathManager::GetAssetsPath() / "Game.dll") ) SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
+		else LoadDLL();
 
 		ComponentManager::Init();
 	}
 
-	void EditorRuntime::SetGameChanged(const FileWatcherEvent&)
+	void EditorRuntime::SetGameChanged(const FileWatcherEvent& e)
 	{
-		gameChanged = true;
+		std::string ext = std::filesystem::path(e.path).extension().string();
+
+		if (ext == ".h" || ext == ".cpp" || ext == ".hpp" || ext == ".inl" || ext == ".c")
+		{
+			gameChanged = true;
+		}
 	}
 
 	void EditorRuntime::LoadDLL()
