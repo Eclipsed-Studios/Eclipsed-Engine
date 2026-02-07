@@ -21,37 +21,38 @@ namespace Eclipse::Reflection
 {
 
 	//#ifdef ECLIPSED_EDITOR
+
 	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
-		: AbstractSerializedVariable(aName, aCompPtr, drawInspector)
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount)
+		: AbstractSerializedVariable(aName, aCompPtr, drawInspector, aChangeAmount)
 	{
 
 	}
 
 	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue)
-		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue)
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, T _min, T _max)
+		: AbstractSerializedVariable(aName, aCompPtr, drawInspector, aChangeAmount), myMin(_min), myMax(_max), hasMinMax(true)
 	{
 
 	}
 
 	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, T _min, T _max)
-		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), myMin(_min), myMax(_max), hasMinMax(true)
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, const T& aDefaultValue)
+		: AbstractSerializedVariable(aName, aCompPtr, drawInspector, aChangeAmount), data(aDefaultValue)
 	{
 
 	}
 
 	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, const T& aDefaultValue, T _min, T _max)
-		: AbstractSerializedVariable(aName, aCompPtr, drawInspector), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, const T& aDefaultValue, T _min, T _max)
+		: AbstractSerializedVariable(aName, aCompPtr, drawInspector, aChangeAmount), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
 	{
 
 	}
+
 	template<typename T>
 	inline void SerializedVariable<T>::DrawInspector()
 	{
-
 		ImGui::Text(GetName());
 	}
 	//#else

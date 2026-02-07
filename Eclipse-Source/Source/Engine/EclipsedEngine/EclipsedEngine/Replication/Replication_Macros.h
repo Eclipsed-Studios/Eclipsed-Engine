@@ -16,24 +16,51 @@ Eclipse::Replication::ReplicatedVariable<ThisType> Repl##Name{#Name, this, Auto,
 
 #define ONREPPEDFUNCTIONDEF(Name) void Name##_OnRep()
 
+
+
 #define REPLICATED_SERIALIZED_FIELD_DEFAULT(Type, Name, DefaultValue, ThisType) \
-Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, DefaultValue}; \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, 1.f, DefaultValue}; \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, true, Name.ReplicatedVariableIndex, ThisType, Type)
 
 #define REPLICATED_SERIALIZED_FIELD(Type, Name, ThisType) \
-Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true}; \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, 1.f}; \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, true, Name.ReplicatedVariableIndex, ThisType, Type)
 
-#define REPLICATED_SERIALIZED_FIELD_DEFAULT_MIN_MAX(Type, Name, DefaultValue, Min, Maxx, ThisType) \
+#define REPLICATED_SERIALIZED_FIELD_DEFAULT_MIN_MAX(Type, Name, DefaultValue, Min, Max, ThisType) \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, 1.f, DefaultValue, Min, Max}; \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, true, Name.ReplicatedVariableIndex, ThisType, Type)
 
 #define REPLICATED_SERIALIZED_FIELD_MIN_MAX(Type, Name, Min, Max, ThisType) \
-Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Min, Max}; \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, 1.f, Min, Max}; \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, true, Name.ReplicatedVariableIndex, ThisType, Type)
+
+
+
+#define REPLICATED_SERIALIZED_FIELD_STEP_DEFAULT(Type, Name, Step, DefaultValue, ThisType) \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Step, DefaultValue}; \
+ONREPPEDFUNCTIONDEF(Name); \
+REPLICATEHELPERMACRONOTUSE(Name, true, Name.ReplicatedVariableIndex, ThisType, Type)
+
+#define REPLICATED_SERIALIZED_FIELD_STEP(Type, Name, Step, ThisType) \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Step}; \
+ONREPPEDFUNCTIONDEF(Name); \
+REPLICATEHELPERMACRONOTUSE(Name, true, Name.ReplicatedVariableIndex, ThisType, Type)
+
+#define REPLICATED_SERIALIZED_FIELD_STEP_DEFAULT_MIN_MAX(Type, Name, Step, DefaultValue, Min, Max, ThisType) \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Step, DefaultValue, Min, Max}; \
+ONREPPEDFUNCTIONDEF(Name); \
+REPLICATEHELPERMACRONOTUSE(Name, true, Name.ReplicatedVariableIndex, ThisType, Type)
+
+#define REPLICATED_SERIALIZED_FIELD_STEP_MIN_MAX(Type, Name, Step, Min, Max, ThisType) \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Step, Min, Max}; \
+ONREPPEDFUNCTIONDEF(Name); \
+REPLICATEHELPERMACRONOTUSE(Name, true, Name.ReplicatedVariableIndex, ThisType, Type)
+
+
 
 #define REPLICATED_PRIVATE_SERIALIZED_FIELD_DEFAULT(Type, Name, DefaultValue, ThisType) \
 Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, false, DefaultValue}; \
@@ -48,32 +75,57 @@ REPLICATEHELPERMACRONOTUSE(Name, true, Name.ReplicatedVariableIndex, ThisType, T
 
 
 
+
 #define MANUAL_REPLICATED_SERIALIZED_FIELD_DEFAULT(Type, Name, DefaultValue, ThisType) \
-Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, DefaultValue}; \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, 1.f, DefaultValue}; \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)
 
 #define MANUAL_REPLICATED_SERIALIZED_FIELD(Type, Name, ThisType) \
-Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true}; \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, 1.f}; \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)
 
 #define MANUAL_REPLICATED_SERIALIZED_FIELD_DEFAULT_MIN_MAX(Type, Name, DefaultValue, Min, Max, ThisType) \
-Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, DefaultValue, Min, Max}; \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, 1.f, DefaultValue, Min, Max}; \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)
 
 #define MANUAL_REPLICATED_SERIALIZED_FIELD_MIN_MAX(Type, Name, Min, Max, ThisType) \
-Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Min, Max}; \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, 1.f, Min, Max}; \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)
 
+
+
+#define MANUAL_REPLICATED_SERIALIZED_FIELD_STEP_DEFAULT(Type, Name, Step, DefaultValue, ThisType) \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Step, DefaultValue, true}; \
+ONREPPEDFUNCTIONDEF(Name); \
+REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)
+
+#define MANUAL_REPLICATED_SERIALIZED_FIELD_STEP(Type, Name, Step, ThisType) \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Step, true}; \
+ONREPPEDFUNCTIONDEF(Name); \
+REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)
+
+#define MANUAL_REPLICATED_SERIALIZED_FIELD_STEP_DEFAULT_MIN_MAX(Type, Name, Step, DefaultValue, Min, Max, ThisType) \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Step, DefaultValue, Min, Max, true}; \
+ONREPPEDFUNCTIONDEF(Name); \
+REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)
+
+#define MANUAL_REPLICATED_SERIALIZED_FIELD_STEP_MIN_MAX(Type, Name, Step, Min, Max, ThisType) \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, true, Step, Min, Max, true}; \
+ONREPPEDFUNCTIONDEF(Name); \
+REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)
+
+
+
 #define MANUAL_REPLICATED_PRIVATE_SERIALIZED_FIELD_DEFAULT(Type, Name, DefaultValue, ThisType) \
-Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, false, DefaultValue}; \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, false, 1.f, DefaultValue}; \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)
 
 #define MANUAL_REPLICATED_PRIVATE_SERIALIZED_FIELD(Type, Name, ThisType) \
-Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, false};  \
+Eclipse::Reflection::SerializedVariable<Type> Name{#Name, this, false, 1.f};  \
 ONREPPEDFUNCTIONDEF(Name); \
 REPLICATEHELPERMACRONOTUSE(Name, false, Name.ReplicatedVariableIndex, ThisType, Type)

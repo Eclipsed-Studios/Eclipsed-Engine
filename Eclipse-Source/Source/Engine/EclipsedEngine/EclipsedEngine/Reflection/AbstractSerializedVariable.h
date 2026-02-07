@@ -21,7 +21,7 @@ namespace Eclipse::Reflection
 		virtual ~AbstractSerializedVariable();
 
 		//#ifdef ECLIPSED_EDITOR
-		AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector);
+		AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount);
 		virtual void DrawInspector() = 0;
 		//#else
 		//		AbstractSerializedVariable(const char* aName, Component* aCompPtr);
@@ -144,6 +144,7 @@ namespace Eclipse::Reflection
 
 		const char* nameID = "";
 		bool canDrawInspector = false;
-		//#endif
+
+		float myChangAmount;
 	};
 }

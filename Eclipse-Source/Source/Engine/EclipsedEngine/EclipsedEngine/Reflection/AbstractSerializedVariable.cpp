@@ -21,8 +21,8 @@ namespace Eclipse::Reflection
 	}
 
 	//#ifdef ECLIPSED_EDITOR
-	AbstractSerializedVariable::AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector)
-		: name(aName), pComponent(aCompPtr), canDrawInspector(drawInspector)
+	AbstractSerializedVariable::AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount)
+		: name(aName), pComponent(aCompPtr), canDrawInspector(drawInspector), myChangAmount(aChangeAmount)
 	{
 		ReflectionManager::RegisterVariable(this);
 	}
@@ -148,7 +148,7 @@ namespace Eclipse::Reflection
 			case SerializedType_Custom_Type:
 			case SerializedType_Fundamental:
 				ImGui::SameLine();
-				ImGui::DragScalarN(("##" + std::to_string(iType) + GetName()).c_str(), iType, GetData(), elements);
+				ImGui::DragScalarN(("##" + std::to_string(iType) + GetName()).c_str(), iType, GetData(), elements, myChangAmount);
 				break;
 			}
 
