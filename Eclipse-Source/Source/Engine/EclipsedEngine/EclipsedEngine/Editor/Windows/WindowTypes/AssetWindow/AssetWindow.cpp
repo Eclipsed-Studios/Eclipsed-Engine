@@ -106,6 +106,8 @@ namespace Eclipse::Editor
 
 		for (std::unique_ptr<Utilities::FileNode>& child : node->children)
 		{
+			if (child->info.filePath.extension().string() == ".meta") continue;
+
 			std::string name = child->info.filePath.filename().string();
 			std::string icon = child->info.GetIcon();
 
