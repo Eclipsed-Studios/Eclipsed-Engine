@@ -109,6 +109,9 @@ namespace Eclipse
 
 		void Send(NetMessage& message)
 		{
+			if (!isConnected)
+				return;
+
 			if (message.MetaData.IsGarantied && message.MetaData.SentGarantied)
 				garantiedMessageHandler.Enqueue(message, serverEndpoint);
 			else
@@ -138,7 +141,7 @@ namespace Eclipse
 		char recieveBuffer[512]{};
 		udp::endpoint recieveEndpoint;
 
-		bool isConnected;
+		bool isConnected = false;
 
 		std::thread recieveThread;
 

@@ -6,6 +6,7 @@
 #include "AssetEngine/Assets/Material.h"
 #include "AssetEngine/Assets/AudioClip.h"
 #include "AssetEngine/Assets/Texture.h"
+#include "AssetEngine/Assets/Prefab.h"
 #include "AssetEngine/Resources.h"
 
 #include "AssetEngine/Editor/MetaFile/MetaFileRegistry.h"
@@ -118,6 +119,25 @@ namespace Eclipse::Reflection
 				{
 					std::string guid = MetaFileRegistry::GetGUID(Editor::DragAndDrop::payloadBuffer);
 					*texture = Resources::Get<Texture>(guid);
+				}
+			} break;
+
+			case SerializedType_Prefab:
+			{
+				ImGui::SameLine();
+
+				std::string name = "No Prefab.";
+
+				Prefab* prefab = (Prefab*)GetData();
+				if (prefab->IsValid())
+				{
+					name = prefab->GetAssetID();
+				}
+
+				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Prefab))
+				{
+					std::string guid = MetaFileRegistry::GetGUID(Editor::DragAndDrop::payloadBuffer);
+					*prefab = Resources::Get<Prefab>(guid);
 				}
 			} break;
 

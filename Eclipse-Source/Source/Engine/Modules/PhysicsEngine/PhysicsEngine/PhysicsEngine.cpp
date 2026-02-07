@@ -179,6 +179,7 @@ namespace Eclipse
 
     void PhysicsEngine::ChangeBodyType(b2BodyId& aBodyID, BodyType aBodyType)
     {
+        
         b2Body_SetType(aBodyID, static_cast<b2BodyType>(aBodyType));
     }
 

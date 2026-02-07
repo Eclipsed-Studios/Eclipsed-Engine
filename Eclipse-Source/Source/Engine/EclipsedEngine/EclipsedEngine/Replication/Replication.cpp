@@ -237,6 +237,12 @@ namespace Eclipse::Replication
 			assset = Eclipse::Resources::Get<Eclipse::Texture>(aAssetID);
 		}
 		break;
+		case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Prefab:
+		{
+			Eclipse::Prefab& assset = *(static_cast<Eclipse::Prefab*>(aVariable->GetData()));
+			assset = Eclipse::Resources::Get<Eclipse::Prefab>(aAssetID);
+		}
+		break;
 		}
 	}
 
