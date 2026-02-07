@@ -2,6 +2,7 @@
 
 #include <filesystem>
 
+#include "TypeImporters/EditorPrefabImporter.h"
 #include "TypeImporters/EditorTextureImporter.h"
 #include "TypeImporters/EditorMaterialImporter.h"
 #include "TypeImporters/EditorShaderImporter.h"
@@ -15,6 +16,7 @@ namespace Eclipse
 		static void ImportAll(const std::filesystem::path& aRootPath);
 
 	private:
+		static inline PrefabImporter prefabImporter;
 		static inline TextureImporter textureImporter;
 		static inline MaterialImporter materialImporter;
 		static inline VertexShaderImporter vertexShaderImporter;

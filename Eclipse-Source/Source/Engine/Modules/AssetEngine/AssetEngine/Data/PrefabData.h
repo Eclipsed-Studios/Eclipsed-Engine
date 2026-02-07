@@ -8,7 +8,7 @@ namespace Eclipse
 	class GameObject;
 
 	struct PrefabData : public AssetData {
-		GameObject* gameobject;
+		GameObject* gameobject = nullptr;
 		char* data;
 
 		~PrefabData()

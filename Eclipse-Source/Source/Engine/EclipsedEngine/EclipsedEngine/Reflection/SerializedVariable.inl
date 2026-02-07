@@ -13,6 +13,7 @@
 #include "AssetEngine/Assets/Material.h"
 #include "AssetEngine/Assets/AudioClip.h"
 #include "AssetEngine/Assets/Texture.h"
+#include "AssetEngine/Assets/Prefab.h"
 
 #include "CoreEngine/Math/Random.h"
 #include "EclipsedEngine/Editor/Windows/EditorField.h"
@@ -165,6 +166,11 @@ namespace Eclipse::Reflection
 		{
 			type = SerializedType_Texture;
 			sizePerElement = sizeof(Eclipse::Texture);
+		}
+		else if constexpr (std::is_same<T, Eclipse::Prefab>::value)
+		{
+			type = SerializedType_Prefab;
+			sizePerElement = sizeof(Eclipse::Prefab);
 		}
 
 		else if constexpr (std::is_same<T, bool>::value)

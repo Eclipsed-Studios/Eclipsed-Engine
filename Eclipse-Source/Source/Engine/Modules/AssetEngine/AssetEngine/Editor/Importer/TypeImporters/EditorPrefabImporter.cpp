@@ -8,7 +8,6 @@ namespace Eclipse
 {
 	void PrefabImporter::Export(const AssetMetaSettings& metaSettings, std::ofstream& outStream, const std::filesystem::path& aPath)
 	{
-		unsigned char* pixelData;
 		PrefabData data;
 		{
 			std::ifstream in(aPath);
@@ -21,9 +20,9 @@ namespace Eclipse
 
 		int size = strlen(data.data);
 
-		int type = (int)AssetType::Texture;
+		int type = (int)AssetType::Prefab;
 		outStream.write(reinterpret_cast<const char*>(&type), sizeof(int));
 		outStream.write(reinterpret_cast<const char*>(&size), sizeof(int));
-		outStream.write(reinterpret_cast<const char*>(&data.data), size);
+		outStream.write(reinterpret_cast<const char*>(data.data), size);
 	}
 }
