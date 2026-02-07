@@ -39,7 +39,7 @@ namespace Eclipse::Editor
 		bool isPlaying = false;
 		bool isPaused = false;
 
-		bool gameChanged = false;
+		std::atomic<bool> gameChanged{ false };
 
 		EclipsedRuntime eclipseRuntime = {};
 	};
