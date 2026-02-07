@@ -9,6 +9,7 @@
 #include "AssetEngine/Assets/PixelShader.h"
 #include "AssetEngine/Assets/Material.h"
 #include "AssetEngine/Assets/Prefab.h"
+#include "AssetEngine/Assets/Audioclip.h"
 
 #include "AssetEngine/Runtime/Loader/TypeLoaders/TextureLoader.h"
 #include "AssetEngine/Runtime/Loader/TypeLoaders/ShaderLoader.h"

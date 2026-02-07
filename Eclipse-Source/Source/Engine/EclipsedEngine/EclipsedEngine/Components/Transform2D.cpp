@@ -148,7 +148,7 @@ namespace Eclipse
 	}
 	void Transform2D::SetPosition(float aX, float aY)
 	{
-		position->x = aX;
+	position->x = aX;
 		position->y = aY;
 
 		lastPosition = position;

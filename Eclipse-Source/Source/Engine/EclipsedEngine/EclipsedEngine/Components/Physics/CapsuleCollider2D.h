@@ -9,7 +9,7 @@ namespace Eclipse
 {
     class CapsuleCollider2D : public Collider2D
     {
-        BASE_SELECTION(CapsuleCollider2D, 5)
+        BASE_SELECTION(CapsuleCollider2D, 10)
 
     public:
         void EditorUpdate() override;

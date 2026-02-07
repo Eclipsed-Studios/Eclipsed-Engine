@@ -25,6 +25,19 @@ namespace Eclipse
         myCreatedInternally = false;
     }
 
+    void Collider2D::Awake()
+    {
+        RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
+        if (rigidBody)
+        {
+            BodyCreatedByRB = true;
+            PhysicsEngine::ChangeBodyType(myBodyRef, BodyType::Dynamic);
+
+            rigidBody->myBody = myBodyRef;
+            rigidBody->ColliderAttached = true;
+        }
+    }
+
     void Collider2D::OnComponentAdded()
     {
         OnSceneLoaded();
@@ -38,17 +51,8 @@ namespace Eclipse
 
             myLastLayer = static_cast<int>(myLayer->value);
 
-            RigidBody2D* rigidBody = gameObject->GetComponent<RigidBody2D>();
-            if (!rigidBody)
-            {
-                myUserData = { gameObject->GetID() };
-                PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, myTransform->GetPosition());
-            }
-            else
-            {
-                BodyCreatedByRB = true;
-                myBodyRef = rigidBody->myBody;
-            }
+            myUserData = { gameObject->GetID() };
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, myTransform->GetPosition());
 
             myCreatedInternally = true;
 

@@ -5,42 +5,32 @@
 #include "EntityEngine/ComponentManager.h"
 #include "EclipsedEngine/Components/Transform2D.h"
 
+#include "EclipsedEngine/Components/Physics/Collider2D.h"
+
 namespace Eclipse
 {
     typedef PhysicsEngine::Physics PhysHelper;
 
+    void RigidBody2D::Awake()
+    {
+        if (!ColliderAttached)
+            throw("No collider attached to this object");
+
+        myTransform = gameObject->GetComponent<Transform2D>();
+
+        myTransform->AddFunctionToRunOnDirtyUpdate([&]() {
+            PhysicsEngine::SetTransform(myBody, myTransform->GetPosition(), myTransform->GetRotation());
+            });
+    }
+
     void RigidBody2D::OnDestroy()
     {
+        if (!ColliderAttached)
+            return;
+        
         PhysicsEngine::DeleteBody(&myBody);
         bodyHasBeenCreated = false;
-    }
 
-    void RigidBody2D::OnComponentAdded()
-    {
-        OnSceneLoaded();
-    }
-
-    void RigidBody2D::OnSceneLoaded()
-    {
-        if (!bodyHasBeenCreated)
-        {
-            myRigidBodySettings.BodyType = DynamicBody;
-
-            myTransform = gameObject->GetComponent<Transform2D>();
-
-            Math::Vector2f startPosition = {0, 0};
-            if (myTransform)
-                startPosition = myTransform->GetPosition();
-
-            PhysicsEngine::CreateRigidBody(&myBody, &myUserData, BodyType, LockRotation.Get(), LockXPos.Get(), LockYPos.Get(), startPosition);
-            bodyHasBeenCreated = true;
-
-            myUserData = { gameObject->GetID() };
-
-            myTransform->AddFunctionToRunOnDirtyUpdate([&]() {
-                PhysicsEngine::SetTransform(myBody, myTransform->GetPosition(), myTransform->GetRotation());
-                });
-        }
     }
 
     void RigidBody2D::EarlyUpdate()

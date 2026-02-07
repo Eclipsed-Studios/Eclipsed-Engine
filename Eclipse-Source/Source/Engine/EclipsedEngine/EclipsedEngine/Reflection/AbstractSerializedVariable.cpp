@@ -75,7 +75,7 @@ namespace Eclipse::Reflection
 				{
 					std::string guid = MetaFileRegistry::GetGUID(Editor::DragAndDrop::payloadBuffer);
 					*mat = Resources::Get<Material>(guid);
-					
+
 					mat->Create();
 				}
 			} break;
@@ -139,6 +139,10 @@ namespace Eclipse::Reflection
 				{
 					memcpy(GetData(), &TemporaryName, strlen(TemporaryName) + 1);
 				}
+				break;
+			case SerializedType_Bool:
+				ImGui::SameLine();
+				ImGui::Checkbox(("##" + std::to_string(iType) + GetName()).c_str(), (bool*)GetData());
 				break;
 
 			case SerializedType_Custom_Type:
