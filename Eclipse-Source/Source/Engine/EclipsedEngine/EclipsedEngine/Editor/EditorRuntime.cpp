@@ -67,8 +67,10 @@ namespace Eclipse::Editor
 				[]() { Replication::ReplicationManager::SetAfterReplicatedList(); });
 		}
 
-		if (std::filesystem::exists(PathManager::GetAssetsPath() / "Game.dll") ) SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
+		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
 		else LoadDLL();
+
+		SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
 
 		ComponentManager::Init();
 	}
