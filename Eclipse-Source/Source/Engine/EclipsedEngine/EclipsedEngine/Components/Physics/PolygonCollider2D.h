@@ -10,7 +10,7 @@ namespace Eclipse
 {
     class PolygonCollider2D : public Collider2D
     {
-        BASE_SELECTION(PolygonCollider2D, 5)
+        BASE_SELECTION(PolygonCollider2D, 10)
 
     public:
         void CreateCollider() override;
