@@ -24,6 +24,9 @@ namespace Eclipse::Utilities
 			FileType_VertexShader,
 			FileType_PixelShader,
 			FileType_SpriteAnimation,
+			FileType_CSource,
+			FileType_HSource,
+			FileType_INLSource,
 		};
 
 		enum FileStatus_

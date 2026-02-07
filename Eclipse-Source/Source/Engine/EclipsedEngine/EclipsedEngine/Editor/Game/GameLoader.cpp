@@ -1,10 +1,12 @@
 #include "GameLoader.h"
 
 #include "EntityEngine/ComponentManager.h"
+#include "EclipsedEngine/Reflection/Registry/ComponentRegistry.h"
+#include <Windows.h>
 
 void Eclipse::GameLoader::LoadGameDLL()
 {
-	gameDll = LoadLibraryA((PathManager::GetProjectRoot() / "Cache/Debug/Game.dll").generic_string().c_str());
+	gameDll = LoadLibraryA((PathManager::GetGameDllBuildPath() / "Game.dll").generic_string().c_str());
 	if (!gameDll)
 	{
 		ComponentRegistry::ClearRegisteredGameComponents();
