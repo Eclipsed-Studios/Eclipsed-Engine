@@ -6,26 +6,12 @@
 
 namespace Eclipse::Editor
 {
-	class EditorField
-	{
-	public:
+	namespace {
 		template<typename T>
-		static void Draw(T& aValue)
-		{
-			using Clean = std::remove_pointer_t<std::remove_cvref_t<T>>;
-
-			if constexpr (std::is_base_of_v<Component, Clean>)
-			{
-				InternalDraw<Component>(static_cast<Component&>(aValue));
-			}
-			else
-			{
-				InternalDraw<Clean>(aValue);
-			}
-		}
+		struct EditorFieldDrawer {};
 
 		template<typename T>
-		static ImGuiDataType_ GetImGuiType()
+		inline ImGuiDataType_ GetImGuiType()
 		{
 			using Clean = std::remove_pointer_t<std::remove_cvref_t<T>>;
 
@@ -44,13 +30,20 @@ namespace Eclipse::Editor
 			else static_assert("Type not supported.");
 		}
 
-	private:
-		template<typename T>
-		static bool InternalDraw(T& aValue)
+		inline std::string GetFieldKey()
 		{
-			static_assert("The method template is not implemented for: " + typeid(T).name());
+			return  "##" + std::to_string(rand());
 		}
-	};
+	}
+
+	template<typename T>
+	inline bool DrawEditorField(T& aValue)
+	{
+		using Clean = std::remove_pointer_t<std::remove_cvref_t<T>>;
+		return EditorFieldDrawer<Clean>::Draw(aValue);
+	}
+
+
 }
 
 #include "EditorFields.inl"
