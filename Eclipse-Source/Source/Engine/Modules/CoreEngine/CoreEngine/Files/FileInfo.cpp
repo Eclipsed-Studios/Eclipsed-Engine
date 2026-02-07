@@ -18,6 +18,10 @@ namespace Eclipse::Utilities
 			{FileInfo::FileType_Directory, ICON_FA_FOLDER},
 			{FileInfo::FileType_Json, ICON_FA_FILE_EXCEL },
 			{FileInfo::FileType_Zip, ICON_FA_FILE_ZIPPER},
+
+			{FileInfo::FileType_CSource, ICON_FA_FILE_CODE},
+			{FileInfo::FileType_HSource, ICON_FA_FILE_LINES},
+			{FileInfo::FileType_INLSource, ICON_FA_FILE_PEN},
 		};
 
 		const auto& it = fileTypeToIcon.find(type);
@@ -45,6 +49,14 @@ namespace Eclipse::Utilities
 
 			{".vglsl", FileInfo::FileType_VertexShader},
 			{".pglsl", FileInfo::FileType_PixelShader},
+
+			{".h", FileInfo::FileType_HSource},
+			{".hpp", FileInfo::FileType_HSource},
+
+			{".c", FileInfo::FileType_CSource},
+			{".cpp", FileInfo::FileType_CSource},
+
+			{".inl", FileInfo::FileType_INLSource},
 
 			{".scene", FileInfo::FileType_Scene},
 			{".eprf", FileInfo::FileType_Prefab},
