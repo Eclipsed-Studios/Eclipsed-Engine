@@ -8,7 +8,7 @@
 int main()
 {
     HWND console = GetConsoleWindow();
-    ShowWindow(console, SW_HIDE);
+    ShowWindow(console, SW_HIDE); 
 
     auto p = std::filesystem::current_path();
 
