@@ -6,6 +6,7 @@
 #include <cereal/archives/json.hpp>
 
 #include "AssetEngine/Editor/MetaFile/MetaFileRegistry.h"
+#include "AssetEngine/Editor/GUID/GuidGenerator.h"
 
 namespace Eclipse
 {

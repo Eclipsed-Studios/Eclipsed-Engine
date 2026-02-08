@@ -6,8 +6,6 @@
 
 namespace Eclipse
 {
-	using GUID = std::string;
-
 	class GuidGenerator
 	{
 	public:
