@@ -14,7 +14,7 @@
 
 namespace Eclipse
 {
-	void TextureImporter::Export(const AssetMetaSettings& metaSettings, std::ofstream& outStream, const std::filesystem::path& aPath)
+	void TextureImporter::Export(const std::string& guid, std::ofstream& outStream, const std::filesystem::path& aPath)
 	{
 		unsigned char* pixelData;
 		TextureData data;
@@ -30,5 +30,7 @@ namespace Eclipse
 		outStream.write(reinterpret_cast<const char*>(pixelData), data.width * data.height * data.channels);
 
 		STB_Helper::FreeData_STB(pixelData);
+
+		//TextureSettings te = LoadOrCreateMeta<TextureSettings>(aPath);
 	}
 }

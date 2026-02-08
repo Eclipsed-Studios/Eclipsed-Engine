@@ -19,7 +19,7 @@ namespace Eclipse
 
 		void Import(const std::filesystem::path& aPath);
 
-		virtual void Export(const AssetMetaSettings& metaSettings, std::ofstream& outStream, const std::filesystem::path& aPath) = 0;
+		virtual void Export(const std::string& guid, std::ofstream& outStream, const std::filesystem::path& aPath) = 0;
 
 		bool ArtifactUpToData(const std::filesystem::path& aPath);
 
