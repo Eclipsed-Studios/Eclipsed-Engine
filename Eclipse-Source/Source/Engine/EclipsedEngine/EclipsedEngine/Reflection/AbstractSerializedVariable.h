@@ -146,5 +146,7 @@ namespace Eclipse::Reflection
 		bool canDrawInspector = false;
 
 		float myChangAmount;
+
+		unsigned imguiID;
 	};
 }

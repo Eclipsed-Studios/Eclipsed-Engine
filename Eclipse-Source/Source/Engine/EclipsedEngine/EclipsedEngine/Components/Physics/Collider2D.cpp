@@ -12,7 +12,7 @@ namespace Eclipse
     void Collider2D::OnDestroy()
     {
         auto rigidBody = gameObject->GetComponent<RigidBody2D>();
-        if (!BodyCreatedByRB)
+        if (BodyOwned)
         {
             PhysicsEngine::DeleteShape(&myInternalCollider);
             PhysicsEngine::DeleteBody(&myBodyRef);
@@ -21,8 +21,6 @@ namespace Eclipse
         {
             PhysicsEngine::DeleteShape(&myInternalCollider);
         }
-
-        myCreatedInternally = false;
     }
 
     void Collider2D::Awake()
@@ -40,28 +38,38 @@ namespace Eclipse
 
     void Collider2D::OnComponentAdded()
     {
-        OnSceneLoaded();
-    }
+        myTransform = gameObject->transform;
+        myLastLayer = static_cast<int>(myLayer->value);
 
-    void Collider2D::OnSceneLoaded()
-    {
-        if (!myCreatedInternally)
+        myUserData = { gameObject->GetID() };
+
+
+        std::vector<Collider2D*> colliders;
+        ComponentManager::GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
+
+        bool ColliderHasRB = false;
+
+        for (auto& collider : colliders)
         {
-            myTransform = gameObject->transform;
-
-            myLastLayer = static_cast<int>(myLayer->value);
-
-            myUserData = { gameObject->GetID() };
-            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, myTransform->GetPosition());
-
-            myCreatedInternally = true;
-
-            myTransform->AddFunctionToRunOnDirtyUpdate([this]() {
-                this->OnTransformDirty();
-                });
-
-            CreateCollider();
+            if (collider->BodyOwned)
+            {
+                myBodyRef = collider->myBodyRef;
+                ColliderHasRB = true;
+                break;
+            }
         }
+
+        if (!ColliderHasRB)
+        {
+            PhysicsEngine::CreateRigidBody(&myBodyRef, &myUserData, StaticBody, false, false, false, myTransform->GetPosition());
+            BodyOwned = true;
+        }
+
+        myTransform->AddFunctionToRunOnDirtyUpdate([this]() {
+            this->OnTransformDirty();
+            });
+
+        CreateCollider();
     }
 
     void Collider2D::EditorUpdate()

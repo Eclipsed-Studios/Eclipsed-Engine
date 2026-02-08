@@ -15,6 +15,11 @@ namespace Eclipse
 		unsigned char* pixelData = new unsigned char[size];
 		in.read(reinterpret_cast<char*>(pixelData), size);
 
+		int dataCount = 0;
+		in.read(reinterpret_cast<char*>(&dataCount), sizeof(int));
+		data->spriteRects.resize(dataCount);
+		in.read(reinterpret_cast<char*>(data->spriteRects.data()), dataCount * sizeof(Math::RectSizePos));
+
 		data->dimDivOne.X = 1.f / static_cast<float>(data->width);
 		data->dimDivOne.Y = 1.f / static_cast<float>(data->height);
 		data->sizeNormalized = Math::Vector2f{ 1.f, static_cast<float>(data->height) / data->width };
@@ -36,7 +41,7 @@ namespace Eclipse
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		delete[] pixelData;
-
+		
 		return data;
 	}
 }

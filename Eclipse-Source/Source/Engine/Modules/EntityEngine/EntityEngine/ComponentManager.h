@@ -76,6 +76,11 @@ namespace Eclipse
 		static void EndCollisions(unsigned aGOID);
 
 		template <typename T>
+		static void GetAllComponentsOfType(unsigned aGOID, std::vector<T*>& aComponents);
+		
+		template <typename T>
+		static T* GetComponentBase(unsigned aGOID);
+		template <typename T>
 		static T* GetComponent(unsigned aGOID);
 
 		template <typename T>
@@ -123,7 +128,7 @@ namespace Eclipse
 
 		static inline std::function<void()> BeforeComponentConstruction;
 		static inline std::function<void()> AfterComponentConstruction;
-		
+
 		static inline std::function<void(unsigned)> DestroyGameObjectReplicated;
 		static inline std::function<void(unsigned)> DeleteReplicatedComponent;
 
@@ -138,7 +143,7 @@ namespace Eclipse
 
 		// Gameobject to components
 		static inline std::unordered_map<unsigned, GameObject*> myEntityIdToEntity;
-		static inline std::unordered_map<unsigned, std::unordered_map<unsigned, ComponentIndex>> myEntityIDToVectorOfComponentIDs;
+		static inline std::unordered_map<unsigned, std::unordered_map<unsigned, std::vector<ComponentIndex>>> myEntityIDToVectorOfComponentIDs;
 
 		static inline std::vector<unsigned> gameobjectsToRemove;
 
