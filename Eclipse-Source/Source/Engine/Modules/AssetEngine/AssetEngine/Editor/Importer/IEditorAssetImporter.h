@@ -5,6 +5,8 @@
 #include "AssetEngine/Editor/Importer/ImportSettings/AssetImportSettings.h"
 #include <cereal/archives/json.hpp>
 
+#include "AssetEngine/Editor/MetaFile/MetaFileRegistry.h"
+
 namespace Eclipse
 {
 	class IEditorAssetImporter
