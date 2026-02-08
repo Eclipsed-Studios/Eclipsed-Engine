@@ -6,9 +6,21 @@
 #include "CoreEngine/Math/Vector/Vector2.h"
 #include "CoreEngine/Math/Vector/Vector3.h"
 #include "CoreEngine/Math/Vector/Vector4.h"
+#include "CoreEngine/Math/Color.h"
 
 #include <vector>
 #include <string>
+#include "AssetEngine/Assets/Material.h"
+#include "AssetEngine/Assets/AudioClip.h"
+#include "AssetEngine/Assets/Prefab.h"
+
+#include "PhysicsEngine/PhysicsEngineSettings.h"
+
+#include "EclipsedEngine/Editor/Common/DragAndDrop.h"
+#include "CoreEngine/Files/FileInfo.h"
+
+#include "AssetEngine/Resources.h"
+#include "AssetEngine/Editor/MetaFile/MetaFileRegistry.h"
 
 namespace Eclipse::Editor
 {
@@ -66,6 +78,24 @@ namespace Eclipse::Editor
 		}
 	};
 
+	template<typename U, typename Alloc>
+	struct EditorFieldDrawer<std::vector<U, Alloc>>
+	{
+		static bool Draw(std::vector<U, Alloc>& aValue)
+		{
+			return false;
+		}
+	};
+
+	template<>
+	struct EditorFieldDrawer<Math::Color>
+	{
+		static bool Draw(Math::Color& aValue)
+		{
+			return ImGui::DragFloat4(GetFieldKey().c_str(), &aValue.r);
+		}
+	};
+
 	template<>
 	struct EditorFieldDrawer<std::string>
 	{
@@ -80,6 +110,81 @@ namespace Eclipse::Editor
 				return true;
 			}
 
+			return false;
+		}
+	};
+
+	template<>
+	struct EditorFieldDrawer<Material>
+	{
+		static bool Draw(Material& aValue)
+		{
+			std::string name = "No material.";
+
+			if (aValue.IsValid())
+			{
+				name = aValue.GetAssetID();
+			}
+
+			if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Material))
+			{
+				std::string guid = MetaFileRegistry::GetGUID(Editor::DragAndDrop::payloadBuffer);
+				aValue = Resources::Get<Material>(guid);
+
+				aValue.Create();
+				return true;
+			}
+
+			return false;
+		}
+	};
+
+	template<>
+	struct EditorFieldDrawer<Prefab>
+	{
+		static bool Draw(Prefab& aValue)
+		{
+			return false;
+		}
+	};
+
+	template<>
+	struct EditorFieldDrawer<AudioClip>
+	{
+		static bool Draw(AudioClip& aValue)
+		{
+			return false;
+		}
+	};
+
+	template<>
+	struct EditorFieldDrawer<Texture>
+	{
+		static bool Draw(Texture& aValue)
+		{
+			std::string name = "No texture.";
+
+			if (aValue.IsValid())
+			{
+				name = aValue.GetAssetID();
+			}
+
+			if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Texture))
+			{
+				std::string guid = MetaFileRegistry::GetGUID(Editor::DragAndDrop::payloadBuffer);
+				aValue = Resources::Get<Texture>(guid);
+				return true;
+			}
+
+			return false;
+		}
+	};
+
+	template<>
+	struct EditorFieldDrawer<Layer>
+	{
+		static bool Draw(Layer& aValue)
+		{
 			return false;
 		}
 	};

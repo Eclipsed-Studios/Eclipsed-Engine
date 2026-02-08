@@ -16,7 +16,6 @@
 #include "AssetEngine/Assets/Prefab.h"
 
 #include "CoreEngine/Math/Random.h"
-#include "EclipsedEngine/Editor/Windows/EditorField.h"
 
 namespace Eclipse::Reflection
 {
@@ -55,6 +54,7 @@ namespace Eclipse::Reflection
 	inline void SerializedVariable<T>::DrawInspector()
 	{
 		ImGui::Text(GetName());
+		ImGui::SameLine();
 	}
 	//#else
 	//	template<typename T>
