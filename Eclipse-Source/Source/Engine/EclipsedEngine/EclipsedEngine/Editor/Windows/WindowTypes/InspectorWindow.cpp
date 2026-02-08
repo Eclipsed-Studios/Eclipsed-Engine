@@ -81,24 +81,28 @@ void Eclipse::Editor::InspectorWindow::DrawGameObjectInspector()
 	ImGui::Dummy({ 0, 5 });
 
 
-	std::vector<Component*> comps;
-	for (auto& [type, id] : compList)
-	{
-		Component* comp = ComponentManager::myComponents[id];
-		comps.push_back(comp);
-	}
+	std::vector<Component*> comps = ComponentManager::GetComponents(id);
+	// for (auto& [type, id] : compList)
+	// {
+	// 	Component* comp = ComponentManager::myComponents[id];
+	// 	comps.push_back(comp);
+	// }
 
-	std::sort(comps.begin(), comps.end(),
-		[](Component* a, Component* b) {
-			return a->GetUpdatePriority() > b->GetUpdatePriority();
-		});
+	// std::sort(comps.begin(), comps.end(),
+	// 	[](Component* a, Component* b) {
+	// 		return a->GetUpdatePriority() > b->GetUpdatePriority();
+	// 	});
 
 	for (Component* comp : comps)
 	{
-		ImGui_Impl::DrawComponentHeader(comp->GetComponentName(), comp->myInspectorWasDrawn);
+		unsigned localComponentID = comp->myInstanceComponentID;
+		
+		std::stringstream componentStringStreamID;
+		componentStringStreamID << comp->GetComponentName() << "##ComponentID" << localComponentID;
+
+		ImGui_Impl::DrawComponentHeader(componentStringStreamID.str().c_str(), comp->myInspectorWasDrawn);
 		if (!comp->myInspectorWasDrawn) continue;
 
-		unsigned localComponentID = comp->myInstanceComponentID;
 		std::stringstream componentIDStream;
 		componentIDStream << "ID: " << localComponentID;
 		ImGui::Text(componentIDStream.str().c_str());
@@ -156,9 +160,7 @@ void Eclipse::Editor::InspectorWindow::DrawTextureAssetInspector()
 {
 	if (ImGui::Button("Open Editor"))
 	{
-		std::filesystem::path relPath = std::filesystem::relative(Eclipse::Editor::AssetWindow::ActivePath, PathManager::GetAssetsPath());
-
-		Eclipse::Editor::SpriteEditor::SetTexture(relPath.string().c_str());
+		Eclipse::Editor::SpriteEditor::SetTexture(AssetWindow::ActivePath.string().c_str());
 	}
 }
 

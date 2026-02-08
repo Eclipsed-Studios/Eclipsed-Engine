@@ -28,6 +28,8 @@
 
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
+#include "AssetEngine/Editor/MetaFile/MetaFileRegistry.h"
+
 #undef min
 
 namespace Eclipse::Editor
@@ -529,11 +531,11 @@ namespace Eclipse::Editor
 		}
 	}
 
-	void SpriteEditor::Load(const char* relativePath)
+	void SpriteEditor::LoadMeta(const std::filesystem::path& aPath)
 	{
 		myRects.clear();
 
-		std::filesystem::path filePath = PathManager::GetAssetsPath() / relativePath;
+		std::filesystem::path filePath = aPath;
 		filePath.replace_extension("meta");
 
 		FILE* fileP = fopen(filePath.string().c_str(), "rb");
@@ -577,7 +579,7 @@ namespace Eclipse::Editor
 		}
 	}
 
-	void SpriteEditor::Save(const char* relativePath)
+	void SpriteEditor::SaveMeta(const std::filesystem::path& aPath)
 	{
 		rapidjson::Document document;
 		auto allocator = document.GetAllocator();
@@ -612,7 +614,7 @@ namespace Eclipse::Editor
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
 		document.Accept(writer);
 
-		std::filesystem::path filePath = PathManager::GetAssetsPath() / relativePath;
+		std::filesystem::path filePath = aPath;
 		filePath.replace_extension("meta");
 
 		std::ofstream ofs(filePath);
@@ -653,7 +655,7 @@ namespace Eclipse::Editor
 			ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 50.f);
 			if (ImGui::Button("Apply"))
 			{
-				Save(activeRelativePath.c_str());
+				SaveMeta(myActivePath);
 			}
 
 
@@ -662,7 +664,7 @@ namespace Eclipse::Editor
 
 		MouseManager();
 
-		if (ImGui::IsKeyPressed(ImGuiKey_Delete))
+		if (ImGui::IsKeyPressed(ImGuiKey_Delete, false))
 		{
 			for (int i = 0; i < myRects.size(); i++)
 			{
@@ -681,11 +683,11 @@ namespace Eclipse::Editor
 		{
 			if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
 			{
-				if (ImGui::IsKeyPressed(ImGuiKey_C))
+				if (ImGui::IsKeyPressed(ImGuiKey_C, false))
 				{
 					myCopiedRectInfo = *mySelectedRectPtr;
 				}
-				if (ImGui::IsKeyPressed(ImGuiKey_V))
+				if (ImGui::IsKeyPressed(ImGuiKey_V, false))
 				{
 					mySelectedRectPtr->isSelected = false;
 					Rect rect = myCopiedRectInfo;
@@ -693,7 +695,7 @@ namespace Eclipse::Editor
 					mySelectedRectPtr = &myRects.back();
 					mySelectedRectPtr->isSelected = true;
 				}
-				if (ImGui::IsKeyPressed(ImGuiKey_D))
+				if (ImGui::IsKeyPressed(ImGuiKey_D, false))
 				{
 					Rect rect = *mySelectedRectPtr;
 					mySelectedRectPtr->isSelected = false;
@@ -766,7 +768,7 @@ namespace Eclipse::Editor
 		ImU32 bgColor = IM_COL32(backgroundColor.x * 255.f, backgroundColor.y * 255.f, backgroundColor.z * 255.f, backgroundColor.w * 255.f);
 		ImGui::GetWindowDrawList()->AddRectFilled(imguiInspectorPos, ImVec2(imguiInspectorPos.x + spriteSize.x, imguiInspectorPos.y + spriteSize.y), bgColor);
 
-		ImGui::Image(myTexture.GetTextureID(), spriteSize, ImVec2(0, 0), ImVec2(1, 1));
+		ImGui::Image(myTexture.GetTextureID(), spriteSize, ImVec2(0, 1), ImVec2(1, 0));
 
 		DrawRects();
 
@@ -778,14 +780,17 @@ namespace Eclipse::Editor
 		flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollWithMouse;
 	}
 
-	void SpriteEditor::SetTexture(const char* aPath)
-	{ 
-		myTexture = Resources::Get<Texture>(aPath);
-		activeRelativePath = aPath;
+	void SpriteEditor::SetTexture(const std::filesystem::path& aPath)
+	{
+		myActivePath = aPath;
+
+		std::string textureGuid = Eclipse::MetaFileRegistry::GetGUID(aPath);
+		myTexture = Resources::Get<Texture>(textureGuid);
+		
+		LoadMeta(aPath);
+
 		textureSet = true;
 
-
-		Load(aPath);
 
 		myTextureSize = { myTexture.GetWidth(), myTexture.GetHeight() };
 

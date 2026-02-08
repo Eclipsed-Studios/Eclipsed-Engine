@@ -139,7 +139,7 @@ namespace Eclipse
 			auto& mapOfComponentsGO = myEntityIDToVectorOfComponentIDs[comp->gameObject->GetID()];
 			RegisteredTypeIndex index = comp->myComponentComponentID;
 
-			mapOfComponentsGO[index] = static_cast<ComponentIndex>(i);
+			mapOfComponentsGO[index].emplace_back(static_cast<ComponentIndex>(i));
 		}
 	}
 
@@ -178,7 +178,7 @@ namespace Eclipse
 		myComponents.emplace_back(component);
 		size_t componentIndex = myComponents.size() - 1;
 
-		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
+		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex].emplace_back(componentIndex);
 		myComponents.back()->myComponentIndex = componentIndex;
 
 		//CreateComponentReplicated(component);
@@ -203,8 +203,13 @@ namespace Eclipse
 
 		std::vector<Component*> components;
 
-		for (auto& component : myEntityIDToVectorOfComponentIDs.at(aGOID))
-			components.emplace_back(myComponents[component.second]);
+		for (auto& goComponents : myEntityIDToVectorOfComponentIDs.at(aGOID))
+		{
+			for (auto& component : goComponents.second)
+			{
+				components.emplace_back(myComponents[component]);
+			}
+		}
 
 		return components;
 	}
@@ -231,22 +236,25 @@ namespace Eclipse
 		{
 			std::vector<int> componentsToRemove;
 
-			for (auto& componentAtGO : myEntityIDToVectorOfComponentIDs.at(goID))
+			for (auto& componentsAtGO : myEntityIDToVectorOfComponentIDs.at(goID))
 			{
-				Component*& component = myComponents[componentAtGO.second];
+				for (auto& componentAtGO : componentsAtGO.second)
+				{
+					Component*& component = myComponents[componentAtGO];
 
-				DeleteReplicatedComponent(component->myInstanceComponentID);
+					DeleteReplicatedComponent(component->myInstanceComponentID);
 
-				component->IsDeleted = true;
+					component->IsDeleted = true;
 
-				component->OnDestroy();
-				component->~Component();
+					component->OnDestroy();
+					component->~Component();
 
-				component = nullptr;
+					component = nullptr;
 
-				//memset(component, 0, sizeof(component));
+					//memset(component, 0, sizeof(component));
 
-				componentsToRemove.emplace_back(componentAtGO.second);
+					componentsToRemove.emplace_back(componentAtGO);
+				}
 			}
 
 			int sizeOfComponents = myComponents.size();

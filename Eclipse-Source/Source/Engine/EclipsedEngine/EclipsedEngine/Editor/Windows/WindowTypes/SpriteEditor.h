@@ -22,11 +22,11 @@ namespace Eclipse::Editor
 		void Update() override;
 		void Open() override;
 
-		static void SetTexture(const char* aPath);
+		static void SetTexture(const std::filesystem::path& aPath);
 
 	private:
-		static void Save(const char* relativePath);
-		static void Load(const char* relativePath);
+		static void SaveMeta(const std::filesystem::path& aPath);
+		static void LoadMeta(const std::filesystem::path& aPath);
 
 		void EdgeScaling();
 
@@ -97,7 +97,7 @@ namespace Eclipse::Editor
 	private:
 		static inline Texture myTexture;
 		static inline bool textureSet;
-		static inline std::string activeRelativePath;
+		static inline std::filesystem::path myActivePath;
 
 
 		struct Rect

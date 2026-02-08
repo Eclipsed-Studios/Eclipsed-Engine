@@ -28,6 +28,7 @@ namespace Eclipse::Reflection
 		: name(aName), pComponent(aCompPtr), canDrawInspector(drawInspector), myChangAmount(aChangeAmount)
 	{
 		ReflectionManager::RegisterVariable(this);
+		imguiID = rand();
 	}
 
 	std::string AbstractSerializedVariable::GetNameID() const { return std::string("##") + std::string(name); }
@@ -157,21 +158,21 @@ namespace Eclipse::Reflection
 				char TemporaryName[256];
 				std::strcpy(TemporaryName, static_cast<const char*>(GetData()));
 
-				if (ImGui::InputText(("##" + std::to_string(iType) + GetName()).c_str(), TemporaryName, 256, ImGuiInputTextFlags_EnterReturnsTrue))
+				if (ImGui::InputText(("##" + std::to_string(imguiID) + std::to_string(iType) + GetName()).c_str(), TemporaryName, 256, ImGuiInputTextFlags_EnterReturnsTrue))
 				{
 					memcpy(GetData(), &TemporaryName, strlen(TemporaryName) + 1);
 				}
 				break;
 			case SerializedType_Bool:
 				ImGui::SameLine();
-				ImGui::Checkbox(("##" + std::to_string(iType) + GetName()).c_str(), (bool*)GetData());
+				ImGui::Checkbox(("##" + std::to_string(imguiID) + std::to_string(iType) + GetName()).c_str(), (bool*)GetData());
 				break;
 
 			case SerializedType_Custom_Type:
 			case SerializedType_Fundamental:
 
 				ImGui::SameLine();
-				ImGui::DragScalarN(("##" + std::to_string(iType) + GetName()).c_str(), iType, GetData(), elements, myChangAmount);
+				ImGui::DragScalarN(("##" + std::to_string(imguiID) + std::to_string(iType) + GetName()).c_str(), iType, GetData(), elements, myChangAmount);
 				break;
 			}
 

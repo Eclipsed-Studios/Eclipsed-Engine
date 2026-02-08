@@ -2,6 +2,7 @@
 
 #include "AssetData.h"
 #include "CoreEngine/Math/Vector/Vector2.h"
+#include "coreEngine/Math/RectSizePos.h"
 
 namespace Eclipse
 {
@@ -14,5 +15,7 @@ namespace Eclipse
 		Math::Vector2f sizeNormalized;
 
 		unsigned int textureID = 0;
+
+		std::vector<Math::RectSizePos> spriteRects;
 	};
 }

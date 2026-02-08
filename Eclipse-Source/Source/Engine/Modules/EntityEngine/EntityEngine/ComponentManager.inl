@@ -22,6 +22,55 @@ namespace Eclipse
         return componentID;
     }
 
+
+    template <typename T>
+    inline void ComponentManager::GetAllComponentsOfType(unsigned aGOID, std::vector<T*>& aComponents)
+    {
+        if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
+            return;
+
+        unsigned typeIndex = GetComponentID<T>();
+
+        auto& entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
+
+        for (auto& components : entityIDComponents)
+        {
+            T* dynamicedComponent = dynamic_cast<T*>(myComponents.at(components.second.back()));
+            if (dynamicedComponent)
+            {
+                for (auto& curComponent : components.second)
+                {
+                    T* component = static_cast<T*>(myComponents.at(curComponent));
+                    aComponents.emplace_back(component);
+                }
+            }
+        }
+    }
+
+    // Slower than get component normal
+    template <typename T>
+    inline T* ComponentManager::GetComponentBase(unsigned aGOID)
+    {
+        if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
+            return nullptr;
+
+        unsigned typeIndex = GetComponentID<T>();
+
+        auto& entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
+
+        for (auto& components : entityIDComponents)
+        {
+            for (auto& component : components.second)
+            {
+                T* dynamicedComponent = dynamic_cast<T*>(myComponents.at(component));
+                if (dynamicedComponent)
+                    return dynamicedComponent;
+            }
+        }
+
+        return nullptr;
+    }
+
     template <typename T>
     inline T* ComponentManager::GetComponent(unsigned aGOID)
     {
@@ -35,7 +84,7 @@ namespace Eclipse
         if (entityIDComponents.find(typeIndex) == entityIDComponents.end())
             return nullptr;
 
-        int componentIndex = entityIDComponents.at(typeIndex);
+        int componentIndex = entityIDComponents.at(typeIndex).back();
         T* component = static_cast<T*>(myComponents.at(componentIndex));
 
         return component;
@@ -45,7 +94,7 @@ namespace Eclipse
     inline T* ComponentManager::AddComponent(unsigned aGOID, bool IsReplicated)
     {
         T* component = AddComponentWithID<T>(aGOID, Component::GetNextComponentID(), IsReplicated);
-        
+
         component->OnComponentAddedNoCreations();
 
         component->OnComponentAdded();
@@ -84,7 +133,7 @@ namespace Eclipse
         myComponents.emplace_back(component);
         size_t componentIndex = myComponents.size() - 1;
 
-        myEntityIDToVectorOfComponentIDs[aGOID][typeIndex] = componentIndex;
+        myEntityIDToVectorOfComponentIDs[aGOID][typeIndex].emplace_back(componentIndex);
         myComponents.back()->myComponentIndex = componentIndex;
 
         if (IsReplicated)
@@ -111,10 +160,16 @@ namespace Eclipse
         if (entityIDComponents.find(typeIndex) == entityIDComponents.end())
             return;
 
-        int componentIndex = entityIDComponents.at(typeIndex);
-        T* component = static_cast<T*>(myComponents.at(componentIndex));
-        component->OnDestroy();
-        component->~T();
+        std::vector<unsigned> componentIndex = entityIDComponents.at(typeIndex).back();
+
+        for (auto& compID : componentIndex)
+        {
+            T* component = static_cast<T*>(myComponents.at(compID));
+            component->OnDestroy();
+            component->~T();
+
+            DeleteReplicatedVariable(component->myInstanceComponentID);
+        }
         entityIDComponents.erase(typeIndex);
 
         if (componentIndex == myComponents.size() - 1)
@@ -123,7 +178,6 @@ namespace Eclipse
             return;
         }
 
-        DeleteReplicatedVariable(component->myInstanceComponentID);
 
         //int backComponenetIndex = myComponents.back()->myComponentIndex;
         //unsigned backGameObject = *myComponents.back()->gameObject;

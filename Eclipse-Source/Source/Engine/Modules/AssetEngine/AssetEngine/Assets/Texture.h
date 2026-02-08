@@ -3,6 +3,7 @@
 #include "AssetEngine/Data/TextureData.h"
 #include "BaseAsset.h"
 
+#include "CoreEngine/Math/RectSizePos.h"
 
 namespace Eclipse
 {
@@ -24,5 +25,8 @@ namespace Eclipse
 
 		void Bind(int slot = 0) const;
 		void Unbind(int slot = 0) const;
+
+		// Temporary
+		std::vector<Math::RectSizePos> GetRects() const;
 	};
 }

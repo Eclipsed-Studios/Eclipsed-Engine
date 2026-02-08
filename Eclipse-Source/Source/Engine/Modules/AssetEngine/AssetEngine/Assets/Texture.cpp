@@ -2,6 +2,14 @@
 
 namespace Eclipse
 {
+	// Temporary
+	std::vector<Math::RectSizePos> Texture::GetRects() const
+	{
+		return data->spriteRects;
+	}
+
+
+
 	int Texture::GetWidth() const
 	{
 		return data->width;
