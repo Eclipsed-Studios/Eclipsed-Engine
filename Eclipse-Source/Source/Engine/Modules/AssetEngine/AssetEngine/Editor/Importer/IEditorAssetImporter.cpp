@@ -27,15 +27,24 @@ namespace Eclipse
 	void IEditorAssetImporter::Import(const std::filesystem::path& aPath)
 	{
 		const std::filesystem::path metafilePath = MetaFileRegistry::GetMetaFilePath(aPath);
-		const AssetMetaSettings settings = LoadOrCreateMeta<AssetMetaSettings>(aPath);
 
-		std::filesystem::path artifactPath = GetArtifactPath(settings.guid);
+		std::string guid = "";
+		if (MetaFileRegistry::MetaFileExists(aPath))
+		{
+			guid = MetaFileRegistry::GetGUID(aPath);
+		}
+		else
+		{
+			guid = GuidGenerator::Generate();
+		}
+
+		std::filesystem::path artifactPath = GetArtifactPath(guid);
 
 		if (!exists(artifactPath) || last_write_time(artifactPath) < last_write_time(aPath) ||
 			last_write_time(artifactPath) < last_write_time(metafilePath))
 		{
 			std::ofstream out(artifactPath, std::ios::binary);
-			Export(settings, out, aPath);
+			Export(guid, out, aPath);
 		}
 	}
 
