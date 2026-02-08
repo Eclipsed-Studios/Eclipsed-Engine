@@ -27,7 +27,7 @@ namespace Eclipse
 	void IEditorAssetImporter::Import(const std::filesystem::path& aPath)
 	{
 		const std::filesystem::path metafilePath = MetaFileRegistry::GetMetaFilePath(aPath);
-		const AssetMetaSettings settings = LoadOrCreateMeta(aPath);
+		const AssetMetaSettings settings = LoadOrCreateMeta<AssetMetaSettings>(aPath);
 
 		std::filesystem::path artifactPath = GetArtifactPath(settings.guid);
 
@@ -68,29 +68,5 @@ namespace Eclipse
 		std::filesystem::create_directories(folder);
 
 		return folder / aGuid;
-	}
-
-	AssetMetaSettings IEditorAssetImporter::LoadOrCreateMeta(const std::filesystem::path& aPath)
-	{
-		AssetMetaSettings settings;
-
-		std::filesystem::path metaFilePath = MetaFileRegistry::GetMetaFilePath(aPath);
-		if (std::filesystem::exists(metaFilePath))
-		{
-			std::ifstream in(metaFilePath);
-			cereal::JSONInputArchive ar(in);
-			ar(settings);
-		}
-		else
-		{
-			MetaFileRegistry::CreateMetaFile(aPath);
-			settings.guid = GuidGenerator::Generate();
-
-			std::ofstream metafile(metaFilePath);
-			cereal::JSONOutputArchive ar(metafile);
-			ar(settings);
-		}
-
-		return settings;
 	}
 }

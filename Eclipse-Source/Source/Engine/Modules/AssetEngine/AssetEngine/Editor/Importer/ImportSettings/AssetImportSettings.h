@@ -17,4 +17,20 @@ namespace Eclipse
 			);
 		}
 	};
+
+	struct SimonsRövhål : public AssetMetaSettings
+	{
+		int age;
+
+		template <class Archive>
+		void serialize(Archive& ar)
+		{
+			AssetMetaSettings::serialize(ar);
+
+			ar(
+				CEREAL_NVP(age)
+			)
+		}
+	};
+
 }

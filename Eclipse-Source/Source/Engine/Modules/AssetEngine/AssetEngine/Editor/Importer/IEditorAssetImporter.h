@@ -22,11 +22,38 @@ namespace Eclipse
 
 	protected:
 		std::filesystem::path GetArtifactPath(const std::string& guid);
-		AssetMetaSettings LoadOrCreateMeta(const std::filesystem::path& aPath);
+
+		template<typename T = AssetMetaSettings>
+		T LoadOrCreateMeta(const std::filesystem::path& aPath);
 
 		template<typename T>
 		T ValidateJsonFile(const std::filesystem::path& aPath);
 	};
+
+	template<typename T>
+	inline T IEditorAssetImporter::LoadOrCreateMeta(const std::filesystem::path& aPath)
+	{
+		T settings;
+
+		std::filesystem::path metaFilePath = MetaFileRegistry::GetMetaFilePath(aPath);
+		if (std::filesystem::exists(metaFilePath))
+		{
+			std::ifstream in(metaFilePath);
+			cereal::JSONInputArchive ar(in);
+			ar(settings);
+		}
+		else
+		{
+			MetaFileRegistry::CreateMetaFile(aPath);
+			settings.guid = GuidGenerator::Generate();
+
+			std::ofstream metafile(metaFilePath);
+			cereal::JSONOutputArchive ar(metafile);
+			ar(settings);
+		}
+
+		return settings;
+	}
 
 	template<typename T>
 	inline T IEditorAssetImporter::ValidateJsonFile(const std::filesystem::path& aPath)
