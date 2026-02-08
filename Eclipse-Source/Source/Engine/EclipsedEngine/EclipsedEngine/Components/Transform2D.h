@@ -16,8 +16,7 @@ namespace Eclipse
 		COMPONENT_BASE_2(Transform2D, UINT_MAX * 0.5f)
 
 	public:
-		void OnSceneLoaded() override;
-		void OnComponentAdded() override;
+		void OnComponentAddedNoCreations();
 
 		void EditorUpdate() override;
 

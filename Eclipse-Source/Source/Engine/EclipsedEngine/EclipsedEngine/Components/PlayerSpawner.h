@@ -28,7 +28,7 @@ namespace Eclipse
 
         void Awake() override
         {
-            Instantiate(playerPrefab, true);
+            Instantiate(playerPrefab, gameObject, true);
 
             // unsigned componentCount = 4;
             // NetMessage msg = NetMessage::BuildGameObjectMessage(0, MessageType::Msg_SendMultipleComponents, &componentCount, sizeof(unsigned), true);

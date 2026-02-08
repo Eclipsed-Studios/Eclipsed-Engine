@@ -11,6 +11,8 @@
 #include "EclipsedEngine/Replication/ReplicationManager.h"
 #include "EclipsedEngine/Replication/ReplicatedVariable.h"
 
+#include "EclipsedEngine/ECS/SpawnObject.h"
+
 #include "AssetEngine/Resources.h"
 
 #include <iostream>
@@ -75,6 +77,7 @@ namespace Eclipse::Replication
 				});
 			for (Component* component : ComponentsToStartOnDemand)
 			{
+				component->OnComponentAddedNoCreations();
 				component->OnComponentAdded();
 
 				component->Awake();
@@ -168,11 +171,49 @@ namespace Eclipse::Replication
 			if (dataAmount > 4)
 				std::cout << "  Y: " << vec.Y;
 			if (dataAmount > 8)
-				std::cout << "  Z: " << vec.Z;
+			std::cout << "  Z: " << vec.Z;
 			if (dataAmount > 12)
-				std::cout << "  W: " << vec.Z;
+			std::cout << "  W: " << vec.Z;
 			std::cout << std::endl;
-		*/
+			*/
+
+	}
+
+	void InstatiateNetworkSentPrefab(Prefab& aPrefab, int gameobjectID, std::vector<unsigned> aComponents, bool Replicated = false)
+	{
+		GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonStringSpecifiedIds(aPrefab.GetData()->data, gameobjectID, aComponents);
+		gameobject->prefabAssetID = aPrefab.GetAssetID();
+
+		gameobject->IsPrefab = true;
+
+		aPrefab.GetData()->gameobject = gameobject;
+	}
+
+	void ReplicationHelper::ClientHelp::RecieveInstantiatePrefabMessage(const NetMessage& message)
+	{
+		if (ComponentManager::HasGameObject(message.MetaData.GameObjectID))
+			return;
+
+		CommandListManager::GetHappenAtBeginCommandList().Enqueue([message]() {
+
+			char* prefabID = (char*)malloc(32);
+			memcpy(prefabID, message.data, 32);
+			memset(prefabID + 32, 0, 1);
+			int offset = 32;
+
+			unsigned componentCount;
+			memcpy(&componentCount, message.data + offset, sizeof(unsigned));
+			offset += sizeof(unsigned);
+
+			std::vector<unsigned> componentsIDs;
+			componentsIDs.resize(componentCount);
+			memcpy(componentsIDs.data(), message.data + offset, sizeof(unsigned) * componentCount);
+
+			Eclipse::Prefab prefab = Eclipse::Resources::Get<Eclipse::Prefab>(prefabID);
+
+			InstatiateNetworkSentPrefab(prefab, message.MetaData.GameObjectID, componentsIDs);
+			});
+
 
 	}
 
@@ -188,6 +229,11 @@ namespace Eclipse::Replication
 		case MessageType::Msg_Variable:
 		{
 			ReplicationHelper::ClientHelp::RecieveVariableMessage(message);
+		}
+		break;
+		case MessageType::Msg_InstantiatePrefab:
+		{
+			ReplicationHelper::ClientHelp::RecieveInstantiatePrefabMessage(message);
 		}
 		break;
 		case MessageType::Msg_CreateObject:
@@ -212,6 +258,7 @@ namespace Eclipse::Replication
 		break;
 		}
 	}
+
 
 	void ReplicationHelper::ClientHelp::RefreshAsset(Reflection::AbstractSerializedVariable* aVariable, std::string aAssetID)
 	{
@@ -266,11 +313,17 @@ namespace Eclipse::Replication
 
 		int ComponentCount = 0;
 
+
+		std::vector<Component*> componentsToReplicate;
+
 		const std::vector<Component*>& allComponents = ComponentManager::GetAllComponents();
 		for (const auto& component : allComponents)
 		{
-			if (component->IsReplicated && component->IsOwner())
+			if (component->IsReplicated && component->IsOwner() && !component->gameObject->IsPrefab)
+			{
 				ComponentCount++;
+				componentsToReplicate.emplace_back(component);
+			}
 		}
 
 		Server& server = Eclipse::MainSingleton::GetInstance<Server>();
@@ -279,18 +332,22 @@ namespace Eclipse::Replication
 		server.Send(msg);
 
 		int size = server.GetEndpoints().size();
-		for (auto& endpoint : server.GetEndpoints())
+
+		for (const auto& gameobject : ReplicatedGameObjects)
 		{
-
-			for (const auto& gameobject : ReplicatedGameObjects)
+			GameObject* object = ComponentManager::GetGameObject(gameobject);
+			if (object->IsPrefab)
 			{
-				std::vector<Component*> components = ComponentManager::GetComponents(gameobject);
+				Prefab prefab = Eclipse::Resources::Get<Prefab>(object->prefabAssetID);
+				Replication::ReplicationManager::SendPrefabObject(object, prefab);
 
-				for (const auto& component : components)
+				continue;
+			}
+
+			for (auto& endpoint : server.GetEndpoints())
+			{
+				for (const auto& component : componentsToReplicate)
 				{
-					if (!component->IsReplicated)
-						continue;
-
 					NetMessage message;
 					Replication::ReplicationManager::CreateComponentMessage(component, message, true);
 
@@ -302,7 +359,7 @@ namespace Eclipse::Replication
 						{
 							if (TotalCoponentMessagesRecieved++ >= ComponentCount * size)
 							{
-								//RequestVariablesFromClient();
+								RequestVariablesFromClient();
 							}
 
 							return;
@@ -315,7 +372,7 @@ namespace Eclipse::Replication
 
 	void ReplicationHelper::ServerHelp::HandleRequestedScene()
 	{
-		//SendComponentScene();
+		SendComponentsScene();
 	}
 
 	void ReplicationHelper::ServerHelp::HandleRecieve(const NetMessage& aMessage)

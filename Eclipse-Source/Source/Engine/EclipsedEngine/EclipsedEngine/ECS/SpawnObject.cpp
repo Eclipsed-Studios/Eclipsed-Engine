@@ -19,6 +19,9 @@ namespace Eclipse
                 StartChildren(child->GetChildren());
 
             for (auto& component : ComponentManager::GetComponents(child->GetID()))
+                component->OnComponentAddedNoCreations();
+
+            for (auto& component : ComponentManager::GetComponents(child->GetID()))
                 component->OnSceneLoaded();
 
             for (auto& component : ComponentManager::GetComponents(child->GetID()))
@@ -108,6 +111,9 @@ namespace Eclipse
                 });
 
             for (auto& component : components)
+                component->OnComponentAddedNoCreations();
+
+            for (auto& component : components)
                 component->OnComponentAdded();
 
             for (auto& component : components)
@@ -119,7 +125,7 @@ namespace Eclipse
         return nullptr;
     }
 
-    GameObject* InternalSpawnObjectClass::CreateObjectFromJsonStringSpecifiedIds(const char* aData, 
+    GameObject* InternalSpawnObjectClass::CreateObjectFromJsonStringSpecifiedIds(const char* aData,
         int aGameobjectID, const std::vector<unsigned>& aComponentsID)
     {
         rapidjson::Document d;
@@ -146,11 +152,13 @@ namespace Eclipse
                 StartChildren(newGameobject->GetChildren());
 
             auto components = ComponentManager::GetComponents(newGameobject->GetID());
-
             std::sort(components.begin(), components.end(), [&](Component* aComp0, Component* aComp1)
                 {
                     return aComp0->GetUpdatePriority() > aComp1->GetUpdatePriority();
                 });
+
+            for (auto& component : components)
+                component->OnComponentAddedNoCreations();
 
             for (auto& component : components)
                 component->OnComponentAdded();
@@ -164,11 +172,12 @@ namespace Eclipse
         return nullptr;
     }
 
-    void InternalSpawnObjectClass::PasteGameObjectSpecifiedIds(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator, 
+    void InternalSpawnObjectClass::PasteGameObjectSpecifiedIds(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator,
         int aGameobjectID, const std::vector<unsigned>& aComponentsID)
     {
         aGameObject = ComponentManager::CreateGameObject(aGameobjectID);
         aGameObject->SetName(gameobject["Name"].GetString());
+        aGameObject->SetIsOwner(false);
 
         for (auto& components : gameobject["Components"].GetArray())
         {
@@ -196,6 +205,8 @@ namespace Eclipse
 
                 if (coIt->value.HasMember("IsReplicated"))
                     component->IsReplicated = coIt->value["IsReplicated"].GetBool();
+
+                component->SetIsOwner(false);
             }
         }
 
