@@ -169,14 +169,16 @@ namespace Eclipse::Editor
 		if (ctrl)
 		{
 			bool shift = ImGui::IsKeyDown(ImGuiKey_LeftShift) || ImGui::IsKeyDown(ImGuiKey_RightShift);
-			if (ImGui::IsKeyPressed(ImGuiKey_S)) action = EditorActions::Action::A_Save;
+			if (ImGui::IsKeyPressed(ImGuiKey_S, false)) action = EditorActions::Action::A_Save;
 
-			else if (ImGui::IsKeyPressed(ImGuiKey_C)) action = EditorActions::Action::A_Copy;
-			else if (ImGui::IsKeyPressed(ImGuiKey_V)) action = EditorActions::Action::A_Paste;
-			else if (ImGui::IsKeyPressed(ImGuiKey_D)) action = EditorActions::Action::A_Duplicate;
+			else if (ImGui::IsKeyPressed(ImGuiKey_C, false)) action = EditorActions::Action::A_Copy;
+			else if (ImGui::IsKeyPressed(ImGuiKey_V, false)) action = EditorActions::Action::A_Paste;
+			else if (ImGui::IsKeyPressed(ImGuiKey_D, false)) action = EditorActions::Action::A_Duplicate;
 
-			else if (ImGui::IsKeyPressed(ImGuiKey_Z)) action = EditorActions::Action::A_Undo;
-			else if (ImGui::IsKeyPressed(ImGuiKey_R) || (shift && ImGui::IsKeyPressed(ImGuiKey_Z))) action = EditorActions::Action::A_Redo;
+			// Possible might want to be able to repeat this but ill leave it as no
+			// also does not exist anyway yet
+			else if (ImGui::IsKeyPressed(ImGuiKey_Z, false)) action = EditorActions::Action::A_Undo;
+			else if (ImGui::IsKeyPressed(ImGuiKey_R, false) || (shift && ImGui::IsKeyPressed(ImGuiKey_Z))) action = EditorActions::Action::A_Redo;
 		}
 
 		ReactToAction(action);

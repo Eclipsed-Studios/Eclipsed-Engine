@@ -132,18 +132,23 @@ namespace Eclipse::Replication
         outMessage = NetMessage::BuildGameObjectMessage(aComponent->gameObject->GetID(), MessageType::Msg_AddComponent, Data, DataAmount, true, aStartLater);
     }
 
-    void ReplicationManager::CreatePrefabMessage(unsigned aGOID, unsigned PrefabAssetID, std::vector<unsigned> aComponentIDs, NetMessage& outMessage)
+    void ReplicationManager::CreatePrefabMessage(unsigned aGOID, const char* PrefabAssetID, std::vector<unsigned> aComponentIDs, NetMessage& outMessage)
     {
         char Data[512];
-
-        unsigned componentsCount = aComponentIDs.size();
-
+        
+        const int guidSize = 32;
+        int componentsCount = aComponentIDs.size();
         int totalComponentPrefabsize = aComponentIDs.size() * sizeof(unsigned);
-        int DataAmount = sizeof(PrefabAssetID) + sizeof(componentsCount) + totalComponentPrefabsize;
+        int DataAmount = guidSize + sizeof(componentsCount) + totalComponentPrefabsize;
+        
+        int offset = 0;
 
-        memcpy(Data, &PrefabAssetID, sizeof(PrefabAssetID));
-        memcpy(Data, &componentsCount, sizeof(componentsCount));
-        memcpy(Data, aComponentIDs.data(), totalComponentPrefabsize);
+        memcpy(Data, PrefabAssetID, guidSize);
+        offset += guidSize;
+        memcpy(Data + offset, &componentsCount, sizeof(componentsCount));
+        offset += sizeof(componentsCount);
+        memcpy(Data + offset, aComponentIDs.data(), totalComponentPrefabsize);
+        offset += totalComponentPrefabsize;
 
         outMessage = NetMessage::BuildGameObjectMessage(aGOID, MessageType::Msg_InstantiatePrefab, Data, DataAmount, true, false);
     }
@@ -158,7 +163,7 @@ namespace Eclipse::Replication
             componentIDs.emplace_back(component->myInstanceComponentID);
 
         NetMessage message;
-        //Replication::ReplicationManager::CreatePrefabMessage(gameobject->GetID(), aPrefab.GetAssetID(), componentIDs, message);
+        Replication::ReplicationManager::CreatePrefabMessage(gameobject->GetID(), aPrefab.GetAssetID().c_str(), componentIDs, message);
 
         if (Eclipse::MainSingleton::Exists<Server>())
         {

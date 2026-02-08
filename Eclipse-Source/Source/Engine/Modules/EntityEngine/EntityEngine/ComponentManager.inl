@@ -45,6 +45,9 @@ namespace Eclipse
     inline T* ComponentManager::AddComponent(unsigned aGOID, bool IsReplicated)
     {
         T* component = AddComponentWithID<T>(aGOID, Component::GetNextComponentID(), IsReplicated);
+        
+        component->OnComponentAddedNoCreations();
+
         component->OnComponentAdded();
         //component->ComponentCreated();
 

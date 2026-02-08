@@ -23,8 +23,9 @@ namespace Eclipse
 
 		for (auto& component : myComponents)
 		{
+			component->OnComponentAddedNoCreations();
+
 			component->OnComponentAdded();
-			//component->ComponentCreated();
 		}
 	}
 
@@ -99,12 +100,14 @@ namespace Eclipse
 	void ComponentManager::EarlyUpdateComponents()
 	{
 		for (auto& component : myComponents)
-			component->EarlyUpdate();
+			if (component->myIsOwner)
+				component->EarlyUpdate();
 	}
 	void ComponentManager::UpdateComponents()
 	{
 		for (auto& component : myComponents)
-			component->Update();
+			if (component->myIsOwner)
+				component->Update();
 	}
 	void ComponentManager::LateUpdateComponents()
 	{
@@ -112,7 +115,8 @@ namespace Eclipse
 			component->OnDrawGizmos();
 
 		for (auto& component : myComponents)
-			component->LateUpdate();
+			if (component->myIsOwner)
+				component->LateUpdate();
 	}
 	void ComponentManager::RenderComponents()
 	{
@@ -143,8 +147,6 @@ namespace Eclipse
 	{
 		Component* component = AddComponentWithID(aGOID, Component::GetNextComponentID(), createFunc, size);
 		component->OnComponentAdded();
-
-		//component->ComponentCreated();
 
 		return component;
 	}

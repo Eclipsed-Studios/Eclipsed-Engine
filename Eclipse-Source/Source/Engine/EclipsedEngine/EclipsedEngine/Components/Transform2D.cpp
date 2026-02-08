@@ -21,11 +21,7 @@ namespace Eclipse
 
 	}
 
-	void Transform2D::OnSceneLoaded()
-	{
-		gameObject->transform = this;
-	}
-	void Transform2D::OnComponentAdded()
+	void Transform2D::OnComponentAddedNoCreations()
 	{
 		gameObject->transform = this;
 	}

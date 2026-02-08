@@ -15,6 +15,8 @@
 
 #include "CoreEngine/Macros/defines.h"
 
+#include "EclipsedEngine/Components/Transform2D.h"
+
 namespace Eclipse
 {
     class ECLIPSED_API InternalSpawnObjectClass
@@ -32,16 +34,17 @@ namespace Eclipse
             int aGameobjectID, const std::vector<unsigned>& aComponentsID);
     };
 
-    ECLIPSED_API inline GameObject*& Instantiate(Prefab& aPrefab, bool Replicated = false)
+    ECLIPSED_API inline GameObject*& Instantiate(Prefab& aPrefab, GameObject* instagator, bool Replicated = false)
     {
         GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(aPrefab.GetData()->data);
         gameobject->prefabAssetID = aPrefab.GetAssetID();
-
         gameobject->IsPrefab = true;
 
+        gameobject->transform->SetPosition(instagator->transform->GetPosition());
+        
         if (Replicated)
             Replication::ReplicationManager::SendPrefabObject(gameobject, aPrefab);
-
+        
         aPrefab.GetData()->gameobject = gameobject;
         return aPrefab.GetData()->gameobject;
     }

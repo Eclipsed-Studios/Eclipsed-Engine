@@ -76,6 +76,8 @@ namespace Eclipse
 		
 		virtual void OnSceneLoaded() {}
 
+		virtual void OnComponentAddedNoCreations() {}
+
 		virtual void OnComponentAdded() {}
 		virtual void OnDestroy() {}
 
