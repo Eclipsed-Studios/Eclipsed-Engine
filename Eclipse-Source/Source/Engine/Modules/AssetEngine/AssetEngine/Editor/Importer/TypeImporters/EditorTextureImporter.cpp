@@ -18,7 +18,7 @@
 
 namespace Eclipse
 {
-	void TextureImporter::Export(const AssetMetaSettings& metaSettings, std::ofstream& outStream, const std::filesystem::path& aPath)
+	void TextureImporter::Export(const std::string& guid, std::ofstream& outStream, const std::filesystem::path& aPath)
 	{
 		TextureData data;
 		
