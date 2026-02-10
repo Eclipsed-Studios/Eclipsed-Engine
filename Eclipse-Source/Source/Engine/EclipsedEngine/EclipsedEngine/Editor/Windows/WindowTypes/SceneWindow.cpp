@@ -12,8 +12,6 @@
 
 #include "GraphicsEngine/RenderCommands/RenderCommand.h"
 
-#include <iostream>
-
 #include "EclipsedEngine/Reflection/Registry/ComponentRegistry.h"
 
 #include "EntityEngine/Component.h"

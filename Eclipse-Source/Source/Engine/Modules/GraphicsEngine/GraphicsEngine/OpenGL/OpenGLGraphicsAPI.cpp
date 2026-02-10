@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <string>
-#include <iostream>
 
 #include "CoreEngine/Math/Vector/Vector2.h"
 
@@ -20,6 +19,8 @@
 #include"CoreEngine/MainSingleton.h"
 #include "CoreEngine/Settings/GraphicsSettings.h"
 #include "CoreEngine/Settings/EngineSettings.h"
+
+#include "CoreEngine/Debug/DebugLogger.h"
 
 #undef CreateWindow
 
@@ -242,21 +243,21 @@ namespace Eclipse
 		{
 		case ErrorCode::GLFW_FAILED_TO_INITILIZE:
 		{
-			std::cout << "GLFW failed to initilize" << std::endl;
+			LOG_ERROR("GLFW failed to initilize");
 			glfwTerminate();
 			return ErrorCode::FAILED;
 		}
 		break;
 		case ErrorCode::GLFW_WINDOW_FAILED_TO_CREATE:
 		{
-			std::cout << "GLFW window was not able to be created" << std::endl;
+			LOG_ERROR("GLFW window was not able to be created");
 			glfwTerminate();
 			return ErrorCode::FAILED;
 		}
 		break;
 		case ErrorCode::GLAD_FAILED_TO_INITILIZE:
 		{
-			std::cout << "GLAD failed to initilize" << std::endl;
+			LOG_ERROR("GLAD failed to initilize");
 			glfwTerminate();
 			return ErrorCode::FAILED;
 		}

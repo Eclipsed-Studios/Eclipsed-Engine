@@ -327,8 +327,6 @@ namespace Eclipse
 				{
 					Reflection::SerializedVariable<Material>* asset = (Reflection::SerializedVariable<Material>*)aSerializedVariable;
 					*asset = Resources::Get<Material>(id);
-
-					asset->Get().Create();
 				}
 				else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
 				{
@@ -344,9 +342,9 @@ namespace Eclipse
 				memcpy(aSerializedVariable->GetData(), decoded.data(), decoded.size());
 			}
 		}
-		catch (...)
+		catch (const Exception& e)
 		{
-			LOG_ERROR(std::string(aSerializedVariable->GetName()) + " | Failed to load.");
+			LOG_ERROR(e.what());
 		}
 	}
 }

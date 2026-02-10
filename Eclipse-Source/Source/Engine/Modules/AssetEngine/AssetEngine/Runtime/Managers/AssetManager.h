@@ -34,6 +34,7 @@ namespace Eclipse
 		AssetType Get(const std::string& aGuid, std::ifstream& in);
 
 		void Update();
+		bool CleanUp(const std::string& aGuid);
 
 	protected:
 		Loader& GetLoader();
@@ -67,7 +68,7 @@ namespace Eclipse
 
 			if (handle->refCount <= 0)
 			{
-				if(handle) delete handle;
+				if (handle) delete handle;
 
 				it = idToAssetHandle.erase(it);
 				continue;
@@ -76,7 +77,22 @@ namespace Eclipse
 			it++;
 		}
 	}
-	
+
+	template<typename AssetType, typename Handle, typename Loader>
+	inline bool AssetManager<AssetType, Handle, Loader>::CleanUp(const std::string& aGuid)
+	{
+		auto it = idToAssetHandle.find(aGuid);
+		if (it != idToAssetHandle.end())
+		{
+			delete idToAssetHandle[aGuid];
+			idToAssetHandle.erase(aGuid);
+
+			return true;
+		}
+
+		return false;
+	}
+
 	template<typename AssetType, typename Handle, typename Loader>
 	inline Loader& AssetManager<AssetType, Handle, Loader>::GetLoader()
 	{
@@ -93,13 +109,10 @@ namespace Eclipse
 		idToAssetHandle[aGuid]->assetID = aGuid;
 		return ConstructAsset(aGuid);
 	}
-	
+
 	template<typename AssetType, typename Handle, typename Loader>
 	inline AssetType AssetManager<AssetType, Handle, Loader>::ConstructAsset(const std::string& aGuid)
 	{
-		AssetType asset(idToAssetHandle[aGuid]);
-		
-
-		return asset;
+		return AssetType(idToAssetHandle[aGuid]);
 	}
 }

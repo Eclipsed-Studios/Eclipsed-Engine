@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "AssetEngine/Editor/Importer/EditorAssetImporter.h"
 #include "AssetEngine/Resources.h"
 #include "AssetEngine/Assets/Texture.h"

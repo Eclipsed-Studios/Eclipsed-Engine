@@ -15,7 +15,6 @@
 #include "CoreEngine/Files/FileWatcher.h"
 
 #include <GLFW/glfw3.h>
-#include <iostream>
 #include "EclipsedEngine/Components/ComponentForcelink.h"
 #include "CoreEngine/PathManager.h"
 #include "CoreEngine/MainSingleton.h"
@@ -24,6 +23,8 @@
 #include "Font-Awesome/7/IconsFontAwesome7.h"
 #include "CoreEngine/Settings/GraphicsSettings.h"
 #include "CoreEngine/Settings/EditorSettings.h"
+
+#include "AssetEngine/Editor/Importer/EditorAssetImporter.h"
 
 namespace Eclipse::Editor
 {
@@ -35,8 +36,12 @@ namespace Eclipse::Editor
 		eclipseRuntime.StartEngine(path);
 
 
-		std::string te = (PathManager::GetAssetsPath() / "").generic_string();
-		FileWatcher::Subscribe(te, [this](const FileWatcherEvent& e) { this->SetGameChanged(e); });
+		FileWatcher::Subscribe(
+			(PathManager::GetAssetsPath() / "").generic_string(), 
+			[this](const FileWatcherEvent& e) { this->SetGameChanged(e); }
+		);
+
+		EditorAssetImporter::ImportAll(PathManager::GetAssetsPath());
 
 
 		// TODO: Transfer into Replication.h or ReplicationManager.h

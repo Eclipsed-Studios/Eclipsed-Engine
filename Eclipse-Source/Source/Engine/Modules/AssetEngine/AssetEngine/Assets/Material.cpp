@@ -65,9 +65,6 @@ namespace Eclipse
 
 	void Material::Create()
 	{
-		data->programID = glCreateProgram();
-		glAttachShader(data->programID, data->vertexShader.GetProgramID());
-		glAttachShader(data->programID, data->pixelShader.GetProgramID());
-		glLinkProgram(data->programID);
+
 	}
 }

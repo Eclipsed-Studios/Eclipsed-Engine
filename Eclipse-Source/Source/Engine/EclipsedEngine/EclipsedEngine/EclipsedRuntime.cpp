@@ -44,6 +44,7 @@ namespace Eclipse
 	void EclipsedRuntime::StartEngine(const std::string& path)
 	{
 		Replication::ReplicationManager::Init();
+		Resources::Init();
 
 		PathManager::Init(path);
 		{

@@ -9,7 +9,6 @@
 
 #include "Input.h"
 
-#include <iostream>
 #include <fstream>
 
 #include "rapidjson/document.h"
