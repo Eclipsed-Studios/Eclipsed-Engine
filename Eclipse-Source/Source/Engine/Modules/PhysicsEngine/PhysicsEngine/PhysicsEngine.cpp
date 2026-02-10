@@ -179,7 +179,7 @@ namespace Eclipse
 
     void PhysicsEngine::ChangeBodyType(b2BodyId& aBodyID, BodyType aBodyType)
     {
-        
+
         b2Body_SetType(aBodyID, static_cast<b2BodyType>(aBodyType));
     }
 
@@ -341,7 +341,7 @@ namespace Eclipse
             aCollisionLayers[i] = layers[i];
         }
 
-        
+
 
 
         //std::string sPath = (PathManager::GetSettingsPath() / "CollisionLayers.json").generic_string();
@@ -430,7 +430,7 @@ namespace Eclipse
     void PhysicsEngine::Update()
     {
         float dt = Time::GetDeltaTime();
-        
+
         b2World_Step(myWorld, dt, mySubstepCount);
 
         CheckCollisions();
@@ -447,6 +447,9 @@ namespace Eclipse
     {
         const b2ShapeId shapeIdA = aEvent.shapeIdA;
         const b2ShapeId shapeIdB = aEvent.shapeIdB;
+
+        if (!b2Shape_IsValid(shapeIdA) || !b2Shape_IsValid(shapeIdB))
+            return;
 
         const b2BodyId bodyIdA = b2Shape_GetBody(shapeIdA);
         const b2BodyId bodyIdB = b2Shape_GetBody(shapeIdB);
@@ -465,6 +468,9 @@ namespace Eclipse
     {
         const b2ShapeId shapeIdA = aEvent.shapeIdA;
         const b2ShapeId shapeIdB = aEvent.shapeIdB;
+
+        if (!b2Shape_IsValid(shapeIdA) || !b2Shape_IsValid(shapeIdB))
+            return;
 
         const b2BodyId bodyIdA = b2Shape_GetBody(shapeIdA);
         const b2BodyId bodyIdB = b2Shape_GetBody(shapeIdB);

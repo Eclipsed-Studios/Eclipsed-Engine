@@ -303,31 +303,38 @@ namespace Eclipse
 
 	GameObject* ComponentManager::CreateGameObject(GameObjectID aId)
 	{
-		if (aId == 0)
-			aId = GetNextGameObjectID();
-
 		GameObject* obj = new GameObject(aId);
 		myEntityIdToEntity[aId] = obj;
 
-		//if (GamobjectID <= aId) GamobjectID = aId + 1;
+		return obj;
+	}
+
+	GameObject* ComponentManager::CreateGameObject()
+	{
+		unsigned randomID = GetNewGOID();
+		GameObject* obj = new GameObject(randomID);
+		myEntityIdToEntity[randomID] = obj;
+
 		return obj;
 	}
 
 
 	void ComponentManager::BeginCollisions(GameObjectID aGOID)
 	{
-		// auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
+		auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
 
-		// for (auto& component : components)
-		// 	for (auto& [_, componentIndex] : components)
-		// 		myComponents[componentIndex]->OnCollisionEnter();
+		for (auto& component : components)
+			for (auto& [_, componentsIndex] : components)
+				for (auto& componentIndex : componentsIndex)
+					myComponents[componentIndex]->OnCollisionEnter();
 	}
 	void ComponentManager::EndCollisions(GameObjectID aGOID)
 	{
-		// auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
+		auto& components = myEntityIDToVectorOfComponentIDs[aGOID];
 
-		// for (auto& component : components)
-		// 	for (auto& [_, componentIndex] : components)
-		// 		myComponents[componentIndex]->OnCollisionExit();
+		for (auto& component : components)
+			for (auto& [_, componentsIndex] : components)
+				for (auto& componentIndex : componentsIndex)
+					myComponents[componentIndex]->OnCollisionExit();
 	}
 }
