@@ -11,7 +11,6 @@ namespace Eclipse
 		namespace fs = std::filesystem;
 
 		engineSourceRoot = fs::current_path();
-		std::cout << engineSourceRoot.string() << std::endl;
 
 		projectRoot = fs::absolute(projectPath);
 	}

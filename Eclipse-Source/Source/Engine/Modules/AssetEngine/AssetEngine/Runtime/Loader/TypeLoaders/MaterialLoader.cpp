@@ -34,7 +34,10 @@ namespace Eclipse
 
 		if (data->pixelShader.IsValid() && data->vertexShader.IsValid())
 		{
-			// Create shader program
+			data->programID = glCreateProgram();
+			glAttachShader(data->programID, data->vertexShader.GetProgramID());
+			glAttachShader(data->programID, data->pixelShader.GetProgramID());
+			glLinkProgram(data->programID);
 		}
 
 		return data;

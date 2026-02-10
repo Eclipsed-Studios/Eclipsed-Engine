@@ -41,9 +41,22 @@ namespace Eclipse
 		std::filesystem::path metaFilePath = MetaFileRegistry::GetMetaFilePath(aPath);
 		if (std::filesystem::exists(metaFilePath))
 		{
-			std::ifstream in(metaFilePath);
-			cereal::JSONInputArchive ar(in);
-			ar(settings);
+			
+			try
+			{
+				std::ifstream in(metaFilePath);
+				cereal::JSONInputArchive ar(in);
+				ar(settings);
+			}
+			catch(cereal::Exception e)
+			{
+				AssetMetaSettings tempSettings;
+
+				std::ifstream in(metaFilePath);
+				cereal::JSONInputArchive ar(in);
+				ar(tempSettings);
+				settings.guid = tempSettings.guid;
+			}
 		}
 		else
 		{

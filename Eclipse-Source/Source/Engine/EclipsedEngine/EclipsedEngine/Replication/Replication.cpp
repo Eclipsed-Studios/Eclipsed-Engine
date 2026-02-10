@@ -15,8 +15,6 @@
 
 #include "AssetEngine/Resources.h"
 
-#include <iostream>
-
 namespace Eclipse::Replication
 {
 	void ReplicationHelper::ClientHelp::RecieveAddComponentMessage(const NetMessage& message)
@@ -159,24 +157,6 @@ namespace Eclipse::Replication
 		}
 
 		(component->*ReppedFunction)();
-
-
-		/*myReflectVariable->GetData()
-			// Debug recieve numbers
-			static Math::Vector4f vec;
-			memcpy(vec.data, Variable->myReflectVariable->GetData(), dataAmount);
-			std::cout << replicationVarID << ", ";
-			if (dataAmount > 0)
-				std::cout << "  X: " << vec.X;
-			if (dataAmount > 4)
-				std::cout << "  Y: " << vec.Y;
-			if (dataAmount > 8)
-			std::cout << "  Z: " << vec.Z;
-			if (dataAmount > 12)
-			std::cout << "  W: " << vec.Z;
-			std::cout << std::endl;
-			*/
-
 	}
 
 	void InstatiateNetworkSentPrefab(Prefab& aPrefab, int gameobjectID, std::vector<unsigned> aComponents, bool Replicated = false)

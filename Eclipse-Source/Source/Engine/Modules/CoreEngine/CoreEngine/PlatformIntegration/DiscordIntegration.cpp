@@ -7,8 +7,6 @@
 #include <assert.h>
 #include <string>
 
-#include <iostream>
-
 namespace Eclipse::PlatformIntegration
 {
 	discord::Activity* Discord::activity = {};

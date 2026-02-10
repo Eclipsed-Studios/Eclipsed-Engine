@@ -4,8 +4,6 @@
 
 #include "CoreEngine/Math/Vector/Vector3.h"
 
-#include <iostream>
-
 namespace Eclipse
 {
 	void Transform2D::position_OnRep()

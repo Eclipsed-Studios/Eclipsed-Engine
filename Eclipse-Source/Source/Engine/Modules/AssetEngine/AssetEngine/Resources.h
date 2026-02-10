@@ -6,13 +6,21 @@
 #include <filesystem>
 #include <fstream>
 
+#include "CoreEngine/Exception/EclipseException.h"
+
 namespace Eclipse
 {
 	class Resources {
 	public:
+		static void Init();
+
 		template<typename T>
 		static T Get(const std::string& aGuid);
 
+		template<typename T>
+		static bool CleanUp(const std::string& aGuid);
+
+		static void TryCleanUp(const std::string& aGuid);
 		template<typename T>
 		static T GetDefault();
 
@@ -30,6 +38,7 @@ namespace Eclipse
 		if (aGuid.empty()) return {};
 
 		std::filesystem::path exportFolderPath = PathManager::GetArtifactsPath() / aGuid.substr(0, 2) / aGuid;
+		if (!std::filesystem::exists(exportFolderPath)) return {};
 
 		std::ifstream in(exportFolderPath, std::ios::binary);
 
@@ -44,11 +53,21 @@ namespace Eclipse
 	}
 
 	template<typename T>
+	inline bool Resources::CleanUp(const std::string& aGuid)
+	{
+		if constexpr (std::is_same<T, Texture>::value) return textureManager.CleanUp(aGuid);
+		else if constexpr (std::is_same<T, VertexShader>::value) return vertexShaderManager.CleanUp(aGuid);
+		else if constexpr (std::is_same<T, PixelShader>::value) return pixelShaderManager.CleanUp(aGuid);
+		else if constexpr (std::is_same<T, Material>::value) return materialManager.CleanUp(aGuid);
+		else if constexpr (std::is_same<T, Prefab>::value) return prefabManager.CleanUp(aGuid);
+	}
+
+	template<typename T>
 	inline T Resources::GetDefault()
 	{
 		if constexpr (std::is_same<T, Material>::value)
 		{
-			std::string guid = "77bec88f8a2d7fe866935e09c69000ab";
+			std::string guid = "c88768d2848748424f797159699b3d5c";
 
 			std::filesystem::path exportFolderPath = PathManager::GetArtifactsPath() / guid.substr(0, 2) / guid;
 			std::ifstream in(exportFolderPath, std::ios::binary);

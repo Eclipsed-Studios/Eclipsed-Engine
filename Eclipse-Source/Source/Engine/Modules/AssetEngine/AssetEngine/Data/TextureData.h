@@ -7,6 +7,8 @@
 namespace Eclipse
 {
 	struct TextureData : public AssetData {
+		~TextureData();
+
 		int width = 0;
 		int height = 0;
 		int channels = 0;

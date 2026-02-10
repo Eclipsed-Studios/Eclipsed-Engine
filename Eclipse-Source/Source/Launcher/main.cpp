@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "EclipsedEngine/Editor/EditorApplication.h"
 #include <windows.h>
 

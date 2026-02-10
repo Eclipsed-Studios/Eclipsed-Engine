@@ -22,6 +22,8 @@ namespace Eclipse
 	{
 		TextureData data;
 		
+		unsigned char* pixelData;
+		pixelData = STB_Helper::Load_Texture_STB(aPath.generic_string().c_str(), data.width, data.height, data.channels, true);
 		
 		int type = (int)AssetType::Texture;
 		outStream.write(reinterpret_cast<const char*>(&type), sizeof(int));
@@ -29,8 +31,7 @@ namespace Eclipse
 		outStream.write(reinterpret_cast<const char*>(&data.height), sizeof(int));
 		outStream.write(reinterpret_cast<const char*>(&data.channels), sizeof(int));
 		
-		unsigned char* pixelData;
-		pixelData = STB_Helper::Load_Texture_STB(aPath.generic_string().c_str(), data.width, data.height, data.channels, true);
+
 		outStream.write(reinterpret_cast<const char*>(pixelData), data.width * data.height * data.channels);
 		STB_Helper::FreeData_STB(pixelData);
 
