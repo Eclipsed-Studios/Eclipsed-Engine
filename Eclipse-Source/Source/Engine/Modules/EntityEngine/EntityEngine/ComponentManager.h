@@ -113,12 +113,13 @@ namespace Eclipse
 
 		static void Destroy(unsigned aGOID);
 
-		static unsigned GetNextGameObjectID()
+		static unsigned GetNewGOID()
 		{
 			return Random::RandRange<unsigned>(0, 0x00FFFFFF);
 		}
 
-		static GameObject* CreateGameObject(GameObjectID aId = 0);
+		static GameObject* CreateGameObject(GameObjectID aId);
+		static GameObject* CreateGameObject();
 
 		static void Clear();
 
