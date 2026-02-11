@@ -25,11 +25,6 @@ namespace Eclipse
 
     void RigidBody2D::OnDestroy()
     {
-        if (!ColliderAttached)
-            return;
-        
-        PhysicsEngine::DeleteBody(&myBody);
-        bodyHasBeenCreated = false;
 
     }
 
