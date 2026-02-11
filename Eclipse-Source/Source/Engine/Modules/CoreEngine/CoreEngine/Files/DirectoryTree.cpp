@@ -45,6 +45,9 @@ namespace Eclipse::Utilities
 
 		for (const fs::directory_entry& entry : fs::directory_iterator(node->info.filePath))
 		{
+			std::string extension = entry.path().extension().string();
+			if (extension == ".meta") continue;
+
 			std::unique_ptr<FileNode> child = std::make_unique<FileNode>();
 			child->info = Utilities::FileInfo::GetFileInfo(entry);
 			child->info.SetRelativePath(relativePath);
