@@ -10,7 +10,19 @@
 #include <array>
 #include "CoreEngine/SerializedEnum.hpp"
 
+typedef struct BodyId
+{
+	int32_t index1;
+	uint16_t world0;
+	uint16_t generation;
+} BodyId;
 
+typedef struct ShapeId
+{
+	int32_t index1;
+	uint16_t world0;
+	uint16_t generation;
+} ShapeId;
 
 
 #define MAX_LAYERS 16

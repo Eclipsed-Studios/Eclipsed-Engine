@@ -14,7 +14,8 @@
 
 #include "CoreEngine/Files/FileWatcher.h"
 
-#include <GLFW/glfw3.h>
+//#include <GLFW/glfw3.h>
+
 #include "EclipsedEngine/Components/ComponentForcelink.h"
 #include "CoreEngine/PathManager.h"
 #include "CoreEngine/MainSingleton.h"
@@ -42,35 +43,6 @@ namespace Eclipse::Editor
 		);
 
 		EditorAssetImporter::ImportAll(PathManager::GetAssetsPath());
-
-
-		// TODO: Transfer into Replication.h or ReplicationManager.h
-		{
-			ComponentManager::SetCreateComponentReplicated([](Component* aComponent)
-				{
-					if (!MainSingleton::Exists<Client>())
-						return;
-
-					NetMessage message;
-					Replication::ReplicationManager::CreateComponentMessage(aComponent, message);
-					MainSingleton::GetInstance<Client>().Send(message);
-				});
-
-			ComponentManager::SetDestroyGameObjectReplicated([](unsigned aGameObject)
-				{
-					if (!MainSingleton::Exists<Client>())
-						return;
-
-					NetMessage message;
-					Replication::ReplicationManager::DeleteGOMessage(aGameObject, message);
-					MainSingleton::GetInstance<Client>().Send(message);
-				});
-
-			ComponentManager::SetDeleteReplicationComponent([](unsigned aComponentID) { Replication::ReplicationManager::DeleteReplicatedComponent(aComponentID); });
-			ComponentManager::SetBeforeAfterComponentConstruction(
-				[]() { Replication::ReplicationManager::SetBeforeReplicatedList(); },
-				[]() { Replication::ReplicationManager::SetAfterReplicatedList(); });
-		}
 
 		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
 		else LoadDLL();
@@ -136,11 +108,11 @@ namespace Eclipse::Editor
 	}
 	void EditorRuntime::UpdateEngine()
 	{
-		GLFWwindow* window = MainSingleton::GetInstance<GLFWwindow*>();
-		if (glfwGetWindowAttrib(window, GLFW_FOCUSED) && gameChanged)
-		{
-			LoadDLL();
-		}
+		// GLFWwindow* window = MainSingleton::GetInstance<GLFWwindow*>();
+		// if (glfwGetWindowAttrib(window, GLFW_FOCUSED) && gameChanged)
+		// {
+		// 	LoadDLL();
+		// }
 
 		eclipseRuntime.Update();
 	}

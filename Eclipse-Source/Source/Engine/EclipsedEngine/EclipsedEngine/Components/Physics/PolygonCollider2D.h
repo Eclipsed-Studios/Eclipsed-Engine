@@ -2,7 +2,6 @@
 
 #include "Collider2D.h"
 #include "CoreEngine/Math/Vector/Vector2.h"
-#include "EntityEngine/ComponentManager.h"
 
 #include <vector>
 

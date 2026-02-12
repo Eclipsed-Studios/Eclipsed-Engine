@@ -2,7 +2,7 @@
 
 #include "PhysicsEngine/PhysicsEngine.h"
 
-#include "RigidBody2D.h"
+#include "EclipsedEngine/Components/Transform2D.h"
 
 #undef max
 
@@ -10,7 +10,7 @@ namespace Eclipse
 {
 	void CircleCollider2D::CreateCollider()
 	{
-		PhysicsEngine::CreateCircleCollider(&myInternalCollider, myBodyRef, myInternalRadius, myLayer);
+		PhysicsEngine::CreateCircleCollider(myInternalCollider, myBodyRef, myInternalRadius, myLayer);
 	}
 
 	void CircleCollider2D::DeltaChanges()

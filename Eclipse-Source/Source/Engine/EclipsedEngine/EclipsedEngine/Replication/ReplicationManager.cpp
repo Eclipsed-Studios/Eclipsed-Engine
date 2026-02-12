@@ -51,8 +51,38 @@ namespace Eclipse::Replication
             });
     }
 
+    void SetComponentReplicationManager()
+    {
+        ComponentManager::SetCreateComponentReplicated([](Component* aComponent)
+            {
+                if (!MainSingleton::Exists<Client>())
+                    return;
+
+                NetMessage message;
+                Replication::ReplicationManager::CreateComponentMessage(aComponent, message);
+                MainSingleton::GetInstance<Client>().Send(message);
+            });
+
+        ComponentManager::SetDestroyGameObjectReplicated([](unsigned aGameObject)
+            {
+                if (!MainSingleton::Exists<Client>())
+                    return;
+
+                NetMessage message;
+                Replication::ReplicationManager::DeleteGOMessage(aGameObject, message);
+                MainSingleton::GetInstance<Client>().Send(message);
+            });
+
+        ComponentManager::SetDeleteReplicationComponent([](unsigned aComponentID) { Replication::ReplicationManager::DeleteReplicatedComponent(aComponentID); });
+        ComponentManager::SetBeforeAfterComponentConstruction(
+            []() { Replication::ReplicationManager::SetBeforeReplicatedList(); },
+            []() { Replication::ReplicationManager::SetAfterReplicatedList(); });
+    }
+
     void ReplicationManager::Init()
     {
+        SetComponentReplicationManager();
+
         std::fstream stream("NetworkIp.ntwrk");
         char IpString[16];
         stream.getline(IpString, 16);
@@ -134,12 +164,12 @@ namespace Eclipse::Replication
     void ReplicationManager::CreatePrefabMessage(unsigned aGOID, const char* PrefabAssetID, std::vector<unsigned> aComponentIDs, NetMessage& outMessage)
     {
         char Data[512];
-        
+
         const int guidSize = 32;
         int componentsCount = aComponentIDs.size();
         int totalComponentPrefabsize = aComponentIDs.size() * sizeof(unsigned);
         int DataAmount = guidSize + sizeof(componentsCount) + totalComponentPrefabsize;
-        
+
         int offset = 0;
 
         memcpy(Data, PrefabAssetID, guidSize);

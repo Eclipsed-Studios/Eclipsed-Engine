@@ -23,7 +23,7 @@ namespace Eclipse
 	void BoxCollider2D::CreateCollider()
 	{
 		SetScale(HalfExtents);
-		PhysicsEngine::CreateBoxCollider(&myInternalCollider, myBodyRef, myHalfExtents, myLayer);
+		PhysicsEngine::CreateBoxCollider(myInternalCollider, myBodyRef, myHalfExtents, myLayer);
 	}
 
 	void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)

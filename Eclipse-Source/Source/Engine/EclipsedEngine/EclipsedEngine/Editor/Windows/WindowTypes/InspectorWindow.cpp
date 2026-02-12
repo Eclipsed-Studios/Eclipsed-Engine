@@ -19,6 +19,8 @@
 #include "EclipsedEngine/Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
 #include "EclipsedEngine/Editor/Common/DragAndDrop.h"
 
+#include "EclipsedEngine/ECS/SpawnObject.h"
+
 #include <sstream>
 #include <fstream>
 
@@ -96,16 +98,29 @@ void Eclipse::Editor::InspectorWindow::DrawGameObjectInspector()
 	for (Component* comp : comps)
 	{
 		unsigned localComponentID = comp->myInstanceComponentID;
-		
+
 		std::stringstream componentStringStreamID;
 		componentStringStreamID << comp->GetComponentName() << "##ComponentID" << localComponentID;
 
 		ImGui_Impl::DrawComponentHeader(componentStringStreamID.str().c_str(), comp->myInspectorWasDrawn);
+
+		if (ImGui::IsItemHovered())
+		{
+			if (ImGui::IsMouseReleased(1))
+			{
+				ImGui::OpenPopup("InspectorRightClickedComponent");
+				myComponentRightClicked = comp;
+			}
+		}
+
+
+
 		if (!comp->myInspectorWasDrawn) continue;
 
 		std::stringstream componentIDStream;
 		componentIDStream << "ID: " << localComponentID;
 		ImGui::Text(componentIDStream.str().c_str());
+
 
 
 		ImGui::Text("Is Replicated");
@@ -119,6 +134,20 @@ void Eclipse::Editor::InspectorWindow::DrawGameObjectInspector()
 		ImGui::Dummy({ 0, 30 });
 		ImGui::Separator();
 	}
+
+	if (ImGui::BeginPopup("InspectorRightClickedComponent"))
+	{
+		if (ImGui::Button("Remove"))
+		{
+			Destroy(myComponentRightClicked);
+			myComponentRightClicked = nullptr;
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
+
 
 
 	if (ImGui::BeginCombo("##ADD_COMPONENTS", "Add Component"))

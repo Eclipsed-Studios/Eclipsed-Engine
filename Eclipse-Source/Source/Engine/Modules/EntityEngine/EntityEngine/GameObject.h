@@ -26,8 +26,10 @@ namespace Eclipse
 
 		template<typename T>
 		T* GetComponent();
-
 		std::vector<Component*> GetComponents();
+
+		template <typename T>
+		std::vector<T*> GetComponents();
 
 		const Math::Vector4f& GetPixelPickingIDColor() { return myPixelPickColor; }
 

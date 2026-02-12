@@ -2,8 +2,6 @@
 
 #include "PhysicsEngine/PhysicsEngine.h"
 
-#include "RigidBody2D.h"
-
 #include "EclipsedEngine/Components/Transform2D.h"
 
 #undef max
@@ -12,7 +10,7 @@ namespace Eclipse
 {
 	void CapsuleCollider2D::CreateCollider()
 	{
-		PhysicsEngine::CreateCapsuleCollider(&myInternalCollider, myBodyRef, Radius, HalfHeight, myLayer);
+		PhysicsEngine::CreateCapsuleCollider(myInternalCollider, myBodyRef, Radius, HalfHeight, myLayer);
 	}
 
 	void CapsuleCollider2D::EditorUpdate()
