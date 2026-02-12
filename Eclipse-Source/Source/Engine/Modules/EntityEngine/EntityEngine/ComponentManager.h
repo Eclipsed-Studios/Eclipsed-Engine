@@ -77,7 +77,7 @@ namespace Eclipse
 
 		template <typename T>
 		static void GetAllComponentsOfType(unsigned aGOID, std::vector<T*>& aComponents);
-		
+
 		template <typename T>
 		static T* GetComponentBase(unsigned aGOID);
 		template <typename T>
@@ -85,15 +85,13 @@ namespace Eclipse
 
 		template <typename T>
 		static T* AddComponent(unsigned aGOID, bool IsReplicated = false);
-
-		template <typename T>
-		static void RemoveComponent(unsigned aGOID);
-
 		template <typename T>
 		static T* AddComponentWithID(unsigned aGOID, unsigned aComponentID, bool IsReplicated = false);
 
+		static void DeleteComponent(unsigned aGOID, unsigned aUniqueComponentID, unsigned aComponentID);
 
-		static Eclipse::Component* AddComponent(unsigned aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
+
+			static Eclipse::Component* AddComponent(unsigned aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
 
 		static Eclipse::Component* AddComponentWithID(unsigned aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
 

@@ -50,6 +50,8 @@ namespace Eclipse
 		else if constexpr (std::is_same<T, PixelShader>::value) return pixelShaderManager.Get(aGuid, in);
 		else if constexpr (std::is_same<T, Material>::value) return materialManager.Get(aGuid, in);
 		else if constexpr (std::is_same<T, Prefab>::value) return prefabManager.Get(aGuid, in);
+
+		return {};
 	}
 
 	template<typename T>
@@ -60,6 +62,8 @@ namespace Eclipse
 		else if constexpr (std::is_same<T, PixelShader>::value) return pixelShaderManager.CleanUp(aGuid);
 		else if constexpr (std::is_same<T, Material>::value) return materialManager.CleanUp(aGuid);
 		else if constexpr (std::is_same<T, Prefab>::value) return prefabManager.CleanUp(aGuid);
+
+		return {};
 	}
 
 	template<typename T>

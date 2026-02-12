@@ -21,14 +21,14 @@ namespace Eclipse
         class Physics
         {
         public:
-            static void SetLinearVelocity(const b2BodyId& aBodyID, const Math::Vector2f& aVelocity);
-            static void SetAngularVelocity(const b2BodyId& aBodyID, float aVelocity);
+            static void SetLinearVelocity(const b2BodyId* aBodyID, const Math::Vector2f& aVelocity);
+            static void SetAngularVelocity(const b2BodyId* aBodyID, float aVelocity);
 
-            static Math::Vector2f GetLinearVelocity(const b2BodyId& aBodyID);
-            static float GetAngularVelocity(const b2BodyId& aBodyID);
+            static Math::Vector2f GetLinearVelocity(const b2BodyId* aBodyID);
+            static float GetAngularVelocity(const b2BodyId* aBodyID);
 
-            static Math::Vector2f GetBodyPosition(const b2BodyId& aBodyID);
-            static float GetBodyRotation(const b2BodyId& aBodyID);
+            static Math::Vector2f GetBodyPosition(const b2BodyId* aBodyID);
+            static float GetBodyRotation(const b2BodyId* aBodyID);
         };
 
     public:
@@ -47,35 +47,35 @@ namespace Eclipse
             const Math::Vector2f& aStartPosition = { 0.f, 0.f });
 
         // Simple
-        static void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer);
-        static void CreateCircleCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, float radius, Layer aLayer);
-        static void CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, float aHalfHeight, float aRadius, Layer aLayer);
+        static void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer);
+        static void CreateCircleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float radius, Layer aLayer);
+        static void CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float aHalfHeight, float aRadius, Layer aLayer);
 
         // Complex
-        static bool CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId& aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
+        static bool CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
 
         static void DeleteShape(b2ShapeId* aShape);
         static void DeleteBody(b2BodyId* aBody);
         
-        static void ChangeLayer(b2ShapeId& aShapeID, Layer aLayer);
-        static void ChangeBodyType(b2BodyId& aBodyID, BodyType aBodyType);
-        static void ChangeRBLocks(b2BodyId& aBodyID, bool XLock, bool YLock, bool RotationLock);
+        static void ChangeLayer(b2ShapeId* aShapeID, Layer aLayer);
+        static void ChangeBodyType(b2BodyId* aBodyID, BodyType aBodyType);
+        static void ChangeRBLocks(b2BodyId* aBodyID, bool XLock, bool YLock, bool RotationLock);
 
-        static void RemoveRigidBody(b2BodyId& aBodyID);
-        static void RemoveCollider(b2ShapeId& aShape);
+        static void RemoveRigidBody(b2BodyId* aBodyID);
+        static void RemoveCollider(b2ShapeId* aShape);
 
-        static void SetPosition(b2BodyId& aBodyID, const Math::Vector2f& aPosition);
-        static void SetRotation(b2BodyId& aBodyID, float aRotation);
+        static void SetPosition(b2BodyId* aBodyID, const Math::Vector2f& aPosition);
+        static void SetRotation(b2BodyId* aBodyID, float aRotation);
 
-        static void SetTransform(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation);
+        static void SetTransform(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation);
 
         // Update Simple collisions
-        static void SetTransformBox(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
-        static void SetTransformCircle(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, const Math::Vector2f& aPivot = { 0.f, 0.f });
-        static void SetTransformCapsule(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        static void SetTransformBox(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        static void SetTransformCircle(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        static void SetTransformCapsule(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot = { 0.f, 0.f });
 
         // Update Complex collisions
-        static void SetTransformPolygon(b2BodyId& aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        static void SetTransformPolygon(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
 
         static void SetGravity(const Math::Vector2f& aGravity);
 

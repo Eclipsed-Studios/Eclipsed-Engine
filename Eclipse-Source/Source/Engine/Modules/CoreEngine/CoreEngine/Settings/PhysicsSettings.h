@@ -1,11 +1,6 @@
 #pragma once
 
-#include <vector>
-#include <string>
-
 #include "SettingsBase.hpp"
-#include "CoreEngine/Math/Vector/Vector2.h"
-
 #include <array>
 
 namespace Eclipse::Settings

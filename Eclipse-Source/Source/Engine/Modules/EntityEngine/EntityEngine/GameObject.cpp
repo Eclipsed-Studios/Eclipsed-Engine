@@ -2,6 +2,13 @@
 
 namespace Eclipse
 {
+	template <typename T>
+	std::vector<T*> GameObject::GetComponents()
+	{
+		return ComponentManager::GetComponent<T>(myID);
+	}
+
+
 	GameObject::GameObject(GameObjectID aId)
 		: myID(aId)
 	{
@@ -49,7 +56,6 @@ namespace Eclipse
 	{
 		return myChildIndex;
 	}
-
 
 	void GameObject::SetName(const std::string& aName)
 	{

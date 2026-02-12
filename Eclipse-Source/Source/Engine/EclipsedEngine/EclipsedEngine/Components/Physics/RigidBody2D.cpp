@@ -1,31 +1,42 @@
 #include "RigidBody2D.h"
 
 #include "PhysicsEngine/PhysicsEngine.h"
-
-#include "EntityEngine/ComponentManager.h"
 #include "EclipsedEngine/Components/Transform2D.h"
 
-#include "EclipsedEngine/Components/Physics/Collider2D.h"
+#include "Collider2D.h"
+
+#include "box2d/id.h"
 
 namespace Eclipse
 {
     typedef PhysicsEngine::Physics PhysHelper;
 
+    void RigidBody2D::OnDestroy()
+    {
+        PhysHelper::SetLinearVelocity(myBody, myVelocity);
+        PhysicsEngine::ChangeBodyType(myBody, BodyType::Static);
+    }
+
     void RigidBody2D::Awake()
     {
-        if (!ColliderAttached)
-            throw("No collider attached to this object");
+        std::vector<Collider2D*> colliders;
+        ComponentManager::GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
+        for (auto& collider : colliders)
+        {
+            if (collider->IsBodyOwner())
+            {
+                myBody = collider->GetBody();
+                break;
+            }
+        }
+        
+        PhysicsEngine::ChangeBodyType(myBody, BodyType::Dynamic);
 
         myTransform = gameObject->GetComponent<Transform2D>();
 
         myTransform->AddFunctionToRunOnDirtyUpdate([&]() {
             PhysicsEngine::SetTransform(myBody, myTransform->GetPosition(), myTransform->GetRotation());
             });
-    }
-
-    void RigidBody2D::OnDestroy()
-    {
-
     }
 
     void RigidBody2D::EarlyUpdate()

@@ -129,11 +129,11 @@ namespace Eclipse
 		unsigned myInstanceComponentID = 0;
 
 		bool IsDeleted = false;
+
+		RegisteredTypeIndex myComponentComponentID;
+
 	protected:
 		unsigned myComponentIndex = 0;
-
-	private:
-		RegisteredTypeIndex myComponentComponentID;
 
 	protected:
 		// IF DEF EDITOR

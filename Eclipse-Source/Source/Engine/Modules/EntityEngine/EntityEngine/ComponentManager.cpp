@@ -178,7 +178,7 @@ namespace Eclipse
 		myComponents.emplace_back(component);
 		size_t componentIndex = myComponents.size() - 1;
 
-		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex].emplace_back(componentIndex);
+		myEntityIDToVectorOfComponentIDs[aGOID][typeIndex].emplace_back(static_cast<unsigned>(componentIndex));
 		myComponents.back()->myComponentIndex = componentIndex;
 
 		//CreateComponentReplicated(component);
@@ -189,6 +189,53 @@ namespace Eclipse
 		SortComponents();
 
 		return component;
+	}
+
+	inline void ComponentManager::DeleteComponent(unsigned aGOID, unsigned aUniqueComponentID, unsigned aComponentID)
+	{
+		if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
+			return;
+
+		auto& entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
+
+		if (entityIDComponents.find(aUniqueComponentID) == entityIDComponents.end())
+			return;
+
+		std::vector<unsigned>& componentIndex = entityIDComponents.at(aUniqueComponentID);
+
+		unsigned indexToDelete = -1;
+		unsigned compIndex = 0;
+		for (int i = 0; i < componentIndex.size(); i++)
+		{
+			compIndex = componentIndex[i];
+			Component* component = myComponents[compIndex];
+
+			if (component->myInstanceComponentID != aComponentID)
+				continue;
+
+			component->OnDestroy();
+			component->~Component();
+
+			DeleteReplicatedComponent(aComponentID);
+
+			indexToDelete = i;
+
+			break;
+		}
+
+		if (indexToDelete == -1)
+			return;
+
+		componentIndex[indexToDelete] = componentIndex.back();
+		componentIndex.pop_back();
+
+		if (!componentIndex.size())
+			entityIDComponents.erase(aUniqueComponentID);
+
+		myComponents[compIndex] = myComponents.back();
+		myComponents.pop_back();
+
+		SortComponents();
 	}
 
 	const std::vector<Component*>& ComponentManager::GetAllComponents()

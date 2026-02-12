@@ -15,10 +15,4 @@ namespace Eclipse
 	{
 		return ComponentManager::AddComponent<T>(aGOID);
 	}
-
-	template <typename T>
-	inline void RemoveComponent(unsigned aGOID)
-	{
-		ComponentManager::RemoveComponent<T>(aGOID);
-	}
 }

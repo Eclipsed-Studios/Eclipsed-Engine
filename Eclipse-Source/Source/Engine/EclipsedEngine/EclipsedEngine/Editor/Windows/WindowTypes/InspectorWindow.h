@@ -35,8 +35,6 @@ namespace Eclipse::Editor
 		void DrawTextureAssetInspector();
 		void DrawMaterialAssetInspector();
 
-
-
 		template<typename T>
 		void DrawComponentInspector() {}
 
@@ -49,5 +47,7 @@ namespace Eclipse::Editor
 	private:
 		static inline bool lockInspector = false;
 		static inline ActiveItemTypes_ activeType;
+
+		class Eclipse::Component* myComponentRightClicked = nullptr;
 	};
 }

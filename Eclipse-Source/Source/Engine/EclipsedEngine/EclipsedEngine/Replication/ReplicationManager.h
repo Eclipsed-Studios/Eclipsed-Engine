@@ -37,7 +37,7 @@ namespace Eclipse::Replication
         static void CreateClient();
 
         static void Init();
-
+        
         static void Start();
         static void Update();
 

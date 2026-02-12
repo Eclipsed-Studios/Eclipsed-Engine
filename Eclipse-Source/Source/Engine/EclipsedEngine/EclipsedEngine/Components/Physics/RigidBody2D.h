@@ -1,14 +1,11 @@
 #pragma once
 
 #include "EclipsedEngine/Components/Component.h"
-
 #include "CoreEngine/Math/Vector/Vector2.h"
 
-#include "EntityEngine/ComponentManager.h"
-
-#include "box2d/id.h"
-
 #include "PhysicsEngine/PhysicsEngineSettings.h"
+
+struct b2BodyId;
 
 namespace Eclipse
 {
@@ -17,18 +14,9 @@ namespace Eclipse
         BASE_SELECTION(RigidBody2D, 5)
 
     public:
-        friend class Collider2D;
-        
-        friend class BoxCollider2D;
-        friend class CircleCollider2D;
-        friend class CapsuleCollider2D;
-
-        friend class PolygonCollider2D;
-
+        void OnDestroy() override;
         void Awake() override;
 
-        void OnDestroy() override;
-        
         void EarlyUpdate() override;
 
         void AddForce(const Math::Vector2f& aVelocity);
@@ -54,8 +42,9 @@ namespace Eclipse
         bool ColliderAttached = false;
 
     private:
+        b2BodyId* myBody;
+
         RigidBodySettings myRigidBodySettings;
-        b2BodyId myBody;
 
         Box2DBodyType BodyType = DynamicBody;
 

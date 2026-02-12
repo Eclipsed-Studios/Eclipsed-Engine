@@ -133,8 +133,9 @@ namespace Eclipse
         myComponents.emplace_back(component);
         size_t componentIndex = myComponents.size() - 1;
 
-        myEntityIDToVectorOfComponentIDs[aGOID][typeIndex].emplace_back(componentIndex);
+        myEntityIDToVectorOfComponentIDs[aGOID][typeIndex].emplace_back(static_cast<unsigned>(componentIndex));
         myComponents.back()->myComponentIndex = componentIndex;
+        
 
         if (IsReplicated)
             CreateComponentReplicated(component);
@@ -146,50 +147,4 @@ namespace Eclipse
 
         return component;
     }
-
-    template <typename T>
-    inline void ComponentManager::RemoveComponent(unsigned aGOID)
-    {
-        if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
-            return;
-
-        unsigned typeIndex = GetComponentID<T>();
-
-        auto& entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
-
-        if (entityIDComponents.find(typeIndex) == entityIDComponents.end())
-            return;
-
-        std::vector<unsigned> componentIndex = entityIDComponents.at(typeIndex).back();
-
-        for (auto& compID : componentIndex)
-        {
-            T* component = static_cast<T*>(myComponents.at(compID));
-            component->OnDestroy();
-            component->~T();
-
-            DeleteReplicatedVariable(component->myInstanceComponentID);
-        }
-        entityIDComponents.erase(typeIndex);
-
-        if (componentIndex == myComponents.size() - 1)
-        {
-            myComponents.pop_back();
-            return;
-        }
-
-
-        //int backComponenetIndex = myComponents.back()->myComponentIndex;
-        //unsigned backGameObject = *myComponents.back()->gameObject;
-
-        //auto& backEntityIDComponents = myEntityIDToVectorOfComponentIDs.at(backGameObject);
-
-        //myComponents.at(componentIndex) = myComponents.back();
-        //myComponents.pop_back();
-
-        //for (auto& entity : backEntityIDComponents)
-        //    if (backComponenetIndex == entity.second)
-        //        backEntityIDComponents.at(entity.first) = componentIndex;
-    }
-
 }

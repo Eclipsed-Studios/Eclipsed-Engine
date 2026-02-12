@@ -2,13 +2,7 @@
 
 #include "PhysicsEngine/PhysicsEngine.h"
 
-#include "RigidBody2D.h"
-
-#include "EntityEngine/ComponentManager.h"
 #include "EclipsedEngine/Components/Transform2D.h"
-
-#include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
-//#include "AssetManagement/Resources/Texture.h"
 
 namespace Eclipse
 {
@@ -43,7 +37,7 @@ namespace Eclipse
         Math::Vector2f scale = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
         if (!CreatedShape)
-            CreatedShape = PhysicsEngine::CreatePolygonCollider(&myInternalCollider, myBodyRef, myPoints, myLayer);
+            CreatedShape = PhysicsEngine::CreatePolygonCollider(myInternalCollider, myBodyRef, myPoints, myLayer);
 
         PhysicsEngine::SetTransformPolygon(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myPoints, scale);
     }
