@@ -79,6 +79,8 @@ namespace Eclipse
 			AssetType type = AssetType::Unknown;
 			in.read(reinterpret_cast<char*>(&type), sizeof(int));
 
+			if (!in.is_open()) return {};
+
 			return materialManager.Get(guid, in);
 		}
 	}

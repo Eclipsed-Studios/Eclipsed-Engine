@@ -10,6 +10,12 @@
 
 #include <shellapi.h>
 
+#include "EclipsedEngine/Editor/Game/GameLoader.h"
+#include "EclipsedEngine/Editor/Game/GameCompiler.h"
+
+#include "EclipsedEngine/Scenes/SceneManager.h"
+#include "EntityEngine/ComponentManager.h"
+
 namespace Eclipse::Editor
 {
 	AssetWindowContextMenu::AssetWindowContextMenu() : AbstractContextMenu("AssetsCtxMenu") {}
@@ -90,6 +96,22 @@ namespace Eclipse::Editor
 		if (ImGui::MenuItem("Copy Path"))
 		{
 			LOG_ERROR("Copy Path not implemented.");
+		}
+
+		if (ImGui::MenuItem("Recompile"))
+		{
+			std::string sceneName = SceneManager::GetActiveScene();
+			ComponentManager::Clear();
+
+			GameLoader::UnloadGameDLL();
+
+			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.dll");
+			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.pdb");
+
+			GameCompiler::CompileGame();
+			GameLoader::LoadGameDLL();
+
+			SceneManager::LoadScene(sceneName);
 		}
 	}
 

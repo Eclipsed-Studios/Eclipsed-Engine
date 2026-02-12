@@ -36,16 +36,9 @@ namespace Eclipse::Editor
 		ComponentForcelink::LinkComponents();
 		eclipseRuntime.StartEngine(path);
 
-
-		FileWatcher::Subscribe(
-			(PathManager::GetAssetsPath() / "").generic_string(), 
-			[this](const FileWatcherEvent& e) { this->SetGameChanged(e); }
-		);
-
 		EditorAssetImporter::ImportAll(PathManager::GetAssetsPath());
 
 		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
-		else LoadDLL();
 
 		SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
 
@@ -64,20 +57,7 @@ namespace Eclipse::Editor
 
 	void EditorRuntime::LoadDLL()
 	{
-		std::string sceneName = SceneManager::GetActiveScene();
-		ComponentManager::Clear();
 
-		GameLoader::UnloadGameDLL();
-
-		std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.dll");
-		std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.pdb");
-
-		GameCompiler::CompileGame();
-		GameLoader::LoadGameDLL();
-
-		gameChanged = false;
-
-		SceneManager::LoadScene(sceneName);
 	}
 
 	void EditorRuntime::UpdateGame()
