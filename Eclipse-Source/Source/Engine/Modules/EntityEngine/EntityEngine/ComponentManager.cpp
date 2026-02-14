@@ -6,7 +6,7 @@ namespace Eclipse
 {
 	void ComponentManager::Init()
 	{
-		myComponentData = new uint8_t[MAX_COMPONENT_MEMORY_BYTES];
+		myComponentData = reinterpret_cast<uint8_t*>(malloc(MAX_COMPONENT_MEMORY_BYTES));
 	}
 
 	void ComponentManager::OnLoadScene()
@@ -57,7 +57,7 @@ namespace Eclipse
 		}
 
 		myComponents.clear();
-		delete myComponentData;
+		free(myComponentData);
 
 		myComponentMemoryTracker = 0;
 		myComponentsToStart.clear();
@@ -156,6 +156,9 @@ namespace Eclipse
 		uint8_t* base = static_cast<uint8_t*>(myComponentData);
 		uint8_t* ptrToComponent = base + myComponentMemoryTracker;
 		myComponentMemoryTracker += size;
+
+		assert((myComponentMemoryTracker) <= MAX_COMPONENT_MEMORY_BYTES && "Adding the latest componnet made the component tracker go over max count increase MAX_COMPONENT_MEMORY_BYTES");
+
 
 		unsigned typeIndex = Utilities::IDGenerator::GetID();
 

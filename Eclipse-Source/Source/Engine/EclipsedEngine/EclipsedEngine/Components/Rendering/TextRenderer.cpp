@@ -15,12 +15,17 @@
 
 #include "OpenGL/glad/glad.h"
 
+#include "AssetEngine/Editor/MetaFile/MetaFileRegistry.h"
+
 namespace Eclipse
 {
 	TextMaterial::TextMaterial()
 	{
-		pixelShader = Resources::Get<PixelShader>("EngineAssets/Default/Shaders/Text.pglsl");
-		vertexShader = Resources::Get<VertexShader>("EngineAssets/Default/Shaders/Text.vglsl");
+		std::string VtxShaderGUID = MetaFileRegistry::GetGUIDMeta((PathManager::GetEngineAssetsPath() / "Default/Shaders/Text.pglsl.meta").generic_string());
+		std::string PxShaderGUID = MetaFileRegistry::GetGUIDMeta((PathManager::GetEngineAssetsPath() / "Default/Shaders/Text.vglsl.meta").generic_string());
+
+		pixelShader = Resources::Get<PixelShader>(VtxShaderGUID);
+		vertexShader = Resources::Get<VertexShader>(PxShaderGUID);
 
 		programID = glCreateProgram();
 		glAttachShader(programID, vertexShader.GetProgramID());
@@ -329,9 +334,11 @@ namespace Eclipse
 	{
 		if (drawRectGizmos)
 		{
-			
 			auto tranform = gameObject->GetComponent<RectTransform>();
-			
+			if (!tranform)
+				return;
+
+
 			Math::Vector2f resolution = tranform->myCanvas->ReferenceResolution;
 			float aspectRatio = resolution.x / resolution.y;
 			Math::Vector2f canvasScaleRelationOneDiv = { 1.f / resolution.x, 1.f / resolution.y };
@@ -341,7 +348,7 @@ namespace Eclipse
 			Math::Vector2f scale = tranform->WidthHeightPX.Get() * myRect * canvasScaleRelationOneDiv;
 			scale.x *= aspectRatio;
 
-			DebugDrawer::DrawSquare(position * 0.5f + Math::Vector2f(0.5f, 0.5f), 0.f, scale * 0.5f, Math::Color(0.7f, 0.7f, 0.7f, 1.f));
+			DebugDrawer::DrawSquare(position + Math::Vector2f(0.5f, 0.5f), 0.f, scale * 0.5f, Math::Color(0.7f, 0.7f, 0.7f, 1.f));
 		}
 	}
 

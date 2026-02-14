@@ -36,18 +36,18 @@ namespace Eclipse::Editor
 
 		ctxMenu.Draw();
 
-		if (shouldReloadAssets)
-		{
-			//std::filesystem::path LastPath = ctxMenu.GetActivePath();
-			shouldReloadAssets = false;
-			dirTree.Reload();
-			Active_View_Node = dirTree.GetRoot();
+		// if (shouldReloadAssets)
+		// {
+		// 	//std::filesystem::path LastPath = ctxMenu.GetActivePath();
+		// 	shouldReloadAssets = false;
+		// 	dirTree.Reload();
+		// 	Active_View_Node = dirTree.GetRoot();
 
-			IconManager::LoadAllTextureIcons();
-			IconManager::ExportLoadedTextures();
+		// 	IconManager::LoadAllTextureIcons();
+		// 	IconManager::ExportLoadedTextures();
 
-			//ctxMenu.SetActivePath(LastPath);
-		}
+		// 	//ctxMenu.SetActivePath(LastPath);
+		// }
 	}
 
 	void AssetWindow::LoadAssets()

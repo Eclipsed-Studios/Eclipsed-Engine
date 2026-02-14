@@ -111,6 +111,8 @@ namespace Eclipse
         size_t sizeOfNewComponent = sizeof(T);
         myComponentMemoryTracker += sizeOfNewComponent;
 
+        assert((myComponentMemoryTracker) <= MAX_COMPONENT_MEMORY_BYTES && "Adding the latest componnet made the component tracker go over max count increase MAX_COMPONENT_MEMORY_BYTES");
+
         unsigned typeIndex = GetComponentID<T>();
 
         if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())

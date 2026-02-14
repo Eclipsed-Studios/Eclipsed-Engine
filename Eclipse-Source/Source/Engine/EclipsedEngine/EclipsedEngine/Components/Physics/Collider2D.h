@@ -11,7 +11,7 @@ namespace Eclipse
 {
     class ECLIPSED_API Collider2D : public Component
     {
-        BASE_SELECTION(Collider2D, 10)
+        BASE_SELECTION(Collider2D, 5)
 
     public:
         void OnDestroy();
