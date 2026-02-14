@@ -15,6 +15,8 @@
 #include "CoreEngine/ChatGPT_Dump/Base64.hpp"
 
 #include "EntityEngine/Component.h"
+#include "EclipsedEngine/Components/UI/RectTransform.h"
+#include "EclipsedEngine/Components/UI/Canvas.h"
 
 #include "GraphicsEngine/RenderCommands/CommandList.h"
 
@@ -83,6 +85,10 @@ namespace Eclipse
 		for (auto& [id, gameobject] : ComponentManager::myEntityIdToEntity)
 		{
 			rapidjson::Value goObj(rapidjson::kObjectType);
+
+			if (GameObject* parent = gameobject->GetParent())
+				goObj.AddMember("owner", parent->GetID(), alloc);
+
 			goObj.AddMember("id", id, alloc);
 			goObj.AddMember("name", rapidjson::Value(gameobject->GetName().c_str(), alloc).Move(), alloc);
 			goArray.PushBack(goObj, alloc);
@@ -172,6 +178,25 @@ namespace Eclipse
 		aValue.AddMember(key, jsonVal.Move(), alloc);
 	}
 
+	void SceneLoader::LoadChildren(std::vector<ChildObject> aChildObjects)
+	{
+		for (ChildObject& child : aChildObjects)
+		{
+			GameObject* parent = ComponentManager::myEntityIdToEntity.at(child.ownerID);
+			child.gameobject->SetParent(parent);
+
+			if (auto* recttransform = child.gameobject->GetComponent<RectTransform>())
+			{
+				if (recttransform->myCanvas = parent->GetComponent<Canvas>())
+				{
+					recttransform->myCanvas->canvasCameraTransform.PositionOffset = { 0.f, 0.f };
+					recttransform->myCanvas->canvasCameraTransform.Rotation = 0.f;
+					recttransform->myCanvas->canvasCameraTransform.ScaleMultiplier = { 1.f, 1.f };
+				}
+			}
+		}
+	}
+
 	void SceneLoader::Load(const char* aPath)
 	{
 		using namespace rapidjson;
@@ -200,6 +225,9 @@ namespace Eclipse
 
 		if (!d.HasMember("GameObjects")) return;
 
+
+		std::vector<ChildObject> childObjects;
+
 		const Value& objs = d["GameObjects"];
 		{
 			for (const Value& obj : objs.GetArray())
@@ -209,8 +237,15 @@ namespace Eclipse
 
 				GameObject* gObj = ComponentManager::CreateGameObject(id);
 				gObj->SetName(name);
+
+				if (obj.HasMember("owner"))
+				{
+					unsigned int parentID = obj["owner"].GetUint();
+					childObjects.emplace_back(gObj, parentID);
+				}
 			}
 		}
+
 
 		for (auto it = d.MemberBegin(); it != d.MemberEnd();)
 		{
@@ -225,6 +260,8 @@ namespace Eclipse
 
 		ComponentManager::OnAddedAllComponentsLoadScene();
 		ComponentManager::OnLoadScene();
+
+		LoadChildren(childObjects);
 
 		// only if the game has started
 		//ComponentManager::AwakeStartComponents();

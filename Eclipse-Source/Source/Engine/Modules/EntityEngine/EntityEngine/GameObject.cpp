@@ -29,6 +29,9 @@ namespace Eclipse
 	void GameObject::SetParent(GameObject* aGO)
 	{
 		parent = aGO;
+
+		parent->AddChild(this);
+		SetChildIndex(parent->GetChildCount() - 1);
 	}
 
 	GameObject*& GameObject::GetChild(int index)
@@ -39,7 +42,7 @@ namespace Eclipse
 	{
 		return children;
 	}
-	void GameObject::AddChild(GameObject*& aChild)
+	void GameObject::AddChild(GameObject* aChild)
 	{
 		children.emplace_back(aChild);
 	}

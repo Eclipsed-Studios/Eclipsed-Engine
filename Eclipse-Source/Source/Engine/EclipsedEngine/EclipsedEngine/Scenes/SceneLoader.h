@@ -21,7 +21,14 @@ namespace Eclipse
 
 		static void WriteMember(rapidjson::Value& aValue, Reflection::AbstractSerializedVariable* aSerializedVariable, rapidjson::Document::AllocatorType& alloc);
 		static void LoadComponent(const std::string& componentName, const rapidjson::Value& aValue);
+
+		struct ChildObject
+		{
+			GameObject* gameobject;
+			unsigned ownerID;
+		};
 		
+		static void LoadChildren(std::vector<ChildObject> aChildObjects);
 		static void LoadType(Reflection::AbstractSerializedVariable* aSerializedVariable, const rapidjson::Value& aValue);
 	private:
 

@@ -216,8 +216,6 @@ namespace Eclipse::Editor
 
 
 		aChild->SetParent(aParent);
-		aParent->AddChild(aChild);
-		aChild->SetChildIndex(aParent->GetChildCount() - 1);
 
 		gameobjectIdsThatAreOpen.emplace(aParent->GetID());
 	}
