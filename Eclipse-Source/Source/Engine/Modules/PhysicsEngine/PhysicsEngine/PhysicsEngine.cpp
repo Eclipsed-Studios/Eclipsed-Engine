@@ -10,6 +10,7 @@ namespace Eclipse
 #pragma region PhysicsHelperFunctions
     void PhysicsEngine::Physics::SetLinearVelocity(const b2BodyId* aBodyID, const Math::Vector2f& aVelocity)
     {
+        if (!aBodyID) return;
         b2Vec2 box2DVec2(aVelocity.x, aVelocity.y);
         b2Body_SetLinearVelocity(*aBodyID, box2DVec2);
     }
@@ -171,7 +172,7 @@ namespace Eclipse
 
     void PhysicsEngine::ChangeBodyType(b2BodyId* aBodyID, BodyType aBodyType)
     {
-
+        if (!aBodyID) return;
         b2Body_SetType(*aBodyID, static_cast<b2BodyType>(aBodyType));
     }
 
