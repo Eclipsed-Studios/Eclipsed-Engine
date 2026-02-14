@@ -10,11 +10,11 @@ namespace Eclipse::Replication
         if (!ConnectedComponent->IsOwner() && !aAlwaysSend)
             return;
 
-        char* data = new char[sizeof(aID) + sizeof(dataAmount) + dataAmount];
+        unsigned componentID = ConnectedComponent->myInstanceComponentID;
+
+        char* data = reinterpret_cast<char*>(malloc(sizeof(componentID) + sizeof(aID) + sizeof(dataAmount) + dataAmount));
 
         size_t offset = 0;
-
-        unsigned componentID = ConnectedComponent->myInstanceComponentID;
         memcpy(data + offset, &componentID, sizeof(componentID));
         offset += sizeof(componentID);
 
@@ -40,5 +40,7 @@ namespace Eclipse::Replication
 
         Client& client = Eclipse::MainSingleton::GetInstance<Client>();
         client.Send(message);
+
+        free(data);
     }
 }

@@ -287,7 +287,6 @@ namespace Eclipse::Editor
 					else if (ImGui::MenuItem("Image"))
 					{
 						GameObject* obj = ComponentManager::CreateGameObject();
-						obj->AddComponent<Transform2D>();
 						obj->AddComponent<RectTransform>();
 						obj->AddComponent<UIImage>();
 
@@ -296,8 +295,7 @@ namespace Eclipse::Editor
 					else if (ImGui::MenuItem("Text"))
 					{
 						GameObject* obj = ComponentManager::CreateGameObject();
-						obj->AddComponent<Transform2D>();
-						obj->AddComponent<TextRenderer>();
+						obj->AddComponent<RectTransform>();
 						obj->AddComponent<TextRenderer>();
 
 						obj->SetName("New Text");

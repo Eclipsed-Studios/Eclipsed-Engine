@@ -42,7 +42,7 @@ namespace Eclipse::Editor
 
 		SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
 
-		ComponentManager::Init();
+		//ComponentManager::Init();
 	}
 
 	void EditorRuntime::SetGameChanged(const FileWatcherEvent& e)

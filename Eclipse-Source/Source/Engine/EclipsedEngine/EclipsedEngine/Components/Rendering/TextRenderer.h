@@ -50,7 +50,7 @@ namespace Eclipse
 
         void OnDrawGizmos() override;
         
-        PRIVATE_SERIALIZED_FIELD_DEFAULT(std::string, myText, "E");
+        PRIVATE_SERIALIZED_FIELD_DEFAULT(std::string, myText, "EEE");
         PRIVATE_SERIALIZED_FIELD_DEFAULT(Math::Color, myTextColor, Math::Color(1, 1, 1, 1));
 
         SERIALIZED_FIELD_DEFAULT(std::string, myFontPath, (PathManager::GetEngineAssetsPath() / "Fonts/Quicksand-VariableFont_wght.ttf").generic_string());
@@ -70,8 +70,8 @@ namespace Eclipse
 
         bool myCreatedRenderer = false;
 
-        PRIVATE_SERIALIZED_FIELD_DEFAULT(int, myTextAlignment, 0);
-        PRIVATE_SERIALIZED_FIELD_DEFAULT(int, myTextCentering, 0);
+        PRIVATE_SERIALIZED_FIELD_DEFAULT(int, myTextAlignment, 1);
+        PRIVATE_SERIALIZED_FIELD_DEFAULT(int, myTextCentering, 1);
 
         std::vector<float> lineOffsets;
     };

@@ -17,7 +17,7 @@
 #define GetComp(Type, GOID)\
 ComponentManager::GetComponent<Type>(GOID)
 
-#define MAX_COMPONENT_MEMORY_BYTES 100'000'000
+#define MAX_COMPONENT_MEMORY_BYTES 2'000'000
 
 namespace Eclipse
 {
@@ -91,8 +91,7 @@ namespace Eclipse
 		static void DeleteComponent(unsigned aGOID, unsigned aUniqueComponentID, unsigned aComponentID);
 
 
-			static Eclipse::Component* AddComponent(unsigned aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
-
+		static Eclipse::Component* AddComponent(unsigned aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
 		static Eclipse::Component* AddComponentWithID(unsigned aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
 
 
