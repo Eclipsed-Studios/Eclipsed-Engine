@@ -19,6 +19,8 @@ namespace Eclipse
 		void OnComponentAddedNoCreations();
 
 		void EditorUpdate() override;
+		
+		void DirtyUpdate() const;
 
 		
 		void AddParentTransform(GameObject* aParent, Math::Mat3x3f& aTransform) const;

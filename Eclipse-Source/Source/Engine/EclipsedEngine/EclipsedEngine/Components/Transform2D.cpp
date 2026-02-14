@@ -142,7 +142,7 @@ namespace Eclipse
 	}
 	void Transform2D::SetPosition(float aX, float aY)
 	{
-	position->x = aX;
+		position->x = aX;
 		position->y = aY;
 
 		lastPosition = position;
@@ -207,10 +207,20 @@ namespace Eclipse
 
 		if (myIsDirty)
 		{
-			for (auto& func : myFunctionsToRunOnDirtyUpdate)
-				func();
-
+			DirtyUpdate();
 			myIsDirty = false;
+		}
+	}
+
+	void Transform2D::DirtyUpdate() const
+	{
+		for (auto& func : myFunctionsToRunOnDirtyUpdate)
+			func();
+
+		for (const auto& child : gameObject->GetChildren())
+		{
+			if(child->transform)
+				child->transform->DirtyUpdate();
 		}
 	}
 }
