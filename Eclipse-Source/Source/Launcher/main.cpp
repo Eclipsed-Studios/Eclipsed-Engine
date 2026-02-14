@@ -6,9 +6,7 @@
 int main()
 {
     HWND console = GetConsoleWindow();
-    ShowWindow(console, SW_HIDE); 
-
-    auto p = std::filesystem::current_path();
+    ShowWindow(console, SW_SHOW); 
 
     Eclipse::Editor::EditorApplication editorApplication;
 
