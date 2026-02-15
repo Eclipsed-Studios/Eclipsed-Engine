@@ -31,17 +31,6 @@ namespace Eclipse
 		glAttachShader(programID, vertexShader.GetProgramID());
 		glAttachShader(programID, pixelShader.GetProgramID());
 		glLinkProgram(programID);
-
-
-
-
-
-
-		//myShader = new Shader();
-		//myShader->Create("Assets/Shaders/TextPixelShader.glsl", "Assets/Shaders/TextVertexShader.glsl");
-
-		int yes = 1;
-		GraphicsEngine::SetUniform(UniformType::Int, programID, "TextTexture", &yes);
 	}
 
 	void TextMaterial::Use(unsigned textureID)
@@ -358,7 +347,6 @@ namespace Eclipse
 			return;
 
 		const char* textInConstChar = myText->c_str();
-
 		auto tranform = gameObject->GetComponent<RectTransform>();
 
 		if (!tranform)
@@ -440,6 +428,9 @@ namespace Eclipse
 		// 	textOffset.y = (-scaleRect.y + 0.0125f)  * lineOffsets.size();
 
 
+		Math::Vector4f color(myTextColor->r, myTextColor->g, myTextColor->b, myTextColor->a);
+		GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "color", &color);
+
 		int currentLineCount = 0;
 		for (int i = 0; i < myText->size(); i++)
 		{
@@ -495,9 +486,6 @@ namespace Eclipse
 			GraphicsEngine::SetUniform(UniformType::Vector2f, shaderID, "offset", &characterSpecificOffset);
 
 			textOffset.x += characterAdvance * myCharacterSpacing;
-
-			Math::Vector4f color(myTextColor->r, myTextColor->g, myTextColor->b, myTextColor->a);
-			GraphicsEngine::SetUniform(UniformType::Vector4f, shaderID, "color", &color);
 
 			TextSprite::Get().Render();
 		}
