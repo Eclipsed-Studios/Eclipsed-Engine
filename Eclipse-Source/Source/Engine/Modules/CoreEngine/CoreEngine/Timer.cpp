@@ -37,6 +37,11 @@ namespace Eclipse
         return myDeltaTime * myTimeScale;
     }
 
+    float Time::GetTimeScale()
+    {
+        return myTimeScale;
+    }
+
     float Time::GetTotalTime()
     {
         return myTotalTime;

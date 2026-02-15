@@ -85,7 +85,7 @@ namespace Eclipse
 
 			PhysicsDebugDrawer::Init(&debugDraw);
 
-			PhysicsEngine::Init(8, { 0.f, -20.f }, debugDraw);
+			PhysicsEngine::Init(4, { 0.f, -0.981f }, debugDraw);
 			PhysicsEngine::myBeginContactCallback = [](UserData& aUserData)
 				{
 					ComponentManager::BeginCollisions(aUserData.gameobject);

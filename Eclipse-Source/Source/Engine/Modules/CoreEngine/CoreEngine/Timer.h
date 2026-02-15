@@ -2,9 +2,15 @@
 
 #include <chrono>
 
+#ifdef ECLIPSED_EDITOR
+#define ENGINE_API __declspec(dllexport)
+#else
+#define ENGINE_API __declspec(dllimport)
+#endif
+
 namespace Eclipse
 {
-	class Time
+	class ENGINE_API Time
 	{
 	public:
 		Time() = delete;
@@ -18,6 +24,7 @@ namespace Eclipse
 
 		static float GetDeltaTime();
 		static float GetTotalTime();
+		static float GetTimeScale();
 
 	private:
 		static std::chrono::high_resolution_clock::time_point startTime;
