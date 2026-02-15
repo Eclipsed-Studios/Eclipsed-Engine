@@ -9,12 +9,6 @@ namespace Eclipse
         return lastId++;
     }
 
-
-
-
-
-
-
     template <typename T>
     inline unsigned ComponentManager::GetComponentID()
     {
@@ -29,7 +23,7 @@ namespace Eclipse
         if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
             return;
 
-        unsigned typeIndex = GetComponentID<T>();
+        //unsigned typeIndex = GetComponentID<T>();
 
         auto& entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
 
@@ -47,17 +41,13 @@ namespace Eclipse
         }
     }
 
-    // Slower than get component normal
     template <typename T>
-    inline T* ComponentManager::GetComponentBase(unsigned aGOID)
+    inline T* ComponentManager::GetComponent(unsigned aGOID)
     {
         if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
             return nullptr;
 
-        unsigned typeIndex = GetComponentID<T>();
-
         auto& entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
-
         for (auto& components : entityIDComponents)
         {
             for (auto& component : components.second)
@@ -71,24 +61,24 @@ namespace Eclipse
         return nullptr;
     }
 
-    template <typename T>
-    inline T* ComponentManager::GetComponent(unsigned aGOID)
-    {
-        if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
-            return nullptr;
+    // template <typename T>
+    // inline T* ComponentManager::GetComponent(unsigned aGOID)
+    // {
+    //     if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
+    //         return nullptr;
 
-        unsigned typeIndex = GetComponentID<T>();
+    //     unsigned typeIndex = GetComponentID<T>();
 
-        auto& entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
+    //     auto& entityIDComponents = myEntityIDToVectorOfComponentIDs.at(aGOID);
 
-        if (entityIDComponents.find(typeIndex) == entityIDComponents.end())
-            return nullptr;
+    //     if (entityIDComponents.find(typeIndex) == entityIDComponents.end())
+    //         return nullptr;
 
-        int componentIndex = entityIDComponents.at(typeIndex).back();
-        T* component = static_cast<T*>(myComponents.at(componentIndex));
+    //     int componentIndex = entityIDComponents.at(typeIndex).back();
+    //     T* component = static_cast<T*>(myComponents.at(componentIndex));
 
-        return component;
-    }
+    //     return component;
+    // }
 
     template <typename T>
     inline T* ComponentManager::AddComponent(unsigned aGOID, bool IsReplicated)

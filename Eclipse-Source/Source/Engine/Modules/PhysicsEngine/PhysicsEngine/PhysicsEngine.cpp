@@ -1,60 +1,51 @@
 #include "PhysicsEngine.h"
 
 #include <box2d/box2d.h>
+
 #include "CoreEngine/Timer.h"
 #include "CoreEngine/Settings/PhysicsSettings.h"
 
 #undef min
+
 namespace Eclipse
 {
 #pragma region PhysicsHelperFunctions
-    void PhysicsEngine::Physics::SetLinearVelocity(const b2BodyId* aBodyID, const Math::Vector2f& aVelocity)
+    void PhysicsEngine::Physics::SetLinearVelocity(unsigned aBodyID, const Math::Vector2f& aVelocity)
     {
         if (!aBodyID) return;
         b2Vec2 box2DVec2(aVelocity.x, aVelocity.y);
-        b2Body_SetLinearVelocity(*aBodyID, box2DVec2);
+        b2Body_SetLinearVelocity(myBodyIdRegistry.at(aBodyID), box2DVec2);
     }
-    void PhysicsEngine::Physics::SetAngularVelocity(const b2BodyId* aBodyID, float aVelocity)
+    void PhysicsEngine::Physics::SetAngularVelocity(unsigned aBodyID, float aVelocity)
     {
-        b2Body_SetAngularVelocity(*aBodyID, aVelocity);
+        b2Body_SetAngularVelocity(myBodyIdRegistry.at(aBodyID), aVelocity);
     }
 
-    Math::Vector2f PhysicsEngine::Physics::GetLinearVelocity(const b2BodyId* aBodyID)
+    Math::Vector2f PhysicsEngine::Physics::GetLinearVelocity(unsigned aBodyID)
     {
-        b2Vec2 velocityB2 = b2Body_GetLinearVelocity(*aBodyID);
+        b2Vec2 velocityB2 = b2Body_GetLinearVelocity(myBodyIdRegistry.at(aBodyID));
         return { velocityB2.x, velocityB2.y };
     }
-    float PhysicsEngine::Physics::GetAngularVelocity(const b2BodyId* aBodyID)
+    float PhysicsEngine::Physics::GetAngularVelocity(unsigned aBodyID)
     {
-        float velocity = b2Body_GetAngularVelocity(*aBodyID);
+        float velocity = b2Body_GetAngularVelocity(myBodyIdRegistry.at(aBodyID));
         return velocity;
     }
 
-    Math::Vector2f PhysicsEngine::Physics::GetBodyPosition(const b2BodyId* aBodyID)
+    Math::Vector2f PhysicsEngine::Physics::GetBodyPosition(unsigned aBodyID)
     {
-        b2Vec2 position = b2Body_GetPosition(*aBodyID);
+        b2Vec2 position = b2Body_GetPosition(myBodyIdRegistry.at(aBodyID));
         return { position.x, position.y };
     }
-    float PhysicsEngine::Physics::GetBodyRotation(const b2BodyId* aBodyID)
+    float PhysicsEngine::Physics::GetBodyRotation(unsigned aBodyID)
     {
-        b2Rot rotation = b2Body_GetRotation(*aBodyID);
+        b2Rot rotation = b2Body_GetRotation(myBodyIdRegistry.at(aBodyID));
         return b2Rot_GetAngle(rotation);
     }
 
 #pragma endregion
 
-    void PhysicsEngine::RemoveRigidBody(b2BodyId* aBodyID)
-    {
-        b2DestroyBody(*aBodyID);
-        *aBodyID = b2_nullBodyId;
-    }
-
-    void PhysicsEngine::RemoveCollider(b2ShapeId* aShape)
-    {
-        b2DestroyShape(*aShape, false);
-    }
-
-    void PhysicsEngine::CreateRigidBody(b2BodyId* aBody,
+    unsigned PhysicsEngine::CreateRigidBody(
         UserData* aUserData,
         Box2DBodyType BodyType,
         bool LockRotation,
@@ -72,10 +63,12 @@ namespace Eclipse
 
         bodyDefine.userData = aUserData;
 
-        *aBody = b2CreateBody(myWorld, &bodyDefine);
+        unsigned ID = GetNextIdCounter();
+        myBodyIdRegistry.emplace(ID, b2CreateBody(myWorld, &bodyDefine));
+        return ID;
     }
 
-    void PhysicsEngine::CreateBoxCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer)
+    unsigned PhysicsEngine::CreateBoxCollider(unsigned aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer)
     {
         b2Polygon polygon = b2MakeBox(aHalfExtents.x, aHalfExtents.y);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
@@ -89,10 +82,12 @@ namespace Eclipse
         int layerIndex = std::countr_zero(static_cast<uint32_t>(aLayer));
         shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
 
-        *aShape = b2CreatePolygonShape(*aBodyID, &shapeDef, &polygon);
+        unsigned ID = GetNextIdCounter();
+        myShapeIdRegistry.emplace(ID, b2CreatePolygonShape(myBodyIdRegistry.at(aBodyID), &shapeDef, &polygon));
+        return ID;
     }
 
-    void PhysicsEngine::CreateCircleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float radius, Layer aLayer)
+    unsigned PhysicsEngine::CreateCircleCollider(unsigned aBodyID, float radius, Layer aLayer)
     {
         b2Circle cicle({ 0, 0 }, radius);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
@@ -106,10 +101,12 @@ namespace Eclipse
         int layerIndex = std::countr_zero(static_cast<uint32_t>(aLayer));
         shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
 
-        *aShape = b2CreateCircleShape(*aBodyID, &shapeDef, &cicle);
+        unsigned ID = GetNextIdCounter();
+        myShapeIdRegistry.emplace(ID, b2CreateCircleShape(myBodyIdRegistry.at(aBodyID), &shapeDef, &cicle));
+        return ID;
     }
 
-    void PhysicsEngine::CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float aHalfHeight, float aRadius, Layer aLayer)
+    unsigned PhysicsEngine::CreateCapsuleCollider(unsigned aBodyID, float aHalfHeight, float aRadius, Layer aLayer)
     {
         b2Capsule capsule({ 0, -aHalfHeight * 0.5f }, { 0, aHalfHeight * 0.5f }, aRadius);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
@@ -123,10 +120,12 @@ namespace Eclipse
         int layerIndex = std::countr_zero(static_cast<uint32_t>(aLayer));
         shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
 
-        *aShape = b2CreateCapsuleShape(*aBodyID, &shapeDef, &capsule);
+        unsigned ID = GetNextIdCounter();
+        myShapeIdRegistry.emplace(ID, b2CreateCapsuleShape(myBodyIdRegistry.at(aBodyID), &shapeDef, &capsule));
+        return ID;
     }
 
-    bool PhysicsEngine::CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer)
+    unsigned PhysicsEngine::CreatePolygonCollider(unsigned aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer)
     {
         int pointCount = std::min(static_cast<int>(aPolygonPoints.size()), B2_MAX_POLYGON_VERTICES);
 
@@ -137,7 +136,7 @@ namespace Eclipse
 
         b2Hull hull = b2ComputeHull(vecOfVec.data(), pointCount);
         if (!b2ValidateHull(&hull))
-            return false;
+            return 0;
 
         b2Polygon polygon = b2MakePolygon(&hull, 0.0001f);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
@@ -152,31 +151,30 @@ namespace Eclipse
         int layerIndex = std::countr_zero(layer);
         shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
 
-        *aShape = b2CreatePolygonShape(*aBodyID, &shapeDef, &polygon);
-
-        return true;
+        unsigned ID = GetNextIdCounter();
+        myShapeIdRegistry.emplace(ID, b2CreatePolygonShape(myBodyIdRegistry.at(aBodyID), &shapeDef, &polygon));
+        return ID;
     }
 
-    void PhysicsEngine::DeleteBody(b2BodyId* aBody)
+    void PhysicsEngine::DeleteBody(unsigned aBodyID)
     {
-        b2DestroyBody(*aBody);
-        *aBody = b2BodyId();
+        b2DestroyBody(myBodyIdRegistry.at(aBodyID));
+        myBodyIdRegistry.erase(aBodyID);
     }
 
-    void PhysicsEngine::DeleteShape(b2ShapeId* aShape)
+    void PhysicsEngine::DeleteShape(unsigned aShapeID)
     {
-        b2DestroyShape(*aShape, false);
-        *aShape = b2ShapeId();
+        b2DestroyShape(myShapeIdRegistry.at(aShapeID), false);
+        myShapeIdRegistry.erase(aShapeID);
     }
 
-
-    void PhysicsEngine::ChangeBodyType(b2BodyId* aBodyID, BodyType aBodyType)
+    void PhysicsEngine::ChangeBodyType(unsigned aBodyID, BodyType aBodyType)
     {
         if (!aBodyID) return;
-        b2Body_SetType(*aBodyID, static_cast<b2BodyType>(aBodyType));
+        b2Body_SetType(myBodyIdRegistry.at(aBodyID), static_cast<b2BodyType>(aBodyType));
     }
 
-    void PhysicsEngine::ChangeLayer(b2ShapeId* aShapeID, Layer aLayer)
+    void PhysicsEngine::ChangeLayer(unsigned aShapeID, Layer aLayer)
     {
         b2Filter filter;
         filter.categoryBits = static_cast<uint64_t>(aLayer);
@@ -184,48 +182,48 @@ namespace Eclipse
         int layerIndex = std::countr_zero(static_cast<uint32_t>(aLayer));
         filter.maskBits = myCollisionLayers[layerIndex];
 
-        b2Shape_SetFilter(*aShapeID, filter);
+        b2Shape_SetFilter(myShapeIdRegistry.at(aShapeID), filter);
     }
 
-    void PhysicsEngine::ChangeRBLocks(b2BodyId* aBodyID, bool XLock, bool YLock, bool RotationLock)
+    void PhysicsEngine::ChangeRBLocks(unsigned aBodyID, bool XLock, bool YLock, bool RotationLock)
     {
-        b2Body_SetMotionLocks(*aBodyID, b2MotionLocks(XLock, YLock, RotationLock));
+        b2Body_SetMotionLocks(myBodyIdRegistry.at(aBodyID), b2MotionLocks(XLock, YLock, RotationLock));
     }
 
 
-    void PhysicsEngine::SetPosition(b2BodyId* aBodyID, const Math::Vector2f& aPosition)
+    void PhysicsEngine::SetPosition(unsigned aBodyID, const Math::Vector2f& aPosition)
     {
-        b2Rot rotation = b2Body_GetRotation(*aBodyID);
-        b2Body_SetTransform(*aBodyID, b2Vec2(aPosition.x, aPosition.y), rotation);
+        b2Rot rotation = b2Body_GetRotation(myBodyIdRegistry.at(aBodyID));
+        b2Body_SetTransform(myBodyIdRegistry.at(aBodyID), b2Vec2(aPosition.x, aPosition.y), rotation);
     }
-    void PhysicsEngine::SetRotation(b2BodyId* aBodyID, float aRotation)
+    void PhysicsEngine::SetRotation(unsigned aBodyID, float aRotation)
     {
-        b2Vec2 postition = b2Body_GetPosition(*aBodyID);
+        b2Vec2 postition = b2Body_GetPosition(myBodyIdRegistry.at(aBodyID));
 
         b2Rot rot;
         rot.c = cosf(aRotation);
         rot.s = sinf(aRotation);
 
-        b2Body_SetTransform(*aBodyID, postition, rot);
+        b2Body_SetTransform(myBodyIdRegistry.at(aBodyID), postition, rot);
     }
 
-    void PhysicsEngine::SetTransform(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation)
+    void PhysicsEngine::SetTransform(unsigned aBodyID, const Math::Vector2f& aPosition, float aRotation)
     {
         b2Rot rot;
         rot.c = cosf(aRotation);
         rot.s = sinf(aRotation);
 
-        b2Body_SetTransform(*aBodyID, b2Vec2(aPosition.x, aPosition.y), rot);
+        b2Body_SetTransform(myBodyIdRegistry.at(aBodyID), b2Vec2(aPosition.x, aPosition.y), rot);
     }
 
-    void PhysicsEngine::SetTransformBox(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale, const Math::Vector2f& aPivot)
+    void PhysicsEngine::SetTransformBox(unsigned aBodyID, const Math::Vector2f& aPosition, float aRotation, const Math::Vector2f& aScale, const Math::Vector2f& aPivot)
     {
         SetTransform(aBodyID, aPosition, aRotation);
 
         b2ShapeId shapeArray;
         int capacity = 1;
 
-        b2Body_GetShapes(*aBodyID, &shapeArray, capacity);
+        b2Body_GetShapes(myBodyIdRegistry.at(aBodyID), &shapeArray, capacity);
 
         float absX = std::abs(aScale.x);
         float absY = std::abs(aScale.y);
@@ -241,14 +239,14 @@ namespace Eclipse
         }
     }
 
-    void PhysicsEngine::SetTransformCircle(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, const Math::Vector2f& aPivot)
+    void PhysicsEngine::SetTransformCircle(unsigned aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, const Math::Vector2f& aPivot)
     {
         SetTransform(aBodyID, aPosition, aRotation);
 
         b2ShapeId shapeArray;
         int capacity = 1;
 
-        b2Body_GetShapes(*aBodyID, &shapeArray, capacity);
+        b2Body_GetShapes(myBodyIdRegistry.at(aBodyID), &shapeArray, capacity);
 
         float absRadius = std::abs(aRadius);
 
@@ -259,14 +257,14 @@ namespace Eclipse
         }
     }
 
-    void PhysicsEngine::SetTransformCapsule(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot)
+    void PhysicsEngine::SetTransformCapsule(unsigned aBodyID, const Math::Vector2f& aPosition, float aRotation, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot)
     {
         SetTransform(aBodyID, aPosition, aRotation);
 
         b2ShapeId shapeArray;
         int capacity = 1;
 
-        b2Body_GetShapes(*aBodyID, &shapeArray, capacity);
+        b2Body_GetShapes(myBodyIdRegistry.at(aBodyID), &shapeArray, capacity);
 
         float absRadius = std::abs(aRadius);
         float absHalfHeight = std::abs(aHalfHeight);
@@ -278,14 +276,14 @@ namespace Eclipse
         }
     }
 
-    void PhysicsEngine::SetTransformPolygon(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot)
+    void PhysicsEngine::SetTransformPolygon(unsigned aBodyID, const Math::Vector2f& aPosition, float aRotation, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot)
     {
         SetTransform(aBodyID, aPosition, aRotation);
 
         b2ShapeId shapeArray;
         int capacity = 1;
 
-        b2Body_GetShapes(*aBodyID, &shapeArray, capacity);
+        b2Body_GetShapes(myBodyIdRegistry.at(aBodyID), &shapeArray, capacity);
 
         if (std::abs(aScale.x) > 0 && std::abs(aScale.y) > 0)
         {
@@ -330,27 +328,7 @@ namespace Eclipse
     {
         auto& layers = Settings::PhysicsSettings::GetPhysicsLayers();
         for (int i = 0; i < layers.size(); i++)
-        {
             aCollisionLayers[i] = layers[i];
-        }
-
-
-
-
-        //std::string sPath = (PathManager::GetSettingsPath() / "CollisionLayers.json").generic_string();
-        //const char* layerPath = sPath.c_str();
-
-        //FILE* fileP = fopen(layerPath, "rb");
-        //char readBuffer[2048];
-        //rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
-
-        //rapidjson::Document document;
-        //document.ParseStream(fileReadStream);
-        //fclose(fileP);
-
-        //auto layers = document["Layers"].GetArray();
-        //for (unsigned i = 0; i < layers.Size(); i++)
-        //    aCollisionLayers[i] = layers[i].GetInt();
     }
 
     void PhysicsEngine::InitWorld()
@@ -422,9 +400,9 @@ namespace Eclipse
 
     void PhysicsEngine::Update()
     {
-        float dt = Time::GetDeltaTime();
+        float timestep = Time::GetTimeScale() / 60.f;
 
-        b2World_Step(myWorld, dt, mySubstepCount);
+        b2World_Step(myWorld, timestep, mySubstepCount);
 
         CheckCollisions();
     }

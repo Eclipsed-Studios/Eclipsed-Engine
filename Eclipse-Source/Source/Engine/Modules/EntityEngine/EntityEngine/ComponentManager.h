@@ -79,8 +79,6 @@ namespace Eclipse
 		static void GetAllComponentsOfType(unsigned aGOID, std::vector<T*>& aComponents);
 
 		template <typename T>
-		static T* GetComponentBase(unsigned aGOID);
-		template <typename T>
 		static T* GetComponent(unsigned aGOID);
 
 		template <typename T>
@@ -122,7 +120,6 @@ namespace Eclipse
 
 	private:
 		static inline std::function<void(Component*)> CreateComponentReplicated;
-
 
 		static inline std::function<void()> BeforeComponentConstruction;
 		static inline std::function<void()> AfterComponentConstruction;
