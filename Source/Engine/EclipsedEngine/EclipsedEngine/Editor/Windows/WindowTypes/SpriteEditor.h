@@ -9,7 +9,7 @@
 #include "CoreEngine/Math/Vector/Vector4.h"
 
 #include "CoreEngine/Math/RectSizePos.h"
-#include "AssetEngine/Assets/Texture.h"
+#include "AssetEngine/Assets/TextureAsset.h"
 
 namespace Eclipse::Editor
 {
@@ -95,7 +95,7 @@ namespace Eclipse::Editor
 		float mouseEdgeSensetivity = 5;
 
 	private:
-		static inline Texture myTexture;
+		static inline Assets::Texture myTexture;
 		static inline bool textureSet;
 		static inline std::filesystem::path myActivePath;
 

@@ -20,6 +20,8 @@ namespace Eclipse::Assets
 
 		Math::Color color;
 
+		unsigned int programID = 0;
+
 		SERIALIZE(
 			MAKE_NVP(vertexShader),
 			MAKE_NVP(pixelShader),

@@ -2,7 +2,7 @@
 
 #include "GraphicsEngine/Sprite.h"
 
-#include "AssetEngine/Resources.h"
+#include "AssetEngine/AssetManager.h"
 #include "CoreEngine/Settings/GraphicsSettings.h"
 
 #include "EclipsedEngine/Components/UI/RectTransform.h"
@@ -44,7 +44,7 @@ namespace Eclipse
 
         if (!hasMaterial)
         {
-            material = Resources::GetDefaultUIMaterial();
+            material = Assets::AssetManager::GetDefaultUIMaterial();
             material->Create();
 
             hasMaterial = true;
@@ -151,7 +151,7 @@ namespace Eclipse
         // Math::Vector2f canvasScaleRelationOneDiv = {resolution.x, resolution.y};
 
         Math::Vector2f size = spriteRectMax - spriteRectMin;
-        material->myMaterialBuffer.spriteRect = {spriteRectMin.x, spriteRectMin.y, size.x, size.y};
+        material->materialBuffer.spriteRect = {spriteRectMin.x, spriteRectMin.y, size.x, size.y};
 
         if (sprite->IsValid())
         {
@@ -173,7 +173,7 @@ namespace Eclipse
         GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
 #endif
 
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(5, material->myMaterialBuffer);
+        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(5, material->materialBuffer);
         GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(1, myTransformBuffer);
 
         CanvasBuffer* canvasBuffer;

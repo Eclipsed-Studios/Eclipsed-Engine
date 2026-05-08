@@ -10,21 +10,24 @@
 
 #include "OpenGL/glad/glad.h"
 
-#include "AssetEngine/AssetDatabase.h"
+#include "AssetEngine/Core/EditorAssetDatabase.h"
+#include "AssetEngine/AssetManager.h"
 #include "CoreEngine/MainSingleton.h"
 #include "CoreEngine/GraphicsBuffers/TextMaterialBuffer.h"
 #include "CoreEngine/GraphicsBuffers/TransformBuffer.h"
+
+#include "AssetEngine/AssetManager.h"
 
 namespace Eclipse
 {
 	TextMaterial::TextMaterial()
 	{
 		
-		size_t VtxShaderGUID = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData("Engine/Assets/Default/Shaders/Text.vglsl").guid;
-		size_t PxShaderGUID = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData("Engine/Assets/Default/Shaders/Text.pglsl").guid;
+		const Assets::AssetMeta& VtxShaderGUID = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile("Engine/Assets/Default/Shaders/Text.vglsl");
+		const Assets::AssetMeta& PxShaderGUID = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile("Engine/Assets/Default/Shaders/Text.pglsl");
 
-		pixelShader = Resources::Get<PixelShader>(VtxShaderGUID);
-		vertexShader = Resources::Get<VertexShader>(PxShaderGUID);
+		pixelShader = Assets::AssetManager::Load<Assets::PixelShader>(PxShaderGUID.guid);
+		vertexShader = Assets::AssetManager::Load<Assets::VertexShader>(VtxShaderGUID.guid);
 
 		programID = glCreateProgram();
 		glAttachShader(programID, vertexShader.GetProgramID());
@@ -111,7 +114,7 @@ namespace Eclipse
 			TransformUpdate();
 		});
 
-		font = Resources::GetDefaultFont();
+		font = Assets::AssetManager::GetDefaultFont();
 	}
 
 	//void TextRenderer::DrawInspector()
@@ -397,7 +400,7 @@ namespace Eclipse
 	{
 		if (!myMaterial)
 			return;
-		if (!font->data)
+		if (!font->dataPtr)
 			return;
 
 		const char* textInConstChar = myText->c_str();
@@ -418,7 +421,7 @@ namespace Eclipse
 		
 		Math::Vector2f resolution = transform->myCanvas->ReferenceResolution;
 
-		auto CurrentFont = font->data->font;
+		auto CurrentFont = font->dataPtr->font;
 
 		TransformUpdate();
 		
@@ -444,7 +447,7 @@ namespace Eclipse
 				lineOffsets.emplace_back(0.f);
 				continue;
 			}
-			Character& characterFace = CurrentFont.myCharTexture.at(character);
+			Assets::Character& characterFace = CurrentFont.myCharTexture.at(character);
 			float convertedAdvance = (float)(characterFace.advance >> 6) * 100.f * myTransformBuffer.Scale.x;
 			lineOffsets.back() += convertedAdvance * 0.5f * myTextAlignment * myCharacterSpacing;
 		}
@@ -494,7 +497,7 @@ namespace Eclipse
 			if (CurrentFont.myCharTexture.find(character) == CurrentFont.myCharTexture.end())
 				character = '\n';
 		
-			Character& characterFace = CurrentFont.myCharTexture.at(character);
+			Assets::Character& characterFace = CurrentFont.myCharTexture.at(character);
 			float characterAdvance = (float)(characterFace.advance >> 6) * 100.f * myTransformBuffer.Scale.x;
 		
 			//Math::Vector2f scaleRect = myTransformBuffer.Scale * myRect * resolution;

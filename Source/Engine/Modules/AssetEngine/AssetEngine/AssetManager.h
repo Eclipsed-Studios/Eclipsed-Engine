@@ -12,37 +12,45 @@
 #include "Assets/Shader/PixelShaderAsset.h"
 #include "Assets/Shader/VertexShaderAsset.h"
 
+#include "IO/BinaryReader.h"
+
 #include "AssetEngine/Core/EditorAssetDatabase.h"
 
 #include "CoreEngine/MainSingleton.h"
 
 namespace Eclipse::Assets
 {
-    class AssetManager
-    {
-    public:
-        template<typename T>
-        T Load(const GUID& guid);
+	class AssetManager
+	{
+	public:
+		template<typename T>
+		static T Load(const GUID& guid);
+
+
+		static Font GetDefaultFont();
+		static Material GetDefaultUIMaterial();
 
 
 
 
+		// IFDEF EDITOR
+		static  void ImportAssets(const std::filesystem::path& path, const std::string& key = "Assets");
 
+		static void RegisterTypes();
 
-        // IFDEF EDITOR
-        void ImportAssets(const std::filesystem::path& path, const std::string& key = "Assets");
+		static  IAssetType* GetType(AssetType assetType);
 
-        void RegisterTypes();
+		static inline std::unordered_map<AssetType, IAssetType*> types;
+	};
 
-        IAssetType* GetType(AssetType assetType);
+	template<typename T>
+	inline T AssetManager::Load(const GUID& guid)
+	{
+		BinaryReader reader;
 
-        std::unordered_map<AssetType, IAssetType*> types;
-    };
+		const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
+		GetType(meta.type)->Load(reader, meta);
 
-    template<typename T>
-    inline T AssetManager::Load(const GUID& guid)
-    {
-        const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
-        GetType(meta.type)->Load(meta);
-    }
+		return {};
+	}
 }

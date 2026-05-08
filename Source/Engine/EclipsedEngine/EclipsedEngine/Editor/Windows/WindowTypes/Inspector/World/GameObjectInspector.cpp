@@ -21,6 +21,7 @@ namespace Eclipse::Editor
 			return;
 
 		GameObject* gameObject = ComponentManager::myEntityIdToEntity[target];
+		if (gameObject == nullptr) return;
 
 		ImGuiStyle& style = ImGui::GetStyle();
 		const ImVec2 padding = style.WindowPadding;

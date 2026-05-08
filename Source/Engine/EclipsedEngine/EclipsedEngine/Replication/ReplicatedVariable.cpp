@@ -1,6 +1,6 @@
 #include "ReplicatedVariable.h"
 
-#include "AssetEngine/Data/AssetData.h"
+#include "AssetEngine/BinaryFormats/AssetData.h"
 
 #include "NetworkEngine/Client/SteamP2PNetworkingClient.h"
 #include "NetworkEngine/Server/SteamP2PNetworkingServer.h"
@@ -29,7 +29,7 @@ namespace Eclipse::Replication
 
         if (IsAsset)
         {
-            AssetData** handle = reinterpret_cast<AssetData**>(myReflectVariable->GetData());
+            Assets::AssetData** handle = reinterpret_cast<Assets::AssetData**>(myReflectVariable->GetData());
             memcpy(data + offset, *handle, dataAmount);
             offset += dataAmount;
         }

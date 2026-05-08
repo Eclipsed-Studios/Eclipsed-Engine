@@ -7,7 +7,7 @@
 #include "EntityEngine/ComponentManager.h"
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
-#include "AssetEngine/Resources.h"
+#include "AssetEngine/AssetManager.h"
 
 #include "CoreEngine/PathManager.h"
 
@@ -55,7 +55,7 @@ namespace Eclipse
 
         Replication::ReplicationManager::Init();
         ComponentForcelink::LinkComponents();
-        Resources::Init();
+        //Resources::Init();
 
 #ifdef ECLIPSED_EDITOR
         {

@@ -21,11 +21,10 @@
 
 #include "OpenGL/GLFW/glfw3.h"
 
-#include "AssetEngine/Assets/Texture.h"
-#include "AssetEngine/Resources.h"
+#include "AssetEngine/Assets/TextureAsset.h"
+#include "AssetEngine/AssetManager.h"
 
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
-#include "AssetEngine/AssetDatabase.h"
 #include "CoreEngine/MainSingleton.h"
 
 #undef min
@@ -782,8 +781,8 @@ namespace Eclipse::Editor
 	{
 		myActivePath = aPath;
 
-		size_t textureGuid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(aPath.generic_string().c_str()).guid;
-		myTexture = Resources::Get<Texture>(textureGuid);
+		auto textureGuid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(aPath.generic_string().c_str());
+		myTexture = Assets::AssetManager::Load<Assets::Texture>(textureGuid.guid);
 		
 		LoadMeta(aPath);
 

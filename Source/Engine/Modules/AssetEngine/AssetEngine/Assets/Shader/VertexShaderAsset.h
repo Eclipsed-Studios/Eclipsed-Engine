@@ -6,6 +6,9 @@ namespace Eclipse::Assets
 {
 	struct VertexShader : public Shader
 	{
-		// methods regarding the asset.
+	public:
+		unsigned GetProgramID() const;
+
+		void Bind();
 	};
 }

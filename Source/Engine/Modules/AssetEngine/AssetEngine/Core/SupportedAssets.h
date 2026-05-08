@@ -11,7 +11,8 @@ namespace Eclipse::Assets
 
 		Texture,
 		Material,
-		Shader,
+		VertexShader,
+		PixelShader,
 		AudioClip,
 		Font,
 		Prefab,
@@ -32,9 +33,8 @@ namespace Eclipse::Assets
 		
 		{".mat",  AssetType::Material},
 		
-		{".vglsl",  AssetType::Shader},
-		{".pglsl",  AssetType::Shader},
-		{".glsl",  AssetType::Shader},
+		{".vglsl",  AssetType::VertexShader},
+		{".pglsl",  AssetType::PixelShader},
 		
 		{".mp3",  AssetType::AudioClip},
 		

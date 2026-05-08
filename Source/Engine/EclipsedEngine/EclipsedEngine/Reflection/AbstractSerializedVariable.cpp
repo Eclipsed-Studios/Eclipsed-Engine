@@ -3,17 +3,17 @@
 #include "Reflection.h"
 
 #include "EclipsedEngine/Editor/Common/DragAndDrop.h"
-#include "AssetEngine/Assets/Material.h"
-#include "AssetEngine/Assets/AudioClip.h"
-#include "AssetEngine/Assets/Texture.h"
-#include "AssetEngine/Assets/Prefab.h"
-#include "AssetEngine/Resources.h"
+#include "AssetEngine/Assets/MaterialAsset.h"
+#include "AssetEngine/Assets/AudioAsset.h"
+#include "AssetEngine/Assets/TextureAsset.h"
+#include "AssetEngine/Assets/PrefabAsset.h"
+#include "AssetEngine/AssetManager.h"
 
 #include "ReflectionTypeChecks.h"
 #include "EntityEngine/Component.h"
 
 #include "CoreEngine/MainSingleton.h"
-#include "AssetEngine/AssetDatabase.h"
+#include "AssetEngine/Core/EditorAssetDatabase.h"
 
 #include "EclipsedEngine/Editor/Windows/EditorField.h"
 
@@ -115,16 +115,15 @@ namespace Eclipse::Reflection
 
 				std::string name = "No material.";
 
-				Material* mat = (Material*)GetData();
+				Assets::Material* mat = (Assets::Material*)GetData();
 				if (mat->IsValid())
 				{
-					name = mat->GetAssetID();
+					name = mat->GetAssetID().ToString();
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Material))
 				{
-					size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-					*mat = Resources::Get<Material>(guid);
+					*mat = Assets::AssetManager::Load<Assets::Material>(MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid);
 
 					mat->Create();
 				}
@@ -137,16 +136,17 @@ namespace Eclipse::Reflection
 
 				std::string name = "No audio clip.";
 
-				AudioClip* clip = (AudioClip*)GetData();
+				Assets::Audio* clip = (Assets::Audio*)GetData();
 				if (clip->IsValid())
 				{
-					name = clip->GetAssetID();
+					name = clip->GetAssetID().ToString();
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Audio))
 				{
-					size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-					AudioClip clips = Resources::Get<AudioClip>(guid);
+					Assets::GUID guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid;
+					Assets::Audio clips = Assets::AssetManager::Load<Assets::Audio>(guid);
+					
 					*clip = clips;
 				}
 			} break;
@@ -157,16 +157,17 @@ namespace Eclipse::Reflection
 
 				std::string name = "No texture.";
 
-				Texture* texture = (Texture*)GetData();
+				Assets::Texture* texture = (Assets::Texture*)GetData();
 				if (texture->IsValid())
 				{
-					name = texture->GetAssetID();
+					name = texture->GetAssetID().ToString();
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Texture))
 				{
-					size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-					*texture = Resources::Get<Texture>(guid);
+					Assets::GUID guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid;
+					Assets::Texture _texture = Assets::AssetManager::Load<Assets::Texture>(guid);
+					*texture= _texture;
 				}
 			} break;
 
@@ -176,16 +177,17 @@ namespace Eclipse::Reflection
 
 				std::string name = "No Prefab.";
 
-				Prefab* prefab = (Prefab*)GetData();
+				Assets::Prefab* prefab = (Assets::Prefab*)GetData();
 				if (prefab->IsValid())
 				{
-					name = prefab->GetAssetID();
+					name = prefab->GetAssetID().ToString();
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Prefab))
 				{
-					size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-					*prefab = Resources::Get<Prefab>(guid);
+					Assets::GUID guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid;
+					Assets::Prefab _texture = Assets::AssetManager::Load<Assets::Prefab>(guid);
+					*prefab = _texture;
 				}
 			} break;
 
@@ -195,16 +197,17 @@ namespace Eclipse::Reflection
 
 					std::string name = "No Font.";
 
-					Font* font = (Font*)GetData();
+					Assets::Font* font = (Assets::Font*)GetData();
 					if (font->IsValid())
 					{
-						name = font->GetAssetID();
+						name = font->GetAssetID().ToString();
 					}
 
 					if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Font))
 					{
-						size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-						*font = Resources::Get<Font>(guid);
+						Assets::GUID guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid;
+						Assets::Font _texture = Assets::AssetManager::Load<Assets::Font>(guid);
+						*font = _texture;
 					}
 				} break;
 

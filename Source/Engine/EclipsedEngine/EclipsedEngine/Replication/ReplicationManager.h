@@ -5,7 +5,6 @@
 #include "asio/asio.hpp"
 
 #include "NetworkEngine/Shared/Message.h"
-#include "AssetEngine/Assets/PrefabAsset.h"
 
 namespace Eclipse
 {
@@ -15,7 +14,11 @@ namespace Eclipse
     class GameObject;
     class Component;
 
-    class Prefab;
+    namespace Assets
+    {
+        class Prefab;
+        class GUID;
+    }
 }
 
 namespace Eclipse::Replication

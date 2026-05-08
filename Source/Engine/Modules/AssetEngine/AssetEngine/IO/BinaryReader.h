@@ -5,5 +5,5 @@ namespace Eclipse::Assets
     class BinaryReader
     {
     public:
-    }
+    };
 }

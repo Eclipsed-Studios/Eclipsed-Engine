@@ -3,8 +3,9 @@
 #include "EclipsedEngine/Components/Rendering/BaseRenderComponent.h"
 #include "EclipsedEngine/Components/Component.h"
 
-#include "AssetEngine/Assets/Shader/ShaderAsset.h"
-#include "AssetEngine/Assets/Font/FontAsset.h"
+#include "AssetEngine/Assets/Shader/VertexShaderAsset.h"
+#include "AssetEngine/Assets/Shader/PixelShaderAsset.h"
+#include "AssetEngine/Assets/FontAsset.h"
 
 #include "CoreEngine/PathManager.h"
 #include "CoreEngine/GraphicsBuffers/TextBuffer.h"
@@ -22,7 +23,8 @@ namespace Eclipse
         TextMaterial();
         void Use(unsigned textureID);
 
-        Assets::Shader shader;
+        Assets::VertexShader vertexShader;
+        Assets::PixelShader pixelShader;
 
         unsigned programID = 0;
 

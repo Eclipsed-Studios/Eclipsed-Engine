@@ -15,7 +15,7 @@ namespace Eclipse::Assets
 			file.fullPath = candidate.fullPath;
 
 			guidToAsset[file.guid] = file;
-			pathToGuid[candidate.fullPath] = file.guid;
+			pathToGuid[candidate.relativePath] = file.guid;
 			const AssetType type = GetAssetTypeFromExtension(candidate.fullPath.extension().string());
 			typeToAssets[type].push_back(file.guid);
 			sourceToAssets[key].push_back(file.guid);
