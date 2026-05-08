@@ -1,6 +1,6 @@
 #include "PixelShaderInspector.h"
 
-#include "AssetEngine/SupportedAssets.h"
+#include "AssetEngine/Core/SupportedAssets.h"
 #include "ImGui/ImGui.h"
 
 namespace Eclipse::Editor

@@ -3,8 +3,8 @@
 #include "Components/Rendering/BaseRenderComponent.h"
 #include "EclipsedEngine/Components/Component.h"
 
-#include "AssetEngine/Assets/Material/MaterialAsset.h"
-#include "AssetEngine/Assets/Texture/TextureAsset.h"
+#include "AssetEngine/Assets/MaterialAsset.h"
+#include "AssetEngine/Assets/TextureAsset.h"
 
 namespace Eclipse
 {

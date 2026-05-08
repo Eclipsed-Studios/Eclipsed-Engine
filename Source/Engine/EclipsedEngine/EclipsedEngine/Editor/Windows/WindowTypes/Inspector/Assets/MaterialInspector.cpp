@@ -1,6 +1,6 @@
 #include "MaterialInspector.h"
 
-#include "AssetEngine/SupportedAssets.h"
+#include "AssetEngine/Core/SupportedAssets.h"
 #include "ImGui/ImGui.h"
 
 #include "EclipsedEngine/Editor/Windows/EditorField.h"

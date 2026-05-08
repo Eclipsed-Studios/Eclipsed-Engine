@@ -13,21 +13,44 @@
 
 namespace Eclipse::Assets
 {
+	Font AssetManager::GetDefaultFont()
+	{
+		return Font();
+	}
+
+	Material AssetManager::GetDefaultUIMaterial()
+	{
+		return Material();
+	}
+
 	void AssetManager::ImportAssets(const std::filesystem::path& path, const std::string& key)
 	{
+		if (!MainSingleton::Exists<AssetDatabase>())
+		{
+			MainSingleton::RegisterInstance<AssetDatabase>();
+			RegisterTypes();
+		}
+
 		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
 		database.ProcessSource(path, key);
 
 		for (auto& [guid, file] : database.GetSources())
 		{
-			AssetType assetType = GetAssetTypeFromExtension(path.extension().string());
+			AssetType assetType = GetAssetTypeFromExtension(file.fullPath.extension().string());
 			IAssetType* type = GetType(assetType);
 
 			ImportedData imported = type->Import(file);
-			ProcessedData processed = type->Process(imported);
+			BinaryWriter writer(guid);
 
-			BinaryWriter writer;
-			type->Serialize(writer, processed);
+			if (type->NeedsProcessing())
+			{
+				ProcessedData processed = type->Process(imported);
+				type->Serialize(writer, processed);
+			}
+			else
+			{
+				type->Serialize(writer, imported);
+			}
 		}
 	}
 
@@ -37,7 +60,8 @@ namespace Eclipse::Assets
 		types[AssetType::Font] = new FontAssetType;
 		types[AssetType::Material] = new MaterialAssetType;
 		types[AssetType::Prefab] = new PrefabAssetType;
-		types[AssetType::Shader] = new ShaderAssetType;
+		types[AssetType::VertexShader] = new ShaderAssetType;
+		types[AssetType::PixelShader] = new ShaderAssetType;
 		types[AssetType::Texture] = new TextureAssetType;
 	}
 

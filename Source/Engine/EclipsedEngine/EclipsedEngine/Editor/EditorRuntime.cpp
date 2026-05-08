@@ -32,6 +32,7 @@ namespace Eclipse::Editor
 
 		ComponentForcelink::LinkComponents();
 
+		eclipseRuntime.StartEngine(path);
 		{ // register asses
 			MainSingleton::RegisterInstance<Assets::AssetManager>();
 
@@ -39,7 +40,6 @@ namespace Eclipse::Editor
 			MainSingleton::GetInstance<Assets::AssetManager>().ImportAssets(PathManager::GetAssetsPath(), "Project/");
 		}
 
-		eclipseRuntime.StartEngine(path);
 
 		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
 

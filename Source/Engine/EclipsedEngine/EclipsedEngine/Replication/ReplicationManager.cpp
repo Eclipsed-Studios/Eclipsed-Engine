@@ -5,7 +5,7 @@
 
 #include "EntityEngine/Component.h"
 
-#include "AssetEngine/Assets/Prefab/PrefabAsset.h"
+#include "AssetEngine/Assets/PrefabAsset.h"
 
 #include "NetworkEngine/Client/SteamP2PNetworkingClient.h"
 #include "NetworkEngine/Server/SteamP2PNetworkingServer.h"

@@ -15,8 +15,7 @@ namespace Eclipse::Assets
 	struct Asset {
 		virtual ~Asset();
 		virtual bool IsValid() const {
-			assert("Not implemented");
-			return false;
+			return dataPtr == nullptr;
 		}
 		
 		GUID guid;
@@ -32,6 +31,8 @@ namespace Eclipse::Assets
 	template<typename T>
 	inline Asset<T>::~Asset()
 	{
+		if (IsValid())  return;
+
 		dataPtr->DecreaseRefCount();
 	}
 

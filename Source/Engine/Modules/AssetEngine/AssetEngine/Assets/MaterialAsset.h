@@ -3,6 +3,7 @@
 #include "AssetEngine/Assets/Asset.h"
 
 #include "AssetEngine/BinaryFormats/MaterialData.h"
+#include "CoreEngine/GraphicsBuffers/MaterialBuffer.h"
 
 
 namespace Eclipse::Assets
@@ -11,5 +12,15 @@ namespace Eclipse::Assets
 		Texture GetTexture() const;
 		PixelShader GetPixelShader() const;
 		VertexShader GetVertexShader() const;
+
+	public:
+		void BindTexture();
+		void BindShader();
+		void BindColor();
+
+		void Use();
+		void Create();
+
+		MaterialBuffer materialBuffer;
 	};
 }

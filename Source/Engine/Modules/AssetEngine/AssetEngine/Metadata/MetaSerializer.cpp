@@ -34,7 +34,8 @@ namespace Eclipse::Assets
 
 		case AssetType::Unknown:
 		case AssetType::Material:
-		case AssetType::Shader:
+		case AssetType::VertexShader:
+		case AssetType::PixelShader:
 		case AssetType::AudioClip:
 		case AssetType::Font:
 		case AssetType::Prefab:

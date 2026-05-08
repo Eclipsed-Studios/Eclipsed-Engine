@@ -24,7 +24,7 @@
 
 #include "CoreEngine/Debug/DebugLogger.h"
 
-#include "AssetEngine/Resources.h"
+#include "AssetEngine/AssetManager.h"
 
 namespace Eclipse
 {
@@ -143,33 +143,33 @@ namespace Eclipse
 			std::string id = "";
 			if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
 			{
-				Reflection::SerializedVariable<Texture>* asset = (Reflection::SerializedVariable<Texture>*)aSerialized;
+				Reflection::SerializedVariable<Assets::Texture>* asset = (Reflection::SerializedVariable<Assets::Texture>*)aSerialized;
 				if (!asset->Get().IsValid()) return;
-				id = asset->Get().GetAssetID();
+				id = asset->Get().GetAssetID().ToString();
 			}
 			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material)
 			{
-				Reflection::SerializedVariable<Material>* asset = (Reflection::SerializedVariable<Material>*)aSerialized;
+				Reflection::SerializedVariable<Assets::Material>* asset = (Reflection::SerializedVariable<Assets::Material>*)aSerialized;
 				if (!asset->Get().IsValid()) return;
-				id = asset->Get().GetAssetID();
+				id = asset->Get().GetAssetID().ToString();
 			}
 			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
 			{
-				Reflection::SerializedVariable<AudioClip>* asset = (Reflection::SerializedVariable<AudioClip>*)aSerialized;
+				Reflection::SerializedVariable<Assets::Audio>* asset = (Reflection::SerializedVariable<Assets::Audio>*)aSerialized;
 				if (!asset->Get().IsValid()) return;
-				id = asset->Get().GetAssetID();
+				id = asset->Get().GetAssetID().ToString();
 			}
 			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Prefab)
 			{
-				Reflection::SerializedVariable<Prefab>* asset = (Reflection::SerializedVariable<Prefab>*)aSerialized;
+				Reflection::SerializedVariable<Assets::Prefab>* asset = (Reflection::SerializedVariable<Assets::Prefab>*)aSerialized;
 				if (!asset->Get().IsValid()) return;
-				id = asset->Get().GetAssetID();
+				id = asset->Get().GetAssetID().ToString();
 			}
 			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Font)
 			{
-				Reflection::SerializedVariable<Font>* asset = (Reflection::SerializedVariable<Font>*)aSerialized;
+				Reflection::SerializedVariable<Assets::Font>* asset = (Reflection::SerializedVariable<Assets::Font>*)aSerialized;
 				if (!asset->Get().IsValid()) return;
-				id = asset->Get().GetAssetID();
+				id = asset->Get().GetAssetID().ToString();
 			}
 
 			jsonVal.SetString(id.c_str(), alloc);
@@ -376,32 +376,34 @@ namespace Eclipse
 				aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip
 				)
 			{
-				size_t id = val.GetUint64();
+				std::string id = val.GetString();
+				Assets::GUID guid;
+				guid.FromString(id);
 
 				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Font)
 				{
-					Reflection::SerializedVariable<Font>* asset = (Reflection::SerializedVariable<Font>*)aSerializedVariable;
-					*asset = Resources::Get<Font>(id);
+					Reflection::SerializedVariable<Assets::Font>* asset = (Reflection::SerializedVariable<Assets::Font>*)aSerializedVariable;
+					*asset = Assets::AssetManager::Load<Assets::Font>(guid);
 				}
 				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Prefab)
 				{
-					Reflection::SerializedVariable<Prefab>* asset = (Reflection::SerializedVariable<Prefab>*)aSerializedVariable;
-					*asset = Resources::Get<Prefab>(id);
+					Reflection::SerializedVariable<Assets::Prefab>* asset = (Reflection::SerializedVariable<Assets::Prefab>*)aSerializedVariable;
+					*asset = Assets::AssetManager::Load<Assets::Prefab>(guid);
 				}
 				if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Texture)
 				{
-					Reflection::SerializedVariable<Texture>* asset = (Reflection::SerializedVariable<Texture>*)aSerializedVariable;
-					*asset = Resources::Get<Texture>(id);
+					Reflection::SerializedVariable<Assets::Texture>* asset = (Reflection::SerializedVariable<Assets::Texture>*)aSerializedVariable;
+					*asset = Assets::AssetManager::Load<Assets::Texture>(guid);
 				}
 				else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_Material)
 				{
-					Reflection::SerializedVariable<Material>* asset = (Reflection::SerializedVariable<Material>*)aSerializedVariable;
-					*asset = Resources::Get<Material>(id);
+					Reflection::SerializedVariable<Assets::Material>* asset = (Reflection::SerializedVariable<Assets::Material>*)aSerializedVariable;
+					*asset = Assets::AssetManager::Load<Assets::Material>(guid);
 				}
 				else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
 				{
-					Reflection::SerializedVariable<AudioClip>* asset = (Reflection::SerializedVariable<AudioClip>*)aSerializedVariable;
-					*asset = Resources::Get<AudioClip>(id);
+					Reflection::SerializedVariable<Assets::Audio>* asset = (Reflection::SerializedVariable<Assets::Audio>*)aSerializedVariable;
+					*asset = Assets::AssetManager::Load<Assets::Audio>(guid);
 				}
 			}
 

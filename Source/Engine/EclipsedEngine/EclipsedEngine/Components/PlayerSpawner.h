@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AssetEngine/Assets/Prefab/PrefabAsset.h"
+#include "AssetEngine/Assets/PrefabAsset.h"
 
 #include "EclipsedEngine/Components/Component.h"
 

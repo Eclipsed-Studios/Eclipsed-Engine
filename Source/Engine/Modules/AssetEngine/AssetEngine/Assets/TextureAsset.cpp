@@ -32,8 +32,34 @@ namespace Eclipse::Assets
         return dataPtr->spriteRects;
     }
 
-    void Texture::Bind()
-    {
 
-    }
+
+
+
+	float Texture::GetAspectRatio() const
+	{
+		return (float)dataPtr->width / (float)dataPtr->height;
+	}
+
+	unsigned Texture::GetTextureID() const
+	{
+		return dataPtr->textureID;
+	}
+
+	const Math::Vector2f& Texture::GetTextureSizeNormilized() const
+	{
+		return dataPtr->sizeNormalized;
+	}
+
+	void Texture::Bind(int slot) const
+	{
+		glActiveTexture(GL_TEXTURE0 + slot);
+		glBindTexture(GL_TEXTURE_2D, dataPtr->textureID);
+	}
+
+	void Texture::Unbind(int slot) const
+	{
+		glActiveTexture(GL_TEXTURE0 + slot);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 }
