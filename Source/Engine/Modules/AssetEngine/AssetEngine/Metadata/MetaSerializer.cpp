@@ -50,6 +50,11 @@ namespace Eclipse::Assets
 	{
 		AssetMeta meta = GetMetaType(assetPath);
 		meta.guid.Generate();
+		meta.fullPath = assetPath;
+		meta.type = GetAssetTypeFromExtension(assetPath.extension().string());
+
+		const std::string guidStr = meta.guid.ToString();
+		meta.exportedPath = PathManager::GetArtifactsPath() / guidStr.substr(0, 2) / guidStr;
 
 		WriteMetaToFile(assetPath, meta);
 
@@ -77,6 +82,13 @@ namespace Eclipse::Assets
 
 	std::filesystem::path MetaSerializer::GetMetaPath(const std::filesystem::path& assetPath)
 	{
-		return assetPath.generic_string() + ".meta";
+		if (assetPath.extension().string() == ".meta")
+		{
+			return assetPath;
+		}
+		else
+		{
+			return assetPath.generic_string() + ".meta";
+		}
 	}
 }
