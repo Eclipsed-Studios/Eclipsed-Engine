@@ -1,6 +1,7 @@
 #include "EditorAssetDatabase.h"
 
 #include "AssetEngine/Discovery/AssetScanner.h"
+#include "AssetEngine/Metadata/MetaSerializer.h"
 
 namespace Eclipse::Assets
 {
@@ -10,9 +11,7 @@ namespace Eclipse::Assets
 
 		for (const AssetCandidate& candidate : candidates)
 		{
-			AssetMeta file;
-			file.guid.Generate();
-			file.fullPath = candidate.fullPath;
+			AssetMeta file = MetaSerializer::LoadOrCreateMeta(candidate.fullPath);
 
 			guidToAsset[file.guid] = file;
 			pathToGuid[candidate.relativePath] = file.guid;
