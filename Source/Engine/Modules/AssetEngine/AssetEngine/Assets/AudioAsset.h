@@ -6,7 +6,9 @@
 
 namespace Eclipse::Assets
 {
-	struct Audio : public Asset<AudioData> {
-		// methods regarding the asset.
+	struct AudioClip : public Asset<AudioData> {
+		ASSET_IMPL(AudioClip, AudioData)
+
+	public:
 	};
 }

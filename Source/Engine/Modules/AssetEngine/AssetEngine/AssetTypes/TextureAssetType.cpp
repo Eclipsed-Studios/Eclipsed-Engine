@@ -4,16 +4,22 @@
 
 namespace Eclipse::Assets
 {
-    ImportedData TextureAssetType::Import(const AssetMeta& file)
-    {
+	TextureAssetType::TextureAssetType()
+	{
+		defaultAssetsGuids[DefaultAssetType::TEXTURE_ERROR].FromString("615be1e3286c63e8cff80bee20410294");
+		defaultAssetsGuids[DefaultAssetType::TEXTURE_DEFAULT].FromString("6aedf12c76af06d6517e73ce2548607d");
+	}
+
+	ImportedData TextureAssetType::Import(const AssetMeta& file)
+	{
 		ImportedTexture data;
 
 		unsigned char* pixelData;
 		pixelData = STB_Helper::Load_Texture_STB(file.fullPath.generic_string().c_str(), data.width, data.height, data.channels, true);
 
-        const size_t size = data.width * data.height * data.channels;
-        data.Data.resize(size);
-        memcpy(data.Data.data(), pixelData, size);
+		const size_t size = data.width * data.height * data.channels;
+		data.Data.resize(size);
+		memcpy(data.Data.data(), pixelData, size);
 		STB_Helper::FreeData_STB(pixelData);
 
 		//TextureAssetMetaSettings texMetaSettings = LoadOrCreateMeta<TextureAssetMetaSettings>(aPath);
@@ -21,29 +27,59 @@ namespace Eclipse::Assets
 		//outStream.write(reinterpret_cast<const char*>(&dataAmount), sizeof(int));
 		//outStream.write(reinterpret_cast<const char*>(texMetaSettings.spriteRects.data()), dataAmount);
 
-        return data;
-    }
+		return data;
+	}
 
-    ProcessedData TextureAssetType::Process(const ImportedData& file)
-    {
-        return file;
+	ProcessedData TextureAssetType::Process(const ImportedData& file)
+	{
+		return file;
+	}
 
-    }
+	void TextureAssetType::Serialize(BinaryWriter& writer, const ProcessedData& data)
+	{
+		if (!writer.IsOpen()) return;
 
-    void TextureAssetType::Serialize(BinaryWriter& writer, const ProcessedData& data)
-    {
-        if (!writer.IsOpen()) return;
+		const ImportedTexture& _data = std::get<ImportedTexture>(data);
 
-        const ImportedTexture& _data = std::get<ImportedTexture>(data);
+		writer.Write(DATA_SIZE_PAIR(_data.width));
+		writer.Write(DATA_SIZE_PAIR(_data.height));
+		writer.Write(DATA_SIZE_PAIR(_data.channels));
+		writer.Write(_data.Data.data(), _data.Data.size());
+	}
 
-        writer.Write(WRITE(_data.width));
-        writer.Write(WRITE(_data.height));
-        writer.Write(WRITE(_data.channels));
-        writer.Write(_data.Data.data(), _data.Data.size());
-    }
+	void TextureAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+	{
+		TextureData* _data = reinterpret_cast<TextureData*>(data);
 
-    RuntimeAsset TextureAssetType::Load(BinaryReader& reader, const AssetMeta& meta)
-    {
-        return RuntimeAsset();
-    }
+		reader.Read(DATA_SIZE_PAIR(_data->width));
+		reader.Read(DATA_SIZE_PAIR(_data->height));
+		reader.Read(DATA_SIZE_PAIR(_data->channels));
+
+		std::vector<unsigned char> pixelData(_data->width * _data->height * _data->channels);
+		reader.Read(pixelData.data(), pixelData.size());
+
+
+		_data->dimDivOne.X = 1.f / static_cast<float>(_data->width);
+		_data->dimDivOne.Y = 1.f / static_cast<float>(_data->height);
+		_data->sizeNormalized = Math::Vector2f{ 1.f, static_cast<float>(_data->height) / _data->width };
+		_data->guid = meta.guid;
+
+		glGenTextures(1, &_data->textureID);
+		glBindTexture(GL_TEXTURE_2D, _data->textureID);
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, 0x2901);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, 0x2901);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
+
+		int rgbTypeOffset = 3 - _data->channels;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _data->width, _data->height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixelData.data());
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 }

@@ -6,6 +6,8 @@
 namespace Eclipse::Assets
 {
 	struct Font : public Asset<FontData> {
-		// methods regarding the asset.
+		ASSET_IMPL(Font, FontData)
+
+	public:
 	};
 }

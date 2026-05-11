@@ -8,9 +8,12 @@
 namespace Eclipse::Assets
 {
 	struct Texture : public Asset<TextureData> {
+		ASSET_IMPL(Texture, TextureData)
+
+	public:
 		Math::Vector2f GetDimDivOne() const;
 		Math::Vector2f GetSizeNormalized() const;
-		
+
 		int GetWidth() const;
 		int GetHeight() const;
 		int GetChannels() const;

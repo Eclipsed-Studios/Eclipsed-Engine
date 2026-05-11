@@ -136,7 +136,7 @@ namespace Eclipse::Reflection
 
 				std::string name = "No audio clip.";
 
-				Assets::Audio* clip = (Assets::Audio*)GetData();
+				Assets::AudioClip* clip = (Assets::AudioClip*)GetData();
 				if (clip->IsValid())
 				{
 					name = clip->GetAssetID().ToString();
@@ -145,7 +145,7 @@ namespace Eclipse::Reflection
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Audio))
 				{
 					Assets::GUID guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid;
-					Assets::Audio clips = Assets::AssetManager::Load<Assets::Audio>(guid);
+					Assets::AudioClip clips = Assets::AssetManager::Load<Assets::AudioClip>(guid);
 					
 					*clip = clips;
 				}

@@ -5,7 +5,7 @@
 
 #include "AssetEngine/Core/GUID.h"
 
-#define WRITE(data) &data, sizeof(data)
+#define DATA_SIZE_PAIR(data) &data, sizeof(data)
 
 namespace Eclipse::Assets
 {

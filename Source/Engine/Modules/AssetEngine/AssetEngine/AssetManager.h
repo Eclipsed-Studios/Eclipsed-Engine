@@ -1,7 +1,6 @@
 #pragma once
 
 #include <filesystem>
-#include "AssetTypes/IAssetType.h"
 
 #include "Assets/Asset.h"
 #include "Assets/AudioAsset.h"
@@ -15,42 +14,46 @@
 #include "IO/BinaryReader.h"
 
 #include "AssetEngine/Core/EditorAssetDatabase.h"
-
+#include "AssetLoader.h"
 #include "CoreEngine/MainSingleton.h"
+#include "AssetFactory.h"
 
 namespace Eclipse::Assets
 {
 	class AssetManager
 	{
 	public:
-		template<typename T>
-		static T Load(const GUID& guid);
-
-
-		static Font GetDefaultFont();
-		static Material GetDefaultUIMaterial();
-
-
-
-
-		// IFDEF EDITOR
 		static  void ImportAssets(const std::filesystem::path& path, const std::string& key = "Assets");
 
-		static void RegisterTypes();
 
-		static  IAssetType* GetType(AssetType assetType);
 
-		static inline std::unordered_map<AssetType, IAssetType*> types;
+
+
+		static void EndFrame();
+
+
+
+
+
+
+		template<typename T>
+		static T Load(GUID guid);
+
+		template<typename T>
+		static T LoadDefault(DefaultAssetType assetType);
+
+	private:
+
 	};
 
 	template<typename T>
-	inline T AssetManager::Load(const GUID& guid)
+	inline T AssetManager::Load(GUID guid)
 	{
-		BinaryReader reader;
-
-		const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
-		GetType(meta.type)->Load(reader, meta);
-
-		return {};
+		return AssetFactory::ConstructAsset<T>(AssetLoader::Load<T>(guid));
+	}
+	template<typename T>
+	inline T AssetManager::LoadDefault(DefaultAssetType assetType)
+	{
+		return AssetFactory::ConstructAsset<T>(AssetLoader::LoadDefaultAsset<T>(assetType));
 	}
 }

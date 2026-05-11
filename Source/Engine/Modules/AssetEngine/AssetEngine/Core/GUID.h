@@ -8,7 +8,7 @@ namespace Eclipse::Assets
     /// <summary>
     /// ID class for the asset engine.
     /// </summary>
-    struct GUID
+    struct GUID 
     {
         unsigned long long high = 0;
         unsigned long long low = 0;

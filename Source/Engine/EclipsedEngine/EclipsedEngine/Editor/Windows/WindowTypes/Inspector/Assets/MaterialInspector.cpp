@@ -17,21 +17,21 @@ namespace Eclipse::Editor
 
 	void MaterialInspector::Draw(const InspectableTarget& target)
 	{
-		AssetTarget asset = std::get<AssetTarget>(target);
+		//AssetTarget asset = std::get<AssetTarget>(target);
 
-		Assets::MaterialData data;
-		{ // Read material
-			std::ifstream in(asset);
-			cereal::JSONInputArchive ar(in);
-			ar(data);
-		}
+		//Assets::MaterialData data;
+		//{ // Read material
+		//	std::ifstream in(asset);
+		//	cereal::JSONInputArchive ar(in);
+		//	ar(data);
+		//}
 
-		bool wasChanged = EditorFieldDrawer<Assets::Material, Assets::MaterialData>::DrawEditor(data);
-		if (wasChanged)
-		{
-			std::ofstream out(asset);
-			cereal::JSONOutputArchive ar(out);
-			ar(data);
-		}
+		//bool wasChanged = EditorFieldDrawer<Assets::Material, Assets::MaterialData>::DrawEditor(data);
+		//if (wasChanged)
+		//{
+		//	std::ofstream out(asset);
+		//	cereal::JSONOutputArchive ar(out);
+		//	ar(data);
+		//}
 	}
 }

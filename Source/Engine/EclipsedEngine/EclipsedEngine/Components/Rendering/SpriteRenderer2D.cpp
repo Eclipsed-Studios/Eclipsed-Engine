@@ -75,12 +75,7 @@ namespace Eclipse
 
 		if (!hasMaterial)
 		{
-			// No material creating.
-			assert("No material creating when this is called.");
-
-			//material = Resources::GetDefaultSpriteMaterial();
-			//material->Create();
-
+			material = Assets::AssetManager::LoadDefault<Assets::Material>(Assets::DefaultAssetType::MATERIAL_2D_SPRITE);
 			hasMaterial = true;
 		}
 	}
@@ -104,9 +99,6 @@ namespace Eclipse
 		// if (aProgramID)
 		// 	shaderID = aProgramID;
 
-		assert("No binding use or buffers.");
-
-#if 0
 		if (sprite->IsValid())
 		{
 			material->BindShader();
@@ -123,7 +115,7 @@ namespace Eclipse
 		myTransformBuffer.Scale = gameObject->transform->GetScale();
 
 		Math::Vector2f size = spriteRectMax - spriteRectMin;
-		material->myMaterialBuffer.spriteRect = { spriteRectMin.x, spriteRectMin.y, size.x, size.y };
+		material->materialBuffer.spriteRect = { spriteRectMin.x, spriteRectMin.y, size.x, size.y };
 
 		Math::Vector2f scaleMultiplier;
 		if (sprite->IsValid())
@@ -141,12 +133,11 @@ namespace Eclipse
 		editorBuffer->PixelPickColor = gameObject->GetPixelPickingIDColor();
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
 #endif
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(5, material->myMaterialBuffer);
+		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(5, material->materialBuffer);
 		
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(1, myTransformBuffer);
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(3, mySpriteBuffer);
 
 		Sprite::Get().Render();
-#endif
 	}
 }

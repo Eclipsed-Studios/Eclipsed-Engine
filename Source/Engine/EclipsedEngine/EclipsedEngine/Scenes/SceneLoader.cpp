@@ -155,7 +155,7 @@ namespace Eclipse
 			}
 			else if (aSerialized->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
 			{
-				Reflection::SerializedVariable<Assets::Audio>* asset = (Reflection::SerializedVariable<Assets::Audio>*)aSerialized;
+				Reflection::SerializedVariable<Assets::AudioClip>* asset = (Reflection::SerializedVariable<Assets::AudioClip>*)aSerialized;
 				if (!asset->Get().IsValid()) return;
 				id = asset->Get().GetAssetID().ToString();
 			}
@@ -402,8 +402,8 @@ namespace Eclipse
 				}
 				else if (aSerializedVariable->GetType() == Reflection::AbstractSerializedVariable::SerializedType_AudioClip)
 				{
-					Reflection::SerializedVariable<Assets::Audio>* asset = (Reflection::SerializedVariable<Assets::Audio>*)aSerializedVariable;
-					*asset = Assets::AssetManager::Load<Assets::Audio>(guid);
+					Reflection::SerializedVariable<Assets::AudioClip>* asset = (Reflection::SerializedVariable<Assets::AudioClip>*)aSerializedVariable;
+					*asset = Assets::AssetManager::Load<Assets::AudioClip>(guid);
 				}
 			}
 
