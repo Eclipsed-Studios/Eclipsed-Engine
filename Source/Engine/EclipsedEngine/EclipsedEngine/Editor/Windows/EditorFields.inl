@@ -112,7 +112,7 @@ namespace Eclipse::Editor
 		}
 	};
 
-	/*template<>
+	template<>
 	struct EditorFieldDrawer<Assets::Material, Assets::MaterialData>
 	{
 		static bool DrawField(Assets::Material& aValue)
@@ -121,13 +121,13 @@ namespace Eclipse::Editor
 
 			if (aValue.IsValid())
 			{
-				name = aValue.GetAssetID();
+				name = aValue.GetAssetID().ToString();
 			}
 
 			if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Material))
 			{
-				size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-				aValue = Resources::Get<Material>(guid);
+				Assets::GUID guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid;
+				aValue = Assets::AssetManager::Load<Assets::Material>(guid);
 
 				aValue.Create();
 				return true;
@@ -136,50 +136,50 @@ namespace Eclipse::Editor
 			return false;
 		}
 
-		static bool DrawEditor(SerializedMaterial& aValue)
-		{
-			bool wasChanged = false;
-			std::string psName = std::to_string(aValue.pixelShaderGuid);
-			if (Editor::DragAndDrop::BeginTarget(std::string("Pixel Shader: " + psName).c_str(), Utilities::FileInfo::FileType_PixelShader))
-			{
-				size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-				aValue.pixelShaderGuid = guid;
-				wasChanged = true;
-			}
+		//static bool DrawEditor(SerializedMaterial& aValue)
+		//{
+		//	bool wasChanged = false;
+		//	std::string psName = std::to_string(aValue.pixelShaderGuid);
+		//	if (Editor::DragAndDrop::BeginTarget(std::string("Pixel Shader: " + psName).c_str(), Utilities::FileInfo::FileType_PixelShader))
+		//	{
+		//		size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
+		//		aValue.pixelShaderGuid = guid;
+		//		wasChanged = true;
+		//	}
 
-			ImGui::Spacing();
+		//	ImGui::Spacing();
 
-			std::string vsName = std::to_string(aValue.vertexShaderGuid);
-			if (Editor::DragAndDrop::BeginTarget(std::string("Vertex Shader: " + vsName).c_str(), Utilities::FileInfo::FileType_VertexShader))
-			{
-				size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-				aValue.vertexShaderGuid = guid;
-				wasChanged = true;
-			}
+		//	std::string vsName = std::to_string(aValue.vertexShaderGuid);
+		//	if (Editor::DragAndDrop::BeginTarget(std::string("Vertex Shader: " + vsName).c_str(), Utilities::FileInfo::FileType_VertexShader))
+		//	{
+		//		size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
+		//		aValue.vertexShaderGuid = guid;
+		//		wasChanged = true;
+		//	}
 
-			ImGui::Spacing();
+		//	ImGui::Spacing();
 
-			std::string tName = std::to_string(aValue.textureGuid);
-			if (Editor::DragAndDrop::BeginTarget(std::string("Texture: " + tName). c_str(), Utilities::FileInfo::FileType_Texture))
-			{
-				size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-				aValue.textureGuid = guid;
-				wasChanged = true;
-			}
+		//	std::string tName = std::to_string(aValue.textureGuid);
+		//	if (Editor::DragAndDrop::BeginTarget(std::string("Texture: " + tName). c_str(), Utilities::FileInfo::FileType_Texture))
+		//	{
+		//		size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
+		//		aValue.textureGuid = guid;
+		//		wasChanged = true;
+		//	}
 
-			return wasChanged;
-		}
+		//	return wasChanged;
+		//}
 	};
 
 	template<>
-	struct EditorFieldDrawer<Prefab>
+	struct EditorFieldDrawer<Assets::Prefab>
 	{
-		static bool DrawField(Prefab& aValue)
+		static bool DrawField(Assets::Prefab& aValue)
 		{
 			return false;
 		}
 
-		static bool DrawEditor(Prefab& aValue)
+		static bool DrawEditor(Assets::Prefab& aValue)
 		{
 			ImGui::Text("Wallahi");
 
@@ -188,14 +188,14 @@ namespace Eclipse::Editor
 	};
 
 	template<>
-	struct EditorFieldDrawer<AudioClip>
+	struct EditorFieldDrawer<Assets::AudioClip>
 	{
-		static bool DrawField(AudioClip& aValue)
+		static bool DrawField(Assets::AudioClip& aValue)
 		{
 			return false;
 		}
 
-		static bool DrawEditor(AudioClip& aValue)
+		static bool DrawEditor(Assets::AudioClip& aValue)
 		{
 			ImGui::Text("Wallahi");
 
@@ -204,34 +204,34 @@ namespace Eclipse::Editor
 	};
 
 	template<>
-	struct EditorFieldDrawer<Texture>
+	struct EditorFieldDrawer<Assets::Texture>
 	{
-		static bool DrawField(Texture& aValue)
+		static bool DrawField(Assets::Texture& aValue)
 		{
 			std::string name = "No texture.";
 
 			if (aValue.IsValid())
 			{
-				name = aValue.GetAssetID();
+				name = aValue.GetAssetID().ToString();
 			}
 
 			if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Texture))
 			{
-				size_t guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetMetaData(Editor::DragAndDrop::payloadBuffer).guid;
-				aValue = Resources::Get<Texture>(guid);
+				Assets::GUID guid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid;
+				aValue = Assets::AssetManager::Load<Assets::Texture>(guid);
 				return true;
 			}
 
 			return false;
 		}
 
-		static bool DrawEditor(Texture& aValue)
+		static bool DrawEditor(Assets::Texture& aValue)
 		{
-			ImGui::Text(std::to_string(aValue.GetAssetID()).c_str());
+			ImGui::Text(aValue.GetAssetID().ToString().c_str());
 
 			return false;
 		}
-	};*/
+	};
 
 	template<>
 	struct EditorFieldDrawer<Layer>

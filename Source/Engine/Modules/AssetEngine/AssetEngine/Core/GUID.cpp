@@ -27,6 +27,8 @@ namespace Eclipse::Assets
 
 	void GUID::FromString(const std::string& hashStr)
 	{
+		if (hashStr.empty()) return;
+
 		high = std::stoull(hashStr.substr(0, 16), nullptr, 16);
 		low= std::stoull(hashStr.substr(16, 32), nullptr, 16);
 	}

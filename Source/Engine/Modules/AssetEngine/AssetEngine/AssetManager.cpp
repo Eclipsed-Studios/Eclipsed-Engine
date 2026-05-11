@@ -3,32 +3,19 @@
 #include "CoreEngine/MainSingleton.h"
 #include "AssetEngine/Core/EditorAssetDatabase.h"
 
-#include "AssetTypes/AudioAssetType.h"
-#include "AssetTypes/FontAssetType.h"
-#include "AssetTypes/MaterialAssetType.h"
-#include "AssetTypes/PrefabAssetType.h"
-#include "AssetTypes/ShaderAssetType.h"
-#include "AssetTypes/TextureAssetType.h"
+#include "AssetTypes/IAssetType.h"
 #include "IO/BinaryWriter.h"
+
+#include "AssetTypeRegistry.h"
 
 namespace Eclipse::Assets
 {
-	Font AssetManager::GetDefaultFont()
-	{
-		return Font();
-	}
-
-	Material AssetManager::GetDefaultUIMaterial()
-	{
-		return Material();
-	}
-
 	void AssetManager::ImportAssets(const std::filesystem::path& path, const std::string& key)
 	{
 		if (!MainSingleton::Exists<AssetDatabase>())
 		{
 			MainSingleton::RegisterInstance<AssetDatabase>();
-			RegisterTypes();
+			AssetTypeRegistry::RegisterTypes();
 		}
 
 		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
@@ -37,7 +24,7 @@ namespace Eclipse::Assets
 		for (auto& [guid, file] : database.GetSources())
 		{
 			AssetType assetType = GetAssetTypeFromExtension(file.fullPath.extension().string());
-			IAssetType* type = GetType(assetType);
+			IAssetType* type = AssetTypeRegistry::GetType(assetType);
 
 			ImportedData imported = type->Import(file);
 			BinaryWriter writer(guid);
@@ -54,22 +41,10 @@ namespace Eclipse::Assets
 		}
 	}
 
-	void AssetManager::RegisterTypes()
-	{
-		types[AssetType::AudioClip] = new AudioAssetType;
-		types[AssetType::Font] = new FontAssetType;
-		types[AssetType::Material] = new MaterialAssetType;
-		types[AssetType::Prefab] = new PrefabAssetType;
-		types[AssetType::VertexShader] = new ShaderAssetType;
-		types[AssetType::PixelShader] = new ShaderAssetType;
-		types[AssetType::Texture] = new TextureAssetType;
-	}
 
-	IAssetType* AssetManager::GetType(AssetType assetType)
-	{
-		auto it = types.find(assetType);
-		if (it == types.end()) return nullptr;
 
-		return it->second;
+	void AssetManager::EndFrame()
+	{
+		// delete makred for delete assets.
 	}
 }

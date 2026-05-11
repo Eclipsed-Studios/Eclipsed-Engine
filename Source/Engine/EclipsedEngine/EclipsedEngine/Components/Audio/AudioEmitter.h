@@ -38,7 +38,7 @@ namespace Eclipse
 		void Resume();
 		void Pause();
 
-		void SetAudioClip(Assets::Audio clip);
+		void SetAudioClip(Assets::AudioClip clip);
 
 		void SetVolume(float aVolume);
 		float GetVolume() const;
@@ -47,7 +47,7 @@ namespace Eclipse
 		void UpdateAudioPosition();
 
 	public:
-		SERIALIZED_FIELD(Assets::Audio, audioClip);
+		SERIALIZED_FIELD(Assets::AudioClip, audioClip);
 
 		SERIALIZED_FIELD_DEFAULT(bool, EnableSpatial, true);
 		SERIALIZED_FIELD_DEFAULT(bool, playOnAwake, false);

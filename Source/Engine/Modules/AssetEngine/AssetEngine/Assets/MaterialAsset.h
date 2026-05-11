@@ -9,6 +9,10 @@
 namespace Eclipse::Assets
 {
 	struct Material : public Asset<MaterialData> {
+		ASSET_IMPL(Material, MaterialData)
+
+	public:
+
 		Texture GetTexture() const;
 		PixelShader GetPixelShader() const;
 		VertexShader GetVertexShader() const;

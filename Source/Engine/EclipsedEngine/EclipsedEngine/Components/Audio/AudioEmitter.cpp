@@ -48,7 +48,7 @@ namespace Eclipse
 		channel->setPaused(true);
 	}
 
-	void AudioEmitter::SetAudioClip(Assets::Audio clip)
+	void AudioEmitter::SetAudioClip(Assets::AudioClip clip)
 	{
 		audioClip = clip;
 

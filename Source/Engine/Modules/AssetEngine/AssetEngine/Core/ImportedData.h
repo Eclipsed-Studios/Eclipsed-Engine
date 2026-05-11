@@ -4,6 +4,7 @@
 #include <variant>
 
 #include "AssetEngine/Core/GUID.h"
+#include "CoreEngine/Math/Color.h"
 
 namespace Eclipse::Assets
 {
@@ -55,6 +56,7 @@ namespace Eclipse::Assets
         GUID textureID;
         GUID vertexShaderID;
         GUID pixelShaderID;
+        Math::Color color;
     };
 
 #pragma endregion
@@ -70,12 +72,32 @@ namespace Eclipse::Assets
 
 #pragma endregion
 
+#pragma region PREFAB
+
+    struct ImportedPrefab
+    {
+        std::vector<unsigned char> Data;
+    };
+
+#pragma endregion
+
+#pragma region SHADER
+
+    struct ImportedShader
+    {
+        std::string source;
+    };
+
+#pragma endregion
+
 
     using ImportedData = std::variant<
         ImportedAudio,
         ImportedFont,
         ImportedMaterial,
-        ImportedTexture
+        ImportedTexture,
+        ImportedPrefab,
+        ImportedShader
     >;
 
     using ProcessedData = ImportedData;

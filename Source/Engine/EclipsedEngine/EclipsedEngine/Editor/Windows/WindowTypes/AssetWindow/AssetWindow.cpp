@@ -143,7 +143,7 @@ namespace Eclipse::Editor
 
 			if (Active_Hierarchy_Node)
 			{
-				DragAndDrop::BeginSource(child->info.filePath.generic_string().c_str(), child->info.filePath.generic_string().size(), child->info);
+				DragAndDrop::BeginSource(child->info.relativeFilePath.generic_string().c_str(), child->info.relativeFilePath.generic_string().size(), child->info);
 			}
 
 		}
@@ -324,7 +324,7 @@ namespace Eclipse::Editor
 
 		if (node != nullptr)
 		{
-			DragAndDrop::BeginSource(node->info.filePath.string().c_str(), node->info.filePath.string().size(), node->info);
+			DragAndDrop::BeginSource(node->info.relativeFilePath.string().c_str(), node->info.relativeFilePath.string().size(), node->info);
 		}
 
 		std::string label = node->info.filePath.filename().string();

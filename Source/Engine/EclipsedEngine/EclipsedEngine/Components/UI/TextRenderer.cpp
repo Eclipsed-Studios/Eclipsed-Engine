@@ -114,7 +114,7 @@ namespace Eclipse
 			TransformUpdate();
 		});
 
-		font = Assets::AssetManager::GetDefaultFont();
+		//font = Assets::AssetManager::GetDefaultFont();
 	}
 
 	//void TextRenderer::DrawInspector()

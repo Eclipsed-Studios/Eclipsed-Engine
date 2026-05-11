@@ -253,8 +253,8 @@ namespace Eclipse::Replication
 		break;
 		case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_AudioClip:
 		{
-			Assets::Audio& assset = *(static_cast<Assets::Audio*>(aVariable->GetData()));
-			assset = Assets::AssetManager::Load<Assets::Audio>(aAssetID);
+			Assets::AudioClip& assset = *(static_cast<Assets::AudioClip*>(aVariable->GetData()));
+			assset = Assets::AssetManager::Load<Assets::AudioClip>(aAssetID);
 		}
 		break;
 		case Eclipse::Reflection::AbstractSerializedVariable::SerializedType_Texture:

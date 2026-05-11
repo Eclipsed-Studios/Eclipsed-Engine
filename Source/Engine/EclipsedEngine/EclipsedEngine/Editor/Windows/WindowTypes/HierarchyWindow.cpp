@@ -416,9 +416,9 @@ namespace Eclipse::Editor
             }
         }
 
-
         for (const auto& [id, data] : ComponentManager::myEntityIdToEntity)
         {
+            if (data == nullptr) continue;
             GameObject* parent = data->GetParent();
             if (parent)
                 continue;

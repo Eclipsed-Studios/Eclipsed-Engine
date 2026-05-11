@@ -8,6 +8,8 @@
 namespace Eclipse::Assets
 {
 	struct Prefab : public Asset<PrefabData> {
-		// methods regarding the asset.
+		ASSET_IMPL(Prefab, PrefabData)
+
+	public:
 	};
 }

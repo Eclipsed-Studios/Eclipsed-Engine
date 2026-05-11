@@ -4,12 +4,15 @@
 
 namespace Eclipse::Assets
 {
-    class MaterialAssetType : public IAssetType
-    {
-    public:
-        ImportedData Import(const AssetMeta& file) override;
-        ProcessedData Process(const ImportedData& file) override;
-        void Serialize(BinaryWriter& writer, const ProcessedData& data) override;
-        RuntimeAsset Load(BinaryReader& reader, const AssetMeta& meta) override;
-    };
+	class MaterialAssetType : public IAssetType
+	{
+	public:
+		MaterialAssetType();
+
+	public:
+		ImportedData Import(const AssetMeta& file) override;
+		ProcessedData Process(const ImportedData& file) override;
+		void Serialize(BinaryWriter& writer, const ProcessedData& data) override;
+		void Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data) override;
+	};
 }
