@@ -23,18 +23,10 @@ namespace Eclipse::Assets
 	class AssetManager
 	{
 	public:
-		static  void ImportAssets(const std::filesystem::path& path, const std::string& key = "Assets");
-
-
-
-
+		static void ImportAssets(const std::filesystem::path& root, const std::string& key = "Assets");
+		static void ImportFile(const AssetMeta& meta);
 
 		static void EndFrame();
-
-
-
-
-
 
 		template<typename T>
 		static T Load(GUID guid);
@@ -43,7 +35,7 @@ namespace Eclipse::Assets
 		static T LoadDefault(DefaultAssetType assetType);
 
 	private:
-
+		static bool FileWasChanged(const AssetMeta& meta);
 	};
 
 	template<typename T>
