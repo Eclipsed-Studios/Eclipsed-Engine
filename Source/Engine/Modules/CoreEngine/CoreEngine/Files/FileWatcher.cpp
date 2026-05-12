@@ -1,98 +1,127 @@
 #include "pch.h"
-
 #include "FileWatcher.h"
+
+#include <Windows.h>
 
 namespace Eclipse::Editor
 {
-	void FileWatcher::WatchPath(WatchedDirectory& aDir)
+	void FileWatcher::WatchPath(const std::filesystem::path& path, WatchedDirectory& dir)
 	{
-		std::string assetPath = aDir.watchPath;
-		std::wstring wAssetPath(assetPath.begin(), assetPath.end());
+		std::wstring wAssetPath = path.wstring();
 
 		HANDLE hDir = CreateFileW(
 			wAssetPath.c_str(),
 			FILE_LIST_DIRECTORY,
 			FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-			NULL,
+			nullptr,
 			OPEN_EXISTING,
 			FILE_FLAG_BACKUP_SEMANTICS,
-			NULL);
+			nullptr
+		);
 
-		char buffer[1024];
-		DWORD bytesReturned;
+		if (hDir == INVALID_HANDLE_VALUE)
+			return;
+
+		alignas(DWORD) char buffer[4096];
+		DWORD bytesReturned = 0;
 
 		while (true)
 		{
-			if (ReadDirectoryChangesW(
+			BOOL success = ReadDirectoryChangesW(
 				hDir,
-				&buffer,
+				buffer,
 				sizeof(buffer),
 				TRUE,
 				FILE_NOTIFY_CHANGE_FILE_NAME |
 				FILE_NOTIFY_CHANGE_DIR_NAME |
 				FILE_NOTIFY_CHANGE_LAST_WRITE,
 				&bytesReturned,
-				NULL,
-				NULL))
+				nullptr,
+				nullptr
+			);
+
+			if (!success)
+				continue;
+
+			auto* info = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(buffer);
+
+			do
 			{
-				FILE_NOTIFY_INFORMATION* info = (FILE_NOTIFY_INFORMATION*)buffer;
+				std::wstring fileName(
+					info->FileName,
+					info->FileNameLength / sizeof(WCHAR)
+				);
 
-				std::vector<FileWatcherEvent> events;
-				EventType previousEvent = EventType::Unknown;
+				std::filesystem::path fullPath =
+					std::filesystem::path(path) / fileName;
 
-				do
+				// ONLY STORE EVENT — NO CALLBACKS HERE
 				{
 					std::lock_guard<std::mutex> lock(watchedDirectoriesMutex);
 
-					std::wstring fileName(info->FileName, info->FileNameLength / sizeof(WCHAR));
-					std::string pathString(std::filesystem::path(fileName).string());
+					dir.events.push_back({
+						path.string(),
+						fullPath.string(),
+						static_cast<int>(info->Action)
+						});
+				}
 
-					aDir.events.push_back({ aDir.watchPath +  "/" + pathString, (int)info->Action});
+				if (info->NextEntryOffset == 0)
+					break;
 
-					if (info->NextEntryOffset != 0)
-						info = (FILE_NOTIFY_INFORMATION*)((LPBYTE)info + info->NextEntryOffset);
-					else
-						info = nullptr;
-				} while (info != nullptr);
-			}
+				info = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(
+					reinterpret_cast<BYTE*>(info) + info->NextEntryOffset
+					);
 
-			InvokeEvents();
+			} while (true);
+
+			InvokeEvents(dir);
 		}
+
+		CloseHandle(hDir);
 	}
 
-	void FileWatcher::Subscribe(const std::string& aPath, std::function<void(const FileWatcherEvent&)> func)
+	void FileWatcher::SubscribeToPath(
+		const std::filesystem::path& path,
+		std::function<void(const FileWatcherEvent&)> callback)
 	{
 		std::lock_guard<std::mutex> lock(watchedDirectoriesMutex);
 
-		WatchedDirectory& dir = watchedDirectories[aPath];
+		WatchedDirectory& dir = watchedDirectories[path];
+		dir.onChangedEvents.push_back(callback);
 
-		dir.onChangedEvent = func;
-		dir.thread = std::thread(&FileWatcher::WatchPath, std::ref(watchedDirectories[aPath]));
-		dir.watchPath = aPath;
-		dir.thread.detach();
-	}
-
-	void FileWatcher::Unsubscribe(const std::string& name)
-	{
-		if (watchedDirectories.find(name) == watchedDirectories.end()) return;
-
-		watchedDirectories[name].thread.join();
-		watchedDirectories.erase(name);
-	}
-
-	void FileWatcher::InvokeEvents()
-	{
-		std::lock_guard<std::mutex> lock(watchedDirectoriesMutex);
-
-		for (auto& [path, dir] : watchedDirectories)
+		if (!dir.thread.joinable())
 		{
-			for (auto& event : dir.events)
-			{
-				dir.onChangedEvent(event);
-			}
-
-			dir.events.clear();
+			dir.thread = std::thread(
+				&FileWatcher::WatchPath,
+				path,
+				std::ref(dir)
+			);
 		}
 	}
 
+	void FileWatcher::InvokeEvents(WatchedDirectory& dir)
+	{
+		// MOVE EVENTS OUT (no holding lock while processing)
+		std::vector<FileWatcherEvent> events;
+		std::vector<std::function<void(const FileWatcherEvent&)>> callbacks;
+
+		{
+			std::lock_guard<std::mutex> lock(watchedDirectoriesMutex);
+
+			events = std::move(dir.events);
+			dir.events.clear();
+
+			callbacks = dir.onChangedEvents;
+		}
+
+		// SAFE: main-thread or controlled dispatch point
+		for (auto& event : events)
+		{
+			for (auto& cb : callbacks)
+			{
+				cb(event);
+			}
+		}
+	}
 }

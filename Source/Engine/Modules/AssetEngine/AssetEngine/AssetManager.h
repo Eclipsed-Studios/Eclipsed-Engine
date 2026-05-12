@@ -18,6 +18,9 @@
 #include "CoreEngine/MainSingleton.h"
 #include "AssetFactory.h"
 
+#include <fstream>
+#include "CoreEngine/Files/FileWatcher.h"
+
 namespace Eclipse::Assets
 {
 	class AssetManager
@@ -28,14 +31,36 @@ namespace Eclipse::Assets
 
 		static void EndFrame();
 
+		static bool IsFileReady(const std::string& path)
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				std::fstream file(path, std::ios::in | std::ios::binary);
+
+				if (file.is_open())
+					return true;
+
+				std::this_thread::sleep_for(std::chrono::milliseconds(50));
+			}
+
+			return false;
+		}
+
 		template<typename T>
 		static T Load(GUID guid);
 
 		template<typename T>
 		static T LoadDefault(DefaultAssetType assetType);
 
+		static void AddFileChanged(const Editor::FileWatcherEvent& e);
+		static void ProcessFileChanges();
+
 	private:
 		static bool FileWasChanged(const AssetMeta& meta);
+
+		static inline std::vector<Editor::FileWatcherEvent> fileChanges;
+		static inline std::mutex fileChangesMutex;
+
 	};
 
 	template<typename T>

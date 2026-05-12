@@ -11,14 +11,23 @@ namespace Eclipse::Assets
 
 		for (const AssetCandidate& candidate : candidates)
 		{
-			AssetMeta file = MetaSerializer::LoadOrCreateMeta(candidate.fullPath);
+			sourcePathToKey[path.generic_string()] = key;
 
-			guidToAsset[file.guid] = file;
-			pathToGuid[candidate.relativePath] = file.guid;
-			const AssetType type = GetAssetTypeFromExtension(candidate.fullPath.extension().string());
-			typeToAssets[type].push_back(file.guid);
-			sourceToAssets[key].push_back(file.guid);
+			ProcessFile(candidate.fullPath, path);
 		}
+	}
+
+	const AssetMeta& AssetDatabase::ProcessFile(const std::filesystem::path& path, const std::filesystem::path& root)
+	{
+		AssetMeta file = MetaSerializer::LoadOrCreateMeta(path);
+
+		guidToAsset[file.guid] = file;
+		pathToGuid[std::filesystem::relative(path, root)] = file.guid;
+		const AssetType type = GetAssetTypeFromExtension(path.extension().string());
+		typeToAssets[type].push_back(file.guid);
+		sourceToAssets[sourcePathToKey[path.generic_string()]].push_back(file.guid);
+
+		return guidToAsset[file.guid];
 	}
 
 	const AssetMeta& AssetDatabase::GetProcessedFile(const std::filesystem::path& path) const
