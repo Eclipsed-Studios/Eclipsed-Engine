@@ -26,10 +26,12 @@ namespace Eclipse::Editor
 
 		engineTree = Utilities::DirectoryTree(PathManager::GetEngineAssetsPath());
 
-		FileWatcher::Subscribe(PathManager::GetAssetsPath().generic_string(),
-			[this](const Editor::FileWatcherEvent& e)
-			{
-				shouldReloadAssets = true;
+		FileWatcher::SubscribeToPath(PathManager::GetEngineAssetsPath(), [this](const FileWatcherEvent& e) {
+			shouldReloadAssets = true;
+			});
+
+		FileWatcher::SubscribeToPath(PathManager::GetAssetsPath(), [this](const FileWatcherEvent& e) {
+			shouldReloadAssets = true;
 			});
 	}
 
@@ -41,18 +43,18 @@ namespace Eclipse::Editor
 
 		ctxMenu.Draw();
 
-		// if (shouldReloadAssets)
-		// {
-		// 	//std::filesystem::path LastPath = ctxMenu.GetActivePath();
-		// 	shouldReloadAssets = false;
-		// 	dirTree.Reload();
-		// 	Active_View_Node = dirTree.GetRoot();
+		 if (shouldReloadAssets)
+		 {
+		 	//std::filesystem::path LastPath = ctxMenu.GetActivePath();
+		 	shouldReloadAssets = false;
+		 	dirTree.Reload();
+		 	Active_View_Node = dirTree.GetRoot();
 
-		// 	IconManager::LoadAllTextureIcons();
-		// 	IconManager::ExportLoadedTextures();
+		 	IconManager::LoadAllTextureIcons();
+		 	IconManager::ExportLoadedTextures();
 
-		// 	//ctxMenu.SetActivePath(LastPath);
-		// }
+		 	//ctxMenu.SetActivePath(LastPath);
+		 }
 	}
 
 	void AssetWindow::LoadAssets()
@@ -138,7 +140,7 @@ namespace Eclipse::Editor
 			if (ImGui::IsItemClicked())
 			{
 				Active_Hierarchy_Node = dirTree.GetNode(child->info.filePath);
-				if(!Active_Hierarchy_Node) Active_Hierarchy_Node = engineTree.GetNode(child->info.filePath);
+				if (!Active_Hierarchy_Node) Active_Hierarchy_Node = engineTree.GetNode(child->info.filePath);
 			}
 
 			if (Active_Hierarchy_Node)

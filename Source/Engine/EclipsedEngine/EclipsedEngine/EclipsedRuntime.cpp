@@ -181,6 +181,8 @@ namespace Eclipse
     void EclipsedRuntime::EndFrame()
     {
         GraphicsEngine::Get<OpenGLGraphicsEngine>()->EndFrame();
+
+        Assets::AssetManager::EndFrame();
     }
 
     void EclipsedRuntime::Shutdown()

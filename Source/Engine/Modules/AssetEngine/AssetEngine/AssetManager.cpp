@@ -18,14 +18,13 @@ namespace Eclipse::Assets
 			AssetTypeRegistry::RegisterTypes();
 		}
 
+		Editor::FileWatcher::SubscribeToPath(root, AssetManager::AddFileChanged);
+
 		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
 		database.ProcessSource(root, key);
 
 		for (auto& [guid, file] : database.GetSources())
 		{
-			if (!FileWasChanged(file)) 
-				continue;
-
 			ImportFile(file);
 		}
 	}
@@ -34,11 +33,15 @@ namespace Eclipse::Assets
 
 	void AssetManager::EndFrame()
 	{
+		ProcessFileChanges();
 		// delete makred for delete assets.
 	}
 
 	void AssetManager::ImportFile(const AssetMeta& meta)
 	{
+		if (!FileWasChanged(meta))
+			return;
+
 		AssetType assetType = GetAssetTypeFromExtension(meta.fullPath.extension().string());
 		IAssetType* type = AssetTypeRegistry::GetType(assetType);
 
@@ -53,6 +56,53 @@ namespace Eclipse::Assets
 		else
 		{
 			type->Serialize(writer, imported);
+		}
+	}
+
+	void AssetManager::AddFileChanged(const Editor::FileWatcherEvent& e)
+	{
+		std::lock_guard<std::mutex> lock(fileChangesMutex);
+		fileChanges.push_back(e);
+	}
+
+	void AssetManager::ProcessFileChanges()
+	{
+		std::vector<Editor::FileWatcherEvent> localChanges;
+
+		// SNAPSHOT (prevents all iterator/race issues)
+		{
+			std::lock_guard<std::mutex> lock(fileChangesMutex);
+			localChanges = std::move(fileChanges);
+			fileChanges.clear();
+		}
+
+		AssetDatabase& database =
+			MainSingleton::GetInstance<AssetDatabase>();
+
+		for (auto& e : localChanges)
+		{
+			// optional safety check (file still exists / not mid-write)
+			if (!std::filesystem::exists(e.path))
+				continue;
+
+			switch ((Editor::EventType)e.action)
+			{
+			case Editor::EventType::Modified:
+			case Editor::EventType::FileAdded:
+			{
+				if (std::filesystem::path(e.path).extension() != ".meta")
+				{
+					const AssetMeta& meta =
+						database.ProcessFile(e.path, e.root);
+
+					ImportFile(meta);
+				}
+			}
+			break;
+
+			default:
+				break;
+			}
 		}
 	}
 

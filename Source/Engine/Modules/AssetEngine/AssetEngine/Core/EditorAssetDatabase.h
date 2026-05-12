@@ -8,6 +8,8 @@
 #include "AssetEngine/Core/GUID.h"
 #include "AssetEngine/Core/SupportedAssets.h"
 
+#include "CoreEngine/Files/FileWatcher.h"
+
 namespace Eclipse::Assets
 {
     /// <summary>
@@ -17,6 +19,7 @@ namespace Eclipse::Assets
     {
     public:
         void ProcessSource(const std::filesystem::path& path, const std::string& key);
+        const AssetMeta& ProcessFile(const std::filesystem::path& path, const std::filesystem::path& root);
 
         const AssetMeta& GetProcessedFile(const std::filesystem::path& path) const;
         const AssetMeta& GetProcessedFile(const GUID& guid) const;
@@ -30,5 +33,6 @@ namespace Eclipse::Assets
         std::unordered_map<std::filesystem::path, GUID> pathToGuid;
         std::unordered_map<AssetType, std::vector<GUID>> typeToAssets;
         std::unordered_map<std::string , std::vector<GUID>> sourceToAssets;
+        std::unordered_map<std::string, std::string> sourcePathToKey;
     };
 }
