@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CoreEngine/Math/Vector/Vector4.h"
+#include "Vector/Vector4.h"
 #include "CoreEngine/Settings/SettingsBase.hpp"
 
 namespace Eclipse::Math
@@ -17,7 +17,7 @@ namespace Eclipse::Math
 
 		int32_t GetHexValue();
 
-		Vector4f ToVector();
+		Vector4f ToVector() { return Vector4f(r, g, b, a); }
 
 		SERIALIZE(MAKE_NVP(r),
 			MAKE_NVP(g),

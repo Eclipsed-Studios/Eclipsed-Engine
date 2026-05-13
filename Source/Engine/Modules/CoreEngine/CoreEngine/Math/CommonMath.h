@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector/Vector2.h"
+
 namespace Eclipse::Math
 {
     constexpr float pi = 3.141592653589f;
@@ -29,12 +31,12 @@ namespace Eclipse::Math
     }
 
     template<typename T>
-    inline Math::Vector2<T> AngleToDirection(T angle) {
-        return Math::Vector2<T>(cos(angle), sin(angle));
+    inline Vector2<T> AngleToDirection(T angle) {
+        return Vector2<T>(cos(angle), sin(angle));
     }
 
     template<typename T>
-    inline T DirectionToAngle(Math::Vector2<T> direction) {
+    inline T DirectionToAngle(Vector2<T> direction) {
         return std::atan2(direction);
     }
 }
