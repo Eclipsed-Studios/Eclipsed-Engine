@@ -24,6 +24,4 @@ namespace Eclipse::Math
 
 		return (R << 24) | (G << 16) | (B << 8) | A;
 	}
-
-	Vector4f Color::ToVector() { return { r, g, b, a }; }
 }
