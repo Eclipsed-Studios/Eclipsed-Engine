@@ -8,6 +8,11 @@
 
 namespace Eclipse::Assets
 {
+	bool GUID::IsEmpty() const
+	{
+		return high == 0 && low == 0;
+	}
+
 	GUID GUID::GenerateGUID()
 	{
 		static std::random_device rd;
@@ -17,7 +22,9 @@ namespace Eclipse::Assets
 		guid.high = gen();
 		guid.low = gen();
 
-		return guid;
+		if (guid.low == 0 || guid.high == 0)
+			return GenerateGUID();
+		else return guid;
 	}
 
 	void GUID::Generate()

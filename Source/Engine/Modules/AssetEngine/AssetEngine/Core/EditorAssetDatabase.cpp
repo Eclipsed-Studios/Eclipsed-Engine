@@ -22,6 +22,7 @@ namespace Eclipse::Assets
 		AssetMeta file = MetaSerializer::LoadOrCreateMeta(path);
 
 		guidToAsset[file.guid] = file;
+		fullpathToGuid[path] = file.guid;
 		pathToGuid[std::filesystem::relative(path, root)] = file.guid;
 		const AssetType type = GetAssetTypeFromExtension(path.extension().string());
 		typeToAssets[type].push_back(file.guid);
@@ -45,6 +46,14 @@ namespace Eclipse::Assets
 	{
 		const auto it = guidToAsset.find(guid);
 		if (it == guidToAsset.end()) throw std::runtime_error("The guid cant be found in the map.");
+
+		return it->second;
+	}
+
+	GUID AssetDatabase::GetGUIDFromFullPath(const std::filesystem::path& fullpath)
+	{
+		const auto it = fullpathToGuid.find(fullpath);
+		if (it == fullpathToGuid.end()) throw std::runtime_error("The guid cant be found in the map.");
 
 		return it->second;
 	}
