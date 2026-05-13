@@ -55,10 +55,10 @@ namespace Eclipse::Math
 	template <typename T>
 	inline T Vector2<T>::DistanceSqrd(const Vector2 &anotherVec) const
 	{
-		T dx = (x - anotherVec.x);
-		T dy = (y - anotherVec.y);
+		T lengthX = x - anotherVec.x;
+		T lengthY = y - anotherVec.y;
 
-		return dx * dx + dy * dy;
+		return lengthX * lengthX + lengthY * lengthY;
 	}
 
 	template <typename T>
