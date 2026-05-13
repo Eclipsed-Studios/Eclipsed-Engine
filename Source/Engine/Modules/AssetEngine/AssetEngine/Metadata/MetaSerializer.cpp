@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "Data/TextureMeta.h"
+#include "Data/AudioMeta.h"
 
 namespace Eclipse::Assets
 {
@@ -32,11 +33,16 @@ namespace Eclipse::Assets
 			break;
 		}
 
+		case AssetType::AudioClip:
+		{
+			meta.AddMetaComponent<AudioMeta>();
+			break;
+		}
+
 		case AssetType::Unknown:
 		case AssetType::Material:
 		case AssetType::VertexShader:
 		case AssetType::PixelShader:
-		case AssetType::AudioClip:
 		case AssetType::Font:
 		case AssetType::Prefab:
 		default:

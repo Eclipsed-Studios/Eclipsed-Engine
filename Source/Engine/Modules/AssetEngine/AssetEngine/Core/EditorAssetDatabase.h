@@ -24,6 +24,8 @@ namespace Eclipse::Assets
         const AssetMeta& GetProcessedFile(const std::filesystem::path& path) const;
         const AssetMeta& GetProcessedFile(const GUID& guid) const;
 
+        GUID GetGUIDFromFullPath(const std::filesystem::path& fullpath);
+
         const std::vector<GUID>& GetGUIDFromSource(const std::string& source);
 
         const std::unordered_map<GUID, AssetMeta, GUIDHash>& GetSources() const;
@@ -31,6 +33,7 @@ namespace Eclipse::Assets
     private:
         std::unordered_map<GUID, AssetMeta, GUIDHash> guidToAsset;
         std::unordered_map<std::filesystem::path, GUID> pathToGuid;
+        std::unordered_map<std::filesystem::path, GUID> fullpathToGuid;
         std::unordered_map<AssetType, std::vector<GUID>> typeToAssets;
         std::unordered_map<std::string , std::vector<GUID>> sourceToAssets;
         std::unordered_map<std::string, std::string> sourcePathToKey;
