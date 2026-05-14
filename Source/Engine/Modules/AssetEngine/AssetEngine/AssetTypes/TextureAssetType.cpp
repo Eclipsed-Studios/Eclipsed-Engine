@@ -6,8 +6,8 @@ namespace Eclipse::Assets
 {
 	TextureAssetType::TextureAssetType()
 	{
-		defaultAssetsGuids[DefaultAssetType::TEXTURE_ERROR].FromString("615be1e3286c63e8cff80bee20410294");
-		defaultAssetsGuids[DefaultAssetType::TEXTURE_DEFAULT].FromString("6aedf12c76af06d6517e73ce2548607d");
+		defaultAssetsGuids[DefaultAssetType::TEXTURE_ERROR].FromString("cf50f44ea7fb40ed07c66d1190024581");
+		defaultAssetsGuids[DefaultAssetType::TEXTURE_DEFAULT].FromString("77cbf21c126e6ab274908f75c436065b");
 	}
 
 	ImportedData TextureAssetType::Import(const AssetMeta& file)

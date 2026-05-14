@@ -44,6 +44,7 @@ namespace Eclipse::Assets
 
 		AssetType assetType = GetAssetTypeFromExtension(meta.fullPath.extension().string());
 		IAssetType* type = AssetTypeRegistry::GetType(assetType);
+		if (type == nullptr) return; // Type is not supported.
 
 		ImportedData imported = type->Import(meta);
 		BinaryWriter writer(meta.guid);

@@ -23,6 +23,7 @@ namespace Eclipse::Assets
 
         const AssetMeta& GetProcessedFile(const std::filesystem::path& path) const;
         const AssetMeta& GetProcessedFile(const GUID& guid) const;
+        AssetMeta& GetProcessedFile(const GUID& guid);
 
         GUID GetGUIDFromFullPath(const std::filesystem::path& fullpath);
 

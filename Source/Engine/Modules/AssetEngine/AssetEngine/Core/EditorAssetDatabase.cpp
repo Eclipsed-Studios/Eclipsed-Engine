@@ -21,7 +21,7 @@ namespace Eclipse::Assets
 	{
 		AssetMeta file = MetaSerializer::LoadOrCreateMeta(path);
 
-		guidToAsset[file.guid] = file;
+		guidToAsset[file.guid] = std::move(file);
 		fullpathToGuid[path] = file.guid;
 		pathToGuid[std::filesystem::relative(path, root)] = file.guid;
 		const AssetType type = GetAssetTypeFromExtension(path.extension().string());
@@ -43,6 +43,14 @@ namespace Eclipse::Assets
 	}
 
 	const AssetMeta& AssetDatabase::GetProcessedFile(const GUID& guid) const
+	{
+		const auto it = guidToAsset.find(guid);
+		if (it == guidToAsset.end()) throw std::runtime_error("The guid cant be found in the map.");
+
+		return it->second;
+	}
+
+	AssetMeta& AssetDatabase::GetProcessedFile(const GUID& guid)
 	{
 		const auto it = guidToAsset.find(guid);
 		if (it == guidToAsset.end()) throw std::runtime_error("The guid cant be found in the map.");
