@@ -2,6 +2,8 @@
 
 #include "AssetEngine/Helper/STB_Helper.h"
 
+#include "CoreEngine/EventSystem/EventSystem.h"
+
 namespace Eclipse::Assets
 {
 	TextureAssetType::TextureAssetType()
@@ -12,6 +14,9 @@ namespace Eclipse::Assets
 
 	ImportedData TextureAssetType::Import(const AssetMeta& file)
 	{
+		EventSystem::Trigger("Texture_Imported", file);
+
+
 		ImportedTexture data;
 
 		unsigned char* pixelData;
@@ -21,6 +26,7 @@ namespace Eclipse::Assets
 		data.Data.resize(size);
 		memcpy(data.Data.data(), pixelData, size);
 		STB_Helper::FreeData_STB(pixelData);
+
 
 		//TextureAssetMetaSettings texMetaSettings = LoadOrCreateMeta<TextureAssetMetaSettings>(aPath);
 		//int dataAmount = texMetaSettings.spriteRects.size();

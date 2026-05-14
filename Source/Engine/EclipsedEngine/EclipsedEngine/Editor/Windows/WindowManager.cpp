@@ -29,6 +29,8 @@
 #include "EclipsedEngine/Editor/Game/GameCompiler.h"
 #include "EclipsedEngine/Editor/Game/GameLoader.h"
 
+#include "EclipsedEngine/Editor/Common/TextureIconManager.h"
+
 namespace Eclipse::Editor
 {
 	void WindowManager::OpenWindow(const std::string& name, int aId)
@@ -62,7 +64,9 @@ namespace Eclipse::Editor
 					if (ImGui::BeginMenu("Game")) {
 						if (ImGui::MenuItem("Generate Game"))
 						{
-							system(("cd " + (PathManager::GetEngineRoot().parent_path().parent_path() / "Tools").generic_string() + " && "
+							auto i = PathManager::GetEngineRoot().parent_path().parent_path();
+
+							system(("cd " + (PathManager::GetEngineRoot().parent_path() / "Tools/CMake/").generic_string() + " && "
 								"generate-game-editor.bat " + PathManager::GetProjectRoot().generic_string() + " " + PathManager::GetEngineRoot().parent_path().generic_string()).c_str());
 						}
 						if (ImGui::MenuItem("Open Game SLN"))
@@ -263,6 +267,8 @@ namespace Eclipse::Editor
 
 	void WindowManager::Begin()
 	{
+		IconManager::Init();
+
 		Settings::EditorSettings::SetCurrentlyOpenEditorWindows({});
 
 		LayoutManager::LoadLayouts();

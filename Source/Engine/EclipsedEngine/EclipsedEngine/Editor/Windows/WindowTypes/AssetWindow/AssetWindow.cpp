@@ -52,9 +52,6 @@ namespace Eclipse::Editor
 		 	dirTree.Reload();
 		 	Active_View_Node = dirTree.GetNode(lastPath);
 
-		 	IconManager::LoadAllTextureIcons();
-		 	IconManager::ExportLoadedTextures();
-
 		 	//ctxMenu.SetActivePath(LastPath);
 		 }
 	}

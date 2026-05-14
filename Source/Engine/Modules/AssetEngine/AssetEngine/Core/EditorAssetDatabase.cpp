@@ -50,6 +50,13 @@ namespace Eclipse::Assets
 		return it->second;
 	}
 
+	AssetMeta& AssetDatabase::GetMetaFromMetaPath(const std::filesystem::path& path)
+	{
+		AssetMeta file = MetaSerializer::LoadOrCreateMeta(path);
+
+		return GetProcessedFile(file.guid);
+	}
+
 	AssetMeta& AssetDatabase::GetProcessedFile(const GUID& guid)
 	{
 		const auto it = guidToAsset.find(guid);
