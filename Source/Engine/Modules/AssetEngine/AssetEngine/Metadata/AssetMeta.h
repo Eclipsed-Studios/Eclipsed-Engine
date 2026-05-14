@@ -8,22 +8,39 @@
 #include <fstream>
 
 #include "Data/IAssetMeta.h"
+#include "Data/AudioMeta.h"
+#include "Data/TextureMeta.h"
 #include "AssetEngine/Core/SupportedAssets.h"
 
 #include "cereal/cereal.hpp"
-#include "cereal/types/string.hpp"
+#include <cereal/types/memory.hpp>
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/types/string.hpp>
+
+#include <memory>
 
 namespace Eclipse::Assets
 {
 	struct AssetMeta
 	{
+		AssetMeta() = default;
 		~AssetMeta();
+
+		AssetMeta(const AssetMeta&) = delete;
+		AssetMeta& operator=(const AssetMeta&) = delete;
+
+		AssetMeta(AssetMeta&&) noexcept = default;
+		AssetMeta& operator=(AssetMeta&&) noexcept = default;
 
 		template<typename T, typename... Args>
 		T* AddMetaComponent(Args... args);
 
 		template<typename T>
 		const T* GetMetaComponent() const;
+
+		template<typename T>
+		T* GetMetaComponent();
 
 		template<typename T>
 		bool HasMetaComponent()const;
@@ -42,7 +59,7 @@ namespace Eclipse::Assets
 		AssetType type = AssetType::Unknown;
 
 	private:
-		std::unordered_map<std::type_index, IAssetMeta*> metaComponents;
+		std::unordered_map<std::string, std::unique_ptr<IAssetMeta>> metaComponents;
 
 	public:
 		template <class Archive>
@@ -54,8 +71,11 @@ namespace Eclipse::Assets
 	template<typename T, typename ...Args>
 	inline T* AssetMeta::AddMetaComponent(Args ...args)
 	{
-		metaComponents[typeid(T)] = new T(std::forward<Args>(args)...);
-		return reinterpret_cast<T*>(metaComponents[typeid(T)]);
+		auto ptr = std::make_unique<T>(std::forward<Args>(args)...);
+		T* raw = ptr.get();
+
+		metaComponents[typeid(T).name()] = std::move(ptr);
+		return raw;
 	}
 
 	template<typename T> 
@@ -63,13 +83,21 @@ namespace Eclipse::Assets
 	{
 		if (!HasMetaComponent<T>()) return nullptr;
 
-		return reinterpret_cast<const T*>(metaComponents.at(typeid(T)));
+		return reinterpret_cast<const T*>(metaComponents.at(typeid(T).name()).get());
+	}
+
+	template<typename T>
+	inline T* AssetMeta::GetMetaComponent()
+	{
+		if (!HasMetaComponent<T>()) return nullptr;
+
+		return reinterpret_cast<T*>(metaComponents.at(typeid(T).name()).get());
 	}
 
 	template<typename T>
 	inline bool AssetMeta::HasMetaComponent() const
 	{
-		return metaComponents.find(typeid(T)) != metaComponents.end();
+		return metaComponents.find(typeid(T).name()) != metaComponents.end();
 	}
 
 	template<class Archive>
@@ -79,15 +107,10 @@ namespace Eclipse::Assets
 
 		ar(
 			CEREAL_NVP(guidStr),
-			CEREAL_NVP(type)
+			CEREAL_NVP(type),
+			CEREAL_NVP(metaComponents)
 		);
 
 		guid.FromString(guidStr);
-
-		for (auto& [typeIdx, comp] : metaComponents)
-		{
-			std::string componentKey = typeIdx.name();
-			ar(cereal::make_nvp(componentKey, *comp));
-		}
 	}
 }

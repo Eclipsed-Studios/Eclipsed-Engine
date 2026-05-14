@@ -23,11 +23,12 @@ namespace Eclipse::Assets
 
 	struct AudioMeta : public IAssetMeta
 	{
-		AudioFlags flags = AudioFlags::None;
+		int flags = (int)AudioFlags::None;
 
 		template <class Archive>
 		void serialize(Archive& ar, const std::uint32_t version)
 		{
+			ar(cereal::base_class<IAssetMeta>(this));
 			ar(CEREAL_NVP(flags));
 		}
 	};

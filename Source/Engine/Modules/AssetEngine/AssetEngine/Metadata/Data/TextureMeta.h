@@ -20,6 +20,7 @@ namespace Eclipse::Assets
 		template <class Archive>
 		void serialize(Archive& ar, const std::uint32_t version)
 		{
+			ar(cereal::base_class<IAssetMeta>(this));
 			ar(CEREAL_NVP(spriteRects));
 		}
 	};

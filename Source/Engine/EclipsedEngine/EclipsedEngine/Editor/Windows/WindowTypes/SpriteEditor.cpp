@@ -781,7 +781,7 @@ namespace Eclipse::Editor
 	{
 		myActivePath = aPath;
 
-		auto textureGuid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(aPath.generic_string().c_str());
+		const Assets::AssetMeta& textureGuid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(aPath.generic_string().c_str());
 		myTexture = Assets::AssetManager::Load<Assets::Texture>(textureGuid.guid);
 		
 		LoadMeta(aPath);

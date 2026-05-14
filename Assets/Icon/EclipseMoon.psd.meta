@@ -1,10 +1,8 @@
 {
     "value0": {
         "cereal_class_version": 0,
-        "guidStr": "c32ba6021c9b0d2d9f69664c49032666",
+        "guidStr": "f28902698074db2eafe6c66c4d6985e3",
         "type": 1,
-        "struct Eclipse::Assets::TextureMeta": {
-            "cereal_class_version": 0
-        }
+        "metaComponents": []
     }
 }
