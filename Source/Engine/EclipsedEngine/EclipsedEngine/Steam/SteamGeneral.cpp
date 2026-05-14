@@ -35,18 +35,18 @@ namespace Eclipse
     
     void SteamGeneral::Init()
     {
-        SteamErrMsg error;
-        if (SteamAPI_InitEx(&error) != k_ESteamAPIInitResult_OK)
-        {
-            printf("SteamAPI Init failed: %s\n", error);
-            assert(false && "Steam initialization failed");
-            return;
-        }
+        //SteamErrMsg error;
+        //if (SteamAPI_InitEx(&error) != k_ESteamAPIInitResult_OK)
+        //{
+        //    printf("SteamAPI Init failed: %s\n", error);
+        //    assert(false && "Steam initialization failed");
+        //    return;
+        //}
     }
 
     void SteamGeneral::ShutDown()
     {
-        SteamFriends()->ClearRichPresence();
-        SteamAPI_Shutdown();
+        //SteamFriends()->ClearRichPresence();
+        //SteamAPI_Shutdown();
     }
 }
