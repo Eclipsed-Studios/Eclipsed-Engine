@@ -10,26 +10,12 @@
 
 namespace Eclipse::Assets
 {
-	enum class AudioFlags : int
-	{
-		None = 0,
-		Audio3D = 1 << 0,
-		Stream = 1 << 1,
-		Decompress = 1 << 2,
-		KeepCompressed = 1 << 3,
-		Preload = 1 << 4,
-		AsyncLoad = 1 << 5,
-	};
-
 	struct AudioMeta : public IAssetMeta
 	{
-		int flags = (int)AudioFlags::None;
-
 		template <class Archive>
 		void serialize(Archive& ar, const std::uint32_t version)
 		{
 			ar(cereal::base_class<IAssetMeta>(this));
-			ar(CEREAL_NVP(flags));
 		}
 	};
 }

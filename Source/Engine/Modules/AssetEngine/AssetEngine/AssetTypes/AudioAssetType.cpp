@@ -151,8 +151,6 @@ namespace Eclipse::Assets
 		FMOD::System* system = MainSingleton::GetRaw<FMOD::System*>();
 
 		FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_OPENRAW;
-		const AudioMeta* audioMeta = meta.GetMetaComponent<AudioMeta>();
-		if ((int)audioMeta->flags & (int)AudioFlags::Audio3D) mode |= FMOD_3D;
 
 		FMOD_RESULT result = system->createSound(
 			reinterpret_cast<const char*>(_data->Data.data()),

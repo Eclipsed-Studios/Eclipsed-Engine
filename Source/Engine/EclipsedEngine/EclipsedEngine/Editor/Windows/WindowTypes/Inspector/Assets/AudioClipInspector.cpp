@@ -27,18 +27,6 @@ namespace Eclipse::Editor
 		Assets::AssetMeta& meta = database.GetProcessedFile(guid);
 		Assets::AudioMeta* audioMeta = meta.GetMetaComponent<Assets::AudioMeta>();
 
-		bool changed = false;
-		bool flag = (int)audioMeta->flags & (int)Assets::AudioFlags::Audio3D;
-		if (ImGui::Checkbox("3D Flag", &flag))
-		{
-			changed = true;
-			audioMeta->flags ^= (int)Assets::AudioFlags::Audio3D;
-		}
-
-		if (changed)
-		{
-			std::ofstream out(meta.fullPath.generic_string() + ".meta", std::ios::binary);
-			meta.WriteToStream(out);
-		}
+		ImGui::Text(meta.guid.ToString().c_str());
 	}
 }

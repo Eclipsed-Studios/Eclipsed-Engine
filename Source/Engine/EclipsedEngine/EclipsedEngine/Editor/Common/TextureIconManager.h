@@ -4,6 +4,8 @@
 
 #include <filesystem>
 
+#include "CoreEngine/EventSystem/EventSystem.h"
+
 namespace Eclipse::Editor
 {
 	struct IconData
@@ -20,6 +22,10 @@ namespace Eclipse::Editor
 	class IconManager final
 	{
 	public:
+		static void Init();
+
+
+
 		static void CheckForChanges();
 		static void Update();
 		static void LoadIconsFile();
@@ -32,6 +38,9 @@ namespace Eclipse::Editor
 		static void CreateOpenGLTextureFromData(IconData& data);
 
 		static const IconData& GetIcon(const Utilities::FileInfo& fileInfo);
+
+	private:
+		static void ImportAsset(const Assets::AssetMeta& meta);
 
 	private:
 		static inline std::vector<std::string> filesToLoad;

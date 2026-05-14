@@ -91,7 +91,14 @@ namespace Eclipse::Assets
 			case Editor::EventType::Modified:
 			case Editor::EventType::FileAdded:
 			{
-				if (std::filesystem::path(e.path).extension() != ".meta")
+				if (std::filesystem::path(e.path).extension() == ".meta")
+				{
+					const AssetMeta& meta =
+						database.GetMetaFromMetaPath(e.path);
+
+					ImportFile(meta);
+				}
+				else
 				{
 					const AssetMeta& meta =
 						database.ProcessFile(e.path, e.root);
