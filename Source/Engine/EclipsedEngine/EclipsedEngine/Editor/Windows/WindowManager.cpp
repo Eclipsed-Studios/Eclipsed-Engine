@@ -31,6 +31,7 @@
 #include "EclipsedEngine/Editor/Common/EditorActions.h"
 
 #include "EclipsedEngine/Editor/Common/TextureIconManager.h"
+#include "EclipsedEngine/Editor/Game/GameCompiler.h"
 
 namespace Eclipse::Editor
 {
@@ -275,6 +276,8 @@ namespace Eclipse::Editor
 		ImGui::LoadIniSettingsFromDisk("imgui.ini");
 		using namespace rapidjson;
 
+
+		GameModuleManager::CompileAndLoad();
 		//const std::vector<Settings::OpenEditorWindows>& openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
 
 		//for (const Settings::OpenEditorWindows& openWindow : Settings::EditorSettings::GetCurrentlyOpenEditorWindows())

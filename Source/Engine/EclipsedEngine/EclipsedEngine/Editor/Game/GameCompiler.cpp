@@ -34,19 +34,61 @@ namespace Eclipse
 
 	void GameModuleManager::CompileAndLoad()
 	{
-		const char* activeScene = SceneManager::GetActiveScene();
-		SceneManager::UnloadScene();
+		static std::string supportedExtensions[] = {
+			".hpp",
+			".cpp",
+			".h",
+			".inl"
+		};
 
-		GameLoader::UnloadGameDLL();
+		bool wasChanged = false;
+		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll"))
+		{
+			auto lastWriteTime = std::filesystem::last_write_time(PathManager::GetGameDllBuildPath() / "Game.dll");
 
-		std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.dll");
-		std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.pdb");
+			for (const std::filesystem::directory_entry& dir : std::filesystem::recursive_directory_iterator(PathManager::GetAssetsPath()))
+			{
+				for (const std::string& extension : supportedExtensions)
+				{
+					if (dir.path().extension() == extension)
+					{
+						auto fileWriteTime = std::filesystem::last_write_time(dir.path());
 
-		GenerateGameEditor();
-		Compile();
+						if (fileWriteTime > lastWriteTime)
+						{
+							wasChanged = true;
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			wasChanged = true;
+		}
 
-		GameLoader::LoadGameDLL();
 
-		SceneManager::LoadScene(activeScene);
+		if (wasChanged)
+		{
+			const char* activeScene = SceneManager::GetActiveScene();
+			SceneManager::UnloadScene();
+
+			GameLoader::UnloadGameDLL();
+
+			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.dll");
+			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.pdb");
+
+			GenerateGameEditor();
+			Compile();
+
+			GameLoader::LoadGameDLL();
+
+			SceneManager::LoadScene(activeScene);
+		}
+		else
+		{
+			GameLoader::UnloadGameDLL();
+			GameLoader::LoadGameDLL();
+		}
 	}
 }
