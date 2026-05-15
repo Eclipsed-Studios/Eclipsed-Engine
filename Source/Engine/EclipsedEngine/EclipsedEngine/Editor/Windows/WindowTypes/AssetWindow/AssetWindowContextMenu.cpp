@@ -19,6 +19,8 @@
 
 #include "EclipsedEngine/Input/Input.h"
 
+#include "EclipsedEngine/Editor/Game/GameCompiler.h"
+
 namespace Eclipse::Editor
 {
 	AssetWindowContextMenu::AssetWindowContextMenu() : AbstractContextMenu("AssetsCtxMenu") {}
@@ -120,18 +122,7 @@ namespace Eclipse::Editor
 
 		if (ImGui::MenuItem("Recompile"))
 		{
-			std::string sceneName = SceneManager::GetActiveScene();
-			ComponentManager::Clear();
-
-			GameLoader::UnloadGameDLL();
-
-			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.dll");
-			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.pdb");
-
-			//GameCompiler::CompileGame();
-			//GameLoader::LoadGameDLL();
-
-			SceneManager::LoadScene(sceneName);
+			GameModuleManager::CompileAndLoad();
 		}
 	}
 
