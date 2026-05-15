@@ -26,8 +26,9 @@
 #include "CoreEngine/Files/FileUtilities.h"
 
 #include "EclipsedEngine/Editor/Layout/LayoutManager.h"
-#include "EclipsedEngine/Editor/Game/GameCompiler.h"
-#include "EclipsedEngine/Editor/Game/GameLoader.h"
+
+
+#include "EclipsedEngine/Editor/Common/EditorActions.h"
 
 #include "EclipsedEngine/Editor/Common/TextureIconManager.h"
 
@@ -61,36 +62,33 @@ namespace Eclipse::Editor
 			{ // Left menu
 				if (ImGui::BeginMenu("File"))
 				{
-					if (ImGui::BeginMenu("Game")) {
+					if (ImGui::BeginMenu("Game"))
+					{
 						if (ImGui::MenuItem("Generate Game"))
 						{
-							auto i = PathManager::GetEngineRoot().parent_path().parent_path();
-
-							system(("cd " + (PathManager::GetEngineRoot().parent_path() / "Tools/CMake/").generic_string() + " && "
-								"generate-game-editor.bat " + PathManager::GetProjectRoot().generic_string() + " " + PathManager::GetEngineRoot().parent_path().generic_string()).c_str());
+							EditorActions::GenerateGame();
 						}
-						if (ImGui::MenuItem("Open Game SLN"))
+						else if (ImGui::MenuItem("Open Game SLNX"))
 						{
-							system(("cd " + (PathManager::GetProjectRoot() / "Library/Engine-Build").generic_string() + " && start Eclipsed-Game.sln").c_str());
+							EditorActions::OpenGameSLNX();
 						}
 
-						if (ImGui::MenuItem("Recompile Game DLL"))
+						else if (ImGui::MenuItem("Recompile Game DLL"))
 						{
-							GameLoader::UnloadGameDLL();
-							GameCompiler::CompileGame();
-							GameLoader::LoadGameDLL();
+							EditorActions::CompileGame();
 						}
 
-						if (ImGui::MenuItem("Build Game Release EXE"))
+						else if (ImGui::MenuItem("Build Game Release EXE"))
 						{
 							std::filesystem::path CDPath = PathManager::GetEngineRoot().parent_path().parent_path() / "Tools";
 							system(("cd " + CDPath.generic_string() + " && start build-game-editor.bat Release").c_str());
 						}
-						 else if (ImGui::MenuItem("Build Game Debug EXE"))
-						 {
-						 	std::filesystem::path CDPath = PathManager::GetEngineRoot().parent_path().parent_path() / "Tools";
-						 	system(("cd " + CDPath.generic_string() + " && start build-game-editor.bat Debug").c_str());
-						 }
+
+						else if (ImGui::MenuItem("Build Game Debug EXE"))
+						{
+							std::filesystem::path CDPath = PathManager::GetEngineRoot().parent_path().parent_path() / "Tools";
+							system(("cd " + CDPath.generic_string() + " && start build-game-editor.bat Debug").c_str());
+						}
 
 						ImGui::EndMenu();
 					}
@@ -312,8 +310,7 @@ namespace Eclipse::Editor
 		}
 	}
 	void WindowManager::OpenNewLayout()
-	{
-	}
+	{}
 	void WindowManager::OpenLayout(const char* layout)
 	{
 		const auto& layoutWindows = LayoutManager::OpenLayout(layout);
