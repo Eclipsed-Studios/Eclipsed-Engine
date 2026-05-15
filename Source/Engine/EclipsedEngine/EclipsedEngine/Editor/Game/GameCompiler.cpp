@@ -1,43 +1,52 @@
 #include "GameCompiler.h"
 
 #include "CoreEngine/PathManager.h"
+#include "GameLoader.h"
 #include <filesystem>
+
+#include "EclipsedEngine/Scenes/SceneManager.h"
 
 namespace Eclipse
 {
-	void GameCompiler::CompileGame()
+	void GameModuleManager::GenerateGameEditor()
 	{
-		GenerateProject();
+		static BatchScript script(
+			PathManager::GetProjectRoot() / "Tools",
+			"generate-game-editor.bat",
+			{
+				PathManager::GetProjectRoot().generic_string(),
+				PathManager::GetEngineRoot().parent_path().generic_string()
+			}
+		);
+
+		script.Run();
+	}
+
+	void GameModuleManager::Compile()
+	{
+		static BatchScript script(
+			PathManager::GetProjectRoot() / "Tools",
+			"build-game-dll.bat"
+		);
+
+		script.Run();
+	}
+
+	void GameModuleManager::CompileAndLoad()
+	{
+		const char* activeScene = SceneManager::GetActiveScene();
+		SceneManager::UnloadScene();
+
+		GameLoader::UnloadGameDLL();
+
+		std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.dll");
+		std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.pdb");
+
+		GenerateGameEditor();
 		Compile();
-		GenerateForcelink();
-	}
 
-	void GameCompiler::TryCompile()
-	{
-		// Do the file exist
-		// Is there any changes to code files
-	}
+		GameLoader::LoadGameDLL();
 
-	void GameCompiler::GenerateForcelink()
-	{
-		const std::filesystem::path& projectRoot = PathManager::GetProjectRoot();
-		const std::filesystem::path& forcelink = projectRoot / "Forcelink.cpp";
-		const std::filesystem::path& source = projectRoot / "Source";
-	}
-
-	void GameCompiler::GenerateProject()
-	{
-		std::string sourceDir = (PathManager::GetEngineRoot().parent_path().parent_path() / "Tools/").generic_string();
-		std::string buildCmakeCommand = "cd /d \"" + sourceDir + "\" && start generate-game-editor.bat \""
-			+ PathManager::GetProjectRoot().generic_string() + "\" \""
-			+ PathManager::GetEngineRoot().parent_path().generic_string() + "\"";
-		std::system(buildCmakeCommand.c_str());
-	}
-
-	void GameCompiler::Compile()
-	{
-		std::string buildDir = (PathManager::GetProjectRoot()).generic_string();
-		std::string buildDLLCommand = "cd /d \"" + buildDir + "\" && cmake --build Library/Engine-Build";
-		std::system(buildDLLCommand.c_str());
+		SceneManager::LoadScene(activeScene);
 	}
 }

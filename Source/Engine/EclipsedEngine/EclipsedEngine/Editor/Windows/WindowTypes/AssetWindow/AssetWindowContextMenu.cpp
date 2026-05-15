@@ -128,8 +128,8 @@ namespace Eclipse::Editor
 			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.dll");
 			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.pdb");
 
-			GameCompiler::CompileGame();
-			GameLoader::LoadGameDLL();
+			//GameCompiler::CompileGame();
+			//GameLoader::LoadGameDLL();
 
 			SceneManager::LoadScene(sceneName);
 		}
