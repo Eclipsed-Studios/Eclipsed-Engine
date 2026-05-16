@@ -2,7 +2,7 @@
 
 echo === Begun: Copying steam sdk ===
 
-cd ../Source/Externals/
+cd Source/Externals
 
 if not exist "steamsdk" (
     mkdir steamsdk

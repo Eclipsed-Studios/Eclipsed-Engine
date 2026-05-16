@@ -7,8 +7,11 @@ echo.
 
 setlocal
 
-cd Source/Externals/steamsdk/
-call ./curl-steam.bat
+call Tools/curl-steam.bat
+
+endlocal
+
+setlocal
 
 echo.
 echo === Begun: Installing python and dependancies ===

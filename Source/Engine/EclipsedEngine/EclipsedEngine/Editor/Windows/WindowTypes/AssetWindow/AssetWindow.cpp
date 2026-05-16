@@ -17,6 +17,10 @@
 
 #include "EclipsedEngine/Editor/SelectionContext.h"
 
+#include "AssetEngine/Core/EditorAssetDatabase.h"
+#include "AssetEngine/MetaData/Data/TextureMeta.h"
+#include "CoreEngine/MainSingleton.h"
+
 namespace Eclipse::Editor
 {
 	void AssetWindow::Open()
@@ -290,12 +294,37 @@ namespace Eclipse::Editor
 			ImVec2 imageMin(center.x - drawWidth * 0.5f, center.y - drawHeight * 0.5f);
 			ImVec2 imageMax(center.x + drawWidth * 0.5f, center.y + drawHeight * 0.5f);
 
+			Assets::AssetDatabase& database = MainSingleton::GetInstance<Assets::AssetDatabase>();
+			Assets::GUID guid = database.GetGUIDFromFullPath(node->info.filePath);
+			Assets::AssetMeta& meta = database.GetProcessedFile(guid);
+			Assets::TextureMeta* textureMeta = meta.GetMetaComponent<Assets::TextureMeta>();
+
+			// Write full image
 			ImGui::GetWindowDrawList()->AddImage(
 				(ImTextureID)data.textureID,
-				imageMin, imageMax,
-				ImVec2(0, 0), ImVec2(1, 1),
+				imageMin,
+				imageMax,
+				ImVec2(0, 0),
+				ImVec2(1, 1),
 				col
 			);
+
+
+			// Draw rects
+			//for (auto t : textureMeta->spriteRects)
+			//{
+			//	ImVec2 min = ImVec2(t.rect.position.x / data.fullWidth, t.rect.position.y / data.fullHeight);
+			//	ImVec2 max = ImVec2((t.rect.size.x + t.rect.position.x) / data.fullWidth, (t.rect.size.y + t.rect.position.y) / data.fullHeight);
+
+			//	ImGui::GetWindowDrawList()->AddImage(
+			//		(ImTextureID)data.textureID,
+			//		imageMin,
+			//		imageMax,
+			//		min,
+			//		max,
+			//		col
+			//	);
+			//}
 		}
 		else
 		{
