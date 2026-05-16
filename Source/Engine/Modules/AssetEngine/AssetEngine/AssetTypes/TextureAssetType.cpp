@@ -81,7 +81,7 @@ namespace Eclipse::Assets
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
 
-		int rgbTypeOffset = 3 - _data->channels;
+		int rgbTypeOffset = GL_RGBA - _data->channels;
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _data->width, _data->height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixelData.data());
 		glGenerateMipmap(GL_TEXTURE_2D);
