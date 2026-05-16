@@ -99,6 +99,8 @@ namespace Eclipse::Editor
 			in.read(reinterpret_cast<char*>(&data.channels), sizeof(unsigned));
 			in.read(reinterpret_cast<char*>(&data.width), sizeof(int));
 			in.read(reinterpret_cast<char*>(&data.height), sizeof(int));
+			in.read(reinterpret_cast<char*>(&data.fullWidth), sizeof(int));
+			in.read(reinterpret_cast<char*>(&data.fullHeight), sizeof(int));
 			in.read(reinterpret_cast<char*>(&data.lastWriteTime), sizeof(long long));
 
 			const int size = data.width * data.height * data.channels;
@@ -152,27 +154,26 @@ namespace Eclipse::Editor
 		}
 
 		{ // Load texture
-			int width = 0, height = 0;
-			unsigned char* pixels = STB_Helper::Load_Texture_STB(path.string().c_str(), width, height, data.channels, false);
+			unsigned char* pixels = STB_Helper::Load_Texture_STB(path.string().c_str(), data.fullWidth, data.fullHeight, data.channels, false);
 			if (!pixels)
 			{
 				loadedIcons.erase(id);
 				return false;
 			}
 
-			if (width >= height)
+			if (data.fullWidth >= data.fullHeight)
 			{
 				data.width = 128.f;
-				data.height = (float)height / (float)width * 128.f;
+				data.height = (float)data.fullHeight / (float)data.fullWidth * 128.f;
 			}
 			else
 			{
 				data.height = 128.f;
-				data.width = (float)width / (float)height * 128.f;
+				data.width = (float)data.fullWidth / (float)data.fullHeight * 128.f;
 			}
 
-			unsigned char* resized = new unsigned char[width * height * data.channels];
-			resized = STB_Helper::Resize_STB(pixels, width, height, data.width, data.height, data.channels);
+			unsigned char* resized = new unsigned char[data.fullWidth * data.fullHeight * data.channels];
+			resized = STB_Helper::Resize_STB(pixels, data.fullWidth, data.fullHeight, data.width, data.height, data.channels);
 
 
 			const int size = data.width * data.height * data.channels;
@@ -208,6 +209,8 @@ namespace Eclipse::Editor
 			out.write(reinterpret_cast<const char*>(&data.channels), sizeof(unsigned));
 			out.write(reinterpret_cast<const char*>(&data.width), sizeof(unsigned));
 			out.write(reinterpret_cast<const char*>(&data.height), sizeof(unsigned));
+			out.write(reinterpret_cast<const char*>(&data.fullWidth), sizeof(unsigned));
+			out.write(reinterpret_cast<const char*>(&data.fullHeight), sizeof(unsigned));
 			out.write(reinterpret_cast<const char*>(&data.lastWriteTime), sizeof(long long));
 
 			out.write(reinterpret_cast<const char*>(data.data.data()), data.width * data.height * data.channels);

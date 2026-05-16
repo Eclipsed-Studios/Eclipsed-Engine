@@ -15,6 +15,8 @@ namespace Eclipse::Editor
 		int channels;
 		int width;
 		int height;
+
+		int fullWidth, fullHeight;
 		long long lastWriteTime;
 		std::vector<unsigned char> data;
 	};
