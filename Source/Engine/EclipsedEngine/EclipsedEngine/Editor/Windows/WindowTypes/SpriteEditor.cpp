@@ -528,95 +528,79 @@ namespace Eclipse::Editor
 		}
 	}
 
-	void SpriteEditor::LoadMeta(const std::filesystem::path& aPath)
+	void SpriteEditor::LoadMeta(const Assets::GUID& guid)
 	{
 		myRects.clear();
 
-		std::filesystem::path filePath = aPath;
-		filePath.replace_extension("meta");
+		Assets::AssetMeta& meta = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(guid);
+		Assets::TextureMeta* tMeta = meta.GetMetaComponent<Assets::TextureMeta>();
 
-		FILE* fileP = fopen(filePath.string().c_str(), "rb");
-		if (!fileP)
-			return;
-
-		char readBuffer[32000];
-		rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
-
-		rapidjson::Document document;
-		document.ParseStream(fileReadStream);
-		fclose(fileP);
-
-		if (!document.HasMember("Sprite Rects"))
-			return;
-
-		auto spriteRects = document["Sprite Rects"].GetArray();
-
-		for (auto& rect : spriteRects)
+		Rect newRect;
+		for (Assets::Rect& rec : tMeta->spriteRects)
 		{
-			Rect newRect;
-
-			const rapidjson::Value& position = rect["pos"];
-			const rapidjson::Value& size = rect["size"];
-
-			if (position.HasMember("x") && position["x"].IsNumber())
-				newRect.rect.position.x = position["x"].GetFloat();
-
-			if (position.HasMember("y") && position["y"].IsNumber())
-				newRect.rect.position.y = position["y"].GetFloat();
-
-			if (size.HasMember("width") && size["width"].IsNumber())
-				newRect.rect.size.x = size["width"].GetFloat();
-
-			if (size.HasMember("height") && size["height"].IsNumber())
-				newRect.rect.size.y = size["height"].GetFloat();
-
-			newRect.name = rect["name"].GetString();
-
+			newRect.name = rec.name;
+			newRect.rect = rec.rect;
 			myRects.emplace_back(newRect);
 		}
+
+
+
+		//std::filesystem::path filePath = aPath;
+		//filePath.replace_extension("meta");
+
+		//FILE* fileP = fopen(filePath.string().c_str(), "rb");
+		//if (!fileP)
+		//	return;
+
+		//char readBuffer[32000];
+		//rapidjson::FileReadStream fileReadStream(fileP, readBuffer, sizeof(readBuffer));
+
+		//rapidjson::Document document;
+		//document.ParseStream(fileReadStream);
+		//fclose(fileP);
+
+		//if (!document.HasMember("Sprite Rects"))
+		//	return;
+
+		//auto spriteRects = document["Sprite Rects"].GetArray();
+
+		//for (auto& rect : spriteRects)
+		//{
+		//	Rect newRect;
+
+		//	const rapidjson::Value& position = rect["pos"];
+		//	const rapidjson::Value& size = rect["size"];
+
+		//	if (position.HasMember("x") && position["x"].IsNumber())
+		//		newRect.rect.position.x = position["x"].GetFloat();
+
+		//	if (position.HasMember("y") && position["y"].IsNumber())
+		//		newRect.rect.position.y = position["y"].GetFloat();
+
+		//	if (size.HasMember("width") && size["width"].IsNumber())
+		//		newRect.rect.size.x = size["width"].GetFloat();
+
+		//	if (size.HasMember("height") && size["height"].IsNumber())
+		//		newRect.rect.size.y = size["height"].GetFloat();
+
+		//	newRect.name = rect["name"].GetString();
+
+		//	myRects.emplace_back(newRect);
+		//}
 	}
 
-	void SpriteEditor::SaveMeta(const std::filesystem::path& aPath)
+	void SpriteEditor::SaveMeta(const Assets::GUID& guid)
 	{
-		rapidjson::Document document;
-		auto allocator = document.GetAllocator();
-
-		document.SetObject();
-
-		rapidjson::Value spriteRects(rapidjson::kArrayType);
+		Assets::AssetMeta& meta = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(guid);
 
 		for (Rect& rect : myRects)
 		{
-			rapidjson::Value minRect(rapidjson::kObjectType);
-			minRect.AddMember("x", rect.rect.position.x, allocator);
-			minRect.AddMember("y", rect.rect.position.y, allocator);
-
-			rapidjson::Value maxRect(rapidjson::kObjectType);
-			maxRect.AddMember("width", rect.rect.size.x, allocator);
-			maxRect.AddMember("height", rect.rect.size.y, allocator);
-
-			rapidjson::Value jsonRect(rapidjson::kObjectType);
-			auto jsonString = rapidjson::StringRef(rect.name.c_str());
-			jsonRect.AddMember("name", jsonString, allocator);
-
-			jsonRect.AddMember("pos", minRect.Move(), allocator);
-			jsonRect.AddMember("size", maxRect.Move(), allocator);
-
-			spriteRects.PushBack(jsonRect.Move(), allocator);
+			Assets::TextureMeta* tMeta = meta.GetMetaComponent<Assets::TextureMeta>();
+			tMeta->spriteRects.push_back({ rect.rect, rect.name });
 		}
 
-		document.AddMember("Sprite Rects", spriteRects.Move(), allocator);
-
-		rapidjson::StringBuffer buffer;
-		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
-		document.Accept(writer);
-
-		std::filesystem::path filePath = aPath;
-		filePath.replace_extension("meta");
-
-		std::ofstream ofs(filePath);
-		ofs << buffer.GetString();
-		ofs.close();
+		std::ofstream out(meta.fullPath.generic_string() + ".meta", std::ios::binary);
+		meta.WriteToStream(out);
 	}
 
 	void SpriteEditor::Update()
@@ -652,7 +636,7 @@ namespace Eclipse::Editor
 			ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 50.f);
 			if (ImGui::Button("Apply"))
 			{
-				SaveMeta(myActivePath);
+				SaveMeta(myActiveAsset);
 			}
 
 
@@ -777,14 +761,15 @@ namespace Eclipse::Editor
 		flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollWithMouse;
 	}
 
-	void SpriteEditor::SetTexture(const std::filesystem::path& aPath)
+	void SpriteEditor::SetTexture(const Assets::GUID& guid)
 	{
-		myActivePath = aPath;
+		myActiveAsset = guid;
+		//myActivePath = aPath;
 
-		const Assets::AssetMeta& textureGuid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(aPath.generic_string().c_str());
+		const Assets::AssetMeta& textureGuid = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(guid);
 		myTexture = Assets::AssetManager::Load<Assets::Texture>(textureGuid.guid);
-		
-		LoadMeta(aPath);
+
+		LoadMeta(guid);
 
 		textureSet = true;
 
