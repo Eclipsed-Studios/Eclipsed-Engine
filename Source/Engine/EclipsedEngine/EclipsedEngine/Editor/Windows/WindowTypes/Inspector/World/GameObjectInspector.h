@@ -18,5 +18,9 @@ namespace Eclipse::Editor
 
 		static char* GetNameBuffer(unsigned int id, const std::string& initialName = "Gameobject");
 		static std::unordered_map<unsigned int, std::array<char, NAME_BUFFER_LENGTH>>& GetNameBuffers();
+
+	private:
+		static ImGuiTextFilter filter;
+		static bool compSearchIsFocused;
 	};
 }

@@ -9,16 +9,13 @@ namespace Eclipse
 {
 	class ECLIPSED_API DebugLogger
 	{
-	private:
-		static inline constexpr int BufferSize = 400'000;
-
 	public:
 		friend class ConsoleWindow;
 
 	public:
 		static void AddMessage(const DebugMessage& message) { Core::DebugLogger::AddMessage(message); }
 
-		static const RingBuffer<DebugMessage, DebugLogger::BufferSize>& GetMessages() { return Core::DebugLogger::GetMessages(); }
+		static const RingBuffer<DebugMessage, DEBUG_LOGGER_BUFFER_SIZE>& GetMessages() { return Core::DebugLogger::GetMessages(); }
 		static void Clear() { return Core::DebugLogger::Clear(); }
 	};
 }
