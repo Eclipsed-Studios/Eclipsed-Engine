@@ -21,7 +21,7 @@ namespace Eclipse
 		void ClearArguments();
 
 		bool Run(bool openNewWindow = false) const;
-
+		bool RunCaptured(const std::string& cmd) const;
 	private:
 		std::filesystem::path workingDir = "";
 		std::string command = "";

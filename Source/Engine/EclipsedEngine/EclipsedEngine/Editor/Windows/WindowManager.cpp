@@ -33,6 +33,8 @@
 #include "EclipsedEngine/Editor/Common/TextureIconManager.h"
 #include "EclipsedEngine/Editor/Game/GameCompiler.h"
 
+#include "imgui/imgui_internal.h"
+
 namespace Eclipse::Editor
 {
 	void WindowManager::OpenWindow(const std::string& name, int aId)
@@ -58,8 +60,86 @@ namespace Eclipse::Editor
 	}
 	void WindowManager::UpdateMainMenuBar()
 	{
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+		float bottom_bar_height = 40.0f;
+
+		ImVec2 pos = ImVec2(viewport->Pos.x, viewport->Pos.y + mainMenuBarSize);
+
+		// ----- DOCKSPACE (reduced height) -----
+		ImGui::SetNextWindowPos(pos);
+		ImGui::SetNextWindowSize(ImVec2(viewport->Size.x, viewport->Size.y - bottom_bar_height - mainMenuBarSize));
+
+		ImGuiWindowFlags dock_flags =
+			ImGuiWindowFlags_NoDocking |
+			ImGuiWindowFlags_NoTitleBar |
+			ImGuiWindowFlags_NoCollapse |
+			ImGuiWindowFlags_NoResize |
+			ImGuiWindowFlags_NoMove |
+			ImGuiWindowFlags_NoBringToFrontOnFocus |
+			ImGuiWindowFlags_NoNavFocus;
+
+		ImGui::Begin("DockSpaceHost", nullptr, dock_flags);
+
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id);
+
+		ImGui::End();
+
+
+		// ----- BOTTOM BAR (fixed at bottom) -----
+		ImGui::SetNextWindowPos(
+			ImVec2(viewport->Pos.x, viewport->Pos.y + viewport->Size.y - bottom_bar_height)
+		);
+
+		ImGui::SetNextWindowSize(ImVec2(viewport->Size.x, bottom_bar_height));
+
+		ImGuiWindowFlags bar_flags =
+			ImGuiWindowFlags_NoDecoration |
+			ImGuiWindowFlags_NoDocking |
+			ImGuiWindowFlags_NoMove |
+			ImGuiWindowFlags_NoSavedSettings;
+
+		ImGui::Begin("BottomBar", nullptr, bar_flags);
+		ImGui::Text("Status: OK");
+		ImGui::End();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		if (ImGui::BeginMainMenuBar())
 		{
+			mainMenuBarSize = ImGui::GetWindowSize().y;
+
 			{ // Left menu
 				if (ImGui::BeginMenu("File"))
 				{

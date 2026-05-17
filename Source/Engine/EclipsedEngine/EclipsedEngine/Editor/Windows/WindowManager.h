@@ -30,5 +30,6 @@ namespace Eclipse::Editor
 
 	private:
 		std::unordered_map<int, AbstractWindow*> IdToWindow{};
+		int mainMenuBarSize = 10;
 	};
 }

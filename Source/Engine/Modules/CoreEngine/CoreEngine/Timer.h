@@ -6,7 +6,7 @@
 
 namespace Eclipse
 {
-	class ECLIPSED_API Time
+	class Time
 	{
 	public:
 		Time() = delete;

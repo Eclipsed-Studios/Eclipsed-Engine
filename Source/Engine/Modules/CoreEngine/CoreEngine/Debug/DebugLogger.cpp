@@ -3,7 +3,7 @@
 
 #include "DebugLogger.h"
 
-namespace Eclipse
+namespace Eclipse::Core
 {
 	RingBuffer<DebugMessage, DebugLogger::BufferSize> DebugLogger::messageBuffer;
 

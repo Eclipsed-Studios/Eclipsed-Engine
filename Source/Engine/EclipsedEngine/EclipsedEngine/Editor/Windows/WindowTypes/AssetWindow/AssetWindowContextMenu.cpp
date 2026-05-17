@@ -4,7 +4,8 @@
 #include <filesystem>
 #include "ImGui/imgui.h"
 
-#include "CoreEngine/Debug/DebugLogger.h"
+#include "EclipsedEngine/DebugLogger.h"
+
 #include "CoreEngine/PathManager.h"
 
 #include <fstream>

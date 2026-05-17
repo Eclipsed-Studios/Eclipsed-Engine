@@ -14,7 +14,7 @@
 #include "CoreEngine/Settings/EditorSettings.h"
 
 //#include "CoreEngine/Settings/.h"
-#include "CoreEngine/Debug/DebugLogger.h"
+#include "EclipsedEngine/DebugLogger.h"
 
 namespace Eclipse
 {
