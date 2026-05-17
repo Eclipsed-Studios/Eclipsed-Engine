@@ -6,20 +6,32 @@
 #include "cereal/cereal.hpp"
 #include "cereal/types/String.hpp"
 #include "cereal/types/vector.hpp"
+#include "cereal/types/unordered_map.hpp"
 #include "cereal/types/polymorphic.hpp"
 
 #include "CoreEngine/Math/RectSizePos.h"
 
 namespace Eclipse::Assets
 {
-	struct TextureMeta : public IAssetMeta
-	{
-		std::vector<Math::RectSizePos> spriteRects;
-
+	struct Rect {
+		Math::RectSizePos rect;
+		std::string name;
 
 		template <class Archive>
 		void serialize(Archive& ar, const std::uint32_t version)
 		{
+			ar(CEREAL_NVP(name), CEREAL_NVP(rect));
+		}
+	};
+
+	struct TextureMeta : public IAssetMeta
+	{
+		std::vector<Rect> spriteRects;
+
+		template <class Archive>
+		void serialize(Archive& ar, const std::uint32_t version)
+		{
+			ar(cereal::base_class<IAssetMeta>(this));
 			ar(CEREAL_NVP(spriteRects));
 		}
 	};

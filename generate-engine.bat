@@ -1,5 +1,7 @@
 @echo off
 
+title Engine Generation
+
 setlocal
 
 echo === Begun: Generating engine project ===

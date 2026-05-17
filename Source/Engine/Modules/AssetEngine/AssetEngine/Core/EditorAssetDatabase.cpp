@@ -11,14 +11,24 @@ namespace Eclipse::Assets
 
 		for (const AssetCandidate& candidate : candidates)
 		{
-			AssetMeta file = MetaSerializer::LoadOrCreateMeta(candidate.fullPath);
+			sourcePathToKey[path.generic_string()] = key;
 
-			guidToAsset[file.guid] = file;
-			pathToGuid[candidate.relativePath] = file.guid;
-			const AssetType type = GetAssetTypeFromExtension(candidate.fullPath.extension().string());
-			typeToAssets[type].push_back(file.guid);
-			sourceToAssets[key].push_back(file.guid);
+			ProcessFile(candidate.fullPath, path);
 		}
+	}
+
+	const AssetMeta& AssetDatabase::ProcessFile(const std::filesystem::path& path, const std::filesystem::path& root)
+	{
+		AssetMeta file = MetaSerializer::LoadOrCreateMeta(path);
+
+		guidToAsset[file.guid] = std::move(file);
+		fullpathToGuid[path] = file.guid;
+		pathToGuid[std::filesystem::relative(path, root)] = file.guid;
+		const AssetType type = GetAssetTypeFromExtension(path.extension().string());
+		typeToAssets[type].push_back(file.guid);
+		sourceToAssets[sourcePathToKey[path.generic_string()]].push_back(file.guid);
+
+		return guidToAsset[file.guid];
 	}
 
 	const AssetMeta& AssetDatabase::GetProcessedFile(const std::filesystem::path& path) const
@@ -36,6 +46,29 @@ namespace Eclipse::Assets
 	{
 		const auto it = guidToAsset.find(guid);
 		if (it == guidToAsset.end()) throw std::runtime_error("The guid cant be found in the map.");
+
+		return it->second;
+	}
+
+	AssetMeta& AssetDatabase::GetMetaFromMetaPath(const std::filesystem::path& path)
+	{
+		AssetMeta file = MetaSerializer::LoadOrCreateMeta(path);
+
+		return GetProcessedFile(file.guid);
+	}
+
+	AssetMeta& AssetDatabase::GetProcessedFile(const GUID& guid)
+	{
+		const auto it = guidToAsset.find(guid);
+		if (it == guidToAsset.end()) throw std::runtime_error("The guid cant be found in the map.");
+
+		return it->second;
+	}
+
+	GUID AssetDatabase::GetGUIDFromFullPath(const std::filesystem::path& fullpath)
+	{
+		const auto it = fullpathToGuid.find(fullpath);
+		if (it == fullpathToGuid.end()) throw std::runtime_error("The guid cant be found in the map.");
 
 		return it->second;
 	}

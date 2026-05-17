@@ -10,7 +10,7 @@ namespace Eclipse::Assets
 {
     MaterialAssetType::MaterialAssetType()
     {
-        defaultAssetsGuids[DefaultAssetType::MATERIAL_2D_SPRITE].FromString("84e2d411240b3cfca3d50a8f24b417a7");
+        defaultAssetsGuids[DefaultAssetType::MATERIAL_2D_SPRITE].FromString("304024b18cd756152dee092f1a43738d");
     }
 
     ImportedData MaterialAssetType::Import(const AssetMeta& file)

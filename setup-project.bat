@@ -1,12 +1,17 @@
 @echo off
 
+title Project Setup
+
 echo === Begun: Setting up project ===
 echo.
 
 setlocal
 
-cd Source/Externals/steamsdk/
-call ./CurlSteam.bat
+call Tools/curl-steam.bat
+
+endlocal
+
+setlocal
 
 echo.
 echo === Begun: Installing python and dependancies ===

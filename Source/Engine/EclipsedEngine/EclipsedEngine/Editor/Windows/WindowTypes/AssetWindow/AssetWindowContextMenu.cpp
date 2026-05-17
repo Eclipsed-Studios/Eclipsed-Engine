@@ -4,7 +4,8 @@
 #include <filesystem>
 #include "ImGui/imgui.h"
 
-#include "CoreEngine/Debug/DebugLogger.h"
+#include "EclipsedEngine/DebugLogger.h"
+
 #include "CoreEngine/PathManager.h"
 
 #include <fstream>
@@ -18,6 +19,8 @@
 #include "EntityEngine/ComponentManager.h"
 
 #include "EclipsedEngine/Input/Input.h"
+
+#include "EclipsedEngine/Editor/Game/GameCompiler.h"
 
 namespace Eclipse::Editor
 {
@@ -120,18 +123,7 @@ namespace Eclipse::Editor
 
 		if (ImGui::MenuItem("Recompile"))
 		{
-			std::string sceneName = SceneManager::GetActiveScene();
-			ComponentManager::Clear();
-
-			GameLoader::UnloadGameDLL();
-
-			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.dll");
-			std::filesystem::remove(PathManager::GetGameDllBuildPath() / "Game.pdb");
-
-			GameCompiler::CompileGame();
-			GameLoader::LoadGameDLL();
-
-			SceneManager::LoadScene(sceneName);
+			GameModuleManager::CompileAndLoad();
 		}
 	}
 

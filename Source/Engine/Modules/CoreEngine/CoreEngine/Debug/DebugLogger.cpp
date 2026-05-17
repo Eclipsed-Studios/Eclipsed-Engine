@@ -3,16 +3,16 @@
 
 #include "DebugLogger.h"
 
-namespace Eclipse
+namespace Eclipse::Core
 {
-	RingBuffer<DebugMessage, DebugLogger::BufferSize> DebugLogger::messageBuffer;
+	RingBuffer<DebugMessage, DEBUG_LOGGER_BUFFER_SIZE> DebugLogger::messageBuffer;
 
 	void DebugLogger::AddMessage(const DebugMessage& message)
 	{
 		messageBuffer.Push(message);
 	}
 
-	const RingBuffer<DebugMessage, DebugLogger::BufferSize>& DebugLogger::GetMessages()
+	const RingBuffer<DebugMessage, DEBUG_LOGGER_BUFFER_SIZE>& DebugLogger::GetMessages()
 	{
 		return messageBuffer;
 	}

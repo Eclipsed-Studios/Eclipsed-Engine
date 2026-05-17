@@ -55,10 +55,10 @@ namespace Eclipse::Math
 	template <typename T>
 	inline T Vector2<T>::DistanceSqrd(const Vector2 &anotherVec) const
 	{
-		T dx = (x - anotherVec.x);
-		T dy = (y - anotherVec.y);
+		T lengthX = x - anotherVec.x;
+		T lengthY = y - anotherVec.y;
 
-		return dx * dx + dy * dy;
+		return lengthX * lengthX + lengthY * lengthY;
 	}
 
 	template <typename T>
@@ -127,25 +127,6 @@ namespace Eclipse::Math
 	inline T Vector2<T>::AngleBetween(const Vector2 &aVec0, const Vector2 &aVec1)
 	{
 		return aVec0.AngleBetween(aVec1);
-	}
-
-	template<typename T>
-	inline rapidjson::Value Vector2<T>::Serialize(const Vector2<T>& aVec, rapidjson::Document::AllocatorType& alloc)
-	{
-		rapidjson::Value val(rapidjson::kObjectType);
-		val.AddMember("x", aVec.x, alloc);
-		val.AddMember("y", aVec.y, alloc);
-		return val;
-	}
-
-	template<typename T>
-	inline Vector2<T> Vector2<T>::Deserialize(const rapidjson::Value& aValue)
-	{
-		Vector2<T> vec;
-		vec.x = aValue["x"].GetFloat();
-		vec.y = aValue["y"].GetFloat();
-
-		return vec;
 	}
 
 #pragma region ===== OPERATORS =====

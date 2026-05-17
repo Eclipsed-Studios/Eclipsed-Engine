@@ -15,6 +15,9 @@
 
 namespace Eclipse::Editor
 {
+	ImGuiTextFilter GameObjectInspector::filter{};
+	bool GameObjectInspector::compSearchIsFocused = false;
+
 	void GameObjectInspector::Draw(const GameObjectTarget& target)
 	{
 		if (target == 0)
@@ -46,10 +49,17 @@ namespace Eclipse::Editor
 
 	void GameObjectInspector::DrawComponents(unsigned int gobjId)
 	{
+		int counter = 0;
+
 		static Component* rightClickedComp = nullptr;
 		for (auto comp : ComponentManager::GetComponents(gobjId))
 		{
-			ImGui_Impl::DrawComponentHeader(comp->GetComponentName(), comp->myInspectorWasDrawn);
+			std::string id = comp->GetComponentName();
+			id += "##" + std::to_string(counter);
+
+			counter++;
+
+			ImGui_Impl::DrawComponentHeader(id.c_str(), comp->myInspectorWasDrawn);
 
 			if (ImGui::IsItemHovered())
 			{
@@ -77,16 +87,34 @@ namespace Eclipse::Editor
 
 		if (ImGui::BeginCombo("##ADD_COMPONENTS", "Add Component"))
 		{
+			if (!compSearchIsFocused)
+			{
+				ImGui::SetKeyboardFocusHere();
+				filter = {};
+				compSearchIsFocused = true;
+			}
+
+			filter.Draw("##Search");
+
 			for (auto& [name, addFunc] : ComponentRegistry::GetInspectorAddComponentMap())
 			{
+				if (!filter.PassFilter(name.c_str())) continue;
+
 				if (ImGui::Button(name.c_str(), ImVec2(-FLT_MIN, 0)))
 				{
 					addFunc(gobjId);
 					ImGui::CloseCurrentPopup();
+					filter = {};
+					compSearchIsFocused = false;
 				}
 			}
 
 			ImGui::EndCombo();
+		}
+		else if(compSearchIsFocused)
+		{
+			filter = {};
+			compSearchIsFocused = false;
 		}
 
 		if (ImGui::BeginPopup("InspectorRightClickedComponent"))

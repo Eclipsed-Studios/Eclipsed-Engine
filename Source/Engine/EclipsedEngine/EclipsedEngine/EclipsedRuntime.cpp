@@ -187,6 +187,7 @@ namespace Eclipse
         GraphicsEngine::Get<OpenGLGraphicsEngine>()->EndFrame();
         PerformanceProfilerManager::CollectNextFrame();
         PerformanceProfilerManager::Clear();
+Assets::AssetManager::EndFrame();
     }
 
     void EclipsedRuntime::Shutdown()

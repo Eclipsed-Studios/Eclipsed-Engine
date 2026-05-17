@@ -22,7 +22,7 @@
 
 #include "PhysicsEngine/PhysicsEngine.h"
 
-#include "CoreEngine/Debug/DebugLogger.h"
+#include "EclipsedEngine/DebugLogger.h"
 
 #include "AssetEngine/AssetManager.h"
 
