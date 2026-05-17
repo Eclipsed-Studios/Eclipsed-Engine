@@ -15,6 +15,9 @@
 
 namespace Eclipse::Editor
 {
+	ImGuiTextFilter GameObjectInspector::filter{};
+	bool GameObjectInspector::compSearchIsFocused = false;
+
 	void GameObjectInspector::Draw(const GameObjectTarget& target)
 	{
 		if (target == 0)
@@ -84,16 +87,34 @@ namespace Eclipse::Editor
 
 		if (ImGui::BeginCombo("##ADD_COMPONENTS", "Add Component"))
 		{
+			if (!compSearchIsFocused)
+			{
+				ImGui::SetKeyboardFocusHere();
+				filter = {};
+				compSearchIsFocused = true;
+			}
+
+			filter.Draw("##Search");
+
 			for (auto& [name, addFunc] : ComponentRegistry::GetInspectorAddComponentMap())
 			{
+				if (!filter.PassFilter(name.c_str())) continue;
+
 				if (ImGui::Button(name.c_str(), ImVec2(-FLT_MIN, 0)))
 				{
 					addFunc(gobjId);
 					ImGui::CloseCurrentPopup();
+					filter = {};
+					compSearchIsFocused = false;
 				}
 			}
 
 			ImGui::EndCombo();
+		}
+		else if(compSearchIsFocused)
+		{
+			filter = {};
+			compSearchIsFocused = false;
 		}
 
 		if (ImGui::BeginPopup("InspectorRightClickedComponent"))

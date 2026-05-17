@@ -8,22 +8,21 @@
 
 namespace Eclipse::Core
 {
+#define DEBUG_LOGGER_BUFFER_SIZE 400'000
+
 	class DebugLogger
 	{
-	private:
-		static inline constexpr int BufferSize = 400'000;
-
 	public:
 		friend class ConsoleWindow;
 
 	public:
 		static void AddMessage(const DebugMessage& message);
 
-		static const RingBuffer<DebugMessage, DebugLogger::BufferSize>& GetMessages();
+		static const RingBuffer<DebugMessage, DEBUG_LOGGER_BUFFER_SIZE>& GetMessages();
 		static void Clear();
 
 	private:
-		static RingBuffer<DebugMessage, DebugLogger::BufferSize> messageBuffer;
+		static RingBuffer<DebugMessage, DEBUG_LOGGER_BUFFER_SIZE> messageBuffer;
 	};
 }
 
