@@ -46,10 +46,17 @@ namespace Eclipse::Editor
 
 	void GameObjectInspector::DrawComponents(unsigned int gobjId)
 	{
+		int counter = 0;
+
 		static Component* rightClickedComp = nullptr;
 		for (auto comp : ComponentManager::GetComponents(gobjId))
 		{
-			ImGui_Impl::DrawComponentHeader(comp->GetComponentName(), comp->myInspectorWasDrawn);
+			std::string id = comp->GetComponentName();
+			id += "##" + std::to_string(counter);
+
+			counter++;
+
+			ImGui_Impl::DrawComponentHeader(id.c_str(), comp->myInspectorWasDrawn);
 
 			if (ImGui::IsItemHovered())
 			{
