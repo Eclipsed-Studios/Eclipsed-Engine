@@ -11,7 +11,7 @@ namespace Eclipse
     {
         if (FT_Init_FreeType(&freeType))
         {
-            LOG_ERROR("FreeType has FAILED to initialize");
+            CORE_LOG_ERROR("FreeType has FAILED to initialize");
         }
     }
 

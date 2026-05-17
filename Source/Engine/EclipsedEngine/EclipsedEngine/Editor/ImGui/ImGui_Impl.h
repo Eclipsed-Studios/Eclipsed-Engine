@@ -133,7 +133,7 @@ namespace Eclipse::Editor
 
             ImGui::NewFrame();
 
-            ImGui::DockSpaceOverViewport(1, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
+            //ImGui::DockSpaceOverViewport(1, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
         }
 
         inline void Render()
