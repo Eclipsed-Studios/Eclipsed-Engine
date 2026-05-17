@@ -21,6 +21,8 @@ namespace Eclipse::Assets
 
         void FromString(const std::string& hashStr);
         std::string ToString() const;
+
+        bool IsEmpty() const;
     };
 
     struct GUIDHash

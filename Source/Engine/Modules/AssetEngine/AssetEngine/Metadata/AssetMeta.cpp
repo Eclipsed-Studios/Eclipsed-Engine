@@ -3,6 +3,7 @@
 #include "AssetEngine/Core/SupportedAssets.h"
 
 #include "Data/TextureMeta.h"
+#include "Data/AudioMeta.h"
 #include "cereal/archives/json.hpp"
 #include "cereal/archives/binary.hpp"
 #include "CoreEngine/PathManager.h"
@@ -11,10 +12,10 @@ namespace Eclipse::Assets
 {
 	AssetMeta::~AssetMeta()
 	{
-		for (auto& [type, metaComp] : metaComponents)
-		{
-			delete metaComp;
-		}
+		//for (auto& [type, metaComp] : metaComponents)
+		//{
+		//	delete metaComp;
+		//}
 	}
 
 	void AssetMeta::WriteToStream(std::ofstream& _of) const

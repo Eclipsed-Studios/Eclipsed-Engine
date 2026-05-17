@@ -47,6 +47,10 @@ namespace Eclipse
 
             static void ReactToAction(Action anAction);
 
+
+            static void GenerateGame();
+            static void CompileGame();
+            static void OpenGameSLNX();
         };
     }
 }

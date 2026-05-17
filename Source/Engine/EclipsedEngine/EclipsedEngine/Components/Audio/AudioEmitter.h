@@ -32,6 +32,8 @@ namespace Eclipse
 		void Update() override;
 
 	public:
+		void SetSpatialMode(bool is3D);
+
 		void Play();
 		void Stop();
 
@@ -49,7 +51,7 @@ namespace Eclipse
 	public:
 		SERIALIZED_FIELD(Assets::AudioClip, audioClip);
 
-		SERIALIZED_FIELD_DEFAULT(bool, EnableSpatial, true);
+		SERIALIZED_FIELD_DEFAULT(bool, EnableSpatial, false);
 		SERIALIZED_FIELD_DEFAULT(bool, playOnAwake, false);
 		SERIALIZED_FIELD_DEFAULT(float, volume, 1.f);
 

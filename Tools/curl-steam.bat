@@ -2,6 +2,14 @@
 
 echo === Begun: Copying steam sdk ===
 
+cd Source/Externals
+
+if not exist "steamsdk" (
+    mkdir steamsdk
+)
+
+cd steamsdk
+
 curl -s https://eclipsed.se/sdk/isteamapps.h -o isteamapps.h
 curl -s https://eclipsed.se/sdk/isteamappticket.h -o isteamappticket.h
 curl -s https://eclipsed.se/sdk/isteamclient.h -o isteamclient.h

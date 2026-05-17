@@ -3,6 +3,8 @@
 #include "fmod/fmod.hpp"
 #include "CoreEngine/MainSingleton.h"
 
+#include "AssetEngine/MetaData/Data/AudioMeta.h"
+
 namespace Eclipse::Assets
 {
 	ImportedData AudioAssetType::Import(const AssetMeta& file)
@@ -148,9 +150,11 @@ namespace Eclipse::Assets
 
 		FMOD::System* system = MainSingleton::GetRaw<FMOD::System*>();
 
+		FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_OPENRAW;
+
 		FMOD_RESULT result = system->createSound(
 			reinterpret_cast<const char*>(_data->Data.data()),
-			FMOD_OPENMEMORY | FMOD_OPENRAW,
+			mode,
 			&exinfo,
 			&_data->sound
 		);

@@ -2,16 +2,21 @@
 
 #include "AssetEngine/Helper/STB_Helper.h"
 
+#include "CoreEngine/EventSystem/EventSystem.h"
+
 namespace Eclipse::Assets
 {
 	TextureAssetType::TextureAssetType()
 	{
-		defaultAssetsGuids[DefaultAssetType::TEXTURE_ERROR].FromString("615be1e3286c63e8cff80bee20410294");
-		defaultAssetsGuids[DefaultAssetType::TEXTURE_DEFAULT].FromString("6aedf12c76af06d6517e73ce2548607d");
+		defaultAssetsGuids[DefaultAssetType::TEXTURE_ERROR].FromString("cf50f44ea7fb40ed07c66d1190024581");
+		defaultAssetsGuids[DefaultAssetType::TEXTURE_DEFAULT].FromString("77cbf21c126e6ab274908f75c436065b");
 	}
 
 	ImportedData TextureAssetType::Import(const AssetMeta& file)
 	{
+		EventSystem::Trigger("Texture_Imported", file);
+
+
 		ImportedTexture data;
 
 		unsigned char* pixelData;
@@ -21,6 +26,7 @@ namespace Eclipse::Assets
 		data.Data.resize(size);
 		memcpy(data.Data.data(), pixelData, size);
 		STB_Helper::FreeData_STB(pixelData);
+
 
 		//TextureAssetMetaSettings texMetaSettings = LoadOrCreateMeta<TextureAssetMetaSettings>(aPath);
 		//int dataAmount = texMetaSettings.spriteRects.size();
@@ -75,7 +81,7 @@ namespace Eclipse::Assets
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
 
-		int rgbTypeOffset = 3 - _data->channels;
+		int rgbTypeOffset = GL_RGBA - _data->channels;
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _data->width, _data->height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixelData.data());
 		glGenerateMipmap(GL_TEXTURE_2D);

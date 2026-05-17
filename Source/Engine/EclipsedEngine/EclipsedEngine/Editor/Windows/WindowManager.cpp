@@ -26,8 +26,14 @@
 #include "CoreEngine/Files/FileUtilities.h"
 
 #include "EclipsedEngine/Editor/Layout/LayoutManager.h"
+
+
+#include "EclipsedEngine/Editor/Common/EditorActions.h"
+
+#include "EclipsedEngine/Editor/Common/TextureIconManager.h"
 #include "EclipsedEngine/Editor/Game/GameCompiler.h"
-#include "EclipsedEngine/Editor/Game/GameLoader.h"
+
+#include "imgui/imgui_internal.h"
 
 namespace Eclipse::Editor
 {
@@ -54,39 +60,116 @@ namespace Eclipse::Editor
 	}
 	void WindowManager::UpdateMainMenuBar()
 	{
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+		float bottom_bar_height = 40.0f;
+
+		ImVec2 pos = ImVec2(viewport->Pos.x, viewport->Pos.y + mainMenuBarSize);
+
+		// ----- DOCKSPACE (reduced height) -----
+		ImGui::SetNextWindowPos(pos);
+		ImGui::SetNextWindowSize(ImVec2(viewport->Size.x, viewport->Size.y - bottom_bar_height - mainMenuBarSize));
+
+		ImGuiWindowFlags dock_flags =
+			ImGuiWindowFlags_NoDocking |
+			ImGuiWindowFlags_NoTitleBar |
+			ImGuiWindowFlags_NoCollapse |
+			ImGuiWindowFlags_NoResize |
+			ImGuiWindowFlags_NoMove |
+			ImGuiWindowFlags_NoBringToFrontOnFocus |
+			ImGuiWindowFlags_NoNavFocus;
+
+		ImGui::Begin("DockSpaceHost", nullptr, dock_flags);
+
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id);
+
+		ImGui::End();
+
+
+		// ----- BOTTOM BAR (fixed at bottom) -----
+		ImGui::SetNextWindowPos(
+			ImVec2(viewport->Pos.x, viewport->Pos.y + viewport->Size.y - bottom_bar_height)
+		);
+
+		ImGui::SetNextWindowSize(ImVec2(viewport->Size.x, bottom_bar_height));
+
+		ImGuiWindowFlags bar_flags =
+			ImGuiWindowFlags_NoDecoration |
+			ImGuiWindowFlags_NoDocking |
+			ImGuiWindowFlags_NoMove |
+			ImGuiWindowFlags_NoSavedSettings;
+
+		ImGui::Begin("BottomBar", nullptr, bar_flags);
+		ImGui::Text("Status: OK");
+		ImGui::End();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		if (ImGui::BeginMainMenuBar())
 		{
+			mainMenuBarSize = ImGui::GetWindowSize().y;
+
 			{ // Left menu
 				if (ImGui::BeginMenu("File"))
 				{
-					if (ImGui::BeginMenu("Game")) {
+					if (ImGui::BeginMenu("Game"))
+					{
 						if (ImGui::MenuItem("Generate Game"))
 						{
-							system(("cd " + (PathManager::GetEngineRoot().parent_path().parent_path() / "Tools").generic_string() + " && "
-								"generate-game-editor.bat " + PathManager::GetProjectRoot().generic_string() + " " + PathManager::GetEngineRoot().parent_path().generic_string()).c_str());
+							EditorActions::GenerateGame();
 						}
-						if (ImGui::MenuItem("Open Game SLN"))
+						else if (ImGui::MenuItem("Open Game SLNX"))
 						{
-							system(("cd " + (PathManager::GetProjectRoot() / "Library/Engine-Build").generic_string() + " && start Eclipsed-Game.sln").c_str());
+							EditorActions::OpenGameSLNX();
 						}
 
-						if (ImGui::MenuItem("Recompile Game DLL"))
+						else if (ImGui::MenuItem("Recompile Game DLL"))
 						{
-							GameLoader::UnloadGameDLL();
-							GameCompiler::CompileGame();
-							GameLoader::LoadGameDLL();
+							EditorActions::CompileGame();
 						}
 
-						if (ImGui::MenuItem("Build Game Release EXE"))
+						else if (ImGui::MenuItem("Build Game Release EXE"))
 						{
 							std::filesystem::path CDPath = PathManager::GetEngineRoot().parent_path().parent_path() / "Tools";
 							system(("cd " + CDPath.generic_string() + " && start build-game-editor.bat Release").c_str());
 						}
-						 else if (ImGui::MenuItem("Build Game Debug EXE"))
-						 {
-						 	std::filesystem::path CDPath = PathManager::GetEngineRoot().parent_path().parent_path() / "Tools";
-						 	system(("cd " + CDPath.generic_string() + " && start build-game-editor.bat Debug").c_str());
-						 }
+
+						else if (ImGui::MenuItem("Build Game Debug EXE"))
+						{
+							std::filesystem::path CDPath = PathManager::GetEngineRoot().parent_path().parent_path() / "Tools";
+							system(("cd " + CDPath.generic_string() + " && start build-game-editor.bat Debug").c_str());
+						}
 
 						ImGui::EndMenu();
 					}
@@ -263,6 +346,8 @@ namespace Eclipse::Editor
 
 	void WindowManager::Begin()
 	{
+		IconManager::Init();
+
 		Settings::EditorSettings::SetCurrentlyOpenEditorWindows({});
 
 		LayoutManager::LoadLayouts();
@@ -271,6 +356,8 @@ namespace Eclipse::Editor
 		ImGui::LoadIniSettingsFromDisk("imgui.ini");
 		using namespace rapidjson;
 
+
+		GameModuleManager::CompileAndLoad();
 		//const std::vector<Settings::OpenEditorWindows>& openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
 
 		//for (const Settings::OpenEditorWindows& openWindow : Settings::EditorSettings::GetCurrentlyOpenEditorWindows())
@@ -306,8 +393,7 @@ namespace Eclipse::Editor
 		}
 	}
 	void WindowManager::OpenNewLayout()
-	{
-	}
+	{}
 	void WindowManager::OpenLayout(const char* layout)
 	{
 		const auto& layoutWindows = LayoutManager::OpenLayout(layout);

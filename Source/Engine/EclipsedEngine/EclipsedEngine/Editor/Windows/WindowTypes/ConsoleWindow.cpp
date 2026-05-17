@@ -2,7 +2,7 @@
 #include "ConsoleWindow.h"
 
 #include <ImGui/imgui.h>
-#include "CoreEngine/Debug/DebugLogger.h"
+#include "EclipsedEngine/DebugLogger.h"
 
 namespace Eclipse::Editor
 {

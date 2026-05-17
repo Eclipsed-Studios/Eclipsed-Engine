@@ -272,21 +272,21 @@ namespace Eclipse
         {
         case ErrorCode::GLFW_FAILED_TO_INITILIZE:
             {
-                LOG_ERROR("GLFW failed to initilize");
+                CORE_LOG_ERROR("GLFW failed to initilize");
                 glfwTerminate();
                 return ErrorCode::FAILED;
             }
             break;
         case ErrorCode::GLFW_WINDOW_FAILED_TO_CREATE:
             {
-                LOG_ERROR("GLFW window was not able to be created");
+                CORE_LOG_ERROR("GLFW window was not able to be created");
                 glfwTerminate();
                 return ErrorCode::FAILED;
             }
             break;
         case ErrorCode::GLAD_FAILED_TO_INITILIZE:
             {
-                LOG_ERROR("GLAD failed to initilize");
+                CORE_LOG_ERROR("GLAD failed to initilize");
                 glfwTerminate();
                 return ErrorCode::FAILED;
             }

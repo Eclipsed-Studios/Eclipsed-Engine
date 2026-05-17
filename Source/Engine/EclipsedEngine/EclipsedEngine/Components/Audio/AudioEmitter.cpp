@@ -10,17 +10,6 @@ namespace Eclipse
 		if (playOnAwake) {
 			Play();
 		}
-
-		if (EnableSpatial) {
-			Transform2D* trans = gameObject->transform;
-			trans->AddFunctionToRunOnDirtyUpdate(this,
-				[this]() {
-					this->UpdateAudioPosition();
-				}
-			);
-
-			UpdateAudioPosition();
-		}
 	}
 
 	void AudioEmitter::OnDestroy() {
@@ -32,10 +21,26 @@ namespace Eclipse
 		SetVolume(volume);
 	}
 
+	void AudioEmitter::SetSpatialMode(bool is3D)
+	{
+		channel->setMode(is3D ? FMOD_3D : FMOD_2D);
+	}
+
 	void AudioEmitter::Play() {
 		isPlaying = true;
 		channel->setPaused(isPlaying);
 		AudioManager::PlayAudio(audioClip->dataPtr->sound, &channel);
+
+		SetSpatialMode(EnableSpatial);
+
+		Transform2D* trans = gameObject->transform;
+		trans->AddFunctionToRunOnDirtyUpdate(this,
+			[this]() {
+				this->UpdateAudioPosition();
+			}
+		);
+
+		UpdateAudioPosition();
 	}
 
 	void AudioEmitter::Resume() {

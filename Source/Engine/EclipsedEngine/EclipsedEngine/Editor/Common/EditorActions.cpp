@@ -17,6 +17,11 @@
 
 #include "EclipsedEngine/ECS/ObjectManager.h"
 
+#include "CoreEngine/BatchScript.h"
+
+#include "EclipsedEngine/Editor/Game/GameCompiler.h"
+#include "EclipsedEngine/Editor/Game/GameLoader.h"
+
 namespace Eclipse::Editor
 {
 	void EditorActions::SaveScene()
@@ -252,6 +257,28 @@ namespace Eclipse::Editor
 			Paste();
 			break;
 		}
+	}
+
+
+
+	void EditorActions::GenerateGame()
+	{
+		GameModuleManager::GenerateGameEditor();
+	}
+
+	void EditorActions::CompileGame()
+	{
+		GameModuleManager::CompileAndLoad();
+	}
+
+	void EditorActions::OpenGameSLNX()
+	{
+		static BatchScript script(
+			PathManager::GetProjectRoot() / "Library/Engine-Build",
+			"Eclipsed-Game.sln"
+		);
+
+		script.Run(true);
 	}
 }
 #endif
