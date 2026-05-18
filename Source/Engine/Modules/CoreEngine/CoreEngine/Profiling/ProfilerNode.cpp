@@ -91,14 +91,29 @@ void ProfilerNode::SetEndTime()
 	CalculateDuration();
 }
 
-long long ProfilerNode::GetDuration() const
+double ProfilerNode::GetDuration() const
 {
-	return myDurationMs;
+	return myDurationUs.count() * 0.001;
 }
 
 void ProfilerNode::CalculateDuration()
 {
-	myDurationMs = std::chrono::duration_cast<std::chrono::microseconds>(myEndTime - myStartTime).count();
+	myDurationUs = std::chrono::duration_cast<std::chrono::microseconds>(myEndTime - myStartTime);
+}
+
+void ProfilerNode::AddMemoryAllocated(int size)
+{
+	memoryAllocated += size;
+}
+
+void ProfilerNode::AddMemoryFreed(int size)
+{
+	memoryFreed += size;
+}
+
+int ProfilerNode::GetMemoryAllocated() const
+{
+	return memoryAllocated;
 }
 
 void ProfilerNode::SetCurrentTime(std::chrono::steady_clock::time_point& aTimePoint)

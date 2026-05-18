@@ -6,6 +6,7 @@
 
 #include <filesystem>
 #include <iostream>
+#include "CoreEngine/core.h"
 
 namespace Eclipse
 {
@@ -77,6 +78,7 @@ namespace Eclipse
 
 	void AudioManager::Update()
 	{
+        PROFILE_SCOPED;
 		myStudioSystem->update();
         mySystem->update();
 	}

@@ -20,6 +20,7 @@ namespace Eclipse
 
     void Time::Update()
     {
+        PROFILE_SCOPED;
         duration = clock.now() - startTime;
         float newTotalTime = duration.count();
         float deltaTimeNoScaled = newTotalTime - myTotalTime;

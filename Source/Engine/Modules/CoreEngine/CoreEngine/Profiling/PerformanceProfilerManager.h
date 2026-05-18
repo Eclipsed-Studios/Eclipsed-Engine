@@ -34,6 +34,8 @@ public:
 
 	static void CollectNextFrame();
 
+	static ProfilerNode* GetCurrentNode();
+
 private:
 	static void PrintNode(ProfilerNode* aNode, int in);
 

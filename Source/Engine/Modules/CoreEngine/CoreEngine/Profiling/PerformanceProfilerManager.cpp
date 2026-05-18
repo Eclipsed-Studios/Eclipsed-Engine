@@ -9,6 +9,29 @@ bool PerformanceProfilerManager::myCollectNextFrame;
 ProfilerNode* PerformanceProfilerManager::myRootNode;
 ProfilerNode* PerformanceProfilerManager::myCurrentNode;
 
+#include <cstdlib>
+#include <new>
+#include <cstdio>
+
+void* operator new(std::size_t size) {
+	void* ptr = std::malloc(size);
+
+	ProfilerNode* node = PerformanceProfilerManager::GetCurrentNode();
+	if (node != nullptr)
+	{
+		node->AddMemoryAllocated((int)size);
+	}
+
+	if (!ptr) throw std::bad_alloc();
+
+	return ptr;
+}
+
+void operator delete(void* ptr) noexcept {
+	std::free(ptr);
+}
+
+
 void PerformanceProfilerManager::StartProfilingNode(ProfilerNode* aNode)
 {
 	if (myRootNode == nullptr)myRootNode = aNode;
@@ -46,6 +69,11 @@ void PerformanceProfilerManager::CollectNextFrame()
 	myCollectNextFrame = true;
 }
 
+ProfilerNode* PerformanceProfilerManager::GetCurrentNode()
+{
+	return myCurrentNode;
+}
+
 void PerformanceProfilerManager::Clear()
 {
 	if (myCollectNextFrame)
@@ -62,14 +90,31 @@ void PerformanceProfilerManager::Clear()
 	myCurrentNode = nullptr;
 }
 
-void PerformanceProfilerManager::PrintNode(ProfilerNode* aNode, int in)
+void PerformanceProfilerManager::PrintNode(ProfilerNode* aNode, int depth)
 {
 	if (aNode == nullptr) return;
-	for (int i = 0; i < in; i++) std::cout << "   ";
 
 	aNode->CalculateDuration();
-	std::cout << "| " << aNode->GetName() << "  |  " << aNode->GetDuration() << "us" << std::endl;
-	for (auto node : aNode->GetChildren()) PrintNode(node, in + 1);
+
+	std::string indent;
+	indent.reserve(depth * 3);
+
+	for (int i = 0; i < depth - 1; i++)
+		indent += "│";
+	//"├─ "
+
+	std::cout
+		<< indent
+		<< (depth > 0 ? "└─ " : "")
+		<< std::left << std::setw(45 - depth * 2) << aNode->GetName()
+		<< std::right << std::setw(8) << std::fixed << std::setprecision(3)
+		<< aNode->GetDuration() << " ms"
+		<< "   alloc: "
+		<< aNode->GetMemoryAllocated()
+		<< "\n";
+
+	for (auto node : aNode->GetChildren())
+		PrintNode(node, depth + 1);
 }
 
 ScopedProfilerNodeRegistrator::ScopedProfilerNodeRegistrator(const char* aName, const char* aFile, int aLine)

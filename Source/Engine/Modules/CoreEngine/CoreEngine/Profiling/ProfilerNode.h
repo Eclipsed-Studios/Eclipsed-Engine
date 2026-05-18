@@ -28,8 +28,13 @@ public:
 	void SetStartTime();
 	void SetEndTime();
 
-	long long GetDuration() const;
+	double GetDuration() const;
 	void CalculateDuration();
+
+	void AddMemoryAllocated(int size);
+	void AddMemoryFreed(int size);
+
+	int GetMemoryAllocated() const;
 
 private:
 	void SetCurrentTime(std::chrono::steady_clock::time_point& aTimePoint);
@@ -38,8 +43,11 @@ private:
 	char* myName, * myFilePath;
 	int myLine = -1;
 
+	int memoryAllocated = 0;
+	int memoryFreed = 0;
+
 	std::chrono::steady_clock::time_point myStartTime, myEndTime;
-	long long myDurationMs = -1;
+	std::chrono::microseconds myDurationUs;
 
 	std::vector<ProfilerNode*> myChildNodes;
 	ProfilerNode* myParentNode = nullptr;

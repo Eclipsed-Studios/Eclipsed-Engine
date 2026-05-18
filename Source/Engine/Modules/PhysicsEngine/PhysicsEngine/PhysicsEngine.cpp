@@ -2,6 +2,7 @@
 
 #include <box2d/box2d.h>
 #include "CoreEngine/Timer.h"
+#include "CoreEngine/core.h"
 #include "CoreEngine/Settings/PhysicsSettings.h"
 
 #undef min
@@ -74,6 +75,7 @@ namespace Eclipse
 
     void PhysicsEngine::Update()
     {
+        PROFILE_SCOPED;
         const float deltaTime = Time::GetDeltaTime();
 
         b2World_Step(myWorld, deltaTime, mySubstepCount);
