@@ -75,7 +75,7 @@ namespace Eclipse
 
     void PhysicsEngine::Update()
     {
-        PROFILE_SCOPED;
+        CORE_PROFILE_SCOPED;
         const float deltaTime = Time::GetDeltaTime();
 
         b2World_Step(myWorld, deltaTime, mySubstepCount);

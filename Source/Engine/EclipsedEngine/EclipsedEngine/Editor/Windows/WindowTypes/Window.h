@@ -8,6 +8,7 @@
 #include "Font-Awesome/7/IconsFontAwesome7Brands.h"
 #include "CoreEngine/core.h"
 
+
 namespace Eclipse::Editor
 {
 	class AbstractWindow

@@ -117,18 +117,18 @@ void PerformanceProfilerManager::PrintNode(ProfilerNode* aNode, int depth)
 		PrintNode(node, depth + 1);
 }
 
-ScopedProfilerNodeRegistrator::ScopedProfilerNodeRegistrator(const char* aName, const char* aFile, int aLine)
+ScopedProfilerNodeRegistrator_CORE::ScopedProfilerNodeRegistrator_CORE(const char* aName, const char* aFile, int aLine)
 {
 	ProfilerNode* node = new ProfilerNode(aName, aFile, aLine);
 	PerformanceProfilerManager::StartProfilingNode(node);
 }
 
-ScopedProfilerNodeRegistrator::~ScopedProfilerNodeRegistrator()
+ScopedProfilerNodeRegistrator_CORE::~ScopedProfilerNodeRegistrator_CORE()
 {
 	PerformanceProfilerManager::EndProfilingNode();
 }
 
-ProfilerNodeRegistrator::ProfilerNodeRegistrator(const char* aName, const char* aFile, int aLine)
+ProfilerNodeRegistrator_CORE::ProfilerNodeRegistrator_CORE(const char* aName, const char* aFile, int aLine)
 {
 	ProfilerNode* node = new ProfilerNode(aName, aFile, aLine);
 	PerformanceProfilerManager::StartProfilingNode(node);

@@ -329,7 +329,7 @@ void Eclipse::Editor::SceneWindow::ObjectSnappingGizmo()
 
 void Eclipse::Editor::SceneWindow::Update()
 {
-	PROFILE_SCOPED;
+	CORE_PROFILE_SCOPED;
 	ImVec2 windowSize = ImGui::GetWindowSize();
 	myWindowSize = { windowSize.x, windowSize.y };
 

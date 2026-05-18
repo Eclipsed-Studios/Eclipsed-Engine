@@ -17,7 +17,7 @@ namespace Eclipse
 
 	void Engine::Update()
 	{
-		PROFILE_SCOPED;
+		CORE_PROFILE_SCOPED;
 		PlatformIntegration::IntegrationManager::Update();
 
 		Time::Update();

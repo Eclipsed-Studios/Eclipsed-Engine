@@ -20,7 +20,7 @@ namespace Eclipse::Editor
 
 	void InspectorWindow::Update()
 	{
-		PROFILE_SCOPED;
+		CORE_PROFILE_SCOPED;
 		DrawInspectorHeader();
 
 		if (!lockInspector) currentTarget = SelectionContext::GetCurrentData();
@@ -30,7 +30,7 @@ namespace Eclipse::Editor
 
 	void InspectorWindow::DrawInspectorHeader()
 	{
-		PROFILE_SCOPED;
+		CORE_PROFILE_SCOPED;
 		ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 48);
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6);
 		ImGui::Text(ICON_FA_LOCK);

@@ -2,22 +2,22 @@
 
 class ProfilerNode;
 
-struct ScopedProfilerNodeRegistrator
+struct ScopedProfilerNodeRegistrator_CORE
 {
-	ScopedProfilerNodeRegistrator(const char* aName, const char* aFile, int aLine);
-	~ScopedProfilerNodeRegistrator();
+	ScopedProfilerNodeRegistrator_CORE(const char* aName, const char* aFile, int aLine);
+	~ScopedProfilerNodeRegistrator_CORE();
 };
 
-struct ProfilerNodeRegistrator
+struct ProfilerNodeRegistrator_CORE
 {
-	ProfilerNodeRegistrator(const char* aName, const char* aFile, int aLine);
+	ProfilerNodeRegistrator_CORE(const char* aName, const char* aFile, int aLine);
 };
 
 #define CONCAT(a, b) a##b
 #define CONCAT_EXPAND(a, b) CONCAT(a, b)
 #define GET_NAME(name) CONCAT_EXPAND(name, __LINE__) 
 
-#define PROFILE_SCOPED ScopedProfilerNodeRegistrator GET_NAME(registrator_)(__FUNCTION__, __FILE__, __LINE__);
+#define CORE_PROFILE_SCOPED ScopedProfilerNodeRegistrator_CORE GET_NAME(registrator_)(__FUNCTION__, __FILE__, __LINE__);
 
 #define PROFILE_BEGIN(name) ProfilerNodeRegistrator GET_NAME(registrator_)(name, __FILE__, __LINE__);
 #define PROFILE_END PerformanceProfilerManager::EndProfilingNode();
