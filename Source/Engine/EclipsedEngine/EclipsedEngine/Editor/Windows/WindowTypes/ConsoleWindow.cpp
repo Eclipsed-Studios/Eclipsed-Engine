@@ -21,6 +21,18 @@ namespace Eclipse::Editor
 		if (ImGui::Button("Clear"))
 			DebugLogger::Clear();
 
+		float width = ImGui::GetWindowWidth() - ImGui::CalcTextSize("Message").x - ImGui::CalcTextSize("File").x - 10;
+
+		ImGui::Text("Message");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(width * 0.5f);
+		msgFilter.Draw((std::string("##console_search_msg") + std::to_string(instanceID)).c_str());
+		ImGui::SameLine();
+		ImGui::Text("File");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(width * 0.5f);
+		fileFilter.Draw((std::string("##console_search_file") + std::to_string(instanceID)).c_str());
+
 		ImGui::Separator();
 
 		ImGui::BeginChild(
@@ -44,7 +56,13 @@ namespace Eclipse::Editor
 				(msg.diagnosticSeverity == DiagnosticSeverity::Error && !myShouldShowErrors))
 				continue;
 
-			filteredMessages.push_back(&msg);
+			if (
+				(msgFilter.InputBuf[0] == '\0' || msgFilter.PassFilter(msg.message.c_str())) &&
+				(fileFilter.InputBuf[0] == '\0' || fileFilter.PassFilter(msg.file.c_str()))
+				)
+			{
+				filteredMessages.push_back(&msg);
+			}
 		}
 
 		std::unordered_map<std::string, int> collapseMap;
