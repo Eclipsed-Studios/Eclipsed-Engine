@@ -99,14 +99,14 @@ namespace Eclipse
 
     void ComponentManager::EditorUpdateComponents()
     {
-        PROFILE_SCOPED;
+        CORE_PROFILE_SCOPED;
         for (size_t i = 0; i < myComponents.size(); ++i)
             myComponents[i]->EditorUpdate();
     }
 
     void ComponentManager::EarlyUpdateComponents()
     {
-        PROFILE_SCOPED;
+        CORE_PROFILE_SCOPED;
         for (size_t i = 0; i < myComponents.size(); ++i)
             if (myComponents[i]->myIsOwner && myComponents[i]->HasStarted)
                 myComponents[i]->EarlyUpdate();
@@ -114,7 +114,7 @@ namespace Eclipse
 
     void ComponentManager::UpdateComponents()
     {
-        PROFILE_SCOPED;
+        CORE_PROFILE_SCOPED;
         for (size_t i = 0; i < myComponents.size(); ++i)
             if (myComponents[i]->myIsOwner && myComponents[i]->HasStarted)
                 myComponents[i]->Update();
@@ -122,14 +122,14 @@ namespace Eclipse
 
     void ComponentManager::EditorLateUpdateComponents()
     {
-        PROFILE_SCOPED;
+        CORE_PROFILE_SCOPED;
         for (auto& component : myComponents)
             component->EditorLateUpdate();
     }
 
     void ComponentManager::LateUpdateComponents()
     {
-        PROFILE_SCOPED;
+        CORE_PROFILE_SCOPED;
         for (auto& component : myComponents)
             if (component->HasStarted)
                 component->OnDrawGizmos();
@@ -142,7 +142,7 @@ namespace Eclipse
 
     void ComponentManager::RenderComponents()
     {
-        PROFILE_SCOPED;
+        CORE_PROFILE_SCOPED;
 #ifdef ECLIPSED_EDITOR
         SortComponents();
 #endif
@@ -152,7 +152,7 @@ namespace Eclipse
 
     void ComponentManager::SortComponents()
     {
-        PROFILE_SCOPED;
+        CORE_PROFILE_SCOPED;
 
         // this is a work around so render components does not need to exist should be a separate list
         std::sort(myComponents.begin(), myComponents.end(), [&](Component* aComp0, Component* aComp1)

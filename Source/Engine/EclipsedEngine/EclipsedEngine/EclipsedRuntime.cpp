@@ -117,7 +117,7 @@ namespace Eclipse
 
 	void EclipsedRuntime::UpdateGame()
 	{
-		PROFILE_SCOPED;
+		CORE_PROFILE_SCOPED;
 		//TODO: Might not want to call every frame but it does now
 		SteamGeneral::Get().Update();
 
@@ -152,7 +152,7 @@ namespace Eclipse
 
 	void EclipsedRuntime::Render()
 	{
-		PROFILE_SCOPED;
+		CORE_PROFILE_SCOPED;
 		SortComponents();
 
 		PhysicsEngine::DrawPhysicsObjects();
@@ -164,7 +164,7 @@ namespace Eclipse
 
 	void EclipsedRuntime::Update()
 	{
-		PROFILE_SCOPED;
+		CORE_PROFILE_SCOPED;
 		engine.Update();
 		Input::Update();
 
@@ -186,9 +186,8 @@ namespace Eclipse
 	void EclipsedRuntime::EndFrame()
 	{
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->EndFrame();
-		PerformanceProfilerManager::CollectNextFrame();
-		PerformanceProfilerManager::Clear();
 		Assets::AssetManager::EndFrame();
+		PerformanceProfilerManager::Clear();
 	}
 
 	void EclipsedRuntime::Shutdown()

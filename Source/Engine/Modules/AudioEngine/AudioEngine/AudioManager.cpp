@@ -78,7 +78,7 @@ namespace Eclipse
 
 	void AudioManager::Update()
 	{
-        PROFILE_SCOPED;
+        CORE_PROFILE_SCOPED;
 		myStudioSystem->update();
         mySystem->update();
 	}
