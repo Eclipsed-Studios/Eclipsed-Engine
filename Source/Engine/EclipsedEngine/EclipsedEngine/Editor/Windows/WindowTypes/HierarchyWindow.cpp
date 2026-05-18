@@ -41,6 +41,7 @@ namespace Eclipse::Editor
 
     void HierarchyWindow::HierarchyButton(GameObject* aGameObject, float totalIndent)
     {
+        CORE_PROFILE_SCOPED;
         unsigned id = aGameObject->GetID();
         bool goIsOpen = gameobjectIdsThatAreOpen.find(id) != gameobjectIdsThatAreOpen.end();
 
@@ -278,6 +279,7 @@ namespace Eclipse::Editor
 
     void HierarchyWindow::Update()
     {
+        CORE_PROFILE_SCOPED;
         if (ImGui::BeginPopup("GameobjectHierarchyRightClicked"))
         {
             if (ImGui::BeginMenu("Actions"))

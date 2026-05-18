@@ -56,3 +56,6 @@
 #include "CoreEngine/SerializedEnum.hpp"
 #include "CoreEngine/Timer.h"
 #include "CoreEngine/TypeChecks.h"
+
+
+#include "CoreEngine/Profiling/PerformanceProfilerManager.h"

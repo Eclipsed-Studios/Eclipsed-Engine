@@ -310,6 +310,7 @@ namespace Eclipse::Editor
 
 	void InputEditorWindow::Update()
 	{
+		CORE_PROFILE_SCOPED;
 		bool refreshInputsButton = ImGui::Button("Refresh");
 		if (refreshInputsButton)
 			InputMapper::Load();

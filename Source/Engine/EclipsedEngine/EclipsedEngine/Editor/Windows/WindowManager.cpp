@@ -60,6 +60,7 @@ namespace Eclipse::Editor
 	}
 	void WindowManager::UpdateMainMenuBar()
 	{
+		CORE_PROFILE_SCOPED;
 		ImGuiViewport* viewport = ImGui::GetMainViewport();
 
 		float bottom_bar_height = 40.0f;
@@ -297,6 +298,7 @@ namespace Eclipse::Editor
 
 	void WindowManager::Update()
 	{
+		CORE_PROFILE_SCOPED;
 		UpdateMainMenuBar();
 
 		LayoutManager::Update();
