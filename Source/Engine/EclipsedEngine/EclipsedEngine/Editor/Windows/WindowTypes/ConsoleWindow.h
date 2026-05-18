@@ -22,5 +22,8 @@ namespace Eclipse::Editor
 		bool myShouldShowMessages = true;
 		bool myShouldShowWarnings = true;
 		bool myShouldShowErrors = true;
+
+		ImGuiTextFilter msgFilter{};
+		ImGuiTextFilter fileFilter{};
 	};
 }

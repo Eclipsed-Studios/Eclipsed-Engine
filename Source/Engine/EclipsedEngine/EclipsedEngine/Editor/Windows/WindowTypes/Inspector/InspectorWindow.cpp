@@ -5,7 +5,6 @@
 #include "EclipsedEngine/Editor/ImGui/ImGui_Impl.h"
 #include "Assets/AssetInspectorRegistry.h"
 #include "InspectorDispatcher.h"
-
 namespace Eclipse::Editor
 {
 	void InspectorWindow::Open()
@@ -21,6 +20,7 @@ namespace Eclipse::Editor
 
 	void InspectorWindow::Update()
 	{
+		CORE_PROFILE_SCOPED;
 		DrawInspectorHeader();
 
 		if (!lockInspector) currentTarget = SelectionContext::GetCurrentData();
@@ -30,6 +30,7 @@ namespace Eclipse::Editor
 
 	void InspectorWindow::DrawInspectorHeader()
 	{
+		CORE_PROFILE_SCOPED;
 		ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 48);
 		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6);
 		ImGui::Text(ICON_FA_LOCK);

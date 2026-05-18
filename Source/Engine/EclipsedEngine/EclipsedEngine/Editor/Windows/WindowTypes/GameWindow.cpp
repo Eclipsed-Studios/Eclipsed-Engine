@@ -40,6 +40,7 @@ namespace Eclipse::Editor
 
 	void GameWindow::Update()
 	{
+		CORE_PROFILE_SCOPED;
 		if (ImGui::BeginMenuBar())
 		{
 			std::stringstream ss;
