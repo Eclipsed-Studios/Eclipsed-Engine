@@ -8,6 +8,7 @@ namespace Eclipse::Editor
 {
 	void ConsoleWindow::Update()
 	{
+		PROFILE_SCOPED;
 		ImGui::Checkbox("Show Messages", &myShouldShowMessages);
 		ImGui::SameLine();
 		ImGui::Checkbox("Show Warnings", &myShouldShowWarnings);
