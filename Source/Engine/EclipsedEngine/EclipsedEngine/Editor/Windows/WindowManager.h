@@ -17,7 +17,7 @@ namespace Eclipse::Editor
 
 		void Update();
 
-		void Begin();
+		void Init();
 		void End();
 
 		void AddWindowToCategory(const std::vector<std::string>& categories, size_t idx, const std::string& windowName);
