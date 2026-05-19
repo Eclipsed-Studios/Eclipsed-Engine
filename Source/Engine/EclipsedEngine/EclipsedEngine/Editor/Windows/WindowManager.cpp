@@ -346,7 +346,7 @@ namespace Eclipse::Editor
 		}
 	}
 
-	void WindowManager::Begin()
+	void WindowManager::Init()
 	{
 		IconManager::Init();
 
