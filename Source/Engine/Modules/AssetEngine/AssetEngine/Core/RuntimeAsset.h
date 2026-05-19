@@ -9,6 +9,7 @@
 #include "AssetEngine/Assets/AudioAsset.h"
 #include "AssetEngine/Assets/Shader/VertexShaderAsset.h"
 #include "AssetEngine/Assets/Shader/PixelShaderAsset.h"
+#include "AssetEngine/Assets/SceneAsset.h"
 
 namespace Eclipse::Assets
 {
@@ -18,6 +19,7 @@ namespace Eclipse::Assets
         MaterialData*,
         TextureData*,
         PrefabData*,
-        ShaderData*
+        ShaderData*,
+        SceneData*
     >;
 };

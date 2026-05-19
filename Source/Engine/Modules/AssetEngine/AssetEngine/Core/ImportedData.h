@@ -90,6 +90,16 @@ namespace Eclipse::Assets
 
 #pragma endregion
 
+#pragma region SCENE
+
+	struct ImportedScene
+	{
+		std::string source;
+	};
+
+#pragma endregion
+
+
 
 	using ImportedData = std::variant<
 		ImportedAudio,
@@ -97,7 +107,8 @@ namespace Eclipse::Assets
 		ImportedMaterial,
 		ImportedTexture,
 		ImportedPrefab,
-		ImportedShader
+		ImportedShader,
+		ImportedScene
 	>;
 
 	using ProcessedData = ImportedData;

@@ -28,7 +28,7 @@
 
 namespace Eclipse
 {
-	void SceneLoader::Save(const char* aPath)
+	void SceneLoader::Save(const Assets::Scene& scene)
 	{
 		rapidjson::Document d;
 		d.SetObject();
@@ -100,7 +100,10 @@ namespace Eclipse
 
 		d.Accept(writer);
 
-		std::ofstream ofs(aPath);
+		const Assets::AssetDatabase& database = MainSingleton::GetInstance<Assets::AssetDatabase>();
+		const Assets::AssetMeta& meta = database.GetProcessedFile(scene.GetAssetID());
+
+		std::ofstream ofs(meta.fullPath);
 		ofs << buffer.GetString();
 		ofs.close();
 	}
@@ -226,14 +229,19 @@ namespace Eclipse
 		PhysicsEngine::CleanUp();
 	}
 	
-	void SceneLoader::Load(const char* aPath)
+	void SceneLoader::Load(const Assets::Scene& scene)
 	{
 		using namespace rapidjson;
+
+		const Assets::AssetDatabase& database = MainSingleton::GetInstance<Assets::AssetDatabase>();
+		const Assets::AssetMeta& meta = database.GetProcessedFile(scene.GetAssetID());
+
+
 
 		UnloadScene();
 		PhysicsEngine::InitWorld();
 		
-		std::ifstream ifs(aPath);
+		std::ifstream ifs(meta.fullPath);
 		if (!ifs.is_open()) {
 			return;
 		}

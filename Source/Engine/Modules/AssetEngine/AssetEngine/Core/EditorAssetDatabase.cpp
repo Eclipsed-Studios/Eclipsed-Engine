@@ -25,6 +25,7 @@ namespace Eclipse::Assets
 		fullpathToGuid[path] = file.guid;
 		pathToGuid[std::filesystem::relative(path, root)] = file.guid;
 		const AssetType type = GetAssetTypeFromExtension(path.extension().string());
+
 		typeToAssets[type].push_back(file.guid);
 		sourceToAssets[sourcePathToKey[path.generic_string()]].push_back(file.guid);
 
@@ -48,6 +49,14 @@ namespace Eclipse::Assets
 		if (it == guidToAsset.end()) throw std::runtime_error("The guid cant be found in the map.");
 
 		return it->second;
+	}
+
+	const std::vector<GUID>& AssetDatabase::GetGUIDsFromAssetType(AssetType type) const
+	{
+		const auto it = typeToAssets.find(type);
+		if (it != typeToAssets.end()) return it->second;
+
+		return {};
 	}
 
 	AssetMeta& AssetDatabase::GetMetaFromMetaPath(const std::filesystem::path& path)

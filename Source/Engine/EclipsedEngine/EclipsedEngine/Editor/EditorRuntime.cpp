@@ -23,6 +23,7 @@
 //#include "AssetEngine/AssetDatabase.h"
 
 #include "CoreEngine/MainSingleton.h"
+#include "EclipsedEngine/Scenes/SceneManager.h"
 
 namespace Eclipse::Editor
 {
@@ -40,10 +41,19 @@ namespace Eclipse::Editor
 			MainSingleton::GetInstance<Assets::AssetManager>().ImportAssets(PathManager::GetAssetsPath(), "Project/");
 		}
 
+		SceneManager::Initialize();
+
 
 		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
 
-		SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
+		try
+		{
+			SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
+		}
+		catch (std::exception e)
+		{
+			// The scene has been removed.
+		}
 
 		//ComponentManager::Init();
 	}
@@ -74,16 +84,13 @@ namespace Eclipse::Editor
 	}
 
 	void EditorRuntime::ExitPlayMode()
-	{
-	}
+	{}
 
 	void EditorRuntime::PauseGame()
-	{
-	}
+	{}
 
 	void EditorRuntime::UnpauseGame()
-	{
-	}
+	{}
 
 	bool EditorRuntime::IsPlaying()
 	{
@@ -156,7 +163,7 @@ namespace Eclipse::Editor
 				SteamGeneral::Get().Init();
 
 				if (SceneManager::GetActiveSceneType() == SceneManager::Default)
-					SceneLoader::Save(SceneManager::GetActiveScene());
+					SceneManager::SaveActiveScene();
 				else if (SceneManager::GetActiveSceneType() == SceneManager::Prefab)
 				{
 					std::filesystem::path filePath = SceneManager::GetActiveScene();
