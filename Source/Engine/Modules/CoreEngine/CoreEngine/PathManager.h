@@ -23,7 +23,7 @@ namespace Eclipse
 		static std::filesystem::path GetEngineAssetsPath() { return GetEngineRoot().parent_path() / "Assets"; }
 		static std::filesystem::path GetProjectLocalPath() { return GetProjectRoot() / "Temp"; }
 		static std::filesystem::path GetArtifactsPath() { return GetProjectLocalPath() / "Artifacts"; }
-		static std::filesystem::path GetGameDllBuildPath() { return GetProjectPath() / "Local/Build"; }
+		static std::filesystem::path GetGameDllBuildPath() { return GetProjectLocalPath(); }
 
 		static std::filesystem::path GetSettingsPath() { return GetProjectPath() / "Settings"; }
 

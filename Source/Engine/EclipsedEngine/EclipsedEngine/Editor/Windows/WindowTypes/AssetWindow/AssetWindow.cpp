@@ -440,8 +440,11 @@ namespace Eclipse::Editor
 		{
 		case Utilities::FileInfo::FileType_Scene:
 		{
-			SceneManager::LoadScene(fifo.filePath.generic_string());
-			Settings::EditorSettings::SetLastActiveScene(fifo.filePath.generic_string());
+			Assets::AssetDatabase& database = MainSingleton::GetInstance<Assets::AssetDatabase>();
+			Assets::GUID guid = database.GetGUIDFromFullPath(fifo.filePath);
+
+			SceneManager::LoadScene(guid);
+			Settings::EditorSettings::SetLastActiveScene(fifo.filePath.stem().filename().string());
 
 			SceneWindow::ResetCamera();
 		}

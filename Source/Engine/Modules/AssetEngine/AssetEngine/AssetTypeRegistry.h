@@ -30,6 +30,7 @@ namespace Eclipse::Assets
 		else if constexpr (std::is_same<T, VertexShader>::value)return types[AssetType::VertexShader];
 		else if constexpr (std::is_same<T, PixelShader>::value)return types[AssetType::PixelShader];
 		else if constexpr (std::is_same<T, Texture>::value)return types[AssetType::Texture];
+		else if constexpr (std::is_same<T, Scene>::value)return types[AssetType::Scene];
 
 		return nullptr;
 	}

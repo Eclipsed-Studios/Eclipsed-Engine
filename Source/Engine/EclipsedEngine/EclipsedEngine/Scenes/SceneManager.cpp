@@ -16,39 +16,74 @@
 //#include "CoreEngine/Settings/.h"
 #include "EclipsedEngine/DebugLogger.h"
 
+#include "AssetEngine/AssetManager.h"
+
 namespace Eclipse
 {
-	void SceneManager::LoadScene(const std::string& nameOrPath)
+	SceneRegistry SceneManager::registry;
+
+	void SceneManager::Initialize()
 	{
-		if (nameOrPath.empty()) return;
-		
+		registry = {};
+	}
+
+	void SceneManager::LoadScene(const std::string& name)
+	{
+		if (name.empty())
+			throw std::runtime_error("The scene name tried to load was empty");
+
 		SetActiveSceneType(Default);
-		
-		std::string path = nameOrPath;
-		if (!std::filesystem::path(nameOrPath).has_extension()) {
-			path += ".scene";
-		}
 
-		std::string fullPath = (PathManager::GetAssetsPath() / path).generic_string();
-		if (std::filesystem::exists(path) || std::filesystem::exists(fullPath))
-		{
-			myActiveScene = nameOrPath;
-			SceneLoader::Load(fullPath.c_str());
-		}
-		else
-		{
-			LOG_WARNING("Scene dont exist at asset root path. | " + nameOrPath);
-		}
+		const SceneEntry& entry = registry.GetScene(name);
+		LoadScene(entry.guid);
 	}
 
-	void SceneManager::LoadScene(unsigned idx)
+	void SceneManager::LoadScene(const Assets::Scene& scene)
 	{
-		if (myScenePaths.empty()) return;
+		if (!scene.IsValid())
+			throw std::runtime_error("The scene is not valid.");
 
-		SceneLoader::Load((PathManager::GetAssetsPath() / myScenePaths[idx]).generic_string().c_str());
-
-		myActiveScene = std::filesystem::path(myScenePaths[idx]).filename().stem().string();
+		activeScene = scene;
+		SceneLoader::Load(scene);
 	}
+
+	void SceneManager::LoadScene(Assets::GUID guid)
+	{
+		Assets::Scene scene = Assets::AssetManager::Load<Assets::Scene>(guid);
+		LoadScene(scene);
+	}
+
+	//void SceneManager::LoadScene(const std::string& name)
+	//{
+	//	if (nameOrPath.empty()) return;
+	//	
+	//	SetActiveSceneType(Default);
+	//	
+	//	std::string path = nameOrPath;
+	//	if (!std::filesystem::path(nameOrPath).has_extension()) {
+	//		path += ".scene";
+	//	}
+
+	//	std::string fullPath = (PathManager::GetAssetsPath() / path).generic_string();
+	//	if (std::filesystem::exists(path) || std::filesystem::exists(fullPath))
+	//	{
+	//		myActiveScene = nameOrPath;
+	//		SceneLoader::Load(fullPath.c_str());
+	//	}
+	//	else
+	//	{
+	//		LOG_WARNING("Scene dont exist at asset root path. | " + nameOrPath);
+	//	}
+	//}
+
+	//void SceneManager::LoadScene(unsigned idx)
+	//{
+	//	if (myScenePaths.empty()) return;
+
+	//	SceneLoader::Load((PathManager::GetAssetsPath() / myScenePaths[idx]).generic_string().c_str());
+
+	//	myActiveScene = std::filesystem::path(myScenePaths[idx]).filename().stem().string();
+	//}
 
 	void SceneManager::UnloadScene()
 	{
@@ -61,14 +96,13 @@ namespace Eclipse
 	}
 
 	void SceneManager::SaveScenes()
-	{
-	}
+	{}
 
 	void SceneManager::SaveActiveScene()
 	{
-		if (myActiveScene.empty()) return;
-		
-		SceneLoader::Save(myActiveScene.c_str());
+		if (!activeScene.IsValid()) return;
+
+		SceneLoader::Save(activeScene);
 	}
 
 	void SceneManager::AddScene(const std::string& aPath)
@@ -114,9 +148,9 @@ namespace Eclipse
 
 	std::unordered_map<std::string, unsigned>& SceneManager::GetNameToIdx() { return myNameToIdx; }
 	std::vector<std::string>& SceneManager::GetScenePaths() { return myScenePaths; }
-	const char* SceneManager::GetActiveScene() 
-	{ 
-		return myActiveScene.c_str(); 
+	const char* SceneManager::GetActiveScene()
+	{
+		return myActiveScene.c_str();
 	}
 
 	void SceneManager::SetActiveScene(const char* anActiveScene)

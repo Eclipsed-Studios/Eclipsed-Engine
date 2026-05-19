@@ -14,7 +14,7 @@ namespace Eclipse
     {
         OthersteamID = aCallback->m_steamIDFriend;
 
-        SceneManager::LoadScene(1);
+        //SceneManager::LoadScene(1);
     }
 
     bool SteamGeneral::SetRichPresence( const char *pchKey, const char *pchValue)

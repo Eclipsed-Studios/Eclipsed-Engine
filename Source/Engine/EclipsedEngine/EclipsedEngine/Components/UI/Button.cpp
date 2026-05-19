@@ -61,7 +61,7 @@ namespace Eclipse
 
 	void Button::Print()
 	{
-		SceneManager::LoadScene(1);
+		//SceneManager::LoadScene(1);
 		Replication::ReplicationManager::ClickedHostButton = true;
 
 		SteamGeneral::SetRichPresence("connect", "1");
