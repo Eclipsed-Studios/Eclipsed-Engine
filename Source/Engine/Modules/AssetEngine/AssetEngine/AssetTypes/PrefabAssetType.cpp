@@ -37,4 +37,9 @@ namespace Eclipse::Assets
     {
         
     }
+
+    void PrefabAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+    {
+
+    }
 }

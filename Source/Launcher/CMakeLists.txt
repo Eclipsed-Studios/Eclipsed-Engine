@@ -19,9 +19,11 @@ target_link_libraries(Launcher PRIVATE EclipsedEngine)
 
 if(ECLIPSED_EDITOR)
     set(OUTPUT ${EXE_OUTPUT_DIR})
-else()
-    set(OUTPUT ${BUILD_GAME_PATH})
+elseif(NOT ECLIPSED_EDITOR)
+message("${BUILD_GAME_PATH}")
+    set(OUTPUT "${BUILD_GAME_PATH}/Build/")
 endif()
+
 
 set_target_properties(Launcher PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${OUTPUT}"

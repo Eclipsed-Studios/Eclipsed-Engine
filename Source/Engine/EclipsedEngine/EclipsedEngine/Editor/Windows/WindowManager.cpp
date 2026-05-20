@@ -1,3 +1,5 @@
+#ifdef ECLIPSED_EDITOR
+
 #include "WindowManager.h"
 
 #include "ImGui/imgui.h"
@@ -34,6 +36,8 @@
 #include "EclipsedEngine/Editor/Game/GameCompiler.h"
 
 #include "imgui/imgui_internal.h"
+
+#include "AssetEngine/AssetManager.h"
 
 namespace Eclipse::Editor
 {
@@ -162,14 +166,42 @@ namespace Eclipse::Editor
 
 						else if (ImGui::MenuItem("Build Game Release EXE"))
 						{
-							std::filesystem::path CDPath = PathManager::GetEngineRoot().parent_path().parent_path() / "Tools";
-							system(("cd " + CDPath.generic_string() + " && start build-game-editor.bat Release").c_str());
+							std::filesystem::remove_all(PathManager::GetProjectRoot() / "Build");
+							std::filesystem::create_directory(PathManager::GetProjectRoot() / "Build");
+
+							Assets::AssetManager::PackAssets();
+
+							static BatchScript script(
+								PathManager::GetEngineRoot().parent_path() / "Tools",
+								"build-game-editor.bat",
+								{
+									PathManager::GetProjectRoot().generic_string(),
+									PathManager::GetEngineRoot().parent_path().generic_string(),
+									"Release"
+								}
+							);
+
+							script.Run(true);
 						}
 
 						else if (ImGui::MenuItem("Build Game Debug EXE"))
 						{
-							std::filesystem::path CDPath = PathManager::GetEngineRoot().parent_path().parent_path() / "Tools";
-							system(("cd " + CDPath.generic_string() + " && start build-game-editor.bat Debug").c_str());
+							std::filesystem::remove_all(PathManager::GetProjectRoot() / "Build");
+							std::filesystem::create_directory(PathManager::GetProjectRoot() / "Build");
+
+							Assets::AssetManager::PackAssets();
+
+							static BatchScript script(
+								PathManager::GetEngineRoot().parent_path() / "Tools",
+								"build-game-editor.bat",
+								{
+									PathManager::GetProjectRoot().generic_string(),
+									PathManager::GetEngineRoot().parent_path().generic_string(),
+									"Debug"
+								}
+							);
+
+							script.Run(true);
 						}
 
 						ImGui::EndMenu();
@@ -412,3 +444,5 @@ namespace Eclipse::Editor
 		}
 	}
 }
+
+#endif

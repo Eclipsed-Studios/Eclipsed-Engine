@@ -92,7 +92,7 @@ namespace Eclipse
 
 	void SceneManager::ReloadActiveScene()
 	{
-		LoadScene(myActiveScene);
+		LoadScene(activeScene);
 	}
 
 	void SceneManager::SaveScenes()

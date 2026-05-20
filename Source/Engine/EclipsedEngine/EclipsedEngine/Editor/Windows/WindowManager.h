@@ -1,4 +1,5 @@
 #pragma once
+#ifdef ECLIPSED_EDITOR
 
 #include <unordered_map>
 
@@ -33,3 +34,5 @@ namespace Eclipse::Editor
 		int mainMenuBarSize = 10;
 	};
 }
+
+#endif 

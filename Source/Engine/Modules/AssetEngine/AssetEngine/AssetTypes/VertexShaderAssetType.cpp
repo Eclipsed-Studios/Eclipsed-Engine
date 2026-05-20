@@ -54,4 +54,24 @@ namespace Eclipse::Assets
         _data->shaderProgramID = info.shaderID;
         _data->guid = meta.guid;
     }
+
+    void VertexShaderAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+    {
+        ShaderData* _data = reinterpret_cast<ShaderData*>(data);
+
+        data->guid = meta.guid;
+        reader.SetRead(meta.offset);
+
+        size_t size;
+        reader.Read(DATA_SIZE_PAIR(size));
+
+        std::string shaderSource;
+        shaderSource.resize(size);
+
+        reader.Read(shaderSource.data(), size);
+
+        ShaderCompileInfo info = ShaderCompiler::CompileShaderFromMemory(GL_VERTEX_SHADER, shaderSource.data());
+        _data->shaderProgramID = info.shaderID;
+        _data->guid = meta.guid;
+    }
 }

@@ -23,10 +23,13 @@ namespace Eclipse::Assets
 
         bool IsOpen() const;
 
+        std::filesystem::path GetPath() const;
+
     private:
         void CreateFile(const std::string& path);
 
     private:
+        std::filesystem::path path;
         std::ofstream file;
     };
 }

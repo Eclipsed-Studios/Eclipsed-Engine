@@ -17,13 +17,47 @@ namespace Eclipse::Assets
 		}
 	}
 
+	void AssetDatabase::ProcessBundle(const std::filesystem::path& path)
+	{
+		//std::ifstream in("C:/MyFiles/Projects/Project-Nova/Build" / path, std::ios::binary);
+		std::ifstream in(path, std::ios::binary);
+
+		size_t assetCount = 0;
+		in.read(reinterpret_cast<char*>(&assetCount), sizeof(size_t));
+
+		struct Header {
+			Assets::GUID guid;
+			size_t size;
+			size_t offset;
+			AssetType type;
+			char name[32];
+		};
+
+		for (size_t i = 0; i < assetCount; i++)
+		{
+			Header header;
+			in.read(reinterpret_cast<char*>(&header), sizeof(Header));
+
+			AssetMeta file;
+			file.guid = header.guid;
+			file.size = header.size;
+			file.offset = header.offset;
+			file.type = header.type;
+			file.fileName = header.name;
+
+			typeToAssets[header.type].push_back(header.guid);
+			guidToAsset[header.guid] = std::move(file);
+		}
+	}
+
 	const AssetMeta& AssetDatabase::ProcessFile(const std::filesystem::path& path, const std::filesystem::path& root)
 	{
 		AssetMeta file = MetaSerializer::LoadOrCreateMeta(path);
+		file.fileName = path.filename().stem().string();
 
 		guidToAsset[file.guid] = std::move(file);
-		fullpathToGuid[path] = file.guid;
-		pathToGuid[std::filesystem::relative(path, root)] = file.guid;
+		fullpathToGuid[path] = file.guid; // Used in editor
+		pathToGuid[std::filesystem::relative(path, root)] = file.guid; // dont use
 		const AssetType type = GetAssetTypeFromExtension(path.extension().string());
 
 		typeToAssets[type].push_back(file.guid);

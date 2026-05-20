@@ -21,6 +21,8 @@ namespace Eclipse::Assets
 
         bool IsOpen() const;
 
+        void SetRead(size_t idx);
+
     private:
         std::ifstream file;
     };

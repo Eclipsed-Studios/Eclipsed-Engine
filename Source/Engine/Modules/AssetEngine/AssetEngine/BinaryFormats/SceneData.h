@@ -8,5 +8,7 @@ namespace Eclipse::Assets
 {
 	struct SceneData : public AssetData {
 		~SceneData();
+
+		std::string sourceBlob;
 	};
 }

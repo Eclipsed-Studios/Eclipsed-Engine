@@ -39,7 +39,28 @@ namespace Eclipse::Assets
 
 	void SceneAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
 	{
-		data->guid = meta.guid;
+		SceneData* _data = reinterpret_cast<SceneData*>(data);
 
+		_data->guid = meta.guid;
+
+		size_t size = 0;
+		reader.Read(reinterpret_cast<char*>(&size), sizeof(size_t));
+
+		_data->sourceBlob.resize(size);
+		reader.Read(_data->sourceBlob.data(), size);
+	}
+
+	void SceneAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+	{
+		SceneData* _data = reinterpret_cast<SceneData*>(data);
+
+		data->guid = meta.guid;
+		reader.SetRead(meta.offset);
+
+		size_t size = 0;
+		reader.Read(reinterpret_cast<char*>(&size), sizeof(size_t));
+
+		_data->sourceBlob.resize(meta.size);
+		reader.Read(_data->sourceBlob.data(), meta.size - sizeof(size_t));
 	}
 }
