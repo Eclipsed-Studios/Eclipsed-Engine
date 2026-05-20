@@ -27,12 +27,6 @@ namespace Eclipse
 
 
 
-
-
-
-
-
-
 		static void ReloadActiveScene();
 
 		static void SaveScenes();
