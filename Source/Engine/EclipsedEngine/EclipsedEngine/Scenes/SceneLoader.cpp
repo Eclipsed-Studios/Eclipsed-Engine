@@ -233,26 +233,14 @@ namespace Eclipse
 	{
 		using namespace rapidjson;
 
-		const Assets::AssetDatabase& database = MainSingleton::GetInstance<Assets::AssetDatabase>();
-		const Assets::AssetMeta& meta = database.GetProcessedFile(scene.GetAssetID());
-
 
 
 		UnloadScene();
 		PhysicsEngine::InitWorld();
 		
-		std::ifstream ifs(meta.fullPath);
-		if (!ifs.is_open()) {
-			return;
-		}
-
-		std::string jsonString((std::istreambuf_iterator<char>(ifs)),
-			std::istreambuf_iterator<char>());
-
-		ifs.close();
 
 		Document d;
-		if (d.Parse(jsonString.c_str()).HasParseError()) return;
+		if (d.Parse(scene.dataPtr->sourceBlob.c_str()).HasParseError()) return;
 
 		if (!d.HasMember("GameObjects")) return;
 

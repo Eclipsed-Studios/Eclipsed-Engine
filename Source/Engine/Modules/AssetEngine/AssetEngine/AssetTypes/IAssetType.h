@@ -32,6 +32,7 @@ namespace Eclipse::Assets
         virtual ProcessedData Process(const ImportedData& file) { return file; }
         virtual void Serialize(BinaryWriter& writer, const ProcessedData& data) = 0;
         virtual void Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data) = 0;
+        virtual void LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data) {}
 
         virtual bool NeedsProcessing() const { return false; }
 

@@ -29,7 +29,7 @@ namespace Eclipse
 			"build-game-dll.bat"
 		);
 
-		script.Run();
+		script.Run(true);
 	}
 
 	void GameModuleManager::CompileAndLoad()
@@ -83,7 +83,7 @@ namespace Eclipse
 
 			GameLoader::LoadGameDLL();
 
-			SceneManager::LoadScene(activeScene);
+			//SceneManager::LoadScene(activeScene);
 		}
 		else
 		{

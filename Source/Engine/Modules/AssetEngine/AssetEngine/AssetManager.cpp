@@ -18,9 +18,10 @@ namespace Eclipse::Assets
 			AssetTypeRegistry::RegisterTypes();
 		}
 
+		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
+
 		Editor::FileWatcher::SubscribeToPath(root, AssetManager::AddFileChanged);
 
-		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
 		database.ProcessSource(root, key);
 
 		for (auto& [guid, file] : database.GetSources())
@@ -33,8 +34,9 @@ namespace Eclipse::Assets
 
 	void AssetManager::EndFrame()
 	{
+#ifdef ECLIPSED_EDITOR
 		ProcessFileChanges();
-		// delete makred for delete assets.
+#endif
 	}
 
 	void AssetManager::ImportFile(const AssetMeta& meta)
@@ -57,6 +59,77 @@ namespace Eclipse::Assets
 		else
 		{
 			type->Serialize(writer, imported);
+		}
+	}
+
+	void AssetManager::ImportBundle()
+	{
+		if (!MainSingleton::Exists<AssetDatabase>())
+		{
+			MainSingleton::RegisterInstance<AssetDatabase>();
+			AssetTypeRegistry::RegisterTypes();
+		}
+
+		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
+		database.ProcessBundle("packed_file.bundle");
+	}
+
+	void AssetManager::PackAssets()
+	{
+		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
+
+		std::ofstream out(PathManager::GetProjectRoot() / "Build/packed_file.bundle", std::ios::binary);
+
+		std::vector<Assets::GUID> guids;
+		for (auto& [guid, file] : database.GetSources())
+		{
+			guids.push_back(guid);
+		}
+
+		size_t size = guids.size();
+		out.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
+
+		struct Header {
+			Assets::GUID guid;
+			size_t size;
+			size_t offset;
+			AssetType type;
+			char name[32];
+		};
+
+		size_t offset = sizeof(size_t) + sizeof(Header) * size;
+		for (const Assets::GUID& guid : guids)
+		{
+			const Assets::AssetMeta& meta = database.GetProcessedFile(guid);
+			const size_t fileSize = std::filesystem::file_size(meta.exportedPath);
+
+			Header header;/* = { guid, fileSize, offset, meta.type, meta.fullPath.filename().stem().string().c_str() };*/
+
+			header.guid = guid;
+			header.size = fileSize;
+			header.offset = offset;
+			header.type = meta.type;
+
+			std::string fileName = meta.fullPath.filename().stem().string();
+			strncpy(header.name, fileName.c_str(), 32);
+			header.name[sizeof(header.name) - 1] = '\0';
+
+			out.write(reinterpret_cast<const char*>(&header), sizeof(Header));
+
+			offset += fileSize;
+		}
+
+		for (const Assets::GUID& guid : guids)
+		{
+			const Assets::AssetMeta& meta = database.GetProcessedFile(guid);
+			const size_t fileSize = std::filesystem::file_size(meta.exportedPath);
+
+			std::ifstream file(meta.exportedPath, std::ios::binary);
+			std::stringstream buffer;
+			buffer << file.rdbuf();
+			std::string content = buffer.str();
+
+			out.write(content.data(), content.size());
 		}
 	}
 

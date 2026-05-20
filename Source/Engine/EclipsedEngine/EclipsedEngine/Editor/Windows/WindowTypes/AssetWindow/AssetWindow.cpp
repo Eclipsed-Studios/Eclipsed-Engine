@@ -4,6 +4,8 @@
 
 #include "EclipsedEngine/Scenes/SceneManager.h"
 #include "CoreEngine/PathManager.h"
+#ifdef ECLIPSED_EDITOR
+
 #include "EclipsedEngine/Editor/EditorUIManager.h"
 
 #include "EclipsedEngine/Editor/Windows/WindowTypes/Inspector/InspectorWindow.h"
@@ -483,4 +485,6 @@ namespace Eclipse::Editor
 		}
 	}
 }
+#endif
+
 #endif

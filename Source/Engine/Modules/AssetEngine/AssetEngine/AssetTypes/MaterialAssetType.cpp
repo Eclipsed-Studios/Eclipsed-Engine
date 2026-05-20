@@ -80,4 +80,41 @@ namespace Eclipse::Assets
         glAttachShader(_data->programID, _data->pixelShader.GetProgramID());
         glLinkProgram(_data->programID);
     }
+
+    void MaterialAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+    {
+        MaterialData* _data = reinterpret_cast<MaterialData*>(data);
+
+        data->guid = meta.guid;
+        reader.SetRead(meta.offset);
+
+        reader.Read(DATA_SIZE_PAIR(_data->color));
+
+
+        GUID pixelShaderID, vertexShaderID, textureID;
+        reader.Read(DATA_SIZE_PAIR(pixelShaderID));
+        reader.Read(DATA_SIZE_PAIR(vertexShaderID));
+        reader.Read(DATA_SIZE_PAIR(textureID));
+
+        _data->pixelShader = AssetManager::Load<PixelShader>(pixelShaderID);
+        _data->vertexShader = AssetManager::Load<VertexShader>(vertexShaderID);
+        _data->texture = AssetManager::Load<Texture>(textureID);
+        _data->guid = meta.guid;
+
+
+        if (!_data->pixelShader.IsValid())
+        {
+            // Fallback to error shader
+        }
+
+        if (!_data->vertexShader.IsValid())
+        {
+            // Fallback to error shader
+        }
+
+        _data->programID = glCreateProgram();
+        glAttachShader(_data->programID, _data->vertexShader.GetProgramID());
+        glAttachShader(_data->programID, _data->pixelShader.GetProgramID());
+        glLinkProgram(_data->programID);
+    }
 }

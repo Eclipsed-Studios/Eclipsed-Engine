@@ -49,6 +49,7 @@ int main(int argc, char* argv[])
     Eclipse::EclipsedRuntime eclipseRuntime = {};
 
     eclipseRuntime.StartEngine();
+    eclipseRuntime.LateStart();
 
     while (eclipseRuntime.BeginFrame()) {
         eclipseRuntime.Update();

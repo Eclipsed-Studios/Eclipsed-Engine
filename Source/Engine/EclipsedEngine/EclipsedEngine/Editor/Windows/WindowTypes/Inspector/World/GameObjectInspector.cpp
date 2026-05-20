@@ -1,3 +1,5 @@
+#ifdef ECLIPSED_EDITOR
+
 #include "GameObjectInspector.h"
 
 #include "ImGui/ImGui.h"
@@ -151,3 +153,5 @@ namespace Eclipse::Editor
 		return nameBuffers;
 	}
 }
+
+#endif

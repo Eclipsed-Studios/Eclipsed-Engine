@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef ECLIPSED_EDITOR
+
 #include <memory>
 #include <unordered_map>
 #include <filesystem>
@@ -48,3 +50,5 @@ namespace Eclipse::Editor {
 		return it->second.get();
 	}
 }
+
+#endif

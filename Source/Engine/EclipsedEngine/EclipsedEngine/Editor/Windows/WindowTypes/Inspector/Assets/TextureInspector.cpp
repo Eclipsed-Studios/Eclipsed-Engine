@@ -5,6 +5,8 @@
 
 #include "EclipsedEngine/Editor/Windows/WindowTypes/SpriteEditor.h"
 #include "AssetEngine/Core/EditorAssetDatabase.h"
+#ifdef ECLIPSED_EDITOR
+
 #include "AssetEngine/Metadata/Data/TextureMeta.h"
 #include "CoreEngine/MainSingleton.h"
 namespace Eclipse::Editor
@@ -28,3 +30,5 @@ namespace Eclipse::Editor
 			SpriteEditor::SetTexture(guid);
 	}
 }
+
+#endif

@@ -20,7 +20,7 @@ namespace Eclipse
 		for (const Assets::GUID& guid : guids)
 		{
 			const Assets::AssetMeta& meta = database.GetProcessedFile(guid);
-			registeredScenes.push_back({ meta.fullPath.stem().filename().string(), guid});
+			registeredScenes.push_back({ meta.fileName, guid});
 		}
 	}
 

@@ -34,14 +34,16 @@ namespace Eclipse::Editor
 		ComponentForcelink::LinkComponents();
 
 		eclipseRuntime.StartEngine(path);
+
+
 		{ // register asses
 			MainSingleton::RegisterInstance<Assets::AssetManager>();
 
 			MainSingleton::GetInstance<Assets::AssetManager>().ImportAssets(PathManager::GetEngineAssetsPath(), "Engine/");
 			MainSingleton::GetInstance<Assets::AssetManager>().ImportAssets(PathManager::GetAssetsPath(), "Project/");
 		}
+		eclipseRuntime.LateStart();
 
-		SceneManager::Initialize();
 
 
 		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
@@ -151,7 +153,7 @@ namespace Eclipse::Editor
 		int windowSizeY = resolution.y * 0.5f;
 		Math::Vector2i windowPosition = GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetWindowPosition();
 
-		ImGui::Begin("TestGameButons", (bool*)1, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Begin("TestGameButons", (bool*)1, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize );
 
 		if (!isPlaying || isPaused)
 		{

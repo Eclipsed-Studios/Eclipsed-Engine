@@ -1,3 +1,5 @@
+#ifdef ECLIPSED_EDITOR
+
 #include "AssetInspectorRegistry.h"
 
 #include "MaterialInspector.h"
@@ -46,3 +48,5 @@ namespace Eclipse::Editor
 		return instance;
 	}
 }
+
+#endif

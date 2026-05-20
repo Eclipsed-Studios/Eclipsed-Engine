@@ -16,6 +16,8 @@ namespace Eclipse
 		void StartEngine();
 #endif
 
+		void LateStart();
+
 		void UpdateGame();
 
 		void Render();
