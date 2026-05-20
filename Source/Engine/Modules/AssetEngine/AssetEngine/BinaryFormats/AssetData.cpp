@@ -1,17 +1,24 @@
 #include "AssetData.h"
 
+#include "AssetEngine/AssetDeletionQueue.h"
+
 namespace Eclipse::Assets
 {
 	void AssetData::IncreaseRefCount()
 	{
 		refCount++;
 	}
+
 	void AssetData::DecreaseRefCount()
 	{
-		refCount--;
+		if (refCount <= 0)
+			return;
+
+		--refCount;
+
 		if (refCount == 0)
 		{
-			// AssetEngine.MarkForDelete();
+			AssetDeletionQueue::MarkForDelete(guid);
 		}
 	}
 }

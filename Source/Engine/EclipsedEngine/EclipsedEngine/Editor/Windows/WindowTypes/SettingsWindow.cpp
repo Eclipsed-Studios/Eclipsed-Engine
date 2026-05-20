@@ -19,21 +19,47 @@
 #include "CoreEngine/PathManager.h"
 
 #include "CoreEngine/Settings/PhysicsSettings.h"
+#include "CoreEngine/Settings/EditorSettings.h"
 
 namespace Eclipse::Editor
 {
     void GameSettingsWindow::Update()
     {
-        static bool collisionLayersShown = false;
-        collisionLayersShown = ImGui::CollapsingHeader("Collision Layers");
+        static bool collisionLayersDrawn = false;
+        collisionLayersDrawn = ImGui::CollapsingHeader("Collision Layers");
 
-        if (collisionLayersShown) DrawCollisionLayerEditor();
+        if (collisionLayersDrawn)
+        {
+            ImGui::Indent(20);
+            DrawCollisionLayerEditor();
+            ImGui::Dummy(ImVec2(0, 20));
+            ImGui::Unindent(20);
+        }
 
 
-        static bool sceneShown = false;
-        sceneShown = ImGui::CollapsingHeader("Scene Build Settings");
+        static bool sceneSettingsDrawn = false;
+        sceneSettingsDrawn = ImGui::CollapsingHeader("Scenes");
 
-        if (sceneShown) DrawSceneEditor();
+        if (sceneSettingsDrawn)
+        {
+            ImGui::Indent(20);
+            DrawSceneEditor();
+            ImGui::Dummy(ImVec2(0, 20));
+            ImGui::Unindent(20);
+        }
+
+
+
+        static bool editorSettingsDrawn = false;
+        editorSettingsDrawn = ImGui::CollapsingHeader("Editor");
+
+        if (editorSettingsDrawn)
+        {
+            ImGui::Indent(20);
+            DrawEditorSettings();
+            ImGui::Dummy(ImVec2(0, 20));
+            ImGui::Unindent(20);
+        }
     }
 
     void GameSettingsWindow::DrawSceneEditor()
@@ -207,26 +233,24 @@ namespace Eclipse::Editor
         Settings::PhysicsSettings::SetPhysicsLayers(PhysicsEngine::myCollisionLayers);
 
         Settings::PhysicsSettings::Save();
+    }
 
-        // std::string filePath = (PathManager::GetProjectRoot() / "Settings/CollisionLayers.json").generic_string();
-        // rapidjson::Document document;
-        // document.SetObject();
-        // auto& allocator = document.GetAllocator();
+    void GameSettingsWindow::DrawEditorSettings()
+    {
+        static bool showStartupSettings = false;
+        showStartupSettings = ImGui::CollapsingHeader("Startup");
 
-        // rapidjson::Value layersArray(rapidjson::kArrayType);
-        // for (int i = 0; i < layerCount; i++) {
-        //     layersArray.PushBack(PhysicsEngine::myCollisionLayers[i], allocator);
-        // }
+        if (showStartupSettings)
+        {
+            ImGui::Indent(20);
 
-        // document.AddMember("Layers", layersArray, allocator);
+            bool openLastSceneOnStartup = Settings::EditorSettings::GetOpenLastOpenSceneOnStartup();
+            ImGui::Text("Open last scene on startup");
+            ImGui::SameLine();
+            if (ImGui::Checkbox("##28472947", &openLastSceneOnStartup)) Settings::EditorSettings::SetOpenLastOpenSceneOnStartup(openLastSceneOnStartup);
 
-        // rapidjson::StringBuffer buffer;
-        // rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
-        // document.Accept(writer);
-
-        // std::ofstream ofs(filePath);
-        // ofs << buffer.GetString();
-        // ofs.close();
+            ImGui::Unindent(20);
+        }
     }
 }
 #endif

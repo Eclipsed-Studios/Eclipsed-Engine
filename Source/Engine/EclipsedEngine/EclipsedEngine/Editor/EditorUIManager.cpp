@@ -26,7 +26,7 @@ namespace Eclipse::Editor
 		IconManager::LoadIconsFile();
 		LoadFonts();
 
-		myWindowManager.Begin();
+		myWindowManager.Init();
 	}
 
 	void EditorUIManager::BeginFrame()

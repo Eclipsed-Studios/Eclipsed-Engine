@@ -42,4 +42,9 @@ namespace Eclipse::Assets
 	{
 		return file.is_open();
 	}
+
+	void BinaryReader::SetRead(size_t idx)
+	{
+		file.seekg(idx);
+	}
 }

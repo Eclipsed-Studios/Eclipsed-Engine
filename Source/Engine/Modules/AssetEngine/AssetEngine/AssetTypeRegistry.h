@@ -3,6 +3,15 @@
 #include <unordered_map>
 #include "Core/SupportedAssets.h"
 
+#include "AssetEngine/Assets/AudioAsset.h"
+#include "AssetEngine/Assets/FontAsset.h"
+#include "AssetEngine/Assets/MaterialAsset.h"
+#include "AssetEngine/Assets/PrefabAsset.h"
+#include "AssetEngine/Assets/SceneAsset.h"
+#include "AssetEngine/Assets/TextureAsset.h"
+#include "AssetEngine/Assets/Shader/PixelShaderAsset.h"
+#include "AssetEngine/Assets/Shader/VertexShaderAsset.h"
+
 namespace Eclipse::Assets
 {
 	class IAssetType;
@@ -30,6 +39,7 @@ namespace Eclipse::Assets
 		else if constexpr (std::is_same<T, VertexShader>::value)return types[AssetType::VertexShader];
 		else if constexpr (std::is_same<T, PixelShader>::value)return types[AssetType::PixelShader];
 		else if constexpr (std::is_same<T, Texture>::value)return types[AssetType::Texture];
+		else if constexpr (std::is_same<T, Scene>::value)return types[AssetType::Scene];
 
 		return nullptr;
 	}

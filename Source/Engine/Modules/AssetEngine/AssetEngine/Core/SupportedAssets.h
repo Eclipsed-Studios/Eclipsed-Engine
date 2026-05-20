@@ -16,6 +16,7 @@ namespace Eclipse::Assets
 		AudioClip,
 		Font,
 		Prefab,
+		Scene
 	};
 
 	inline std::unordered_map<std::string, AssetType> extensionToAssetType =
@@ -42,6 +43,8 @@ namespace Eclipse::Assets
 		{".otf",  AssetType::Font},
 	
 		{".eprf",  AssetType::Prefab},
+
+		{".scene", AssetType::Scene}
 	};
 
 	inline AssetType GetAssetTypeFromExtension(const std::string& extension)

@@ -4,8 +4,8 @@ namespace Eclipse
 {
     void PhysicsEngine::DrawPhysicsObjects()
     {
-        if (myDrawDebugShapes)
-            b2World_Draw(myWorld, &myDebugDraw);
+        //if (myDrawDebugShapes)
+        //    b2World_Draw(myWorld, &myDebugDraw);
     }
 
     bool& PhysicsEngine::GetDebugDraw()

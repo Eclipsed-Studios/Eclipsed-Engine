@@ -34,6 +34,7 @@
 #include "NetworkEngine/Server/SteamP2PNetworkingServer.h"
 
 #include "CoreEngine/Profiling/PerformanceProfilerManager.h"
+#include "AssetEngine/AssetManager.h"
 
 namespace Eclipse
 {
@@ -50,6 +51,7 @@ namespace Eclipse
 		SteamGeneral::Get().Init();
 
 		//renderThread = std::thread();
+		Assets::AssetManager::ImportBundle();
 #endif
 
 
@@ -84,7 +86,6 @@ namespace Eclipse
 
 		engine.Init();
 
-		SceneManager::LoadSceneData();
 
 		//MainSingleton::RegisterInstance<EngineSettings>();
 		MainSingleton::RegisterInstance<TextManager>();
@@ -112,7 +113,18 @@ namespace Eclipse
 				};
 		}
 
-		SceneManager::LoadScene(0);
+
+	}
+
+	void EclipsedRuntime::LateStart()
+	{
+		SceneManager::Initialize();
+
+		SceneManager::LoadSceneData();
+
+#ifndef ECLIPSED_EDITOR
+		SceneManager::LoadScene("NewScene");
+#endif
 	}
 
 	void EclipsedRuntime::UpdateGame()

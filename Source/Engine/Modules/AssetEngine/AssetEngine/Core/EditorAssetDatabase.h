@@ -19,12 +19,17 @@ namespace Eclipse::Assets
     {
     public:
         void ProcessSource(const std::filesystem::path& path, const std::string& key);
+        void ProcessBundle(const std::filesystem::path& path);
+
         const AssetMeta& ProcessFile(const std::filesystem::path& path, const std::filesystem::path& root);
 
         const AssetMeta& GetProcessedFile(const std::filesystem::path& path) const;
         const AssetMeta& GetProcessedFile(const GUID& guid) const;
+        const std::vector<GUID>& GetGUIDsFromAssetType(AssetType type) const;
         AssetMeta& GetMetaFromMetaPath(const std::filesystem::path& path);
         AssetMeta& GetProcessedFile(const GUID& guid);
+
+
 
         GUID GetGUIDFromFullPath(const std::filesystem::path& fullpath);
 

@@ -4,15 +4,28 @@
 #include <string>
 #include <unordered_map>
 
+#include "CoreEngine/Macros/defines.h"
+
+#include "SceneRegistry.h"
+
+#include "AssetEngine/Assets/SceneAsset.h"
+
 namespace Eclipse
 {
-	class SceneManager
+	class ECLIPSED_API SceneManager
 	{
 	public:
-		static void LoadScene(const std::string& nameOrPath);
-		static void LoadScene(unsigned idx);
+		static void Initialize();
+
+		static void LoadScene(const std::string& name);
+		static void LoadScene(const Assets::Scene& scene);
+		static void LoadScene(Assets::GUID guid);
 
 		static void UnloadScene();
+
+
+
+
 
 		static void ReloadActiveScene();
 
@@ -50,5 +63,16 @@ namespace Eclipse
 	private:
 		static inline std::unordered_map<std::string, unsigned> myNameToIdx;
 		static inline std::vector<std::string> myScenePaths;
+
+
+		static SceneRegistry registry;
+
+
+
+
+
+
+
+		static inline Assets::Scene activeScene;
 	};
 }

@@ -159,4 +159,13 @@ namespace Eclipse::Assets
 			&_data->sound
 		);
 	}
+
+	void AudioAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+	{
+		AudioData* _data = reinterpret_cast<AudioData*>(data);
+
+		data->guid = meta.guid;
+		reader.SetRead(meta.offset);
+
+	}
 }

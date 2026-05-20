@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef ECLIPSED_EDITOR
+
 #include "EclipsedEngine/Editor/Windows/WindowTypes/Inspector/ITypeInspector.h"
 
 namespace Eclipse::Editor {
@@ -11,3 +13,5 @@ namespace Eclipse::Editor {
 		void Draw(const InspectableTarget& target) override;
 	};
 }
+
+#endif

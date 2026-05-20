@@ -8,14 +8,19 @@ set(CMAKE_UNITY_BUILD ON)
 # Or set a common base directory
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/custom-build)
 
+
+option(ECLIPSED_EDITOR "Enables the editor" ON)
+option(INCLUDE_GAME "Includes game" OFF)
+# option(BUILD_GAME_PATH "Includes game" "${CMAKE_SOURCE_DIR}/Bin")
+
+if(ECLIPSED_EDITOR)
 project(Eclipsed-Engine LANGUAGES CXX)
+else()
+project(Eclipsed-Game LANGUAGES CXX)
+endif()
 
 add_compile_definitions(LEAN_AND_MEAN)
 add_compile_definitions(DEV_ENV)
-
-option(ECLIPSED_EDITOR "Enables the editor" TRUE)
-option(INCLUDE_GAME "Includes game" FALSE)
-option(BUILD_GAME_PATH "Includes game" "${CMAKE_SOURCE_DIR}/Bin")
 
 if(${ECLIPSED_EDITOR})
     add_compile_definitions(
@@ -32,16 +37,7 @@ set_property(GLOBAL PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/
 
 set(LAUNCH_ARGS "--defaultArg" CACHE STRING "Arguments to pass to launcher")
 
-# if(NOT DEFINED PROJECT_DIR OR PROJECT_DIR STREQUAL "")
-#     file(READ "${EXE_OUTPUT_DIR}/.ini" PROJECT_DIR)
-#     string(REPLACE "\n" "" PROJECT_DIR "${PROJECT_DIR}")
-#     string(REPLACE " " "" PROJECT_DIR "${PROJECT_DIR}")
-# else()
-#     set(PROJECT_DIR "${PROJECT_DIR}" CACHE PATH "Where to place executables")
-# endif()
-
-
-
+set(BUILD_GAME_PATH "${CMAKE_SOURCE_DIR}/Bin" CACHE PATH "Game build path")
 
 # Declare cache variable with a default value if not set
 if(NOT DEFINED EXE_OUTPUT_DIR OR EXE_OUTPUT_DIR STREQUAL "")
@@ -91,7 +87,7 @@ if(ECLIPSED_EDITOR)
 endif()
 
 if(INCLUDE_GAME)
-    add_subdirectory(${PROJECT_DIR}  ${PROJECT_DIR}/Library/Game)
+    add_subdirectory(${BUILD_GAME_PATH}  ${BUILD_GAME_PATH}/Library/Game-Building-Binary/Game-Proj)
 endif()
 
 message(${CMAKE_SOURCE_DIR})

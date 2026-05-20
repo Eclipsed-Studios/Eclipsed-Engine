@@ -5,9 +5,10 @@
 
 namespace Eclipse::Assets
 {
-	BinaryWriter::BinaryWriter(const std::string& path)
+	BinaryWriter::BinaryWriter(const std::string& Path)
 	{
-		file = std::ofstream(path, std::ios::binary);
+		path = Path;
+		file = std::ofstream(Path, std::ios::binary);
 	}
 
 	BinaryWriter::BinaryWriter(const GUID& guid)
@@ -18,13 +19,16 @@ namespace Eclipse::Assets
 		path /= guidStr.substr(0, 2);
 		path /= guidStr;
 
+		this->path = path;
+
 		CreateFile(path.generic_string());
 		file = std::ofstream(path, std::ios::binary);
 	}
 
-	bool BinaryWriter::Open(const std::string& path)
+	bool BinaryWriter::Open(const std::string& Path)
 	{
-		file = std::ofstream(path, std::ios::binary);
+		path = Path;
+		file = std::ofstream(Path, std::ios::binary);
 		return file.is_open();
 	}
 
@@ -41,6 +45,11 @@ namespace Eclipse::Assets
 	bool BinaryWriter::IsOpen() const
 	{
 		return file.is_open();
+	}
+
+	std::filesystem::path BinaryWriter::GetPath() const
+	{
+		return path;
 	}
 
 	void BinaryWriter::CreateFile(const std::string& path)

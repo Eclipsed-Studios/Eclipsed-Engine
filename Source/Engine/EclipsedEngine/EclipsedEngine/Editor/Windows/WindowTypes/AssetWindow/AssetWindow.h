@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef ECLIPSED_EDITOR
+
 #include "EclipsedEngine/Editor/Windows/WindowBase.h"
 
 #include "CoreEngine/Files/DirectoryTree.h"
@@ -60,3 +62,5 @@ namespace Eclipse::Editor
 		static inline std::filesystem::path ActivePath;
 	};
 }
+
+#endif

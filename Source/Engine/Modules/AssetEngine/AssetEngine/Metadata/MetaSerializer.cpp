@@ -15,8 +15,20 @@ namespace Eclipse::Assets
 
 	AssetMeta MetaSerializer::LoadOrCreateMeta(const std::filesystem::path& assetPath)
 	{
-		if (MetaFileExists(assetPath)) return LoadMeta(assetPath);
-		else return CreateMeta(assetPath);
+		AssetMeta meta;
+
+		if (MetaFileExists(assetPath)) meta = LoadMeta(assetPath);
+		else meta = CreateMeta(assetPath);
+
+		std::filesystem::path path = PathManager::GetArtifactsPath();
+
+		std::string guidStr = meta.guid.ToString();
+		path /= guidStr.substr(0, 2);
+		path /= guidStr;
+
+		meta.exportedPath = path;
+
+		return meta;
 	}
 
 	AssetMeta MetaSerializer::GetMetaType(const std::filesystem::path& assetPath)
