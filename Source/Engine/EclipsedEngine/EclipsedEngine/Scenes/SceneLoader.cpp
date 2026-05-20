@@ -28,7 +28,7 @@
 
 namespace Eclipse
 {
-	void SceneLoader::Save(const char* aPath)
+	void SceneLoader::Save(const Assets::Scene& scene)
 	{
 		rapidjson::Document d;
 		d.SetObject();
@@ -100,7 +100,10 @@ namespace Eclipse
 
 		d.Accept(writer);
 
-		std::ofstream ofs(aPath);
+		const Assets::AssetDatabase& database = MainSingleton::GetInstance<Assets::AssetDatabase>();
+		const Assets::AssetMeta& meta = database.GetProcessedFile(scene.GetAssetID());
+
+		std::ofstream ofs(meta.fullPath);
 		ofs << buffer.GetString();
 		ofs.close();
 	}
@@ -226,25 +229,18 @@ namespace Eclipse
 		PhysicsEngine::CleanUp();
 	}
 	
-	void SceneLoader::Load(const char* aPath)
+	void SceneLoader::Load(const Assets::Scene& scene)
 	{
 		using namespace rapidjson;
+
+
 
 		UnloadScene();
 		PhysicsEngine::InitWorld();
 		
-		std::ifstream ifs(aPath);
-		if (!ifs.is_open()) {
-			return;
-		}
-
-		std::string jsonString((std::istreambuf_iterator<char>(ifs)),
-			std::istreambuf_iterator<char>());
-
-		ifs.close();
 
 		Document d;
-		if (d.Parse(jsonString.c_str()).HasParseError()) return;
+		if (d.Parse(scene.dataPtr->sourceBlob.c_str()).HasParseError()) return;
 
 		if (!d.HasMember("GameObjects")) return;
 

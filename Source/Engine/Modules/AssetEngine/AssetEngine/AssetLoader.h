@@ -29,14 +29,33 @@ namespace Eclipse::Assets
 		AssetData* data = AssetCache::Get(guid);
 		if (data == nullptr)
 		{
+#ifdef ECLIPSED_EDITOR
 			BinaryReader reader(guid);
+#else
+			BinaryReader reader("packed_file.bundle");
+			//BinaryReader reader("C:/MyFiles/Projects/Project-Nova/Build/packed_file.bundle");
+#endif
 
 			const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
 
 			data = AssetCache::Store(guid, T::CreateNewData());
 			IAssetType* type = AssetTypeRegistry::GetType(meta.type);
+
+#ifdef ECLIPSED_EDITOR
 			type->Load(reader, meta, data);
+#else
+			type->LoadFromBinary(reader, meta, data);
+#endif
 		}
+//#ifdef ECLIPSED_EDITOR
+//		else
+//		{
+//			BinaryReader reader(guid);
+//			const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
+//			IAssetType* type = AssetTypeRegistry::GetType(meta.type);
+//			type->Load(reader, meta, data);
+//		}
+//#endif
 
 		return data;
 	}

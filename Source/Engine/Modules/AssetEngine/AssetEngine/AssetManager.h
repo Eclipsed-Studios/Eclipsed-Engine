@@ -28,6 +28,9 @@ namespace Eclipse::Assets
 	public:
 		static void ImportAssets(const std::filesystem::path& root, const std::string& key = "Assets");
 		static void ImportFile(const AssetMeta& meta);
+		static void ImportBundle();
+
+		static void PackAssets();
 
 		static void EndFrame();
 

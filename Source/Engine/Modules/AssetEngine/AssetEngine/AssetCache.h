@@ -16,7 +16,11 @@ namespace Eclipse::Assets
 		static AssetData* Store(GUID guid, AssetData* data);
 		static void Delete(GUID guid);
 
+		static void MarkForReload(GUID guid);
+		static void ProcessReloads();
+
 	private:
+		static inline std::vector<GUID> pendingReload;
 		static inline std::unordered_map<GUID, AssetData*, GUIDHash> loadedAssets;
 	};
 }

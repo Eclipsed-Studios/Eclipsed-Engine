@@ -54,9 +54,13 @@ namespace Eclipse::Assets
 		std::string GetArtifactPath() const;
 
 		GUID guid;
+		std::string fileName;
 		std::filesystem::path fullPath = "";
 		std::filesystem::path exportedPath = "";
 		AssetType type = AssetType::Unknown;
+
+		size_t size;
+		size_t offset;
 
 	private:
 		std::unordered_map<std::string, std::unique_ptr<IAssetMeta>> metaComponents;

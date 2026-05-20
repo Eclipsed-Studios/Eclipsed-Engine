@@ -114,4 +114,13 @@ namespace Eclipse::Assets
 
 		FT_Done_Face(face);
     }
+
+	void FontAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+	{
+		FontData* _data = reinterpret_cast<FontData*>(data);
+
+		data->guid = meta.guid;
+		reader.SetRead(meta.offset);
+
+	}
 }

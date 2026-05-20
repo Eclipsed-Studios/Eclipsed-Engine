@@ -28,6 +28,9 @@ namespace Eclipse
 #define LOG_WARNING(MESSAGE) Eclipse::DebugLogger::AddMessage(Eclipse::DebugMessageFactory::ConstructTextMessage(MESSAGE, Eclipse::DiagnosticSeverity::Warning))
 #define LOG_ERROR(MESSAGE) Eclipse::DebugLogger::AddMessage(Eclipse::DebugMessageFactory::ConstructTextMessage(MESSAGE, Eclipse::DiagnosticSeverity::Error))
 #else
+#define LOG_CODE(MESSAGE)
+#define LOG_WARNING_CODE(MESSAGE)
+#define LOG_ERROR_CODE(MESSAGE)
 #define LOG(MESSAGE)
 #define LOG_WARNING(MESSAGE)
 #define LOG_ERROR(MESSAGE)

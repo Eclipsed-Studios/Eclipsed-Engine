@@ -11,5 +11,6 @@ namespace Eclipse::Assets
         ProcessedData Process(const ImportedData& file) override;
         void Serialize(BinaryWriter& writer, const ProcessedData& data) override;
         void Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data) override;
+        void LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data) override;
     };
 }

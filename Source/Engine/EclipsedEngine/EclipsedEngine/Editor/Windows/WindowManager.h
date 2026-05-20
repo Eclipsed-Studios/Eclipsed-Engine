@@ -1,4 +1,5 @@
 #pragma once
+#ifdef ECLIPSED_EDITOR
 
 #include <unordered_map>
 
@@ -17,7 +18,7 @@ namespace Eclipse::Editor
 
 		void Update();
 
-		void Begin();
+		void Init();
 		void End();
 
 		void AddWindowToCategory(const std::vector<std::string>& categories, size_t idx, const std::string& windowName);
@@ -33,3 +34,5 @@ namespace Eclipse::Editor
 		int mainMenuBarSize = 10;
 	};
 }
+
+#endif 

@@ -23,6 +23,7 @@
 //#include "AssetEngine/AssetDatabase.h"
 
 #include "CoreEngine/MainSingleton.h"
+#include "EclipsedEngine/Scenes/SceneManager.h"
 
 namespace Eclipse::Editor
 {
@@ -33,17 +34,28 @@ namespace Eclipse::Editor
 		ComponentForcelink::LinkComponents();
 
 		eclipseRuntime.StartEngine(path);
+
+
 		{ // register asses
 			MainSingleton::RegisterInstance<Assets::AssetManager>();
 
 			MainSingleton::GetInstance<Assets::AssetManager>().ImportAssets(PathManager::GetEngineAssetsPath(), "Engine/");
 			MainSingleton::GetInstance<Assets::AssetManager>().ImportAssets(PathManager::GetAssetsPath(), "Project/");
 		}
+		eclipseRuntime.LateStart();
+
 
 
 		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
 
-		SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
+		try
+		{
+			SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
+		}
+		catch (std::exception e)
+		{
+			// The scene has been removed.
+		}
 
 		//ComponentManager::Init();
 	}
@@ -74,16 +86,13 @@ namespace Eclipse::Editor
 	}
 
 	void EditorRuntime::ExitPlayMode()
-	{
-	}
+	{}
 
 	void EditorRuntime::PauseGame()
-	{
-	}
+	{}
 
 	void EditorRuntime::UnpauseGame()
-	{
-	}
+	{}
 
 	bool EditorRuntime::IsPlaying()
 	{
@@ -144,7 +153,7 @@ namespace Eclipse::Editor
 		int windowSizeY = resolution.y * 0.5f;
 		Math::Vector2i windowPosition = GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetWindowPosition();
 
-		ImGui::Begin("TestGameButons", (bool*)1, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Begin("TestGameButons", (bool*)1, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize );
 
 		if (!isPlaying || isPaused)
 		{
@@ -156,7 +165,7 @@ namespace Eclipse::Editor
 				SteamGeneral::Get().Init();
 
 				if (SceneManager::GetActiveSceneType() == SceneManager::Default)
-					SceneLoader::Save(SceneManager::GetActiveScene());
+					SceneManager::SaveActiveScene();
 				else if (SceneManager::GetActiveSceneType() == SceneManager::Prefab)
 				{
 					std::filesystem::path filePath = SceneManager::GetActiveScene();

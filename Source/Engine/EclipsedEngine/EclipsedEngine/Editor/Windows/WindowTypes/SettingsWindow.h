@@ -16,5 +16,7 @@ namespace Eclipse::Editor
 		void DrawSceneEditor();
 		void DrawCollisionLayerEditor();
 		void SaveLayerEditToJSON();
+
+		void DrawEditorSettings();
 	};
 }

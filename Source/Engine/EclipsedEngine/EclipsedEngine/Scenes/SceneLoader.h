@@ -16,8 +16,8 @@ namespace Eclipse
 	class SceneLoader
 	{
 	public:
-		static void Save(const char* aPath);
-		static void Load(const char* aPath);
+		static void Save(const Assets::Scene& scene);
+		static void Load(const Assets::Scene& scene);
 
 		static void UnloadScene();
 

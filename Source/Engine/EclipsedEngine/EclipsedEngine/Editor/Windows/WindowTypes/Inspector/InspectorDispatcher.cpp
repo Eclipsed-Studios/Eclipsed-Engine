@@ -1,3 +1,5 @@
+#ifdef ECLIPSED_EDITOR
+
 #include "InspectorDispatcher.h"
 
 #include "CoreEngine/Utility/VariantUtils.h"
@@ -17,3 +19,5 @@ namespace Eclipse::Editor
 
 	}
 }
+
+#endif

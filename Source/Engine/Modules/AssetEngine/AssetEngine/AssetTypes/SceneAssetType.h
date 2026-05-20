@@ -4,7 +4,7 @@
 
 namespace Eclipse::Assets
 {
-    class FontAssetType : public IAssetType
+    class SceneAssetType : public IAssetType
     {
     public:
         ImportedData Import(const AssetMeta& file) override;

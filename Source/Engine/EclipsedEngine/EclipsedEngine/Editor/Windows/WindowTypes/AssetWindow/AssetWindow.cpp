@@ -4,6 +4,8 @@
 
 #include "EclipsedEngine/Scenes/SceneManager.h"
 #include "CoreEngine/PathManager.h"
+#ifdef ECLIPSED_EDITOR
+
 #include "EclipsedEngine/Editor/EditorUIManager.h"
 
 #include "EclipsedEngine/Editor/Windows/WindowTypes/Inspector/InspectorWindow.h"
@@ -440,8 +442,11 @@ namespace Eclipse::Editor
 		{
 		case Utilities::FileInfo::FileType_Scene:
 		{
-			SceneManager::LoadScene(fifo.filePath.generic_string());
-			Settings::EditorSettings::SetLastActiveScene(fifo.filePath.generic_string());
+			Assets::AssetDatabase& database = MainSingleton::GetInstance<Assets::AssetDatabase>();
+			Assets::GUID guid = database.GetGUIDFromFullPath(fifo.filePath);
+
+			SceneManager::LoadScene(guid);
+			Settings::EditorSettings::SetLastActiveScene(fifo.filePath.stem().filename().string());
 
 			SceneWindow::ResetCamera();
 		}
@@ -480,4 +485,6 @@ namespace Eclipse::Editor
 		}
 	}
 }
+#endif
+
 #endif
