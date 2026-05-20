@@ -36,7 +36,11 @@ namespace Eclipse::Assets
 	{
 #ifdef ECLIPSED_EDITOR
 		ProcessFileChanges();
+
+		AssetDeletionQueue::ProcessPendingForDelete();
+		AssetCache::ProcessReloads();
 #endif
+
 	}
 
 	void AssetManager::ImportFile(const AssetMeta& meta)
@@ -177,6 +181,7 @@ namespace Eclipse::Assets
 						database.ProcessFile(e.path, e.root);
 
 					ImportFile(meta);
+					AssetCache::MarkForReload(meta.guid);
 				}
 			}
 			break;

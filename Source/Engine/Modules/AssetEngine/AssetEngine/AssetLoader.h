@@ -36,8 +36,6 @@ namespace Eclipse::Assets
 			//BinaryReader reader("C:/MyFiles/Projects/Project-Nova/Build/packed_file.bundle");
 #endif
 
-			
-
 			const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
 
 			data = AssetCache::Store(guid, T::CreateNewData());
@@ -49,6 +47,15 @@ namespace Eclipse::Assets
 			type->LoadFromBinary(reader, meta, data);
 #endif
 		}
+//#ifdef ECLIPSED_EDITOR
+//		else
+//		{
+//			BinaryReader reader(guid);
+//			const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
+//			IAssetType* type = AssetTypeRegistry::GetType(meta.type);
+//			type->Load(reader, meta, data);
+//		}
+//#endif
 
 		return data;
 	}

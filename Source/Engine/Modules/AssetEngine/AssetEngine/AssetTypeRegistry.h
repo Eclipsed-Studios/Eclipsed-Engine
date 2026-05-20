@@ -3,6 +3,15 @@
 #include <unordered_map>
 #include "Core/SupportedAssets.h"
 
+#include "AssetEngine/Assets/AudioAsset.h"
+#include "AssetEngine/Assets/FontAsset.h"
+#include "AssetEngine/Assets/MaterialAsset.h"
+#include "AssetEngine/Assets/PrefabAsset.h"
+#include "AssetEngine/Assets/SceneAsset.h"
+#include "AssetEngine/Assets/TextureAsset.h"
+#include "AssetEngine/Assets/Shader/PixelShaderAsset.h"
+#include "AssetEngine/Assets/Shader/VertexShaderAsset.h"
+
 namespace Eclipse::Assets
 {
 	class IAssetType;

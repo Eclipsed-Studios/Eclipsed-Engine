@@ -92,6 +92,7 @@ namespace Eclipse
 
 	void SceneManager::ReloadActiveScene()
 	{
+		//activeScene = Assets::AssetManager::Load<Assets::Scene>(activeScene.GetAssetID());
 		LoadScene(activeScene);
 	}
 

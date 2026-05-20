@@ -9,9 +9,11 @@
 #include "cereal/cereal.hpp"
 #include "cereal/types/string.hpp"
 
+#include "AssetEngine/AssetDeletionQueue.h"
+
 #define SET_TYPE(type) using Type = type;
 
-#define SET_CONSTRUCTOR(cls) cls(AssetData* data) {dataPtr=reinterpret_cast<Type*>(data);} cls() = default;
+#define SET_CONSTRUCTOR(cls) cls(AssetData* data) { dataPtr=reinterpret_cast<Type*>(data);dataPtr->IncreaseRefCount();} cls() = default;
 
 #define ASSET_IMPL(cls, type)	\
 SET_TYPE(type)					\
@@ -22,30 +24,91 @@ SET_CONSTRUCTOR(cls)
 namespace Eclipse::Assets
 {
 	template<typename T>
-	struct Asset {
+	struct Asset
+	{
 		virtual ~Asset();
-		virtual bool IsValid() const {
-			return dataPtr != nullptr;
+
+		Asset() = default;
+
+		Asset(T* data)
+			: dataPtr(data)
+		{
+			if (dataPtr)
+				dataPtr->IncreaseRefCount();
 		}
-		
+
+		// Copy constructor
+		Asset(const Asset& other)
+			: dataPtr(other.dataPtr)
+		{
+			if (dataPtr)
+				dataPtr->IncreaseRefCount();
+		}
+
+		// Move constructor
+		Asset(Asset&& other) noexcept
+			: dataPtr(other.dataPtr)
+		{
+			other.dataPtr = nullptr;
+		}
+
+		// Copy assignment
+		Asset& operator=(const Asset& other)
+		{
+			if (this == &other)
+				return *this;
+
+			if (dataPtr)
+				dataPtr->DecreaseRefCount();
+
+			dataPtr = other.dataPtr;
+
+			if (dataPtr)
+				dataPtr->IncreaseRefCount();
+
+			return *this;
+		}
+
+		// Move assignment
+		Asset& operator=(Asset&& other) noexcept
+		{
+			if (this == &other)
+				return *this;
+
+			if (dataPtr)
+				dataPtr->DecreaseRefCount();
+
+			dataPtr = other.dataPtr;
+			other.dataPtr = nullptr;
+
+			return *this;
+		}
+
 		T* dataPtr = nullptr;
 
+		bool IsValid() const;
 		GUID GetAssetID() const;
 		GUID GetAssetID();
 
 		static T* CreateNewData();
 
-
-		template <class Archive> 
+		template<class Archive>
 		void serialize(Archive& ar);
 	};
+
 
 	template<typename T>
 	inline Asset<T>::~Asset()
 	{
-		if (IsValid())  return;
+		if (!IsValid())  return;
 
-		
+		dataPtr->DecreaseRefCount();
+	}
+
+	template<typename T>
+	inline bool Asset<T>::IsValid() const
+	{
+		return dataPtr != nullptr;
 	}
 
 	template<typename T>
@@ -65,6 +128,7 @@ namespace Eclipse::Assets
 	{
 		return new T;
 	}
+
 
 	template<typename T>
 	template<class Archive>
