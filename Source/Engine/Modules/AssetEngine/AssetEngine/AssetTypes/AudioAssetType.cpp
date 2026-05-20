@@ -167,5 +167,46 @@ namespace Eclipse::Assets
 		data->guid = meta.guid;
 		reader.SetRead(meta.offset);
 
+		reader.Read(DATA_SIZE_PAIR(_data->Storage));
+		reader.Read(DATA_SIZE_PAIR(_data->Format));
+		reader.Read(DATA_SIZE_PAIR(_data->SampleRate));
+		reader.Read(DATA_SIZE_PAIR(_data->FrameCount));
+		reader.Read(DATA_SIZE_PAIR(_data->Channels));
+		reader.Read(DATA_SIZE_PAIR(_data->Streaming));
+
+		size_t size;
+		reader.Read(&size, sizeof(size_t));
+		_data->Data.resize(size);
+		_data->guid = meta.guid;
+
+		reader.Read(_data->Data.data(), size);
+
+
+		FMOD_CREATESOUNDEXINFO exinfo{};
+		exinfo.cbsize = sizeof(exinfo);
+		exinfo.length = static_cast<unsigned int>(size);
+		exinfo.numchannels = _data->Channels;
+		exinfo.defaultfrequency = _data->SampleRate;
+
+		switch (_data->Format)
+		{
+		case AudioFormat::PCM16:
+			exinfo.format = FMOD_SOUND_FORMAT_PCM16;
+			break;
+		case AudioFormat::PCM32F:
+			exinfo.format = FMOD_SOUND_FORMAT_PCMFLOAT;
+			break;
+		}
+
+		FMOD::System* system = MainSingleton::GetRaw<FMOD::System*>();
+
+		FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_OPENRAW;
+
+		FMOD_RESULT result = system->createSound(
+			reinterpret_cast<const char*>(_data->Data.data()),
+			mode,
+			&exinfo,
+			&_data->sound
+		);
 	}
 }
