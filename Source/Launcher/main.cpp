@@ -12,6 +12,9 @@
 int main(int argc, char* argv[])
 //int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+    HWND hwnd = GetConsoleWindow();
+    ShowWindow(hwnd, SW_HIDE);
+
     std::string projectPath = "";
     if (argc > 1) // Engine opened with project path.
     {

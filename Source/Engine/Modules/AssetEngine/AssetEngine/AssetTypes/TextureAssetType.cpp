@@ -81,9 +81,21 @@ namespace Eclipse::Assets
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
 
-		int rgbTypeOffset = GL_RGBA - _data->channels;
+		GLenum format = GL_RGB;
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _data->width, _data->height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixelData.data());
+		switch (_data->channels)
+		{
+		case 1: format = GL_RED;  break;
+		case 2: format = GL_RG;   break;
+		case 3: format = GL_RGB;  break;
+		case 4: format = GL_RGBA; break;
+
+		default:
+			assert(false && "Unsupported channel count");
+			break;
+		}
+
+		glTexImage2D(GL_TEXTURE_2D, 0, format, _data->width, _data->height, 0, format, GL_UNSIGNED_BYTE, pixelData.data());
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -120,9 +132,21 @@ namespace Eclipse::Assets
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
 
-		int rgbTypeOffset = GL_RGBA - _data->channels;
+		GLenum format = GL_RGB;
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _data->width, _data->height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixelData.data());
+		switch (_data->channels)
+		{
+		case 1: format = GL_RED;  break;
+		case 2: format = GL_RG;   break;
+		case 3: format = GL_RGB;  break;
+		case 4: format = GL_RGBA; break;
+
+		default:
+			assert(false && "Unsupported channel count");
+			break;
+		}
+
+		glTexImage2D(GL_TEXTURE_2D, 0, format, _data->width, _data->height, 0, format, GL_UNSIGNED_BYTE, pixelData.data());
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
