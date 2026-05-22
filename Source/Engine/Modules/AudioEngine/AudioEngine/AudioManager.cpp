@@ -25,7 +25,7 @@ namespace Eclipse
         result = myStudioSystem->initialize(
             512,
             FMOD_STUDIO_INIT_NORMAL,
-            FMOD_INIT_3D_RIGHTHANDED,
+            0,
             nullptr
         );
         if (result != FMOD_OK) {
@@ -44,16 +44,14 @@ namespace Eclipse
         }
 
         result = mySystem->init(
-            512, FMOD_INIT_3D_RIGHTHANDED, nullptr
+            512, 0, nullptr
         );
         if (result != FMOD_OK) {
             return;
         }
 
 
-
-
-        result = mySystem->set3DSettings(1.0f, 1.0f, 1.0f);
+        result = mySystem->set3DSettings(1.0f, 2.0f, 0.5f);
         if (result != FMOD_OK) {
             return;
         }

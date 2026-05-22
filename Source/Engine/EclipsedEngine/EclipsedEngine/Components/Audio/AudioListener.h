@@ -15,7 +15,11 @@ namespace Eclipse {
 	public:
 		void Awake() override;
 		
+		static AudioListener* GetListener();
+
 	private:
 		void UpdatePositionalData();
+
+		static AudioListener* ListenerInstance;
 	};
 }

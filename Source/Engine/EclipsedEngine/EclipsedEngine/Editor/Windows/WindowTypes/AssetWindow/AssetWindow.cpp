@@ -39,6 +39,8 @@ namespace Eclipse::Editor
 		FileWatcher::SubscribeToPath(PathManager::GetAssetsPath(), [this](const FileWatcherEvent& e) {
 			shouldReloadAssets = true;
 			});
+
+		ctxMenu.SetActivePath(PathManager::GetAssetsPath());
 	}
 
 	void AssetWindow::Update()
