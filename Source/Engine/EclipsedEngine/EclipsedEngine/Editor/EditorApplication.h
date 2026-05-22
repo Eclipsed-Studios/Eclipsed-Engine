@@ -1,5 +1,5 @@
-#ifdef ECLIPSED_EDITOR
 #pragma once
+#ifdef ECLIPSED_EDITOR
 
 #include "EclipsedEngine/Editor/EditorContext.h"
 #include "CoreEngine/Macros/defines.h"

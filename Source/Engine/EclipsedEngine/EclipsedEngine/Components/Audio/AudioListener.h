@@ -13,10 +13,11 @@ namespace Eclipse {
 		BASE_SELECTION(AudioListener, 1)
 
 	public:
-		void Awake() override;
-		
 		static AudioListener* GetListener();
 
+	public:
+		void Awake() override;
+		
 	private:
 		void UpdatePositionalData();
 
