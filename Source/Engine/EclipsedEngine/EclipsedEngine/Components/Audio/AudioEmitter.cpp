@@ -2,6 +2,8 @@
 
 #include "AudioEngine/AudioManager.h"
 #include "EclipsedEngine/Components/Transform2D.h"
+#include "EclipsedEngine/Components/Audio/AudioListener.h"
+
 
 namespace Eclipse
 {
@@ -57,8 +59,13 @@ namespace Eclipse
 	{
 		audioClip = clip;
 
-		channel->setMode(FMOD_3D_LINEARROLLOFF);
-		channel->set3DMinMaxDistance(1.0f, 1000.0f);
+		channel->setMode(
+			FMOD_3D | 
+			FMOD_3D_WORLDRELATIVE | 
+			FMOD_3D_INVERSEROLLOFF
+		);
+
+		channel->set3DMinMaxDistance(2.0f, 5.f);
 	}
 
 	void AudioEmitter::Stop() {
@@ -66,8 +73,23 @@ namespace Eclipse
 	}
 
 	void AudioEmitter::SetVolume(float aVolume) {
+		AudioListener* listener = AudioListener::GetListener();
+
+		Math::Vector2f p = gameObject->transform->GetPosition();
+		Math::Vector2f l = listener->gameObject->transform->GetPosition();
+
+		float dx = p.x - l.x;
+		float dy = p.y - l.y;
+
+		float dist = sqrt(dx * dx + dy * dy);
+
+		float t = dist / 20.f;   
+		t = std::clamp(t, 0.0f, 1.0f);
+
+		float v = 1.0f - (t * t * (3.0f - 2.0f * t));
+
 		volume = aVolume;
-		channel->setVolume(volume);
+		channel->setVolume(v*volume);
 	}
 
 	float AudioEmitter::GetVolume() const {
@@ -79,7 +101,9 @@ namespace Eclipse
 		Transform2D* trans = gameObject->transform;
 		Math::Vector2f ePos = trans->GetPosition();
 
-		FMOD_VECTOR pos = { ePos.x, ePos.y, 0.f };
-		channel->set3DAttributes(&pos, nullptr);
+		FMOD_VECTOR pos = { ePos.x, ePos.y, 1.f };
+		FMOD_VECTOR vel = { 0.f, 0.f, 0.f };
+
+		channel->set3DAttributes(&pos, &vel);
 	}
 }

@@ -118,7 +118,7 @@ namespace Eclipse::Reflection
 				Assets::Material* mat = (Assets::Material*)GetData();
 				if (mat->IsValid())
 				{
-					name = mat->GetAssetID().ToString();
+					name = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(mat->GetAssetID()).fileName;
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Material))
@@ -139,7 +139,7 @@ namespace Eclipse::Reflection
 				Assets::AudioClip* clip = (Assets::AudioClip*)GetData();
 				if (clip->IsValid())
 				{
-					name = clip->GetAssetID().ToString();
+					name = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(clip->GetAssetID()).fileName;
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Audio))
@@ -160,7 +160,7 @@ namespace Eclipse::Reflection
 				Assets::Texture* texture = (Assets::Texture*)GetData();
 				if (texture->IsValid())
 				{
-					name = texture->GetAssetID().ToString();
+					name = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(texture->GetAssetID()).fileName;
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Texture))
@@ -180,7 +180,7 @@ namespace Eclipse::Reflection
 				Assets::Prefab* prefab = (Assets::Prefab*)GetData();
 				if (prefab->IsValid())
 				{
-					name = prefab->GetAssetID().ToString();
+					name = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(prefab->GetAssetID()).fileName;
 				}
 
 				if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Prefab))
@@ -200,7 +200,7 @@ namespace Eclipse::Reflection
 					Assets::Font* font = (Assets::Font*)GetData();
 					if (font->IsValid())
 					{
-						name = font->GetAssetID().ToString();
+						name = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(font->GetAssetID()).fileName;
 					}
 
 					if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Font))

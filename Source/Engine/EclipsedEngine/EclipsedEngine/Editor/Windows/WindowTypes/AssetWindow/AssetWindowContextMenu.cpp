@@ -22,6 +22,8 @@
 
 #include "EclipsedEngine/Editor/Game/GameCompiler.h"
 
+#include "AssetEngine/BinaryFormats/MaterialData.h"
+
 namespace Eclipse::Editor
 {
 	AssetWindowContextMenu::AssetWindowContextMenu() : AbstractContextMenu("AssetsCtxMenu") {}
@@ -157,7 +159,12 @@ namespace Eclipse::Editor
 				savedPath = activePath;
 
 			std::string path = (activePath / "Test.mat").generic_string();
-			std::ofstream otu(path);
+
+			Assets::SerializableMaterialData matData;
+			std::ofstream of(path, std::ios::binary);
+
+			cereal::JSONOutputArchive ar(of);
+			ar(matData);
 
 			activePath = savedPath;
 		}
