@@ -46,12 +46,12 @@ namespace Eclipse::Assets
 
 	void AssetCache::ProcessReloads()
 	{
-		for (const GUID& guid : pendingReload)
-		{
-			BinaryReader reader(guid);
-			const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
-			IAssetType* type = AssetTypeRegistry::GetType(meta.type);
-			type->Load(reader, meta, loadedAssets[guid]);
-		}
+		//for (const GUID& guid : pendingReload)
+		//{
+		//	BinaryReader reader(guid);
+		//	const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
+		//	IAssetType* type = AssetTypeRegistry::GetType(meta.type);
+		//	type->Load(reader, meta, loadedAssets[guid]);
+		//}
 	}
 }
