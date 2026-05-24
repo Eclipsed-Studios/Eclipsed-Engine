@@ -60,8 +60,8 @@ namespace Eclipse
 		audioClip = clip;
 
 		channel->setMode(
-			FMOD_3D | 
-			FMOD_3D_WORLDRELATIVE | 
+			FMOD_3D |
+			FMOD_3D_WORLDRELATIVE |
 			FMOD_3D_INVERSEROLLOFF
 		);
 
@@ -72,24 +72,41 @@ namespace Eclipse
 		channel->stop();
 	}
 
-	void AudioEmitter::SetVolume(float aVolume) {
+	void AudioEmitter::SetVolume(float aVolume)
+	{
 		AudioListener* listener = AudioListener::GetListener();
 
-		Math::Vector2f p = gameObject->transform->GetPosition();
-		Math::Vector2f l = listener->gameObject->transform->GetPosition();
+		float audioAttenuation = 1.f;
+		if (EnableSpatial && listener != nullptr)
+		{
+				channel->setMode(
+					FMOD_3D |
+					FMOD_3D_WORLDRELATIVE |
+					FMOD_3D_INVERSEROLLOFF
+				);
 
-		float dx = p.x - l.x;
-		float dy = p.y - l.y;
+				Math::Vector2f p = gameObject->transform->GetPosition();
+				Math::Vector2f l = listener->gameObject->transform->GetPosition();
 
-		float dist = sqrt(dx * dx + dy * dy);
+				float dx = p.x - l.x;
+				float dy = p.y - l.y;
 
-		float t = dist / 20.f;   
-		t = std::clamp(t, 0.0f, 1.0f);
+				float dist = sqrt(dx * dx + dy * dy);
 
-		float v = 1.0f - (t * t * (3.0f - 2.0f * t));
+				float t = dist / 20.f;
+				t = std::clamp(t, 0.0f, 1.0f);
+
+				audioAttenuation = 1.0f - (t * t * (3.0f - 2.0f * t));
+		}
+		else
+		{
+			channel->setMode(
+				FMOD_2D
+			);
+		}
 
 		volume = aVolume;
-		channel->setVolume(v*volume);
+		channel->setVolume(audioAttenuation * volume);
 	}
 
 	float AudioEmitter::GetVolume() const {
