@@ -22,20 +22,20 @@ namespace Eclipse::Replication
 {
     void ReplicationManager::ReplicatedOnPlay()
     {
-        for (auto& ReplicatedVariableLists : PossibleReplicatedVariableList)
+        for (auto& ReplicatedVariableLists : AllReplicatedVariables)
         {
-            // if (!ReplicatedVariableLists.second[0]->ConnectedComponent->IsReplicated)
-            //     continue;
+             if (!ReplicatedVariableLists.second[0]->OnComponent->IsReplicated)
+                 continue;
 
-            RealReplicatedVariableList.emplace(ReplicatedVariableLists);
+            OnPlayReplicatedVariables.emplace(ReplicatedVariableLists);
         }
 
-        ReplicatedVariabpePtr = &RealReplicatedVariableList;
+        CurrentReplicatedVariabpePtr = &OnPlayReplicatedVariables;
     }
 
     void ReplicationManager::ReplicateVariable(unsigned aComponentID, unsigned aVariableID)
     {
-        RealReplicatedVariableList.at(aComponentID)[aVariableID]->ReplicateThis(aComponentID);
+        OnPlayReplicatedVariables.at(aComponentID)[aVariableID]->ReplicateThis(aComponentID);
     }
 
     void ReplicationManager::SteamNetorkingReady()
@@ -138,7 +138,7 @@ namespace Eclipse::Replication
 
         if (timer <= 0)
         {
-            for (auto& [_, ReplicationVariableList] : RealReplicatedVariableList)
+            for (auto& [_, ReplicationVariableList] : OnPlayReplicatedVariables)
             {
                 for (int i = 0; i < ReplicationVariableList.size(); i++)
                 {
@@ -239,18 +239,18 @@ namespace Eclipse::Replication
 
     void ReplicationManager::SetBeforeReplicatedList()
     {
-        BeforeReplicatedVariableList = &(*ReplicatedVariabpePtr);
-        ReplicatedVariabpePtr = &TemporaryReplicatedVariableList;
+        BeforeReplicatedVariableList = &(*CurrentReplicatedVariabpePtr);
+        CurrentReplicatedVariabpePtr = &TemporaryReplicatedVariableList;
     }
 
     void ReplicationManager::SetAfterReplicatedList()
     {
-        ReplicatedVariabpePtr = &(*BeforeReplicatedVariableList);
+        CurrentReplicatedVariabpePtr = &(*BeforeReplicatedVariableList);
 
         for (auto& [_, ReplicatedVariableList] : ReplicationManager::TemporaryReplicatedVariableList)
         {
             for (auto Var : ReplicatedVariableList)
-                (*ReplicatedVariabpePtr)[Var->ConnectedComponent->myInstanceComponentID].emplace_back(Var);
+                (*CurrentReplicatedVariabpePtr)[Var->OnComponent->myInstanceComponentID].emplace_back(Var);
         }
 
         ReplicationManager::TemporaryReplicatedVariableList.erase(0);
