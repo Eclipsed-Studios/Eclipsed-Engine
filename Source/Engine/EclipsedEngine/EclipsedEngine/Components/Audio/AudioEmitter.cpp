@@ -74,6 +74,8 @@ namespace Eclipse
 
 	void AudioEmitter::SetVolume(float aVolume) {
 		AudioListener* listener = AudioListener::GetListener();
+		if (!listener)
+			return;
 
 		Math::Vector2f p = gameObject->transform->GetPosition();
 		Math::Vector2f l = listener->gameObject->transform->GetPosition();

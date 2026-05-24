@@ -126,7 +126,7 @@ namespace Eclipse
         size_t componentIndex = myComponents.size() - 1;
 
         myEntityIDToVectorOfComponentIDs[aGOID].emplace_back(component);
-        myComponents.back()->myComponentIndex = componentIndex;
+        component->myComponentIndex = componentIndex;
 
 
         if (IsReplicated)

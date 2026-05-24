@@ -19,7 +19,7 @@ namespace Eclipse::Assets
 
     ProcessedData PrefabAssetType::Process(const ImportedData& file)
     {
-        return ProcessedData();
+        return file;
     }
 
     void PrefabAssetType::Serialize(BinaryWriter& writer, const ProcessedData& data)
@@ -28,18 +28,36 @@ namespace Eclipse::Assets
 
         const ImportedPrefab& _data = std::get<ImportedPrefab>(data);
 
-        const size_t size = _data.Data.size();
-        writer.Write(DATA_SIZE_PAIR(size));
+        const size_t strSize = _data.Data.size();
+        writer.Write(DATA_SIZE_PAIR(strSize));
         writer.Write(_data.Data.data(), _data.Data.size());
     }
 
     void PrefabAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
     {
-        
+        PrefabData* _data = reinterpret_cast<PrefabData*>(data);
+
+        size_t strSize = 0;
+        reader.Read(DATA_SIZE_PAIR(strSize));
+
+        _data->data = reinterpret_cast<char*>(malloc(strSize));
+        reader.Read(_data->data, strSize);
+        memset(_data->data + strSize, 0, 1);
+
+        _data->guid = meta.guid;
     }
 
     void PrefabAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
     {
+        PrefabData* _data = reinterpret_cast<PrefabData*>(data);
 
+        int strSize = 0;
+        reader.Read(DATA_SIZE_PAIR(strSize));
+
+        _data->data = reinterpret_cast<char*>(malloc(strSize));
+        reader.Read(_data->data, strSize);
+        memset(_data->data + strSize, 0, 1);
+
+        _data->guid = meta.guid;
     }
 }

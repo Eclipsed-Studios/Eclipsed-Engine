@@ -4,6 +4,7 @@
 
 #include "CoreEngine/core.h"
 #include <iostream>
+#include <cassert>
 
 namespace Eclipse
 {
@@ -169,17 +170,16 @@ namespace Eclipse
             return UpdatePriorityD0 - ZindexSmallD0 > UpdatePriorityD1 - ZindexSmallD1;
         });
 
-        // myEntityIDToVectorOfComponentIDs.clear();
-        //
-        // for (int i = 0; i < (int)myComponents.size()/* - 1*/; i++)
-        // {
-        //     Component* comp = myComponents[i];
-        //
-        //     auto& mapOfComponentsGO = myEntityIDToVectorOfComponentIDs[comp->gameObject->GetID()];
-        //     RegisteredTypeIndex index = comp->myComponentComponentID;
-        //
-        //     mapOfComponentsGO[index].emplace_back(static_cast<ComponentIndex>(i));
-        // }
+         //myEntityIDToVectorOfComponentIDs.clear();
+        
+         //for (int i = 0; i < (int)myComponents.size()/* - 1*/; i++)
+         //{
+         //    Component* comp = myComponents[i];
+        
+         //    auto& mapOfComponentsGO = myEntityIDToVectorOfComponentIDs[comp->gameObject->GetID()];
+        
+         //    mapOfComponentsGO.emplace_back(static_cast<ComponentIndex>(i));
+         //}
     }
 
     Eclipse::Component* ComponentManager::AddComponent(GameObjectID aGOID, Eclipse::Component* (__cdecl*createFunc)(unsigned char* address), size_t size)
@@ -221,7 +221,7 @@ namespace Eclipse
         size_t componentIndex = myComponents.size() - 1;
 
         myEntityIDToVectorOfComponentIDs[aGOID].emplace_back(component);
-        myComponents.back()->myComponentIndex = componentIndex;
+        component->myComponentIndex = componentIndex;
 
         //CreateComponentReplicated(component);
 
