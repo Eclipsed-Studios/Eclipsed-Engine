@@ -1,3 +1,5 @@
+#ifdef ECLIPSED_EDITOR
+
 #include "ComponentInspectorDrawer.h"
 
 #include "ImGui/imgui.h"
@@ -25,3 +27,5 @@ namespace Eclipse::Editor
 		return DefaultDraw;
 	}
 }
+
+#endif
