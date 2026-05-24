@@ -261,6 +261,7 @@ void Eclipse::Editor::SceneWindow::SpriteSelector()
 	else
 	{
 		SelectionContext::SetActiveContext(GameObjectTarget{pickedID});
+		HierarchyWindow::CurrentGameObjectID = pickedID;
 
 		if (pickedID)
 			HierarchyWindow::OpenParents(pickedID);
