@@ -59,6 +59,9 @@ namespace Eclipse::Editor
 		bool shouldReloadAssets = 0;
 
 	public:
+		static inline std::function<unsigned(char* data)> CreateGameobjectFunc;
+		static inline std::function<void()> InitNewPhysicsScene;
+
 		static inline std::filesystem::path ActivePath;
 	};
 }
