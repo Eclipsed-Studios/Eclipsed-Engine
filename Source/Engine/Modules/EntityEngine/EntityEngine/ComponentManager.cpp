@@ -287,6 +287,9 @@ namespace Eclipse
     {
         for (auto& [id, gameobject] : myEntityIdToEntity)
         {
+            if (!gameobject)
+                continue;
+
             if (gameobject->GetName() == aName)
             {
                 std::cout << "foundName" << std::endl;
@@ -331,6 +334,10 @@ namespace Eclipse
         unsigned componentsDeleted = 0;
         for (int goID : gameobjectsToRemove)
         {
+            // This has tyo be checked only because Gameobjects can exist without components
+            if (myEntityIDToVectorOfComponentIDs.find(goID) == myEntityIDToVectorOfComponentIDs.end())
+                continue;
+
             for (auto& component : myEntityIDToVectorOfComponentIDs.at(goID))
             {
                 DeleteReplicatedComponent(component->myInstanceComponentID);
