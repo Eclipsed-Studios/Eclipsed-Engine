@@ -23,15 +23,22 @@ namespace Eclipse
 
 namespace Eclipse::Replication
 {
+    //typedef long long unsigned ComponentNIterator;
     class BaseReplicatedVariable;
 
     class ReplicationManager
     {
+        typedef std::vector<BaseReplicatedVariable*> ComponentReplicatedVariables;
+        typedef std::unordered_map<unsigned, ComponentReplicatedVariables> ReplicationVariableMap;
+
     public:
         friend class BaseReplicatedVariable;
 
         ReplicationManager() = default;
         ~ReplicationManager() = default;
+
+        template <typename T>
+        int GetReplicationVariableIterator();
 
         static void ReplicatedOnPlay();
 
@@ -47,17 +54,22 @@ namespace Eclipse::Replication
 
         static void CloseConnection(const char* aReason);
 
-        static void ClearList() { PossibleReplicatedVariableList.clear(); RealReplicatedVariableList.clear(); };
+        static void ClearList() { AllReplicatedVariables.clear(); OnPlayReplicatedVariables.clear(); };
 
-        static void EmplaceReplicatedVariable(unsigned ComponentID, BaseReplicatedVariable* Variable)
+        static void EmplaceReplicatedVariable(unsigned aComponentID, unsigned& iterationID, BaseReplicatedVariable* Variable)
         {
-            // Suppose to add componentid if it does not exist
-            (*ReplicatedVariabpePtr)[ComponentID].emplace_back(Variable);
+            ComponentReplicatedVariables& replicationVariableMap = (*CurrentReplicatedVariabpePtr)[aComponentID];
+
+            replicationVariableMap.emplace_back(Variable);
+
+            iterationID = replicationVariableMap.size();
         }
 
         static void DeleteReplicatedComponent(unsigned aComponentID)
         {
-            ReplicatedVariabpePtr->erase(aComponentID);
+            ReplicationVariableMap& replicationVariableMap = (*CurrentReplicatedVariabpePtr);
+
+            replicationVariableMap.erase(aComponentID);
         }
 
         static void ClientConnected();
@@ -66,29 +78,30 @@ namespace Eclipse::Replication
 
 
     public:
-    // Create replication messages
+        // Create replication messages
         static void CreateGOMessage(int aGameobjectID, NetMessage& outMessage);
         static void DeleteGOMessage(int aGameobjectID, NetMessage& outMessage);
         static void CreateComponentMessage(Eclipse::Component* aComponent, NetMessage& outMessage, bool aStartLater = false);
         static void CreatePrefabMessage(unsigned aGOID, const Assets::GUID& PrefabAssetID, std::vector<unsigned>, NetMessage& outMessage);
+
     public:
         // Direct send functions
         static void SendPrefabObject(GameObject* gameobject, Assets::Prefab& aPrefab);
 
-    private:
-        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>>* BeforeReplicatedVariableList;
     public:
         static void SetBeforeReplicatedList();
         static void SetAfterReplicatedList();
 
+    private:
+        static inline ReplicationVariableMap* BeforeReplicatedVariableList;
+
     public:
+        static inline ReplicationVariableMap TemporaryReplicatedVariableList;
 
-        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>> TemporaryReplicatedVariableList;
+        static inline ReplicationVariableMap AllReplicatedVariables;
+        static inline ReplicationVariableMap OnPlayReplicatedVariables;
 
-        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>> PossibleReplicatedVariableList;
-        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>> RealReplicatedVariableList;
-
-        static inline std::unordered_map<unsigned, std::vector<BaseReplicatedVariable*>>* ReplicatedVariabpePtr = &PossibleReplicatedVariableList;
+        static inline ReplicationVariableMap* CurrentReplicatedVariabpePtr = &AllReplicatedVariables;
 
         static inline SteamP2PNetworkingClient* client = nullptr;
         static inline SteamP2PNetworkingServer* server = nullptr;

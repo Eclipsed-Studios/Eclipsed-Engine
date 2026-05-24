@@ -105,13 +105,13 @@ namespace Eclipse::Replication
 
 	void ReplicationHelper::ClientHelp::RecieveRequestVariablesMessage(const NetMessage& message)
 	{
-		const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
+		const auto& variableManager = Replication::ReplicationManager::OnPlayReplicatedVariables;
 		for (auto& Component : variableManager)
 		{
 			for (int i = 0; i < Component.second.size(); i++)
 			{
 				auto& Variable = Component.second[i];
-				if (Variable->ConnectedComponent->IsReplicated)
+				if (Variable->OnComponent->IsReplicated)
 				{
 					Variable->ReplicateThis(i, true);
 				}
@@ -121,8 +121,8 @@ namespace Eclipse::Replication
 
 	void ReplicationHelper::ClientHelp::RecieveVariableMessage(const NetMessage& message)
 	{
-		unsigned replicationVarIndex = 0;
 		unsigned componentID = 0;
+		unsigned iterationID = 0;
 		int dataAmount = 0;
 
 		size_t offset = 0;
@@ -130,33 +130,33 @@ namespace Eclipse::Replication
 		memcpy(&componentID, message.data + offset, sizeof(componentID));
 		offset += sizeof(componentID);
 
-		memcpy(&replicationVarIndex, message.data + offset, sizeof(replicationVarIndex));
-		offset += sizeof(replicationVarIndex);
+		memcpy(&iterationID, message.data + offset, sizeof(iterationID));
+		offset += sizeof(iterationID);
 
 		memcpy(&dataAmount, message.data + offset, sizeof(dataAmount));
 		offset += sizeof(dataAmount);
 
-		auto variableIt = Replication::ReplicationManager::RealReplicatedVariableList.find(componentID);
-		if (variableIt == Replication::ReplicationManager::RealReplicatedVariableList.end())
+		auto variableIt = Replication::ReplicationManager::AllReplicatedVariables.find(componentID);
+		if (variableIt == Replication::ReplicationManager::AllReplicatedVariables.end())
 			return;
 
-		Replication::ReplicatedVariable<Component>* Variable = reinterpret_cast<Replication::ReplicatedVariable<Component>*>(variableIt->second[replicationVarIndex]);
+		auto Variable = reinterpret_cast<Replication::ReplicatedVariable<Component>*>(variableIt->second[iterationID]);
 
-		Component* component = Variable->ConnectedComponent;
-		const auto& ReppedFunction = Variable->OnRepFunction;
 
-		if (Variable->IsAsset)
-		{
-			Assets::GUID AssetID;
-			memcpy(&AssetID, message.data + offset, sizeof(Assets::GUID));
-			RefreshAsset(Variable->myReflectVariable, AssetID);
-		}
-		else
-		{
-			void* variableData = Variable->myReflectVariable->GetData();
+		//if (Variable->IsAsset)
+		//{
+		//	Assets::GUID AssetID;
+		//	memcpy(&AssetID, message.data + offset, sizeof(Assets::GUID));
+		//	RefreshAsset(Variable->myReflectVariable, AssetID);
+		//}
+		//else
+		//{
+			void* variableData = Variable->Data;
 			memcpy(variableData, message.data + offset, dataAmount);
-		}
+		//}
 
+		Component* component = Variable->OnComponent;
+		const auto& ReppedFunction = Variable->OnRepFunction;
 		(component->*ReppedFunction)();
 	}
 
@@ -289,13 +289,13 @@ namespace Eclipse::Replication
 	{
 		std::unordered_set<unsigned> ReplicatedGameObjects;
 
-		const auto& variableManager = Replication::ReplicationManager::RealReplicatedVariableList;
+		const auto& variableManager = Replication::ReplicationManager::AllReplicatedVariables;
 		for (auto& Variable : variableManager)
 		{
-			if (!Variable.second[0]->ConnectedComponent->IsReplicated)
+			if (!Variable.second[0]->OnComponent->IsReplicated)
 				continue;
 
-			unsigned gameobjectID = Variable.second[0]->ConnectedComponent->gameObject->GetID();
+			unsigned gameobjectID = Variable.second[0]->OnComponent->gameObject->GetID();
 			ReplicatedGameObjects.emplace(gameobjectID);
 		}
 
