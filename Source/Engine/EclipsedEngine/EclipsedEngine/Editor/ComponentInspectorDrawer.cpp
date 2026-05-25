@@ -17,12 +17,21 @@ namespace Eclipse::Editor
 		return registry;
 	}
 
-	void ComponentInspectorRegistry::Register(std::string name, InspectorDrawFn fn)
+	bool ComponentInspectorRegistry::InspectorExists(const std::string& name)
 	{
-		Registry()[name] = fn;
+		std::unordered_map<std::string, InspectorDrawFn>& registry = Registry();
+		auto it = registry.find(name);
+
+		return it != registry.end();
 	}
 
-	InspectorDrawFn ComponentInspectorRegistry::GetDrawFunction(std::string name)
+	void ComponentInspectorRegistry::RegisterInspector(const std::string& name, InspectorDrawFn fn)
+	{
+		std::unordered_map<std::string, InspectorDrawFn>& registry = Registry();
+		registry[name] = fn;
+	}
+
+	InspectorDrawFn ComponentInspectorRegistry::GetDrawFunction(const std::string& name)
 	{
 		std::unordered_map<std::string, InspectorDrawFn>& registry = Registry();
 

@@ -35,9 +35,12 @@ namespace Eclipse::Reflection
 
 	void ReflectionManager::DrawInspector(Component* aComp, const char* name)
 	{
-		//aComp->OnDrawInspector();
+		if (Editor::ComponentInspectorRegistry::InspectorExists(name))
+		{
+			Editor::ComponentInspectorRegistry::GetDrawFunction(aComp->GetComponentName())(aComp);
+			return;
+		}
 
-		//Editor::ComponentInspectorRegistry::GetDrawFunction(aComp->GetComponentName())(aComp);
 
 		if (registeredVariables.find(aComp) == registeredVariables.end()) return;
 		VariableList& list = registeredVariables.at(aComp);

@@ -105,6 +105,12 @@ namespace Eclipse
 
 	void AudioManager::PlayAudio(FMOD::Sound* aSound, FMOD::Channel** aChannel)
 	{
+        if (*aChannel)
+        {
+            (*aChannel)->stop();
+            *aChannel = nullptr;
+        }
+
 		mySystem->playSound(aSound, nullptr, false, aChannel);
 	}
 
