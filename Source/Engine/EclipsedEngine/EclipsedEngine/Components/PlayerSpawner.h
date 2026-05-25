@@ -9,28 +9,28 @@
 
 namespace Eclipse
 {
-    class PlayerSpawner : public Component
-    {
-    public:
-        BASE_SELECTION(PlayerSpawner, 10)
+	class PlayerSpawner : public Component
+	{
+		BASE_SELECTION(PlayerSpawner, 10);
 
-        void Start() override
-        {
-            if (Replication::ReplicationManager::ClickedHostButton)
-            {
-                Replication::ReplicationManager::Start(false);
-            }
-            else
-            {
-                Replication::ReplicationManager::Start(true);
-            }
+	public:
+		void StartGame()
+		{
+			if (Replication::ReplicationManager::ClickedHostButton)
+			{
+				Instantiate(soulForgePrefab, gameObject, true);
+			}
+			else
+			{
 
-            Instantiate(soulSuckerPrefab, gameObject, true);
-            Instantiate(soulForgePrefab, gameObject, true);
-        }
-        
-        SERIALIZED_FIELD(Assets::Prefab, soulForgePrefab);
-        SERIALIZED_FIELD(Assets::Prefab, soulSuckerPrefab);
+				Instantiate(soulSuckerPrefab, gameObject, true);
+			}
+		}
 
-    };
+	public:
+
+		SERIALIZED_FIELD(Assets::Prefab, soulForgePrefab);
+		SERIALIZED_FIELD(Assets::Prefab, soulSuckerPrefab);
+
+	};
 }

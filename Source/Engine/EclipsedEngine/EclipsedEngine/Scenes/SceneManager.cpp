@@ -44,6 +44,7 @@ namespace Eclipse
 			throw std::runtime_error("The scene is not valid.");
 
 		activeScene = scene;
+		SceneManager::SetActiveSceneType(SceneManager::Default);
 		SceneLoader::Load(scene);
 	}
 

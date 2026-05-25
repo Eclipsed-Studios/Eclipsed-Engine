@@ -73,6 +73,8 @@ namespace Eclipse
 	void AudioEmitter::SetVolume(float aVolume)
 	{
 		AudioListener* listener = AudioListener::GetListener();
+		if (!listener)
+			return;
 
 		float audioAttenuation = 1.f;
 		if (EnableSpatial && listener != nullptr)
