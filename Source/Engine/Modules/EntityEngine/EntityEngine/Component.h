@@ -94,8 +94,9 @@ namespace Eclipse
 		virtual void Update() {}
 		virtual void LateUpdate() {}
 
-		// If defined then the default inspector will be overwritten.
-		virtual void OnDrawInspector() {}
+#ifdef ECLIPSED_EDITOR
+		virtual bool OnDrawInspector() { return false; }
+#endif
 
 		virtual void Render() {}
 

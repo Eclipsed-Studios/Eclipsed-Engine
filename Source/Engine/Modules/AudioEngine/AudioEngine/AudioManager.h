@@ -9,6 +9,16 @@
 
 namespace Eclipse
 {
+	enum class AudioBus
+	{
+		Master,
+		Music,
+		SFX,
+		UI,
+		Ambient,
+		Voice
+	};
+
 	class AudioManager
 	{
 	public:
@@ -17,7 +27,16 @@ namespace Eclipse
 
 		static void PlayAudio(FMOD::Sound* aSound, FMOD::Channel** aChannel);
 
+		static FMOD::ChannelGroup* GetBus(AudioBus bus);
+
 	private:
+		static FMOD::ChannelGroup* masterGroup;
+		static FMOD::ChannelGroup* musicGroup;
+		static FMOD::ChannelGroup* sfxGroup;
+		static FMOD::ChannelGroup* uiGroup;
+		static FMOD::ChannelGroup* ambientGroup;
+		static FMOD::ChannelGroup* voiceGroup;
+
 		static FMOD::System* mySystem;
 		static FMOD::Studio::System* myStudioSystem;
 	};

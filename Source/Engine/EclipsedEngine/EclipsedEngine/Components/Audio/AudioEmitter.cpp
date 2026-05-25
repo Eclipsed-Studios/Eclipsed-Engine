@@ -5,13 +5,47 @@
 #include "EclipsedEngine/Components/Audio/AudioListener.h"
 
 
+
+#include "EclipsedEngine/Editor/ComponentInspectorDrawer.h"
+
+
+
+
+
+
+
+
+
+
 namespace Eclipse
 {
+
+
+
+
+
+
+
+
+
+
+
 	void AudioEmitter::Awake()
 	{
 		if (playOnAwake) {
 			Play();
 		}
+
+		AudioManager::PlayAudio(audioClip->dataPtr->sound, &channel);
+
+		channel->setChannelGroup(AudioManager::GetBus(AudioBus::Master));
+
+		Transform2D* trans = gameObject->transform;
+		trans->AddFunctionToRunOnDirtyUpdate(this,
+			[this]() {
+				this->UpdateAudioPosition();
+			}
+		);
 	}
 
 	void AudioEmitter::OnDestroy() {
@@ -21,6 +55,7 @@ namespace Eclipse
 	void AudioEmitter::Update()
 	{
 		SetVolume(volume);
+		SetSpatialMode(EnableSpatial);
 	}
 
 	void AudioEmitter::SetSpatialMode(bool is3D)
@@ -31,16 +66,6 @@ namespace Eclipse
 	void AudioEmitter::Play() {
 		isPlaying = true;
 		channel->setPaused(isPlaying);
-		AudioManager::PlayAudio(audioClip->dataPtr->sound, &channel);
-
-		SetSpatialMode(EnableSpatial);
-
-		Transform2D* trans = gameObject->transform;
-		trans->AddFunctionToRunOnDirtyUpdate(this,
-			[this]() {
-				this->UpdateAudioPosition();
-			}
-		);
 
 		UpdateAudioPosition();
 	}
@@ -79,24 +104,24 @@ namespace Eclipse
 		float audioAttenuation = 1.f;
 		if (EnableSpatial && listener != nullptr)
 		{
-				channel->setMode(
-					FMOD_3D |
-					FMOD_3D_WORLDRELATIVE |
-					FMOD_3D_INVERSEROLLOFF
-				);
+			channel->setMode(
+				FMOD_3D |
+				FMOD_3D_WORLDRELATIVE |
+				FMOD_3D_INVERSEROLLOFF
+			);
 
-				Math::Vector2f p = gameObject->transform->GetPosition();
-				Math::Vector2f l = listener->gameObject->transform->GetPosition();
+			Math::Vector2f p = gameObject->transform->GetPosition();
+			Math::Vector2f l = listener->gameObject->transform->GetPosition();
 
-				float dx = p.x - l.x;
-				float dy = p.y - l.y;
+			float dx = p.x - l.x;
+			float dy = p.y - l.y;
 
-				float dist = sqrt(dx * dx + dy * dy);
+			float dist = sqrt(dx * dx + dy * dy);
 
-				float t = dist / 20.f;
-				t = std::clamp(t, 0.0f, 1.0f);
+			float t = dist / 20.f;
+			t = std::clamp(t, 0.0f, 1.0f);
 
-				audioAttenuation = 1.0f - (t * t * (3.0f - 2.0f * t));
+			audioAttenuation = 1.0f - (t * t * (3.0f - 2.0f * t));
 		}
 		else
 		{
@@ -122,5 +147,15 @@ namespace Eclipse
 		FMOD_VECTOR vel = { 0.f, 0.f, 0.f };
 
 		channel->set3DAttributes(&pos, &vel);
+	}
+
+	namespace Editor
+	{
+			 void DrawInspector(AudioEmitter* comp)
+			{
+				ImGui::Text("This is just for showing a dick.");
+			}
+
+		REGISTER_INSPECTOR(AudioEmitter);
 	}
 }
