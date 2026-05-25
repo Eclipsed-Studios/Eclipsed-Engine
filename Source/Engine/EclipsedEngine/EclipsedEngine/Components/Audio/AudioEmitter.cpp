@@ -9,36 +9,15 @@
 #include "EclipsedEngine/Editor/ComponentInspectorDrawer.h"
 
 
-
-
-
-
-
-
-
-
 namespace Eclipse
 {
-
-
-
-
-
-
-
-
-
-
-
 	void AudioEmitter::Awake()
 	{
 		if (playOnAwake) {
 			Play();
 		}
 
-		AudioManager::PlayAudio(audioClip->dataPtr->sound, &channel);
-
-		channel->setChannelGroup(AudioManager::GetBus(AudioBus::Master));
+		InitAudio();
 
 		Transform2D* trans = gameObject->transform;
 		trans->AddFunctionToRunOnDirtyUpdate(this,
@@ -84,13 +63,7 @@ namespace Eclipse
 	{
 		audioClip = clip;
 
-		channel->setMode(
-			FMOD_3D |
-			FMOD_3D_WORLDRELATIVE |
-			FMOD_3D_INVERSEROLLOFF
-		);
-
-		channel->set3DMinMaxDistance(2.0f, 5.f);
+		InitAudio();
 	}
 
 	void AudioEmitter::Stop() {
@@ -138,6 +111,21 @@ namespace Eclipse
 		return volume;
 	}
 
+	void AudioEmitter::InitAudio()
+	{
+		AudioManager::PlayAudio(audioClip->dataPtr->sound, &channel);
+
+		channel->setChannelGroup(AudioManager::GetBus(AudioBus::Master));
+
+		channel->setMode(
+			FMOD_3D |
+			FMOD_3D_WORLDRELATIVE |
+			FMOD_3D_INVERSEROLLOFF
+		);
+
+		channel->set3DMinMaxDistance(2.0f, 5.f);
+	}
+
 	void AudioEmitter::UpdateAudioPosition()
 	{
 		Transform2D* trans = gameObject->transform;
@@ -148,14 +136,54 @@ namespace Eclipse
 
 		channel->set3DAttributes(&pos, &vel);
 	}
-
-	namespace Editor
-	{
-			 void DrawInspector(AudioEmitter* comp)
-			{
-				ImGui::Text("This is just for showing a dick.");
-			}
-
-		REGISTER_INSPECTOR(AudioEmitter);
-	}
 }
+
+
+#ifdef ECLIPSED_EDITOR
+
+#include "CoreEngine/Files/FileInfo.h"
+#include "EclipsedEngine/Editor/Common/DragAndDrop.h"
+
+namespace Eclipse::Editor
+{
+	void DrawInspector(AudioEmitter* comp)
+	{
+		ImGui::Text("Volume");
+		ImGui::SameLine();
+		float volume = comp->GetVolume() * 100.f;
+		if (ImGui::SliderFloat(("##audio_volume" + std::to_string(comp->myInstanceComponentID)).c_str(), &volume, 0.f, 100.f))
+		{
+			volume /= 100.f;
+			comp->SetVolume(volume);
+		}
+
+		ImGui::Text("Clip");
+		ImGui::SameLine();
+
+		std::string name = "No material.";
+
+		Assets::AudioClip& audio = comp->audioClip.Get();
+		if (audio.IsValid())
+		{
+			name = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(audio.GetAssetID()).fileName;
+		}
+
+		if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Audio))
+		{
+			comp->SetAudioClip(Assets::AssetManager::Load<Assets::AudioClip>(
+				MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid)
+			);
+		}
+
+
+
+
+
+
+
+		ImGui::Text("Look here this is the way.");
+	}
+
+	REGISTER_INSPECTOR(AudioEmitter);
+}
+#endif

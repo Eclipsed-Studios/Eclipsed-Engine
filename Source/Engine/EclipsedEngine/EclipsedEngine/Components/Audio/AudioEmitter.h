@@ -46,6 +46,7 @@ namespace Eclipse
 		float GetVolume() const;
 
 	private:
+		void InitAudio();
 		void UpdateAudioPosition();
 
 	public:

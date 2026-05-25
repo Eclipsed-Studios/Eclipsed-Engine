@@ -13,7 +13,7 @@
 		{																											\
 			cls##_inspector_registrar() 																			\
 			{																										\
-				Eclipse::Editor::ComponentInspectorRegistry::Register(												\
+				Eclipse::Editor::ComponentInspectorRegistry::RegisterInspector(										\
 					#cls,																							\
 					[](void* ptr)																					\
 					{																								\
@@ -34,8 +34,9 @@ namespace Eclipse::Editor
 	public:
 		static std::unordered_map<std::string, InspectorDrawFn>& Registry();
 
-		static void Register(std::string name, InspectorDrawFn fn);
-		static InspectorDrawFn GetDrawFunction(std::string name);
+		static bool InspectorExists(const std::string& name);
+		static void RegisterInspector(const std::string& name, InspectorDrawFn fn);
+		static InspectorDrawFn GetDrawFunction(const std::string& name);
 	};
 
 	 
