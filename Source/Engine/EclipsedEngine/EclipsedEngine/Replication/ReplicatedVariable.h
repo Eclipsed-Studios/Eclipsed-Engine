@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 namespace Eclipse
 {
     namespace Reflection
@@ -15,22 +13,26 @@ namespace Eclipse
         class BaseReplicatedVariable
         {
         public:
-            bool IsAsset;
-            Reflection::AbstractSerializedVariable* myReflectVariable;
+            void* Data;
+            int DataCount;
             bool ManualVariableSending;
-            int dataAmount;
+            unsigned IterationID;
+
+            Component* OnComponent;
+
+            BaseReplicatedVariable(void* aData, int aDataCount, Component* aComponent, bool anAutomatic) : Data(aData), DataCount(aDataCount), OnComponent(aComponent), ManualVariableSending(!anAutomatic)
+            {
+
+            }
 
             void ReplicateThis(unsigned aID, bool aIsGarantied = false, bool aAlwaysSend = false);
-
-            Component* ConnectedComponent;
         };
 
         template<typename T>
         class ReplicatedVariable : public BaseReplicatedVariable
         {
         public:
-            inline ReplicatedVariable(std::string aName, Component* aComponent, bool anAutomatic, 
-                unsigned ID, int aReplicationIndex, void(T::* OnRepFunctionPtr)(), bool aIsAsset);
+            inline ReplicatedVariable(void* aData, int aDataCount, Component* aComponent, bool anAutomatic, void(T::* aOnRepFunction)());
 
         public:
             void(T::* OnRepFunction)();

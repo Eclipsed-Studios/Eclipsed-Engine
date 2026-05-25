@@ -12,7 +12,6 @@ namespace Eclipse
 	{
 		EventSystem::Trigger("Engine-Load");
 		Time::Init();
-
 	}
 
 	void Engine::Update()

@@ -20,7 +20,10 @@ namespace Eclipse::Assets
         TEXTURE_DEFAULT,
         TEXTURE_ERROR,
 
-        MATERIAL_2D_SPRITE
+        MATERIAL_2D_SPRITE,
+        MATERIAL_UI,
+
+        TEXT_FONT
     };
 
     class BinaryReader;
