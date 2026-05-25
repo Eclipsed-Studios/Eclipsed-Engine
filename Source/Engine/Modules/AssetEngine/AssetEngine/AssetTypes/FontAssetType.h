@@ -7,6 +7,8 @@ namespace Eclipse::Assets
     class FontAssetType : public IAssetType
     {
     public:
+        FontAssetType();
+
         ImportedData Import(const AssetMeta& file) override;
         ProcessedData Process(const ImportedData& file) override;
         void Serialize(BinaryWriter& writer, const ProcessedData& data) override;

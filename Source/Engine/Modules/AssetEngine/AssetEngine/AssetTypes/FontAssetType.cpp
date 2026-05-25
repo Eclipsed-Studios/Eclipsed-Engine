@@ -7,7 +7,12 @@
 
 namespace Eclipse::Assets
 {
-    ImportedData FontAssetType::Import(const AssetMeta& file)
+	FontAssetType::FontAssetType()
+	{
+		defaultAssetsGuids[DefaultAssetType::TEXT_FONT].FromString("9261db8212af380f50e58543eb7d2ffe");
+	}
+
+	ImportedData FontAssetType::Import(const AssetMeta& file)
     {
         ImportedFont font;
 
@@ -51,7 +56,7 @@ namespace Eclipse::Assets
 		FT_Library freetype = MainSingleton::GetInstance<TextManager>().freeType;
 
 		FT_Face face;
-		if (FT_New_Memory_Face(freetype, reinterpret_cast<const FT_Byte*>(data), size, 0, &face))
+		if (FT_New_Memory_Face(freetype, reinterpret_cast<const FT_Byte*>(storedData.data()), size, 0, &face))
 		{
 	/*		LOG_ERROR("Failed to load font correctly");
 			return nullptr;*/

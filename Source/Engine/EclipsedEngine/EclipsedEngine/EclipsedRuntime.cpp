@@ -34,7 +34,11 @@
 #include "NetworkEngine/Server/SteamP2PNetworkingServer.h"
 
 #include "CoreEngine/Profiling/PerformanceProfilerManager.h"
-#include "AssetEngine/AssetManager.h"
+
+#ifdef ECLIPSED_EDITOR
+	#include "ECS/ObjectManager.h"
+	#include "Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
+#endif
 
 namespace Eclipse
 {
@@ -80,6 +84,9 @@ namespace Eclipse
 			std::string engineRoot = PathManager::GetEngineRoot().generic_string();
 			out.write(engineRoot.c_str(), engineRoot.size());
 			out.close();
+
+			Editor::AssetWindow::CreateGameobjectFunc = [](char* data) { return InternalSpawnObjectClass::CreateObjectFromJsonString(data)->GetID(); };
+			Editor::AssetWindow::InitNewPhysicsScene = []() { PhysicsEngine::InitWorld(); };
 		}
 
 #endif

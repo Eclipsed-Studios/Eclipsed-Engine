@@ -460,7 +460,7 @@ namespace Eclipse::Editor
 				return;
 
 			SceneManager::UnloadScene();
-			//PhysicsEngine::InitWorld();
+			InitNewPhysicsScene();
 
 			SceneManager::SetActiveSceneType(SceneManager::Prefab);
 			SceneManager::SetActiveScene(fifo.filePath.generic_string().c_str());
@@ -472,8 +472,7 @@ namespace Eclipse::Editor
 			memset(data + prefSize, '\0', 1);
 			stream.close();
 
-			//GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(data);
-			//SceneManager::ActivePrefabEditSceneID = gameobject->GetID();
+			SceneManager::ActivePrefabEditSceneID = CreateGameobjectFunc(data);
 
 			SceneWindow::ResetCamera();
 

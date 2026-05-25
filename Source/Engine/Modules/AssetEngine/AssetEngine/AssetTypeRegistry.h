@@ -33,7 +33,7 @@ namespace Eclipse::Assets
 	inline IAssetType* AssetTypeRegistry::GetType()
 	{
 		if constexpr (std::is_same<T, AudioClip>::value)return types[AssetType::AudioClip];
-		else if constexpr (std::is_same<T, Font>::value)return types[AssetType::Texture];
+		else if constexpr (std::is_same<T, Font>::value)return types[AssetType::Font];
 		else if constexpr (std::is_same<T, Material>::value)return types[AssetType::Material];
 		else if constexpr (std::is_same<T, Prefab>::value)return types[AssetType::Prefab];
 		else if constexpr (std::is_same<T, VertexShader>::value)return types[AssetType::VertexShader];

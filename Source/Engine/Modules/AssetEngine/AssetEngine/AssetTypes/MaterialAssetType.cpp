@@ -11,6 +11,7 @@ namespace Eclipse::Assets
     MaterialAssetType::MaterialAssetType()
     {
         defaultAssetsGuids[DefaultAssetType::MATERIAL_2D_SPRITE].FromString("304024b18cd756152dee092f1a43738d");
+        defaultAssetsGuids[DefaultAssetType::MATERIAL_UI].FromString("a4b24408a489129276bd23242d2946a8");
     }
 
     ImportedData MaterialAssetType::Import(const AssetMeta& file)
