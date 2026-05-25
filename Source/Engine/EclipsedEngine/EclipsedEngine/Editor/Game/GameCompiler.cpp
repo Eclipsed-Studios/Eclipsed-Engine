@@ -29,7 +29,7 @@ namespace Eclipse
 			"build-game-dll.bat"
 		);
 
-		script.Run(true);
+		script.Run();
 	}
 
 	void GameModuleManager::CompileAndLoad()
