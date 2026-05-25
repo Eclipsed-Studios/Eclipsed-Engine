@@ -5,6 +5,7 @@
 
 #include "AssetEngine/Assets/MaterialAsset.h"
 #include "AssetEngine/Assets/TextureAsset.h"
+#include <CoreEngine/GraphicsBuffers/TransformBuffer.h>
 
 namespace Eclipse
 {
@@ -13,7 +14,9 @@ namespace Eclipse
         COMPONENT_BASE_2(UIImage, 0)
 
     public:
+#ifdef ECLIPSED_EDITOR
         void EditorUpdate() override;
+#endif // ECLIPSED_EDITOR
         void OnComponentAdded() override;
         void TransformUpdate();
         

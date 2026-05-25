@@ -31,13 +31,13 @@ namespace Eclipse::Replication
 
         //if (IsAsset)
         //{
-        //    Assets::AssetData** handle = reinterpret_cast<Assets::AssetData**>(data);
+        //    Assets::AssetData** handle = reinterpret_cast<Assets::AssetData**>(Data);
         //    memcpy(data + offset, *handle, DataCount);
         //    offset += DataCount;
         //}
         //else
         //{
-            memcpy(data + offset, data, DataCount);
+            memcpy(data + offset, Data, DataCount);
             offset += DataCount;
         //}
 
