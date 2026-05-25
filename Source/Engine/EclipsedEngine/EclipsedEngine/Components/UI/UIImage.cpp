@@ -12,12 +12,17 @@
 
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
+#ifdef ECLIPSED_EDITOR
+    #include "../../../../Modules/GraphicsEngine/GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
+#endif // ECLIPSED_EDITOR
+
+
 namespace Eclipse
 {
     void UIImage::sprite_OnRep()
     {
     }
-
+#ifdef ECLIPSED_EDITOR
     void UIImage::EditorUpdate()
     {
         auto transform = gameObject->GetComponent<RectTransform>();
@@ -33,10 +38,10 @@ namespace Eclipse
             Math::Vector2f sqrPos = {posX, posY};
             Math::Vector2f sqrSize = {sizeX, sizeY};
 
-            DebugDrawer::DrawSquare(sqrPos, 0, sqrSize, Math::Color(0x90D5FF));
+            DebugDrawer::DrawSquare(sqrPos + transform->myCanvas->canvasCameraTransform.PositionOffset, 0, sqrSize, Math::Color(0x90D5FF));
         }
     }
-
+#endif // ECLIPSED_EDITOR
     void UIImage::OnComponentAdded()
     {
         if (material->IsValid()) hasMaterial = true;
@@ -44,9 +49,7 @@ namespace Eclipse
 
         if (!hasMaterial)
         {
-            //material = Assets::AssetManager::GetDefaultUIMaterial();
-            //material->Create();
-
+            material = Assets::AssetManager::LoadDefault<Assets::Material>(Assets::DefaultAssetType::MATERIAL_UI);
             hasMaterial = true;
         }
     }

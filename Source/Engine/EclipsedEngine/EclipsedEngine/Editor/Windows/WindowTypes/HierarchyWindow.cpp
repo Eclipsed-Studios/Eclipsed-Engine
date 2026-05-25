@@ -7,6 +7,7 @@
 #include "EntityEngine/ComponentManager.h"
 #include "EntityEngine/GameObject.h"
 
+#include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 #include "EclipsedEngine/Components/UI/RectTransform.h"
 #include "EclipsedEngine/Components/UI/TextRenderer.h"
 #include "EclipsedEngine/Components/Transform2D.h"
@@ -326,7 +327,7 @@ namespace Eclipse::Editor
                     Transform2D* transform = obj->AddComponent<Transform2D>();
                     transform->SetScale(Math::Vector2f(20, 20));
 
-                    //obj->AddComponent<SpriteRenderer2D>();
+                    obj->AddComponent<SpriteRenderer2D>();
 
                     obj->SetName("New Sprite");
                 }

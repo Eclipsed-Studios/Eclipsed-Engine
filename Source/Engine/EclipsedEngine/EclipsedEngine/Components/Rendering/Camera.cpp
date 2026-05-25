@@ -20,6 +20,8 @@ namespace Eclipse
 
     void Camera::OnComponentAdded()
     {
+        main = this;
+
         OnSceneLoaded();
     }
 
@@ -46,8 +48,6 @@ namespace Eclipse
         
         if (!created)
         {
-            main = this;
-
             gameObject->transform->AddFunctionToRunOnDirtyUpdate(this, [&]() { UpdateCameraTransform(); });
 
             created = true;

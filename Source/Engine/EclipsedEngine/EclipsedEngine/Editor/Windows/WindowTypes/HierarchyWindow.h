@@ -4,16 +4,17 @@
 #include "EclipsedEngine/Editor/Windows/WindowBase.h"
 
 #include <vector>
+#include <set>
 #include <filesystem>
 
 #include <rapidjson/document.h>
 
-#include <set>
 
 namespace Eclipse
 {
-	class GameObject;
 	class Canvas;
+	class GameObject;
+
 	namespace Editor
 	{
 		class HierarchyWindow final : public AbstractWindow

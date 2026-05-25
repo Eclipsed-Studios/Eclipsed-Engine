@@ -23,8 +23,8 @@ namespace Eclipse
 	TextMaterial::TextMaterial()
 	{
 		
-		const Assets::AssetMeta& VtxShaderGUID = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile("Engine/Assets/Default/Shaders/Text.vglsl");
-		const Assets::AssetMeta& PxShaderGUID = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile("Engine/Assets/Default/Shaders/Text.pglsl");
+		const Assets::AssetMeta& VtxShaderGUID = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile("Default/Shaders/Text.vglsl");
+		const Assets::AssetMeta& PxShaderGUID = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile("Default/Shaders/Text.pglsl");
 
 		pixelShader = Assets::AssetManager::Load<Assets::PixelShader>(PxShaderGUID.guid);
 		vertexShader = Assets::AssetManager::Load<Assets::VertexShader>(VtxShaderGUID.guid);
@@ -44,7 +44,7 @@ namespace Eclipse
 
 
 
-
+#ifdef ECLIPSED_EDITOR
 	void TextRenderer::EditorUpdate()
 	{
 		// TODO: should be called form Comp manager
@@ -56,6 +56,7 @@ namespace Eclipse
 		}
 
 	}
+#endif
 
 	void TextRenderer::TransformUpdate()
 	{
@@ -114,7 +115,7 @@ namespace Eclipse
 			TransformUpdate();
 		});
 
-		//font = Assets::AssetManager::GetDefaultFont();
+		font = Assets::AssetManager::LoadDefault<Assets::Font>(Assets::DefaultAssetType::TEXT_FONT);
 	}
 
 	//void TextRenderer::DrawInspector()

@@ -38,7 +38,7 @@ namespace Eclipse
 		//sprite = Resources::Get<Eclipse::Texture>(aGuid);
 		hasSprite = true;
 
-		REPLICATEGARANTIED(sprite);
+		//REPLICATEGARANTIED(sprite);
 	}
 
 	void SpriteRenderer2D::SetSprite(const Assets::Texture& aSprite)
@@ -46,7 +46,7 @@ namespace Eclipse
 		sprite = aSprite;
 		hasSprite = true;
 
-		REPLICATEGARANTIED(sprite);
+		//REPLICATEGARANTIED(sprite);
 	}
 #pragma endregion
 	void SpriteRenderer2D::SetMaterial(const Assets::GUID& aGuid)
