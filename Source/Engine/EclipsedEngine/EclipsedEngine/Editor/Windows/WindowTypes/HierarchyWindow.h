@@ -5,11 +5,9 @@
 
 #include <vector>
 #include <set>
+#include <filesystem>
 
 #include <rapidjson/document.h>
-
-
-#include <filesystem>
 
 
 namespace Eclipse
