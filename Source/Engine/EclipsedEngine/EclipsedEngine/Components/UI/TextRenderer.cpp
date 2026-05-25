@@ -44,7 +44,7 @@ namespace Eclipse
 
 
 
-
+#ifdef ECLIPSED_EDITOR
 	void TextRenderer::EditorUpdate()
 	{
 		// TODO: should be called form Comp manager
@@ -56,6 +56,7 @@ namespace Eclipse
 		}
 
 	}
+#endif
 
 	void TextRenderer::TransformUpdate()
 	{
@@ -114,7 +115,7 @@ namespace Eclipse
 			TransformUpdate();
 		});
 
-		//font = Assets::AssetManager::GetDefaultFont();
+		font = Assets::AssetManager::LoadDefault<Assets::Font>(Assets::DefaultAssetType::TEXT_FONT);
 	}
 
 	//void TextRenderer::DrawInspector()

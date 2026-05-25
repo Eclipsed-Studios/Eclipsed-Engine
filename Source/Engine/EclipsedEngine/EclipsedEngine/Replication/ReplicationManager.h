@@ -54,7 +54,7 @@ namespace Eclipse::Replication
 
         static void CloseConnection(const char* aReason);
 
-        static void ClearList() { AllReplicatedVariables.clear(); OnPlayReplicatedVariables.clear(); };
+        static void ClearList() { BeforePlayReplicatedVariables.clear(); OnPlayReplicatedVariables.clear(); };
 
         static void EmplaceReplicatedVariable(unsigned aComponentID, unsigned& iterationID, BaseReplicatedVariable* Variable)
         {
@@ -62,7 +62,7 @@ namespace Eclipse::Replication
 
             replicationVariableMap.emplace_back(Variable);
 
-            iterationID = replicationVariableMap.size();
+            iterationID = replicationVariableMap.size() - 1;
         }
 
         static void DeleteReplicatedComponent(unsigned aComponentID)
@@ -98,10 +98,10 @@ namespace Eclipse::Replication
     public:
         static inline ReplicationVariableMap TemporaryReplicatedVariableList;
 
-        static inline ReplicationVariableMap AllReplicatedVariables;
+        static inline ReplicationVariableMap BeforePlayReplicatedVariables;
         static inline ReplicationVariableMap OnPlayReplicatedVariables;
 
-        static inline ReplicationVariableMap* CurrentReplicatedVariabpePtr = &AllReplicatedVariables;
+        static inline ReplicationVariableMap* CurrentReplicatedVariabpePtr = &BeforePlayReplicatedVariables;
 
         static inline SteamP2PNetworkingClient* client = nullptr;
         static inline SteamP2PNetworkingServer* server = nullptr;

@@ -36,9 +36,9 @@ namespace Eclipse
         COMPONENT_BASE_2(TextRenderer, 0)
 
     public:
-        
+#ifdef ECLIPSED_EDITOR
         void EditorUpdate() override;
-
+#endif
         void OnComponentAdded() override;
         void TransformUpdate();
 

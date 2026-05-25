@@ -18,11 +18,13 @@
 
 #include "Steam/SteamGeneral.h"
 
+#include "../Components/PlayerSpawner.h"
+
 namespace Eclipse::Replication
 {
     void ReplicationManager::ReplicatedOnPlay()
     {
-        for (auto& ReplicatedVariableLists : AllReplicatedVariables)
+        for (auto& ReplicatedVariableLists : BeforePlayReplicatedVariables)
         {
              if (!ReplicatedVariableLists.second[0]->OnComponent->IsReplicated)
                  continue;
@@ -122,6 +124,8 @@ namespace Eclipse::Replication
             CreateClient();
 
         ReplicatedOnPlay();
+
+        ComponentManager::FindObjectByName("Spawner")->GetComponent<Eclipse::PlayerSpawner>()->StartGame();
 
         startedGame = true;
     }

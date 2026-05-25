@@ -14,6 +14,8 @@ namespace Eclipse
     {
         OthersteamID = aCallback->m_steamIDFriend;
 
+        Replication::ReplicationManager::Start(true);
+
         //SceneManager::LoadScene(1);
     }
 

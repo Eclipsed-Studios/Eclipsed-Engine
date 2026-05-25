@@ -15,6 +15,8 @@
 
 #include "AssetEngine/AssetManager.h"
 
+#include "AssetEngine/Assets/PrefabAsset.h"
+
 namespace Eclipse::Replication
 {
 	void ReplicationHelper::ClientHelp::RecieveAddComponentMessage(const NetMessage& message)
@@ -105,7 +107,7 @@ namespace Eclipse::Replication
 
 	void ReplicationHelper::ClientHelp::RecieveRequestVariablesMessage(const NetMessage& message)
 	{
-		const auto& variableManager = Replication::ReplicationManager::OnPlayReplicatedVariables;
+		const auto& variableManager = *Replication::ReplicationManager::CurrentReplicatedVariabpePtr;
 		for (auto& Component : variableManager)
 		{
 			for (int i = 0; i < Component.second.size(); i++)
@@ -136,8 +138,8 @@ namespace Eclipse::Replication
 		memcpy(&dataAmount, message.data + offset, sizeof(dataAmount));
 		offset += sizeof(dataAmount);
 
-		auto variableIt = Replication::ReplicationManager::AllReplicatedVariables.find(componentID);
-		if (variableIt == Replication::ReplicationManager::AllReplicatedVariables.end())
+		auto variableIt = Replication::ReplicationManager::CurrentReplicatedVariabpePtr->find(componentID);
+		if (variableIt == Replication::ReplicationManager::CurrentReplicatedVariabpePtr->end())
 			return;
 
 		auto Variable = reinterpret_cast<Replication::ReplicatedVariable<Component>*>(variableIt->second[iterationID]);
@@ -177,22 +179,25 @@ namespace Eclipse::Replication
 
 		CommandListManager::GetHappenAtBeginCommandList().Enqueue([message]()
 			{
-				//char* prefabID = (char*)malloc(32);
-				//memcpy(prefabID, message.data, 32);
-				//memset(prefabID + 32, 0, 1);
-				//int offset = 32;
+				char* prefabID = (char*)malloc(32);
+				memcpy(prefabID, message.data, 32);
+				memset(prefabID + 32, 0, 1);
+				int offset = 32;
 
-				//unsigned componentCount;
-				//memcpy(&componentCount, message.data + offset, sizeof(unsigned));
-				//offset += sizeof(unsigned);
+				unsigned componentCount;
+				memcpy(&componentCount, message.data + offset, sizeof(unsigned));
+				offset += sizeof(unsigned);
 
-				//std::vector<unsigned> componentsIDs;
-				//componentsIDs.resize(componentCount);
-				//memcpy(componentsIDs.data(), message.data + offset, sizeof(unsigned) * componentCount);
+				std::vector<unsigned> componentsIDs;
+				componentsIDs.resize(componentCount);
+				memcpy(componentsIDs.data(), message.data + offset, sizeof(unsigned) * componentCount);
 
-				//Eclipse::Prefab prefab = Eclipse::Resources::Get<Eclipse::Prefab>(prefabID);
+				Eclipse::Assets::GUID guid;
+				guid.FromString(prefabID);
 
-				//InstatiateNetworkSentPrefab(prefab, message.MetaData.GameObjectID, componentsIDs);
+				Eclipse::Assets::Prefab prefab = Assets::AssetManager::Load<Eclipse::Assets::Prefab>(guid);
+
+				InstatiateNetworkSentPrefab(prefab, message.MetaData.GameObjectID, componentsIDs);
 			});
 	}
 
@@ -289,13 +294,14 @@ namespace Eclipse::Replication
 	{
 		std::unordered_set<unsigned> ReplicatedGameObjects;
 
-		const auto& variableManager = Replication::ReplicationManager::AllReplicatedVariables;
+		const auto& variableManager = *Replication::ReplicationManager::CurrentReplicatedVariabpePtr;
 		for (auto& Variable : variableManager)
 		{
-			if (!Variable.second[0]->OnComponent->IsReplicated)
+			Component*& currentComponent = Variable.second[0]->OnComponent;
+			if (!currentComponent->IsReplicated)
 				continue;
 
-			unsigned gameobjectID = Variable.second[0]->OnComponent->gameObject->GetID();
+			unsigned gameobjectID = currentComponent->gameObject->GetID();
 			ReplicatedGameObjects.emplace(gameobjectID);
 		}
 

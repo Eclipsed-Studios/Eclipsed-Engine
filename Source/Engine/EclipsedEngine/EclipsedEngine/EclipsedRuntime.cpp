@@ -187,11 +187,6 @@ namespace Eclipse
 		engine.Update();
 		Input::Update();
 
-		if (Input::GetKeyDown(Keycode::U))
-		{
-			Replication::ReplicationManager::ClickedHostButton = true;
-		}
-
 
 #ifndef ECLIPSED_EDITOR
 		Math::Vector2f mousePos = Input::GetMousePos();

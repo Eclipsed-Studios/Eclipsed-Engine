@@ -64,6 +64,8 @@ namespace Eclipse
 		//SceneManager::LoadScene(1);
 		Replication::ReplicationManager::ClickedHostButton = true;
 
+		Replication::ReplicationManager::Start(false);
+
 		SteamGeneral::SetRichPresence("connect", "1");
 	}
 }
