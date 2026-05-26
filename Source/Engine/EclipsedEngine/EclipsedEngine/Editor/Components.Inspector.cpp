@@ -10,22 +10,22 @@
 
 namespace Eclipse::Editor
 {
-	class Simon;
-	void DrawInspector(Simon* comp)
-	{
-		ImGui::Text("This is the way.");
-	}
+	//class Simon;
+	//void DrawInspector(Simon* comp)
+	//{
+	//	ImGui::Text("This is the way.");
+	//}
 
-	REGISTER_INSPECTOR(Simon);
+	//REGISTER_INSPECTOR(Simon);
 
 
-	class Player;
-	void DrawInspector(Player* comp)
-	{
-		ImGui::Text("This is the other way.");
-	}
+	//class Player;
+	//void DrawInspector(Player* comp)
+	//{
+	//	ImGui::Text("This is the other way.");
+	//}
 
-	REGISTER_INSPECTOR(Player);
+	//REGISTER_INSPECTOR(Player);
 }
 
 #endif
