@@ -6,6 +6,7 @@
 #include "AssetEngine/Assets/Shader/VertexShaderAsset.h"
 #include "AssetEngine/Assets/Shader/PixelShaderAsset.h"
 #include "AssetEngine/Assets/FontAsset.h"
+#include "AssetEngine/Assets/MaterialAsset.h"
 
 #include "CoreEngine/PathManager.h"
 #include "CoreEngine/GraphicsBuffers/TextBuffer.h"
@@ -17,20 +18,6 @@
 
 namespace Eclipse
 {
-    class TextMaterial
-    {
-    public:
-        TextMaterial();
-        void Use(unsigned textureID);
-
-        Assets::VertexShader vertexShader;
-        Assets::PixelShader pixelShader;
-
-        unsigned programID = 0;
-
-        Math::Color color;
-    };
-
     class ECLIPSED_API TextRenderer : public BaseRenderComponent
     {
         COMPONENT_BASE_2(TextRenderer, 0)
@@ -76,7 +63,7 @@ namespace Eclipse
         static inline bool drawRectGizmos = false;
 
     private:
-        TextMaterial* myMaterial;
+        Assets::Material material;
 
         PRIVATE_SERIALIZED_FIELD_DEFAULT(int, myTextAlignment, 1);
         PRIVATE_SERIALIZED_FIELD_DEFAULT(int, myTextCentering, 1);
