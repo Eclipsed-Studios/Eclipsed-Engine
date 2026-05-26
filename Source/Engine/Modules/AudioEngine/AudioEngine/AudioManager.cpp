@@ -57,7 +57,6 @@ namespace Eclipse
             return;
         }
 
-
         result = mySystem->set3DSettings(1.0f, 2.0f, 0.5f);
         if (result != FMOD_OK) {
             return;

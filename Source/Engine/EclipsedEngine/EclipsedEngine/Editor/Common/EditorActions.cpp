@@ -275,7 +275,7 @@ namespace Eclipse::Editor
 	{
 		static BatchScript script(
 			PathManager::GetProjectRoot() / "Library/Engine-Build",
-			"Eclipsed-Game.sln"
+			"Eclipsed-Game.slnx"
 		);
 
 		script.Run(true);

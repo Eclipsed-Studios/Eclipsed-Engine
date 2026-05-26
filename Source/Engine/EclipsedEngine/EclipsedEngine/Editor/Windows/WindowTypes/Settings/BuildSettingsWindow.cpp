@@ -15,8 +15,17 @@ namespace Eclipse::Editor
 		ImGui::SameLine();
 		ImGui::Checkbox("##is_debug_build", &isDebugBuild);
 
+		ImGui::Spacing();
+
+		ImGui::Text("Enable Networking");
+		ImGui::SameLine();
+		ImGui::Checkbox("##has-networking-enabled-in-build", &enableNetworking);
+
+		ImGui::Separator();
+
 		if (ImGui::Button("Build"))
 			Build();
+
 	}
 
 	void BuildSettingsWindow::Build()
@@ -32,7 +41,8 @@ namespace Eclipse::Editor
 			{
 				"-DPROJECT_PATH=" + PathManager::GetProjectRoot().generic_string(),
 				"-DENGINE_PATH=" + PathManager::GetEngineRoot().parent_path().generic_string(),
-				"-DCONFIG=" + std::string(isDebugBuild ? "Debug" : "Release")
+				"-DCONFIG=" + std::string(isDebugBuild ? "Debug" : "Release"),
+				"-DENABLE_NETWORKING=" + std::string(isDebugBuild ? "Debug" : "Release")
 			}
 		);
 

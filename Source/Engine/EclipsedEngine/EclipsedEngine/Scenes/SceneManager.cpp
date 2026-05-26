@@ -150,9 +150,15 @@ namespace Eclipse
 
 	std::unordered_map<std::string, unsigned>& SceneManager::GetNameToIdx() { return myNameToIdx; }
 	std::vector<std::string>& SceneManager::GetScenePaths() { return myScenePaths; }
+
 	const char* SceneManager::GetActiveScene()
 	{
 		return myActiveScene.c_str();
+	}
+
+	const Assets::Scene& SceneManager::GetActiveSceneAsset()
+	{
+		return activeScene;
 	}
 
 	void SceneManager::SetActiveScene(const char* anActiveScene)
