@@ -18,6 +18,7 @@ namespace Eclipse::Editor
 
 	private:
 		static inline bool isDebugBuild = false;
+		static inline bool enableNetworking = false;
 	};
 }
 

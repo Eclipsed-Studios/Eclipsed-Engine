@@ -70,7 +70,7 @@ namespace Eclipse
 
 		if (wasChanged)
 		{
-			const char* activeScene = SceneManager::GetActiveScene();
+			const auto& activeScene = SceneManager::GetActiveSceneAsset();
 			SceneManager::UnloadScene();
 
 			GameLoader::UnloadGameDLL();
@@ -83,7 +83,7 @@ namespace Eclipse
 
 			GameLoader::LoadGameDLL();
 
-			//SceneManager::LoadScene(activeScene);
+			SceneManager::LoadScene(activeScene);
 		}
 		else
 		{

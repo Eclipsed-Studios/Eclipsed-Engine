@@ -163,6 +163,8 @@ namespace Eclipse::Assets
 			if (!std::filesystem::exists(e.path))
 				continue;
 
+			if (GetAssetTypeFromExtension(std::filesystem::path(e.path).extension().string()) == AssetType::Unknown) continue;;
+
 			switch ((Editor::EventType)e.action)
 			{
 			case Editor::EventType::Modified:

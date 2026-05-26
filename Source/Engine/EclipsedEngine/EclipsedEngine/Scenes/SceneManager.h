@@ -41,6 +41,7 @@ namespace Eclipse
 
 		static std::unordered_map<std::string, unsigned>& GetNameToIdx();
 		static std::vector<std::string>& GetScenePaths();
+		static const Assets::Scene& GetActiveSceneAsset();
 		static const char* GetActiveScene();
 
 		
