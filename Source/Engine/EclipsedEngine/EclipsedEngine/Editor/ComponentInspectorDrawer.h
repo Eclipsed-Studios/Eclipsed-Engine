@@ -6,6 +6,25 @@
 #include <unordered_map>
 #include <string>
 
+
+
+#define REGISTER_INSPECTOR(cls)																						\
+		struct cls##_inspector_registrar																			\
+		{																											\
+			cls##_inspector_registrar() 																			\
+			{																										\
+				Eclipse::Editor::ComponentInspectorRegistry::RegisterInspector(										\
+					#cls,																							\
+					[](void* ptr)																					\
+					{																								\
+						DrawInspector(reinterpret_cast<cls*>(ptr));					\
+					}																								\
+				);																									\
+			}																										\
+		};																											\
+		static cls##_inspector_registrar cls##_inspector_registrar_instance;
+
+
 namespace Eclipse::Editor
 {
 	using InspectorDrawFn = void(*)(void*);
@@ -13,20 +32,20 @@ namespace Eclipse::Editor
 	class ECLIPSED_API ComponentInspectorRegistry
 	{
 	public:
-		static void Register(std::string name, InspectorDrawFn fn);
-		static InspectorDrawFn GetDrawFunction(std::string name);
+		static std::unordered_map<std::string, InspectorDrawFn>& Registry();
 
-	private:
-		static std::unordered_map<std::string, InspectorDrawFn> registry;
+		static bool InspectorExists(const std::string& name);
+		static void RegisterInspector(const std::string& name, InspectorDrawFn fn);
+		static InspectorDrawFn GetDrawFunction(const std::string& name);
 	};
 
-
-	template<typename T>
-	class ECLIPSED_API ComponentInspectorDrawer
-	{
-	public:
-		static void DrawInspector(T* comp);
-	};
+	 
+	//template<typename T>
+	//class ECLIPSED_API ComponentInspectorDrawer
+	//{
+	//public:
+	//	static void DrawInspector(T* comp);
+	//};
 }
 
 #endif

@@ -75,11 +75,11 @@ namespace Eclipse::Editor
 			if (!comp->myInspectorWasDrawn) continue;
 
 
+			ImGui::Indent(20.f);
 			ImGui::Text("Is Replicated");
 			ImGui::SameLine();
-			ImGui::Checkbox(("##IsReplicatedBool" + std::to_string(gobjId)).c_str(), &comp->IsReplicated);
+			ImGui::Checkbox(("##IsReplicatedBool" + id).c_str(), &comp->IsReplicated);
 
-			ImGui::Indent(20.f);
 			Reflection::ReflectionManager::DrawInspector(comp, comp->GetComponentName());
 			ImGui::Unindent(20.f);
 

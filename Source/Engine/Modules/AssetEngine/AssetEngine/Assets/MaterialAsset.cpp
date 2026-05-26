@@ -19,7 +19,8 @@ namespace Eclipse::Assets
 
 	void Material::BindTexture()
 	{
-		dataPtr->texture.Bind();
+		if (dataPtr->texture.IsValid())
+			dataPtr->texture.Bind();
 	}
 
 	void Material::BindShader()
