@@ -8,7 +8,6 @@
 #include "EclipsedEngine/Replication/Replication_Macros.h"
 
 
-
 #define BASE_OBJECT_IMPL(TYPE)																\
 static inline unsigned typeID = Eclipse::TypeRegistry::GetTypeID<TYPE>();					\
 static unsigned GetTypeID() { return typeID; }

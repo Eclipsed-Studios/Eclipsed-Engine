@@ -164,45 +164,7 @@ namespace Eclipse::Editor
 							EditorActions::CompileGame();
 						}
 
-						else if (ImGui::MenuItem("Build Game Release EXE"))
-						{
-							std::filesystem::remove_all(PathManager::GetProjectRoot() / "Build");
-							std::filesystem::create_directory(PathManager::GetProjectRoot() / "Build");
 
-							Assets::AssetManager::PackAssets();
-
-							static BatchScript script(
-								PathManager::GetEngineRoot().parent_path() / "Tools",
-								"build-game-editor.bat",
-								{
-									PathManager::GetProjectRoot().generic_string(),
-									PathManager::GetEngineRoot().parent_path().generic_string(),
-									"Release"
-								}
-							);
-
-							script.Run(true);
-						}
-
-						else if (ImGui::MenuItem("Build Game Debug EXE"))
-						{
-							std::filesystem::remove_all(PathManager::GetProjectRoot() / "Build");
-							std::filesystem::create_directory(PathManager::GetProjectRoot() / "Build");
-
-							Assets::AssetManager::PackAssets();
-
-							static BatchScript script(
-								PathManager::GetEngineRoot().parent_path() / "Tools",
-								"build-game-editor.bat",
-								{
-									PathManager::GetProjectRoot().generic_string(),
-									PathManager::GetEngineRoot().parent_path().generic_string(),
-									"Debug"
-								}
-							);
-
-							script.Run(true);
-						}
 
 						ImGui::EndMenu();
 					}
