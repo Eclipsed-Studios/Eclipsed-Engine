@@ -11,6 +11,15 @@ set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/custom-build)
 
 option(ECLIPSED_EDITOR "Enables the editor" ON)
 option(INCLUDE_GAME "Includes game" OFF)
+
+
+option(ENABLE_NETWORKING "Includes the network engine in game build." ON)
+option(ENABLE_STEAM_API "Enables the steam api." ON)
+
+if(${ENABLE_STEAM_API})
+    add_compile_definitions(ENABLE_STEAM_SDK)
+endif()
+
 # option(BUILD_GAME_PATH "Includes game" "${CMAKE_SOURCE_DIR}/Bin")
 
 if(ECLIPSED_EDITOR)
@@ -77,7 +86,7 @@ add_subdirectory(Source/Engine/Modules/AudioEngine)
 add_subdirectory(Source/Engine/Modules/EntityEngine)
 add_subdirectory(Source/Engine/Modules/GraphicsEngine)
 
-if(INCLUDE_NETWORKING)
+if(${ENABLE_NETWORKING})
     add_subdirectory(Source/Engine/Modules/NetworkEngine)
 endif()
 

@@ -17,6 +17,12 @@ namespace Eclipse::Editor
 
 		ImGui::Spacing();
 
+		ImGui::Text("Enable Steam SDK");
+		ImGui::SameLine();
+		ImGui::Checkbox("##has-steam-api-enabled", &enableSteamApi);
+
+		ImGui::Spacing();
+
 		ImGui::Text("Enable Networking");
 		ImGui::SameLine();
 		ImGui::Checkbox("##has-networking-enabled-in-build", &enableNetworking);
@@ -39,10 +45,11 @@ namespace Eclipse::Editor
 			PathManager::GetEngineRoot().parent_path() / "Tools",
 			"build-game-editor.bat",
 			{
-				"-DPROJECT_PATH=" + PathManager::GetProjectRoot().generic_string(),
-				"-DENGINE_PATH=" + PathManager::GetEngineRoot().parent_path().generic_string(),
-				"-DCONFIG=" + std::string(isDebugBuild ? "Debug" : "Release"),
-				"-DENABLE_NETWORKING=" + std::string(isDebugBuild ? "Debug" : "Release")
+				"\"PROJECT_PATH=" + PathManager::GetProjectRoot().generic_string() + "\"",
+				"\"ENGINE_PATH=" + PathManager::GetEngineRoot().parent_path().generic_string() + "\"",
+				"\"CONFIG=" + std::string(isDebugBuild ? "Debug" : "Release") + "\"",
+				"\"ENABLE_NETWORKING=" + std::string(enableNetworking ? "ON" : "OFF") + "\"", 
+				"\"ENABLE_STEAM_API=" + std::string(enableSteamApi ? "ON" : "OFF") + "\""
 			}
 		);
 

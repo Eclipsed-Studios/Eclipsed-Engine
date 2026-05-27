@@ -7,7 +7,7 @@
 
 namespace Eclipse
 {
-    
+#ifdef ENABLE_STEAM_SDK
     void SteamGeneral::RelayNetworkInitilized(SteamRelayNetworkStatus_t* aCallback)
     {
         std::cout << "Steam networking Ready" << std::endl;
@@ -49,4 +49,17 @@ namespace Eclipse
         SteamFriends()->ClearRichPresence();
         SteamAPI_Shutdown();
     }
+#else
+    void SteamGeneral::RelayNetworkInitilized(SteamRelayNetworkStatus_t* aCallback){}
+
+    void SteamGeneral::FriendClickedJoinedGame(GameRichPresenceJoinRequested_t* aCallback){}
+
+    bool SteamGeneral::SetRichPresence(const char* pchKey, const char* pchValue) { return false; }
+
+    void SteamGeneral::Update(){}
+
+    void SteamGeneral::Init(){}
+
+    void SteamGeneral::ShutDown(){}
+#endif
 }
