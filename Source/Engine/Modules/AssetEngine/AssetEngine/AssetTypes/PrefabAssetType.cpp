@@ -37,6 +37,7 @@ namespace Eclipse::Assets
     {
         PrefabData* _data = reinterpret_cast<PrefabData*>(data);
 
+
         size_t strSize = 0;
         reader.Read(DATA_SIZE_PAIR(strSize));
 
@@ -51,7 +52,9 @@ namespace Eclipse::Assets
     {
         PrefabData* _data = reinterpret_cast<PrefabData*>(data);
 
-        int strSize = 0;
+        reader.SetRead(meta.offset);
+
+        size_t strSize = 0;
         reader.Read(DATA_SIZE_PAIR(strSize));
 
         _data->data = reinterpret_cast<char*>(malloc(strSize));
