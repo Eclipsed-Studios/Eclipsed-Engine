@@ -10,7 +10,9 @@ cmake -G "Visual Studio 18 2026"                 ^
     -B Temp/Binary  ^
     -DECLIPSED_EDITOR=ON  ^
     -DINCLUDE_GAME=OFF   ^
-    -DBUILD_GAME_PATH="${CMAKE_SOURCE_DIR}/Bin"
+    -DBUILD_GAME_PATH="${CMAKE_SOURCE_DIR}/Bin" ^
+    -DENABLE_NETWORKING="ON" ^
+    -DENABLE_STEAM_API="ON"
 
 echo === Completed: Generate engine cmake ===
 
