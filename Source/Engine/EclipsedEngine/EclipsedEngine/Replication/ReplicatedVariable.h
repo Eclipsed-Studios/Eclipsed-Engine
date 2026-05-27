@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef ECLIPSED_NETWORKING
+
 namespace Eclipse
 {
     namespace Reflection
@@ -42,3 +44,5 @@ namespace Eclipse
 }
 
 #include "ReplicatedVariable.inl"
+
+#endif

@@ -30,8 +30,13 @@
 #include "EclipsedEngine/Components/ComponentForcelink.h"
 
 #include "AssetEngine/Helper/TextManager.h"
-#include "NetworkEngine/Client/SteamP2PNetworkingClient.h"
-#include "NetworkEngine/Server/SteamP2PNetworkingServer.h"
+#include "Networking.h"
+
+
+#ifdef ECLIPSED_NETWORKING
+	#include "NetworkEngine/Client/SteamP2PNetworkingClient.h"
+	#include "NetworkEngine/Server/SteamP2PNetworkingServer.h"
+#endif
 
 #include "CoreEngine/Profiling/PerformanceProfilerManager.h"
 
@@ -58,10 +63,14 @@ namespace Eclipse
 		Assets::AssetManager::ImportBundle();
 #endif
 
+#ifdef ECLIPSED_NETWORKING
+		Replication::ReplicationManager::Init();
+#endif // 
+
+
 
 		AudioManager::Init();
 
-		Replication::ReplicationManager::Init();
 		ComponentForcelink::LinkComponents();
 		//Resources::Init();
 
@@ -149,7 +158,9 @@ namespace Eclipse
 
 		AudioManager::Update();
 
+#ifdef ECLIPSED_NETWORKING
 		Replication::ReplicationManager::Update();
+#endif
 	}
 
 	void SortComponents()
@@ -214,17 +225,7 @@ namespace Eclipse
 		MainSingleton::Destroy();
 		engine.End();
 
-		if (MainSingleton::Exists<SteamP2PNetworkingServer>())
-		{
-			auto& server = MainSingleton::GetInstance<SteamP2PNetworkingServer>();
-			//server.ShutDown();
-		}
-
-		if (MainSingleton::Exists<SteamP2PNetworkingClient>())
-		{
-			auto& client = MainSingleton::GetInstance<SteamP2PNetworkingClient>();
-			//client.ShutDown();
-		}
+		SHUT_DOWN_NETWORK_ENGINE();
 	}
 
 	bool EclipsedRuntime::BeginFrame()

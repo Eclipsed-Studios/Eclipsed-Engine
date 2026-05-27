@@ -23,7 +23,18 @@
 //#include "AssetEngine/AssetDatabase.h"
 
 #include "CoreEngine/MainSingleton.h"
-#include "EclipsedEngine/Scenes/SceneManager.h"
+#include <imgui.h>
+
+#include "EclipsedEngine/Components/ComponentForcelink.h"
+#include "EntityEngine/ComponentManager.h"
+
+#include "EclipsedEngine/Steam/SteamGeneral.h"
+
+#include "EclipsedEngine/Editor/Windows/WindowTypes/HierarchyWindow.h"
+
+#include "EclipsedEngine/ECS/ObjectManager.h"
+
+#include "PhysicsEngine/PhysicsEngine.h"
 
 namespace Eclipse::Editor
 {
@@ -193,7 +204,9 @@ namespace Eclipse::Editor
 				isPlaying = false;
 				isPaused = false;
 
+#ifdef ECLIPSED_NETWORKING
 				Replication::ReplicationManager::CloseConnection("Disconnect : Quit Game");
+#endif
 
 				SteamGeneral::Get().ShutDown();
 

@@ -7,6 +7,7 @@
 #include "EclipsedEngine/Editor/Windows/WindowTypes/GameWindow.h"
 #include "Scenes/SceneManager.h"
 #include "Steam/SteamGeneral.h"
+#include <Components/PlayerSpawner.h>
 
 namespace Eclipse
 {
@@ -62,10 +63,13 @@ namespace Eclipse
 	void Button::Print()
 	{
 		//SceneManager::LoadScene(1);
-		Replication::ReplicationManager::ClickedHostButton = true;
 
-		Replication::ReplicationManager::Start(false);
+		ComponentManager::FindObjectByName("Spawner")->GetComponent<Eclipse::PlayerSpawner>()->StartGame();
 
-		SteamGeneral::SetRichPresence("connect", "1");
+		//Replication::ReplicationManager::ClickedHostButton = true;
+
+		//Replication::ReplicationManager::Start(false);
+
+		//SteamGeneral::SetRichPresence("connect", "1");
 	}
 }

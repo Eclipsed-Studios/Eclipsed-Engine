@@ -1,3 +1,5 @@
+#ifdef ECLIPSED_NETWORKING
+
 #include "Replication.h"
 
 #include "NetworkEngine/Shared/Message.h"
@@ -371,3 +373,5 @@ namespace Eclipse::Replication
 		}
 	}
 }
+
+#endif

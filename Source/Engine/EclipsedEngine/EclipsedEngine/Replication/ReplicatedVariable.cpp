@@ -1,3 +1,5 @@
+#ifdef ECLIPSED_NETWORKING
+
 #include "ReplicatedVariable.h"
 
 #include "AssetEngine/BinaryFormats/AssetData.h"
@@ -57,3 +59,5 @@ namespace Eclipse::Replication
         free(data);
     }
 }
+
+#endif

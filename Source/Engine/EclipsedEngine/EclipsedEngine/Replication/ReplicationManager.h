@@ -1,5 +1,6 @@
 #pragma once
 
+#ifdef ECLIPSED_NETWORKING
 #include <unordered_map>
 
 #include "asio/asio.hpp"
@@ -118,3 +119,5 @@ namespace Eclipse::Replication
         static inline bool ClickedHostButton = false;
     };
 }
+
+#endif

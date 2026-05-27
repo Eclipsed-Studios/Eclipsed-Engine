@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef ECLIPSED_NETWORKING
+
 #include "NetworkEngine/Shared/Message.h"
+
+#include <vector>
 
 namespace Eclipse
 {
@@ -48,3 +52,5 @@ namespace Eclipse::Replication
         };
     };
 }
+
+#endif

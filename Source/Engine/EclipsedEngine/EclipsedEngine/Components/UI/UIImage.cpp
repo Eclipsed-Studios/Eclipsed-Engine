@@ -14,14 +14,15 @@
 
 #ifdef ECLIPSED_EDITOR
     #include "../../../../Modules/GraphicsEngine/GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
+#include <CoreEngine/GraphicsBuffers/EditorBuffer.h>
 #endif // ECLIPSED_EDITOR
 
 
 namespace Eclipse
 {
-    void UIImage::sprite_OnRep()
-    {
-    }
+    //void UIImage::sprite_OnRep()
+    //{
+    //}
 #ifdef ECLIPSED_EDITOR
     void UIImage::EditorUpdate()
     {

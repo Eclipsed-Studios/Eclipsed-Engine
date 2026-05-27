@@ -204,13 +204,16 @@ namespace Eclipse
         if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
             myEntityIdToEntity[aGOID] = CreateGameObject(aGOID);
 
-
+#ifdef ECLIPSED_NETWORKING
         BeforeComponentConstruction();
+#endif
 
         Eclipse::Component* component = createFunc(ptrToComponent);
         component->SetComponentID(aComponentID);
 
+#ifdef ECLIPSED_NETWORKING
         AfterComponentConstruction();
+#endif
 
         component->gameObject = myEntityIdToEntity.at(aGOID);
         component->myComponentComponentID = typeIndex;

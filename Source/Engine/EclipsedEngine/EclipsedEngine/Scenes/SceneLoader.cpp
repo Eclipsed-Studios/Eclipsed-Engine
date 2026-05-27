@@ -224,7 +224,10 @@ namespace Eclipse
 
 		ComponentManager::Clear();
 		Reflection::ReflectionManager::ClearList();
+
+#ifdef ECLIPSED_NETWORKING
 		Replication::ReplicationManager::ClearList();
+#endif // ECLIPSED_NETWORKING
 
 		PhysicsEngine::CleanUp();
 	}

@@ -1,3 +1,5 @@
+#ifdef ECLIPSED_NETWORKING
+
 #include "ReplicatedVariable.h"
 #include "ReplicationManager.h"
 
@@ -15,3 +17,5 @@ namespace Eclipse::Replication
         ReplicationManager::EmplaceReplicatedVariable(OnComponent->myInstanceComponentID, IterationID, this);
     }
 }
+
+#endif

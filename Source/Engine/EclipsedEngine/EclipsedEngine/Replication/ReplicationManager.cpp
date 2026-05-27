@@ -1,3 +1,5 @@
+#ifdef ECLIPSED_NETWORKING
+
 #include "ReplicationManager.h"
 
 #include "CoreEngine/Timer.h"
@@ -260,3 +262,5 @@ namespace Eclipse::Replication
         ReplicationManager::TemporaryReplicatedVariableList.erase(0);
     }
 }
+
+#endif
