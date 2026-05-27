@@ -41,9 +41,11 @@ namespace Eclipse
         if (instagator)
             gameobject->transform->SetPosition(instagator->transform->GetPosition());
         
+#ifdef ECLIPSED_NETWORKING
         if (Replicated)
             Replication::ReplicationManager::SendPrefabObject(gameobject, aPrefab);
-        
+#endif
+
         aPrefab.dataPtr->gameobject = gameobject;
         return aPrefab.dataPtr->gameobject;
     }

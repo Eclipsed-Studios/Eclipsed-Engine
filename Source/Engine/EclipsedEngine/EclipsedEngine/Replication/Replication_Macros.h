@@ -1,21 +1,28 @@
 #pragma once
 
 #include "EclipsedEngine/Reflection/SerializedVariable.h"
-#include "ReplicatedVariable.h"
-#include "ReplicationManager.h"
 
-// Use this as a standalone Macro with the serilized variable as arg
-//#define REPLICATE(Variable) Replication::ReplicationManager::RealReplicatedVariableList.at(myInstanceComponentID)[sprite.ReplicatedVariableIndex]->ReplicateThis(sprite.ReplicatedVariableIndex, false);
-//#define REPLICATEGARANTIED(Variable) Replication::ReplicationManager::RealReplicatedVariableList.at(myInstanceComponentID)[sprite.ReplicatedVariableIndex]->ReplicateThis(sprite.ReplicatedVariableIndex, true);
+#ifdef ECLIPSED_NETWORKING
+	#include "ReplicatedVariable.h"
+	#include "ReplicationManager.h"
 
-//template<class T>
-//concept ConceptIsAsset = requires(T var) {var.IsAsset();};
+	// Use this as a standalone Macro with the serilized variable as arg
+	//#define REPLICATE(Variable) Replication::ReplicationManager::RealReplicatedVariableList.at(myInstanceComponentID)[sprite.ReplicatedVariableIndex]->ReplicateThis(sprite.ReplicatedVariableIndex, false);
+	//#define REPLICATEGARANTIED(Variable) Replication::ReplicationManager::RealReplicatedVariableList.at(myInstanceComponentID)[sprite.ReplicatedVariableIndex]->ReplicateThis(sprite.ReplicatedVariableIndex, true);
 
-#define REPLICATEDVARIABLEDEFINE(Name, Data, DataCount, Auto, Type, ThisType)                                                        \
-Eclipse::Replication::ReplicatedVariable<ThisType> Repl##Name{Data, DataCount, this, Auto, &ThisType::Name##_OnRep}
+	//template<class T>
+	//concept ConceptIsAsset = requires(T var) {var.IsAsset();};
 
-#define ONREPPEDFUNCTIONDEF(Name) void Name##_OnRep()
 
+	#define REPLICATEDVARIABLEDEFINE(Name, Data, DataCount, Auto, Type, ThisType)                                                        \
+	Eclipse::Replication::ReplicatedVariable<ThisType> Repl##Name{Data, DataCount, this, Auto, &ThisType::Name##_OnRep}
+
+	#define ONREPPEDFUNCTIONDEF(Name) void Name##_OnRep()
+
+#else
+	#define REPLICATEDVARIABLEDEFINE(Name, Data, DataCount, Auto, Type, ThisType)
+	#define ONREPPEDFUNCTIONDEF(Name)
+#endif
 
 
 #define REPLICATED_SERIALIZED_FIELD_DEFAULT(Type, Name, DefaultValue, ThisType)                     \

@@ -16,15 +16,17 @@ namespace Eclipse
 	public:
 		void StartGame()
 		{
-			if (Replication::ReplicationManager::ClickedHostButton)
-			{
-				Instantiate(soulForgePrefab, gameObject, true);
-			}
-			else
-			{
+			//if (Replication::ReplicationManager::ClickedHostButton)
+			//{
+			//	Instantiate(soulForgePrefab, gameObject, true);
+			//}
+			//else
+			//{
 
-				Instantiate(soulSuckerPrefab, gameObject, true);
-			}
+			//	Instantiate(soulSuckerPrefab, gameObject, true);
+			//}
+
+			Instantiate(soulForgePrefab, gameObject, true);
 		}
 
 	public:

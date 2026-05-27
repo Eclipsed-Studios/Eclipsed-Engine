@@ -209,7 +209,7 @@ namespace Eclipse::Editor
 					ImGui::EndMenu();
 				}
 
-				if (ImGui::BeginMenu("Network"))
+				/*if (ImGui::BeginMenu("Network"))
 				{
 					ImGui::Text("IP: ");
 					ImGui::SameLine();
@@ -234,7 +234,7 @@ namespace Eclipse::Editor
 					ImGui::Text("Start Client");
 
 					ImGui::EndMenu();
-				}
+				}*/
 			}
 
 

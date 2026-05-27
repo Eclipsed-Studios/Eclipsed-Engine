@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreEngine/Input/Input.h"
+#include <wtypes.h>
 
 namespace Eclipse
 {

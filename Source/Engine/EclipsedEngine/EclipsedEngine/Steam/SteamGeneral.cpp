@@ -2,6 +2,9 @@
 
 #include "Replication/ReplicationManager.h"
 
+#include <iostream>
+#include <cassert>
+
 namespace Eclipse
 {
     
@@ -13,8 +16,9 @@ namespace Eclipse
     void SteamGeneral::FriendClickedJoinedGame(GameRichPresenceJoinRequested_t* aCallback)
     {
         OthersteamID = aCallback->m_steamIDFriend;
-
+#ifdef ECLIPSED_NETWORKING
         Replication::ReplicationManager::Start(true);
+#endif 
 
         //SceneManager::LoadScene(1);
     }

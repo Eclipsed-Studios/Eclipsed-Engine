@@ -19,11 +19,14 @@ target_link_libraries(EclipsedEngine PUBLIC
     CoreEngine
     EntityEngine
     GraphicsEngine
-    NetworkEngine
     PhysicsEngine
 
     ImGui
 )
+
+if(INCLUDE_NETWORKING)
+    target_link_libraries(EclipsedEngine PUBLIC NetworkEngine)
+endif()
 
 target_link_libraries(EclipsedEngine PRIVATE "${CMAKE_SOURCE_DIR}/Source/Externals/steamsdk/lib/win64/steam_api64.lib")
 
