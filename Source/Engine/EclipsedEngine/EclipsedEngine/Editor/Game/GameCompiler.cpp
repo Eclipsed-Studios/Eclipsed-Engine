@@ -6,16 +6,30 @@
 
 #include "EclipsedEngine/Scenes/SceneManager.h"
 
+#include "CoreEngine/Settings/BuildSettings.h"
+
 namespace Eclipse
 {
 	void GameModuleManager::GenerateGameEditor()
 	{
+#ifdef _DEBUG
+		const bool isDebugBuild = true;
+#else
+		const bool isDebugBuild = false;
+#endif
+
+		Settings::BuildSettings::Data& data = Settings::BuildSettings::GetData();
+
 		static BatchScript script(
 			PathManager::GetProjectRoot() / "Tools",
 			"generate-game-editor.bat",
 			{
-				PathManager::GetProjectRoot().generic_string(),
-				PathManager::GetEngineRoot().parent_path().generic_string()
+				"\"PROJECT_DIR=" + PathManager::GetProjectRoot().generic_string() + "\"",
+				"\"ENGINE_PATH=" + PathManager::GetEngineRoot().parent_path().generic_string() + "\"",
+				"\"CONFIG=" + std::string(isDebugBuild ? "Debug" : "Release") + "\"",
+				"\"ENABLE_NETWORKING=" + std::string(data.enableNetworking ? "ON" : "OFF") + "\"",
+				"\"ENABLE_STEAM_SDK=" + std::string(data.enableSteamSdk ? "ON" : "OFF") + "\"",
+				"\"ENABLE_DISCORD_SDK=" + std::string(data.enableDiscordSdk ? "ON" : "OFF") + "\""
 			}
 		);
 
