@@ -38,6 +38,7 @@ namespace Eclipse::PlatformIntegration
 
 		static bool IsConnected();
 
+#ifdef ENABLE_DISCORD_SDK
 	private:
 		static discord::Core* core;
 		static discord::Activity* activity;
@@ -45,5 +46,6 @@ namespace Eclipse::PlatformIntegration
 		static bool isDirty;
 		static bool isActive;
 		static long long applicationID;
+#endif
 	};
 }

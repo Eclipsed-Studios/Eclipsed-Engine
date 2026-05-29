@@ -14,12 +14,18 @@ namespace Eclipse::Editor
 		void Update() override;
 
 	private:
+		void CleanBuild();
 		void Build();
 
 	private:
-		static inline bool isDebugBuild = false;
+#ifdef _DEBUG
+		static inline const bool isDebugBuild = true;
+#else
+		static inline const bool isDebugBuild = false;
+#endif
 		static inline bool enableNetworking = false;
-		static inline bool enableSteamApi = false;
+		static inline bool enableSteamSdk = false;
+		static inline bool enableDiscordSdk = false;
 	};
 }
 
