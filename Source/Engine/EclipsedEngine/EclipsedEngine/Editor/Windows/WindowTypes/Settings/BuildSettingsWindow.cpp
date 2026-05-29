@@ -11,16 +11,17 @@ namespace Eclipse::Editor
 {
 	void BuildSettingsWindow::Update()
 	{
-		ImGui::Text("Debug");
+		ImGui::Text("Enable Steam SDK");
 		ImGui::SameLine();
-		ImGui::Checkbox("##is_debug_build", &isDebugBuild);
+		ImGui::Checkbox("##has-steam-api-enabled", &enableSteamSdk); 
 
 		ImGui::Spacing();
 
-		ImGui::Text("Enable Steam SDK");
+		ImGui::Text("Enable Discord SDK");
 		ImGui::SameLine();
-		ImGui::Checkbox("##has-steam-api-enabled", &enableSteamApi);
+		ImGui::Checkbox("##has-discord-api-enabled", &enableDiscordSdk);
 
+			ImGui::Spacing();
 		ImGui::Spacing();
 
 		ImGui::Text("Enable Networking");
@@ -29,12 +30,19 @@ namespace Eclipse::Editor
 
 		ImGui::Separator();
 
+		if (ImGui::Button("Clean Build"))
+			CleanBuild();
+
+		ImGui::SameLine();
+		ImGui::Dummy(ImVec2(20, 0));
+		ImGui::SameLine();
+
 		if (ImGui::Button("Build"))
 			Build();
 
 	}
 
-	void BuildSettingsWindow::Build()
+	void BuildSettingsWindow::CleanBuild()
 	{
 		std::filesystem::remove_all(PathManager::GetProjectRoot() / "Build");
 		std::filesystem::create_directory(PathManager::GetProjectRoot() / "Build");
@@ -48,8 +56,27 @@ namespace Eclipse::Editor
 				"\"PROJECT_PATH=" + PathManager::GetProjectRoot().generic_string() + "\"",
 				"\"ENGINE_PATH=" + PathManager::GetEngineRoot().parent_path().generic_string() + "\"",
 				"\"CONFIG=" + std::string(isDebugBuild ? "Debug" : "Release") + "\"",
-				"\"ENABLE_NETWORKING=" + std::string(enableNetworking ? "ON" : "OFF") + "\"", 
-				"\"ENABLE_STEAM_API=" + std::string(enableSteamApi ? "ON" : "OFF") + "\""
+				"\"ENABLE_NETWORKING=" + std::string(enableNetworking ? "ON" : "OFF") + "\"",
+				"\"ENABLE_STEAM_SDK=" + std::string(enableSteamSdk ? "ON" : "OFF") + "\"",
+				"\"ENABLE_DISCORD_SDK=" + std::string(enableDiscordSdk ? "ON" : "OFF") + "\""
+			}
+		);
+
+		script.Run(true);
+	}
+
+	void BuildSettingsWindow::Build()
+	{
+		BatchScript script(
+			PathManager::GetEngineRoot().parent_path() / "Tools",
+			"build-game-editor.bat",
+			{
+				"\"PROJECT_PATH=" + PathManager::GetProjectRoot().generic_string() + "\"",
+				"\"ENGINE_PATH=" + PathManager::GetEngineRoot().parent_path().generic_string() + "\"",
+				"\"CONFIG=" + std::string(isDebugBuild ? "Debug" : "Release") + "\"",
+				"\"ENABLE_NETWORKING=" + std::string(enableNetworking ? "ON" : "OFF") + "\"",
+				"\"ENABLE_STEAM_SDK=" + std::string(enableSteamSdk ? "ON" : "OFF") + "\"",
+				"\"ENABLE_DISCORD_SDK=" + std::string(enableDiscordSdk ? "ON" : "OFF") + "\""
 			}
 		);
 

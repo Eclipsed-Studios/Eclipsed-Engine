@@ -7,25 +7,27 @@
 
 namespace Eclipse
 {
-   //void SpriteSheetAnimator2D::myCurrentFrame_OnRep()
-   //{
-   //    const std::vector<unsigned>& animationFramesIdx = TemporarySpriteAnimation;
-   //    if (animationFramesIdx.empty())
-   //        return;
-   //    if (!mySpriteRenderer)
-   //        return;
+#ifdef ECLIPSED_NETWORKING
+   void SpriteSheetAnimator2D::myCurrentFrame_OnRep()
+   {
+       const std::vector<unsigned>& animationFramesIdx = TemporarySpriteAnimation;
+       if (animationFramesIdx.empty())
+           return;
+       if (!mySpriteRenderer)
+           return;
 
-   //    Assets::Texture sprite = mySpriteRenderer->GetSprite();
-   //    if (!sprite.IsValid())
-   //        return;
+       Assets::Texture sprite = mySpriteRenderer->GetSprite();
+       if (!sprite.IsValid())
+           return;
 
-   //    const std::vector<Math::RectSizePos>& spriteRects = sprite.GetSpriteRects();
-   //    if (spriteRects.empty())
-   //        return;
+       const std::vector<Math::RectSizePos>& spriteRects = sprite.GetSpriteRects();
+       if (spriteRects.empty())
+           return;
 
-   //    const Math::RectSizePos& rect = spriteRects[animationFramesIdx[myCurrentFrame]];
-   //    mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
-   //}
+       const Math::RectSizePos& rect = spriteRects[animationFramesIdx[myCurrentFrame]];
+       mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
+   }
+#endif
 
    void SpriteSheetAnimator2D::Update()
    {

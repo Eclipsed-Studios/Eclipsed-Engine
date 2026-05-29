@@ -9,6 +9,7 @@
 
 namespace Eclipse::PlatformIntegration
 {
+#ifdef ENABLE_DISCORD_SDK
 	discord::Activity* Discord::activity = {};
 	discord::Core* Discord::core = {};
 	bool Discord::isDirty = false;
@@ -67,7 +68,7 @@ namespace Eclipse::PlatformIntegration
 		activity->SetDetails(details);
 		isDirty = true;
 	}
-	
+
 	void Discord::SetLargeText(const char* text)
 	{
 		activity->GetAssets().SetLargeText(text);
@@ -85,10 +86,10 @@ namespace Eclipse::PlatformIntegration
 		activity->GetAssets().SetSmallText(text);
 		isDirty = true;
 	}
-	
+
 	void Discord::SetSmallImage(const char* imageID)
 	{
-		activity->GetAssets().SetSmallImage( imageID);
+		activity->GetAssets().SetSmallImage(imageID);
 		isDirty = true;
 	}
 
@@ -102,4 +103,24 @@ namespace Eclipse::PlatformIntegration
 	{
 		return isActive;
 	}
+#else 
+	void Discord::SetupWithID(const long long& id) {}
+
+	void Discord::Setup() {}
+
+	void Discord::Stop() {}
+
+	void Discord::Update() {}
+
+	void Discord::SetApplicationID(const long long& id) {}
+
+	void Discord::SetDetails(const char* details) {}
+
+	void Discord::SetLargeText(const char* text) {}
+	void Discord::SetLargeImage(const char* imageID) {}
+	void Discord::SetSmallText(const char* text) {}
+	void Discord::SetSmallImage(const char* imageID) {}
+	void Discord::SetState(const char* state) {}
+	bool Discord::IsConnected() { return false; }
+#endif
 }

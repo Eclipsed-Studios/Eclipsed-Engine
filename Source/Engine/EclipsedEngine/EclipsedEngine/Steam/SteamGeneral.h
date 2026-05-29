@@ -1,7 +1,9 @@
 #pragma once
 
+#ifdef ENABLE_STEAM_SDK
 #include "steamsdk/steam_api.h"
 #include "steamsdk/isteamfriends.h"
+#endif
 
 namespace Eclipse
 {
@@ -22,11 +24,12 @@ namespace Eclipse
             return instance;
         }
 
+#ifdef ENABLE_STEAM_SDK
         static inline CSteamID OthersteamID = CSteamID();
         
     private:
         STEAM_CALLBACK(SteamGeneral, FriendClickedJoinedGame, GameRichPresenceJoinRequested_t);
         STEAM_CALLBACK(SteamGeneral, RelayNetworkInitilized, SteamRelayNetworkStatus_t);
-
+#endif
     };
 }

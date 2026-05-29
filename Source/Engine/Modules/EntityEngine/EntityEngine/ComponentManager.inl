@@ -133,7 +133,7 @@ namespace Eclipse
         component->myComponentIndex = componentIndex;
 
 #ifdef ECLIPSED_NETWORKING
-        if (Iss)
+        if (IsReplicated)
             CreateComponentReplicated(component);
 #endif
 

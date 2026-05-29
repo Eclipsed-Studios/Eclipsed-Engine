@@ -24,11 +24,13 @@ target_link_libraries(EclipsedEngine PUBLIC
     ImGui
 )
 
-if(INCLUDE_NETWORKING)
+if(${ENABLE_NETWORKING})
     target_link_libraries(EclipsedEngine PUBLIC NetworkEngine)
 endif()
 
-target_link_libraries(EclipsedEngine PRIVATE "${CMAKE_SOURCE_DIR}/Source/Externals/steamsdk/lib/win64/steam_api64.lib")
+if(${ENABLE_STEAM_SDK})
+    target_link_libraries(EclipsedEngine PRIVATE "${CMAKE_SOURCE_DIR}/Source/Externals/steamsdk/lib/win64/steam_api64.lib")
+endif()
 
 
 if(INCLUDE_GAME)

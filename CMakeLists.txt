@@ -14,10 +14,18 @@ option(INCLUDE_GAME "Includes game" OFF)
 
 
 option(ENABLE_NETWORKING "Includes the network engine in game build." ON)
-option(ENABLE_STEAM_API "Enables the steam api." ON)
+if(${ENABLE_NETWORKING})
+    add_compile_definitions(ECLIPSED_NETWORKING)
+endif()
 
-if(${ENABLE_STEAM_API})
+option(ENABLE_STEAM_SDK "Enables the steam sdk." ON)
+if(${ENABLE_STEAM_SDK})
     add_compile_definitions(ENABLE_STEAM_SDK)
+endif()
+
+option(ENABLE_DISCORD_SDK "Enables the discord sdk." ON)
+if(${ENABLE_DISCORD_SDK})
+    add_compile_definitions(ENABLE_DISCORD_SDK)
 endif()
 
 # option(BUILD_GAME_PATH "Includes game" "${CMAKE_SOURCE_DIR}/Bin")
@@ -47,6 +55,7 @@ set_property(GLOBAL PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/
 set(LAUNCH_ARGS "--defaultArg" CACHE STRING "Arguments to pass to launcher")
 
 set(BUILD_GAME_PATH "${CMAKE_SOURCE_DIR}/Bin" CACHE PATH "Game build path")
+set(CONFIG "Debug" CACHE STRING "Game build path")
 
 # Declare cache variable with a default value if not set
 if(NOT DEFINED EXE_OUTPUT_DIR OR EXE_OUTPUT_DIR STREQUAL "")
@@ -69,7 +78,10 @@ add_compile_definitions(END_IMPL=//)
 
 
 # ---- Externals
-add_subdirectory(Source/Externals/DiscordSDK)
+if(${ENABLE_DISCORD_SDK})
+    add_subdirectory(Source/Externals/DiscordSDK)
+endif()
+
 add_subdirectory(Source/Externals/fmod)
 add_subdirectory(Source/Externals/rapidjson)
 add_subdirectory(Source/Externals/ImGui)

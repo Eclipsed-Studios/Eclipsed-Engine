@@ -10,6 +10,8 @@
 
 #include <iostream>
 
+#include "EclipsedEngine/Replication/ReplicationManager.h"
+
 namespace Eclipse
 {
     class SteamP2PNetworkingServer

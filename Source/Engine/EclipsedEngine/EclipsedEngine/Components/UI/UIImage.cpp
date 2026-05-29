@@ -20,9 +20,12 @@
 
 namespace Eclipse
 {
-    //void UIImage::sprite_OnRep()
-    //{
-    //}
+#ifdef ECLIPSED_NETWORKING
+    void UIImage::sprite_OnRep()
+    {
+    }
+#endif
+
 #ifdef ECLIPSED_EDITOR
     void UIImage::EditorUpdate()
     {
