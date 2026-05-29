@@ -180,7 +180,7 @@ namespace Eclipse::Editor
 
 		myLastWindowResolution = { static_cast<int>(windowSize.x), static_cast<int>(windowSize.y) };
 
-		Settings::GraphicsSettings::SetResolution(Math::Vector2i((int)windowSize.x, (int)windowSize.y));
+		//Settings::GraphicsSettings::SetResolution(Math::Vector2i((int)windowSize.x, (int)windowSize.y));
 
 		ImGui::SetCursorPos(CursorPos);
 

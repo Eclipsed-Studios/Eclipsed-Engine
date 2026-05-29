@@ -23,9 +23,6 @@ namespace Eclipse::Editor
 #else
 		static inline const bool isDebugBuild = false;
 #endif
-		static inline bool enableNetworking = false;
-		static inline bool enableSteamSdk = false;
-		static inline bool enableDiscordSdk = false;
 	};
 }
 
