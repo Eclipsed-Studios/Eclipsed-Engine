@@ -118,22 +118,22 @@ namespace Eclipse
 
 	void SceneManager::LoadSceneData()
 	{
-		using namespace rapidjson;
+	//	using namespace rapidjson;
 
-		const std::vector<std::string>& sceneIndex = Settings::BuildSettings::GetSceneIndex();
-		if (sceneIndex.empty()) return;
+	//	const std::vector<std::string>& sceneIndex = Settings::BuildSettings::GetSceneIndex();
+	//	if (sceneIndex.empty()) return;
 
-		for (int i = 0; i < sceneIndex.size(); i++)
-		{
-			myNameToIdx[std::filesystem::path(sceneIndex[i]).filename().stem().generic_string()] = i;
-			myScenePaths.push_back(sceneIndex[i]);
-		}
+	//	for (int i = 0; i < sceneIndex.size(); i++)
+	//	{
+	//		myNameToIdx[std::filesystem::path(sceneIndex[i]).filename().stem().generic_string()] = i;
+	//		myScenePaths.push_back(sceneIndex[i]);
+	//	}
 	}
 
 	void SceneManager::SaveSceneData()
 	{
-		Settings::BuildSettings::SetSceneIndex(myScenePaths);
-		Settings::BuildSettings::Save();
+		//Settings::BuildSettings::SetSceneIndex(myScenePaths);
+		//Settings::BuildSettings::Save();
 	}
 
 	void SceneManager::ClearScene()
