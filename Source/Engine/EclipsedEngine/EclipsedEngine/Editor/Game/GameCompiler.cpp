@@ -38,9 +38,18 @@ namespace Eclipse
 
 	void GameModuleManager::Compile()
 	{
+#ifdef _DEBUG
+		const bool isDebugBuild = true;
+#else
+		const bool isDebugBuild = false;
+#endif
+
 		static BatchScript script(
 			PathManager::GetProjectRoot() / "Tools",
-			"build-game-dll.bat"
+			"build-game-dll.bat",
+			{
+				std::string(isDebugBuild ? "Debug" : "Release")
+			}
 		);
 
 		script.Run();
