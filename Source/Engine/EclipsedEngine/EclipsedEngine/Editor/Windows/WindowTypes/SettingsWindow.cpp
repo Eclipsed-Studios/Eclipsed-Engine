@@ -37,16 +37,16 @@ namespace Eclipse::Editor
         }
 
 
-        static bool sceneSettingsDrawn = false;
-        sceneSettingsDrawn = ImGui::CollapsingHeader("Scenes");
+        //static bool sceneSettingsDrawn = false;
+        //sceneSettingsDrawn = ImGui::CollapsingHeader("Scenes");
 
-        if (sceneSettingsDrawn)
-        {
-            ImGui::Indent(20);
-            DrawSceneEditor();
-            ImGui::Dummy(ImVec2(0, 20));
-            ImGui::Unindent(20);
-        }
+        //if (sceneSettingsDrawn)
+        //{
+        //    ImGui::Indent(20);
+        //    DrawSceneEditor();
+        //    ImGui::Dummy(ImVec2(0, 20));
+        //    ImGui::Unindent(20);
+        //}
 
 
 
