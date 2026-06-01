@@ -10,6 +10,7 @@ echo.
 call Tools/Setup/generate-engine-cmake.bat
 echo.
 call Tools/Setup/copy-engine-dlls.bat
+call Tools/Setup/copy-etc-files.bat
 
 echo === Begun: Generating slnx file ===
 cd Tools/Setup
