@@ -87,7 +87,7 @@ namespace Eclipse::Editor
 		ImGui::Begin("DockSpaceHost", nullptr, dock_flags);
 
 		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-		ImGui::DockSpace(dockspace_id);
+		ImGui::DockSpace(0x00000001);
 
 		ImGui::End();
 

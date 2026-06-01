@@ -244,7 +244,7 @@ namespace Eclipse::Editor
 
 					double miliseconds = avrageGPUTime / 1e6;
 
-					std::cout << "Scene GPU time, " << std::fixed << std::setprecision(2) << miliseconds << "ms" << std::endl;
+					//std::cout << "Scene GPU time, " << std::fixed << std::setprecision(2) << miliseconds << "ms" << std::endl;
 
 					currentCount = 0;
 					totaltimeElapsed = 0;
