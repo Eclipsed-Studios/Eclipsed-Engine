@@ -4,6 +4,8 @@
 
 #include "ImGui/imgui.h"
 
+//#include "../Components/Rendering/SpriteSheetAnimator2D.h"
+
 /*
 * USE THIS FILE TO CREATE CUSTOM INSPECTORS FOR GAME COMPONENTS.
 */
@@ -26,6 +28,14 @@ namespace Eclipse::Editor
 	//}
 
 	//REGISTER_INSPECTOR(Player);
+
+	//void DrawInspector(SpriteSheetAnimator2D* comp)
+	//{
+	//	if (ImGui::Button("Switch spritesheet display"))
+	//		comp->SetFirstSpriteSheet();
+	//}
+
+	//REGISTER_INSPECTOR(SpriteSheetAnimator2D);
 }
 
 #endif

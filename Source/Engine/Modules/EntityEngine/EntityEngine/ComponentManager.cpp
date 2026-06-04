@@ -193,7 +193,26 @@ namespace Eclipse
     Eclipse::Component* ComponentManager::AddComponentWithID(GameObjectID aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl*createFunc)(unsigned char* address), size_t size)
     {
         uint8_t* base = static_cast<uint8_t*>(myComponentData);
-        uint8_t* ptrToComponent = base + myComponentMemoryTracker;
+
+        uint8_t* ptrToComponent = nullptr;
+        for (int i = 0; i < graveyard.size(); i++)
+        {
+            Graveyard& space = graveyard[i];
+            if (space.size == size)
+            {
+                ptrToComponent = static_cast<uint8_t*>(space.ptr);
+                memset(ptrToComponent, 0, space.size);
+
+                std::swap(graveyard[i], graveyard.back());
+                graveyard.pop_back();
+
+                break;
+            }
+        }
+
+        if (!ptrToComponent)
+            ptrToComponent = base + myComponentMemoryTracker;
+
         myComponentMemoryTracker += size;
 
         assert((myComponentMemoryTracker) <= MAX_COMPONENT_MEMORY_BYTES && "Adding the latest componnet made the component tracker go over max count increase MAX_COMPONENT_MEMORY_BYTES");
@@ -210,6 +229,8 @@ namespace Eclipse
 
         Eclipse::Component* component = createFunc(ptrToComponent);
         component->SetComponentID(aComponentID);
+
+        component->componentSize = size;
 
 #ifdef ECLIPSED_NETWORKING
         AfterComponentConstruction();
@@ -249,11 +270,14 @@ namespace Eclipse
         {
             Component* component = entityIDComponents[i];
 
+
             if (component->myInstanceComponentID != aComponentID)
                 continue;
 
             component->OnDestroy();
             component->~Component();
+
+            graveyard.emplace_back(component, component->componentSize);
 
             component->IsDeleted = true;
 
@@ -343,12 +367,18 @@ namespace Eclipse
 
             for (auto& component : myEntityIDToVectorOfComponentIDs.at(goID))
             {
+                if (!component)
+                    return;
+
                 DeleteReplicatedComponent(component->myInstanceComponentID);
 
                 component->IsDeleted = true;
 
                 component->OnDestroy();
                 component->~Component();
+
+                graveyard.emplace_back(component, component->componentSize);
+
                 component = nullptr;
 
                 componentsDeleted++;

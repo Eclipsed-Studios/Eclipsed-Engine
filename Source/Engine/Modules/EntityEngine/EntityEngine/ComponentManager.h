@@ -150,6 +150,12 @@ namespace Eclipse
 
 		static inline std::vector<unsigned> gameobjectsToRemove;
 
+		struct Graveyard
+		{
+			void* ptr;
+			size_t size;
+		};
+		static inline std::vector<Graveyard> graveyard;
 	};
 }
 
