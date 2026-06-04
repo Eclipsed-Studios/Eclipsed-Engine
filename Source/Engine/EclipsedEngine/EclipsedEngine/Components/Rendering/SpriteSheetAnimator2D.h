@@ -27,10 +27,10 @@ namespace Eclipse
 
         void SetCurrentAnimation(const char* anAnimationName, bool aLoop = true);
 
-#ifdef ECLIPSED_EDITOR
-        void SetFirstSpriteSheet();
-        bool isUsingspritesheet = false;
-#endif
+//#ifdef ECLIPSED_EDITOR
+//        void SetFirstSpriteSheet();
+//        bool isUsingspritesheet = true;
+//#endif
     private:
 
         //SERIALIZED_FIELD_DEFAULT(std::string, mySpriteSheetAnimationPath, "");

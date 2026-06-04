@@ -75,7 +75,6 @@ namespace Eclipse
        if (!mySpriteRenderer)
            return;
 
-#ifndef ECLIPSED_EDITOR
        Assets::Texture sprite = mySpriteRenderer->GetSprite();
        if (!sprite.IsValid())
            return;
@@ -86,7 +85,6 @@ namespace Eclipse
 
        const Math::RectSizePos& rect = spriteRects[0];
        mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
-#endif
    }
 
    void SpriteSheetAnimator2D::SetSpriteSheet(const char* aPath)
@@ -106,31 +104,31 @@ namespace Eclipse
        myIsPlaying = true;
    }
 
-#ifdef ECLIPSED_EDITOR
-   void SpriteSheetAnimator2D::SetFirstSpriteSheet()
-   {
-       if (isUsingspritesheet)
-       {
-           isUsingspritesheet = false;
-
-           mySpriteRenderer->spriteRectMin = { 0, 0 };
-           mySpriteRenderer->spriteRectMax = {1, 1};
-       }
-       else
-       {
-           isUsingspritesheet = true;
-
-           Assets::Texture sprite = mySpriteRenderer->GetSprite();
-           if (!sprite.IsValid())
-               return;
-
-           const std::vector<Math::RectSizePos>& spriteRects = sprite.GetSpriteRects();
-           if (spriteRects.empty())
-               return;
-
-           const Math::RectSizePos& rect = spriteRects[0];
-           mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
-       }
-   }
-#endif
+//#ifdef ECLIPSED_EDITOR
+//   void SpriteSheetAnimator2D::SetFirstSpriteSheet()
+//   {
+//       if (isUsingspritesheet)
+//       {
+//           isUsingspritesheet = false;
+//
+//           mySpriteRenderer->spriteRectMin = { 0, 0 };
+//           mySpriteRenderer->spriteRectMax = {1, 1};
+//       }
+//       else
+//       {
+//           isUsingspritesheet = true;
+//
+//           Assets::Texture sprite = mySpriteRenderer->GetSprite();
+//           if (!sprite.IsValid())
+//               return;
+//
+//           const std::vector<Math::RectSizePos>& spriteRects = sprite.GetSpriteRects();
+//           if (spriteRects.empty())
+//               return;
+//
+//           const Math::RectSizePos& rect = spriteRects[0];
+//           mySpriteRenderer->SetSpriteRect(rect.position, rect.position + rect.size);
+//       }
+//   }
+//#endif
 }

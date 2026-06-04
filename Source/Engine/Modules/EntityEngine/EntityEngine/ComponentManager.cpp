@@ -64,8 +64,11 @@ namespace Eclipse
         free(myComponentData);
 
         myComponentMemoryTracker = 0;
+        graveyard.clear();
+
         myComponentsToStartBuffer.clear();
         myComponentsToStart.clear();
+
 
         for (auto& [id, obj] : myEntityIdToEntity)
         {
@@ -211,11 +214,13 @@ namespace Eclipse
         }
 
         if (!ptrToComponent)
+        {
             ptrToComponent = base + myComponentMemoryTracker;
 
-        myComponentMemoryTracker += size;
+            myComponentMemoryTracker += size;
 
-        assert((myComponentMemoryTracker) <= MAX_COMPONENT_MEMORY_BYTES && "Adding the latest componnet made the component tracker go over max count increase MAX_COMPONENT_MEMORY_BYTES");
+            assert((myComponentMemoryTracker) <= MAX_COMPONENT_MEMORY_BYTES && "Adding the latest componnet made the component tracker go over max count increase MAX_COMPONENT_MEMORY_BYTES");
+        }
 
 
         unsigned typeIndex = Utilities::IDGenerator::GetID();
@@ -440,8 +445,9 @@ namespace Eclipse
 
     void ComponentManager::Destroy(GameObjectID aGOID)
     {
+#ifdef ECLIPSED_NETWORKING
         DestroyGameObjectReplicated(aGOID);
-
+#endif
         gameobjectsToRemove.emplace_back(aGOID);
     }
 
