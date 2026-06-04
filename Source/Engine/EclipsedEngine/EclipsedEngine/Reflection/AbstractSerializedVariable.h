@@ -85,19 +85,18 @@ namespace Eclipse::Reflection
 
 		bool IsValid() const;
 
+		bool hasData = false;
+
 		unsigned ReplicatedVariableIndex = 0;
 
 		unsigned GetReplicationID()
 		{
 			return ReplicatedVariableIndex;
 		}
-		bool hasData = false;
 	protected:
-		bool componentHasDrawInspector = false;
-		bool canDrawInspector = false;
-
 		const char* name = "";
 		Component* pComponent = nullptr;
+		bool componentHasDrawInspector = false;
 
 		SerializedTypes_ type = SerializedType_None;
 		unsigned sizePerElement = 0;
@@ -108,6 +107,7 @@ namespace Eclipse::Reflection
 
 		const char* nameID = "";
 
+		bool canDrawInspector = false;
 		float myChangAmount;
 
 		unsigned imguiID;
