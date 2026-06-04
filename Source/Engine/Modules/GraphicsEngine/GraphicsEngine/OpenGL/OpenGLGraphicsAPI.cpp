@@ -14,7 +14,8 @@
 #include "CoreEngine/PathManager.h"
 
 #include "OpenGL/GLFW/glfw3.h"
-#include "OpenGL/glad/glad.h"
+#include "OpenGL/glad/gl.h"
+#include "OpenGL/glad/vulkan.h"
 
 #include"CoreEngine/MainSingleton.h"
 #include "CoreEngine/Settings/GraphicsSettings.h"
@@ -119,7 +120,11 @@ namespace Eclipse
 
         // Glad initialization
         {
-            iResult = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+            //iResult = gladLoadVulkan(nullptr, (GLADloadfunc)glfwGetProcAddress);
+            //if (!iResult)
+            //    return ErrorCode::GLAD_FAILED_TO_INITILIZE;
+
+            iResult = gladLoadGL((GLADloadfunc)glfwGetProcAddress);
             if (!iResult)
                 return ErrorCode::GLAD_FAILED_TO_INITILIZE;
         }

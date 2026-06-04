@@ -11,7 +11,7 @@
 
 #include "CoreEngine/Input/Input.h"
 
-#include "OpenGL\glad\glad.h"
+#include "OpenGL\glad\gl.h"
 
 #include <array>
 #include <sstream>

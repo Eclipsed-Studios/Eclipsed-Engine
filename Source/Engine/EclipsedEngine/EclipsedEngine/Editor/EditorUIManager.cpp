@@ -6,7 +6,7 @@
 #include "CoreEngine/MainSingleton.h"
 
 //----------- Glad Includes ------------
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 //----------- GLFW Includes ------------
 #define GLFW_INCLUDE_NONE

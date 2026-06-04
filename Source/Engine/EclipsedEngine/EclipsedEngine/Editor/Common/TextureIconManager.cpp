@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <fstream>
 
-#include <OpenGL/glad/glad.h>
+#include <OpenGL/glad/gl.h>
 
 #include "CoreEngine/Files/FileWatcher.h"
 

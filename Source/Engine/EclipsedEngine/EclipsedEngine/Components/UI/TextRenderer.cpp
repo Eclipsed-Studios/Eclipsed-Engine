@@ -8,7 +8,7 @@
 #include "EclipsedEngine/Components/UI/RectTransform.h"
 #include "EclipsedEngine/Components/UI/Canvas.h"
 
-#include "OpenGL/glad/glad.h"
+#include "OpenGL/glad/gl.h"
 
 #include "AssetEngine/Core/EditorAssetDatabase.h"
 #include "AssetEngine/AssetManager.h"

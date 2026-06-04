@@ -8,8 +8,6 @@
 
 #include "RenderCommands/RenderSprite2DCommand.h"
 
-#include "OpenGL/glad/glad.h"
-
 #include "CoreEngine/GraphicsBuffers/EditorBuffer.h"
 
 namespace Eclipse

@@ -18,7 +18,7 @@
 
 #include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
 
-#include "OpenGL/glad/glad.h"
+#include "OpenGL/glad/gl.h"
 
 #include "EclipsedEngine/Components/UI/RectTransform.h"
 

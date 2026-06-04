@@ -4,7 +4,7 @@
 
 #include <assert.h>
 
-#include "OpenGL/glad/glad.h"
+#include "OpenGL/glad/gl.h"
 #include "OpenGL/GLFW/glfw3.h"
 
 

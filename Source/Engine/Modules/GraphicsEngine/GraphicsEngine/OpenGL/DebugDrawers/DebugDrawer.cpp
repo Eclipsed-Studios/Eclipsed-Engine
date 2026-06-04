@@ -1,6 +1,6 @@
 #include "DebugDrawer.h"
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 #include "CoreEngine/Math/Vector/Vector2.h"
 #include "CoreEngine/GraphicsBuffers/CameraBuffer.h"

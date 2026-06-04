@@ -10,11 +10,7 @@ if exist "Temp" (
     rd /s /q "Temp"
 )
 
-:wait
 taskkill /im devenv.exe
-timeout /t 1 /nobreak >nul
-tasklist /fi "imagename eq devenv.exe" | find /i "devenv.exe" >nul
-if not errorlevel 1 goto wait
 
 if exist ".vs" (
     echo Deleting ".vs" directory

@@ -1,6 +1,6 @@
 #include "OpenGLGraphicsBuffer.h"
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <typeinfo>
 
 namespace Eclipse

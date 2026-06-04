@@ -1,6 +1,6 @@
 #include "GPUInfo.h"
 
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 namespace Eclipse
 {
@@ -14,7 +14,7 @@ namespace Eclipse
 
     int GPUInfo::GetTotalMemory()
     {
-        if (!GLAD_GL_NVX_gpu_memory_info)
+        //if (!GLAD_GL_NVX_gpu_memory_info)
             return -1;
 
         int totalMemory = 0;
@@ -25,7 +25,7 @@ namespace Eclipse
 
     int GPUInfo::GetTotalMemoryLeft()
     {
-        if (!GLAD_GL_NVX_gpu_memory_info)
+        //if (!GLAD_GL_NVX_gpu_memory_info)
             return -1;
 
         int memoryLeft = 0;
@@ -36,7 +36,7 @@ namespace Eclipse
 
     int GPUInfo::GetCurrentMemoryUsage()
     {
-        if (!GLAD_GL_NVX_gpu_memory_info)
+        //if (!GLAD_GL_NVX_gpu_memory_info)
             return -1;
 
         int totalMemoryAvaible = GetTotalMemory();
