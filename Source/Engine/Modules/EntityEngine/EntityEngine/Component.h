@@ -135,6 +135,8 @@ namespace Eclipse
 
 		bool IsDeleted = false;
 
+		size_t componentSize = 0;
+
 		RegisteredTypeIndex myComponentComponentID;
 
 	protected:

@@ -116,14 +116,21 @@ namespace Eclipse
 		myTransformBuffer.Rotation = gameObject->transform->GetRotation();
 		myTransformBuffer.Scale = gameObject->transform->GetScale();
 
-		Math::Vector2f size = spriteRectMax - spriteRectMin;
-		material->materialBuffer.spriteRect = { spriteRectMin.x, spriteRectMin.y, size.x, size.y };
+		Math::Vector2f NewSpriteRectMax = spriteRectMax;
+		Math::Vector2f NewSpriteRectMin = spriteRectMin;
+
+		NewSpriteRectMax.y = 1 - NewSpriteRectMax.y;
+		NewSpriteRectMin.y = 1 - NewSpriteRectMin.y;
+
+		Math::Vector2f size = NewSpriteRectMax - NewSpriteRectMin;
+		material->materialBuffer.spriteRect = { NewSpriteRectMin.x, NewSpriteRectMin.y, size.x, size.y };
 
 		Math::Vector2f scaleMultiplier;
 		if (sprite->IsValid())
 			scaleMultiplier = sprite->GetTextureSizeNormilized();
 		else
 			scaleMultiplier = material->GetTexture().GetTextureSizeNormilized();
+
 
 		float aspectScale = size.y / size.x;
 		mySpriteBuffer.spriteScaleMultiplier = { scaleMultiplier.x, scaleMultiplier.y * aspectScale };

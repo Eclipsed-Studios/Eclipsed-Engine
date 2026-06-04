@@ -593,11 +593,12 @@ namespace Eclipse::Editor
 	{
 		Assets::AssetMeta& meta = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(guid);
 
+		Assets::TextureMeta* tMeta = meta.GetMetaComponent<Assets::TextureMeta>();
+
+		tMeta->spriteRects.clear();
+
 		for (Rect& rect : myRects)
-		{
-			Assets::TextureMeta* tMeta = meta.GetMetaComponent<Assets::TextureMeta>();
-			tMeta->spriteRects.push_back({ rect.rect, rect.name });
-		}
+			tMeta->spriteRects.emplace_back(rect.rect, rect.name);
 
 		std::ofstream out(meta.fullPath.generic_string() + ".meta", std::ios::binary);
 		meta.WriteToStream(out);

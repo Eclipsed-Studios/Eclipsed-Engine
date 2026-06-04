@@ -4,6 +4,10 @@
 
 #include "CoreEngine/EventSystem/EventSystem.h"
 
+#include "CoreEngine/Math/RectSizePos.h"
+
+#include "AssetEngine/Metadata/Data/TextureMeta.h"
+
 namespace Eclipse::Assets
 {
 	TextureAssetType::TextureAssetType()
@@ -27,11 +31,16 @@ namespace Eclipse::Assets
 		memcpy(data.Data.data(), pixelData, size);
 		STB_Helper::FreeData_STB(pixelData);
 
+		const TextureMeta* textureMeta = file.GetMetaComponent<TextureMeta>();
 
-		//TextureAssetMetaSettings texMetaSettings = LoadOrCreateMeta<TextureAssetMetaSettings>(aPath);
-		//int dataAmount = texMetaSettings.spriteRects.size();
-		//outStream.write(reinterpret_cast<const char*>(&dataAmount), sizeof(int));
-		//outStream.write(reinterpret_cast<const char*>(texMetaSettings.spriteRects.data()), dataAmount);
+		if (textureMeta)
+		{
+			data.spriteRects.resize(textureMeta->spriteRects.size());
+
+			for (int i = 0; i < textureMeta->spriteRects.size(); i++)
+				data.spriteRects[i] = textureMeta->spriteRects[i].rect;
+		}
+		
 
 		return data;
 	}
@@ -51,6 +60,10 @@ namespace Eclipse::Assets
 		writer.Write(DATA_SIZE_PAIR(_data.height));
 		writer.Write(DATA_SIZE_PAIR(_data.channels));
 		writer.Write(_data.Data.data(), _data.Data.size());
+
+		int size = _data.spriteRects.size();
+		writer.Write(DATA_SIZE_PAIR(size));
+		writer.Write(_data.spriteRects.data(), size * sizeof(Math::RectSizePos));
 	}
 
 	void TextureAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
@@ -99,56 +112,19 @@ namespace Eclipse::Assets
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+		int size = 0;
+		reader.Read(DATA_SIZE_PAIR(size));
+
+		_data->spriteRects.resize(size);
+
+		reader.Read(_data->spriteRects.data(), size * sizeof(Math::RectSizePos));
 	}
 
 	void TextureAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
 	{
-		TextureData* _data = reinterpret_cast<TextureData*>(data);
-
-		data->guid = meta.guid;
 		reader.SetRead(meta.offset);
 
-		reader.Read(DATA_SIZE_PAIR(_data->width));
-		reader.Read(DATA_SIZE_PAIR(_data->height));
-		reader.Read(DATA_SIZE_PAIR(_data->channels));
-
-		std::vector<unsigned char> pixelData(_data->width * _data->height * _data->channels);
-		reader.Read(pixelData.data(), pixelData.size());
-
-
-		_data->dimDivOne.X = 1.f / static_cast<float>(_data->width);
-		_data->dimDivOne.Y = 1.f / static_cast<float>(_data->height);
-		_data->sizeNormalized = Math::Vector2f{ 1.f, static_cast<float>(_data->height) / _data->width };
-		_data->guid = meta.guid;
-
-		glGenTextures(1, &_data->textureID);
-		glBindTexture(GL_TEXTURE_2D, _data->textureID);
-
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, 0x2901);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, 0x2901);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
-
-		GLenum format = GL_RGB;
-
-		switch (_data->channels)
-		{
-		case 1: format = GL_RED;  break;
-		case 2: format = GL_RG;   break;
-		case 3: format = GL_RGB;  break;
-		case 4: format = GL_RGBA; break;
-
-		default:
-			assert(false && "Unsupported channel count");
-			break;
-		}
-
-		glTexImage2D(GL_TEXTURE_2D, 0, format, _data->width, _data->height, 0, format, GL_UNSIGNED_BYTE, pixelData.data());
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glBindTexture(GL_TEXTURE_2D, 0);
+		Load(reader, meta, data);
 	}
 }

@@ -27,12 +27,16 @@ namespace Eclipse
 
         void SetCurrentAnimation(const char* anAnimationName, bool aLoop = true);
 
+#ifdef ECLIPSED_EDITOR
+        void SetFirstSpriteSheet();
+        bool isUsingspritesheet = false;
+#endif
     private:
 
         //SERIALIZED_FIELD_DEFAULT(std::string, mySpriteSheetAnimationPath, "");
 
     private:
-        std::vector<unsigned> TemporarySpriteAnimation{ 0,1,2,3,4,5,6,7,0 };
+        std::vector<unsigned> TemporarySpriteAnimation{ 0,1,2,3 };
 
         SpriteRenderer2D* mySpriteRenderer;
         std::string myActiveAnimation;
@@ -43,6 +47,6 @@ namespace Eclipse
         REPLICATED_PRIVATE_SERIALIZED_FIELD_DEFAULT(int, myCurrentFrame, 0, SpriteSheetAnimator2D);
         SERIALIZED_FIELD_DEFAULT(bool, myLoop, true);
 
-        bool myIsPlaying = false;
+        bool myIsPlaying = true;
     };
 }

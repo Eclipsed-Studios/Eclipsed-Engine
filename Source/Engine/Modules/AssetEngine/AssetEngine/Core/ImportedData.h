@@ -6,6 +6,8 @@
 #include "AssetEngine/Core/GUID.h"
 #include "CoreEngine/Math/Color.h"
 
+#include "CoreEngine/Math/RectSizePos.h"
+
 namespace Eclipse::Assets
 {
 #pragma region AUDIO
@@ -68,6 +70,8 @@ namespace Eclipse::Assets
 		int height;
 		int channels;
 		std::vector<unsigned char> Data;
+
+		std::vector<Math::RectSizePos> spriteRects;
 	};
 
 #pragma endregion
