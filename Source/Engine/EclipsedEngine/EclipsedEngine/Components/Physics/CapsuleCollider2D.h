@@ -16,7 +16,7 @@ namespace Eclipse
 
         void CreateCollider() override;
 
-        void OnTransformDirty();
+        void OnShapeDirty() override;
 
         void SetRadius(float aRadius);
         void SetHalfHeight(float aHalfHeight);

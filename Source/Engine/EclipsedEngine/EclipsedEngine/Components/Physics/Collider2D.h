@@ -20,9 +20,11 @@ namespace Eclipse
 
         void EditorUpdate() override;
 
-        virtual void OnTransformDirty() {}
+        void OnTransformDirty();
+        virtual void OnShapeDirty() {}
 
         bool IsBodyOwner() { return BodyOwned; }
+        void SetRBOwningCollider(bool aOwned) { BodyOwnedByRB = aOwned; }
         b2BodyId* GetBody() { return myBodyRef; }
 
     protected:
@@ -49,9 +51,10 @@ namespace Eclipse
         b2ShapeId* myInternalCollider = reinterpret_cast<b2ShapeId*>(&myShapeID);
         b2BodyId* myBodyRef = reinterpret_cast<b2BodyId*>(&myBodyID);
 
+        bool BodyOwnedByRB = false;
+
     private:
         int myLastLayer;
-
         bool BodyOwned = false;
     };
 }

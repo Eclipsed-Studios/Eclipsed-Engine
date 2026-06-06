@@ -10,7 +10,7 @@ namespace Eclipse::Settings
 		#define MAX_LAYERS 16
 
 		SETTINGS_DATA{
-		std::array<unsigned long long, MAX_LAYERS> PhysicsLayers;
+		std::array<unsigned long long, MAX_LAYERS> PhysicsLayers{255};
 
 			SERIALIZE(
 				MAKE_NVP(PhysicsLayers)

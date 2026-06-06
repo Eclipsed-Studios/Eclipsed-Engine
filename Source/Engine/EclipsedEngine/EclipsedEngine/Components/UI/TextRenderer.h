@@ -43,8 +43,10 @@ namespace Eclipse
         //void DrawAlignmentInspector(const ImColor& onColor, const ImColor& offColor);
         //void DrawCenteringInspector(const ImColor& onColor, const ImColor& offColor);
 
+#ifdef ECLIPSED_EDITOR
         void OnDrawGizmos() override;
-        
+#endif
+
         SERIALIZED_FIELD_DEFAULT(std::string, myText, "TEXT");
         SERIALIZED_FIELD_DEFAULT(Math::Color, myTextColor, Math::Color(1, 1, 1, 1));
 

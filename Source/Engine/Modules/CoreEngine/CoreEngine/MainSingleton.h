@@ -5,6 +5,15 @@
 
 namespace Eclipse
 {
+
+#ifdef ECLIPSED_EDITOR
+    struct EditorEntry
+    {
+        bool* IsPlaying;
+        bool* IsPaused;
+    };
+#endif
+
     struct SingletonEntry
     {
         void* instance;

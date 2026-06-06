@@ -23,22 +23,22 @@ namespace Eclipse
 
     void PolygonCollider2D::DeltaChanges()
     {
-        if (myLastPoints.empty() || memcmp(&myPoints->data()->x, &myLastPoints.data()->x, myPoints->size() * sizeof(Math::Vector2f)))
+        if (myLastPoints.empty() || memcmp(myPoints->data(), myLastPoints.data(), myPoints->size() * sizeof(Math::Vector2f)))
         {
             myLastPoints.resize(myPoints->size());
-            memcpy(&myLastPoints.data()->x, &myPoints->data()->x, myPoints->size() * sizeof(Math::Vector2f));
+            memcpy(myLastPoints.data(), myPoints->data(), myPoints->size() * sizeof(Math::Vector2f));
 
-            OnTransformDirty();
+            OnShapeDirty();
         }
     }
 
-    void PolygonCollider2D::OnTransformDirty()
+    void PolygonCollider2D::OnShapeDirty()
     {
         Math::Vector2f scale = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
         if (!CreatedShape)
             CreatedShape = PhysicsEngine::CreatePolygonCollider(myInternalCollider, myBodyRef, myPoints, myLayer);
 
-        PhysicsEngine::SetTransformPolygon(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myPoints, scale);
+        PhysicsEngine::SetTransformPolygon(myInternalCollider, myPoints, scale);
     }
 }

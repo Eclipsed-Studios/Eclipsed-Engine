@@ -22,7 +22,6 @@
 #include "AssetEngine/AssetManager.h"
 //#include "AssetEngine/AssetDatabase.h"
 
-#include "CoreEngine/MainSingleton.h"
 #include <imgui.h>
 
 #include "EclipsedEngine/Components/ComponentForcelink.h"
@@ -40,6 +39,11 @@ namespace Eclipse::Editor
 {
 	void EditorRuntime::Init(const std::string& path)
 	{
+		EditorEntry& editorEntry = MainSingleton::RegisterInstance<EditorEntry>();
+		editorEntry.IsPlaying = &isPlaying;
+		editorEntry.IsPaused = &isPaused;
+
+
 		PathManager::Init(path);
 
 		ComponentForcelink::LinkComponents();

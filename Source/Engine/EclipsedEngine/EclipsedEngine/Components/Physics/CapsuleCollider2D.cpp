@@ -22,19 +22,17 @@ namespace Eclipse
 
 		if (myLastRadius != Radius)
 		{
-			myLastRadius = Radius;
-			OnTransformDirty();
+			OnShapeDirty();
 		}
 
 		if (myLastHalfHeight != HalfHeight)
 		{
-			myLastHalfHeight = HalfHeight;
-			OnTransformDirty();
+			OnShapeDirty();
 		}
 
 		if (myLastColliderPivot.x != ColliderPivot->x || myLastColliderPivot.y != ColliderPivot->y)
 		{
-			OnTransformDirty();
+			OnShapeDirty();
 		}
 	}
 
@@ -54,13 +52,17 @@ namespace Eclipse
 		HalfHeight = aHalfHeight;
 	}
 
-	void CapsuleCollider2D::OnTransformDirty()
+	void CapsuleCollider2D::OnShapeDirty()
 	{
+		myLastRadius = Radius;
+		myLastHalfHeight = HalfHeight;
+		myLastColliderPivot = ColliderPivot;
+
 		Math::Vector2f size = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
 		float radius = Radius * std::max(size.x, size.y);
 		float halfHeight = HalfHeight * size.y;
 
-		PhysicsEngine::SetTransformCapsule(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), radius, halfHeight);
+		PhysicsEngine::SetTransformCapsule(myInternalCollider, radius, halfHeight);
 	}
 }

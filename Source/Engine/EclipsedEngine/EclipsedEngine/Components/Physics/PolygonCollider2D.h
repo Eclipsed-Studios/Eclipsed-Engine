@@ -18,7 +18,7 @@ namespace Eclipse
 
         void AddPoint(const Math::Vector2f& aPoint);
         
-        void OnTransformDirty() override;
+        void OnShapeDirty() override;
 
     private:
         SERIALIZED_FIELD(std::vector<Math::Vector2f>, myPoints);

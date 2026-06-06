@@ -11,6 +11,18 @@ namespace Eclipse
     {
         Physics::SetLinearVelocity(myBody, myVelocity);
         PhysicsEngine::ChangeBodyType(myBody, BodyType::Static);
+
+        std::vector<Collider2D*> colliders;
+        ComponentManager::GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
+        for (auto& collider : colliders)
+        {
+            if (collider->IsBodyOwner())
+            {
+                myBody = collider->GetBody();
+                collider->SetRBOwningCollider(false);
+                break;
+            }
+        }
     }
 
     void RigidBody2D::Awake()
@@ -22,6 +34,7 @@ namespace Eclipse
             if (collider->IsBodyOwner())
             {
                 myBody = collider->GetBody();
+                collider->SetRBOwningCollider(true);
                 break;
             }
         }
