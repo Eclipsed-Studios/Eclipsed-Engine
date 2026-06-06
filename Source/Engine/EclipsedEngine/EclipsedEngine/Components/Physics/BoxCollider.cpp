@@ -1,9 +1,8 @@
 #include "BoxCollider2D.h"
 
-#include "PhysicsEngine/PhysicsEngine.h"
 #include "EclipsedEngine/Components/Transform2D.h"
 
-#include "RigidBody2D.h"
+#include "PhysicsEngine/PhysicsEngine.h"
 
 namespace Eclipse
 {
@@ -11,12 +10,12 @@ namespace Eclipse
 	{
 		if (myLastHalfExtents.x != HalfExtents->x || myLastHalfExtents.y != HalfExtents->y)
 		{
-			OnTransformDirty();
+			OnShapeDirty();
 		}
 
 		if (myLastColliderPivot.x != ColliderPivot->x || myLastColliderPivot.y != ColliderPivot->y)
 		{
-			OnTransformDirty();
+			OnShapeDirty();
 		}
 	}
 
@@ -25,7 +24,7 @@ namespace Eclipse
 		SetScale(HalfExtents);
 		PhysicsEngine::CreateBoxCollider(myInternalCollider, myBodyRef, myHalfExtents, myLayer);
 
-		OnTransformDirty();
+		OnShapeDirty();
 	}
 
 	void BoxCollider2D::SetScale(const Math::Vector2f& aHalfExtents)
@@ -41,7 +40,7 @@ namespace Eclipse
 		myHalfExtents = halfExtent;
 	}
 
-	void BoxCollider2D::OnTransformDirty()
+	void BoxCollider2D::OnShapeDirty()
 	{
 		myLastHalfExtents = HalfExtents;
 		myLastColliderPivot = ColliderPivot;
@@ -53,6 +52,6 @@ namespace Eclipse
 
 		myHalfExtents = halfExtent;
 
-		PhysicsEngine::SetTransformBox(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myHalfExtents, { ColliderPivot->x * halfExtent.x * 2.f, ColliderPivot->y * halfExtent.y * 2.f });
+		PhysicsEngine::SetTransformBox(myInternalCollider, myHalfExtents, { ColliderPivot->x * halfExtent.x * 2.f, ColliderPivot->y * halfExtent.y * 2.f });
 	}
 }

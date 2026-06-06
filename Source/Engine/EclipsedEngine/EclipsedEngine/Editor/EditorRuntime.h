@@ -4,6 +4,8 @@
 #include "CoreEngine/Files/FileWatcher.h"
 #include "EclipsedEngine/EclipsedRuntime.h"
 
+#include "CoreEngine/MainSingleton.h"
+
 namespace Eclipse::Editor
 {
 	class EditorRuntime

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Collider2D.h"
-
 #include "CoreEngine/Math/Vector/Vector2.h"
 
 namespace Eclipse
@@ -15,13 +14,13 @@ namespace Eclipse
 
         void DeltaChanges() override;
 
-        void OnTransformDirty() override;
+        void OnShapeDirty() override;
 
         void SetScale(const Math::Vector2f& aHalfExtents);
 
     private:
         Math::Vector2f myHalfExtents;
-        SERIALIZED_FIELD_DEFAULT(Math::Vector2f, HalfExtents, Math::Vector2f(0.5f, 0.5f));
+        SERIALIZED_FIELD_DEFAULT_MIN_MAX(Math::Vector2f, HalfExtents, Math::Vector2f(0.5f, 0.5f), Math::Vector2f(0.f, 0.f), Math::Vector2f(FLT_MAX, FLT_MAX));
 
         Math::Vector2f myLastHalfExtents;
     };

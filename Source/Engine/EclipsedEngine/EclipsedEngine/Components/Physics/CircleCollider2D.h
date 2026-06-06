@@ -15,7 +15,7 @@ namespace Eclipse
 
         void DeltaChanges() override;
 
-        void OnTransformDirty() override;
+        void OnShapeDirty()override;
 
         void SetRadius(float aRadius);
 

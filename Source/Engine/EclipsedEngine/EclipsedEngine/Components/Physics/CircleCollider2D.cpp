@@ -19,12 +19,12 @@ namespace Eclipse
 	{
 		if (LastRadius != Radius || LastRadius != Radius)
 		{
-			OnTransformDirty();
+			OnShapeDirty();
 		}
 
 		if (myLastColliderPivot.x != ColliderPivot->x || myLastColliderPivot.y != ColliderPivot->y)
 		{
-			OnTransformDirty();
+			OnShapeDirty();
 		}
 	}
 
@@ -37,13 +37,15 @@ namespace Eclipse
 		myInternalRadius = Radius * std::max(size.x, size.y);
 	}
 
-	void CircleCollider2D::OnTransformDirty()
+	void CircleCollider2D::OnShapeDirty()
 	{
 		LastRadius = Radius;
+		myLastColliderPivot = ColliderPivot;
+
 		Math::Vector2f size = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
 		myInternalRadius = Radius * std::max(size.x, size.y);
 
-		PhysicsEngine::SetTransformCircle(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation(), myInternalRadius, ColliderPivot * myInternalRadius * 2.f);
+		PhysicsEngine::SetTransformCircle(myInternalCollider, myInternalRadius, ColliderPivot * myInternalRadius * 2.f);
 	}
 }

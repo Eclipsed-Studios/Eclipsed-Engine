@@ -11,7 +11,6 @@ namespace Eclipse
 {
     void Collider2D::OnDestroy()
     {
-        auto rigidBody = gameObject->GetComponent<RigidBody2D>();
         if (BodyOwned)
         {
             PhysicsEngine::DeleteShape(myInternalCollider);
@@ -74,5 +73,14 @@ namespace Eclipse
             myLastLayer = myLayer->value;
             PhysicsEngine::ChangeLayer(myInternalCollider, myLayer);
         }
+    }
+
+    void Collider2D::OnTransformDirty()
+    {
+        if (BodyOwnedByRB)
+            return;
+
+        PhysicsEngine::SetTransform(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation());
+        OnShapeDirty();
     }
 }
