@@ -74,3 +74,5 @@ if defined SKIP_LIST (
 ) else (
     xcopy "%ENGINE_PATH%\Thirdparty\DLLs\*" "%PROJECT_PATH%\Build\" /E /I /Y
 )
+
+xcopy "%PROJECT_PATH%\Project\Settings\*" "%PROJECT_PATH%\Build\" /E /I /Y

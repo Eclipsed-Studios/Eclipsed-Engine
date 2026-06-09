@@ -12,6 +12,8 @@
 #include "CoreEngine/PathManager.h"
 #include "CoreEngine/EventSystem/EventSystem.h"
 
+#ifdef ECLIPSED_EDITOR
+
 #define BASE_SETTINGS(_SETTING, _NAME)																		\
 _SETTING() = default;																						\
 ~_SETTING() = default; 																						\
@@ -28,6 +30,25 @@ static inline _SETTING::Data& GetData() {																	\
 }																											\
 static constexpr const char* Name = _NAME;																	\
 static constexpr const char* SettingsName() { return _SETTING::Name; }	
+
+#else
+
+#define BASE_SETTINGS(_SETTING, _NAME)																		\
+_SETTING() = default;																						\
+~_SETTING() = default; 																						\
+struct TEMP { 																								\
+	TEMP() { 																								\
+		Eclipse::EventSystem::Subscribe("Engine-Load", _SETTING::Load);										\
+	}																										\
+};																											\
+static inline TEMP temp = {};																				\
+static inline _SETTING::Data& GetData() {																	\
+	static _SETTING::Data data{};																			\
+	return data;																							\
+}																											\
+static constexpr const char* Name = _NAME;																	\
+static constexpr const char* SettingsName() { return _SETTING::Name; }	
+#endif																										
 
 #define SETTINGS_DATA struct Data
 
@@ -59,7 +80,11 @@ namespace Eclipse::Settings
 
 		static inline void Load()
 		{
+#ifdef ECLIPSED_EDITOR
 			std::filesystem::path path = PathManager::GetSettingsPath() / Derived::Name;
+#else
+			std::filesystem::path path = Derived::Name;
+#endif
 			std::ifstream in(path);
 			if (!in.is_open()) {
 				Save();
