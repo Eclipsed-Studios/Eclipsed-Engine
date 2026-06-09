@@ -45,6 +45,8 @@
 	#include "Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
 #endif
 
+#include "CoreEngine/Settings/ConfigManager.h"
+
 namespace Eclipse
 {
 	template Transform2D* ComponentManager::GetComponent<Transform2D>(GameObjectID);
@@ -67,7 +69,7 @@ namespace Eclipse
 		Replication::ReplicationManager::Init();
 #endif // 
 
-
+		//Configs::ConfigManager::Init();
 
 		AudioManager::Init();
 

@@ -19,12 +19,8 @@ namespace Eclipse::Settings
 				)
 		};
 
-		static const decltype(Data::Resolution)& GetResolution() {
-			return GetData().Resolution;
-		} static void SetResolution(const decltype(Data::Resolution)& data) {
-			GetData().Resolution = data;
-		}
-		GET_SET(Fullscreen)
+		GET_SET(Resolution)
+			GET_SET(Fullscreen)
 		GET_SET(NumberOfRenderBuffers)
 
 		BASE_SETTINGS(GraphicsSettings, "graphics");
