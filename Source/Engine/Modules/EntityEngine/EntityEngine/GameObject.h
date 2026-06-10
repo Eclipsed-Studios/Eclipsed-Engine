@@ -35,7 +35,10 @@ namespace Eclipse
 
 		const Math::Vector4f& GetPixelPickingIDColor() { return myPixelPickColor; }
 
+		GameObject* GetTopParent();
+
 		GameObject*& GetParent();
+
 		void SetParent(GameObject* aGO);
 
 		GameObject*& GetChild(int index);
@@ -63,6 +66,7 @@ namespace Eclipse
 		bool IsPrefab = false;
 		std::string prefabAssetIDStr;
 	private:
+		GameObject* GetTopParentInternal(GameObject* aGameobject);
 
 		GameObject* parent = nullptr;
 		std::vector<GameObject*> children;

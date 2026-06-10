@@ -34,8 +34,6 @@ namespace Eclipse
 
 			Canvas* GetParentCanvas(GameObject* BaseObject);
 
-			void RecursiveDeleteChildren(GameObject*& aGameObject);
-
 			bool CheckCopomentType(GameObject* aGameobject, GameObject* aParent);
 
 			static inline std::set<unsigned> gameobjectIdsThatAreOpen;

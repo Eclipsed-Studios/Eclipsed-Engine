@@ -40,7 +40,19 @@ namespace Eclipse
 
 		myPixelPickColor = Math::Vector4f((float)colorInt.x / 255.f, (float)colorInt.y / 255.f, (float)colorInt.z / 255.f, 1);
 	}
+	GameObject* GameObject::GetTopParentInternal(GameObject* aGameobject)
+	{
+		GameObject* parent = aGameobject->GetParent();
+		if (parent)
+			return aGameobject->GetTopParentInternal(parent);
 
+		return aGameobject;
+	}
+
+	GameObject* GameObject::GetTopParent()
+	{
+		return GetTopParentInternal(this);
+	}
 
 	GameObject*& GameObject::GetParent()
 	{

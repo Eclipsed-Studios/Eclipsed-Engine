@@ -373,10 +373,11 @@ namespace Eclipse
             for (auto& component : myEntityIDToVectorOfComponentIDs.at(goID))
             {
                 if (!component)
-                    return;
+                    continue;
 
+#ifdef ECLIPSED_NETWORKING
                 DeleteReplicatedComponent(component->myInstanceComponentID);
-
+#endif
                 component->IsDeleted = true;
 
                 component->OnDestroy();
@@ -388,20 +389,23 @@ namespace Eclipse
 
                 componentsDeleted++;
             }
+
+            myEntityIDToVectorOfComponentIDs.erase(goID);
         }
+
 
         for (int i = 0; i < myComponents.size(); i++)
         {
             auto& component = myComponents[i];
-            if (!component->IsDeleted)
-                continue;
+            if (!component || component->IsDeleted)
+            {
+                Component* backComponent = myComponents.back();
+                if (backComponent && !backComponent->IsDeleted)
+                    std::swap(myComponents[i], myComponents.back());
 
-            Component* backComponent = myComponents.back();
-            if (!backComponent->IsDeleted)
-                std::swap(myComponents[i], myComponents.back());
-
-            myComponents.pop_back();
-            i--;
+                myComponents.pop_back();
+                i--;
+            }
         }
 
         {
@@ -436,6 +440,9 @@ namespace Eclipse
 
         for (int goID : gameobjectsToRemove)
         {
+            if (!myEntityIdToEntity.contains(goID))
+                continue;
+
             delete myEntityIdToEntity.at(goID);
             myEntityIdToEntity.erase(goID);
         }
@@ -448,7 +455,14 @@ namespace Eclipse
 #ifdef ECLIPSED_NETWORKING
         DestroyGameObjectReplicated(aGOID);
 #endif
-        gameobjectsToRemove.emplace_back(aGOID);
+
+        GameObject* gameobject = myEntityIdToEntity.at(aGOID);
+        if (gameobject)
+            gameobjectsToRemove.emplace_back(aGOID);
+
+        auto& children = gameobject->GetChildren();
+        for(auto& child : children)
+            Destroy(child->GetID());
     }
 
     GameObject* ComponentManager::CreateGameObject(GameObjectID aId)
