@@ -12,7 +12,7 @@
 #include <functional>
 
 #define GetComp(Type, GOID)\
-ComponentManager::GetComponent<Type>(GOID)
+ComponentManager::Get().GetComponent<Type>(GOID)
 
 #define MAX_COMPONENT_MEMORY_BYTES 20'000'000
 
@@ -38,124 +38,132 @@ namespace Eclipse
 		friend class SceneLoader;
 
 	public:
+		static ComponentManager* Instance;
+		static ComponentManager& Get()
+		{
+			return *Instance;
+		}
+
+		void SetIntance(ComponentManager& aComponentManager) { Instance = &aComponentManager; }
+
 		ComponentManager() = default;
 		~ComponentManager() = default;
 
-		static void SetCreateComponentReplicated(std::function<void(Component*)> aCreateComponentReplicated) { CreateComponentReplicated = aCreateComponentReplicated; }
+		void SetCreateComponentReplicated(std::function<void(Component*)> aCreateComponentReplicated) { CreateComponentReplicated = aCreateComponentReplicated; }
 
-		static void SetDeleteReplicationComponent(std::function<void(unsigned)> aDeleteReplicatedComponent) { DeleteReplicatedComponent = aDeleteReplicatedComponent; }
-		static void SetDestroyGameObjectReplicated(std::function<void(unsigned)> aDestroyGameObjectReplicated) { DestroyGameObjectReplicated = aDestroyGameObjectReplicated; }
+		void SetDeleteReplicationComponent(std::function<void(unsigned)> aDeleteReplicatedComponent) { DeleteReplicatedComponent = aDeleteReplicatedComponent; }
+		void SetDestroyGameObjectReplicated(std::function<void(unsigned)> aDestroyGameObjectReplicated) { DestroyGameObjectReplicated = aDestroyGameObjectReplicated; }
 
-		static void SetBeforeAfterComponentConstruction(std::function<void()> aBeforeComponentConstruction, std::function<void()> aAfterComponentConstruction)
+		void SetBeforeAfterComponentConstruction(std::function<void()> aBeforeComponentConstruction, std::function<void()> aAfterComponentConstruction)
 		{
 			BeforeComponentConstruction = aBeforeComponentConstruction;
 			AfterComponentConstruction = aAfterComponentConstruction;
 		}
+
+		void Init();
+
+		void OnAddedAllComponentsLoadScene();
+		void OnLoadScene();
+
+		void AwakeStartComponents();
+
+		void AwakeComponents();
+		void StartComponents();
+
+		void EditorUpdateComponents();
+		void EditorLateUpdateComponents();
+
+		void EarlyUpdateComponents();
+		void UpdateComponents();
+		void LateUpdateComponents();
+		void RenderComponents();
+
+		void SortComponents();
 		
-		static void Init();
+		//void SortRenderComponents();
 
-		static void OnAddedAllComponentsLoadScene();
-		static void OnLoadScene();
-
-		static void AwakeStartComponents();
-
-		static void AwakeComponents();
-		static void StartComponents();
-
-		static void EditorUpdateComponents();
-		static void EditorLateUpdateComponents();
-
-		static void EarlyUpdateComponents();
-		static void UpdateComponents();
-		static void LateUpdateComponents();
-		static void RenderComponents();
-
-		static void SortComponents();
-		
-		//static void SortRenderComponents();
-
-		static void BeginCollisions(unsigned aGOID);
-		static void EndCollisions(unsigned aGOID);
+		void BeginCollisions(unsigned aGOID);
+		void EndCollisions(unsigned aGOID);
 
 		template <typename T>
-		static void GetAllComponentsOfTypePtr(std::vector<int>& aComponents);
+		void GetAllComponentsOfTypePtr(std::vector<int>& aComponents);
 		
 		template <typename T>
-		static void GetAllComponentsOfType(unsigned aGOID, std::vector<T*>& aComponents);
+		void GetAllComponentsOfType(unsigned aGOID, std::vector<T*>& aComponents);
 
 		template <typename T>
-		static T* GetComponent(unsigned aGOID);
+		T* GetComponent(unsigned aGOID);
 
 		template <typename T>
-		static T* AddComponent(unsigned aGOID, bool IsReplicated = false);
+		T* AddComponent(unsigned aGOID, bool IsReplicated = false);
 		template <typename T>
-		static T* AddComponentWithID(unsigned aGOID, unsigned aComponentID, bool IsReplicated = false);
+		T* AddComponentWithID(unsigned aGOID, unsigned aComponentID, bool IsReplicated = false);
 
-		static void DeleteComponent(unsigned aGOID, unsigned aUniqueComponentID, unsigned aComponentID);
+		void DeleteComponent(unsigned aGOID, unsigned aUniqueComponentID, unsigned aComponentID);
 
-		static GameObject* FindObjectByName(const char* aName);
+		GameObject* FindObjectByName(const char* aName);
 
 
-		static Component* AddComponent(unsigned aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
-		static Component* AddComponentWithID(unsigned aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
+		Component* AddComponent(unsigned aGOID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
+		Component* AddComponentWithID(unsigned aGOID, unsigned aComponentID, Eclipse::Component* (__cdecl* createFunc)(unsigned char* address), size_t size);
 
 
 		template <typename T>
-		static unsigned GetComponentID();
+		unsigned GetComponentID();
 
-		static const std::vector<Component*>& GetAllComponents();
+		const std::vector<Component*>& GetAllComponents();
 
-		static std::vector<Component*> GetComponents(unsigned aGOID);
+		std::vector<Component*> GetComponents(unsigned aGOID);
 
 
-		static bool HasGameObject(unsigned aGOID);
-		static GameObject* GetGameObject(unsigned aGOID);
+		bool HasGameObject(unsigned aGOID);
+		GameObject* GetGameObject(unsigned aGOID);
 
-		static void CommitDestroy();
+		void CommitDestroy();
 
-		static void Destroy(unsigned aGOID);
+		void Destroy(unsigned aGOID);
 
-		static unsigned GetNewGOID()
+		unsigned GetNewGOID()
 		{
 			return Random::RandRange<unsigned>(0, 0x00FFFFFF);
 		}
 
-		static GameObject* CreateGameObject(GameObjectID aId);
-		static GameObject* CreateGameObject();
+		GameObject* CreateGameObject(GameObjectID aId);
+		GameObject* CreateGameObject();
 
-		static void Clear();
+		void Clear();
 
 	private:
-		static inline std::function<void(Component*)> CreateComponentReplicated;
+		std::function<void(Component*)> CreateComponentReplicated;
 
-		static inline std::function<void()> BeforeComponentConstruction;
-		static inline std::function<void()> AfterComponentConstruction;
+		std::function<void()> BeforeComponentConstruction;
+		std::function<void()> AfterComponentConstruction;
 
-		static inline std::function<void(unsigned)> DestroyGameObjectReplicated;
-		static inline std::function<void(unsigned)> DeleteReplicatedComponent;
+		std::function<void(unsigned)> DestroyGameObjectReplicated;
+		std::function<void(unsigned)> DeleteReplicatedComponent;
 
 
-		static inline size_t myComponentMemoryTracker = 0;
-		static inline uint8_t* myComponentData;
+		size_t myComponentMemoryTracker = 0;
+		uint8_t* myComponentData;
 
-		//static inline std::vector<Component*> myRenderComponents;
-		static inline std::vector<Component*> myComponents;
+		//std::vector<Component*> myRenderComponents;
+		std::vector<Component*> myComponents;
 
-		static inline std::vector<Component*> myComponentsToStartBuffer;
-		static inline std::vector<Component*> myComponentsToStart;
+		std::vector<Component*> myComponentsToStartBuffer;
+		std::vector<Component*> myComponentsToStart;
 
 		// Gameobject to components
-		static inline std::unordered_map<unsigned, GameObject*> myEntityIdToEntity;
-		static inline std::unordered_map<unsigned, std::vector<Component*>> myEntityIDToVectorOfComponentIDs;
+		std::unordered_map<unsigned, GameObject*> myEntityIdToEntity;
+		std::unordered_map<unsigned, std::vector<Component*>> myEntityIDToVectorOfComponentIDs;
 
-		static inline std::vector<unsigned> gameobjectsToRemove;
+		std::vector<unsigned> gameobjectsToRemove;
 
 		struct Graveyard
 		{
 			void* ptr;
 			size_t size;
 		};
-		static inline std::vector<Graveyard> graveyard;
+		std::vector<Graveyard> graveyard;
 	};
 }
 

@@ -42,7 +42,7 @@
 
 void Eclipse::Editor::SceneWindow::ZoomToObject(unsigned aObject)
 {
-	Transform2D* transform = ComponentManager::GetComponent<Transform2D>(aObject);
+	Transform2D* transform = ComponentManager::Get().GetComponent<Transform2D>(aObject);
 	if (transform)
 	{
 		myInspectorPosition = transform->GetPosition();
@@ -51,7 +51,7 @@ void Eclipse::Editor::SceneWindow::ZoomToObject(unsigned aObject)
 		return;
 	}
 
-	RectTransform* rectTransform = ComponentManager::GetComponent<RectTransform>(aObject);
+	RectTransform* rectTransform = ComponentManager::Get().GetComponent<RectTransform>(aObject);
 	if (rectTransform)
 	{
 		myInspectorPosition = rectTransform->myCanvas->gameObject->transform->GetPosition();
@@ -167,11 +167,11 @@ void Eclipse::Editor::SceneWindow::SpriteDragging()
 		positionSnappPosition = { roundX, roundY };
 	}
 
-	Transform2D* transform = ComponentManager::GetComponent<Transform2D>(currentGO);
+	Transform2D* transform = ComponentManager::Get().GetComponent<Transform2D>(currentGO);
 	if (transform)
 		transform->SetPosition(mySpriteMouseDownPosition + positionSnappPosition);
 
-	RectTransform* rectTransform = ComponentManager::GetComponent<RectTransform>(currentGO);
+	RectTransform* rectTransform = ComponentManager::Get().GetComponent<RectTransform>(currentGO);
 	if (rectTransform)
 	{
 		Math::Vector2f translatedPosition = Math::Vector2f(rectTransform->myCanvas->ReferenceResolution->y, rectTransform->myCanvas->ReferenceResolution->y);
@@ -225,7 +225,7 @@ void Eclipse::Editor::SceneWindow::SpriteSelector()
 			SelectionContext::SetActiveContext(GameObjectTarget{ gameobject->GetID() });
 
 
-			GameObject* pickedGameobject = ComponentManager::GetGameObject(pickedID);
+			GameObject* pickedGameobject = ComponentManager::Get().GetGameObject(pickedID);
 
 			Transform2D* transform = pickedGameobject->transform;
 			Math::Vector2f globalPosition = transform->GetPosition();
@@ -240,7 +240,7 @@ void Eclipse::Editor::SceneWindow::SpriteSelector()
 			gameobject->SetParent(nullptr);
 		}
 
-		Transform2D* transform = ComponentManager::GetComponent<Transform2D>(SelectionContext::GetCurrentData<GameObjectTarget>());
+		Transform2D* transform = ComponentManager::Get().GetComponent<Transform2D>(SelectionContext::GetCurrentData<GameObjectTarget>());
 		if (transform)
 		{
 			draggingSprite = true;
@@ -249,7 +249,7 @@ void Eclipse::Editor::SceneWindow::SpriteSelector()
 			mySpriteMoveVector = { 0, 0 };
 		}
 
-		RectTransform* rectTransform = ComponentManager::GetComponent<RectTransform>(SelectionContext::GetCurrentData<GameObjectTarget>());
+		RectTransform* rectTransform = ComponentManager::Get().GetComponent<RectTransform>(SelectionContext::GetCurrentData<GameObjectTarget>());
 		if (rectTransform)
 		{
 			draggingSprite = true;

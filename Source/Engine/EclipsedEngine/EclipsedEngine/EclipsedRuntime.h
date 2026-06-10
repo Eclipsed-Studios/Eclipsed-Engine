@@ -6,6 +6,7 @@
 #include <thread>
 
 #include "PhysicsEngine/PhysicsEngine.h"
+#include "EntityEngine/ComponentManager.h"
 
 namespace Eclipse
 {
@@ -33,6 +34,7 @@ namespace Eclipse
 	private:
 		Engine engine;
 		PhysicsEngine physicsEngine;
+		ComponentManager componentManager;
 
 		//std::thread renderThread;
 	};

@@ -143,7 +143,7 @@ namespace Eclipse
 
 		CommandListManager::ResetAllCommandLists();
 
-		ComponentManager::Clear();
+		ComponentManager::Get().Clear();
 		Reflection::ReflectionManager::ClearList();
 
 		PhysicsEngine::Get().CleanUp();
