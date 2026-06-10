@@ -66,6 +66,8 @@ namespace Eclipse
 
             for (auto varIt = coIt->value.MemberBegin(); varIt != coIt->value.MemberEnd(); varIt++)
             {
+                if (refIndex >= reflectedVars.size())
+                    continue;
                 auto& reflectedVariable = reflectedVars.at(refIndex++);
                 SceneLoader::LoadType(reflectedVariable, coIt->value);
             }

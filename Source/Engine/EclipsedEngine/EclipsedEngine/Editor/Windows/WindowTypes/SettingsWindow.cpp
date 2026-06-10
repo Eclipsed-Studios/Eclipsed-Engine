@@ -196,7 +196,9 @@ namespace Eclipse::Editor
 
                     totalID++;
 
-                    uint64_t firstLayer = PhysicsEngine::myCollisionLayers[i];
+                    PhysicsEngine& physEngine = PhysicsEngine::Get();
+
+                    uint64_t firstLayer = physEngine.myCollisionLayers[i];
                     int secondLayer = (1 << (layerCount - 1 - j));
 
                     int hasLayer = firstLayer & secondLayer;
@@ -207,15 +209,16 @@ namespace Eclipse::Editor
                     ImGui::SetNextItemWidth(10);
                     if (ImGui::Checkbox("", &hasLayerBool))
                     {
+                        int byteShifts = (1 << (layerCount - 1 - j));
                         if (hasLayerBool)
                         {
-                            PhysicsEngine::myCollisionLayers[layerCount - 1 - j] |= (1 << i);
-                            PhysicsEngine::myCollisionLayers[i] |= (1 << (layerCount - 1 - j));
+                            physEngine.myCollisionLayers[layerCount - 1 - j] |= (1 << i);
+                            physEngine.myCollisionLayers[i] |= byteShifts;
                         }
                         else
                         {
-                            PhysicsEngine::myCollisionLayers[layerCount - 1 - j] &= ~(1 << i);
-                            PhysicsEngine::myCollisionLayers[i] &= ~(1 << (layerCount - 1 - j));
+                            physEngine.myCollisionLayers[layerCount - 1 - j] &= ~(1 << i);
+                            physEngine.myCollisionLayers[i] &= ~byteShifts;
                         }
 
                         SaveLayerEditToJSON();
@@ -230,7 +233,7 @@ namespace Eclipse::Editor
 
     void GameSettingsWindow::SaveLayerEditToJSON()
     {
-        Settings::PhysicsSettings::SetPhysicsLayers(PhysicsEngine::myCollisionLayers);
+        Settings::PhysicsSettings::SetPhysicsLayers(PhysicsEngine::Get().myCollisionLayers);
 
         Settings::PhysicsSettings::Save();
     }
