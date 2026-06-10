@@ -147,7 +147,7 @@ void Eclipse::Editor::SceneWindow::MouseManager()
 
 void Eclipse::Editor::SceneWindow::SpriteDragging()
 {
-	if (!draggingSprite)
+	if (!draggingSprite || mySpriteMoveVector.LengthSqrd() < 0.0025f)
 		return;
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -257,6 +257,15 @@ void Eclipse::Editor::SceneWindow::SpriteSelector()
 			mySpriteMouseDownPosition = rectTransform->GetLocalPosition();
 			mySpriteMoveVector = { 0, 0 };
 		}
+
+		//GameObject* gm = transform->gameObject->GetTopParent();
+
+		//pickedID = gm->GetID();
+		//SelectionContext::SetActiveContext(GameObjectTarget{ pickedID });
+		//HierarchyWindow::CurrentGameObjectID = pickedID;
+
+		//if (pickedID)
+		//	HierarchyWindow::OpenParents(pickedID);
 	}
 	else
 	{

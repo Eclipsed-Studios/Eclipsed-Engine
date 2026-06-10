@@ -29,10 +29,13 @@ namespace Eclipse
     void LoadLayersFromJSON(std::array<uint64_t, MAX_LAYERS>& aCollisionLayers)
     {
         auto& layers = Settings::PhysicsSettings::GetPhysicsLayers();
-        for (int i = 0; i < layers.size(); i++)
-        {
-            aCollisionLayers[i] = layers[i];
-        }
+
+        int result = memcmp(layers.data(), aCollisionLayers.data(), MAX_LAYERS * sizeof(uint64_t));
+
+        if (!result)
+            memset(aCollisionLayers.data(), ULLONG_MAX, MAX_LAYERS * sizeof(uint64_t));
+        else
+            memcpy(aCollisionLayers.data(), layers.data(), MAX_LAYERS * sizeof(uint64_t));
     }
 
     void PhysicsEngine::InitWorld()

@@ -408,7 +408,7 @@ namespace Eclipse::Editor
                 if (ComponentManager::myEntityIdToEntity.find(currentObject) != ComponentManager::myEntityIdToEntity.end())
                 {
                     GameObject* gameobject = ComponentManager::myEntityIdToEntity.at(currentObject);
-                    RecursiveDeleteChildren(gameobject);
+                    ComponentManager::Destroy(gameobject->GetID());
 
                     gameobject->Delete();
                     gameobjectIdsThatAreOpen.erase(currentObject);
@@ -428,18 +428,6 @@ namespace Eclipse::Editor
 
             HierarchyButton(data, 0.f);
         }
-    }
-
-    void HierarchyWindow::RecursiveDeleteChildren(GameObject*& aGameObject)
-    {
-        auto& children = aGameObject->GetChildren();
-        for (auto& child : children)
-            RecursiveDeleteChildren(child);
-
-        if (!aGameObject->IsOwner())
-            return;
-
-        ComponentManager::Destroy(aGameObject->GetID());
     }
 }
 #endif

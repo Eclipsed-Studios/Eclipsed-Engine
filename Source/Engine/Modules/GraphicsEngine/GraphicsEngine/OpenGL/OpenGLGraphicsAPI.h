@@ -79,5 +79,12 @@ namespace Eclipse
 	private:
 
 		static inline std::vector<GLFWcursor*> myMouseCursors;
+
+#ifndef ECLIPSED_EDITOR
+		unsigned totalCount = 20;
+		unsigned currentCount = 0;
+
+		unsigned totaltimeElapsed = 0;
+#endif
 	};
 }
