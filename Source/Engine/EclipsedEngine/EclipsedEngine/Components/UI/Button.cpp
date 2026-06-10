@@ -64,7 +64,7 @@ namespace Eclipse
 	{
 		//SceneManager::LoadScene(1);
 
-		ComponentManager::FindObjectByName("Spawner")->GetComponent<Eclipse::PlayerSpawner>()->StartGame();
+		ComponentManager::Get().FindObjectByName("Spawner")->GetComponent<Eclipse::PlayerSpawner>()->StartGame();
 
 		//Replication::ReplicationManager::ClickedHostButton = true;
 

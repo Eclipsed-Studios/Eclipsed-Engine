@@ -16,7 +16,7 @@ namespace Eclipse
             PhysicsEngine::Get().DeleteShape(myInternalCollider);
 
             std::vector<Collider2D*> colliders;
-            ComponentManager::GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
+            ComponentManager::Get().GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
 
             if (!colliders.size())
                 PhysicsEngine::Get().DeleteBody(myBodyRef);
@@ -35,7 +35,7 @@ namespace Eclipse
         myUserData = { gameObject->GetID() };
 
         std::vector<Collider2D*> colliders;
-        ComponentManager::GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
+        ComponentManager::Get().GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
 
         bool ColliderHasRB = false;
 

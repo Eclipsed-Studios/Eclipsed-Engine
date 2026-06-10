@@ -21,13 +21,13 @@ namespace Eclipse
             if (child->GetChildCount() > 0)
                 StartChildren(child->GetChildren());
 
-            for (auto& component : ComponentManager::GetComponents(child->GetID()))
+            for (auto& component : ComponentManager::Get().GetComponents(child->GetID()))
                 component->OnComponentAddedNoCreations();
 
-            for (auto& component : ComponentManager::GetComponents(child->GetID()))
+            for (auto& component : ComponentManager::Get().GetComponents(child->GetID()))
                 component->OnSceneLoaded();
 
-            for (auto& component : ComponentManager::GetComponents(child->GetID()))
+            for (auto& component : ComponentManager::Get().GetComponents(child->GetID()))
             {
                 component->OnComponentAdded();
                 //component->ComponentCreated();
@@ -46,7 +46,7 @@ namespace Eclipse
 
     void InternalSpawnObjectClass::PasteGameObject(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator)
     {
-        aGameObject = ComponentManager::CreateGameObject();
+        aGameObject = ComponentManager::Get().CreateGameObject();
         aGameObject->SetName(gameobject["Name"].GetString());
 
         for (auto& componentJson : gameobject["Components"].GetArray())
@@ -125,7 +125,7 @@ namespace Eclipse
             if (newGameobject->GetChildCount() > 0)
                 StartChildren(newGameobject->GetChildren());
 
-            auto components = ComponentManager::GetComponents(newGameobject->GetID());
+            auto components = ComponentManager::Get().GetComponents(newGameobject->GetID());
 
             std::sort(components.begin(), components.end(), [&](Component* aComp0, Component* aComp1)
             {
@@ -172,7 +172,7 @@ namespace Eclipse
             if (newGameobject->GetChildCount() > 0)
                 StartChildren(newGameobject->GetChildren());
 
-            auto components = ComponentManager::GetComponents(newGameobject->GetID());
+            auto components = ComponentManager::Get().GetComponents(newGameobject->GetID());
             std::sort(components.begin(), components.end(), [&](Component* aComp0, Component* aComp1)
             {
                 return aComp0->GetUpdatePriority() > aComp1->GetUpdatePriority();
@@ -196,7 +196,7 @@ namespace Eclipse
     void InternalSpawnObjectClass::PasteGameObjectSpecifiedIds(GameObject*& aGameObject, rapidjson::Value& gameobject, rapidjson::Document::AllocatorType& anAllocator,
                                                                int aGameobjectID, const std::vector<unsigned>& aComponentsID, int currentIndex, bool fromReplicated)
     {
-        aGameObject = ComponentManager::CreateGameObject(aGameobjectID);
+        aGameObject = ComponentManager::Get().CreateGameObject(aGameobjectID);
         aGameObject->SetName(gameobject["Name"].GetString());
         aGameObject->SetIsOwner(false);
 

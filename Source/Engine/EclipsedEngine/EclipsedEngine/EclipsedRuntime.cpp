@@ -49,8 +49,8 @@
 
 namespace Eclipse
 {
-	template Transform2D* ComponentManager::GetComponent<Transform2D>(GameObjectID);
-	template SpriteRenderer2D* ComponentManager::GetComponent<SpriteRenderer2D>(GameObjectID);
+	//template Transform2D* ComponentManager::Get().GetComponent<Transform2D>(GameObjectID);
+	//template SpriteRenderer2D* ComponentManager::Get().GetComponent<SpriteRenderer2D>(GameObjectID);
 
 #ifdef ECLIPSED_EDITOR
 	void EclipsedRuntime::StartEngine(const std::string& path)
@@ -58,13 +58,14 @@ namespace Eclipse
 	void EclipsedRuntime::StartEngine()
 #endif
 	{
+		componentManager.SetIntance(componentManager);
+
 #ifndef ECLIPSED_EDITOR
 		SteamGeneral::Get().Init();
 
 		//renderThread = std::thread();
 		Assets::AssetManager::ImportBundle();
 #endif
-
 #ifdef ECLIPSED_NETWORKING
 		Replication::ReplicationManager::Init();
 #endif // 
@@ -121,13 +122,13 @@ namespace Eclipse
 			PhysicsDebugDrawer::Init(&debugDraw);
 
 			physicsEngine.Init(physicsEngine, 8, { 0.f, -9.82f }, debugDraw);
-			physicsEngine.myBeginContactCallback = [](UserData& aUserData)
+			physicsEngine.myBeginContactCallback = [this](UserData& aUserData)
 				{
-					ComponentManager::BeginCollisions(aUserData.gameobject);
+					componentManager.BeginCollisions(aUserData.gameobject);
 				};
-			physicsEngine.myEndContactCallback = [](UserData& aUserData)
+			physicsEngine.myEndContactCallback = [this](UserData& aUserData)
 				{
-					ComponentManager::EndCollisions(aUserData.gameobject);
+					componentManager.EndCollisions(aUserData.gameobject);
 				};
 		}
 
@@ -153,10 +154,10 @@ namespace Eclipse
 
 		physicsEngine.Update();
 
-		ComponentManager::AwakeStartComponents();
+		componentManager.AwakeStartComponents();
 
-		ComponentManager::EarlyUpdateComponents();
-		ComponentManager::UpdateComponents();
+		componentManager.EarlyUpdateComponents();
+		componentManager.UpdateComponents();
 
 		AudioManager::Update();
 
@@ -190,9 +191,9 @@ namespace Eclipse
 #ifdef ECLIPSED_EDITOR
 		physicsEngine.DrawPhysicsObjects();
 #endif
-		ComponentManager::RenderComponents();
-		ComponentManager::EditorLateUpdateComponents();
-		ComponentManager::LateUpdateComponents();
+		componentManager.RenderComponents();
+		componentManager.EditorLateUpdateComponents();
+		componentManager.LateUpdateComponents();
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->Render();
 	}
 
@@ -214,7 +215,7 @@ namespace Eclipse
 		Input::SetGamePosition({ mousePosNormalizedX, 1 - mousePosNormalizedY });
 #endif
 
-		ComponentManager::EditorUpdateComponents();
+		componentManager.EditorUpdateComponents();
 	}
 
 	void EclipsedRuntime::EndFrame()

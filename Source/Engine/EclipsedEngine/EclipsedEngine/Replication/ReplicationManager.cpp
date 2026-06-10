@@ -74,7 +74,7 @@ namespace Eclipse::Replication
 
     void SetComponentReplicationManager()
     {
-        ComponentManager::SetCreateComponentReplicated([](Component* aComponent)
+        ComponentManager::Get().SetCreateComponentReplicated([](Component* aComponent)
         {
             if (!MainSingleton::Exists<SteamP2PNetworkingClient>())
                 return;
@@ -84,7 +84,7 @@ namespace Eclipse::Replication
             MainSingleton::GetInstance<SteamP2PNetworkingClient>().Send(message);
         });
 
-        ComponentManager::SetDestroyGameObjectReplicated([](unsigned aGameObject)
+        ComponentManager::Get().SetDestroyGameObjectReplicated([](unsigned aGameObject)
         {
             if (!MainSingleton::Exists<SteamP2PNetworkingClient>())
                 return;
@@ -94,8 +94,8 @@ namespace Eclipse::Replication
             MainSingleton::GetInstance<SteamP2PNetworkingClient>().Send(message);
         });
 
-        ComponentManager::SetDeleteReplicationComponent([](unsigned aComponentID) { Replication::ReplicationManager::DeleteReplicatedComponent(aComponentID); });
-        ComponentManager::SetBeforeAfterComponentConstruction(
+        ComponentManager::Get().SetDeleteReplicationComponent([](unsigned aComponentID) { Replication::ReplicationManager::DeleteReplicatedComponent(aComponentID); });
+        ComponentManager::Get().SetBeforeAfterComponentConstruction(
             []() { Replication::ReplicationManager::SetBeforeReplicatedList(); },
             []() { Replication::ReplicationManager::SetAfterReplicatedList(); });
     }
@@ -127,7 +127,7 @@ namespace Eclipse::Replication
 
         ReplicatedOnPlay();
 
-        ComponentManager::FindObjectByName("Spawner")->GetComponent<Eclipse::PlayerSpawner>()->StartGame();
+        ComponentManager::Get().FindObjectByName("Spawner")->GetComponent<Eclipse::PlayerSpawner>()->StartGame();
 
         startedGame = true;
     }
