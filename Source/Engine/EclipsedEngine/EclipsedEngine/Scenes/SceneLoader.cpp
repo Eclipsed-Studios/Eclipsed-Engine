@@ -229,7 +229,7 @@ namespace Eclipse
 		Replication::ReplicationManager::ClearList();
 #endif // ECLIPSED_NETWORKING
 
-		PhysicsEngine::CleanUp();
+		PhysicsEngine::Get().CleanUp();
 	}
 	
 	void SceneLoader::Load(const Assets::Scene& scene)
@@ -239,7 +239,7 @@ namespace Eclipse
 
 
 		UnloadScene();
-		PhysicsEngine::InitWorld();
+		PhysicsEngine::Get().InitWorld();
 		
 
 		Document d;

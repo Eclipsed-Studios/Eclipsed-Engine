@@ -97,7 +97,7 @@ namespace Eclipse
 			out.close();
 
 			Editor::AssetWindow::CreateGameobjectFunc = [](char* data) { return InternalSpawnObjectClass::CreateObjectFromJsonString(data)->GetID(); };
-			Editor::AssetWindow::InitNewPhysicsScene = []() { PhysicsEngine::InitWorld(); };
+			Editor::AssetWindow::InitNewPhysicsScene = [this]() { physicsEngine.InitWorld(); };
 		}
 
 #endif
@@ -120,12 +120,12 @@ namespace Eclipse
 
 			PhysicsDebugDrawer::Init(&debugDraw);
 
-			PhysicsEngine::Init(8, { 0.f, -9.82f }, debugDraw);
-			PhysicsEngine::myBeginContactCallback = [](UserData& aUserData)
+			physicsEngine.Init(physicsEngine, 8, { 0.f, -9.82f }, debugDraw);
+			physicsEngine.myBeginContactCallback = [](UserData& aUserData)
 				{
 					ComponentManager::BeginCollisions(aUserData.gameobject);
 				};
-			PhysicsEngine::myEndContactCallback = [](UserData& aUserData)
+			physicsEngine.myEndContactCallback = [](UserData& aUserData)
 				{
 					ComponentManager::EndCollisions(aUserData.gameobject);
 				};
@@ -151,7 +151,7 @@ namespace Eclipse
 		//TODO: Might not want to call every frame but it does now
 		SteamGeneral::Get().Update();
 
-		PhysicsEngine::Update();
+		physicsEngine.Update();
 
 		ComponentManager::AwakeStartComponents();
 
@@ -187,7 +187,9 @@ namespace Eclipse
 		CORE_PROFILE_SCOPED;
 		SortComponents();
 
-		PhysicsEngine::DrawPhysicsObjects();
+#ifdef ECLIPSED_EDITOR
+		physicsEngine.DrawPhysicsObjects();
+#endif
 		ComponentManager::RenderComponents();
 		ComponentManager::EditorLateUpdateComponents();
 		ComponentManager::LateUpdateComponents();

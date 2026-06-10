@@ -226,7 +226,7 @@ namespace Eclipse::Editor
 							return;
 
 						SceneManager::UnloadScene();
-						PhysicsEngine::InitWorld();
+						PhysicsEngine::Get().InitWorld();
 
 						SceneManager::SetActiveSceneType(SceneManager::Prefab);
 						SceneManager::SetActiveScene(filePath.generic_string().c_str());

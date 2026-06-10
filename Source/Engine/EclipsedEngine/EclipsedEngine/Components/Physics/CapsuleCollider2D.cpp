@@ -10,7 +10,7 @@ namespace Eclipse
 {
 	void CapsuleCollider2D::CreateCollider()
 	{
-		PhysicsEngine::CreateCapsuleCollider(myInternalCollider, myBodyRef, Radius, HalfHeight, myLayer);
+		PhysicsEngine::Get().CreateCapsuleCollider(myInternalCollider, myBodyRef, Radius, HalfHeight, myLayer);
 
 		OnTransformDirty();
 	}
@@ -63,6 +63,6 @@ namespace Eclipse
 		float radius = Radius * std::max(size.x, size.y);
 		float halfHeight = HalfHeight * size.y;
 
-		PhysicsEngine::SetTransformCapsule(myInternalCollider, radius, halfHeight);
+		PhysicsEngine::Get().SetTransformCapsule(myInternalCollider, radius, halfHeight);
 	}
 }

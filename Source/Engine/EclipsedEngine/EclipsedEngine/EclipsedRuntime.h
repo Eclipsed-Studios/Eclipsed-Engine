@@ -5,6 +5,8 @@
 
 #include <thread>
 
+#include "PhysicsEngine/PhysicsEngine.h"
+
 namespace Eclipse
 {
 	class ECLIPSED_API EclipsedRuntime
@@ -30,6 +32,7 @@ namespace Eclipse
 
 	private:
 		Engine engine;
+		PhysicsEngine physicsEngine;
 
 		//std::thread renderThread;
 	};

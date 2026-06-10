@@ -13,6 +13,11 @@
 
 namespace Eclipse
 {
+    namespace Editor
+    {
+        class GameSettingsWindow;
+    }
+
     class Physics
     {
     public:
@@ -28,14 +33,22 @@ namespace Eclipse
     
     class PhysicsEngine
     {
+        friend class Editor::GameSettingsWindow;
+
     public:
-        static bool RayCast(const Ray& aRay, HitResults& aHitResults, float length, Layer aLayerMask = Layer::All);
-        static bool OverlapBox(const Math::Vector2f& aPositon, const Math::Vector2f& aHalfExent, HitResults& aHitResults, Layer aLayerMask = Layer::All);
-        static bool OverlapSphere(const Math::Vector2f& aPositon, float aRadius, HitResults& aHitResults, Layer aLayerMask = Layer::All);
 
+        static PhysicsEngine* Instance;
+        static PhysicsEngine& Get()
+        {
+            return *Instance;
+        }
 
+    public:
+        bool RayCast(const Ray& aRay, HitResults& aHitResults, float length, Layer aLayerMask = Layer::All);
+        bool OverlapBox(const Math::Vector2f& aPositon, const Math::Vector2f& aHalfExent, HitResults& aHitResults, Layer aLayerMask = Layer::All);
+        bool OverlapSphere(const Math::Vector2f& aPositon, float aRadius, HitResults& aHitResults, Layer aLayerMask = Layer::All);
 
-        static void CreateRigidBody(b2BodyId* aBody,
+        void CreateRigidBody(b2BodyId* aBody,
             UserData* aUserData,
             Box2DBodyType BodyType = StaticBody,
             bool LockRotation = false,
@@ -44,66 +57,66 @@ namespace Eclipse
             const Math::Vector2f& aStartPosition = { 0.f, 0.f });
 
         // Simple
-        static void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer);
-        static void CreateCircleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float radius, Layer aLayer);
-        static void CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float aHalfHeight, float aRadius, Layer aLayer);
+        void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer);
+        void CreateCircleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float radius, Layer aLayer);
+        void CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float aHalfHeight, float aRadius, Layer aLayer);
 
         // Complex
-        static bool CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
+        bool CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
 
-        static void DeleteShape(b2ShapeId* aShape);
-        static void DeleteBody(b2BodyId* aBody);
+        void DeleteShape(b2ShapeId* aShape);
+        void DeleteBody(b2BodyId* aBody);
         
-        static void SetBodyMass(b2BodyId* aBody, float aMass);
+        void SetBodyMass(b2BodyId* aBody, float aMass);
         
-        static void SetPhysicsMaterial(b2ShapeId* aShape, const PhysMaterial& material);
-        static void ChangeLayer(b2ShapeId* aShapeID, Layer aLayer);
-        static void ChangeBodyType(b2BodyId* aBodyID, BodyType aBodyType);
-        static void ChangeRBLocks(b2BodyId* aBodyID, bool XLock, bool YLock, bool RotationLock);
+        void SetPhysicsMaterial(b2ShapeId* aShape, const PhysMaterial& material);
+        void ChangeLayer(b2ShapeId* aShapeID, Layer aLayer);
+        void ChangeBodyType(b2BodyId* aBodyID, BodyType aBodyType);
+        void ChangeRBLocks(b2BodyId* aBodyID, bool XLock, bool YLock, bool RotationLock);
 
-        static void RemoveRigidBody(b2BodyId* aBodyID);
-        static void RemoveCollider(b2ShapeId* aShape);
+        void RemoveRigidBody(b2BodyId* aBodyID);
+        void RemoveCollider(b2ShapeId* aShape);
 
-        static void SetTransform(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation);
+        void SetTransform(b2BodyId* aBodyID, const Math::Vector2f& aPosition, float aRotation);
 
         // Update Simple collisions
-        static void SetTransformBox(b2ShapeId* aShapeID, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
-        static void SetTransformCircle(b2ShapeId* aShapeID, float aRadius, const Math::Vector2f& aPivot = { 0.f, 0.f });
-        static void SetTransformCapsule(b2ShapeId* aShapeID, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        void SetTransformBox(b2ShapeId* aShapeID, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        void SetTransformCircle(b2ShapeId* aShapeID, float aRadius, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        void SetTransformCapsule(b2ShapeId* aShapeID, float aRadius, float aHalfHeight, const Math::Vector2f& aPivot = { 0.f, 0.f });
 
         // Update Complex collisions
-        static void SetTransformPolygon(b2ShapeId* aShapeID, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
+        void SetTransformPolygon(b2ShapeId* aShapeID, const std::vector<Math::Vector2f>& aPoints, const Math::Vector2f& aScale, const Math::Vector2f& aPivot = { 0.f, 0.f });
 
-        static void SetGravity(const Math::Vector2f& aGravity);
+        void SetGravity(const Math::Vector2f& aGravity);
 
-        static void InitWorld();
-        static void Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw);
-        static void Update();
-        static void CleanUp();
-        static void DrawPhysicsObjects();
+        void InitWorld();
+        void Init(PhysicsEngine& aPhysicsEngine, int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw);
+        void Update();
+        void CleanUp();
+        void DrawPhysicsObjects();
 
 
-        static void CheckCollisions();
+        void CheckCollisions();
 
-        static bool& GetDebugDraw();
-        static bool& GetDebugDrawShapes(DebugDrawTypes aType);
+        bool& GetDebugDraw();
+        bool& GetDebugDrawShapes(DebugDrawTypes aType);
 
-        static void LoadLayers();
+        void LoadLayers();
 
-        static inline std::function<void(UserData&)> myBeginContactCallback;
-        static inline std::function<void(UserData&)> myEndContactCallback;
-
-        static inline std::array<uint64_t, MAX_LAYERS> myCollisionLayers = {};
+        std::function<void(UserData&)> myBeginContactCallback;
+        std::function<void(UserData&)> myEndContactCallback;
 
     private:
-        static inline b2WorldId myWorld;
-        static inline Math::Vector2f myGravity;
-        static inline int mySubstepCount = 8;
+        std::array<uint64_t, MAX_LAYERS> myCollisionLayers = {};
 
-        static inline b2DebugDraw myDebugDraw;
-        static inline bool myDrawDebugShapes = true;
-        static inline bool myDrawQueries = false;
+        b2WorldId myWorld;
+        Math::Vector2f myGravity;
+        int mySubstepCount = 8;
 
-        static inline bool myHasCreatedWorld;
+        b2DebugDraw myDebugDraw;
+        bool myDrawDebugShapes = true;
+        bool myDrawQueries = false;
+
+        bool myHasCreatedWorld;
     };
 }
