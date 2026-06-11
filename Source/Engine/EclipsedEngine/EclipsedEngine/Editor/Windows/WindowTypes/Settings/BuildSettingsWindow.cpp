@@ -38,12 +38,21 @@ namespace Eclipse::Editor
 			CleanBuild();
 
 		ImGui::SameLine();
-		ImGui::Dummy(ImVec2(20, 0));
+
+		if (ImGui::Button("Cook Content"))
+			CookContent();
+
 		ImGui::SameLine();
 
 		if (ImGui::Button("Build"))
 			Build();
 
+	}
+
+	void BuildSettingsWindow::CookContent()
+	{
+		std::filesystem::remove(PathManager::GetProjectRoot() / "Build/packed_file.bundle");
+		Assets::AssetManager::PackAssets();
 	}
 
 	void BuildSettingsWindow::CleanBuild()

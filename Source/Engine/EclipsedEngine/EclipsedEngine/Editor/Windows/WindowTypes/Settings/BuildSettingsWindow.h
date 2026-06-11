@@ -15,6 +15,7 @@ namespace Eclipse::Editor
 
 	private:
 		void CleanBuild();
+		void CookContent();
 		void Build();
 
 	private:
