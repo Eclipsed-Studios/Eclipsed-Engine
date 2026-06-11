@@ -37,8 +37,8 @@ namespace Eclipse
         Math::Vector2f scale = Math::Vector2f(myTransform->GetScale().x, myTransform->GetScale().y) * 0.01f;
 
         if (!CreatedShape)
-            CreatedShape = PhysicsEngine::CreatePolygonCollider(myInternalCollider, myBodyRef, myPoints, myLayer);
+            CreatedShape = PhysicsEngine::Get().CreatePolygonCollider(myInternalCollider, myBodyRef, myPoints, myLayer);
 
-        PhysicsEngine::SetTransformPolygon(myInternalCollider, myPoints, scale);
+        PhysicsEngine::Get().SetTransformPolygon(myInternalCollider, myPoints, scale);
     }
 }

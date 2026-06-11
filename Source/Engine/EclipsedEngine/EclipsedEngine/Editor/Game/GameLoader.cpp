@@ -27,7 +27,7 @@ void Eclipse::GameLoader::LoadGameDLL()
 			comp.name,
 			[create = comp.createFunc, size = comp.size](unsigned gameObjId, unsigned compID) -> Component*
 			{
-				return ComponentManager::AddComponentWithID(gameObjId, compID, create, size);
+				return ComponentManager::Get().AddComponentWithID(gameObjId, compID, create, size);
 			},
 			true
 		);
@@ -36,7 +36,7 @@ void Eclipse::GameLoader::LoadGameDLL()
 			comp.name,
 			[create = comp.createFunc, size = comp.size](unsigned gameObjId) -> Component*
 			{
-				return ComponentManager::AddComponent(gameObjId, create, size);
+				return ComponentManager::Get().AddComponent(gameObjId, create, size);
 			},
 			true
 		);

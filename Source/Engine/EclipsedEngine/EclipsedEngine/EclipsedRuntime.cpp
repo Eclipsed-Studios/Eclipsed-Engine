@@ -49,8 +49,8 @@
 
 namespace Eclipse
 {
-	template Transform2D* ComponentManager::GetComponent<Transform2D>(GameObjectID);
-	template SpriteRenderer2D* ComponentManager::GetComponent<SpriteRenderer2D>(GameObjectID);
+	//template Transform2D* ComponentManager::Get().GetComponent<Transform2D>(GameObjectID);
+	//template SpriteRenderer2D* ComponentManager::Get().GetComponent<SpriteRenderer2D>(GameObjectID);
 
 #ifdef ECLIPSED_EDITOR
 	void EclipsedRuntime::StartEngine(const std::string& path)
@@ -58,13 +58,14 @@ namespace Eclipse
 	void EclipsedRuntime::StartEngine()
 #endif
 	{
+		componentManager.SetIntance(componentManager);
+
 #ifndef ECLIPSED_EDITOR
 		SteamGeneral::Get().Init();
 
 		//renderThread = std::thread();
 		Assets::AssetManager::ImportBundle();
 #endif
-
 #ifdef ECLIPSED_NETWORKING
 		Replication::ReplicationManager::Init();
 #endif // 
@@ -97,7 +98,7 @@ namespace Eclipse
 			out.close();
 
 			Editor::AssetWindow::CreateGameobjectFunc = [](char* data) { return InternalSpawnObjectClass::CreateObjectFromJsonString(data)->GetID(); };
-			Editor::AssetWindow::InitNewPhysicsScene = []() { PhysicsEngine::InitWorld(); };
+			Editor::AssetWindow::InitNewPhysicsScene = [this]() { physicsEngine.InitWorld(); };
 		}
 
 #endif
@@ -120,14 +121,14 @@ namespace Eclipse
 
 			PhysicsDebugDrawer::Init(&debugDraw);
 
-			PhysicsEngine::Init(8, { 0.f, -9.82f }, debugDraw);
-			PhysicsEngine::myBeginContactCallback = [](UserData& aUserData)
+			physicsEngine.Init(physicsEngine, 8, { 0.f, -9.82f }, debugDraw);
+			physicsEngine.myBeginContactCallback = [this](UserData& aUserData)
 				{
-					ComponentManager::BeginCollisions(aUserData.gameobject);
+					componentManager.BeginCollisions(aUserData.gameobject);
 				};
-			PhysicsEngine::myEndContactCallback = [](UserData& aUserData)
+			physicsEngine.myEndContactCallback = [this](UserData& aUserData)
 				{
-					ComponentManager::EndCollisions(aUserData.gameobject);
+					componentManager.EndCollisions(aUserData.gameobject);
 				};
 		}
 
@@ -151,12 +152,12 @@ namespace Eclipse
 		//TODO: Might not want to call every frame but it does now
 		SteamGeneral::Get().Update();
 
-		PhysicsEngine::Update();
+		physicsEngine.Update();
 
-		ComponentManager::AwakeStartComponents();
+		componentManager.AwakeStartComponents();
 
-		ComponentManager::EarlyUpdateComponents();
-		ComponentManager::UpdateComponents();
+		componentManager.EarlyUpdateComponents();
+		componentManager.UpdateComponents();
 
 		AudioManager::Update();
 
@@ -187,10 +188,12 @@ namespace Eclipse
 		CORE_PROFILE_SCOPED;
 		SortComponents();
 
-		PhysicsEngine::DrawPhysicsObjects();
-		ComponentManager::RenderComponents();
-		ComponentManager::EditorLateUpdateComponents();
-		ComponentManager::LateUpdateComponents();
+#ifdef ECLIPSED_EDITOR
+		physicsEngine.DrawPhysicsObjects();
+#endif
+		componentManager.RenderComponents();
+		componentManager.EditorLateUpdateComponents();
+		componentManager.LateUpdateComponents();
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->Render();
 	}
 
@@ -212,7 +215,7 @@ namespace Eclipse
 		Input::SetGamePosition({ mousePosNormalizedX, 1 - mousePosNormalizedY });
 #endif
 
-		ComponentManager::EditorUpdateComponents();
+		componentManager.EditorUpdateComponents();
 	}
 
 	void EclipsedRuntime::EndFrame()

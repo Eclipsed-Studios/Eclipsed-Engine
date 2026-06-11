@@ -3,11 +3,12 @@
 #include "CoreEngine/IDGenerator.h"
 
 #include "CoreEngine/core.h"
-#include <iostream>
 #include <cassert>
 
 namespace Eclipse
 {
+    ComponentManager* ComponentManager::Instance;
+
     void ComponentManager::Init()
     {
         myComponentData = reinterpret_cast<uint8_t*>(malloc(MAX_COMPONENT_MEMORY_BYTES));
@@ -324,7 +325,6 @@ namespace Eclipse
 
             if (gameobject->GetName() == aName)
             {
-                std::cout << "foundName" << std::endl;
                 return gameobject;
             }
         }

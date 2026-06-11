@@ -28,7 +28,7 @@ namespace Eclipse::Editor
 {
     void HierarchyWindow::OpenParents(unsigned aParentID)
     {
-        GameObject* gameobject = ComponentManager::GetGameObject(aParentID);
+        GameObject* gameobject = ComponentManager::Get().GetGameObject(aParentID);
         if (!gameobject)
             return;
         
@@ -129,8 +129,8 @@ namespace Eclipse::Editor
                 IM_ASSERT(payload->DataSize == sizeof(unsigned));
                 unsigned draggedEntityID = *(const unsigned*)payload->Data;
 
-                auto it = ComponentManager::myEntityIdToEntity.find(draggedEntityID);
-                if (it != ComponentManager::myEntityIdToEntity.end())
+                auto it = ComponentManager::Get().myEntityIdToEntity.find(draggedEntityID);
+                if (it != ComponentManager::Get().myEntityIdToEntity.end())
                 {
                     AssignParentChildren(it->second, aGameObject);
                 }
@@ -271,7 +271,7 @@ namespace Eclipse::Editor
 
     void HierarchyWindow::CreatePrefab(unsigned aGameobjectID, std::filesystem::path aPath)
     {
-        std::string GameObjectName = ComponentManager::GetGameObject(aGameobjectID)->GetName();
+        std::string GameObjectName = ComponentManager::Get().GetGameObject(aGameobjectID)->GetName();
 
         rapidjson::StringBuffer objectJson = EditorActions::CopyObject(aGameobjectID, false);
         std::ofstream outputStream(aPath / (GameObjectName + ".eprf"));
@@ -295,7 +295,7 @@ namespace Eclipse::Editor
 
                 if (ImGui::MenuItem("Un Child"))
                 {
-                    GameObject* gameobject = ComponentManager::GetGameObject(SelectedGameobjectID);
+                    GameObject* gameobject = ComponentManager::Get().GetGameObject(SelectedGameobjectID);
 
                     Transform2D* transform = gameobject->transform;
 
@@ -323,7 +323,7 @@ namespace Eclipse::Editor
             {
                 if (ImGui::MenuItem("New Sprite"))
                 {
-                    GameObject* obj = ComponentManager::CreateGameObject();
+                    GameObject* obj = ComponentManager::Get().CreateGameObject();
                     Transform2D* transform = obj->AddComponent<Transform2D>();
                     transform->SetScale(Math::Vector2f(20, 20));
 
@@ -333,7 +333,7 @@ namespace Eclipse::Editor
                 }
                 if (ImGui::MenuItem("Empty GameObject"))
                 {
-                    GameObject* obj = ComponentManager::CreateGameObject();
+                    GameObject* obj = ComponentManager::Get().CreateGameObject();
                     obj->AddComponent<Transform2D>();
 
                     obj->SetName("New GameObject");
@@ -342,7 +342,7 @@ namespace Eclipse::Editor
                 {
                     if (ImGui::MenuItem("No Transform Object"))
                     {
-                        GameObject* obj = ComponentManager::CreateGameObject();
+                        GameObject* obj = ComponentManager::Get().CreateGameObject();
 
                         obj->SetName("New No Transform Object");
                     }
@@ -352,7 +352,7 @@ namespace Eclipse::Editor
                 {
                     if (ImGui::MenuItem("Canvas"))
                     {
-                        GameObject* obj = ComponentManager::CreateGameObject();
+                        GameObject* obj = ComponentManager::Get().CreateGameObject();
                         obj->AddComponent<Transform2D>();
                         obj->AddComponent<Canvas>();
 
@@ -360,7 +360,7 @@ namespace Eclipse::Editor
                     }
                     if (ImGui::MenuItem("Image"))
                     {
-                        GameObject* obj = ComponentManager::CreateGameObject();
+                        GameObject* obj = ComponentManager::Get().CreateGameObject();
                         obj->AddComponent<RectTransform>();
                         obj->AddComponent<UIImage>();
 
@@ -368,7 +368,7 @@ namespace Eclipse::Editor
                     }
                     if (ImGui::MenuItem("Text"))
                     {
-                        GameObject* obj = ComponentManager::CreateGameObject();
+                        GameObject* obj = ComponentManager::Get().CreateGameObject();
                         obj->AddComponent<RectTransform>();
                         obj->AddComponent<TextRenderer>();
 
@@ -376,13 +376,13 @@ namespace Eclipse::Editor
                     }
                     if (ImGui::MenuItem("Button"))
                     {
-                        GameObject* obj = ComponentManager::CreateGameObject();
+                        GameObject* obj = ComponentManager::Get().CreateGameObject();
                         obj->AddComponent<RectTransform>();
                         obj->AddComponent<Button>();
                         obj->AddComponent<UIImage>();
                         obj->SetName("New Button");
 
-                        GameObject* textObj = ComponentManager::CreateGameObject();
+                        GameObject* textObj = ComponentManager::Get().CreateGameObject();
                         textObj->AddComponent<RectTransform>();
                         TextRenderer* rend = textObj->AddComponent<TextRenderer>();
                         rend->SetText("Button");
@@ -405,10 +405,10 @@ namespace Eclipse::Editor
             unsigned currentObject = HierarchyWindow::CurrentGameObjectID;
             if (currentObject > 0)
             {
-                if (ComponentManager::myEntityIdToEntity.find(currentObject) != ComponentManager::myEntityIdToEntity.end())
+                if (ComponentManager::Get().myEntityIdToEntity.find(currentObject) != ComponentManager::Get().myEntityIdToEntity.end())
                 {
-                    GameObject* gameobject = ComponentManager::myEntityIdToEntity.at(currentObject);
-                    ComponentManager::Destroy(gameobject->GetID());
+                    GameObject* gameobject = ComponentManager::Get().myEntityIdToEntity.at(currentObject);
+                    ComponentManager::Get().Destroy(gameobject->GetID());
 
                     gameobject->Delete();
                     gameobjectIdsThatAreOpen.erase(currentObject);
@@ -419,7 +419,7 @@ namespace Eclipse::Editor
             }
         }
 
-        for (const auto& [id, data] : ComponentManager::myEntityIdToEntity)
+        for (const auto& [id, data] : ComponentManager::Get().myEntityIdToEntity)
         {
             if (data == nullptr) continue;
             GameObject* parent = data->GetParent();

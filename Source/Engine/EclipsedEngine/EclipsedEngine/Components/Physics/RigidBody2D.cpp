@@ -10,10 +10,10 @@ namespace Eclipse
     void RigidBody2D::OnDestroy()
     {
         Physics::SetLinearVelocity(myBody, myVelocity);
-        PhysicsEngine::ChangeBodyType(myBody, BodyType::Static);
+        PhysicsEngine::Get().ChangeBodyType(myBody, BodyType::Static);
 
         std::vector<Collider2D*> colliders;
-        ComponentManager::GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
+        ComponentManager::Get().GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
         for (auto& collider : colliders)
         {
             if (collider->IsBodyOwner())
@@ -28,7 +28,7 @@ namespace Eclipse
     void RigidBody2D::Awake()
     {
         std::vector<Collider2D*> colliders;
-        ComponentManager::GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
+        ComponentManager::Get().GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
         for (auto& collider : colliders)
         {
             if (collider->IsBodyOwner())
@@ -39,14 +39,14 @@ namespace Eclipse
             }
         }
         
-        PhysicsEngine::ChangeRBLocks(myBody, LockXPos, LockYPos, LockRotation);
+        PhysicsEngine::Get().ChangeRBLocks(myBody, LockXPos, LockYPos, LockRotation);
         
-        PhysicsEngine::ChangeBodyType(myBody, BodyType::Dynamic);
+        PhysicsEngine::Get().ChangeBodyType(myBody, BodyType::Dynamic);
 
         myTransform = gameObject->GetComponent<Transform2D>();
 
         myTransform->AddFunctionToRunOnDirtyUpdate(this, [&]() {
-            PhysicsEngine::SetTransform(myBody, myTransform->GetPosition(), myTransform->GetRotation());
+            PhysicsEngine::Get().SetTransform(myBody, myTransform->GetPosition(), myTransform->GetRotation());
             });
     }
 
@@ -91,7 +91,7 @@ namespace Eclipse
     void RigidBody2D::SetRotationLocked(bool aValue)
     {
         myRigidBodySettings.LockRotation = aValue;
-        PhysicsEngine::ChangeRBLocks(myBody, myRigidBodySettings.LockXPos, myRigidBodySettings.LockYPos, myRigidBodySettings.LockRotation);
+        PhysicsEngine::Get().ChangeRBLocks(myBody, myRigidBodySettings.LockXPos, myRigidBodySettings.LockYPos, myRigidBodySettings.LockRotation);
     }
     bool RigidBody2D::GetRotationLocked()
     {
@@ -101,7 +101,7 @@ namespace Eclipse
     void RigidBody2D::SetXPosLocked(bool aValue)
     {
         myRigidBodySettings.LockXPos = aValue;
-        PhysicsEngine::ChangeRBLocks(myBody, myRigidBodySettings.LockXPos, myRigidBodySettings.LockYPos, myRigidBodySettings.LockRotation);
+        PhysicsEngine::Get().ChangeRBLocks(myBody, myRigidBodySettings.LockXPos, myRigidBodySettings.LockYPos, myRigidBodySettings.LockRotation);
     }
     bool RigidBody2D::GetXPosLocked()
     {
@@ -111,7 +111,7 @@ namespace Eclipse
     void RigidBody2D::SetYPosLocked(bool aValue)
     {
         myRigidBodySettings.LockYPos = aValue;
-        PhysicsEngine::ChangeRBLocks(myBody, myRigidBodySettings.LockXPos, myRigidBodySettings.LockYPos, myRigidBodySettings.LockRotation);
+        PhysicsEngine::Get().ChangeRBLocks(myBody, myRigidBodySettings.LockXPos, myRigidBodySettings.LockYPos, myRigidBodySettings.LockRotation);
     }
     bool RigidBody2D::GetYPosLocked()
     {
