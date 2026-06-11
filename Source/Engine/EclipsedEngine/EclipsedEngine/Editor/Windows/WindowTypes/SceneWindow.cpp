@@ -147,7 +147,7 @@ void Eclipse::Editor::SceneWindow::MouseManager()
 
 void Eclipse::Editor::SceneWindow::SpriteDragging()
 {
-	if (!draggingSprite || mySpriteMoveVector.LengthSqrd() < 0.0025f)
+	if (!draggingSprite)
 		return;
 
 	ImGuiIO& io = ImGui::GetIO();
