@@ -50,13 +50,18 @@ namespace Eclipse
         return aPrefab.dataPtr->gameobject;
     }
 
+    ECLIPSED_API inline void Destroy(GameObject* aGameobject)
+    {
+        ComponentManager::Get().Destroy(aGameobject->GetID());
+    }
+
     ECLIPSED_API inline void Destroy(Component* component)
     {
-        ComponentManager::DeleteComponent(component->gameObject->GetID(), component->myComponentComponentID, component->myInstanceComponentID);   
+        ComponentManager::Get().DeleteComponent(component->gameObject->GetID(), component->myComponentComponentID, component->myInstanceComponentID);   
     }
 
     ECLIPSED_API inline GameObject* Find(const char* aName)
     {
-        return ComponentManager::FindObjectByName(aName);
+        return ComponentManager::Get().FindObjectByName(aName);
     }
 }

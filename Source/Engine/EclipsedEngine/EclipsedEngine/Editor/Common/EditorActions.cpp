@@ -57,7 +57,7 @@ namespace Eclipse::Editor
 		componentArray.SetArray();
 
 		auto& reflectionList = Reflection::ReflectionManager::GetList();
-		auto components = ComponentManager::GetComponents(activeGO);
+		auto components = ComponentManager::Get().GetComponents(activeGO);
 		for (Component* pComp : components)
 		{
 			std::string compName = pComp->GetComponentName();
@@ -90,17 +90,17 @@ namespace Eclipse::Editor
 
 			componentArray.PushBack(component, anAllocator);
 		}
-		gameobjectJson.AddMember("Name", rapidjson::Value(ComponentManager::myEntityIdToEntity.at(activeGO)->GetName().c_str(), anAllocator), anAllocator);
+		gameobjectJson.AddMember("Name", rapidjson::Value(ComponentManager::Get().myEntityIdToEntity.at(activeGO)->GetName().c_str(), anAllocator), anAllocator);
 		gameobjectJson.AddMember("Components", componentArray, anAllocator);
 
 		rapidjson::Value childArray(rapidjson::kArrayType);
 		childArray.SetArray();
 
-		auto& activeGameObjectObject = ComponentManager::myEntityIdToEntity.at(activeGO);
+		auto& activeGameObjectObject = ComponentManager::Get().myEntityIdToEntity.at(activeGO);
 
 		if (activeGameObjectObject->GetChildCount())
 		{
-			for (auto& child : ComponentManager::myEntityIdToEntity.at(activeGO)->GetChildren())
+			for (auto& child : ComponentManager::Get().myEntityIdToEntity.at(activeGO)->GetChildren())
 			{
 				rapidjson::Value childObject(rapidjson::kObjectType);
 				childObject.SetObject();
@@ -131,7 +131,7 @@ namespace Eclipse::Editor
 		rapidjson::Value gameobjectJson(rapidjson::kObjectType);
 		gameobjectJson.SetObject();
 
-		GameObject* pickedGameobject = ComponentManager::GetGameObject(aObjectID);
+		GameObject* pickedGameobject = ComponentManager::Get().GetGameObject(aObjectID);
 
 		Math::Vector2f oldLocalPosition;
 		float oldLocalRotation;

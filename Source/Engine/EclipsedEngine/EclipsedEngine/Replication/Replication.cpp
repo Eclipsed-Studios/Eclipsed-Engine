@@ -23,9 +23,9 @@ namespace Eclipse::Replication
 {
 	void ReplicationHelper::ClientHelp::RecieveAddComponentMessage(const NetMessage& message)
 	{
-		// if (!ComponentManager::HasGameObject(message.MetaData.GameObjectID))
+		// if (!ComponentManager::Get().HasGameObject(message.MetaData.GameObjectID))
 		// {
-		//     GameObject* gameobject = ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
+		//     GameObject* gameobject = ComponentManager::Get().CreateGameObject(message.MetaData.GameObjectID);
 		//     gameobject->SetIsOwner(true);
 		// }
 
@@ -42,7 +42,7 @@ namespace Eclipse::Replication
 
 		const char* name = NameBuffer;
 
-		for (auto& component : ComponentManager::GetComponents(message.MetaData.GameObjectID))
+		for (auto& component : ComponentManager::Get().GetComponents(message.MetaData.GameObjectID))
 		{
 			const char* CurrentComponentName = component->GetComponentName();
 			if (!memcmp(name, CurrentComponentName, strlen(name)))
@@ -92,19 +92,19 @@ namespace Eclipse::Replication
 
 	void ReplicationHelper::ClientHelp::RecieveCreateObjectMessage(const NetMessage& message)
 	{
-		if (ComponentManager::HasGameObject(message.MetaData.GameObjectID))
+		if (ComponentManager::Get().HasGameObject(message.MetaData.GameObjectID))
 			return;
 
-		GameObject* gameobject = ComponentManager::CreateGameObject(message.MetaData.GameObjectID);
+		GameObject* gameobject = ComponentManager::Get().CreateGameObject(message.MetaData.GameObjectID);
 		gameobject->SetIsOwner(false);
 	}
 
 	void ReplicationHelper::ClientHelp::RecieveDeleteObjectMessage(const NetMessage& message)
 	{
-		if (!ComponentManager::HasGameObject(message.MetaData.GameObjectID))
+		if (!ComponentManager::Get().HasGameObject(message.MetaData.GameObjectID))
 			return;
 
-		ComponentManager::Destroy(message.MetaData.GameObjectID);
+		ComponentManager::Get().Destroy(message.MetaData.GameObjectID);
 	}
 
 	void ReplicationHelper::ClientHelp::RecieveRequestVariablesMessage(const NetMessage& message)
@@ -176,7 +176,7 @@ namespace Eclipse::Replication
 
 	void ReplicationHelper::ClientHelp::RecieveInstantiatePrefabMessage(const NetMessage& message)
 	{
-		if (ComponentManager::HasGameObject(message.MetaData.GameObjectID))
+		if (ComponentManager::Get().HasGameObject(message.MetaData.GameObjectID))
 			return;
 
 		CommandListManager::GetHappenAtBeginCommandList().Enqueue([message]()
@@ -312,7 +312,7 @@ namespace Eclipse::Replication
 
 		std::vector<Component*> componentsToReplicate;
 
-		const std::vector<Component*>& allComponents = ComponentManager::GetAllComponents();
+		const std::vector<Component*>& allComponents = ComponentManager::Get().GetAllComponents();
 		for (const auto& component : allComponents)
 		{
 			if (component->IsReplicated && component->IsOwner() && !component->gameObject->IsPrefab)
@@ -332,7 +332,7 @@ namespace Eclipse::Replication
 
 		for (const auto& gameobject : ReplicatedGameObjects)
 		{
-			GameObject* object = ComponentManager::GetGameObject(gameobject);
+			GameObject* object = ComponentManager::Get().GetGameObject(gameobject);
 			if (object->IsPrefab)
 			{
 				Assets::GUID guid;

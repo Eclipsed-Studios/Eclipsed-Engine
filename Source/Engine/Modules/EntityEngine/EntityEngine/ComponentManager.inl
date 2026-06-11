@@ -1,5 +1,7 @@
 #include "ComponentManager.h"
 
+#include <cassert>
+
 namespace Eclipse
 {
 	inline unsigned GetUniqueComponentTypeId()

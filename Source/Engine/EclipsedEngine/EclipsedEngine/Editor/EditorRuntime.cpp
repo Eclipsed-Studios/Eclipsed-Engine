@@ -72,7 +72,7 @@ namespace Eclipse::Editor
 			// The scene has been removed.
 		}
 
-		//ComponentManager::Init();
+		//ComponentManager::Get().Init();
 	}
 
 	void EditorRuntime::SetGameChanged(const FileWatcherEvent& e)
@@ -147,7 +147,7 @@ namespace Eclipse::Editor
 
 		eclipseRuntime.EndFrame();
 
-		ComponentManager::CommitDestroy();
+		ComponentManager::Get().CommitDestroy();
 	}
 
 
@@ -226,7 +226,7 @@ namespace Eclipse::Editor
 							return;
 
 						SceneManager::UnloadScene();
-						PhysicsEngine::InitWorld();
+						PhysicsEngine::Get().InitWorld();
 
 						SceneManager::SetActiveSceneType(SceneManager::Prefab);
 						SceneManager::SetActiveScene(filePath.generic_string().c_str());

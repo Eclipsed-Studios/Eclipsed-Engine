@@ -25,7 +25,7 @@ namespace Eclipse::Editor
 		if (target == 0)
 			return;
 
-		GameObject* gameObject = ComponentManager::myEntityIdToEntity[target];
+		GameObject* gameObject = ComponentManager::Get().myEntityIdToEntity[target];
 		if (gameObject == nullptr) return;
 
 		ImGuiStyle& style = ImGui::GetStyle();
@@ -54,7 +54,7 @@ namespace Eclipse::Editor
 		int counter = 0;
 
 		static Component* rightClickedComp = nullptr;
-		for (auto comp : ComponentManager::GetComponents(gobjId))
+		for (auto comp : ComponentManager::Get().GetComponents(gobjId))
 		{
 			std::string id = comp->GetComponentName();
 			id += "##" + std::to_string(counter);

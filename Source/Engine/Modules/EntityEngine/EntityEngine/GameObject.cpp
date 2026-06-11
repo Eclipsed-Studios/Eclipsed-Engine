@@ -25,7 +25,7 @@ namespace Eclipse
 	template <typename T>
 	std::vector<T*> GameObject::GetComponents()
 	{
-		return ComponentManager::GetComponent<T>(myID);
+		return ComponentManager::Get().GetComponent<T>(myID);
 	}
 
 
@@ -134,7 +134,7 @@ namespace Eclipse
 
 	std::vector<Component*> GameObject::GetComponents()
 	{
-		return ComponentManager::GetComponents(myID);
+		return ComponentManager::Get().GetComponents(myID);
 	}
 
 	GameObjectID GameObject::GetID() const

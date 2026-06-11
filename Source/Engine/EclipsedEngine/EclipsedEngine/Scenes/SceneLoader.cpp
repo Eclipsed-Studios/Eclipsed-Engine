@@ -37,7 +37,7 @@ namespace Eclipse
 
 		std::unordered_map<std::string, std::unordered_map<unsigned, rapidjson::Value>> components;
 
-		for (Component* pComp : ComponentManager::myComponents)
+		for (Component* pComp : ComponentManager::Get().myComponents)
 		{
 			std::string compName = pComp->GetComponentName();
 
@@ -82,7 +82,7 @@ namespace Eclipse
 		}
 
 		rapidjson::Value goArray(rapidjson::kArrayType);
-		for (auto& [id, gameobject] : ComponentManager::myEntityIdToEntity)
+		for (auto& [id, gameobject] : ComponentManager::Get().myEntityIdToEntity)
 		{
 			rapidjson::Value goObj(rapidjson::kObjectType);
 
@@ -201,7 +201,7 @@ namespace Eclipse
 	{
 		for (ChildObject& child : aChildObjects)
 		{
-			GameObject* parent = ComponentManager::myEntityIdToEntity.at(child.ownerID);
+			GameObject* parent = ComponentManager::Get().myEntityIdToEntity.at(child.ownerID);
 			child.gameobject->SetParent(parent);
 		}
 		
@@ -222,14 +222,14 @@ namespace Eclipse
 	{
 		CommandListManager::ResetAllCommandLists();
 
-		ComponentManager::Clear();
+		ComponentManager::Get().Clear();
 		Reflection::ReflectionManager::ClearList();
 
 #ifdef ECLIPSED_NETWORKING
 		Replication::ReplicationManager::ClearList();
 #endif // ECLIPSED_NETWORKING
 
-		PhysicsEngine::CleanUp();
+		PhysicsEngine::Get().CleanUp();
 	}
 	
 	void SceneLoader::Load(const Assets::Scene& scene)
@@ -239,7 +239,7 @@ namespace Eclipse
 
 
 		UnloadScene();
-		PhysicsEngine::InitWorld();
+		PhysicsEngine::Get().InitWorld();
 		
 
 		Document d;
@@ -260,7 +260,7 @@ namespace Eclipse
 				unsigned int id = obj["id"].GetUint();
 				std::string name = obj["name"].GetString();
 
-				GameObject* gObj = ComponentManager::CreateGameObject(id);
+				GameObject* gObj = ComponentManager::Get().CreateGameObject(id);
 				gObj->SetName(name);
 
 				if (obj.HasMember("owner"))
@@ -283,13 +283,13 @@ namespace Eclipse
 		}
 
 
-		ComponentManager::OnAddedAllComponentsLoadScene();
-		ComponentManager::OnLoadScene();
+		ComponentManager::Get().OnAddedAllComponentsLoadScene();
+		ComponentManager::Get().OnLoadScene();
 
 		LoadChildren(childObjects);
 
 		// only if the game has started
-		//ComponentManager::AwakeStartComponents();
+		//ComponentManager::Get().AwakeStartComponents();
 	}
 
 	void SceneLoader::LoadComponent(const std::string& componentName, const rapidjson::Value& aValue)

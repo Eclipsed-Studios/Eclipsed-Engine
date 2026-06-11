@@ -13,17 +13,17 @@ namespace Eclipse
     {
         if (BodyOwned)
         {
-            PhysicsEngine::DeleteShape(myInternalCollider);
+            PhysicsEngine::Get().DeleteShape(myInternalCollider);
 
             std::vector<Collider2D*> colliders;
-            ComponentManager::GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
+            ComponentManager::Get().GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
 
             if (!colliders.size())
-                PhysicsEngine::DeleteBody(myBodyRef);
+                PhysicsEngine::Get().DeleteBody(myBodyRef);
         }
         else
         {
-            PhysicsEngine::DeleteShape(myInternalCollider);
+            PhysicsEngine::Get().DeleteShape(myInternalCollider);
         }
     }
 
@@ -35,7 +35,7 @@ namespace Eclipse
         myUserData = { gameObject->GetID() };
 
         std::vector<Collider2D*> colliders;
-        ComponentManager::GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
+        ComponentManager::Get().GetAllComponentsOfType<Collider2D>(gameObject->GetID(), colliders);
 
         bool ColliderHasRB = false;
 
@@ -51,7 +51,7 @@ namespace Eclipse
 
         if (!ColliderHasRB)
         {
-            PhysicsEngine::CreateRigidBody(myBodyRef, &myUserData, StaticBody, false, false, false, myTransform->GetPosition());
+            PhysicsEngine::Get().CreateRigidBody(myBodyRef, &myUserData, StaticBody, false, false, false, myTransform->GetPosition());
             BodyOwned = true;
         }
 
@@ -61,7 +61,7 @@ namespace Eclipse
 
         CreateCollider();
 
-        PhysicsEngine::SetPhysicsMaterial(myInternalCollider, physMaterial);
+        PhysicsEngine::Get().SetPhysicsMaterial(myInternalCollider, physMaterial);
     }
 
     void Collider2D::EditorUpdate()
@@ -71,7 +71,7 @@ namespace Eclipse
         if (myLastLayer != static_cast<int>(myLayer->value))
         {
             myLastLayer = myLayer->value;
-            PhysicsEngine::ChangeLayer(myInternalCollider, myLayer);
+            PhysicsEngine::Get().ChangeLayer(myInternalCollider, myLayer);
         }
     }
 
@@ -80,7 +80,7 @@ namespace Eclipse
         if (BodyOwnedByRB)
             return;
 
-        PhysicsEngine::SetTransform(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation());
+        PhysicsEngine::Get().SetTransform(myBodyRef, myTransform->GetPosition(), myTransform->GetRotation());
         OnShapeDirty();
     }
 }

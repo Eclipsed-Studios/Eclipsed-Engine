@@ -38,8 +38,8 @@ virtual ~type() = default;													\
 private:
 
 
-#define REGISTER_COMPONENT_CALLBACK(type) [](unsigned gameObjId, unsigned compID){ return Eclipse::ComponentManager::AddComponentWithID<type>(gameObjId, compID); }
-#define REGISTER_COMPONENT_CALLBACK_NORMAL(type) [](unsigned gameObjId){ return Eclipse::ComponentManager::AddComponent<type>(gameObjId); }
+#define REGISTER_COMPONENT_CALLBACK(type) [](unsigned gameObjId, unsigned compID){ return Eclipse::ComponentManager::Get().AddComponentWithID<type>(gameObjId, compID); }
+#define REGISTER_COMPONENT_CALLBACK_NORMAL(type) [](unsigned gameObjId){ return Eclipse::ComponentManager::Get().AddComponent<type>(gameObjId); }
 
 
 

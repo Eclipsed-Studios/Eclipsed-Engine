@@ -21,21 +21,24 @@
 			{
 				ImGui::Indent(20.f);
 				ImGui::BeginChild(27491898, ImVec2(0, 0), ImGuiChildFlags_Borders);
-				ImGui::Checkbox("Draw Physics Debug Lines##DrawAnyPhysicsDebugLines", &PhysicsEngine::GetDebugDraw());
-				ImGui::Checkbox("Draw Shapes##DebugDrawShapes", &PhysicsEngine::GetDebugDrawShapes(drawShapes));
-				ImGui::Checkbox("Draw Queries##DebugDrawQueries", &PhysicsEngine::GetDebugDrawShapes(drawQueries));
-				ImGui::Checkbox("Draw Joints##DebugDrawJoints", &PhysicsEngine::GetDebugDrawShapes(drawJoints));
-				ImGui::Checkbox("Draw Joints Advanced##DebugDrawJointsAdvanced", &PhysicsEngine::GetDebugDrawShapes(drawJointExtras));
-				ImGui::Checkbox("Draw Bounds##DebugDrawBounds", &PhysicsEngine::GetDebugDrawShapes(drawBounds));
-				ImGui::Checkbox("Draw Mass##DebugDrawMass", &PhysicsEngine::GetDebugDrawShapes(drawMass));
-				ImGui::Checkbox("Draw Body Names##DebugDrawBodyNames", &PhysicsEngine::GetDebugDrawShapes(drawBodyNames));
-				ImGui::Checkbox("Draw Contacts##DebugDrawContacts", &PhysicsEngine::GetDebugDrawShapes(drawContacts));
-				ImGui::Checkbox("Draw Graph Colors##DebugDrawGraphColors", &PhysicsEngine::GetDebugDrawShapes(drawGraphColors));
-				ImGui::Checkbox("Draw Contact Normals##DebugDrawContactNormals", &PhysicsEngine::GetDebugDrawShapes(drawContactNormals));
-				ImGui::Checkbox("Draw Contact Impulses##DebugDrawContactImpulses", &PhysicsEngine::GetDebugDrawShapes(drawContactImpulses));
-				ImGui::Checkbox("Draw Contact Features##DebugDrawContactFeatures", &PhysicsEngine::GetDebugDrawShapes(drawContactFeatures));
-				ImGui::Checkbox("Draw Friction Impulse##DebugDrawFrictionImpulse", &PhysicsEngine::GetDebugDrawShapes(drawFrictionImpulses));
-				ImGui::Checkbox("Draw Islands##DebugDrawIslands", &PhysicsEngine::GetDebugDrawShapes(drawIslands));
+
+				PhysicsEngine& physEngine = PhysicsEngine::Get();
+
+				ImGui::Checkbox("Draw Physics Debug Lines##DrawAnyPhysicsDebugLines", &physEngine.GetDebugDraw());
+				ImGui::Checkbox("Draw Shapes##DebugDrawShapes", &physEngine.GetDebugDrawShapes(drawShapes));
+				ImGui::Checkbox("Draw Queries##DebugDrawQueries", &physEngine.GetDebugDrawShapes(drawQueries));
+				ImGui::Checkbox("Draw Joints##DebugDrawJoints", &physEngine.GetDebugDrawShapes(drawJoints));
+				ImGui::Checkbox("Draw Joints Advanced##DebugDrawJointsAdvanced", &physEngine.GetDebugDrawShapes(drawJointExtras));
+				ImGui::Checkbox("Draw Bounds##DebugDrawBounds", &physEngine.GetDebugDrawShapes(drawBounds));
+				ImGui::Checkbox("Draw Mass##DebugDrawMass", &physEngine.GetDebugDrawShapes(drawMass));
+				ImGui::Checkbox("Draw Body Names##DebugDrawBodyNames", &physEngine.GetDebugDrawShapes(drawBodyNames));
+				ImGui::Checkbox("Draw Contacts##DebugDrawContacts", &physEngine.GetDebugDrawShapes(drawContacts));
+				ImGui::Checkbox("Draw Graph Colors##DebugDrawGraphColors", &physEngine.GetDebugDrawShapes(drawGraphColors));
+				ImGui::Checkbox("Draw Contact Normals##DebugDrawContactNormals", &physEngine.GetDebugDrawShapes(drawContactNormals));
+				ImGui::Checkbox("Draw Contact Impulses##DebugDrawContactImpulses", &physEngine.GetDebugDrawShapes(drawContactImpulses));
+				ImGui::Checkbox("Draw Contact Features##DebugDrawContactFeatures", &physEngine.GetDebugDrawShapes(drawContactFeatures));
+				ImGui::Checkbox("Draw Friction Impulse##DebugDrawFrictionImpulse", &physEngine.GetDebugDrawShapes(drawFrictionImpulses));
+				ImGui::Checkbox("Draw Islands##DebugDrawIslands", &physEngine.GetDebugDrawShapes(drawIslands));
 				ImGui::EndChild();
 				ImGui::Unindent();
 			}

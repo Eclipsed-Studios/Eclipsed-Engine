@@ -83,12 +83,12 @@ namespace Eclipse
 	template<typename T>
 	inline T* GameObject::AddComponent(bool IsReplicated)
 	{
-		return ComponentManager::template AddComponent<T>(myID, IsReplicated);
+		return ComponentManager::Get().template AddComponent<T>(myID, IsReplicated);
 	}
 
 	template<typename T>
 	inline T* GameObject::GetComponent()
 	{
-		return  ComponentManager::template GetComponent<T>(myID);
+		return  ComponentManager::Get().template GetComponent<T>(myID);
 	}
 }

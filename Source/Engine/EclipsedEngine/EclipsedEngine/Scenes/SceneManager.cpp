@@ -13,10 +13,11 @@
 #include "CoreEngine/Settings/BuildSettings.h"
 #include "CoreEngine/Settings/EditorSettings.h"
 
-//#include "CoreEngine/Settings/.h"
 #include "EclipsedEngine/DebugLogger.h"
 
 #include "AssetEngine/AssetManager.h"
+
+#include "EclipsedEngine/Reflection/Reflection.h"
 
 namespace Eclipse
 {
@@ -142,10 +143,10 @@ namespace Eclipse
 
 		CommandListManager::ResetAllCommandLists();
 
-		ComponentManager::Clear();
+		ComponentManager::Get().Clear();
 		Reflection::ReflectionManager::ClearList();
 
-		PhysicsEngine::CleanUp();
+		PhysicsEngine::Get().CleanUp();
 	}
 
 	std::unordered_map<std::string, unsigned>& SceneManager::GetNameToIdx() { return myNameToIdx; }

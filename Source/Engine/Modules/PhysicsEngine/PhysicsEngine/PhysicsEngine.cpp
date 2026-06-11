@@ -8,6 +8,8 @@
 #undef min
 namespace Eclipse
 {
+    PhysicsEngine* PhysicsEngine::Instance;
+
     void PhysicsEngine::SetGravity(const Math::Vector2f& aGravity)
     {
         b2World_SetGravity(myWorld, b2Vec2(aGravity.x, aGravity.y));
@@ -51,8 +53,10 @@ namespace Eclipse
         myHasCreatedWorld = true;
     }
 
-    void PhysicsEngine::Init(int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
+    void PhysicsEngine::Init(PhysicsEngine& aPhysicsEngine, int aSubstepCount, const Math::Vector2f& aGravity, b2DebugDraw& aDebugdraw)
     {
+        Instance = &aPhysicsEngine;
+
         LoadLayersFromJSON(myCollisionLayers);
         //PathManager::OnProjectSet += LoadLayers;
 
@@ -103,8 +107,8 @@ namespace Eclipse
         UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
         UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataB);
 
-        PhysicsEngine::myBeginContactCallback(userDataA);
-        PhysicsEngine::myBeginContactCallback(userDataB);
+        PhysicsEngine::Get().myBeginContactCallback(userDataA);
+        PhysicsEngine::Get().myBeginContactCallback(userDataB);
     }
 
     void HandleEndContacts(b2ContactEndTouchEvent& aEvent)
@@ -124,7 +128,7 @@ namespace Eclipse
         UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
         UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataB);
 
-        PhysicsEngine::myEndContactCallback(userDataA);
-        PhysicsEngine::myEndContactCallback(userDataB);
+        PhysicsEngine::Get().myEndContactCallback(userDataA);
+        PhysicsEngine::Get().myEndContactCallback(userDataB);
     }
 }
