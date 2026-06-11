@@ -12,10 +12,10 @@ Includes a hot-swappable game DLL system for live code reloading - edit, compile
 
 
 <p align="center">
-  <img src="https://img.shields.io/github/issues/eclipsed-interactive/eclipsed-engine?style=for-the-badge&logo=github&color=blue">
+  <a href="https://github.com/Eclipsed-Interactive/Eclipsed-Engine/issues"><img src="https://img.shields.io/github/issues/eclipsed-interactive/eclipsed-engine?style=for-the-badge&logo=github&color=blue"></a>
   <a href="https://github.com/eclipsed-interactive/eclipsed-engine/stargazers"><img src="https://img.shields.io/github/stars/eclipsed-interactive/eclipsed-engine?style=for-the-badge&logo=github&color=FFD700" alt="Stars"></a>
   <a href="https://github.com/eclipsed-interactive/eclipsed-engine/graphs/contributors"><img src="https://img.shields.io/github/contributors/eclipsed-interactive/eclipsed-engine?style=for-the-badge&color=22C55E" alt="Contributors"></a>
-  <img src="https://img.shields.io/github/last-commit/eclipsed-interactive/eclipsed-engine?style=for-the-badge&color=F97316" alt="Last Commit">
-  <img src="https://img.shields.io/github/languages/top/eclipsed-interactive/eclipsed-engine?style=for-the-badge&logo=python">
-  <img src="https://img.shields.io/github/repo-size/eclipsed-interactive/eclipsed-engine?style=for-the-badge&logo=dropbox">
+  <a href="https://github.com/eclipsed-interactive/eclipsed-engine/commits/main"><img src="https://img.shields.io/github/last-commit/eclipsed-interactive/eclipsed-engine?style=for-the-badge&color=F97316" alt="Last Commit"></a>
+  <a href="https://github.com/eclipsed-interactive/eclipsed-engine/search?l=c%2B%2B"><img src="https://img.shields.io/github/languages/top/eclipsed-interactive/eclipsed-engine?style=for-the-badge&logo=cplusplus&color=00599C"></a>
+  <a href="https://github.com/eclipsed-interactive/eclipsed-engine"><img src="https://img.shields.io/github/repo-size/eclipsed-interactive/eclipsed-engine?style=for-the-badge&logo=dropbox"></a>
 </p>
