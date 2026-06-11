@@ -311,7 +311,8 @@ namespace Eclipse::Editor
 		Input::SetGamePosition({ mousePosNormalizedX, mousePosNormalizedY });
 
 		GameWindow::myGameImageResolution = Math::Vector2f(windowSize.x, windowSize.y);
-		ImGui::Image(myGameTexture, windowSize, ImVec2(0, 1), ImVec2(1, 0));
+
+		ImGui::Image(myGameTexture, windowSize, ImVec2(0, 1), ImVec2(0.9989f, 0));
 
 		//MainSingleton::GetInstance<EngineSettings>().GetGameResolutionRation() = windowSize.x / windowSize.y;
 	}
