@@ -53,7 +53,7 @@ namespace Eclipse
 			return Random::Rand<unsigned>();
 		}
 
-		virtual float GetZIndex(){ return -1; }
+		virtual float GetZIndex() { return -1; }
 
 		void SetComponentID()
 		{
@@ -71,7 +71,7 @@ namespace Eclipse
 
 		void UpdateReplicationVars();
 
-		virtual unsigned GetUpdatePriority() const = 0;
+		virtual unsigned GetUpdatePriority() const { return 0; }
 
 	public:
 		//void ComponentCreated() { HasBeenCreated = true; }

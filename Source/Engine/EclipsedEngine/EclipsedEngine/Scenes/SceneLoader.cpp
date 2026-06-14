@@ -37,22 +37,27 @@ namespace Eclipse
 
 		std::unordered_map<std::string, std::unordered_map<unsigned, rapidjson::Value>> components;
 
-		for (Component* pComp : ComponentManager::Get().myComponents)
+		auto& allComponents = ComponentManager::Get().GetAllComponents();
+
+		for (auto& pCompList : allComponents)
 		{
-			std::string compName = pComp->GetComponentName();
-
-			if (compName == "Component")
+			for (Component* pComp : pCompList.vector)
 			{
-				continue;
+				std::string compName = pComp->GetComponentName();
+
+				if (compName == "Component")
+				{
+					continue;
+				}
+				rapidjson::Value value(rapidjson::kObjectType);
+
+				value.AddMember("owner", pComp->gameObject->GetID(), alloc);
+				value.AddMember("id", pComp->myInstanceComponentID, alloc);
+
+				value.AddMember("IsReplicated", pComp->IsReplicated, alloc);
+
+				components[compName][pComp->myInstanceComponentID] = value;
 			}
-			rapidjson::Value value(rapidjson::kObjectType);
-
-			value.AddMember("owner", pComp->gameObject->GetID(), alloc);
-			value.AddMember("id", pComp->myInstanceComponentID, alloc);
-
-			value.AddMember("IsReplicated", pComp->IsReplicated, alloc);
-
-			components[compName][pComp->myInstanceComponentID] = value;
 		}
 
 
@@ -84,6 +89,9 @@ namespace Eclipse
 		rapidjson::Value goArray(rapidjson::kArrayType);
 		for (auto& [id, gameobject] : ComponentManager::Get().myEntityIdToEntity)
 		{
+			if (!gameobject)
+				continue;
+
 			rapidjson::Value goObj(rapidjson::kObjectType);
 
 			if (GameObject* parent = gameobject->GetParent())

@@ -155,8 +155,8 @@ namespace Eclipse::Replication
 		//}
 		//else
 		//{
-			void* variableData = Variable->Data;
-			memcpy(variableData, message.data + offset, dataAmount);
+		void* variableData = Variable->Data;
+		memcpy(variableData, message.data + offset, dataAmount);
 		//}
 
 		Component* component = Variable->OnComponent;
@@ -312,13 +312,16 @@ namespace Eclipse::Replication
 
 		std::vector<Component*> componentsToReplicate;
 
-		const std::vector<Component*>& allComponents = ComponentManager::Get().GetAllComponents();
-		for (const auto& component : allComponents)
+		const ComponentManager::RenderLayers& allComponents = ComponentManager::Get().GetAllComponents();
+		for (const auto& componentList : allComponents)
 		{
-			if (component->IsReplicated && component->IsOwner() && !component->gameObject->IsPrefab)
+			for (const auto& component : componentList.vector)
 			{
-				ComponentCount++;
-				componentsToReplicate.emplace_back(component);
+				if (component->IsReplicated && component->IsOwner() && !component->gameObject->IsPrefab)
+				{
+					ComponentCount++;
+					componentsToReplicate.emplace_back(component);
+				}
 			}
 		}
 

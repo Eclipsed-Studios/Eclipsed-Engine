@@ -15,6 +15,7 @@
 ComponentManager::Get().GetComponent<Type>(GOID)
 
 #define MAX_COMPONENT_MEMORY_BYTES 20'000'000
+#define MAX_COMPONENTSARRAY MAX_COMPONENT_MEMORY_BYTES / 100
 
 namespace Eclipse
 {
@@ -38,6 +39,16 @@ namespace Eclipse
 		friend class SceneLoader;
 
 	public:
+		template<typename T>
+		struct FloatVectorContainer
+		{
+			unsigned Value = 0;
+			std::vector<T> vector;
+		};
+
+		typedef FloatVectorContainer<Component*> UpdatePriority;
+		typedef std::vector<UpdatePriority> RenderLayers;
+
 		static ComponentManager* Instance;
 		static ComponentManager& Get()
 		{
@@ -78,7 +89,8 @@ namespace Eclipse
 		void LateUpdateComponents();
 		void RenderComponents();
 
-		void SortComponents();
+		void SortUpdatePrioComponents();
+		void SortZIndexComponents(UpdatePriority& aVec);
 		
 		//void SortRenderComponents();
 
@@ -111,7 +123,7 @@ namespace Eclipse
 		template <typename T>
 		unsigned GetComponentID();
 
-		const std::vector<Component*>& GetAllComponents();
+		const Eclipse::ComponentManager::RenderLayers& GetAllComponents();
 
 		std::vector<Component*> GetComponents(unsigned aGOID);
 
@@ -147,7 +159,8 @@ namespace Eclipse
 		uint8_t* myComponentData;
 
 		//std::vector<Component*> myRenderComponents;
-		std::vector<Component*> myComponents;
+
+		RenderLayers myComponents;
 
 		std::vector<Component*> myComponentsToStartBuffer;
 		std::vector<Component*> myComponentsToStart;
