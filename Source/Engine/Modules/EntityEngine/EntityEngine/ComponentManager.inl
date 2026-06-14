@@ -138,7 +138,8 @@ namespace Eclipse
 
 		T* component = new(ptrToComponent)T();
 
-		static_cast<Component*>(component)->componentSize = sizeOfNewComponent;
+		Component* componentPtr = static_cast<Component*>(component);
+		componentPtr->componentSize = sizeOfNewComponent;
 
 		component->SetComponentID(aComponentID);
 
@@ -152,11 +153,37 @@ namespace Eclipse
 
 		myComponentsToStartBuffer.emplace_back(component);
 
-		myComponents.emplace_back(component);
+
+
+		bool SetComponentPtr = false;
+		UpdatePriority* componentVectorPtr = nullptr;
+		for (auto& componentVec : myComponents)
+		{
+			if (componentVec.Value == component->GetUpdatePriority())
+			{
+				componentVectorPtr = &componentVec;
+				SetComponentPtr = true;
+				break;
+			}
+		}
+		if (!SetComponentPtr)
+		{
+			componentVectorPtr = &myComponents.emplace_back();
+			componentVectorPtr->Value = componentPtr->GetUpdatePriority();
+		}
+		componentVectorPtr->vector.push_back(component);
+
+		if (SetComponentPtr)
+		{
+			SortUpdatePrioComponents();
+			if (std::is_base_of_v<class BaseRenderComponent, T>)
+				SortZIndexComponents(*componentVectorPtr);
+		}
+
 		size_t componentIndex = myComponents.size() - 1;
 
 		myEntityIDToVectorOfComponentIDs[aGOID].emplace_back(component);
-		component->myComponentIndex = componentIndex;
+		//component->myComponentIndex = componentIndex;
 
 #ifdef ECLIPSED_NETWORKING
 		if (IsReplicated)
@@ -165,8 +192,6 @@ namespace Eclipse
 
 		if (myComponents.size() <= 1)
 			return component;
-
-		SortComponents();
 
 		return component;
 	}
