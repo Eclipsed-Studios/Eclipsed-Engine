@@ -39,20 +39,35 @@ namespace Eclipse::Editor
 
 		ImGui::SameLine();
 
-		if (ImGui::Button("Cook Content"))
-			CookContent();
+		{
+			if (ImGui::Button("Package Assets"))
+				CookAssets();
+
+			if (ImGui::BeginItemTooltip())
+			{
+				ImGui::Text("Cooks and exports assets.");
+				ImGui::EndTooltip();
+			}
+		}
 
 		ImGui::SameLine();
 
-		if (ImGui::Button("Build"))
-			Build();
+		{
+			if (ImGui::Button("Build"))
+				Build();
+
+			if (ImGui::BeginItemTooltip())
+			{
+				ImGui::Text("Just builds the executable.");
+				ImGui::EndTooltip();
+			}
+		}
 
 	}
 
-	void BuildSettingsWindow::CookContent()
+	void BuildSettingsWindow::CookAssets()
 	{
-		std::filesystem::remove(PathManager::GetProjectRoot() / "Build/packed_file.bundle");
-		Assets::AssetManager::PackAssets();
+		Assets::AssetManager::CookAndPackageAssets();
 	}
 
 	void BuildSettingsWindow::CleanBuild()
@@ -62,7 +77,7 @@ namespace Eclipse::Editor
 		std::filesystem::remove_all(PathManager::GetProjectRoot() / "Build");
 		std::filesystem::create_directory(PathManager::GetProjectRoot() / "Build");
 
-		Assets::AssetManager::PackAssets();
+		Assets::AssetManager::CookAndPackageAssets();
 
 		BatchScript script(
 			PathManager::GetEngineRoot().parent_path() / "Tools",
