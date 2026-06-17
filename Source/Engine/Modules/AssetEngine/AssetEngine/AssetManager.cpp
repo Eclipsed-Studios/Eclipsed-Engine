@@ -75,14 +75,14 @@ namespace Eclipse::Assets
 		}
 
 		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
-		database.ProcessBundle("packed_file.bundle");
+		database.ProcessBundle("assets.bundle");
 	}
 
-	void AssetManager::PackAssets()
+	void AssetManager::CookAndPackageAssets()
 	{
 		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
 
-		std::ofstream out(PathManager::GetProjectRoot() / "Build/packed_file.bundle", std::ios::binary);
+		std::ofstream out(PathManager::GetProjectRoot() / "Build/assets.bundle", std::ios::binary | std::ios::trunc);
 
 		std::vector<Assets::GUID> guids;
 		for (auto& [guid, file] : database.GetSources())

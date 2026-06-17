@@ -30,7 +30,7 @@ namespace Eclipse::Assets
 		static void ImportFile(const AssetMeta& meta);
 		static void ImportBundle();
 
-		static void PackAssets();
+		static void CookAndPackageAssets();
 
 		static void EndFrame();
 
