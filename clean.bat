@@ -11,5 +11,3 @@ echo.
 echo === Completed: Cleaning project ===
 
 endlocal 
-
-pause
