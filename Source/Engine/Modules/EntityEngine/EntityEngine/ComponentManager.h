@@ -156,7 +156,7 @@ namespace Eclipse
 
 
 		size_t myComponentMemoryTracker = 0;
-		uint8_t* myComponentData;
+		uint8_t* myComponentData = nullptr;
 
 		//std::vector<Component*> myRenderComponents;
 

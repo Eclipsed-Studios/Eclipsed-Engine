@@ -140,7 +140,7 @@ namespace Eclipse::Replication
             server->Update();
 
         static float timer = 0.f;
-        timer -= Time::GetDeltaTime();
+        timer -= Time::Get().GetDeltaTime();
 
         if (timer <= 0)
         {

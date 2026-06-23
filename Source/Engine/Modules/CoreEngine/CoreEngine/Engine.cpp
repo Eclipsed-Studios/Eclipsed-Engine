@@ -11,7 +11,7 @@ namespace Eclipse
 	void Engine::Init()
 	{
 		EventSystem::Trigger("Engine-Load");
-		Time::Init();
+		//Time::Init();
 	}
 
 	void Engine::Update()
@@ -19,7 +19,7 @@ namespace Eclipse
 		CORE_PROFILE_SCOPED;
 		PlatformIntegration::IntegrationManager::Update();
 
-		Time::Update();
+		//Time::Update();
 	}
 
 	void Engine::End()

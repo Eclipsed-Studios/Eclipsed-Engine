@@ -20,6 +20,7 @@ target_link_libraries(EclipsedEngine PUBLIC
     EntityEngine
     GraphicsEngine
     PhysicsEngine
+    Reflection
 
     ImGui
 )

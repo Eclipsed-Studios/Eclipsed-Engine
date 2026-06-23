@@ -7,6 +7,8 @@
 #include "EclipsedEngine/Reflection/Reflection_Macros.h"
 #include "EclipsedEngine/Replication/Replication_Macros.h"
 
+#include "CoreEngine/UtilityMacros.h"
+
 
 #define BASE_OBJECT_IMPL(TYPE)																\
 static inline unsigned typeID = Eclipse::TypeRegistry::GetTypeID<TYPE>();					\
@@ -24,13 +26,14 @@ static unsigned GetTypeID() { return typeID; }
 
 #include "CoreEngine/Macros/MacroOverloadSelector.h"
 
-#define COMPONENT_FRIEND_CLASS         \
+#define COMPONENT_FRIEND_CLASS(type)         \
 friend class Eclipse::Editor::InspectorWindow;  \
 friend class ComponentManager;         \
-friend class SceneLoader;           
+friend class SceneLoader;   \
+friend class TypeInfo<type>;
 
 #define COMPONENT_BASE_1(type)												\
-COMPONENT_FRIEND_CLASS														\
+COMPONENT_FRIEND_CLASS(type)														\
 BASE_OBJECT_IMPL(type)																				\
 public:																		\
 inline type() = default;													\
@@ -44,7 +47,7 @@ private:
 
 
 #define COMPONENT_BASE_2(type, updatePriority)														\
-COMPONENT_FRIEND_CLASS																				\
+COMPONENT_FRIEND_CLASS(type)																				\
 BASE_OBJECT_IMPL(type)																				\
 public:																								\
 virtual unsigned GetUpdatePriority() const override {return updatePriority;}						\
@@ -57,7 +60,7 @@ protected:
 
 
 #define COMPONENT_BASE_3(type, derivedType, updatePriority)				\
-COMPONENT_FRIEND_CLASS														\
+COMPONENT_FRIEND_CLASS(type)														\
 BASE_OBJECT_IMPL(type)																				\
 public:																		\
     inline type() = default;										\

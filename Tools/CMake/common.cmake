@@ -114,7 +114,7 @@ function(CreateProject TYPE)
             RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${EXE_OUTPUT_DIR}"
             RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${EXE_OUTPUT_DIR}"
 
-            FOLDER "Engine/EngineModules"
+            FOLDER "Engine/Modules"
         )
     else()
         set_target_properties(${CURRENT_DIR_NAME} PROPERTIES

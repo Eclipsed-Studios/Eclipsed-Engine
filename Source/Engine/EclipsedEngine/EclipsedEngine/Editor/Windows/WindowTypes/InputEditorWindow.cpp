@@ -4,8 +4,8 @@
 
 #include "EntityEngine/ComponentManager.h"
 
-#include "EclipsedEngine/Input/InputMapper.h"
-#include "EclipsedEngine/Input/Input.h"
+#include "CoreEngine/Input/Input.h"
+//#include "CoreEngine/Input/InputMapper.h"
 
 #include "rapidjson/stringbuffer.h"
 
@@ -19,7 +19,7 @@
 
 namespace Eclipse::Editor
 {
-	struct inputNameChange
+	/*struct inputNameChange
 	{
 		std::string inputNamePrev;
 		std::string inputNameNew;
@@ -383,5 +383,5 @@ namespace Eclipse::Editor
 			inputMap["NewInput"].type = InputActionType::Single;
 		}
 
-	}
+	}*/
 }

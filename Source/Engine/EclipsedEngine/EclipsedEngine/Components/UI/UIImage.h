@@ -7,6 +7,8 @@
 #include "AssetEngine/Assets/TextureAsset.h"
 #include <CoreEngine/GraphicsBuffers/TransformBuffer.h>
 
+ECLIPSED_CLASS;
+
 namespace Eclipse
 {
     class UIImage : public BaseRenderComponent
@@ -29,8 +31,8 @@ namespace Eclipse
         Math::Vector2f spriteRectMin = { 0.f, 0.f };
         Math::Vector2f spriteRectMax = { 1.f, 1.f };
 
-        MANUAL_REPLICATED_SERIALIZED_FIELD(Assets::Texture, sprite, UIImage);
-        SERIALIZED_FIELD(Assets::Material, material);
+        Assets::Texture sprite;
+        Assets::Material material;
 
         TransformBuffer myTransformBuffer;
     };

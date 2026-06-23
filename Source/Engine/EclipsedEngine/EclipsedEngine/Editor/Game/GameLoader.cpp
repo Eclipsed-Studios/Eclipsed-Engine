@@ -45,8 +45,8 @@ void Eclipse::GameLoader::LoadGameDLL()
 
 void Eclipse::GameLoader::UnloadGameDLL()
 {
+		FreeLibrary(gameDll);
 	if (gameDll)
 	{
-		FreeLibrary(gameDll);
 	}
 }

@@ -15,16 +15,16 @@
 namespace Eclipse
 {
 #ifdef ECLIPSED_NETWORKING
-	void SpriteRenderer2D::sprite_OnRep()
-	{
-		SetSprite(sprite->GetAssetID());
-	}
+	//void SpriteRenderer2D::sprite_OnRep()
+	//{
+	//	SetSprite(sprite->GetAssetID());
+	//}
 #endif
 
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
-		spriteRectMin = aMin * sprite->GetDimDivOne();
-		spriteRectMax = aMax * sprite->GetDimDivOne();
+		spriteRectMin = aMin * sprite.GetDimDivOne();
+		spriteRectMax = aMax * sprite.GetDimDivOne();
 	}
 
 	void SpriteRenderer2D::SetXMirror(bool aMirror)
@@ -72,8 +72,8 @@ namespace Eclipse
 
 	void SpriteRenderer2D::OnComponentAdded()
 	{
-		if (material->IsValid()) hasMaterial = true;
-		if (sprite->IsValid()) hasSprite = true;
+		if (material.IsValid()) hasMaterial = true;
+		if (sprite.IsValid()) hasSprite = true;
 
 		if (!hasMaterial)
 		{
@@ -101,15 +101,15 @@ namespace Eclipse
 		// if (aProgramID)
 		// 	shaderID = aProgramID;
 
-		if (sprite->IsValid())
+		if (sprite.IsValid())
 		{
-			material->BindShader();
-			sprite->Bind();
-			material->BindColor();
+			material.BindShader();
+			sprite.Bind();
+			material.BindColor();
 		}
 		else
 		{
-			material->Use();
+			material.Use();
 		}
 		
 		myTransformBuffer.Position = gameObject->transform->GetPosition();
@@ -123,13 +123,13 @@ namespace Eclipse
 		NewSpriteRectMin.y = 1 - NewSpriteRectMin.y;
 
 		Math::Vector2f size = NewSpriteRectMax - NewSpriteRectMin;
-		material->materialBuffer.spriteRect = { NewSpriteRectMin.x, NewSpriteRectMin.y, size.x, size.y };
+		material.materialBuffer.spriteRect = { NewSpriteRectMin.x, NewSpriteRectMin.y, size.x, size.y };
 
 		Math::Vector2f scaleMultiplier;
-		if (sprite->IsValid())
-			scaleMultiplier = sprite->GetTextureSizeNormilized();
+		if (sprite.IsValid())
+			scaleMultiplier = sprite.GetTextureSizeNormilized();
 		else
-			scaleMultiplier = material->GetTexture().GetTextureSizeNormilized();
+			scaleMultiplier = material.GetTexture().GetTextureSizeNormilized();
 
 
 		float aspectScale = size.y / size.x;
@@ -142,7 +142,7 @@ namespace Eclipse
 		editorBuffer->PixelPickColor = gameObject->GetPixelPickingIDColor();
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
 #endif
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(5, material->materialBuffer);
+		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(5, material.materialBuffer);
 		
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(1, myTransformBuffer);
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(3, mySpriteBuffer);

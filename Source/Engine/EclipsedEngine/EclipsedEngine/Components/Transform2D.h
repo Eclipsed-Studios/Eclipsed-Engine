@@ -10,6 +10,9 @@
 #include "CoreEngine/Math/Matrix/Matrix3x3.h"
 #include "CoreEngine/Macros/defines.h"
 
+
+ECLIPSED_CLASS;
+
 namespace Eclipse
 {
 	using DirtyFunctionPtr = void (Component::*)();
@@ -53,7 +56,7 @@ namespace Eclipse
 		//void AddFunctionToRunOnDirtyUpdate(DirtyFunctionPtr* aFunction);
 
 		static void ChildingObject(GameObject* aChild, GameObject* aParent);
-		
+
 	private:
 		void AddParentTransform(GameObject* aParent, Math::Mat3x3f& aTransform) const;
 		void AddParentRotation(GameObject* aParent, float& totalRotation) const;
@@ -62,11 +65,11 @@ namespace Eclipse
 		void UpdateTransforms();
 
 		Math::Matrix3x3f GetTransform() const;
-		
+
 	private:
-		REPLICATED_SERIALIZED_FIELD_STEP_DEFAULT(Math::Vector2<float>, position, 0.01f, Math::Vector2f(0, 0), Transform2D);
-		REPLICATED_SERIALIZED_FIELD_STEP_DEFAULT(float, rotation, 5.f, 0, Transform2D);
-		REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1), Transform2D);
+		Math::Vector2f position = Math::Vector2f(0, 0);
+		Math::Vector2f scale = Math::Vector2f(0, 0);
+		float rotation = 0;
 
 		Math::Vector2f lastPosition;
 		float lastRotation;
@@ -75,19 +78,19 @@ namespace Eclipse
 		Math::Vector2f GlobalPosition;
 		float GlobalRotation;
 		Math::Vector2f GlobalScale;
-		
+
 		Math::Matrix3x3f GlobalTransformationMatrix;
-		
+
 		// Not implemented but if strictly necessary easy to do
 		//Math::Matrix3x3f LocalTransformationMatrix;
-		
+
 	private:
 		struct DirtyTransformContainer
 		{
 			Component* component;
 			std::function<void()> function;
 		};
-		
+
 		bool myIsDirty = true;
 		std::vector<DirtyTransformContainer> myFunctionsToRunOnDirtyUpdate;
 	};

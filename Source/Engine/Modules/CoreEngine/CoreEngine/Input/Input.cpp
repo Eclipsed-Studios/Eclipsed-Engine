@@ -4,8 +4,20 @@
 
 #include "OpenGL/GLFW/glfw3.h"
 
-namespace Eclipse::Core
+namespace Eclipse
 {
+	Input* Input::input;
+
+	Input::Input()
+	{
+		input = this;
+	}
+
+	Input& Input::Get()
+	{
+		return *input;
+	}
+
 	Input* GetInputPtrFromGlfwPtr(GLFWwindow* w) {
 		return (Input*)glfwGetWindowUserPointer(w);
 	}

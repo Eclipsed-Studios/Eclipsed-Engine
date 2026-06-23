@@ -18,7 +18,7 @@
 #include "EclipsedEngine/Scenes/SceneManager.h"
 #include "EntityEngine/ComponentManager.h"
 
-#include "EclipsedEngine/Input/Input.h"
+#include "CoreEngine/Input/Input.h"
 
 #include "EclipsedEngine/Editor/Game/GameCompiler.h"
 
@@ -54,7 +54,7 @@ namespace Eclipse::Editor
 
 			ImGui::InputText("New name", tempName, 512);
 
-			if (ImGui::Button("OK") || Input::GetKeyDown(Keycode::ENTER))
+			if (ImGui::Button("OK") || Input::Get().GetKeyDown(Keycode::ENTER))
 			{
 				std::string renamePathExt = activePathAtRenaming.extension().string();
 
@@ -70,7 +70,7 @@ namespace Eclipse::Editor
 
 			ImGui::SameLine();
 
-			if (ImGui::Button("Cancel") || Input::GetKeyDown(Keycode::ESCAPE))
+			if (ImGui::Button("Cancel") || Input::Get().GetKeyDown(Keycode::ESCAPE))
 			{
 				ImGui::CloseCurrentPopup();
 				renameModal = false;

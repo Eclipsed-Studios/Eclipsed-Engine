@@ -14,6 +14,9 @@
 #include "CoreEngine/GraphicsBuffers/SpriteBuffer.h"
 #include "CoreEngine/GraphicsBuffers/TransformBuffer.h"
 
+ECLIPSED_CLASS;
+
+
 namespace Eclipse
 {
     class Sprite;
@@ -60,8 +63,8 @@ namespace Eclipse
         TransformBuffer myTransformBuffer;
         SpriteBuffer mySpriteBuffer;
         
-        MANUAL_REPLICATED_SERIALIZED_FIELD(Assets::Texture, sprite, SpriteRenderer2D);
-        SERIALIZED_FIELD(Assets::Material, material);
+        Assets::Texture sprite;
+        Assets::Material material;
 
     };
 }

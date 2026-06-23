@@ -97,6 +97,7 @@ add_subdirectory(Source/Engine/Modules/AssetEngine)
 add_subdirectory(Source/Engine/Modules/AudioEngine)
 add_subdirectory(Source/Engine/Modules/EntityEngine)
 add_subdirectory(Source/Engine/Modules/GraphicsEngine)
+add_subdirectory(Source/Engine/Modules/Reflection)
 
 if(${ENABLE_NETWORKING})
     add_subdirectory(Source/Engine/Modules/NetworkEngine)
@@ -116,19 +117,6 @@ if(INCLUDE_GAME)
 endif()
 
 message(${CMAKE_SOURCE_DIR})
-
-# add_custom_target(post_build
-#     COMMAND python ${CMAKE_SOURCE_DIR}/Tools/Build/export-headers.py
-#             --config $<CONFIG>
-#             --input "${CMAKE_SOURCE_DIR}/Source/Engine"
-#             --output "${CMAKE_SOURCE_DIR}/Bin/Headers"
-#     COMMENT "Running post-build script"
-#     DEPENDS EclipsedEngine Launcher
-# )
-
-
-
-
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Launcher)

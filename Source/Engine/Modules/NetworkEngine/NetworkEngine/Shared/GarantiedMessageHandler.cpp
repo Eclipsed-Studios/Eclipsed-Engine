@@ -16,7 +16,7 @@ namespace Eclipse
 		{
 			float& TryAgainTimer = message.TryAgainTimer;
 
-			TryAgainTimer -= Time::GetDeltaTime();
+			TryAgainTimer -= Time::Get().GetDeltaTime();
 
 			if (TryAgainTimer > 0.f)
 				continue;
@@ -36,7 +36,7 @@ namespace Eclipse
 
 		GarantiedMessage grntMessage(cpyMessage, anEndpoint);
 
-		grntMessage.TimeAtFirstSend = Time::GetTotalTime();
+		grntMessage.TimeAtFirstSend = Time::Get().GetDeltaTime();
 		
 		mapChangeMutex.lock();
 		GarantiedMsgs.emplace(message.MetaData.messageID, grntMessage);
@@ -51,7 +51,7 @@ namespace Eclipse
 
 		GarantiedMessage grntMessage(message, anEndpoint, aLambdaFunctionToRunOnRecieve);
 
-		grntMessage.TimeAtFirstSend = Time::GetTotalTime();
+		grntMessage.TimeAtFirstSend = Time::Get().GetDeltaTime();
 		
 		mapChangeMutex.lock();
 		GarantiedMsgs.emplace(message.MetaData.messageID, grntMessage);
@@ -70,7 +70,7 @@ namespace Eclipse
 		
 		auto& garantiedMessage = GarantiedMsgs.at(aMessage.MetaData.messageID);
 
-		float currenttime = Time::GetTotalTime();
+		float currenttime = Time::Get().GetDeltaTime();
 		float secondsPing = currenttime - garantiedMessage.TimeAtFirstSend;
 
 		//TemporarySettingsSingleton::Get().ping = (int)(secondsPing * 1000.f);

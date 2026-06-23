@@ -10,10 +10,12 @@ namespace FMOD::Studio {
 	class Bank;
 }
 
+ECLIPSED_CLASS;
+
 namespace Eclipse {
 	class ECLIPSED_API AudioBank : public Component
 	{
-		BASE_SELECTION(AudioBank, 10)
+		COMPONENT_BASE_2(AudioBank, 10)
 
 	public:
 		void Awake() override;

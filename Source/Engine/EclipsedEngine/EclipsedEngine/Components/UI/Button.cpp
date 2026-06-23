@@ -1,6 +1,6 @@
 #include "Button.h"
 
-#include "EclipsedEngine/Input/Input.h"
+#include "CoreEngine/Input/Input.h"
 #include "EclipsedEngine/Components/UI/RectTransform.h"
 #include "EclipsedEngine/Components/UI/Canvas.h"
 
@@ -18,7 +18,7 @@ namespace Eclipse
 
 		UpdateRectProperties();
 		
-		if (Input::GetMouseDown(Keycode::MOUSE_LEFT) && IsMouseInsideRect()) {
+		if (Input::Get().GetMouseDown(Keycode::MOUSE_LEFT) && IsMouseInsideRect()) {
 			OnClickEvent.Invoke();
 		}
 	}
@@ -34,9 +34,9 @@ namespace Eclipse
 	{
 		auto transform = gameObject->GetComponent<RectTransform>();
 
-		Math::Vector2f refRes = transform->myCanvas->ReferenceResolution.Get();
+		Math::Vector2f refRes = transform->myCanvas->ReferenceResolution;
 		
-		Math::Vector2f mousePos = Input::GetGameMousePos();
+		Math::Vector2f mousePos = Input::Get().GetGameMousePos();
 		Math::Vector2f translatedMousePos = mousePos * refRes - refRes * 0.5f;
 
 		//std::cout << translatedMousePos.x << "     " << translatedMousePos.y << std::endl;
@@ -55,9 +55,9 @@ namespace Eclipse
 		//Math::Vector2f gameResolution = transform->myCanvas->ReferenceResolution.Get();
 		//float aspectResoluton = gameResolution.y / gameResolution.x;
 		
-		Math::Vector2f halfWitdh = transform->WidthHeightPX.Get() * 0.5f;
-		topRightCorner = transform->Position.Get() + halfWitdh;
-		lowerLeftCorner = transform->Position.Get() - halfWitdh;
+		Math::Vector2f halfWitdh = transform->WidthHeightPX * 0.5f;
+		topRightCorner = transform->Position + halfWitdh;
+		lowerLeftCorner = transform->Position - halfWitdh;
 	}
 
 	void Button::Print()

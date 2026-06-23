@@ -1,13 +1,14 @@
 #include "EclipsedRuntime.h"
 
 #include "CoreEngine/MainSingleton.h"
-#include "EclipsedEngine/Input/Input.h"
+#include "CoreEngine/Input/Input.h"
 
 #include "PhysicsEngine/PhysicsEngine.h"
 #include "EntityEngine/ComponentManager.h"
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
 #include "AssetEngine/AssetManager.h"
+#include "CoreEngine/PlatformIntegration/IntegrationManager.h"
 
 #include "CoreEngine/PathManager.h"
 
@@ -34,23 +35,33 @@
 
 
 #ifdef ECLIPSED_NETWORKING
-	#include "NetworkEngine/Client/SteamP2PNetworkingClient.h"
-	#include "NetworkEngine/Server/SteamP2PNetworkingServer.h"
+#include "NetworkEngine/Client/SteamP2PNetworkingClient.h"
+#include "NetworkEngine/Server/SteamP2PNetworkingServer.h"
 #endif
 
 #include "CoreEngine/Profiling/PerformanceProfilerManager.h"
 
 #ifdef ECLIPSED_EDITOR
-	#include "ECS/ObjectManager.h"
-	#include "Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
+#include "ECS/ObjectManager.h"
+#include "Editor/Windows/WindowTypes/AssetWindow/AssetWindow.h"
 #endif
 
 #include "CoreEngine/Settings/ConfigManager.h"
 
 namespace Eclipse
 {
-	//template Transform2D* ComponentManager::Get().GetComponent<Transform2D>(GameObjectID);
-	//template SpriteRenderer2D* ComponentManager::Get().GetComponent<SpriteRenderer2D>(GameObjectID);
+	EclipsedRuntime* EclipsedRuntime::runtime{};
+
+	EclipsedRuntime& EclipsedRuntime::Get()
+	{
+		return *runtime;
+	}
+
+	EclipsedRuntime::EclipsedRuntime()
+	{
+		runtime = this;
+	}
+
 
 #ifdef ECLIPSED_EDITOR
 	void EclipsedRuntime::StartEngine(const std::string& path)
@@ -58,6 +69,8 @@ namespace Eclipse
 	void EclipsedRuntime::StartEngine()
 #endif
 	{
+		time.Init();
+
 		componentManager.SetIntance(componentManager);
 
 #ifndef ECLIPSED_EDITOR
@@ -103,7 +116,6 @@ namespace Eclipse
 
 #endif
 
-		engine.Init();
 
 
 		//MainSingleton::RegisterInstance<EngineSettings>();
@@ -111,7 +123,7 @@ namespace Eclipse
 
 		GraphicsEngine::InitSpecifiedAPI<OpenGLGraphicsEngine>();
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->Init();
-		Input::Init();
+		input.Init();
 
 		//Settings::SettingsRegistry::SaveDefaults();
 
@@ -132,7 +144,7 @@ namespace Eclipse
 				};
 		}
 
-
+		EventSystem::Trigger("Engine-Load");
 	}
 
 	void EclipsedRuntime::LateStart()
@@ -200,19 +212,20 @@ namespace Eclipse
 	void EclipsedRuntime::Update()
 	{
 		CORE_PROFILE_SCOPED;
-		engine.Update();
-		Input::Update();
+		time.Update();
+		input.Update();
 
+		PlatformIntegration::IntegrationManager::Update();
 
 #ifndef ECLIPSED_EDITOR
-		Math::Vector2f mousePos = Input::GetMousePos();
+		Math::Vector2f mousePos = input.GetMousePos();
 
 		const Math::Vector2i& resolution = Settings::GraphicsSettings::GetResolution();
 
 		float mousePosNormalizedX = mousePos.x / resolution.x;
 		float mousePosNormalizedY = mousePos.y / resolution.y;
 
-		Input::SetGamePosition({ mousePosNormalizedX, 1 - mousePosNormalizedY });
+		input.SetGamePosition({ mousePosNormalizedX, 1 - mousePosNormalizedY });
 #endif
 
 		componentManager.EditorUpdateComponents();
@@ -227,8 +240,8 @@ namespace Eclipse
 
 	void EclipsedRuntime::Shutdown()
 	{
+		EventSystem::Trigger("Engine-Shutdown");
 		MainSingleton::Destroy();
-		engine.End();
 
 		SHUT_DOWN_NETWORK_ENGINE();
 	}
@@ -239,5 +252,20 @@ namespace Eclipse
 		int shouldCloseWindow = GraphicsEngine::Get<OpenGLGraphicsEngine>()->ShouldWindowClose();
 
 		return !shouldCloseWindow;
+	}
+
+	Input& EclipsedRuntime::GetInput()
+	{
+		return input;
+	}
+
+	Time& EclipsedRuntime::GetTime()
+	{
+		return time;
+	}
+
+	ClassRegistry& EclipsedRuntime::GetClassReg()
+	{
+		return clsReg;
 	}
 }

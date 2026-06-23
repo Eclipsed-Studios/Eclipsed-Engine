@@ -1,5 +1,7 @@
 #include "PhysicsEngine.h"
 
+#include <assert.h>
+
 namespace Eclipse
 {
 	void PhysicsEngine::ChangeBodyType(b2BodyId* aBodyID, BodyType aBodyType)
@@ -50,6 +52,7 @@ namespace Eclipse
 	void PhysicsEngine::SetTransformBox(b2ShapeId* aShapeID, const Math::Vector2f& aScale, const Math::Vector2f& aPivot)
 	{
 		b2Polygon polygon = b2MakeOffsetBox(aScale.x, aScale.y, { aPivot.x, aPivot.y }, { 1, 0 });
+		assert(b2Shape_IsValid(*aShapeID));
 		b2Shape_SetPolygon(*aShapeID, &polygon);
 	}
 

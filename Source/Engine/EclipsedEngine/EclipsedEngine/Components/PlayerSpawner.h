@@ -5,7 +5,7 @@
 #include "EclipsedEngine/Components/Component.h"
 
 #include "EclipsedEngine/ECS/ObjectManager.h"
-#include "Input/Input.h"
+#include "CoreEngine/Input/Input.h"
 
 namespace Eclipse
 {

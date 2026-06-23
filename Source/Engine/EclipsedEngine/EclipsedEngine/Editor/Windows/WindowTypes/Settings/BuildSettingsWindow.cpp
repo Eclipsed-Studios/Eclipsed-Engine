@@ -9,10 +9,31 @@
 
 #include "CoreEngine/Settings/BuildSettings.h"
 
+#include "Reflection/ClassRegistry.h"
+#include "EclipsedEngine/EclipsedRuntime.h"
+
 namespace Eclipse::Editor
 {
 	void BuildSettingsWindow::Update()
 	{
+		auto& runtime = EclipsedRuntime::Get();
+		auto& reg = runtime.GetClassReg();
+		for (auto& [name, info] : reg.GetMap())
+		{
+			ImGui::Text(name.c_str());
+			ImGui::Indent();
+			for (size_t i = 0; i < info->GetPropertyCount(); i++)
+			{
+				ImGui::Text(info->GetProperties()[i]->name);
+			}
+			ImGui::Unindent();
+		}
+
+
+
+
+
+
 		Settings::BuildSettings::Data& data = Settings::BuildSettings::GetData();
 
 		ImGui::Text("Enable Steam SDK");

@@ -3,13 +3,15 @@
 #include "EntityEngine/ComponentManager.h"
 
 #include "CoreEngine/EventSystem/EventSystem.h"
+#include "EclipsedEngine/Components/Component.h"
 
+ECLIPSED_CLASS;
 
 namespace Eclipse
 {
 	class Button : public Component
 	{
-		COMPONENT_BASE_2(Button, 0)
+		COMPONENT_BASE_2(Button, 0);
 
 	public:
 		void Update() override;

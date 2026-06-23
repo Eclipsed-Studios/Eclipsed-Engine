@@ -3,7 +3,7 @@
 #include "EntityEngine/ComponentManager.h"
 #include "EclipsedEngine/Components/Component.h"
 
-
+ECLIPSED_CLASS;
 
 namespace Eclipse
 {
@@ -31,16 +31,16 @@ namespace Eclipse
         //void RectTransform::AddParentScale(GameObject* aParent, Math::Vector2f& aPosition) const;
 
     public:
-        SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, Position, Math::Vector2f(0, 0));
-        SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, WidthHeightPX, Math::Vector2f(100, 100));
-        
-        SERIALIZED_FIELD_DEFAULT(bool, ScaleWithCanvasX, false);
-        SERIALIZED_FIELD_DEFAULT(bool, ScaleWithCanvasY, false);
+        Math::Vector2f Position = Math::Vector2f(0, 0);
+        Math::Vector2f WidthHeightPX = Math::Vector2f(100, 100);
 
-        SERIALIZED_FIELD_DEFAULT(bool, AlignLeft, false);
-        SERIALIZED_FIELD_DEFAULT(bool, AlignTop, false);
-        SERIALIZED_FIELD_DEFAULT(bool, AlignRight, false);
-        SERIALIZED_FIELD_DEFAULT(bool, AlignBottom, false);
+        bool ScaleWithCanvasX = false;
+        bool ScaleWithCanvasY = false;
+
+        bool AlignLeft = false;
+        bool AlignTop = false;
+        bool AlignRight = false;
+        bool AlignBottom = false;
 
         Math::Vector2f GlobalPosition;
         

@@ -5,6 +5,9 @@
 
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
+#include "EclipsedEngine/Components/Transform2D.h"
+#include "CoreEngine/GraphicsBuffers/CameraBuffer.h"
+
 namespace Eclipse
 {
     void Canvas::SetCanvasTransformProperties()
@@ -40,8 +43,8 @@ namespace Eclipse
     {
         if (drawCanvasGizmos)
         {
-            float sizeX = ReferenceResolution->x / 1080;
-            float sizeY = ReferenceResolution->y / 1080;
+            float sizeX = ReferenceResolution.x / 1080;
+            float sizeY = ReferenceResolution.y / 1080;
 
             Math::Vector2f sqrPosition = gameObject->transform->GetPosition() * 0.5f + Math::Vector2f(0.5f, 0.5f);
             float sqrRotation = gameObject->transform->GetRotation();

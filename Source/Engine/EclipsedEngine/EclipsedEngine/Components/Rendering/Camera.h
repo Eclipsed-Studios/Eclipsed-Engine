@@ -4,11 +4,18 @@
 
 #include "CoreEngine/GraphicsBuffers/CameraBuffer.h"
 
+#include "CoreEngine/UtilityMacros.h"
+
+ECLIPSED_CLASS;
+
 namespace Eclipse
 {
     class Camera : public Component
     {
         COMPONENT_BASE_2(Camera, 100)
+
+    public:
+        FRIEND_REFLECTION(Camera);
 
     public:
         void OnDestroy() override;
@@ -19,7 +26,7 @@ namespace Eclipse
 
         void UpdateCameraTransform();
 
-        SERIALIZED_FIELD_STEP_DEFAULT(float, CameraZoom, 0.01f, 1.f);
+        float CameraZoom = 1.f;
 
         static inline class Camera* main;
         bool created;

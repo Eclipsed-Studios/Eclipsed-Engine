@@ -83,8 +83,7 @@ namespace Eclipse
     void PhysicsEngine::Update()
     {
         CORE_PROFILE_SCOPED;
-        const float deltaTime = Time::GetDeltaTime();
-
+        const float deltaTime = Time::Get().GetDeltaTime();
         b2World_Step(myWorld, deltaTime, mySubstepCount);
 
         CheckCollisions();

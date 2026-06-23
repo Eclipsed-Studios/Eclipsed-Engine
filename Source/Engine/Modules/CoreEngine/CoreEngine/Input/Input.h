@@ -6,12 +6,19 @@
 #include "Keycodes.h"
 
 struct GLFWwindow;
-namespace Eclipse::Core
+namespace Eclipse
 {
 #define MAX_KEYS 512
 
 	class Input
 	{
+	public:
+		Input();
+		static Input& Get();
+
+	private:
+		static Input* input;
+
 	public:
 		bool GetKey(char aKey);
 		bool GetKey(int aKey);

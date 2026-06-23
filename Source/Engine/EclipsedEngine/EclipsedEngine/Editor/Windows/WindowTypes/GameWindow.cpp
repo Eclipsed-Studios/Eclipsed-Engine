@@ -20,8 +20,8 @@
 #include "CoreEngine/MainSingleton.h"
 #include "CoreEngine/Settings/GraphicsSettings.h"
 
-#include "EclipsedEngine/Input/Input.h"
-
+#include "CoreEngine/Input/Input.h"
+#include "EclipsedEngine/Components/Rendering/BaseRenderComponent.h"
 
 namespace Eclipse::Editor
 {
@@ -192,7 +192,7 @@ namespace Eclipse::Editor
 		float mousePosNormalizedX = mousePosX / windowSize.x;
 		float mousePosNormalizedY = mousePosY / windowSize.y;
 		
-		Input::SetGamePosition({ mousePosNormalizedX, mousePosNormalizedY });
+		Input::Get().SetGamePosition({ mousePosNormalizedX, mousePosNormalizedY });
 
 		GameWindow::myGameImageResolution = Math::Vector2f(windowSize.x, windowSize.y - CursorPos.y);
 		ImGui::Image(myGameTexture, ImVec2(windowSize.x, windowSize.y - CursorPos.y), ImVec2(0, 1.f), ImVec2(0.99f, 0));
@@ -308,7 +308,7 @@ namespace Eclipse::Editor
 		float mousePosNormalizedX = mousePosX / windowSize.x;
 		float mousePosNormalizedY = mousePosY / windowSize.y;
 		
-		Input::SetGamePosition({ mousePosNormalizedX, mousePosNormalizedY });
+		Input::Get().SetGamePosition({ mousePosNormalizedX, mousePosNormalizedY });
 
 		GameWindow::myGameImageResolution = Math::Vector2f(windowSize.x, windowSize.y);
 

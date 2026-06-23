@@ -5,46 +5,50 @@
 
 namespace Eclipse
 {
-    std::chrono::high_resolution_clock::time_point Time::startTime;
-    std::chrono::high_resolution_clock Time::clock;
-    std::chrono::duration<float> Time::duration;
+	Time::Time()
+	{
+		time = this;
+	}
 
-    float Time::myDeltaTime = 0;
-    float Time::myTotalTime = 0;
-    float Time::myTimeScale = 1;
+	Time& Time::Get()
+	{
+		return *time;
+	}
 
-    void Time::Init()
-    {
-        startTime = clock.now();
-    }
+	Time* Time::time = nullptr;
 
-    void Time::Update()
-    {
-        CORE_PROFILE_SCOPED;
-        duration = clock.now() - startTime;
-        float newTotalTime = duration.count();
-        float deltaTimeNoScaled = newTotalTime - myTotalTime;
-        myDeltaTime = deltaTimeNoScaled * myTimeScale;
-        myTotalTime = newTotalTime;
-    }
+	void Time::Init()
+	{
+		startTime = clock.now();
+	}
 
-    void Time::SetTimeScale(float timeScale)
-    {
-        myTimeScale = timeScale;
-    }
+	void Time::Update()
+	{
+		CORE_PROFILE_SCOPED;
+		duration = clock.now() - startTime;
+		float newTotalTime = duration.count();
+		float deltaTimeNoScaled = newTotalTime - myTotalTime;
+		myDeltaTime = deltaTimeNoScaled * myTimeScale;
+		myTotalTime = newTotalTime;
+	}
 
-    float Time::GetDeltaTime()
-    {
-        return myDeltaTime * myTimeScale;
-    }
+	void Time::SetTimeScale(float timeScale)
+	{
+		myTimeScale = timeScale;
+	}
 
-    float Time::GetTimeScale()
-    {
-        return myTimeScale;
-    }
+	float Time::GetDeltaTime()
+	{
+		return myDeltaTime * myTimeScale;
+	}
 
-    float Time::GetTotalTime()
-    {
-        return myTotalTime;
-    }
+	float Time::GetTimeScale()
+	{
+		return myTimeScale;
+	}
+
+	float Time::GetTotalTime()
+	{
+		return myTotalTime;
+	}
 }

@@ -10,7 +10,7 @@ namespace Eclipse::Editor
 		EDITOR_WINDOW_BASE_3(InputEditorWindow, "Input Editor", "Settings");
 
 	public:
-		void Update() override;
+		//void Update() override;
 
 	public:
 		bool isButtonEditing = false;

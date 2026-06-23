@@ -13,7 +13,7 @@
 
 #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 
-#include "EclipsedEngine/Input/InputMapper.h"
+//#include "EclipsedEngine/Input/InputMapper.h"
 #include "EclipsedEngine/Components/Transform2D.h"
 
 #include "GraphicsEngine/OpenGL/DebugDrawers/DebugDrawer.h"
@@ -38,7 +38,7 @@
 #include "CoreEngine/GraphicsBuffers/CameraBuffer.h"
 
 #include "CoreEngine/GraphicsBuffers/EditorBuffer.h"
-#include "Input/Input.h"
+#include "CoreEngine/Input/Input.h"
 
 void Eclipse::Editor::SceneWindow::ZoomToObject(unsigned aObject)
 {

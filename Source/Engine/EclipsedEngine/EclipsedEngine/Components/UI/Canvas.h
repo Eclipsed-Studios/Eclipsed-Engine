@@ -4,6 +4,9 @@
 #include "EclipsedEngine/Components/Component.h"
 #include "CoreEngine/GraphicsBuffers/CanvasBuffer.h"
 
+ECLIPSED_CLASS;
+
+
 namespace Eclipse
 {
     class Canvas : public Component
@@ -18,8 +21,8 @@ namespace Eclipse
 
         void TransformUpdate();
 
-        SERIALIZED_FIELD_DEFAULT(Math::Vector2<float>, ReferenceResolution, Math::Vector2f(1920, 1080));
-        SERIALIZED_FIELD_DEFAULT(bool, WorldSpace, false);
+        Math::Vector2f ReferenceResolution = Math::Vector2f(1920, 1080);
+        bool WorldSpace = false;
 
         struct EditorCanvasCameraTransform
         {

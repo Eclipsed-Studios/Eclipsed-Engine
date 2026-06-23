@@ -17,6 +17,8 @@
 #include "CoreEngine/GraphicsBuffers/TransformBuffer.h"
 
 #include "CoreEngine/UtilityMacros.h"
+#include "CoreEngine/GraphicsBuffers/EditorBuffer.h"
+#include "EclipsedEngine/DebugLogger.h"
 
 namespace Eclipse
 {
@@ -62,7 +64,7 @@ namespace Eclipse
 
 		myTransformBuffer.Position += canvasCameraTransform.PositionOffset;
 
-		myTransformBuffer.Scale = tranform->WidthHeightPX.Get() * canvasScaleRelationOneDiv * ((float)myFontSize * 0.005f);
+		myTransformBuffer.Scale = tranform->WidthHeightPX * canvasScaleRelationOneDiv * ((float)myFontSize * 0.005f);
 		// if (!IsScene)
 		// 	myTransformBuffer.Scale *= { 2.f, 2.f };
 
@@ -125,12 +127,12 @@ namespace Eclipse
 
 			const Math::Vector2f& position = tranform->GetPosition() * canvasScaleRelationOneDiv * Math::Vector2f(aspectRatio, 1);
 			//float rotation = gameObject->transform->GetRotation();
-			Math::Vector2f scale = tranform->WidthHeightPX.Get() * myRect * canvasScaleRelationOneDiv;
+			Math::Vector2f scale = tranform->WidthHeightPX * myRect * canvasScaleRelationOneDiv;
 			scale.x *= aspectRatio;
 
 			//Math::Vector2f CanvasPosition = canvasScaleRelationOneDiv * tranform->myCanvas->canvasCameraTransform.PositionOffset * 0.5f;
 
-			DebugDrawer::DrawSquare(position + Math::Vector2f(0.5f, 0.5f), 0.f, scale, Math::Color(0.7f, 0.7f, 0.7f, 1.f));
+			//DebugDrawer::DrawSquare(position + Math::Vector2f(0.5f, 0.5f), 0.f, scale, Math::Color(0.7f, 0.7f, 0.7f, 1.f));
 		}
 	}
 #endif
@@ -146,10 +148,10 @@ namespace Eclipse
 	{
 		if (!material.IsValid())
 			return;
-		if (!font->dataPtr)
+		if (!font.dataPtr)
 			return;
 
-		const char* textInConstChar = myText->c_str();
+		const char* textInConstChar = myText.c_str();
 		auto transform = gameObject->GetComponent<RectTransform>();
 
 		if (!transform)
@@ -167,7 +169,7 @@ namespace Eclipse
 
 		Math::Vector2f resolution = transform->myCanvas->ReferenceResolution;
 
-		auto CurrentFont = font->dataPtr->font;
+		auto CurrentFont = font.dataPtr->font;
 
 		TransformUpdate();
 
@@ -179,7 +181,7 @@ namespace Eclipse
 
 		lineOffsets.resize(1);
 		lineOffsets.back() = 0;
-		for (int i = 0; i < myText->size(); i++)
+		for (int i = 0; i < myText.size(); i++)
 		{
 			char character = textInConstChar[i];
 			if (character == ' ')
@@ -217,7 +219,7 @@ namespace Eclipse
 
 
 		int currentLineCount = 0;
-		for (int i = 0; i < myText->size(); i++)
+		for (int i = 0; i < myText.size(); i++)
 		{
 			char character = textInConstChar[i];
 

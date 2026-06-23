@@ -2,33 +2,35 @@
 
 #include <chrono>
 
-#include "CoreEngine/Macros/defines.h"
-
 namespace Eclipse
 {
 	class Time
 	{
 	public:
-		Time() = delete;
-		~Time() = delete;
+		Time();
 
-	public:
-		static void Init();
-		static void Update();
-
-		static void SetTimeScale(float timeScale);
-
-		static float GetDeltaTime();
-		static float GetTotalTime();
-		static float GetTimeScale();
+		static Time& Get();
 
 	private:
-		static std::chrono::high_resolution_clock::time_point startTime;
-		static std::chrono::high_resolution_clock clock;
-		static std::chrono::duration<float> duration;
+		static Time* time;
 
-		static float myDeltaTime;
-		static float myTotalTime;
-		static float myTimeScale;
+	public:
+		void Init();
+		void Update();
+
+		void SetTimeScale(float timeScale);
+
+		float GetDeltaTime();
+		float GetTotalTime();
+		float GetTimeScale();
+
+	private:
+		std::chrono::high_resolution_clock::time_point startTime;
+		std::chrono::high_resolution_clock clock;
+		std::chrono::duration<float> duration;
+
+		float myDeltaTime = 0.f;
+		float myTotalTime = 0.f;
+		float myTimeScale = 1.f;
 	};
 }

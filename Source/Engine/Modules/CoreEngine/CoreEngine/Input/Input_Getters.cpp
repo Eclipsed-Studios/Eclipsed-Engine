@@ -2,7 +2,7 @@
 
 #include "Input.h"
 
-namespace Eclipse::Core
+namespace Eclipse
 {
 	bool Input::GetKey(int aKey)
 	{

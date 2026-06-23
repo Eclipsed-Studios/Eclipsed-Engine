@@ -1,5 +1,12 @@
 #pragma once
 
+#define ECLIPSED_CLASS    \
+	template<typename T>  \
+	struct TypeInfo;
+
+#define FRIEND_REFLECTION(cls) friend class TypeInfo<cls>;
+
+
 #ifdef ECLIPSED_EDITOR
 	#define check_asset_return(Var) if(!Var.IsValid()) { return; }
 	#define check_return(Var) if(!Var) { return; }

@@ -5,6 +5,8 @@
 
 //#include "AssetEngine/Assets/SpriteAnimation.h"
 
+ECLIPSED_CLASS;
+
 namespace Eclipse
 {
     class SpriteRenderer2D;
@@ -41,11 +43,11 @@ namespace Eclipse
         SpriteRenderer2D* mySpriteRenderer;
         std::string myActiveAnimation;
 
-        SERIALIZED_FIELD_DEFAULT(float, myTimePerFrame, 0.04f);
+        float myTimePerFrame = 0.04f;
         float myTimeAccumulator = 0.f;
 
-        REPLICATED_PRIVATE_SERIALIZED_FIELD_DEFAULT(int, myCurrentFrame, 0, SpriteSheetAnimator2D);
-        SERIALIZED_FIELD_DEFAULT(bool, myLoop, true);
+        int myCurrentFrame = 0;
+        bool myLoop = true;
 
         bool myIsPlaying = true;
     };

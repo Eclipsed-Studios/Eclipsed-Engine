@@ -5,7 +5,7 @@
 #include "OpenGL/GLFW/glfw3.h"
 #include <algorithm>
 
-namespace Eclipse::Core
+namespace Eclipse
 {
 	void Input::OnMousePos_Callback(GLFWwindow* w, double x, double y)
 	{

@@ -11,8 +11,12 @@ namespace Eclipse::Editor
         namespace fs = std::filesystem;
 
         std::string path;
-        if (fs::exists(".ini")) return LoadProjectFromFile();
+        if (fs::exists(".ini"))
+            path = LoadProjectFromFile();
         else path = Files::SelectFolderDialog();
+
+        if (path.empty())
+            path =  Files::SelectFolderDialog();
 
         SaveProjectPath(path);
         return path;

@@ -80,7 +80,9 @@ namespace Eclipse
 		}
 
 		myComponents.clear();
-		free(myComponentData);
+
+		if(myComponentData)
+			free(myComponentData);
 
 		myComponentMemoryTracker = 0;
 		graveyard.clear();

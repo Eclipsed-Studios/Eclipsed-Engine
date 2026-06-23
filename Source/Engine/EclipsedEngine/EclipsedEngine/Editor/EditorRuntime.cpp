@@ -6,9 +6,7 @@
 #include "EclipsedEngine/Scenes/SceneManager.h"
 #include "EclipsedEngine/Scenes/SceneLoader.h"
 
-#include "EclipsedEngine/Input/Input.h"
-
-#include "EclipsedEngine/Input/InputMapper.h"
+#include "CoreEngine/Input/Input.h"
 #include "Game/GameLoader.h"
 
 #include "CoreEngine/Files/FileWatcher.h"
@@ -172,7 +170,7 @@ namespace Eclipse::Editor
 
 		if (!isPlaying || isPaused)
 		{
-			if (ImGui::Button(ICON_FA_PLAY) || Input::GetKeyDown(Keycode::F5))
+			if (ImGui::Button(ICON_FA_PLAY) || Input::Get().GetKeyDown(Keycode::F5))
 			{
 				isPlaying = true;
 				isPaused = false;
