@@ -1,8 +1,7 @@
 #pragma once
 
 #include "EclipsedEngine/Editor/Windows/WindowBase.h"
-#include "CoreEngine/Debug/DebugMessage.h"
-#include "CoreEngine/Debug/DebugLogger.h"
+#include "Logger/DebugLogger.h"
 
 //#include ""
 

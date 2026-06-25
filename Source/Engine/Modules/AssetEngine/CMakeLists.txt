@@ -5,7 +5,7 @@ CreateProject(STATIC)
 find_package(OpenGL REQUIRED)
 
 target_include_directories(AssetEngine PRIVATE ${CoreEngine_Include})
-target_link_libraries(AssetEngine PRIVATE CoreEngine)
+target_link_libraries(AssetEngine PRIVATE CoreEngine Logger)
 
 target_include_directories(AssetEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
 target_link_libraries(AssetEngine PRIVATE OpenGL::GL)

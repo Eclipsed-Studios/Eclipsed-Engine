@@ -6,7 +6,7 @@ find_package(OpenGL REQUIRED)
 
 target_include_directories(NetworkEngine PRIVATE ${CoreEngine_Include})
 
-target_link_libraries(NetworkEngine PRIVATE CoreEngine "wininet.lib")
+target_link_libraries(NetworkEngine PRIVATE CoreEngine "wininet.lib" Logger)
 
 target_include_directories(NetworkEngine PRIVATE "${CMAKE_SOURCE_DIR}/Source/Engine/EclipsedEngine")
 

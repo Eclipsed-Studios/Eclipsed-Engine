@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-#include "CoreEngine/Debug/DebugLogger.h"
+#include "Logger/DebugLogger.h"
 
 namespace Eclipse
 {
