@@ -5,7 +5,7 @@ CreateProject(STATIC)
 find_package(OpenGL REQUIRED)
 
 target_include_directories(GraphicsEngine PRIVATE ${CoreEngine_Include})
-target_link_libraries(GraphicsEngine PRIVATE CoreEngine)
+target_link_libraries(GraphicsEngine PRIVATE CoreEngine Logger)
 
 target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
 target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Thirdparty/Libs/FreeType/freetyped.lib")

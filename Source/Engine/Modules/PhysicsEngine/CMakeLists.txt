@@ -3,7 +3,7 @@ include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 CreateProject(STATIC)
 
 target_include_directories(PhysicsEngine PRIVATE ${CoreEngine_Include})
-target_link_libraries(PhysicsEngine PRIVATE CoreEngine)
+target_link_libraries(PhysicsEngine PRIVATE CoreEngine Logger)
 
 # ---- Box2D
 target_link_directories(PhysicsEngine PUBLIC "${CMAKE_SOURCE_DIR}/Thirdparty/Libs/box2d")

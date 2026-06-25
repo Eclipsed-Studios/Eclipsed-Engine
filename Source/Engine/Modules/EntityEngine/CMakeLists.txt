@@ -5,4 +5,4 @@ CreateProject(STATIC)
 find_package(OpenGL REQUIRED)
 
 target_include_directories(EntityEngine PRIVATE ${CoreEngine_Include})
-target_link_libraries(EntityEngine PRIVATE CoreEngine)
+target_link_libraries(EntityEngine PRIVATE CoreEngine Logger)

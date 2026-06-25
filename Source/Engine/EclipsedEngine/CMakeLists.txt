@@ -21,6 +21,8 @@ target_link_libraries(EclipsedEngine PUBLIC
     GraphicsEngine
     PhysicsEngine
 
+    Logger
+
     ImGui
 )
 

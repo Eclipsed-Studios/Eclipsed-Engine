@@ -97,6 +97,7 @@ add_subdirectory(Source/Engine/Modules/AssetEngine)
 add_subdirectory(Source/Engine/Modules/AudioEngine)
 add_subdirectory(Source/Engine/Modules/EntityEngine)
 add_subdirectory(Source/Engine/Modules/GraphicsEngine)
+add_subdirectory(Source/Engine/Modules/Logger)
 
 if(${ENABLE_NETWORKING})
     add_subdirectory(Source/Engine/Modules/NetworkEngine)

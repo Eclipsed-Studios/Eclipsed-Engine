@@ -3,7 +3,7 @@ include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 CreateProject(STATIC)
 
 target_include_directories(AudioEngine PRIVATE ${CoreEngine_Include})
-target_link_libraries(AudioEngine PRIVATE CoreEngine)
+target_link_libraries(AudioEngine PRIVATE CoreEngine Logger)
 
 find_package(OpenGL REQUIRED)
 

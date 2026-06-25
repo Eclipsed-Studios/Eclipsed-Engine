@@ -20,7 +20,7 @@
 #include "CoreEngine/Settings/GraphicsSettings.h"
 #include "CoreEngine/Settings/EngineSettings.h"
 
-#include "CoreEngine/Debug/DebugLogger.h"
+#include "Logger/DebugLogger.h"
 #include "CoreEngine/GraphicsBuffers/CameraBuffer.h"
 #include "CoreEngine/GraphicsBuffers/EditorBuffer.h"
 

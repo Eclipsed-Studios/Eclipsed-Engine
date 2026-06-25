@@ -4,6 +4,8 @@ include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 
 CreateProject(STATIC)
 
+target_link_libraries(CoreEngine PRIVATE Logger)
+
 if(${ENABLE_DISCORD_SDK})
     target_include_directories(CoreEngine PUBLIC ${DiscordSDK_SOURCES})
     target_link_libraries(CoreEngine PUBLIC DiscordSDK)

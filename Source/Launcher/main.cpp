@@ -3,11 +3,13 @@
 #include "EclipsedEngine/EclipsedRuntime.h"
 #include <windows.h>
 
-#include "CoreEngine/Debug/DebugLogger.h"
+#include "Logger/DebugLogger.h"
 
 #include <filesystem>
 #include <string>
+#include <shobjidl.h>
 
+// Launcher.exe
 
 int main(int argc, char* argv[])
 //int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -37,8 +39,6 @@ int main(int argc, char* argv[])
             file.read(projectPath.data(), size);
         }
     }
-
-
 
 #ifdef ECLIPSED_EDITOR
     Eclipse::Editor::EditorApplication editorApplication;
