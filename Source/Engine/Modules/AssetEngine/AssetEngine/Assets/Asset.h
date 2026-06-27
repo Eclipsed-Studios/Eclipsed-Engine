@@ -4,8 +4,6 @@
 
 #include "AssetEngine/Core/GUID.h"
 
-#include "CoreEngine/Settings/SettingsBase.hpp"
-
 #include "cereal/cereal.hpp"
 #include "cereal/types/string.hpp"
 

@@ -1,7 +1,7 @@
 #include "TextManager.h"
 
 #include "FreeType/ft2build.h"
-#include "Logger/DebugLogger.h"
+#include "CoreEngine/Logger/DebugLogger.h"
 
 #include FT_FREETYPE_H  
 

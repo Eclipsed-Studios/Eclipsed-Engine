@@ -2,8 +2,12 @@ include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 
 CreateProject(STATIC)
 
+set_target_properties(PhysicsEngine PROPERTIES
+    OUTPUT_NAME "Eclipsed.Physics"
+)
+
 target_include_directories(PhysicsEngine PRIVATE ${CoreEngine_Include})
-target_link_libraries(PhysicsEngine PRIVATE CoreEngine Logger)
+target_link_libraries(PhysicsEngine PRIVATE CoreEngine)
 
 # ---- Box2D
 target_link_directories(PhysicsEngine PUBLIC "${CMAKE_SOURCE_DIR}/Thirdparty/Libs/box2d")

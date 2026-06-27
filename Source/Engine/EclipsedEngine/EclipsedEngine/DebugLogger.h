@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef ECLIPSED_EDITOR
-#include "Logger/DebugLogger.h"
+#include "CoreEngine/Logger/DebugLogger.h"
 
 #include "CoreEngine/Macros/defines.h"
 

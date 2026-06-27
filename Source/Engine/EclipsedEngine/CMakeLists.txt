@@ -9,6 +9,7 @@ endif()
 
 set_target_properties(EclipsedEngine PROPERTIES
     FOLDER "Engine"
+    OUTPUT_NAME "Eclipsed.Runtime"
 )
 
 target_include_directories(EclipsedEngine PRIVATE "${CMAKE_SOURCE_DIR}/Source/Externals/asio")
@@ -20,8 +21,6 @@ target_link_libraries(EclipsedEngine PUBLIC
     EntityEngine
     GraphicsEngine
     PhysicsEngine
-
-    Logger
 
     ImGui
 )

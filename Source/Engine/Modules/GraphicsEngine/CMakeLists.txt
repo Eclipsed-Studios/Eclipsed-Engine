@@ -2,10 +2,14 @@ include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 
 CreateProject(STATIC)
 
+set_target_properties(GraphicsEngine PROPERTIES
+    OUTPUT_NAME "Eclipsed.Graphics"
+)
+
 find_package(OpenGL REQUIRED)
 
 target_include_directories(GraphicsEngine PRIVATE ${CoreEngine_Include})
-target_link_libraries(GraphicsEngine PRIVATE CoreEngine Logger)
+target_link_libraries(GraphicsEngine PRIVATE CoreEngine)
 
 target_include_directories(GraphicsEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
 target_link_libraries(GraphicsEngine PRIVATE "${CMAKE_SOURCE_DIR}/Thirdparty/Libs/FreeType/freetyped.lib")
