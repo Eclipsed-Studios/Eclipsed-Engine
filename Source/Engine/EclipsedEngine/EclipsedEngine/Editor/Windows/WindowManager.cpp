@@ -23,7 +23,7 @@
 
 #include "CoreEngine/Settings/EditorSettings.h"
 
-#include "Logger/DebugLogger.h"
+#include "CoreEngine/Logger/DebugLogger.h"
 
 #include "CoreEngine/Files/FileUtilities.h"
 

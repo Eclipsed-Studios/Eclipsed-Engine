@@ -8,7 +8,7 @@
 
 namespace Eclipse::Core
 {
-#define DEBUG_LOGGER_BUFFER_SIZE 400'000
+#define DEBUG_LOGGER_BUFFER_SIZE 40'000
 
 	class DebugLogger
 	{

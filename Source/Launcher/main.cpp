@@ -3,29 +3,31 @@
 #include "EclipsedEngine/EclipsedRuntime.h"
 #include <windows.h>
 
-#include "Logger/DebugLogger.h"
+#include "CoreEngine/Logger/DebugLogger.h"
 
 #include <filesystem>
 #include <string>
 #include <shobjidl.h>
 
-// Launcher.exe
 
+#ifdef _WIN32
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+#else
 int main(int argc, char* argv[])
-//int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+#endif
 {
-    HWND hwnd = GetConsoleWindow();
-    ShowWindow(hwnd, SW_HIDE);
+    //HWND hwnd = GetConsoleWindow();
+    //ShowWindow(hwnd, SW_HIDE);
 
     std::string projectPath = "";
-    if (argc > 1) // Engine opened with project path.
-    {
-        std::ofstream file(".ini");
-        file.write(argv[1], strlen(argv[1]));
+    //if (argc > 1) // Engine opened with project path.
+    //{
+    //    std::ofstream file(".ini");
+    //    file.write(argv[1], strlen(argv[1]));
 
-        projectPath = argv[1];
-    }
-    else // Engine tries to use the stored path in the .ini file.
+    //    projectPath = argv[1];
+    //}
+    //else // Engine tries to use the stored path in the .ini file.
     {
         if (std::filesystem::exists(".ini"))
         {

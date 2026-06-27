@@ -2,10 +2,14 @@ include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
 
 CreateProject(STATIC)
 
+set_target_properties(AssetEngine PROPERTIES
+    OUTPUT_NAME "Eclipsed.Assets"
+)
+
 find_package(OpenGL REQUIRED)
 
 target_include_directories(AssetEngine PRIVATE ${CoreEngine_Include})
-target_link_libraries(AssetEngine PRIVATE CoreEngine Logger)
+target_link_libraries(AssetEngine PRIVATE CoreEngine)
 
 target_include_directories(AssetEngine PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
 target_link_libraries(AssetEngine PRIVATE OpenGL::GL)

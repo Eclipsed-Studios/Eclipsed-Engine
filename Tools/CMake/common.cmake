@@ -94,6 +94,18 @@ function(CreateProject TYPE)
     target_precompile_headers(${CURRENT_DIR_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
 
 
+    SetModuleOutput()
+
+
+
+    target_include_directories(${CURRENT_DIR_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
+
+    source_group(TREE "${ROOT}" FILES ${SOURCES})
+
+    set_target_properties(${CURRENT_DIR_NAME} PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
+endfunction()
+
+function(SetModuleOutput)
     if(ECLIPSED_EDITOR)
         set_target_properties(${CURRENT_DIR_NAME} PROPERTIES
             ARCHIVE_OUTPUT_DIRECTORY                "${EXE_OUTPUT_DIR}/Libs/$<CONFIG>"
@@ -136,13 +148,5 @@ function(CreateProject TYPE)
             RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${EXE_OUTPUT_DIR}/GameBuildBinary/Bin"
             RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${EXE_OUTPUT_DIR}/GameBuildBinary/Bin"
         )
-       endif()
-
-
-
-    target_include_directories(${CURRENT_DIR_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
-
-    source_group(TREE "${ROOT}" FILES ${SOURCES})
-
-    set_target_properties(${CURRENT_DIR_NAME} PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
+    endif()
 endfunction()
