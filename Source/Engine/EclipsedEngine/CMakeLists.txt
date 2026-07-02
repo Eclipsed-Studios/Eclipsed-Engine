@@ -9,7 +9,7 @@ endif()
 
 set_target_properties(EclipsedEngine PROPERTIES
     FOLDER "Engine"
-    OUTPUT_NAME "Eclipsed.Runtime"
+    OUTPUT_NAME "Eclipsed.Engine"
 )
 
 target_include_directories(EclipsedEngine PRIVATE "${CMAKE_SOURCE_DIR}/Source/Externals/asio")
@@ -26,7 +26,7 @@ target_link_libraries(EclipsedEngine PUBLIC
 )
 
 if(${ENABLE_NETWORKING})
-    target_link_libraries(EclipsedEngine PUBLIC NetworkEngine)
+    target_link_libraries(EclipsedEngine PRIVATE NetworkEngine)
 endif()
 
 if(${ENABLE_STEAM_SDK})
@@ -35,5 +35,5 @@ endif()
 
 
 if(INCLUDE_GAME)
-    target_link_libraries(EclipsedEngine PUBLIC Game)
+    target_link_libraries(EclipsedEngine PRIVATE Game)
 endif()

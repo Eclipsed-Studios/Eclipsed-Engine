@@ -23,5 +23,3 @@ echo.
 echo === Completed: Generating engine project ===
 
 endlocal 
-
-pause

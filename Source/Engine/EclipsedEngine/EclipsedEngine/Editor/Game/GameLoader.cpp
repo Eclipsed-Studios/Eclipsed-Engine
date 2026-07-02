@@ -23,17 +23,13 @@ void Eclipse::GameLoader::LoadGameDLL()
 	{
 		const auto comp = o.components[i];
 
-		ComponentRegistry::Register(
+		ComponentRegistry::RegisterComponent(
 			comp.name,
+			comp.rttiType,
 			[create = comp.createFunc, size = comp.size](unsigned gameObjId, unsigned compID) -> Component*
 			{
 				return ComponentManager::Get().AddComponentWithID(gameObjId, compID, create, size);
 			},
-			true
-		);
-
-		ComponentRegistry::RegisterInspector(
-			comp.name,
 			[create = comp.createFunc, size = comp.size](unsigned gameObjId) -> Component*
 			{
 				return ComponentManager::Get().AddComponent(gameObjId, create, size);

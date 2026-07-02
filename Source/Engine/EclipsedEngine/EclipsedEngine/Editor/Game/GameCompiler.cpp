@@ -33,7 +33,7 @@ namespace Eclipse
 			}
 		);
 
-		script.Run();
+		script.Run(true);
 	}
 
 	void GameModuleManager::Compile()
@@ -52,7 +52,7 @@ namespace Eclipse
 			}
 		);
 
-		script.Run();
+		script.Run(true);
 	}
 
 	void GameModuleManager::CompileAndLoad()

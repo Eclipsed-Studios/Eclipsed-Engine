@@ -1,6 +1,7 @@
 #include "EclipsedEngine/Editor/EditorApplication.h"
 #include "CoreEngine/PathManager.h"
 #include "EclipsedEngine/EclipsedRuntime.h"
+#include "EclipsedRuntime/ECS.hpp"
 #include <windows.h>
 
 #include "CoreEngine/Logger/DebugLogger.h"

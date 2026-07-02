@@ -54,7 +54,7 @@ namespace Eclipse
             auto coIt = componentJson.MemberBegin();
 
             Component* component;
-            component = ComponentRegistry::GetAddComponent(coIt->name.GetString())(*aGameObject, Component::GetNextComponentID());
+            component = ComponentRegistry::GetAddComponentWithIdByTypeName(coIt->name.GetString())(*aGameObject, Component::GetNextComponentID());
 
             auto& reflectedList = Reflection::ReflectionManager::GetList();
             if (reflectedList.find(component) == reflectedList.end())
@@ -217,7 +217,7 @@ namespace Eclipse
             int ComponentID = aComponentsID[currentIndex++];
 
             Component* component;
-            component = ComponentRegistry::GetAddComponent(coIt->name.GetString())(*aGameObject, ComponentID);
+            component = ComponentRegistry::GetAddComponentWithIdByTypeName(coIt->name.GetString())(*aGameObject, ComponentID);
 
             auto& reflectedList = Reflection::ReflectionManager::GetList();
             if (reflectedList.find(component) == reflectedList.end())

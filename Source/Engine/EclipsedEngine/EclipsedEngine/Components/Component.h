@@ -24,6 +24,8 @@ static unsigned GetTypeID() { return typeID; }
 
 #include "CoreEngine/Macros/MacroOverloadSelector.h"
 
+#define GET_COMP_NAME 
+
 #define COMPONENT_FRIEND_CLASS         \
 friend class Eclipse::Editor::InspectorWindow;  \
 friend class ComponentManager;         \
@@ -74,8 +76,7 @@ private:
 
 
 #define COMP_REG(TYPE)																						\
-Eclipse::ComponentRegistry::Register(#TYPE, REGISTER_COMPONENT_CALLBACK(TYPE));								\
-Eclipse::ComponentRegistry::RegisterInspector(#TYPE, REGISTER_COMPONENT_CALLBACK_NORMAL(TYPE));
+Eclipse::ComponentRegistry::RegisterComponent(#TYPE, typeid(TYPE).name(), REGISTER_COMPONENT_CALLBACK(TYPE), REGISTER_COMPONENT_CALLBACK_NORMAL(TYPE));
 
 
 #define COMPONENT_REGISTRATION(TYPE)																	\

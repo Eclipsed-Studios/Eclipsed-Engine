@@ -32,6 +32,11 @@
 #include "Forcelink.h"
 #endif
 
+template<typename T>
+std::string GetName() {
+	return typeid(T).name();
+}
+
 void Eclipse::ComponentForcelink::LinkComponents()
 {
 	

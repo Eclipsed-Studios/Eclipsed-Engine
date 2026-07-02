@@ -24,5 +24,3 @@ endlocal
 
 echo.
 echo === Completed: Setting up project ===
-
-pause

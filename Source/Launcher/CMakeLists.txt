@@ -21,7 +21,7 @@ endif()
 target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
     target_include_directories(Launcher PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
 
-target_link_libraries(Launcher PRIVATE EclipsedEngine)
+target_link_libraries(Launcher PRIVATE EclipsedEngine EclipsedRuntime)
 
 if(ECLIPSED_EDITOR)
     set(OUTPUT ${EXE_OUTPUT_DIR})
