@@ -98,13 +98,13 @@ namespace Eclipse::Editor
 
 			filter.Draw("##Search");
 
-			for (auto& [name, addFunc] : ComponentRegistry::GetInspectorAddComponentMap())
+			for (auto& [name, registeredComp] : ComponentRegistry::GetComponentTypeNameMap())
 			{
 				if (!filter.PassFilter(name.c_str())) continue;
 
 				if (ImGui::Button(name.c_str(), ImVec2(-FLT_MIN, 0)))
 				{
-					addFunc(gobjId);
+					registeredComp.addComp(gobjId);
 					ImGui::CloseCurrentPopup();
 					filter = {};
 					compSearchIsFocused = false;

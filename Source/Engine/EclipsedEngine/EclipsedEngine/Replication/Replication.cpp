@@ -51,7 +51,7 @@ namespace Eclipse::Replication
 
 		std::string StringName = name;
 
-		Component* newCompoennt = ComponentRegistry::GetAddComponent(StringName)(message.MetaData.GameObjectID, ComponentID);
+		Component* newCompoennt = ComponentRegistry::GetAddComponentWithIdByTypeName(StringName)(message.MetaData.GameObjectID, ComponentID);
 		newCompoennt->SetIsOwner(false);
 		newCompoennt->IsReplicated = true;
 

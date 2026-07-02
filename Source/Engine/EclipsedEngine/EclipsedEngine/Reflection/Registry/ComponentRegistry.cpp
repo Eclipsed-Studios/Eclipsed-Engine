@@ -5,78 +5,78 @@
 
 namespace Eclipse
 {
-	// Define static member variables (they live only in the DLL)
-	std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>> ComponentRegistry::addComponentMap;
-	std::unordered_map<std::string, std::function<Component* (unsigned)>> ComponentRegistry::inspectorAddComponentMap;
+	std::unordered_map<std::string, RegisteredComp> ComponentRegistry::rttiNameToCompData;
+	std::unordered_map<std::string, RegisteredComp> ComponentRegistry::compNameToCompData;
 
-	bool ComponentRegistry::IsRegisteredInspector(const std::string& typeName)
+	void ComponentRegistry::RegisterComponent(const std::string& typeName, const std::string& rttiName, AddCompWithIdFunc addCompWithIdFunc, AddCompFunc addCompFunc, bool isGameComponent)
 	{
-		return inspectorAddComponentMap.find(typeName) != inspectorAddComponentMap.end();
+		RegisteredComp comp{
+			addCompWithIdFunc,
+			addCompFunc,
+			typeName,
+			rttiName
+		};
+
+		rttiNameToCompData[rttiName] = comp;
+		compNameToCompData[typeName] = comp;
+
+		if (isGameComponent) gameComponents.push_back(typeName);
 	}
 
-	bool ComponentRegistry::IsRegisteredScene(const std::string& typeName)
+	bool ComponentRegistry::IsRegistered(const std::string& name)
 	{
-		return addComponentMap.find(typeName) != addComponentMap.end();
+		return compNameToCompData.find(name) != compNameToCompData.end() ||
+			rttiNameToCompData.find(name) != rttiNameToCompData.end();
 	}
 
 	void ComponentRegistry::ClearRegisteredGameComponents()
 	{
 		for (const std::string& typeName : gameComponents)
 		{
-			addComponentMap.erase(typeName);
-			inspectorAddComponentMap.erase(typeName);
+			RegisteredComp& comp = compNameToCompData[typeName];
+
+			rttiNameToCompData.erase(comp.rttiName);
+			compNameToCompData.erase(typeName);
 		}
 	}
 
-	void ComponentRegistry::Register(const std::string& typeName,
-		std::function<Component* (unsigned, unsigned)> addComponentMethod, bool isGame)
+	AddCompFunc ComponentRegistry::GetAddComponentByTypeName(const std::string& typeName)
 	{
-		auto& map = GetAddComponentMap();
-		map[typeName] = addComponentMethod;
+		if (IsRegistered(typeName))
+			return compNameToCompData[typeName].addComp;
 
-		if (isGame) gameComponents.push_back(typeName);
-	}
-
-	std::function<Component* (unsigned, unsigned)> ComponentRegistry::GetAddComponent(const std::string& typeName)
-	{
-		auto& map = GetAddComponentMap();
-		auto it = map.find(typeName);
-		if (it != map.end())
-		{
-			return it->second;
-		}
-		return [](unsigned, unsigned) { return nullptr; };
-	}
-
-	std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>>&
-		ComponentRegistry::GetAddComponentMap()
-	{
-		return addComponentMap;
-	}
-
-	void ComponentRegistry::RegisterInspector(const std::string& typeName,
-		std::function<Component* (unsigned)> addComponentMethod, bool isGame)
-	{
-		auto& map = GetInspectorAddComponentMap();
-		map[typeName] = addComponentMethod;
-
-		if (isGame) gameComponents.push_back(typeName);
-	}
-
-	std::function<Component* (unsigned)> ComponentRegistry::GetInspectorAddComponent(const std::string& typeName)
-	{
-		auto& map = GetInspectorAddComponentMap();
-		auto it = map.find(typeName);
-		if (it != map.end())
-		{
-			return it->second;
-		}
 		return [](unsigned) { return nullptr; };
 	}
 
-	std::unordered_map<std::string, std::function<Component* (unsigned)>>&
-		ComponentRegistry::GetInspectorAddComponentMap()
+	AddCompFunc ComponentRegistry::GetAddComponentByRttiTypeName(const std::string& rttiTypeName)
 	{
-		return inspectorAddComponentMap;
+		if (IsRegistered(rttiTypeName))
+			return rttiNameToCompData[rttiTypeName].addComp;
+
+		return [](unsigned) { return nullptr; };
+	}
+
+	AddCompWithIdFunc ComponentRegistry::GetAddComponentWithIdByTypeName(const std::string& typeName)
+	{
+		if (IsRegistered(typeName))
+			return compNameToCompData[typeName].addCompWithId;
+
+		return [](unsigned, unsigned) { return nullptr; };
+	}
+
+	AddCompWithIdFunc ComponentRegistry::GetAddComponentWithIdByRttiTypeName(const std::string& rttiTypeName)
+	{
+		if (IsRegistered(rttiTypeName))
+			return rttiNameToCompData[rttiTypeName].addCompWithId;
+
+		return [](unsigned, unsigned) { return nullptr; };
+	}
+	std::unordered_map<std::string, RegisteredComp>& ComponentRegistry::GetComponentRttiMap()
+	{
+		return rttiNameToCompData;
+	}
+	std::unordered_map<std::string, RegisteredComp>& ComponentRegistry::GetComponentTypeNameMap()
+	{
+		return compNameToCompData;
 	}
 } // namespace Eclipse

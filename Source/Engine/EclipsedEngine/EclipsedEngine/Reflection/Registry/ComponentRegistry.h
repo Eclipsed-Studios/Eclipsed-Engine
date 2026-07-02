@@ -10,6 +10,18 @@ namespace Eclipse
 {
     class Component;
 
+    using AddCompWithIdFunc = std::function<Component* (unsigned, unsigned)>;
+    using AddCompFunc = std::function<Component* (unsigned)>;
+
+    struct RegisteredComp
+    {
+        AddCompWithIdFunc addCompWithId;
+        AddCompFunc addComp;
+
+        std::string name;
+        std::string rttiName;
+    };
+
     class ComponentRegistry final
     {
     public:
@@ -17,27 +29,43 @@ namespace Eclipse
         ~ComponentRegistry() = delete;
 
     private:
-        using AddComponentMap = std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>>;
-        using InspectorAddComponentMap = std::unordered_map<std::string, std::function<Component* (unsigned)>>;
-
-        static ECLIPSED_API AddComponentMap addComponentMap;
-        static ECLIPSED_API InspectorAddComponentMap inspectorAddComponentMap;
+        static ECLIPSED_API std::unordered_map<std::string, RegisteredComp> rttiNameToCompData;
+        static ECLIPSED_API std::unordered_map<std::string, RegisteredComp> compNameToCompData;
 
     public:
-        static bool IsRegisteredInspector(const std::string& typeName);
-        static bool IsRegisteredScene(const std::string& typeName);
+        static ECLIPSED_API void RegisterComponent(
+            const std::string& typeName,
+            const std::string& rttiName,
+            AddCompWithIdFunc addCompWithIdFunc,
+            AddCompFunc addCompFunc,
+            bool isGameComponent = false
+        );
 
+        static bool IsRegistered(const std::string& name);
 
         static void ClearRegisteredGameComponents();
 
-        static void Register(const std::string& typeName, std::function<Component* (unsigned, unsigned)> addComponentMethod, bool isGame = false);
-        static std::function<Component* (unsigned, unsigned)> GetAddComponent(const std::string& typeName);
-        static std::unordered_map<std::string, std::function<Component* (unsigned, unsigned)>>& GetAddComponentMap();
+        static ECLIPSED_API AddCompFunc GetAddComponentByTypeName(const std::string& typeName);
+        static ECLIPSED_API AddCompFunc GetAddComponentByRttiTypeName(const std::string& rttiTypeName);
 
-        static void RegisterInspector(const std::string& typeName, std::function<Component* (unsigned)> addComponentMethod, bool isGame = false);
-        static std::function<Component* (unsigned)> GetInspectorAddComponent(const std::string& typeName);
-        static std::unordered_map<std::string, std::function<Component* (unsigned)>>& GetInspectorAddComponentMap();
+        static ECLIPSED_API AddCompWithIdFunc GetAddComponentWithIdByTypeName(const std::string& typeName);
+        static ECLIPSED_API AddCompWithIdFunc GetAddComponentWithIdByRttiTypeName(const std::string& rttiTypeName);
 
-        static inline std::vector<std::string> gameComponents;
+        template<typename T>
+        static AddCompFunc& GetAddComponent()
+        {
+            return GetAddComponentByRttiTypeName(typeid(T).name());
+        }
+
+        template<typename T>
+        static AddCompWithIdFunc& GetAddComponentWithID()
+        {
+            return GetAddComponentWithIdByRttiTypeName(typeid(T).name());
+        }
+
+        static std::unordered_map<std::string, RegisteredComp>& GetComponentRttiMap();
+        static std::unordered_map<std::string, RegisteredComp>& GetComponentTypeNameMap();
+
+        static ECLIPSED_API inline std::vector<std::string> gameComponents;
     };
 } // namespace Eclipse

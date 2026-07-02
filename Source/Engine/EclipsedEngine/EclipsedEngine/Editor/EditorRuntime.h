@@ -1,10 +1,10 @@
 #ifdef ECLIPSED_EDITOR
 #pragma once
 
-#include "CoreEngine/Files/FileWatcher.h"
 #include "EclipsedEngine/EclipsedRuntime.h"
 
 #include "CoreEngine/MainSingleton.h"
+#include "CoreEngine/Files/FileWatcher.h"
 
 namespace Eclipse::Editor
 {

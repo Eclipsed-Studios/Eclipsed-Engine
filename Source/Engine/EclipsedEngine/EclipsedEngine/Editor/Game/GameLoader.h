@@ -8,6 +8,7 @@ namespace Eclipse
 	struct ComponentEntry final
 	{
 		const char* name;
+		const char* rttiType;
 		Eclipse::Component* (__cdecl* createFunc)(unsigned char* address);
 		size_t size;
 	};
