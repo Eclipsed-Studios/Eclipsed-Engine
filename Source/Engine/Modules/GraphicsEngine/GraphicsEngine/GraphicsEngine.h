@@ -2,6 +2,9 @@
 
 #include "CoreEngine/ErrorCodes.h"
 
+#include "CoreEngine/Math/Vector/Vector2.h"
+#include "CoreEngine/Math/Vector/Vector4.h"
+
 namespace Eclipse
 {
     class BaseGraphicsBuffer;
@@ -18,17 +21,30 @@ namespace Eclipse
 
         template<class T>
         static T* Get() { return reinterpret_cast<T*>(Instance); }
+
+        static GraphicsEngine* Get() { return Instance; }
         
         virtual ErrorCode Init() = 0;
+        virtual void Render() = 0;
+
+        virtual void BeginFrame() = 0;
+        virtual void EndFrame() = 0;
+
+        virtual int ShouldWindowClose() = 0;
+
+        virtual Math::Vector2i GetWindowPosition() = 0;
+
+        virtual Math::Vector4ui ReadPixel(const Math::Vector2ui& aPos) = 0;
 
         BaseGraphicsBuffer* GetGraphicsBuffer() { return myGraphicsBuffer; }
-
         
     public:
         enum class MouseCursor {
             Hand,
             Grab
         };
+
+        virtual void SetCursor(MouseCursor aMouseCursor) {}
         
         BaseGraphicsBuffer* myGraphicsBuffer;
         

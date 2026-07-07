@@ -5,18 +5,23 @@
 
 #include "GraphicsEngine/OpenGL/OpenGLGraphicsAPI.h"
 
+#include "CoreEngine/GraphicsBuffers/CameraBuffer.h"
+#include "EclipsedEngine/Components/Transform2D.h"
+
 namespace Eclipse
 {
     void Canvas::SetCanvasTransformProperties()
     {
         CameraBuffer* cameraBuffer = nullptr;
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
+        GraphicsEngine::Get()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
 
         //canvasCameraTransform.Rotation = gameObject->transform->GetRotation();
 
+#ifdef ECLIPSED_EDITOR
         if (IsScene)
             canvasCameraTransform.ScaleMultiplier = Math::Vector2f(cameraBuffer->cameraScale.x * cameraBuffer->resolutionRatio * 1.7777777777f, cameraBuffer->cameraScale.y) * 2.f;
         else
+#endif
             canvasCameraTransform.ScaleMultiplier = Math::Vector2f(cameraBuffer->resolutionRatio * 1.7777777777f, 1) * 2.f;
         
         
@@ -32,7 +37,7 @@ namespace Eclipse
 
         // Rotation of canvas fucks up many things
         //float sceneRotation;
-        //GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGlobalUniform(UniformType::Float, "cameraRotation", &sceneRotation);
+        //GraphicsEngine::Get()->GetGlobalUniform(UniformType::Float, "cameraRotation", &sceneRotation);
         //canvasCameraTransform.Rotation += sceneRotation;
     }
 
@@ -60,6 +65,6 @@ namespace Eclipse
     {
         Math::Vector2f resolution = ReferenceResolution;
         myCanvasBuffer.canvasScaleRelationOneDiv = {1.f / resolution.x, 1.f / resolution.y};
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(2, myCanvasBuffer);
+        GraphicsEngine::Get()->GetGraphicsBuffer()->SetOrCreateBuffer(2, myCanvasBuffer);
     }
 }

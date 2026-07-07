@@ -32,6 +32,8 @@ namespace Eclipse
 
         CanvasBuffer myCanvasBuffer;
 
+#ifdef ECLIPSED_EDITOR
         static inline bool IsScene = false;
+#endif
     };
 }

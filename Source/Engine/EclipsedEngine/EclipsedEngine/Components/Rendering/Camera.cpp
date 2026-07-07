@@ -34,11 +34,11 @@ namespace Eclipse
         myCameraBuffer.cameraRotation = gameObject->transform->GetRotation();
         myCameraBuffer.cameraScale = { CameraZoom, CameraZoom };
 
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(0, myCameraBuffer);
+        GraphicsEngine::Get()->GetGraphicsBuffer()->SetOrCreateBuffer(0, myCameraBuffer);
 
-        // GraphicsEngine::Get<OpenGLGraphicsEngine>()->UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", &position);
-        // GraphicsEngine::Get<OpenGLGraphicsEngine>()->UpdateGlobalUniform(UniformType::Float, "cameraRotation", &rotation);
-        // GraphicsEngine::Get<OpenGLGraphicsEngine>()->UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", &scale);
+        // GraphicsEngine::Get()->UpdateGlobalUniform(UniformType::Vector2f, "cameraPosition", &position);
+        // GraphicsEngine::Get()->UpdateGlobalUniform(UniformType::Float, "cameraRotation", &rotation);
+        // GraphicsEngine::Get()->UpdateGlobalUniform(UniformType::Vector2f, "cameraScale", &scale);
     }
 
 

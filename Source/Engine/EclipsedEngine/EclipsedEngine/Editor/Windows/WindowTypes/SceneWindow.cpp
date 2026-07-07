@@ -136,7 +136,7 @@ void Eclipse::Editor::SceneWindow::MouseManager()
 		Math::Vector2f mouseDragdelta = { mouseDelta.x, mouseDelta.y };
 		myInspectorPosition -= Math::Vector2f(mouseDragdelta.x / SizeXRatio, -mouseDragdelta.y / correctScaledWindowSizeY) * 2.f * (1.f / myInspectorScale);
 
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->SetCursor(GraphicsEngine::MouseCursor::Grab);
+		GraphicsEngine::Get()->SetCursor(GraphicsEngine::MouseCursor::Grab);
 	}
 
 	if (!(ImGui::IsMouseDown(1) || ImGui::IsMouseDown(2)))
@@ -194,23 +194,27 @@ void Eclipse::Editor::SceneWindow::SpriteSelector()
 
 	GraphicsEngine::Get<OpenGLGraphicsEngine>()->ClearCurrentSceneBuffer(0, 0, 0);
 
+	BaseGraphicsBuffer* graphicsBuffer = GraphicsEngine::Get()->GetGraphicsBuffer();
+
 	EditorBuffer* editorBuffer;
-	GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<EditorBuffer>(editorBuffer);
+	graphicsBuffer->GetBuffer<EditorBuffer>(editorBuffer);
 	editorBuffer->notOverideColor = 0;
-	GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
+	graphicsBuffer->SetOrCreateBuffer<EditorBuffer>(35);
 
-	GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
-
-	CanvasBuffer* canvasBuffer;
-	GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CanvasBuffer>(canvasBuffer);
-	canvasBuffer->canvasPositionOffset = Math::Vector2f(0, 0);
 	BaseRenderComponent::IsScene = true;
 	Canvas::IsScene = true;
+
+	graphicsBuffer->SetOrCreateBuffer<CameraBuffer>(0);
+
+	CanvasBuffer* canvasBuffer;
+	graphicsBuffer->GetBuffer<CanvasBuffer>(canvasBuffer);
+	canvasBuffer->canvasPositionOffset = Math::Vector2f(0, 0);
+
 
 	CommandListManager::GetSpriteCommandList().Execute();
 	CommandListManager::GetUICommandList().Execute();
 
-	Math::Vector4ui colorValue = GraphicsEngine::Get<OpenGLGraphicsEngine>()->ReadPixel({ windowRelativeMousePosition.x + 10, windowRelativeMousePosition.y - 8 });
+	Math::Vector4ui colorValue = GraphicsEngine::Get()->ReadPixel({ windowRelativeMousePosition.x + 10, windowRelativeMousePosition.y - 8 });
 	unsigned pickedID = colorValue.x + colorValue.y * 256 + colorValue.z * 256 * 256;
 
 	unsigned currentGO = SelectionContext::GetCurrentData<GameObjectTarget>();
@@ -381,7 +385,7 @@ void Eclipse::Editor::SceneWindow::Update()
 
 
 	CameraBuffer* cameraBuffer = nullptr;
-	GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
+	GraphicsEngine::Get()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
 
 	Math::Vector2f lastInspectorPosition = cameraBuffer->cameraPosition;
 	float lastInspectorRotation = cameraBuffer->cameraRotation;
@@ -399,17 +403,19 @@ void Eclipse::Editor::SceneWindow::Update()
 	// This is not using its own framebuffer but if left click then render and get mouse position color
 	SpriteSelector();
 
+	BaseGraphicsBuffer* graphicsBuffer = GraphicsEngine::Get()->GetGraphicsBuffer();
+
 	EditorBuffer* editorBuffer;
-	GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<EditorBuffer>(editorBuffer);
+	graphicsBuffer->GetBuffer<EditorBuffer>(editorBuffer);
 	editorBuffer->notOverideColor = 1;
-	GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
+	graphicsBuffer->SetOrCreateBuffer<EditorBuffer>(35);
 
 	GraphicsEngine::Get<OpenGLGraphicsEngine>()->ClearCurrentSceneBuffer();
 
-	GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
+	graphicsBuffer->SetOrCreateBuffer<CameraBuffer>(0);
 
 	CanvasBuffer* canvasBuffer;
-	GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CanvasBuffer>(canvasBuffer);
+	graphicsBuffer->GetBuffer<CanvasBuffer>(canvasBuffer);
 	canvasBuffer->canvasPositionOffset = Math::Vector2f(0, 0);
 	BaseRenderComponent::IsScene = true;
 	Canvas::IsScene = true;
