@@ -10,6 +10,8 @@ namespace Eclipse
         SERIALIZED_FIELD_DEFAULT(float, ZIndex, 0);
         float GetZIndex() override { return ZIndex; }
 
+#ifdef ECLIPSED_EDITOR
         static inline bool IsScene = false;
+#endif
     };
 }

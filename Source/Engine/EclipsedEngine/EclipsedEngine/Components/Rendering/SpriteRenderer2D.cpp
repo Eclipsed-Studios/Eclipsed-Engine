@@ -136,16 +136,18 @@ namespace Eclipse
 		mySpriteBuffer.spriteScaleMultiplier = { scaleMultiplier.x, scaleMultiplier.y * aspectScale };
 		mySpriteBuffer.mirrored = { mirroredX ? -1.f : 1.f, mirroredY ? -1.f : 1.f };
 
+		BaseGraphicsBuffer* graphicsBuffer = GraphicsEngine::Get()->GetGraphicsBuffer();
+
 #ifdef ECLIPSED_EDITOR
 		EditorBuffer* editorBuffer;
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<EditorBuffer>(editorBuffer);
-		editorBuffer->PixelPickColor = gameObject->GetPixelPickingIDColor();
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
+		graphicsBuffer->GetBuffer<EditorBuffer>(editorBuffer);
+		editorBuffer->PixelPickColor = gameObject->myPixelPickColor;
+		graphicsBuffer->SetOrCreateBuffer<EditorBuffer>(35);
 #endif
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(5, material->materialBuffer);
+		graphicsBuffer->SetOrCreateBuffer(5, material->materialBuffer);
 		
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(1, myTransformBuffer);
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(3, mySpriteBuffer);
+		graphicsBuffer->SetOrCreateBuffer(1, myTransformBuffer);
+		graphicsBuffer->SetOrCreateBuffer(3, mySpriteBuffer);
 
 		Sprite::Get().Render();
 	}

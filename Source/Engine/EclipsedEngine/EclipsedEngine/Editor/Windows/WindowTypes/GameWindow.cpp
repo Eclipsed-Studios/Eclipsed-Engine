@@ -108,12 +108,12 @@ namespace Eclipse::Editor
 		glViewport(0, 0, windowSize.x, windowSize.y + 44);
 
 		CameraBuffer* cameraBuffer = nullptr;
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
+		GraphicsEngine::Get()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
 		
 		float aspectRatio = windowSize.y / windowSize.x;
 		cameraBuffer->resolutionRatio = aspectRatio;
 
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
+		GraphicsEngine::Get()->GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
 		
 
 
@@ -209,12 +209,12 @@ namespace Eclipse::Editor
 		glViewport(0, 0, windowSize.x, (windowSize.x * myWindowResAspect.y));
 
 		CameraBuffer* cameraBuffer = nullptr;
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
+		GraphicsEngine::Get()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
 		
 		float aspectRatio = (windowSize.x * myWindowResAspect.y) / windowSize.x;
 		cameraBuffer->resolutionRatio = aspectRatio;
 
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
+		GraphicsEngine::Get()->GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
 
 
 

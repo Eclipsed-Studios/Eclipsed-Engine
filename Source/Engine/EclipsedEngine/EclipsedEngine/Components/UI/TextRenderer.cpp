@@ -18,6 +18,10 @@
 
 #include "CoreEngine/UtilityMacros.h"
 
+#ifdef ECLIPSED_EDITOR
+	#include <CoreEngine/GraphicsBuffers/EditorBuffer.h>
+#endif
+
 namespace Eclipse
 {
 #ifdef ECLIPSED_EDITOR
@@ -63,13 +67,10 @@ namespace Eclipse
 		myTransformBuffer.Position += canvasCameraTransform.PositionOffset;
 
 		myTransformBuffer.Scale = tranform->WidthHeightPX.Get() * canvasScaleRelationOneDiv * ((float)myFontSize * 0.005f);
-		// if (!IsScene)
-		// 	myTransformBuffer.Scale *= { 2.f, 2.f };
 
 		Math::Vector2f multiplier;
 
 #ifdef ECLIPSED_EDITOR
-
 		if (IsScene)
 			multiplier = canvasCameraTransform.ScaleMultiplier;
 		else
@@ -146,10 +147,9 @@ namespace Eclipse
 	{
 		if (!material.IsValid())
 			return;
-		if (!font->dataPtr)
+		if (!font.IsValid())
 			return;
 
-		const char* textInConstChar = myText->c_str();
 		auto transform = gameObject->GetComponent<RectTransform>();
 
 		if (!transform)
@@ -157,13 +157,8 @@ namespace Eclipse
 		if (!transform->myCanvas)
 			return;
 
-		// CameraBuffer* cameraBuffer = nullptr;
-		// GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
-
 		transform->myCanvas->SetCanvasTransformProperties();
 		material.Use();
-		/*unsigned shaderID = ;
-		glUseProgram(shaderID);*/
 
 		Math::Vector2f resolution = transform->myCanvas->ReferenceResolution;
 
@@ -171,7 +166,7 @@ namespace Eclipse
 
 		TransformUpdate();
 
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(1, myTransformBuffer);
+		GraphicsEngine::Get()->GetGraphicsBuffer()->SetOrCreateBuffer(1, myTransformBuffer);
 
 		Math::Vector2f textOffset = { 0, 0 };
 		Math::Vector2f scaleRect = myTransformBuffer.Scale * myRect * resolution;
@@ -179,10 +174,18 @@ namespace Eclipse
 
 		lineOffsets.resize(1);
 		lineOffsets.back() = 0;
+
+		const char* textInConstChar = myText->c_str();
 		for (int i = 0; i < myText->size(); i++)
 		{
 			char character = textInConstChar[i];
-			if (character == ' ')
+			if (character == '\t')
+			{
+				float tabOffset = myTransformBuffer.Scale.x * 50.f * 4.f * myCharacterSpacing * myFontSize;
+				lineOffsets.back() += tabOffset;
+				continue;
+			}
+			else if (character == ' ')
 			{
 				float spaceOffset = myTransformBuffer.Scale.x * 50.f * 0.5f * myCharacterSpacing * myFontSize * mySpaceSpacing;
 				lineOffsets.back() += spaceOffset;
@@ -213,7 +216,7 @@ namespace Eclipse
 			;//textOffset.y = (-scaleRect.y + 0.0125f)  * lineOffsets.size();
 
 		myTextMaterialBuffer.color = myTextColor;
-		GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<TextMaterialBuffer>(5, myTextMaterialBuffer);
+		GraphicsEngine::Get()->GetGraphicsBuffer()->SetOrCreateBuffer<TextMaterialBuffer>(5, myTextMaterialBuffer);
 
 
 		int currentLineCount = 0;
@@ -246,22 +249,14 @@ namespace Eclipse
 			Assets::Character& characterFace = CurrentFont.myCharTexture.at(character);
 			float characterAdvance = (float)(characterFace.advance >> 6) * 100.f * myTransformBuffer.Scale.x;
 
-			//Math::Vector2f scaleRect = myTransformBuffer.Scale * myRect * resolution;
-			// float newXOffset = textOffset.x + characterAdvance;
-			// if (newXOffset >= scaleRect.x)
-			// {
-			// 	return;
-			// }
 
 			glActiveTexture(GL_TEXTURE0);
 			GraphicsEngine::Get<OpenGLGraphicsEngine>()->BindTexture(GL_TEXTURE_2D, characterFace.textureID);
 
 			myTextBuffer.size = { (float)characterFace.size.x, (float)characterFace.size.y };
 
-			float lineOffset;
-			if (myTextAlignment == 0)
-				lineOffset = 0;
-			else
+			float lineOffset = 0;
+			if (myTextAlignment != 0)
 				lineOffset = lineOffsets[currentLineCount] - myTransformBuffer.Scale.x * myCharacterSpacing;
 
 
@@ -269,29 +264,32 @@ namespace Eclipse
 			myTextBuffer.offset.x += (characterFace.bearing.x * 100.f * myTransformBuffer.Scale.x) - lineOffset;
 			myTextBuffer.offset.y -= (characterFace.size.y - characterFace.bearing.y) * myTransformBuffer.Scale.y * 100.f;
 
-#ifdef ECLIPSED_EDITOR
-			EditorBuffer* editorBuffer;
-			GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<EditorBuffer>(editorBuffer);
-			editorBuffer->PixelPickColor = gameObject->GetPixelPickingIDColor();
-			GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
-#endif
+			BaseGraphicsBuffer* graphicsBuffer = GraphicsEngine::Get()->GetGraphicsBuffer();
 
-			GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(3, myTextBuffer);
-			textOffset.x += characterAdvance * myCharacterSpacing;
+			graphicsBuffer->SetOrCreateBuffer(3, myTextBuffer);
+			//textOffset.x += characterAdvance * myCharacterSpacing;
 
 			CanvasBuffer* canvasBuffer;
-			GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CanvasBuffer>(canvasBuffer);
+			graphicsBuffer->GetBuffer<CanvasBuffer>(canvasBuffer);
+
+#ifdef ECLIPSED_EDITOR
+			EditorBuffer* editorBuffer;
+			graphicsBuffer->GetBuffer<EditorBuffer>(editorBuffer);
+			editorBuffer->PixelPickColor = gameObject->myPixelPickColor;
+			graphicsBuffer->SetOrCreateBuffer<EditorBuffer>(35);
 
 			if (!IsScene)
 			{
+#endif
 				if (!transform->myCanvas->WorldSpace)
 					canvasBuffer->canvasPositionOffset = transform->myCanvas->canvasCameraTransform.PositionOffset;
 				else
 					canvasBuffer->canvasPositionOffset = { 0, 0 };
-
+#ifdef ECLIPSED_EDITOR
 			}
+#endif
 
-			GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(2, *canvasBuffer);
+			graphicsBuffer->SetOrCreateBuffer(2, *canvasBuffer);
 
 			TextSprite::Get().Render();
 		}

@@ -33,8 +33,6 @@ namespace Eclipse
 		template <typename T>
 		std::vector<T*> GetComponents();
 
-		const Math::Vector4f& GetPixelPickingIDColor() { return myPixelPickColor; }
-
 		GameObject* GetTopParent();
 
 		GameObject*& GetParent();
@@ -65,6 +63,10 @@ namespace Eclipse
 
 		bool IsPrefab = false;
 		std::string prefabAssetIDStr;
+
+#ifdef ECLIPSED_EDITOR
+		Math::Vector4f myPixelPickColor;
+#endif
 	private:
 		GameObject* GetTopParentInternal(GameObject* aGameobject);
 
@@ -74,8 +76,6 @@ namespace Eclipse
 
 		unsigned myID;
 		std::string myName = "Gameobject";
-
-		Math::Vector4f myPixelPickColor;
 
 		bool myIsOwner = true;
 	};

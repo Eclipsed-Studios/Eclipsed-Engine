@@ -26,12 +26,18 @@ namespace Eclipse
 
 		static inline unsigned gpuTimeQuery = 0;
 		
-		ErrorCode Init();
-		void BeginFrame();
-		void Render();
-		void EndFrame();
+		ErrorCode Init() override;
+		void Render() override;
 
-		int ShouldWindowClose();
+
+		void BeginFrame() override;
+		void EndFrame() override;
+
+		int ShouldWindowClose() override;
+
+		Math::Vector2i GetWindowPosition() override;
+
+
 
 		ErrorCode CheckErrorCodes(ErrorCode aErrorCode);
 
@@ -57,9 +63,8 @@ namespace Eclipse
 
 		void RegisterListenToResolutionChange(const std::function<void()>& aLambda);
 
-		Math::Vector2i GetWindowPosition();
 
-		Math::Vector4ui ReadPixel(const Math::Vector2ui& aPos);
+		Math::Vector4ui ReadPixel(const Math::Vector2ui& aPos) override;
 
 		void SetWindowIcon(const char* aPath);
 
@@ -74,7 +79,7 @@ namespace Eclipse
 		ErrorCode CreateWindow();
 
 	public:
-		void SetCursor(MouseCursor aMouseCursor);
+		void SetCursor(MouseCursor aMouseCursor) override;
 		void ResetCursor();
 	private:
 

@@ -15,7 +15,6 @@
 ComponentManager::Get().GetComponent<Type>(GOID)
 
 #define MAX_COMPONENT_MEMORY_BYTES 20'000'000
-#define MAX_COMPONENTSARRAY MAX_COMPONENT_MEMORY_BYTES / 100
 
 namespace Eclipse
 {

@@ -83,9 +83,7 @@ namespace Eclipse
 
 #ifdef ECLIPSED_EDITOR
         Math::Vector2f resolution = Editor::GameWindow::myGameImageResolution;
-#endif
-
-#ifndef ECLIPSED_EDITOR
+#else
         Math::Vector2f resolution = Settings::GraphicsSettings::GetResolution();
 #endif
 
@@ -96,17 +94,14 @@ namespace Eclipse
 
         myTransformBuffer.Position = position;
 
+#ifdef ECLIPSED_EDITOR
         if (IsScene)
             myTransformBuffer.Position *= canvasCameraTransform.ScaleMultiplier;
         else
+#endif
             myTransformBuffer.Position *= Math::Vector2f(2, 2);
 
         myTransformBuffer.Position += canvasCameraTransform.PositionOffset;
-
-        // if (!IsScene)
-        // {
-        //     myTransformBuffer.Position.x += tranform->WidthHeightPX->x * 0.5f;
-        // }
 
         Math::Vector2f WidthHeightPX = tranform->WidthHeightPX.Get();
         myTransformBuffer.Scale = WidthHeightPX;
@@ -115,10 +110,13 @@ namespace Eclipse
         myTransformBuffer.Scale *= canvasScaleRelationOneDiv;
 
         Math::Vector2f multiplier;
+
+#ifdef ECLIPSED_EDITOR
         if (IsScene)
             multiplier = canvasCameraTransform.ScaleMultiplier;
         else
         {
+#endif
             if (!tranform->ScaleWithCanvasX)
                 multiplier.x = canvasCameraTransform.ScaleMultiplier.x;
             else
@@ -127,7 +125,10 @@ namespace Eclipse
                 multiplier.y = canvasCameraTransform.ScaleMultiplier.y;
             else
                 multiplier.y = 2;
+
+#ifdef ECLIPSED_EDITOR
         }
+#endif
         myTransformBuffer.Scale *= multiplier;
 
         myTransformBuffer.Rotation = canvasCameraTransform.Rotation;
@@ -173,27 +174,34 @@ namespace Eclipse
 
         TransformUpdate();
 
-#ifdef ECLIPSED_EDITOR
-        EditorBuffer* editorBuffer;
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<EditorBuffer>(editorBuffer);
-        editorBuffer->PixelPickColor = gameObject->GetPixelPickingIDColor();
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
-#endif
 
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(5, material->materialBuffer);
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(1, myTransformBuffer);
+        BaseGraphicsBuffer* graphicsBuffer = GraphicsEngine::Get()->GetGraphicsBuffer();
 
         CanvasBuffer* canvasBuffer;
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CanvasBuffer>(canvasBuffer);
+        graphicsBuffer->GetBuffer<CanvasBuffer>(canvasBuffer);
+
+#ifdef ECLIPSED_EDITOR
+        EditorBuffer* editorBuffer;
+        graphicsBuffer->GetBuffer<EditorBuffer>(editorBuffer);
+        editorBuffer->PixelPickColor = gameObject->myPixelPickColor;
+        graphicsBuffer->SetOrCreateBuffer<EditorBuffer>(35);
+
         if (!IsScene)
         {
+#endif
             if (!transform->myCanvas->WorldSpace)
                 canvasBuffer->canvasPositionOffset = transform->myCanvas->canvasCameraTransform.PositionOffset;
             else
                 canvasBuffer->canvasPositionOffset = {0, 0};
-            
+#ifdef ECLIPSED_EDITOR
         }
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer(2, *canvasBuffer);
+#endif
+
+
+        graphicsBuffer->SetOrCreateBuffer(5, material->materialBuffer);
+        graphicsBuffer->SetOrCreateBuffer(1, myTransformBuffer);
+
+        graphicsBuffer->SetOrCreateBuffer(2, *canvasBuffer);
 
         Sprite::Get().Render();
     }

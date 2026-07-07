@@ -115,7 +115,7 @@ namespace Eclipse
 
                 glUniform4f(0, line.color.r, line.color.g, line.color.b, line.color.a);
 
-                GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
+                GraphicsEngine::Get()->GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
 
                 glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, 0);
 

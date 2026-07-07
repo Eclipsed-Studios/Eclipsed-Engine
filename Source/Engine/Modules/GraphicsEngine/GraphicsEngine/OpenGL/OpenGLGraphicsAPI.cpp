@@ -40,7 +40,7 @@ namespace Eclipse
             return;
         
         CameraBuffer* cameraBuffer = nullptr;
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
+        GraphicsEngine::Get()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
 
         const Math::Vector2i& resolution = Settings::GraphicsSettings::GetResolution();
         float resolutionRatio = (float)resolution.y / (float)resolution.x;
@@ -207,12 +207,12 @@ namespace Eclipse
 
         DebugDrawer::Get().Begin();
 
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->BindFrameBuffer(0);
+        BindFrameBuffer(0);
 
 #ifdef ECLIPSED_EDITOR
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->ClearCurrentSceneBuffer(0.3f, 0.3f, 0.3f, 1);
+        ClearCurrentSceneBuffer(0.3f, 0.3f, 0.3f, 1);
 #else
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->ClearCurrentSceneBuffer();
+        ClearCurrentSceneBuffer();
 #endif
     }
 
@@ -230,19 +230,20 @@ namespace Eclipse
 
 
         CameraBuffer* cameraBuffer = nullptr;
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
+        GetGraphicsBuffer()->GetBuffer<CameraBuffer>(cameraBuffer);
 
         float aspectRatio = static_cast<float>(resolution.y) / static_cast<float>(resolution.x);
         cameraBuffer->resolutionRatio = aspectRatio;
 
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
+        GetGraphicsBuffer()->SetOrCreateBuffer<CameraBuffer>(0);
 
 
         
         EditorBuffer* editorBuffer;
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->GetBuffer<EditorBuffer>(editorBuffer);
+        GetGraphicsBuffer()->GetBuffer<EditorBuffer>(editorBuffer);
+
         editorBuffer->notOverideColor = 1;
-        GraphicsEngine::Get<OpenGLGraphicsEngine>()->GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
+        GetGraphicsBuffer()->SetOrCreateBuffer<EditorBuffer>(35);
 
         
 
