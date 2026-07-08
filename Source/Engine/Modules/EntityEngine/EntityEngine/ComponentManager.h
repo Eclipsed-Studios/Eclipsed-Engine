@@ -4,6 +4,7 @@
 #include "EntityEngine/GameObject.h"
 
 #include <vector>
+#include "common.hpp"
 
 #include <unordered_map>
 
@@ -29,7 +30,7 @@ namespace Eclipse
 
 	class GameObject;
 	class Component;
-	class ECLIPSED_API ComponentManager
+	class ECS_API ComponentManager
 	{
 		friend class Editor::EditorActions;
 		friend class Editor::HierarchyWindow;
