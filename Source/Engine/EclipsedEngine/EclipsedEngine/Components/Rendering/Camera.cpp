@@ -10,6 +10,8 @@
 #include "CoreEngine/MainSingleton.h"
 #include "CoreEngine/Settings/EngineSettings.h"
 
+#include "GraphicsEngine/GraphicsEngine.h"
+
 namespace Eclipse
 {
     void Camera::OnDestroy()

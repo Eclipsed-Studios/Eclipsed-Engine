@@ -105,7 +105,6 @@ endif()
 add_subdirectory(Source/Engine/Modules/PhysicsEngine)
 
 add_subdirectory(Source/Engine/EclipsedEngine)
-add_subdirectory(Source/Engine/EclipsedRuntime)
 
 add_subdirectory(Source/Launcher)
 if(ECLIPSED_EDITOR)
