@@ -53,26 +53,28 @@
 
 namespace Eclipse
 {
-	//template Transform2D* ComponentManager::Get().GetComponent<Transform2D>(GameObjectID);
-	//template SpriteRenderer2D* ComponentManager::Get().GetComponent<SpriteRenderer2D>(GameObjectID);
-
 #ifdef ECL_EDITOR
 	void EclipsedRuntime::StartEngine(const std::string& path)
 #else
 	void EclipsedRuntime::StartEngine()
 #endif
 	{
+		Core::Timer& time = MainSingleton::GetInstance<Core::Timer>();
+		time.Init();
+
 #ifndef ECL_EDITOR
+	#ifdef STEAMSDK_PRESENT
 		SteamGeneral::Get().Init();
+	#endif // STEAMSDK_PRESENT
+
 
 		//renderThread = std::thread();
 		Assets::AssetImporter::ImportBundle();
 #endif
+
 #ifdef ECLIPSED_NETWORKING
 		Replication::ReplicationManager::Init();
-#endif // 
-
-		//Configs::ConfigManager::Init();
+#endif // ECLIPSED_NETWORKING
 
 		AudioManager::Init();
 
@@ -80,29 +82,8 @@ namespace Eclipse
 		//Resources::Init();
 
 #ifdef ECL_EDITOR
-		{
-			const char* appData = std::getenv("APPDATA");
-
-			std::filesystem::path path = appData;
-			path /= "EclipsedEngine";
-
-			if (!std::filesystem::exists(path))
-			{
-				std::filesystem::create_directories(path);
-			}
-
-			path /= "EnginePath.txt";
-
-			std::ofstream out(path);
-
-			std::string engineRoot = PathManager::GetEngineRoot().generic_string();
-			out.write(engineRoot.c_str(), engineRoot.size());
-			out.close();
-
-			Editor::AssetWindow::CreateGameobjectFunc = [](char* data) { return InternalSpawnObjectClass::CreateObjectFromJsonString(data)->GetID(); };
-			Editor::AssetWindow::InitNewPhysicsScene = [this]() { PhysicsEngine::InitWorld(); };
-		}
-
+		Editor::AssetWindow::CreateGameobjectFunc = [](char* data) { return InternalSpawnObjectClass::CreateObjectFromJsonString(data)->GetID(); };
+		Editor::AssetWindow::InitNewPhysicsScene = [this]() { PhysicsEngine::InitWorld(); };
 #endif
 
 		engine.Init();
@@ -113,9 +94,9 @@ namespace Eclipse
 
 		GraphicsEngine::InitSpecifiedAPI<OpenGLGraphicsEngine>();
 		GraphicsEngine::Get()->Init();
-		Input::Init();
 
-		//Settings::SettingsRegistry::SaveDefaults();
+		Input& input = MainSingleton::RegisterInstance<Input>();
+		input.Init();
 
 		{
 			// PHYSICS
