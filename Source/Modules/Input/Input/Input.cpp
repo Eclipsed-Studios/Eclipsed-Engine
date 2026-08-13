@@ -5,24 +5,6 @@
 
 namespace Eclipse
 {
-	std::bitset<MAX_KEYS> Input::currentKeys;
-	std::bitset<MAX_KEYS> Input::lastKeys;
-
-	std::bitset<MAX_KEYS> Input::pressedThisFrame;
-	std::bitset<MAX_KEYS> Input::releasedThisFrame;
-
-	Math::Vector2f Input::currentGamePos;
-
-	Math::Vector2i Input::currentPos;
-	Math::Vector2i Input::lastPos;
-	Math::Vector2i Input::mouseDeltaPos;
-
-	Math::Vector2i Input::mouseScrollDelta;
-	Math::Vector2i Input::normalizedMouseScrollDelta;
-
-	bool Input::mouseIsInside;
-	bool Input::windowFocused;
-
 	Input* GetInputPtrFromGlfwPtr(GLFWwindow* w) {
 		return (Input*)glfwGetWindowUserPointer(w);
 	}
