@@ -1,20 +1,5 @@
-
-.vs/
-
-[Ll]ibrary/
-[Ll]ocal/
-[Tt]emp/
 [Bb]in/
+[Tt]emp/
 
 *.slnx
-
-RPS-Project/
-
-Source/Externals/steamsdk/*
-!Source/Externals/steamsdk/CurlSteam.bat
-
-
-GameBuild/
-
-*.pyc
-*.pyc
+.vs/

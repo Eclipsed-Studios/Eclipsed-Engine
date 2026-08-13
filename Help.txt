@@ -1,0 +1,12 @@
+Update submodule, get latest changes from main.
+	git submodule update --remote [PATH/TO/SUBMODULE]
+
+		T.ex update steamsdk
+			git submodule update --remote Source/Externals/steamsdk
+
+
+Add a new submodule 
+	git submodule add  [REPO URL] [PATH/TO/SUBMODULE]
+
+		T.ex update steamsdk
+			git submodule add https://github.com/Eclipsed-Interactive/steamsdk.git Source/Externals/steamsdk

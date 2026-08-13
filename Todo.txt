@@ -1,0 +1,10 @@
+Modules exposes external libraries to ECL.
+	- Box2d
+	- opengl
+	- fmod
+
+Fix a plugin system for modules
+ - cmake links the modules to ECL
+ - cmake generates a header file with all the modules names
+ - when run in the editor modules must be dll and therefore we can extract methods from them
+ 	- !DEPENDANCY GRAPH!

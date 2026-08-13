@@ -1,44 +1,9 @@
-cmake_minimum_required(VERSION 3.19.2)
+include("${CMAKE_SOURCE_DIR}/CMake/common.cmake")
 
-# file(READ "${CMAKE_SOURCE_DIR}/Settings/EngineSettings.json" GAME_NAME_FILE)
-# string(JSON GameJSONName GET "${GAME_NAME_FILE}" GameName)
-set(GAME_NAME "Eclipsed Engine")
+SetProjectKey(Launcher)
 
-set(LAUNCHER_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+GenerateExecutable()
 
-file(GLOB_RECURSE LAUNCHER_SOURCES
-    "${LAUNCHER_ROOT}/*.cpp"
-    "${LAUNCHER_ROOT}/*.hpp"
-    "${LAUNCHER_ROOT}/*.h"
+target_link_libraries(Launcher PRIVATE 
+    EclipsedEngine
 )
-
-if(WIN32)
-    add_executable(Launcher WIN32 "${LAUNCHER_SOURCES}")
-else()
-    add_executable(Launcher "${LAUNCHER_SOURCES}")
-endif()
-
-target_link_libraries(Launcher PUBLIC CoreEngine)
-target_link_libraries(Launcher PUBLIC EclipsedEngine)
-
-target_include_directories(Launcher PUBLIC ${CMAKE_SOURCE_DIR}/Source/Launcher/)
-    target_include_directories(Launcher PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals)
-
-if(ECLIPSED_EDITOR)
-    set(OUTPUT ${EXE_OUTPUT_DIR})
-elseif(NOT ECLIPSED_EDITOR)
-    set(OUTPUT "${BUILD_GAME_PATH}/Build/")
-endif()
-
-
-set_target_properties(Launcher PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${OUTPUT}"
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUTPUT}"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${OUTPUT}"
-    OUTPUT_NAME "${GAME_NAME}_$<CONFIG>"
-    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Bin"
-)
-
-set_target_properties(Launcher PROPERTIES UNITY_BUILD ON UNITY_BUILD_BATCH_SIZE 50)
-
-source_group(TREE "${LAUNCHER_ROOT}" FILES ${LAUNCHER_SOURCES})

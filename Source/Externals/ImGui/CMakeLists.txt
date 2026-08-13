@@ -1,44 +1,34 @@
-cmake_minimum_required(VERSION 3.19.2)
-include("${CMAKE_SOURCE_DIR}/Tools/CMake/common.cmake")
-
-set(IMGUI_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
-file(GLOB_RECURSE IMGUI_SOURCES
-    "${IMGUI_ROOT}/*.cpp"
-    "${IMGUI_ROOT}/*.h"
-    "${IMGUI_ROOT}/*.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/pch.h"
+file(GLOB_RECURSE IMGUI_SOURCES 
+    "${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_NAME}/*.*"
 )
 
-
+get_filename_component(TARGET_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
 add_library(ImGui STATIC ${IMGUI_SOURCES})
 
-if(${ECLIPSED_EDITOR})
-    set_target_properties(ImGui PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY                "${EXE_OUTPUT_DIR}/Libs/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY                "${EXE_OUTPUT_DIR}/Libs/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY_DEBUG          "${EXE_OUTPUT_DIR}/Libs/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY_RELEASE        "${EXE_OUTPUT_DIR}/Libs/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${EXE_OUTPUT_DIR}/Libs/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL     "${EXE_OUTPUT_DIR}/Libs/$<CONFIG>/Externals/"
-    )
-else()
-    set_target_properties(ImGui PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY                "${EXE_OUTPUT_DIR}/GameBuildBinary/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY                "${EXE_OUTPUT_DIR}/GameBuildBinary/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY_DEBUG          "${EXE_OUTPUT_DIR}/GameBuildBinary/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY_RELEASE        "${EXE_OUTPUT_DIR}/GameBuildBinary/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${EXE_OUTPUT_DIR}/GameBuildBinary/$<CONFIG>/Externals/"
-        ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL     "${EXE_OUTPUT_DIR}/GameBuildBinary/$<CONFIG>/Externals/"
-    )
-endif()
+target_link_libraries(ImGui
+    PUBLIC
+        OpenGL
+)
 
-#target_precompile_headers(ImGui PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/pch.h")
+target_include_directories(ImGui
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
 
-target_include_directories(ImGui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_NAME}
+)
 
-target_include_directories(ImGui PRIVATE ${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
+set_target_properties(ImGui PROPERTIES 
+    FOLDER "Externals"
+    EXCLUDE_FROM_ALL TRUE
+)
 
-set_target_properties(ImGui PROPERTIES UNITY_BUILD OFF)
- 
-set_target_properties(ImGui PROPERTIES FOLDER "Externals")
+set_target_properties(ImGui PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY                "${CMAKE_SOURCE_DIR}/Bin/Libs/Externals/$<CONFIG>"
+    ARCHIVE_OUTPUT_DIRECTORY                "${CMAKE_SOURCE_DIR}/Bin/Libs/Externals/$<CONFIG>"
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG          "${CMAKE_SOURCE_DIR}/Bin/Libs/Externals/$<CONFIG>"
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_SOURCE_DIR}/Bin/Libs/Externals/$<CONFIG>"
+    ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/Bin/Libs/Externals/$<CONFIG>"
+    ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_SOURCE_DIR}/Bin/Libs/Externals/$<CONFIG>"
+)
