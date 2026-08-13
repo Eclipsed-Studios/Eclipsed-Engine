@@ -34,7 +34,6 @@ if(${ENABLE_DISCORD_SDK})
     add_compile_definitions(ENABLE_DISCORD_SDK)
 endif()
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Externals/OpenGL)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Externals/fmod)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Externals/cereal)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
@@ -50,18 +49,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/Source/Externals/steamsdk/CMakeLists.txt"
     add_compile_definitions(STEAMSDK_PRESENT)
 endif()
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Core)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Assets)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Audio)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Input)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/ECS)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Renderer)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Physics)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Networking)
+
+
+
+
+
+
+
+
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/EclipsedEngine)
+
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Launcher)
 
 
+file(GLOB SUBDIRS LIST_DIRECTORIES true
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/Plugins/*"
+)
+
+foreach(DIR ${SUBDIRS})
+    if(IS_DIRECTORY "${DIR}")
+        get_filename_component(DIR_NAME "${DIR}" NAME)
+
+        add_subdirectory("${DIR}")
+  
+        add_dependencies(Launcher ${DIR_NAME})
+    endif()
+endforeach()
+
+
+set_property(TARGET OpenGL_Renderer
+    PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL"
+)
+
+set_property(TARGET EclipsedEngine
+    PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL"
+)
 
 set_property(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}

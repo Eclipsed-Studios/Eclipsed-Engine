@@ -2,6 +2,12 @@ function(SetProjectKey KEY)
     set(PROJECT_KEY ${KEY} PARENT_SCOPE)
 endfunction()
 
+function(GeneratePCHFile)
+    file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_KEY}.pch.h"
+        
+    )
+endfunction()
+
 
 function(GenerateCoreApiFile MACRO_NAME)
     file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_KEY}.Core.hpp"
