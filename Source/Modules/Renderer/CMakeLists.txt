@@ -1,0 +1,14 @@
+include("${CMAKE_SOURCE_DIR}/CMake/common.cmake")
+
+SetProjectKey(Renderer)
+GenerateCoreApiFile(RENDERER_API)
+
+CreateStaticProject()
+
+target_link_libraries(Renderer PUBLIC 
+    Core
+    OpenGL
+    stb_image
+)
+
+SetFolder("Modules")

@@ -4,10 +4,16 @@ title Engine Generation
 
 setlocal
 
-echo === Begun: Generating engine project ===
+echo ==== Begun: Generating project ====
 echo.
 
-call Tools/Setup/generate-engine-cmake.bat
+cmake -G "Visual Studio 18 2026" ^
+    -T host=x64 ^
+    -S . ^
+    -B Temp/Binary ^
+    -DBUILD_EDITOR=ON
+
+
 echo.
 call Tools/Setup/copy-engine-dlls.bat
 call Tools/Setup/copy-etc-files.bat

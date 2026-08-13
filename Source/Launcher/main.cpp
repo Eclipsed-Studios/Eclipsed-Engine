@@ -1,15 +1,15 @@
 #include "EclipsedEngine/Editor/EditorApplication.h"
-#include "CoreEngine/PathManager.h"
 #include "EclipsedEngine/EclipsedRuntime.h"
 #include <windows.h>
 
-
-
-#include "CoreEngine/Logger/DebugLogger.h"
+#include "Core/Logger/DebugLogger.h"
+#include "Core/PathManager.h"
 
 #include <filesystem>
 #include <string>
 #include <shobjidl.h>
+
+#include <fstream>
 
 
 #ifdef _WIN32
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
         }
     }
 
-#ifdef ECLIPSED_EDITOR
+#ifdef ECL_EDITOR
     Eclipse::Editor::EditorApplication editorApplication;
 
     editorApplication.Init(projectPath.c_str());

@@ -2,9 +2,6 @@
 
 setlocal
 
-echo === Begun: Copying extra files ===
+xcopy "Thirdparty/etc\*" "Bin" /E /I /Y >nul 2>&1
 
-xcopy "Thirdparty/etc\*" "Bin" /E /I /Y
-
-echo === Completed: Copying extra files
 endlocal
