@@ -18,15 +18,23 @@ namespace Eclipse::Graphics::OpenGL
 			return ErrorCode{};
 		}
 
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		float width = 1280;
 		float height = 720;
 
 		window = glfwCreateWindow(width, height, "Eclipsed Game Engine", nullptr, nullptr);
 
+		if (!window)
+		{
+			glfwTerminate();
+			return ErrorCode{};
+		}
+
 		glfwMakeContextCurrent(window);
+		glfwSwapInterval(1);
 
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 

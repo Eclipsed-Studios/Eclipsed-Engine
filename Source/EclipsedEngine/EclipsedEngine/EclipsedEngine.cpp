@@ -49,6 +49,8 @@ void Eclipse::Engine::BeginFrame()
 void Eclipse::Engine::Render()
 {
 	ImGui::Begin("Simon");
+	ImGui::Text("FPS: ");
+	ImGui::Text(std::to_string(ImGui::GetIO().Framerate).c_str());
 	ImGui::End();
 
 	ImGui::Render();

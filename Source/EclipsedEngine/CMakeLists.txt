@@ -17,6 +17,7 @@ target_link_libraries(EclipsedEngine
         # Physics
         # Networking
 
-    PRIVATE
         ImGui
+        cereal
+        FontAwesome
 )

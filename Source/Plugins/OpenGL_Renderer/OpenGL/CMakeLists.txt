@@ -27,8 +27,9 @@ file(GLOB LIB_FILES
 target_link_libraries(OpenGL INTERFACE
     ${LIB_FILES}
     
-    PUBLIC
+    PRIVATE
         ImGui
+        cereal
 )
 
 if(BUILD_EDITOR)
