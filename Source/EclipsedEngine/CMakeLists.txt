@@ -20,4 +20,6 @@ target_link_libraries(EclipsedEngine
         ImGui
         cereal
         FontAwesome
+        stb_image
+        FreeType
 )

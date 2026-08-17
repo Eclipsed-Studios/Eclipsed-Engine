@@ -7,7 +7,7 @@
 #include "OpenGL/ImGui/imgui_impl_glfw.h"
 #include "OpenGL/ImGui/imgui_impl_opengl3.h"
 
-#include "EclipsedEngine/MainSingleton.h"
+#include "EclipsedEngine/Core/MainSingleton.h"
 
 namespace Eclipse::Graphics::OpenGL
 {

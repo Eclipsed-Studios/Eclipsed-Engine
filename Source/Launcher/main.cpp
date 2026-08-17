@@ -1,5 +1,5 @@
 
-#include "EclipsedEngine/EclipsedEngine.h"
+#include "EclipsedEngine/Core/EclipsedEngine.h"
 #include <iostream>
 #include <Windows.h>
 
