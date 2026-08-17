@@ -1,5 +1,7 @@
 #pragma once
 
+#include "EclipsedEngine/Input/AbstractInput.h"
+
 class ErrorCode {};
 
 namespace Eclipse::Graphics
@@ -17,7 +19,9 @@ namespace Eclipse::Graphics
 		virtual void Render() {};
 
 		virtual void ImGui_NewFrame() {};
-		virtual void ImGui_EndFrame() {};
-		virtual void ImplImGui(void* imguiCtx) {};
+		virtual void ImGui_Init(void* imguiCtx) {};
+		virtual void ImGui_Render() {};
+
+		virtual Input::AbstractInput* CreateInput() = 0;
 	};
 }

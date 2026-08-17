@@ -3,30 +3,33 @@
 #include "EclipsedEngine/Graphics/RendererManager.h"
 #include "EclipsedEngine/Graphics/IRenderer.h"
 
+#include "MainSingleton.h"
 #include "ImGui/imgui.h"
 
-#include "MainSingleton.h"
-
-void Eclipse::Engine::Test()
+void Eclipse::Engine::Init()
 {
 	Eclipse::Graphics::RendererManager::LoadRenderer("C:/Users/zulto/Desktop/MyFiles/Projects/Eclipsed-Engine/Bin/Eclipsed.OpenGL_Renderer.dll");
 	Graphics::IRenderer& r = Eclipse::Graphics::RendererManager::GetRenderer();
-	
+
 	r.Init();
 
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui::StyleColorsDark();
+	input = r.CreateInput();
+	input->Init();
 
-	ImGuiContext* ctx = ImGui::GetCurrentContext();
-
-	r.ImplImGui(ctx);
+	ImGui_Init();
 }
+
+
 
 bool Eclipse::Engine::ShouldClose()
 {
 	Graphics::IRenderer& r = Eclipse::Graphics::RendererManager::GetRenderer();
 	return r.ShouldWindowClose();
+}
+
+void* Eclipse::Engine::GetImGuiContext()
+{
+	return ImGui::GetCurrentContext();
 }
 
 
@@ -40,21 +43,44 @@ void Eclipse::Engine::BeginFrame()
 {
 	Graphics::IRenderer& r = Eclipse::Graphics::RendererManager::GetRenderer();
 	r.BeginFrame();
+	input->Update();
 
-	r.ImGui_NewFrame();
-
-	ImGui::NewFrame();
+	ImGui_NewFrame();
 }
 
 void Eclipse::Engine::Render()
 {
-	ImGui::Begin("Simon");
-	ImGui::Text("FPS: ");
-	ImGui::Text(std::to_string(ImGui::GetIO().Framerate).c_str());
+	ImGui::Begin("ImGui From Engine");
 	ImGui::End();
-
-	ImGui::Render();
 
 	Graphics::IRenderer& r = Eclipse::Graphics::RendererManager::GetRenderer();
 	r.Render();
+
+	ImGui_Render();
+}
+
+
+
+void Eclipse::Engine::ImGui_Init()
+{
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui::StyleColorsDark();
+
+	Graphics::IRenderer& r = Eclipse::Graphics::RendererManager::GetRenderer();
+	r.ImGui_Init(ImGui::GetCurrentContext());
+}
+
+void Eclipse::Engine::ImGui_NewFrame()
+{
+	Graphics::IRenderer& r = Eclipse::Graphics::RendererManager::GetRenderer();
+	r.ImGui_NewFrame();
+	ImGui::NewFrame();
+}
+
+void Eclipse::Engine::ImGui_Render()
+{
+	Graphics::IRenderer& r = Eclipse::Graphics::RendererManager::GetRenderer();
+	ImGui::Render();
+	r.ImGui_Render();
 }

@@ -1,9 +1,4 @@
-#include "RendererManager.h"
-
-#include <Windows.h>
-#include <filesystem>
-
-#include "IRenderer.h"
+#include "IGraphicsDevice.h"
 
 namespace Eclipse::Graphics
 {

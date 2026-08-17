@@ -19,10 +19,15 @@ namespace Eclipse::Graphics::OpenGL
 
 		void Render() override;
 
-		void ImplImGui(void* imguiCtx) override;
-	
+		Input::AbstractInput* CreateInput() override;
+
+		GLFWwindow* GetWindow();
+
+	public:
 		void ImGui_NewFrame() override;
-		void ImGui_EndFrame() override;
+		void ImGui_Init(void* imguiCtx) override;
+		void ImGui_Render() override;
+
 	private:
 		GLFWwindow* window;
 	};

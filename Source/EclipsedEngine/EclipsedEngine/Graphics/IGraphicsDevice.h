@@ -8,6 +8,6 @@ namespace Eclipse::Graphics
 	class ECL_API IGraphicsDevice 
 	{
 	public:
-		//virtual void 
+		
 	};
 }

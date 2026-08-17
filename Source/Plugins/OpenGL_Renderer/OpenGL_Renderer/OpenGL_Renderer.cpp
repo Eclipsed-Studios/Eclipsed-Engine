@@ -9,6 +9,8 @@
 
 #include "EclipsedEngine/Core/MainSingleton.h"
 
+#include "Input/OpenGL_Input.h"
+
 namespace Eclipse::Graphics::OpenGL
 {
 	ErrorCode OpenGL_Renderer::Init()
@@ -43,13 +45,14 @@ namespace Eclipse::Graphics::OpenGL
 
 	void OpenGL_Renderer::BeginFrame()
 	{
+		glfwPollEvents();
+
 		glClearColor(0.3f, 0.3f, 0.3f, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenGL_Renderer::EndFrame()
 	{
-		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
 
@@ -60,25 +63,37 @@ namespace Eclipse::Graphics::OpenGL
 
 	void OpenGL_Renderer::Render()
 	{
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		ImGui::Begin("ImGui From Renderer");
+		ImGui::End();
 	}
 
-	void OpenGL_Renderer::ImplImGui(void* imguiCtx)
+	Input::AbstractInput* OpenGL_Renderer::CreateInput()
 	{
-		ImGui::SetCurrentContext((ImGuiContext*)imguiCtx);
-
-		ImGui_ImplGlfw_InitForOpenGL(window, true);
-		ImGui_ImplOpenGL3_Init("#version 460");
+		using namespace Eclipse::OpenGL::Input;
+		return new OpenGL_Input;
 	}
 
+	GLFWwindow* OpenGL_Renderer::GetWindow()
+	{
+		return window;
+	}
 	void OpenGL_Renderer::ImGui_NewFrame()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 	}
 
-	void OpenGL_Renderer::ImGui_EndFrame()
+	void OpenGL_Renderer::ImGui_Init(void* imguiCtx)
 	{
+		ImGui::SetCurrentContext((ImGuiContext*)imguiCtx);
+		void* v = ImGui::GetCurrentContext();
 
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+		ImGui_ImplOpenGL3_Init("#version 460");
+	}
+	
+	void OpenGL_Renderer::ImGui_Render()
+	{
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 }

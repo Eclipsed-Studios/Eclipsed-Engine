@@ -58,6 +58,7 @@ endif()
 
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/EclipsedEngine)
+add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Editor)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Launcher)
 
@@ -73,6 +74,7 @@ foreach(DIR ${SUBDIRS})
         add_subdirectory("${DIR}")
   
         add_dependencies(Launcher ${DIR_NAME})
+        add_dependencies(Editor ${DIR_NAME})
     endif()
 endforeach()
 
