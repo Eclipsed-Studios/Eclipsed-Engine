@@ -23,16 +23,6 @@ namespace Eclipse::Editor
 	
 	void Editor::EndFrame()
 	{
-	}
 
-	void Editor::Test()
-	{
-		void* ctx = ImGui::GetCurrentContext();
-
-		ImGui::Begin("Simon");
-		ImGui::Text("FPS: ");
-		ImGui::Text(std::to_string(ImGui::GetIO().Framerate).c_str());
-
-		ImGui::End();
 	}
 }

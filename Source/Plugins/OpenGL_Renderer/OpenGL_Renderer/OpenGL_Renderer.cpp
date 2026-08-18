@@ -63,8 +63,7 @@ namespace Eclipse::Graphics::OpenGL
 
 	void OpenGL_Renderer::Render()
 	{
-		ImGui::Begin("ImGui From Renderer");
-		ImGui::End();
+
 	}
 
 	Input::AbstractInput* OpenGL_Renderer::CreateInput()
@@ -86,7 +85,6 @@ namespace Eclipse::Graphics::OpenGL
 	void OpenGL_Renderer::ImGui_Init(void* imguiCtx)
 	{
 		ImGui::SetCurrentContext((ImGuiContext*)imguiCtx);
-		void* v = ImGui::GetCurrentContext();
 
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 460");

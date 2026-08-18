@@ -50,9 +50,6 @@ void Eclipse::Engine::BeginFrame()
 
 void Eclipse::Engine::Render()
 {
-	ImGui::Begin("ImGui From Engine");
-	ImGui::End();
-
 	Graphics::IRenderer& r = Eclipse::Graphics::RendererManager::GetRenderer();
 	r.Render();
 
