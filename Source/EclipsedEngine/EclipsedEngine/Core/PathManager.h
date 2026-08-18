@@ -1,13 +1,15 @@
 #pragma once
 
 #include <filesystem>
+#include "EclipsedEngine.Core.hpp"
 
 namespace Eclipse
 {
-	class PathManager
+	class ECL_API PathManager
 	{
 	public:
-		static void Init(const std::string& projectPath);
+		static void Init();
+		static void SetProjectPath(const char* projectPath);
 
 		static bool ProjectSet();
 

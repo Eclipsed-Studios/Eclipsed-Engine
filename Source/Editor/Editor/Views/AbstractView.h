@@ -40,8 +40,11 @@ namespace Eclipse::Editor
 		ImGuiWindowFlags GetFlags() const;
 		bool* GetIsOpenPtr();
 		bool GetIsOpen() const;
+		int GetID() const;
 
 	private:
+		int id = 0;
+
 		ImGuiWindowFlags flags;
 		const char* name;
 		const char* category;

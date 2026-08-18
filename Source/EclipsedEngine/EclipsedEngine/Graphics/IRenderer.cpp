@@ -1,4 +1,14 @@
 #include "IRenderer.h"
 
-#include "ImGui/imgui.h"
+namespace Eclipse::Graphics
+{
+	IGraphicsBuffer* IRenderer::GetGraphicsBuffer()
+	{
+		return graphicsBuffer;
+	}
 
+	UniformVariableManager* IRenderer::GetUniformVariableManager()
+	{
+		return uniformVariableManager;
+	}
+}

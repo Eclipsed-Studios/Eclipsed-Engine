@@ -22,4 +22,5 @@ target_link_libraries(EclipsedEngine
         FontAwesome
         stb_image
         FreeType
+        rapidjson
 )

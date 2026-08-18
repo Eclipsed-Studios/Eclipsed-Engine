@@ -1,6 +1,9 @@
 #pragma once
 
 #include "EclipsedEngine/Input/AbstractInput.h"
+#include "IGraphicsBuffer.h"
+#include "UniformVariableManager.h"
+
 
 class ErrorCode {};
 
@@ -23,5 +26,12 @@ namespace Eclipse::Graphics
 		virtual void ImGui_Render() {};
 
 		virtual Input::AbstractInput* CreateInput() = 0;
+
+		IGraphicsBuffer* GetGraphicsBuffer();
+		UniformVariableManager* GetUniformVariableManager();
+
+	protected:
+		IGraphicsBuffer* graphicsBuffer;
+		UniformVariableManager* uniformVariableManager;
 	};
 }

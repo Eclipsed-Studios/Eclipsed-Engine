@@ -15,6 +15,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Eclipse::Editor::Editor editor;
 	editor.Init(engine.GetImGuiContext());
 
+	engine.LateInit();
+
 	while (!engine.ShouldClose())
 	{
 		engine.BeginFrame();

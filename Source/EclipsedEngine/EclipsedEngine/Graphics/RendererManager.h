@@ -5,11 +5,16 @@
 
 namespace Eclipse::Graphics
 {
+	enum class RendererAPI
+	{
+		OpenGL
+	};
+
 	class IRenderer;
 	class ECL_API RendererManager final
 	{
 	public:
-		static void LoadRenderer(const char* rendererPath);
+		static IRenderer& LoadRenderer(RendererAPI api);
 
 	public:
 		static IRenderer& GetRenderer();

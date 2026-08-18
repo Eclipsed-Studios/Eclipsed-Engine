@@ -11,6 +11,9 @@
 
 #include "Input/OpenGL_Input.h"
 
+#include "OpenGL_GraphicsBuffer.h"
+#include "OpenGL_UniformVariableManager.h"
+
 namespace Eclipse::Graphics::OpenGL
 {
 	ErrorCode OpenGL_Renderer::Init()
@@ -39,6 +42,9 @@ namespace Eclipse::Graphics::OpenGL
 		glfwSwapInterval(1);
 
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+		graphicsBuffer = new OpenGL_GraphicsBuffer;
+		uniformVariableManager = new OpenGL_UniformVariableManager;
 
 		return ErrorCode{};
 	}
@@ -93,5 +99,15 @@ namespace Eclipse::Graphics::OpenGL
 	void OpenGL_Renderer::ImGui_Render()
 	{
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup = glfwGetCurrentContext();
+
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+
+			glfwMakeContextCurrent(backup);
+		}
 	}
 }

@@ -4,6 +4,9 @@
 #include <filesystem>
 
 #include "IRenderer.h"
+#include "EclipsedEngine/Core/PathManager.h"
+
+#include <assert.h>
 
 namespace Eclipse::Graphics
 {
@@ -12,18 +15,42 @@ namespace Eclipse::Graphics
 
 	IRenderer* RendererManager::ActiveRenderer;
 
-	void RendererManager::LoadRenderer(const char* rendererPath)
+	IRenderer& RendererManager::LoadRenderer(RendererAPI api)
 	{
-		if (!std::filesystem::exists(rendererPath))
-			return;
+		std::string rendererPath = "";
+		switch (api)
+		{
+		case Eclipse::Graphics::RendererAPI::OpenGL: rendererPath = (PathManager::GetEngineRoot() / "Eclipsed.OpenGL_Renderer.dll").generic_string();
+			break;
+		default:
+			break;
+		}
 
-		void* renderer = LoadLibraryA(rendererPath);
+		if (!std::filesystem::exists(rendererPath))
+		{
+			char message[256];
+			sprintf_s(
+				message,
+				"The renderer dll dont exist at path: %lu",
+				rendererPath
+			);
+
+			assert(false && message);
+		}
+
+		void* renderer = LoadLibraryA(rendererPath.c_str());
 		if (!renderer)
 		{
 			const DWORD error = GetLastError();
-			printf("LoadLibraryA failed. Error code: %lu\n", error);
 
-			return;
+			char message[256];
+			sprintf_s(
+				message,
+				"LoadLibraryA failed. Error code: %lu",
+				error
+			);
+
+			assert(false && message);
 		}
 
 		ActiveRendererDLL = renderer;
@@ -33,7 +60,17 @@ namespace Eclipse::Graphics
 		{
 			FreeLibrary((HMODULE)ActiveRendererDLL);
 			ActiveRenderer = nullptr;
-			return;
+
+			const DWORD error = GetLastError();
+
+			char message[256];
+			sprintf_s(
+				message,
+				"Cant retrieve exported methods: %lu",
+				error
+			);
+
+			assert(false && message);
 		}
 
 		void* destroyRendererFn = GetProcAddress((HMODULE)ActiveRendererDLL, "DestroyRenderer");
@@ -41,13 +78,25 @@ namespace Eclipse::Graphics
 		{
 			FreeLibrary((HMODULE)ActiveRendererDLL);
 			ActiveRenderer = nullptr;
-			return;
+			
+			const DWORD error = GetLastError();
+
+			char message[256];
+			sprintf_s(
+				message,
+				"Cant retrieve exported methods: %lu",
+				error
+			);
+
+			assert(false && message);
 		}
 
 		DestroyRenderer = reinterpret_cast<DestroyRendererFn>(destroyRendererFn);
 
 		CreateRendererFn createRenderer = reinterpret_cast<CreateRendererFn>(createRendererFn);
 		ActiveRenderer = createRenderer();
+
+		return *ActiveRenderer;
 	}
 
 	IRenderer& RendererManager::GetRenderer()

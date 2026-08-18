@@ -16,11 +16,15 @@ namespace Eclipse::Editor
 
 	void ViewManager::Update()
 	{
+
 		for (int i = 0; i < (int)views.size(); i++)
 		{
 			AbstractView* view = views[i];
 
-			ImGui::Begin(view->GetName(), view->GetIsOpenPtr(), view->GetFlags());
+			std::string title = view->GetName();
+			title += "##" + std::to_string(view->GetID());
+
+			ImGui::Begin(title.c_str(), view->GetIsOpenPtr(), view->GetFlags());
 			view->PreUpdate();
 			view->Update();
 			view->PostUpdate();

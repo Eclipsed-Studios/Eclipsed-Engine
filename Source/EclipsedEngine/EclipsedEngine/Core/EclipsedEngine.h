@@ -7,21 +7,19 @@
 
 namespace Eclipse
 {
-	namespace Input
-	{
-		class AbstractInput;
-	}
+	namespace Graphics { class IRenderer; }
+	namespace Input { class AbstractInput; }
 
 	class ECL_API Engine
 	{
 	public:
 		void Init();
+		void LateInit();
 
 		void BeginFrame();
 		void EndFrame();
 		void Render();
 		bool ShouldClose();
-
 
 	private:
 		void ImGui_NewFrame();
@@ -34,5 +32,6 @@ namespace Eclipse
 
 	private:
 		Input::AbstractInput* input;
+		Graphics::IRenderer* renderer;
 	};
 }

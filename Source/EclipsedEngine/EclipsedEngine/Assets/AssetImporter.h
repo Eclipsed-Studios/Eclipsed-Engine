@@ -3,11 +3,12 @@
 #include <string>
 #include <filesystem>
 
+#include "EclipsedEngine.Core.hpp"
+
 namespace Eclipse::Assets
 {
 	struct AssetMeta;
-
-	class AssetImporter
+	class ECL_API AssetImporter
 	{
 	private:
 		AssetImporter() = delete;
