@@ -1,9 +1,9 @@
-#include "ShaderCompiler.h"
+#include "OpenGL_ShaderCompiler.h"
 
 #include <fstream>
 #include "OpenGL/glad/glad.h"
 
-namespace Eclipse
+namespace Eclipse::Graphics::OpenGL::Shaders
 {
     ShaderCompileInfo ShaderCompiler::CompileShaderFromPath(unsigned int shaderType, const std::filesystem::path& aPath)
     {
@@ -21,19 +21,19 @@ namespace Eclipse
 
     ShaderCompileInfo ShaderCompiler::CompileShaderFromMemory(unsigned int shaderType, const char* src)
     {
-		unsigned int shaderId = glCreateShader(shaderType);
+        unsigned int shaderId = glCreateShader(shaderType);
 
-		glShaderSource(shaderId, 1, &src, nullptr);
-		glCompileShader(shaderId);
+        glShaderSource(shaderId, 1, &src, nullptr);
+        glCompileShader(shaderId);
 
-		GLint success;
-		glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
+        GLint success;
+        glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
         if (!success)
         {
             GLchar infoLog[512];
             glGetShaderInfoLog(shaderId, 512, NULL, infoLog);
             _CrtDbgBreak();
-            
+
             glDeleteShader(shaderId);
             return { CompileResult::CompileError };
         }

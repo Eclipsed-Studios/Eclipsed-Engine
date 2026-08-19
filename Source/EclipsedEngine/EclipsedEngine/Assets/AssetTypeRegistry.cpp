@@ -2,11 +2,7 @@
 
 #include "AssetTypes/AudioAssetType.h"
 #include "AssetTypes/FontAssetType.h"
-#include "AssetTypes/MaterialAssetType.h"
 #include "AssetTypes/PrefabAssetType.h"
-#include "AssetTypes/VertexShaderAssetType.h"
-#include "AssetTypes/PixelShaderAssetType.h"
-#include "AssetTypes/TextureAssetType.h"
 #include "AssetTypes/SceneAssetType.h"
 
 namespace Eclipse::Assets
@@ -17,13 +13,7 @@ namespace Eclipse::Assets
 	{
 		types[AssetType::AudioClip] = new AudioAssetType;
 
-		//types[AssetType::VertexShader] = new VertexShaderAssetType;
-		//types[AssetType::PixelShader] = new PixelShaderAssetType;
-		//types[AssetType::Texture] = new TextureAssetType;
-
-
 		types[AssetType::Font] = new FontAssetType;
-		types[AssetType::Material] = new MaterialAssetType;
 		types[AssetType::Prefab] = new PrefabAssetType;
 		types[AssetType::Scene] = new SceneAssetType;
 	}

@@ -3,6 +3,7 @@
 #include "EclipsedEngine/Input/AbstractInput.h"
 #include "IGraphicsBuffer.h"
 #include "UniformVariableManager.h"
+#include "IDrawer.h"
 
 
 class ErrorCode {};
@@ -29,9 +30,11 @@ namespace Eclipse::Graphics
 
 		IGraphicsBuffer* GetGraphicsBuffer();
 		UniformVariableManager* GetUniformVariableManager();
+		IDrawer* GetDrawer();
 
 	protected:
 		IGraphicsBuffer* graphicsBuffer;
 		UniformVariableManager* uniformVariableManager;
+		IDrawer* drawer;
 	};
 }

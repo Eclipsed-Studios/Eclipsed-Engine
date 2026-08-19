@@ -3,11 +3,12 @@
 #include "EclipsedEngine/Assets/Asset.h"
 #include "EclipsedEngine/Assets/BinaryFormats/TextureData.h"
 
-#include "Core/Math/Vector/Vector2.h"
+#include "EclipsedEngine/Core/Math/Vector/Vector2.h"
+#include "EclipsedEngine.Core.hpp"
 
 namespace Eclipse::Assets
 {
-	struct Texture : public Asset<TextureData> {
+	struct ECL_API Texture : public Asset<TextureData> {
 		ASSET_IMPL(Texture, TextureData)
 
 	public:
@@ -26,8 +27,5 @@ namespace Eclipse::Assets
 		unsigned GetTextureID() const;
 
 		const Math::Vector2f& GetTextureSizeNormilized() const;
-
-		void Bind(int slot = 0) const;
-		void Unbind(int slot = 0) const;
 	};
 }

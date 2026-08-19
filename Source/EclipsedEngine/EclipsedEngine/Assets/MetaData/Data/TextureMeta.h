@@ -9,7 +9,7 @@
 #include "cereal/types/unordered_map.hpp"
 #include "cereal/types/polymorphic.hpp"
 
-#include "Core/Math/RectSizePos.h"
+#include "EclipsedEngine/Core/Math/RectSizePos.h"
 
 namespace Eclipse::Assets
 {

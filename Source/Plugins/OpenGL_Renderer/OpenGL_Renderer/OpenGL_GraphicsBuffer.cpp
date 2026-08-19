@@ -4,7 +4,7 @@
 #include <typeinfo>
 #include <typeindex>
 
-namespace Eclipse
+namespace Eclipse::Graphics
 {
     void OpenGL_GraphicsBuffer::SetInternal(int aBufferIndex, std::type_index aTypeInfo, void* aBuffer, size_t bufferSize)
     {

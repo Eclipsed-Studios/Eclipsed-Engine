@@ -34,7 +34,6 @@ if(${ENABLE_DISCORD_SDK})
     add_compile_definitions(ENABLE_DISCORD_SDK)
 endif()
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Externals/fmod)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Externals/cereal)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Externals/FreeType)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Externals/stb_image)
@@ -77,15 +76,6 @@ foreach(DIR ${SUBDIRS})
         add_dependencies(Editor ${DIR_NAME})
     endif()
 endforeach()
-
-
-set_property(TARGET OpenGL_Renderer
-    PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL"
-)
-
-set_property(TARGET EclipsedEngine
-    PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL"
-)
 
 set_property(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}

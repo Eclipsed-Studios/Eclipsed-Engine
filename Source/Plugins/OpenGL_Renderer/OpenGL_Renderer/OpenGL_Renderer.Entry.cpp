@@ -2,16 +2,23 @@
 
 #include "OpenGL_Renderer.h"
 
-//#include "EclipsedEngine/Assets/Importers/AssetImporterRegistry.h"
-#include "Texture/OpenGL_TextureImporter.h"
+#include "EclipsedEngine/Assets/AssetTypeRegistry.h"
+
+#include "Texture/OpenGL_TextureAssetType.h"
+#include "Material/OpenGL_MaterialAssetType.h"
+#include "VertexShader/OpenGL_VertexShaderAssetType.h"
+#include "PixelShader/OpenGL_PixelShaderAssetType.h"
 
 using namespace Eclipse::Graphics;
-//using namespace Eclipse::Assets;
+using namespace Eclipse::Assets;
 using namespace Eclipse::Graphics::OpenGL;
 
 OPENGL_RENDERER_API IRenderer* CreateRenderer()
 {
-	//AssetImporterRegistry::Register(AssetType::Texture, new OpenGL::Assets::OpenGL_TextureImporter);
+	AssetTypeRegistry::RegisterType(Eclipse::Assets::AssetType::Texture, new OpenGL_TextureAssetType);
+	AssetTypeRegistry::RegisterType(Eclipse::Assets::AssetType::VertexShader, new OpenGL_VertexShaderAssetType);
+	AssetTypeRegistry::RegisterType(Eclipse::Assets::AssetType::PixelShader, new OpenGL_PixelShaderAssetType);
+	AssetTypeRegistry::RegisterType(Eclipse::Assets::AssetType::Material, new OpenGL_MaterialAssetType);
 
 	return new OpenGL_Renderer;
 }

@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include "EclipsedEngine/Graphics/IGraphicsBuffer.h"
 
-namespace Eclipse
+namespace Eclipse::Graphics
 {
     class OpenGL_GraphicsBuffer : public IGraphicsBuffer
     {

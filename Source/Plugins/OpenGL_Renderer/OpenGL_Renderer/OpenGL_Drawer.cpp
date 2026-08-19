@@ -6,17 +6,17 @@
 
 namespace Eclipse::Graphics::OpenGL
 {
-	void OpenGL_Drawer::DrawSprite(const Sprite& sprite)
+	void OpenGL_Drawer::DrawSprite()
 	{
-		glBindVertexArray(sprite.GetSpriteBufferID());
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+		//glBindVertexArray(sprite.GetSpriteBufferID());
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glBindVertexArray(0);
 	}
 
-	void OpenGL_Drawer::DrawTextSprite(const TextSprite& sprite)
+	void OpenGL_Drawer::DrawTextSprite()
 	{
-		glBindVertexArray(sprite.GetSpriteBufferID());
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+		//glBindVertexArray(sprite.GetSpriteBufferID());
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glBindVertexArray(0);
 	}
 }

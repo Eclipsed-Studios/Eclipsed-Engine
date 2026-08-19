@@ -1,14 +1,17 @@
-#include "VertexShaderAssetType.h"
+#include "OpenGL_PixelShaderAssetType.h"
 
-#include "EclipsedEngine/Assets/Helper/ShaderCompiler.h"
+#include "OpenGL_Renderer/OpenGL_ShaderCompiler.h"
 #include "OpenGL/glad/glad.h"
+
+using namespace Eclipse::Graphics::OpenGL::Shaders;
 
 namespace Eclipse::Assets
 {
-    VertexShaderAssetType::VertexShaderAssetType()
+    OpenGL_PixelShaderAssetType::OpenGL_PixelShaderAssetType()
     {
     }
-    ImportedData VertexShaderAssetType::Import(const AssetMeta& file)
+
+    ImportedData OpenGL_PixelShaderAssetType::Import(const AssetMeta& file)
     {
         ImportedShader shader;
 
@@ -23,12 +26,13 @@ namespace Eclipse::Assets
         return shader;
     }
 
-    ProcessedData VertexShaderAssetType::Process(const ImportedData& file)
+    ProcessedData OpenGL_PixelShaderAssetType::Process(const ImportedData& file)
     {
         return ProcessedData();
+
     }
 
-    void VertexShaderAssetType::Serialize(BinaryWriter& writer, const ProcessedData& data)
+    void OpenGL_PixelShaderAssetType::Serialize(BinaryWriter& writer, const ProcessedData& data)
     {
         if (!writer.IsOpen()) return;
 
@@ -39,7 +43,7 @@ namespace Eclipse::Assets
         writer.Write(_data.source.data(), size);
     }
 
-    void VertexShaderAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+    void OpenGL_PixelShaderAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
     {
         ShaderData* _data = reinterpret_cast<ShaderData*>(data);
 
@@ -51,12 +55,12 @@ namespace Eclipse::Assets
 
         reader.Read(shaderSource.data(), size);
 
-        ShaderCompileInfo info = ShaderCompiler::CompileShaderFromMemory(GL_VERTEX_SHADER, shaderSource.data());
+        ShaderCompileInfo info = ShaderCompiler::CompileShaderFromMemory(GL_FRAGMENT_SHADER, shaderSource.data());
         _data->shaderProgramID = info.shaderID;
         _data->guid = meta.guid;
     }
 
-    void VertexShaderAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+    void OpenGL_PixelShaderAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
     {
         ShaderData* _data = reinterpret_cast<ShaderData*>(data);
 
@@ -71,7 +75,7 @@ namespace Eclipse::Assets
 
         reader.Read(shaderSource.data(), size);
 
-        ShaderCompileInfo info = ShaderCompiler::CompileShaderFromMemory(GL_VERTEX_SHADER, shaderSource.data());
+        ShaderCompileInfo info = ShaderCompiler::CompileShaderFromMemory(GL_FRAGMENT_SHADER, shaderSource.data());
         _data->shaderProgramID = info.shaderID;
         _data->guid = meta.guid;
     }

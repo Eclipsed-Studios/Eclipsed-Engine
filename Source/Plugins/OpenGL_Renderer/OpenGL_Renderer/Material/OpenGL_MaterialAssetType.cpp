@@ -1,4 +1,4 @@
-#include "MaterialAssetType.h"
+#include "OpenGL_MaterialAssetType.h"
 
 #include "EclipsedEngine/Assets/BinaryFormats/MaterialData.h"
 
@@ -10,14 +10,14 @@
 
 namespace Eclipse::Assets
 {
-	MaterialAssetType::MaterialAssetType()
+	OpenGL_MaterialAssetType::OpenGL_MaterialAssetType()
 	{
 		defaultAssetsGuids[DefaultAssetType::MATERIAL_2D_SPRITE].FromString("304024b18cd756152dee092f1a43738d");
 		defaultAssetsGuids[DefaultAssetType::MATERIAL_UI].FromString("a4b24408a489129276bd23242d2946a8");
 		defaultAssetsGuids[DefaultAssetType::MATERIAL_TEXT].FromString("8cc226a548b15b488d94a6635dd92236");
 	}
 
-	ImportedData MaterialAssetType::Import(const AssetMeta& file)
+	ImportedData OpenGL_MaterialAssetType::Import(const AssetMeta& file)
 	{
 		ImportedMaterial material;
 
@@ -35,12 +35,12 @@ namespace Eclipse::Assets
 		return material;
 	}
 
-	ProcessedData MaterialAssetType::Process(const ImportedData& file)
+	ProcessedData OpenGL_MaterialAssetType::Process(const ImportedData& file)
 	{
 		return ProcessedData();
 	}
 
-	void MaterialAssetType::Serialize(BinaryWriter& writer, const ProcessedData& data)
+	void OpenGL_MaterialAssetType::Serialize(BinaryWriter& writer, const ProcessedData& data)
 	{
 		if (!writer.IsOpen()) return;
 
@@ -52,7 +52,7 @@ namespace Eclipse::Assets
 		writer.Write(DATA_SIZE_PAIR(_data.textureID));
 	}
 
-	void MaterialAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+	void OpenGL_MaterialAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
 	{
 		MaterialData* _data = reinterpret_cast<MaterialData*>(data);
 
@@ -72,7 +72,7 @@ namespace Eclipse::Assets
 
 		if (!textureID.IsEmpty())
 			_data->texture = AssetManager::Load<Texture>(textureID);
-		
+
 		_data->guid = meta.guid;
 
 		if (!_data->pixelShader.IsValid())
@@ -91,7 +91,7 @@ namespace Eclipse::Assets
 		glLinkProgram(_data->programID);
 	}
 
-	void MaterialAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+	void OpenGL_MaterialAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
 	{
 		MaterialData* _data = reinterpret_cast<MaterialData*>(data);
 

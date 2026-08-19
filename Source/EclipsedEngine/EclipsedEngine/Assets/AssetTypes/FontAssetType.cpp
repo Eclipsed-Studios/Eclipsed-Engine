@@ -6,8 +6,6 @@
 #include "Core/MainSingleton.h"
 #include "EclipsedEngine/Assets/Helper/TextManager.h"
 
-#include "OpenGL/glad/glad.h"
-
 namespace Eclipse::Assets
 {
 	FontAssetType::FontAssetType()
@@ -48,154 +46,154 @@ namespace Eclipse::Assets
 
     void FontAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
     {
-		FontData* _data = reinterpret_cast<FontData*>(data);
+	//	FontData* _data = reinterpret_cast<FontData*>(data);
 
-		size_t size;
-		reader.Read(DATA_SIZE_PAIR(size));
+	//	size_t size;
+	//	reader.Read(DATA_SIZE_PAIR(size));
 
-		std::vector<unsigned char> storedData(size);
-		reader.Read(storedData.data(), size);
+	//	std::vector<unsigned char> storedData(size);
+	//	reader.Read(storedData.data(), size);
 
-		FT_Library freetype = MainSingleton::GetInstance<TextManager>().freeType;
+	//	FT_Library freetype = MainSingleton::GetInstance<TextManager>().freeType;
 
-		FT_Face face;
-		if (FT_New_Memory_Face(freetype, reinterpret_cast<const FT_Byte*>(storedData.data()), size, 0, &face))
-		{
-	/*		LOG_ERROR("Failed to load font correctly");
-			return nullptr;*/
-		}
+	//	FT_Face face;
+	//	if (FT_New_Memory_Face(freetype, reinterpret_cast<const FT_Byte*>(storedData.data()), size, 0, &face))
+	//	{
+	///*		LOG_ERROR("Failed to load font correctly");
+	//		return nullptr;*/
+	//	}
 
-		//for (int fontSize : fontData->setFontSizes)
-		{
-			FT_Set_Pixel_Sizes(face, 0, 200);
+	//	//for (int fontSize : fontData->setFontSizes)
+	//	{
+	//		FT_Set_Pixel_Sizes(face, 0, 200);
 
-			for (int i = 0; i < 128; i++)
-			{
-				char characterChar = (char)i;
-				if (FT_Load_Char(face, characterChar, FT_LOAD_RENDER))
-				{
-					//LOG_ERROR((("Failed to load character: ") + std::string(&characterChar)).c_str());
-					//return nullptr;
-				}
+	//		for (int i = 0; i < 128; i++)
+	//		{
+	//			char characterChar = (char)i;
+	//			if (FT_Load_Char(face, characterChar, FT_LOAD_RENDER))
+	//			{
+	//				//LOG_ERROR((("Failed to load character: ") + std::string(&characterChar)).c_str());
+	//				//return nullptr;
+	//			}
 
-				if (face->glyph->bitmap.buffer == 0)
-					continue;
+	//			if (face->glyph->bitmap.buffer == 0)
+	//				continue;
 
-				unsigned texture;
-				glGenTextures(1, &texture);
-				glBindTexture(GL_TEXTURE_2D, texture);
-				glTexImage2D(
-					GL_TEXTURE_2D,
-					0,
-					GL_RED,
-					face->glyph->bitmap.width,
-					face->glyph->bitmap.rows,
-					0,
-					GL_RED,
-					GL_UNSIGNED_BYTE,
-					face->glyph->bitmap.buffer
-				);
+	//			unsigned texture;
+	//			glGenTextures(1, &texture);
+	//			glBindTexture(GL_TEXTURE_2D, texture);
+	//			glTexImage2D(
+	//				GL_TEXTURE_2D,
+	//				0,
+	//				GL_RED,
+	//				face->glyph->bitmap.width,
+	//				face->glyph->bitmap.rows,
+	//				0,
+	//				GL_RED,
+	//				GL_UNSIGNED_BYTE,
+	//				face->glyph->bitmap.buffer
+	//			);
 
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-				glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	//			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-				Character character = {
-					texture,
-					Math::Vector2i(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-					Math::Vector2i(face->glyph->bitmap_left, face->glyph->bitmap_top),
-					face->glyph->advance.x
-				};
+	//			Character character = {
+	//				texture,
+	//				Math::Vector2i(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+	//				Math::Vector2i(face->glyph->bitmap_left, face->glyph->bitmap_top),
+	//				face->glyph->advance.x
+	//			};
 
-				_data->myCharTexture.emplace(characterChar, character);
-			}
+	//			_data->myCharTexture.emplace(characterChar, character);
+	//		}
 
-			_data->maxCharHeight = (float)(face->max_advance_height >> 6) * 0.01f;
-			_data->guid = meta.guid;
-		}
+	//		_data->maxCharHeight = (float)(face->max_advance_height >> 6) * 0.01f;
+	//		_data->guid = meta.guid;
+	//	}
 
-		FT_Done_Face(face);
+	//	FT_Done_Face(face);
     }
 
 	void FontAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
 	{
-		FontData* _data = reinterpret_cast<FontData*>(data);
+		//FontData* _data = reinterpret_cast<FontData*>(data);
 
-		data->guid = meta.guid;
-		reader.SetRead(meta.offset);
+		//data->guid = meta.guid;
+		//reader.SetRead(meta.offset);
 
-		size_t size;
-		reader.Read(DATA_SIZE_PAIR(size));
+		//size_t size;
+		//reader.Read(DATA_SIZE_PAIR(size));
 
-		std::vector<unsigned char> storedData(size);
-		reader.Read(storedData.data(), size);
+		//std::vector<unsigned char> storedData(size);
+		//reader.Read(storedData.data(), size);
 
-		FT_Library freetype = MainSingleton::GetInstance<TextManager>().freeType;
+		//FT_Library freetype = MainSingleton::GetInstance<TextManager>().freeType;
 
-		FT_Face face;
-		if (FT_New_Memory_Face(freetype, reinterpret_cast<const FT_Byte*>(storedData.data()), size, 0, &face))
-		{
-			/*		LOG_ERROR("Failed to load font correctly");
-					return nullptr;*/
-		}
+		//FT_Face face;
+		//if (FT_New_Memory_Face(freetype, reinterpret_cast<const FT_Byte*>(storedData.data()), size, 0, &face))
+		//{
+		//	/*		LOG_ERROR("Failed to load font correctly");
+		//			return nullptr;*/
+		//}
 
-		//for (int fontSize : fontData->setFontSizes)
-		{
-			FT_Set_Pixel_Sizes(face, 0, 200);
+		////for (int fontSize : fontData->setFontSizes)
+		//{
+		//	FT_Set_Pixel_Sizes(face, 0, 200);
 
-			for (int i = 0; i < 128; i++)
-			{
-				char characterChar = (char)i;
-				if (FT_Load_Char(face, characterChar, FT_LOAD_RENDER))
-				{
-					//LOG_ERROR((("Failed to load character: ") + std::string(&characterChar)).c_str());
-					//return nullptr;
-				}
+		//	for (int i = 0; i < 128; i++)
+		//	{
+		//		char characterChar = (char)i;
+		//		if (FT_Load_Char(face, characterChar, FT_LOAD_RENDER))
+		//		{
+		//			//LOG_ERROR((("Failed to load character: ") + std::string(&characterChar)).c_str());
+		//			//return nullptr;
+		//		}
 
-				if (face->glyph->bitmap.buffer == 0)
-					continue;
+		//		if (face->glyph->bitmap.buffer == 0)
+		//			continue;
 
-				unsigned texture;
-				glGenTextures(1, &texture);
-				glBindTexture(GL_TEXTURE_2D, texture);
-				glTexImage2D(
-					GL_TEXTURE_2D,
-					0,
-					GL_RED,
-					face->glyph->bitmap.width,
-					face->glyph->bitmap.rows,
-					0,
-					GL_RED,
-					GL_UNSIGNED_BYTE,
-					face->glyph->bitmap.buffer
-				);
+		//		unsigned texture;
+		//		glGenTextures(1, &texture);
+		//		glBindTexture(GL_TEXTURE_2D, texture);
+		//		glTexImage2D(
+		//			GL_TEXTURE_2D,
+		//			0,
+		//			GL_RED,
+		//			face->glyph->bitmap.width,
+		//			face->glyph->bitmap.rows,
+		//			0,
+		//			GL_RED,
+		//			GL_UNSIGNED_BYTE,
+		//			face->glyph->bitmap.buffer
+		//		);
 
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-				glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		//		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-				Character character = {
-					texture,
-					Math::Vector2i(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-					Math::Vector2i(face->glyph->bitmap_left, face->glyph->bitmap_top),
-					face->glyph->advance.x
-				};
+		//		Character character = {
+		//			texture,
+		//			Math::Vector2i(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+		//			Math::Vector2i(face->glyph->bitmap_left, face->glyph->bitmap_top),
+		//			face->glyph->advance.x
+		//		};
 
-				_data->myCharTexture.emplace(characterChar, character);
-			}
+		//		_data->myCharTexture.emplace(characterChar, character);
+		//	}
 
-			_data->maxCharHeight = (float)(face->max_advance_height >> 6) * 0.01f;
-			_data->guid = meta.guid;
-		}
+		//	_data->maxCharHeight = (float)(face->max_advance_height >> 6) * 0.01f;
+		//	_data->guid = meta.guid;
+		//}
 
-		FT_Done_Face(face);
+		//FT_Done_Face(face);
 	}
 }

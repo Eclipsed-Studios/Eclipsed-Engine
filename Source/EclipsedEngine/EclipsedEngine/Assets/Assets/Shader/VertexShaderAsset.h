@@ -1,16 +1,15 @@
 #pragma once
 
 #include "ShaderAsset.h"
+#include "EclipsedEngine.Core.hpp"
 
 namespace Eclipse::Assets
 {
-	struct  VertexShader : public Shader
+	struct ECL_API VertexShader : public Shader
 	{
 		ASSET_IMPL(VertexShader, ShaderData)
 
 	public:
 		unsigned GetProgramID() const;
-
-		void Bind();
 	};
 }

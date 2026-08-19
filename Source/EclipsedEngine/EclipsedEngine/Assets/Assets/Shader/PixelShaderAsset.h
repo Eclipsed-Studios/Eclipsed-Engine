@@ -8,13 +8,11 @@
 
 namespace Eclipse::Assets
 {
-	struct PixelShader : public Shader
+	struct ECL_API PixelShader : public Shader
 	{
 		ASSET_IMPL(PixelShader, ShaderData)
 
 	public:
 		unsigned GetProgramID() const;
-
-		void Bind();
 	};
 }

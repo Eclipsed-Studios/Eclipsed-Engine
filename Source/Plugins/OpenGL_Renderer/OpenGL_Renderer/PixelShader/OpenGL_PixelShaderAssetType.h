@@ -1,13 +1,13 @@
 #pragma once
 
-#include "IAssetType.h"
+#include "EclipsedEngine/Assets/AssetTypes/IAssetType.h"
 
 namespace Eclipse::Assets
 {
-    class VertexShaderAssetType : public IAssetType
+    class OpenGL_PixelShaderAssetType : public IAssetType
     {
     public:
-        VertexShaderAssetType();
+        OpenGL_PixelShaderAssetType();
 
     public:
         ImportedData Import(const AssetMeta& file) override;

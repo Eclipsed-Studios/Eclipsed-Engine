@@ -13,6 +13,7 @@
 
 #include "OpenGL_GraphicsBuffer.h"
 #include "OpenGL_UniformVariableManager.h"
+#include "OpenGL_Drawer.h"
 
 namespace Eclipse::Graphics::OpenGL
 {
@@ -45,6 +46,7 @@ namespace Eclipse::Graphics::OpenGL
 
 		graphicsBuffer = new OpenGL_GraphicsBuffer;
 		uniformVariableManager = new OpenGL_UniformVariableManager;
+		drawer = new OpenGL_Drawer;
 
 		return ErrorCode{};
 	}

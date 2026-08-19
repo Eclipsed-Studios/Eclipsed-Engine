@@ -1,6 +1,5 @@
 #include "EclipsedEngine/Assets/Assets/TextureAsset.h"
 
-#include "OpenGL/glad/glad.h"
 namespace Eclipse::Assets
 {
     Math::Vector2f Texture::GetDimDivOne() const
@@ -50,17 +49,5 @@ namespace Eclipse::Assets
     const Math::Vector2f& Texture::GetTextureSizeNormilized() const
     {
         return dataPtr->sizeNormalized;
-    }
-
-    void Texture::Bind(int slot) const
-    {
-        glActiveTexture(GL_TEXTURE0 + slot);
-        glBindTexture(GL_TEXTURE_2D, dataPtr->textureID);
-    }
-
-    void Texture::Unbind(int slot) const
-    {
-        glActiveTexture(GL_TEXTURE0 + slot);
-        glBindTexture(GL_TEXTURE_2D, 0);
     }
 }

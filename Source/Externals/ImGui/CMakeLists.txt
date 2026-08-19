@@ -6,11 +6,6 @@ get_filename_component(TARGET_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
 add_library(ImGui STATIC ${IMGUI_SOURCES})
 
-target_link_libraries(ImGui
-    PUBLIC
-        OpenGL
-)
-
 target_include_directories(ImGui
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}

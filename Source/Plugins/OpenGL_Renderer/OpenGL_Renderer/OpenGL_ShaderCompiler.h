@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-namespace Eclipse
+namespace Eclipse::Graphics::OpenGL::Shaders
 {
 	enum class CompileResult
 	{

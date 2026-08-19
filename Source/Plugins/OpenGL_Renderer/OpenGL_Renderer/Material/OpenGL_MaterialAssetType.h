@@ -1,13 +1,13 @@
 #pragma once
 
-#include "IAssetType.h"
+#include "EclipsedEngine/Assets/AssetTypes/IAssetType.h"
 
 namespace Eclipse::Assets
 {
-	class MaterialAssetType : public IAssetType
+	class OpenGL_MaterialAssetType : public IAssetType
 	{
 	public:
-		MaterialAssetType();
+		OpenGL_MaterialAssetType();
 
 	public:
 		ImportedData Import(const AssetMeta& file) override;

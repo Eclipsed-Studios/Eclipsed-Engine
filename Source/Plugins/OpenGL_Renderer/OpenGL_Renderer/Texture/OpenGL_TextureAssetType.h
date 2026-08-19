@@ -1,15 +1,14 @@
 #pragma once
 
-#include "IAssetType.h"
+#include "EclipsedEngine/Assets/AssetTypes/IAssetType.h"
 
 namespace Eclipse::Assets
 {
-    class PixelShaderAssetType : public IAssetType
+    class OpenGL_TextureAssetType : public IAssetType
     {
     public:
-        PixelShaderAssetType();
+        OpenGL_TextureAssetType();
 
-    public:
         ImportedData Import(const AssetMeta& file) override;
         ProcessedData Process(const ImportedData& file) override;
         void Serialize(BinaryWriter& writer, const ProcessedData& data) override;

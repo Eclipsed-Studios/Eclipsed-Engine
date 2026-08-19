@@ -4,7 +4,7 @@
 #include <typeinfo>
 #include <typeindex>
 
-namespace Eclipse
+namespace Eclipse::Graphics
 {
     class IGraphicsBuffer
     {

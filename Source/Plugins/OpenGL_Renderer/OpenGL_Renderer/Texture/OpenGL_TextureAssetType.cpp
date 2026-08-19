@@ -1,24 +1,23 @@
-#include "TextureAssetType.h"
+#include "OpenGL_TextureAssetType.h"
 
+#include "OpenGL/glad/glad.h"
 #include "EclipsedEngine/Core/Helpers/STB_Helper.h"
 
 #include "EclipsedEngine/Core/EventSystem/EventSystem.h"
 
-#include "Core/Math/RectSizePos.h"
+#include "EclipsedEngine/Core/Math/RectSizePos.h"
 
 #include "EclipsedEngine/Assets/Metadata/Data/TextureMeta.h"
 
-#include "OpenGL/glad/glad.h"
-
 namespace Eclipse::Assets
 {
-	TextureAssetType::TextureAssetType()
+	OpenGL_TextureAssetType::OpenGL_TextureAssetType()
 	{
-		defaultAssetsGuids[DefaultAssetType::TEXTURE_ERROR].FromString("cf50f44ea7fb40ed07c66d1190024581");
-		defaultAssetsGuids[DefaultAssetType::TEXTURE_DEFAULT].FromString("77cbf21c126e6ab274908f75c436065b");
+		//defaultAssetsGuids[DefaultAssetType::TEXTURE_ERROR].FromString("cf50f44ea7fb40ed07c66d1190024581");
+		//defaultAssetsGuids[DefaultAssetType::TEXTURE_DEFAULT].FromString("77cbf21c126e6ab274908f75c436065b");
 	}
 
-	ImportedData TextureAssetType::Import(const AssetMeta& file)
+	ImportedData OpenGL_TextureAssetType::Import(const AssetMeta& file)
 	{
 		EventSystem::Trigger("Texture_Imported", file);
 
@@ -42,17 +41,17 @@ namespace Eclipse::Assets
 			for (int i = 0; i < textureMeta->spriteRects.size(); i++)
 				data.spriteRects[i] = textureMeta->spriteRects[i].rect;
 		}
-		
+
 
 		return data;
 	}
 
-	ProcessedData TextureAssetType::Process(const ImportedData& file)
+	ProcessedData OpenGL_TextureAssetType::Process(const ImportedData& file)
 	{
 		return file;
 	}
 
-	void TextureAssetType::Serialize(BinaryWriter& writer, const ProcessedData& data)
+	void OpenGL_TextureAssetType::Serialize(BinaryWriter& writer, const ProcessedData& data)
 	{
 		if (!writer.IsOpen()) return;
 
@@ -68,7 +67,7 @@ namespace Eclipse::Assets
 		writer.Write(_data.spriteRects.data(), size * sizeof(Math::RectSizePos));
 	}
 
-	void TextureAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+	void OpenGL_TextureAssetType::Load(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
 	{
 		TextureData* _data = reinterpret_cast<TextureData*>(data);
 
@@ -78,7 +77,6 @@ namespace Eclipse::Assets
 
 		std::vector<unsigned char> pixelData(_data->width * _data->height * _data->channels);
 		reader.Read(pixelData.data(), pixelData.size());
-
 
 		_data->dimDivOne.X = 1.f / static_cast<float>(_data->width);
 		_data->dimDivOne.Y = 1.f / static_cast<float>(_data->height);
@@ -90,11 +88,11 @@ namespace Eclipse::Assets
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, 0x2901);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, 0x2901);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		GLenum format = GL_RGB;
 
@@ -123,7 +121,7 @@ namespace Eclipse::Assets
 		reader.Read(_data->spriteRects.data(), size * sizeof(Math::RectSizePos));
 	}
 
-	void TextureAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
+	void OpenGL_TextureAssetType::LoadFromBinary(BinaryReader& reader, const AssetMeta& meta, AssetData* data)
 	{
 		reader.SetRead(meta.offset);
 

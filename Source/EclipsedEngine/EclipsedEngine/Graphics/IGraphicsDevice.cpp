@@ -2,5 +2,5 @@
 
 namespace Eclipse::Graphics
 {
-	
+    
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "EclipsedEngine.Core.hpp"
+
 #include <unordered_map>
 #include "Core/SupportedAssets.h"
 
@@ -15,7 +17,7 @@
 namespace Eclipse::Assets
 {
 	class IAssetType;
-	class AssetTypeRegistry
+	class ECL_API AssetTypeRegistry
 	{
 	public:
 		static void RegisterTypes();

@@ -11,4 +11,9 @@ namespace Eclipse::Graphics
 	{
 		return uniformVariableManager;
 	}
+
+	IDrawer* IRenderer::GetDrawer()
+	{
+		return drawer;
+	}
 }
