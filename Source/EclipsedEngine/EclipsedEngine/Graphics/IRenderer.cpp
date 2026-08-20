@@ -16,4 +16,9 @@ namespace Eclipse::Graphics
 	{
 		return drawer;
 	}
+
+	IGraphicsDevice* IRenderer::GetDevice()
+	{
+		return device;
+	}
 }

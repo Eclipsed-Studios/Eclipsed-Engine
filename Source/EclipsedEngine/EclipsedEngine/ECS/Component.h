@@ -3,7 +3,7 @@
 #include <string>
 #include "Types.h"
 
-#include "Core/Math/Random.h"
+#include "EclipsedEngine/Core/Math/Random.h"
 
 #include "EclipsedEngine.Core.hpp"
 

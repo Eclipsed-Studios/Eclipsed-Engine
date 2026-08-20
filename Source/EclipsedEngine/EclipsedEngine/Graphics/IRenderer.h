@@ -4,7 +4,9 @@
 #include "IGraphicsBuffer.h"
 #include "UniformVariableManager.h"
 #include "IDrawer.h"
+#include "IGraphicsDevice.h"
 
+#include "EclipsedEngine.Core.hpp"
 
 class ErrorCode {};
 
@@ -31,10 +33,12 @@ namespace Eclipse::Graphics
 		IGraphicsBuffer* GetGraphicsBuffer();
 		UniformVariableManager* GetUniformVariableManager();
 		IDrawer* GetDrawer();
+		IGraphicsDevice* GetDevice();
 
 	protected:
 		IGraphicsBuffer* graphicsBuffer;
 		UniformVariableManager* uniformVariableManager;
 		IDrawer* drawer;
+		IGraphicsDevice* device;
 	};
 }

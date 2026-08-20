@@ -24,12 +24,6 @@ namespace Eclipse::Reflection
 		AbstractSerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount);
 
 
-		// Move to editor
-		virtual void DrawInspector() = 0;
-		//#else
-		//		AbstractSerializedVariable(const char* aName, Component* aCompPtr);
-		//#endif
-
 	public:
 		virtual void* GetRawData() = 0;
 		virtual void* GetData() = 0;
@@ -45,11 +39,6 @@ namespace Eclipse::Reflection
 		
 		static std::unordered_map<std::type_index, ImGuiDataType> types;
 		static std::unordered_map<ImGuiDataType, size_t> sizes;
-
-#ifdef ECL_EDITOR
-		// Move to editor
-		void DrawTest();
-#endif
 
 		enum SerializedTypes_
 		{
@@ -84,7 +73,6 @@ namespace Eclipse::Reflection
 		unsigned GetSizeInBytes() const;
 		unsigned GetCount() const;
 		SerializedTypes_ GetType() const;
-		virtual ImGuiDataType GetImGuiType() const = 0;
 
 		bool IsValid() const;
 

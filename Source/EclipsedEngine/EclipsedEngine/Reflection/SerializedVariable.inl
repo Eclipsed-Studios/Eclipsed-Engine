@@ -3,17 +3,17 @@
 #include "ReflectionTypeChecks.h"
 #include "ImGui/imgui.h"
 
-#include "Core/Math/Math.h"
+#include "EclipsedEngine/Core/Math/Math.h"
 
 #include <typeindex>
 
-#include "Assets/Assets/MaterialAsset.h"
-#include "Assets/Assets/AudioAsset.h"
-#include "Assets/Assets/FontAsset.h"
-#include "Assets/Assets/PrefabAsset.h"
-#include "Assets/Assets/TextureAsset.h"
+#include "EclipsedEngine/Assets/Assets/MaterialAsset.h"
+#include "EclipsedEngine/Assets/Assets/AudioAsset.h"
+#include "EclipsedEngine/Assets/Assets/FontAsset.h"
+#include "EclipsedEngine/Assets/Assets/PrefabAsset.h"
+#include "EclipsedEngine/Assets/Assets/TextureAsset.h"
 
-#include "Core/Math/Random.h"
+#include "EclipsedEngine/Core/Math/Random.h"
 
 namespace Eclipse::Reflection
 {
@@ -35,14 +35,14 @@ namespace Eclipse::Reflection
 	}
 
 	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, const T& aDefaultValue)
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, T aDefaultValue)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector, aChangeAmount), data(aDefaultValue)
 	{
 
 	}
 
 	template<typename T>
-	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, const T& aDefaultValue, T _min, T _max)
+	inline SerializedVariable<T>::SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, T aDefaultValue, T _min, T _max)
 		: AbstractSerializedVariable(aName, aCompPtr, drawInspector, aChangeAmount), data(aDefaultValue), myMin(_min), myMax(_max), hasMinMax(true)
 	{
 

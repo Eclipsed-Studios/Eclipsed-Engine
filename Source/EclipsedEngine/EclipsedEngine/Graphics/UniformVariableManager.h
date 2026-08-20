@@ -96,6 +96,7 @@ namespace Eclipse::Graphics
         std::unordered_map<std::string, GlobalUniformValueMatrixMatrix3x3Float> myGlobalUniformsMatrix3x3Float;
         std::unordered_map<std::string, GlobalUniformValueMatrixMatrix4x4Float> myGlobalUniformsMatrix4x4Float;
 
+    public:
         virtual void SetGlobalUniforms(unsigned aShaderProgram) = 0;
 
         virtual void SetUniformInt(const char* aUniformName, unsigned aShaderProgram, const int* aValue) const = 0;

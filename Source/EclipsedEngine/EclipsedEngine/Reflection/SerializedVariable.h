@@ -16,8 +16,8 @@ namespace Eclipse::Reflection
 
 		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount);
 		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, T _min, T _max);
-		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, const T& aDefaultValue);
-		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, const T& aDefaultValue, T _min, T _max);
+		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, T aDefaultValue);
+		SerializedVariable(const char* aName, Component* aCompPtr, bool drawInspector, float aChangeAmount, T aDefaultValue, T _min, T _max);
 
 
 	public:
