@@ -39,7 +39,7 @@ namespace Eclipse::Graphics::OpenGL
 
 		glBindVertexArray(0);
 
-		return nullptr;
+		return sprite;
 	}
 
 	TextSprite* OpenGL_GraphicsDevice::CreateTextSprite()
@@ -75,7 +75,8 @@ namespace Eclipse::Graphics::OpenGL
 		}
 
 		glBindVertexArray(0);
-		return nullptr;
+
+		return sprite;
 	}
 
 	void OpenGL_GraphicsDevice::BindTexture(unsigned slot, Assets::Texture& texture)

@@ -62,7 +62,7 @@ namespace Eclipse::Graphics
 
         RenderCommandBase* command = reinterpret_cast<RenderCommandBase*>(myData + commandCursor);
         commandCursor += commandSize;
-        //::new(command) CommandClass(std::forward<Args>(args)...);
+        ::new(command) CommandClass(std::forward<Args>(args)...);
         *myLink = command;
         myLink = &command->next;
     }

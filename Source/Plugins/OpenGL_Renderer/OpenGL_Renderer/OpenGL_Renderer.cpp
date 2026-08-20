@@ -14,6 +14,7 @@
 #include "OpenGL_GraphicsBuffer.h"
 #include "OpenGL_UniformVariableManager.h"
 #include "OpenGL_Drawer.h"
+#include "OpenGL_GraphicsDevice.h"
 
 namespace Eclipse::Graphics::OpenGL
 {
@@ -44,9 +45,12 @@ namespace Eclipse::Graphics::OpenGL
 
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
+		device = new OpenGL_GraphicsDevice;
 		graphicsBuffer = new OpenGL_GraphicsBuffer;
 		uniformVariableManager = new OpenGL_UniformVariableManager;
 		drawer = new OpenGL_Drawer;
+
+		drawer->mySprite = device->CreateSprite();
 
 		return ErrorCode{};
 	}

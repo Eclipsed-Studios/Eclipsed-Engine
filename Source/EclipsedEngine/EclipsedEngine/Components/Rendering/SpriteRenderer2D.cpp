@@ -10,6 +10,7 @@
 #include "EclipsedEngine/Graphics/Buffers/EditorBuffer.h"
 
 #include "EclipsedEngine/Graphics/IRenderer.h"
+#include "EclipsedEngine/Graphics/IDrawer.h"
 #include "EclipsedEngine/Graphics/RendererManager.h"
 
 namespace Eclipse
@@ -101,12 +102,10 @@ namespace Eclipse
 		// if (aProgramID)
 		// 	shaderID = aProgramID;
 
-		Graphics::IGraphicsDevice* dev = Graphics::RendererManager::GetRenderer().GetDevice();
-		dev->BindMaterial(material);
+		Graphics::IGraphicsDevice* graphicsDevice = Graphics::RendererManager::GetRenderer().GetDevice();
+		graphicsDevice->BindMaterial(material);
 		if (sprite->IsValid())
-		{
-			dev->BindTexture(0, sprite);
-		}
+			graphicsDevice->BindTexture(0, sprite);
 
 		myTransformBuffer.Position = gameObject->transform->GetPosition();
 		myTransformBuffer.Rotation = gameObject->transform->GetRotation();
@@ -145,6 +144,9 @@ namespace Eclipse
 		buffer->SetOrCreateBuffer(1, myTransformBuffer);
 		buffer->SetOrCreateBuffer(3, mySpriteBuffer);
 
-		//Sprite::Get().Render();
+
+		Graphics::IRenderer& renderer = MainSingleton::GetInstance<Graphics::IRenderer>();
+		Graphics::IDrawer* drawer = renderer.GetDrawer();
+		drawer->DrawSprite();
 	}
 }

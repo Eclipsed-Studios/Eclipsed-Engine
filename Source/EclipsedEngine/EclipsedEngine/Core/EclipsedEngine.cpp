@@ -10,19 +10,33 @@
 #include "EclipsedEngine/Assets/AssetManager.h"
 #include "EclipsedEngine/Assets/AssetImporter.h"
 
+#include "EclipsedEngine/Components/Transform2D.h"
+
 namespace Eclipse
 {
 	void Engine::Init()
 	{
+		ComponentManager::Init();
+
+
+
 		Timer::Init();
 
 		PathManager::Init();
 
 		renderer = &Graphics::RendererManager::LoadRenderer(Graphics::RendererAPI::OpenGL);
+
+		MainSingleton::AddInstance(renderer);
+
 		renderer->Init();
 
 		input = renderer->CreateInput();
 		input->Init();
+
+		GameObject* gameobject = ComponentManager::CreateGameObject();
+
+		gameobject->AddComponent<Transform2D>();
+		gameobject->AddComponent<SpriteRenderer2D>();
 
 		ImGui_Init();
 	}

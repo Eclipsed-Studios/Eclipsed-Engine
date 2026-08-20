@@ -6,7 +6,6 @@ namespace Eclipse::Graphics
 {
     void RenderSprite2DCommand::Execute()
     {
-        //mySpriteRenderer->
-        //mySpriteRenderer->Draw();
+        mySpriteRenderer->Draw();
     }
 }

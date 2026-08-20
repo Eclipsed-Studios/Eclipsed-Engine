@@ -10,12 +10,12 @@
 
 namespace Eclipse::Graphics::OpenGL
 {
-	//void OpenGL_Drawer::DrawSprite()
-	//{
-	//	//glBindVertexArray(sprite.GetSpriteBufferID());
-	//	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	//	//glBindVertexArray(0);
-	//}
+	void OpenGL_Drawer::DrawSprite()
+	{
+		glBindVertexArray(mySprite->GetSpriteBufferID());
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+	}
 
 	//void OpenGL_Drawer::DrawTextSprite()
 	//{
@@ -24,12 +24,12 @@ namespace Eclipse::Graphics::OpenGL
 	//	//glBindVertexArray(0);
 	//}
 
-	void OpenGL_Drawer::DrawSprite(SpriteRenderer2D* spriteRend, Transform2D* transform)
-	{
-		//Assets::Material* mat = spriteRend->GetMaterial();
-		//Graphics::IRenderer& r = Graphics::RendererManager::GetRenderer();
-		//r.GetDevice()->BindMaterial(*mat);
+	//void OpenGL_Drawer::DrawSprite(SpriteRenderer2D* spriteRend, Transform2D* transform)
+	//{
+	//	//Assets::Material* mat = spriteRend->GetMaterial();
+	//	//Graphics::IRenderer& r = Graphics::RendererManager::GetRenderer();
+	//	//r.GetDevice()->BindMaterial(*mat);
 
 
-	}
+	//}
 }

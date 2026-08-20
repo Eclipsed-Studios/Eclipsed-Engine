@@ -10,6 +10,8 @@ namespace Eclipse::Graphics
 	class IDrawer 
 	{
 	public:
-		virtual void DrawSprite(SpriteRenderer2D* spriteRend, Transform2D* transform) = 0;
+		virtual void DrawSprite() = 0;
+
+		Sprite* mySprite = nullptr;
 	};
 }

@@ -4,19 +4,24 @@
 
 
 
-namespace Eclipse::Graphics
+namespace Eclipse
 {
     class SpriteRenderer2D;
+}
+
+namespace Eclipse::Graphics
+{
     class RenderSprite2DCommand : public RenderCommandBase
     {
     public:
-        RenderSprite2DCommand(SpriteRenderer2D* aSpriteRend) : mySpriteRenderer(aSpriteRend)
+        RenderSprite2DCommand(SpriteRenderer2D* aSpriterenderer) : mySpriteRenderer(aSpriterenderer)
         {}
+
         ~RenderSprite2DCommand() = default;
 
         void Execute() override;
 
     private:
-        class SpriteRenderer2D* mySpriteRenderer;
+        SpriteRenderer2D* mySpriteRenderer;
     };
 }

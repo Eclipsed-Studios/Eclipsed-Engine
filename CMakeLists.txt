@@ -19,10 +19,10 @@ endif()
 
 project(${PROJ_NAME} LANGUAGES C CXX)
 
-option(ENABLE_NETWORKING "Includes the network engine in game build." ON)
-if(${ENABLE_NETWORKING})
-    add_compile_definitions(ECLIPSED_NETWORKING)
-endif()
+#option(ENABLE_NETWORKING "Includes the network engine in game build." ON)
+#if(${ENABLE_NETWORKING})
+#    add_compile_definitions(ECLIPSED_NETWORKING)
+#endif()
 
 option(ENABLE_STEAM_SDK "Enables the steam sdk." ON)
 if(${ENABLE_STEAM_SDK})

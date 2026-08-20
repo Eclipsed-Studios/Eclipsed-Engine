@@ -13,7 +13,7 @@ namespace Eclipse::Graphics
 	void* RendererManager::ActiveRendererDLL;
 	RendererManager::DestroyRendererFn RendererManager::DestroyRenderer;
 
-	IRenderer* RendererManager::ActiveRenderer;
+	IRenderer* RendererManager::ActiveRenderer = nullptr;
 
 	IRenderer& RendererManager::LoadRenderer(RendererAPI api)
 	{
@@ -31,7 +31,7 @@ namespace Eclipse::Graphics
 			char message[256];
 			sprintf_s(
 				message,
-				"The renderer dll dont exist at path: %lu",
+				"The renderer dll dont exist at path: %s",
 				rendererPath
 			);
 
@@ -59,7 +59,6 @@ namespace Eclipse::Graphics
 		if (!createRendererFn)
 		{
 			FreeLibrary((HMODULE)ActiveRendererDLL);
-			ActiveRenderer = nullptr;
 
 			const DWORD error = GetLastError();
 
@@ -77,7 +76,6 @@ namespace Eclipse::Graphics
 		if (!destroyRendererFn)
 		{
 			FreeLibrary((HMODULE)ActiveRendererDLL);
-			ActiveRenderer = nullptr;
 			
 			const DWORD error = GetLastError();
 
