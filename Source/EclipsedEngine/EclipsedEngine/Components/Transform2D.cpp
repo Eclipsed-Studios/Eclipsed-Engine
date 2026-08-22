@@ -6,20 +6,6 @@
 
 namespace Eclipse
 {
-#ifdef ECLIPSED_NETWORKING
-    void Transform2D::position_OnRep()
-    {
-    }
-
-    void Transform2D::rotation_OnRep()
-    {
-    }
-
-    void Transform2D::scale_OnRep()
-    {
-    }
-#endif
-
     void Transform2D::OnComponentAddedNoCreations()
     {
         gameObject->transform = this;
