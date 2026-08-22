@@ -47,14 +47,12 @@ namespace Eclipse::Editor
 
 		PathManager::Init(path);
 
-		ComponentForcelink::LinkComponents();
-
 		eclipseRuntime.StartEngine(path);
 
 
 		{ 
-			Assets::AssetImporter::ImportAssets(PathManager::GetEngineAssetsPath(), "Engine/");
-			Assets::AssetImporter::ImportAssets(PathManager::GetAssetsPath(), "Project/");
+			//Assets::AssetImporter::ImportAssets(PathManager::GetEngineAssetsPath(), "Engine/");
+			Assets::AssetImporter::ImportAssets(PathManager::GetAssetsPath(), "Assets/");
 		}
 		eclipseRuntime.LateStart();
 

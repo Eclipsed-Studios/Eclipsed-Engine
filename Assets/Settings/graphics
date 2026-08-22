@@ -1,0 +1,11 @@
+{
+    "graphics": {
+        "Resolution": {
+            "cereal_class_version": 0,
+            "x": 1280,
+            "y": 720
+        },
+        "Fullscreen": false,
+        "NumberOfRenderBuffers": 0
+    }
+}

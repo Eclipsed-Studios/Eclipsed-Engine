@@ -132,9 +132,9 @@ namespace Eclipse
 		if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
 			myEntityIdToEntity.emplace(aGOID, CreateGameObject(aGOID));
 
-#ifdef ECLIPSED_NETWORKING
-		BeforeComponentConstruction();
-#endif
+//#ifdef ECLIPSED_NETWORKING
+//		BeforeComponentConstruction();
+//#endif
 
 		T* component = new(ptrToComponent)T();
 
@@ -143,10 +143,10 @@ namespace Eclipse
 
 		component->SetComponentID(aComponentID);
 
-#ifdef ECLIPSED_NETWORKING
-		component->IsReplicated = IsReplicated;
-		AfterComponentConstruction();
-#endif
+//#ifdef ECLIPSED_NETWORKING
+//		component->IsReplicated = IsReplicated;
+//		AfterComponentConstruction();
+//#endif
 
 		component->gameObject = myEntityIdToEntity.at(aGOID);
 		component->myComponentComponentID = typeIndex;
