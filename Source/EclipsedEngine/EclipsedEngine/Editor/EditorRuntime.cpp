@@ -26,8 +26,6 @@
 #include "EclipsedEngine/Components/ComponentForcelink.h"
 #include "ECS/ComponentManager.h"
 
-#include "EclipsedEngine/Steam/SteamGeneral.h"
-
 #include "EclipsedEngine/Editor/Windows/WindowTypes/HierarchyWindow.h"
 
 #include "EclipsedEngine/ECS/ObjectManager.h"
@@ -174,8 +172,6 @@ namespace Eclipse::Editor
 				isPlaying = true;
 				isPaused = false;
 
-				SteamGeneral::Get().Init();
-
 				if (SceneManager::GetActiveSceneType() == SceneManager::Default)
 					SceneManager::SaveActiveScene();
 				else if (SceneManager::GetActiveSceneType() == SceneManager::Prefab)
@@ -204,12 +200,6 @@ namespace Eclipse::Editor
 			{
 				isPlaying = false;
 				isPaused = false;
-
-#ifdef ECLIPSED_NETWORKING
-				Replication::ReplicationManager::CloseConnection("Disconnect : Quit Game");
-#endif
-
-				SteamGeneral::Get().ShutDown();
 
 				if (SceneManager::GetActiveSceneType() == SceneManager::Default)
 					SceneManager::ReloadActiveScene();

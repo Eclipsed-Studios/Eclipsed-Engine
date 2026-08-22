@@ -6,7 +6,6 @@
 
 #include "EclipsedEngine/Editor/Windows/WindowTypes/GameWindow.h"
 #include "Scenes/SceneManager.h"
-#include "Steam/SteamGeneral.h"
 
 namespace Eclipse
 {
