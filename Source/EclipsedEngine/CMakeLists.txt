@@ -14,6 +14,5 @@ target_link_libraries(EclipsedEngine
         ECS
         Renderer
         Physics
-        Networking
         ImGui
 )

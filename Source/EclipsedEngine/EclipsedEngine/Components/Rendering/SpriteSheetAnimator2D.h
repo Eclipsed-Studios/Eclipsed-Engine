@@ -44,7 +44,7 @@ namespace Eclipse
         SERIALIZED_FIELD_DEFAULT(float, myTimePerFrame, 0.04f);
         float myTimeAccumulator = 0.f;
 
-        REPLICATED_PRIVATE_SERIALIZED_FIELD_DEFAULT(int, myCurrentFrame, 0, SpriteSheetAnimator2D);
+        SERIALIZED_FIELD_DEFAULT(int, myCurrentFrame, 0);
         SERIALIZED_FIELD_DEFAULT(bool, myLoop, true);
 
         bool myIsPlaying = true;

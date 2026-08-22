@@ -60,7 +60,7 @@ namespace Eclipse
         TransformBuffer myTransformBuffer;
         SpriteBuffer mySpriteBuffer;
         
-        MANUAL_REPLICATED_SERIALIZED_FIELD(Assets::Texture, sprite, SpriteRenderer2D);
+        SERIALIZED_FIELD(Assets::Texture, sprite);
         SERIALIZED_FIELD(Assets::Material, material);
 
     };

@@ -65,9 +65,9 @@ namespace Eclipse
 		Math::Matrix3x3f GetTransform() const;
 		
 	private:
-		REPLICATED_SERIALIZED_FIELD_STEP_DEFAULT(Math::Vector2<float>, position, 0.01f, Math::Vector2f(0, 0), Transform2D);
-		REPLICATED_SERIALIZED_FIELD_STEP_DEFAULT(float, rotation, 5.f, 0, Transform2D);
-		REPLICATED_SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1), Transform2D);
+		SERIALIZED_FIELD_STEP_DEFAULT(Math::Vector2<float>, position, 0.01f, Math::Vector2f(0, 0));
+		SERIALIZED_FIELD_STEP_DEFAULT(float, rotation, 5.f, 0);
+		SERIALIZED_FIELD_DEFAULT(Math::Vector2f, scale, Math::Vector2f(1, 1));
 
 		Math::Vector2f lastPosition;
 		float lastRotation;

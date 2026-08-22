@@ -19,10 +19,6 @@
 #include "EclipsedEngine/Components/Transform2D.h"
 #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 
-#include "Replication/ReplicationManager.h"
-
-#include "Steam/SteamGeneral.h"
-
 #include "Core/Settings/GraphicsSettings.h"
 
 #include "EclipsedEngine/Editor/PhysicsDebugDrawer.h"
@@ -30,12 +26,6 @@
 #include "EclipsedEngine/Components/ComponentForcelink.h"
 
 #include "Networking.h"
-
-
-#ifdef ECLIPSED_NETWORKING
-	#include "Networking/Client/SteamP2PNetworkingClient.h"
-	#include "Networking/Server/SteamP2PNetworkingServer.h"
-#endif
 
 #include "Core/Profiling/PerformanceProfilerManager.h"
 
@@ -70,10 +60,6 @@ namespace Eclipse
 		//renderThread = std::thread();
 		Assets::AssetImporter::ImportBundle();
 #endif
-
-#ifdef ECLIPSED_NETWORKING
-		Replication::ReplicationManager::Init();
-#endif // ECLIPSED_NETWORKING
 
 		AudioManager::Init();
 
@@ -129,8 +115,6 @@ namespace Eclipse
 	void EclipsedRuntime::UpdateGame()
 	{
 		CORE_PROFILE_SCOPED;
-		//TODO: Might not want to call every frame but it does now
-		SteamGeneral::Get().Update();
 
 		PhysicsEngine::Update();
 
@@ -140,10 +124,6 @@ namespace Eclipse
 		ComponentManager::UpdateComponents();
 
 		AudioManager::Update();
-
-#ifdef ECLIPSED_NETWORKING
-		Replication::ReplicationManager::Update();
-#endif
 	}
 
 	void SortComponents()
@@ -209,8 +189,6 @@ namespace Eclipse
 	{
 		MainSingleton::Destroy();
 		engine.End();
-
-		SHUT_DOWN_NETWORK_ENGINE();
 	}
 
 	bool EclipsedRuntime::BeginFrame()
