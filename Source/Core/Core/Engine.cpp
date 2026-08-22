@@ -12,7 +12,7 @@ namespace Eclipse
 	void Engine::Init()
 	{
 		EventSystem::Trigger("Engine-Load");
-		//Time::Init();
+		Core::Timer::Init();
 	}
 
 	void Engine::Update()

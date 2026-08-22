@@ -23,7 +23,17 @@
             "IsReplicated": false,
             "position": "AAAAAAAAAAA=",
             "rotation": "AAAAAA==",
-            "scale": "AACAPwAAgD8="
+            "scale": "zcxMPc3MTD0="
+        }
+    ],
+    "RigidBody2D": [
+        {
+            "owner": 10168217,
+            "id": 1897995977,
+            "IsReplicated": false,
+            "LockRotation": "AA==",
+            "LockXPos": "AA==",
+            "LockYPos": "AA=="
         }
     ],
     "Camera": [
@@ -43,12 +53,23 @@
             "totalTime": "AAAAAA=="
         }
     ],
+    "BoxCollider2D": [
+        {
+            "owner": 10168217,
+            "id": 4154962159,
+            "IsReplicated": false,
+            "myLayer": "",
+            "ColliderPivot": "AAAAAAAAAAA=",
+            "HalfExtents": "AAAAPwAAAD8="
+        }
+    ],
     "GameObjects": [
         {
             "id": 10168217,
             "name": "New Sprite"
         },
         {
+            "owner": 10168217,
             "id": 12221554,
             "name": "New GameObject"
         }
