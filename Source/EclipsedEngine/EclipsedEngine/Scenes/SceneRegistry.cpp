@@ -2,8 +2,8 @@
 //
 //#include <stdexcept>
 //
-//#include "Assets/Core/AssetDatabase.h"
-//#include "Core/MainSingleton.h"
+//#include "EclipsedEngine/Assets/Core/AssetDatabase.h"
+//#include "EclipsedEngine/Core/MainSingleton.h"
 //
 //namespace Eclipse
 //{

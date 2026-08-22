@@ -12,6 +12,17 @@ namespace Eclipse::Editor
 	void MainMenuBar::Update()
 	{
 		ImGui::BeginMainMenuBar();
+
+		DrawViews();
+
 		ImGui::EndMainMenuBar();
+	}
+
+	void MainMenuBar::DrawViews()
+	{
+		if (ImGui::BeginMenu("Views"))
+		{
+
+		}
 	}
 }

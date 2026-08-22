@@ -5,15 +5,15 @@
 #include "ViewRegistry.h"
 
 #define VIEW_IMPL(type, name, category, flags)						\
-public:															\
-inline type() : AbstractView(name, category, true, flags) {}	\
-AbstractView* GetNew() const override { return new type; }		\
-private:														\
-	struct AutoRegister {										\
-		AutoRegister() {										\
-			ViewRegistry::RegisterView<type>(#type);			\
-	}															\
-};																\
+public:																\
+inline type() : AbstractView(name, category, true, flags) {}		\
+inline static void* GetNew() { return new type; }					\
+private:															\
+	struct AutoRegister {											\
+		AutoRegister() {											\
+			ViewRegistry::RegisterView(#type, &type::GetNew);	\
+	}																\
+};																	\
 static inline AutoRegister _register = {};
 
 namespace Eclipse::Editor
@@ -31,9 +31,6 @@ namespace Eclipse::Editor
 		virtual void PostUpdate() {};
 
 		virtual void Close() {};
-
-	public:
-		virtual AbstractView* GetNew() const { return nullptr; }
 
 	public:
 		const char* GetName() const;

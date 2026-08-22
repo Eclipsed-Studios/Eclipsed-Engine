@@ -12,22 +12,23 @@
 //#include "EclipsedEngine/Reflection/SerializedVariable.h"
 //#include "EclipsedEngine/Reflection/Registry/ComponentRegistry.h"
 //
-//#include "Core/ChatGPT_Dump/Base64.hpp"
+//#include "EclipsedEngine/Core/ChatGPT_Dump/Base64.hpp"
 //
-//#include "ECS/Component.h"
-//#include "EclipsedEngine/Components/UI/RectTransform.h"
-//#include "EclipsedEngine/Components/UI/Canvas.h"
+//#include "EclipsedEngine/ECS/Component.h"
+////#include "EclipsedEngine/Components/UI/RectTransform.h"
+////#include "EclipsedEngine/Components/UI/Canvas.h" // FIX UI
 //
-//#include "Renderer/RenderCommands/CommandList.h"
+//#include "EclipsedEngine/Graphics/RenderCommands/CommandList.h"
 //
-//#include "Physics/PhysicsEngine.h"
+////#include "Physics/PhysicsEngine.h" // FIX PHYSICS ENGINE
 //
-//#include "EclipsedEngine/DebugLogger.h"
+//#include "EclipsedEngine/Core/Logger/DebugLogger.h"
 //
-//#include "Assets/AssetManager.h"
-//#include "Assets/Core/AssetDatabase.h"
+//#include "EclipsedEngine/Assets/AssetManager.h"
+//#include "EclipsedEngine/Assets/Core/AssetDatabase.h"
 //
-//#include "ECS/GameObject.h"
+//#include "EclipsedEngine/ECS/GameObject.h"
+//#include "EclipsedEngine/ECS/ComponentManager.h"
 //
 //namespace Eclipse
 //{

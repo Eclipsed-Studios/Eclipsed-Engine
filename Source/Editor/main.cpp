@@ -38,5 +38,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 // Just remember to remove before pushing to git.
 void Test_ImGui()
 {
-
+	ImGui::Begin("Simons window");
+	ImGui::End();
 }

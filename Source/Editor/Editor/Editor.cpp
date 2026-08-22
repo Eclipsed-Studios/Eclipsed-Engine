@@ -5,7 +5,7 @@
 
 #include "ImGui/imgui.h"
 
-#include "Views/Types/AssetBrowserView.h"
+//#include "Views/Types/AssetBrowserView.h"
 
 #include "MainMenuBar.h"
 #include "ProjectManager.h"

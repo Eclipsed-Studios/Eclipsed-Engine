@@ -4,13 +4,18 @@
 
 namespace Eclipse::Editor
 {
-	AbstractView* ViewRegistry::GetView(const std::string& name)
+	CreateNewViewFunc ViewRegistry::GetView(const std::string& name)
 	{
 		return registeredViews[name];
 	}
 
-	const std::unordered_map<std::string, AbstractView*>& ViewRegistry::GetViews()
+	const std::unordered_map<std::string, CreateNewViewFunc>& ViewRegistry::GetViews()
 	{
 		return ViewRegistry::registeredViews;
+	}
+
+	void ViewRegistry::RegisterView(const std::string& name, CreateNewViewFunc func)
+	{
+		registeredViews[name] = func;
 	}
 }

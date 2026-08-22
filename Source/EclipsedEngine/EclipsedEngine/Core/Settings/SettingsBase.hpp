@@ -9,8 +9,8 @@
 #include "cereal/types/vector.hpp"
 #include "cereal/cereal.hpp"
 
-#include "Core/PathManager.h"
-#include "Core/EventSystem/EventSystem.h"
+#include "EclipsedEngine/Core/PathManager.h"
+#include "EclipsedEngine/Core/EventSystem/EventSystem.h"
 
 #ifdef ECL_EDITOR
 

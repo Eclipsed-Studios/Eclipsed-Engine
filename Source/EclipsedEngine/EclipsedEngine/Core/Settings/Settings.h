@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Settings/BuildSettings.h"
-#include "Core/Settings/GraphicsSettings.h"
-#include "Core/Settings/EngineSettings.h"
-#include "Core/Settings/EditorSettings.h"
-#include "Core/Settings/PhysicsSettings.h"
+#include "EclipsedEngine/Core/Settings/BuildSettings.h"
+#include "EclipsedEngine/Core/Settings/GraphicsSettings.h"
+#include "EclipsedEngine/Core/Settings/EngineSettings.h"
+#include "EclipsedEngine/Core/Settings/EditorSettings.h"
+#include "EclipsedEngine/Core/Settings/PhysicsSettings.h"

@@ -4,7 +4,7 @@
 #include <string>
 
 #include "SettingsBase.hpp"
-#include "Core/Math/Vector/Vector2.h"
+#include "EclipsedEngine/Core/Math/Vector/Vector2.h"
 
 namespace Eclipse::Settings
 {

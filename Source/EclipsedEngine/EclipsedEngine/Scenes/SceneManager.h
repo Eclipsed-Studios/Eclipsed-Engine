@@ -8,7 +8,8 @@
 //
 //#include "SceneRegistry.h"
 //
-//#include "Assets/Assets/SceneAsset.h"
+//#include "EclipsedEngine/Assets/Assets/SceneAsset.h"
+//#include "EclipsedEngine/Scenes/SceneRegistry.h"
 //
 //namespace Eclipse
 //{
@@ -22,11 +23,7 @@
 //		static void LoadScene(Assets::GUID guid);
 //
 //		static void UnloadScene();
-//
-//
-//
-//
-//
+//		
 //		static void ReloadActiveScene();
 //
 //		static void SaveScenes();
@@ -67,13 +64,6 @@
 //
 //
 //		static SceneRegistry registry;
-//
-//
-//
-//
-//
-//
-//
 //		static inline Assets::Scene activeScene;
 //	};
 //}

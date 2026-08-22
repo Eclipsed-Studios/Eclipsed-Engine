@@ -10,13 +10,12 @@ namespace Eclipse::Editor
 
 	void ViewManager::Init()
 	{
-		AbstractView* view = ViewRegistry::GetView("AssetBrowserView");
-		views.push_back(view->GetNew());
+		//auto view = ViewRegistry::GetView("AssetBrowserView");
+		//views.push_back((AbstractView*)view());
 	}
 
 	void ViewManager::Update()
 	{
-
 		for (int i = 0; i < (int)views.size(); i++)
 		{
 			AbstractView* view = views[i];
