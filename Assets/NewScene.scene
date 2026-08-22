@@ -6,6 +6,13 @@
             "IsReplicated": false,
             "ZIndex": "AAAAAA==",
             "material": "304024b18cd756152dee092f1a43738d"
+        },
+        {
+            "owner": 12221554,
+            "id": 693556505,
+            "IsReplicated": false,
+            "ZIndex": "AAAAAA==",
+            "material": "304024b18cd756152dee092f1a43738d"
         }
     ],
     "Transform2D": [
@@ -21,15 +28,23 @@
             "owner": 12221554,
             "id": 997217079,
             "IsReplicated": false,
-            "position": "AAAAAAAAAAA=",
+            "position": "vHdIP3RN174=",
             "rotation": "AAAAAA==",
-            "scale": "zcxMPc3MTD0="
+            "scale": "zcy4QQAAuEE="
         }
     ],
     "RigidBody2D": [
         {
             "owner": 10168217,
             "id": 1897995977,
+            "IsReplicated": false,
+            "LockRotation": "AA==",
+            "LockXPos": "AA==",
+            "LockYPos": "AA=="
+        },
+        {
+            "owner": 12221554,
+            "id": 17047540,
             "IsReplicated": false,
             "LockRotation": "AA==",
             "LockXPos": "AA==",
@@ -49,6 +64,7 @@
             "owner": 12221554,
             "id": 3814332279,
             "IsReplicated": false,
+            "upForce": "ZmamQA==",
             "values": "AAAAAA==",
             "totalTime": "AAAAAA=="
         }
@@ -61,6 +77,14 @@
             "myLayer": "",
             "ColliderPivot": "AAAAAAAAAAA=",
             "HalfExtents": "AAAAPwAAAD8="
+        },
+        {
+            "owner": 12221554,
+            "id": 2195134318,
+            "IsReplicated": false,
+            "myLayer": "",
+            "ColliderPivot": "AAAAAAAAAAA=",
+            "HalfExtents": "AAAAPwAAAD8="
         }
     ],
     "GameObjects": [
@@ -69,7 +93,6 @@
             "name": "New Sprite"
         },
         {
-            "owner": 10168217,
             "id": 12221554,
             "name": "New GameObject"
         }

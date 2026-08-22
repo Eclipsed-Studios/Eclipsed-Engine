@@ -14,13 +14,6 @@
 
 namespace Eclipse
 {
-#ifdef ECLIPSED_NETWORKING
-	void SpriteRenderer2D::sprite_OnRep()
-	{
-		SetSprite(sprite->GetAssetID());
-	}
-#endif
-
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
 		spriteRectMin = aMin * sprite->GetDimDivOne();
