@@ -11,7 +11,7 @@ namespace Eclipse::Core
 
     float Timer::myDeltaTime;
     float Timer::myTotalTime;
-    float Timer::myTimeScale;
+    float Timer::myTimeScale = 1;
 
     void Timer::Init()
     {
