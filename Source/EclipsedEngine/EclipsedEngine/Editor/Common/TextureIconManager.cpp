@@ -117,6 +117,7 @@ namespace Eclipse::Editor
 		namespace fs = std::filesystem;
 
 		std::vector<std::string> texturesPathsToLoad;
+		auto it = PathManager::GetAssetsPath();
 		for (const fs::directory_entry& entry : fs::recursive_directory_iterator(PathManager::GetAssetsPath()))
 		{
 			Utilities::FileInfo info = Utilities::FileInfo::GetFileInfo(entry);

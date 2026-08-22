@@ -300,7 +300,7 @@ namespace Eclipse
 
     int OpenGLGraphicsEngine::ShouldWindowClose()
     {
-        return glfwWindowShouldClose(MainSingleton::GetInstance<GLFWwindow*>());
+        return glfwWindowShouldClose(MainSingleton::GetInstance<GLFWwindow*>());;
     }
 
     ErrorCode OpenGLGraphicsEngine::CheckErrorCodes(ErrorCode aErrorCode)

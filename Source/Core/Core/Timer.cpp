@@ -5,13 +5,17 @@
 
 namespace Eclipse::Core
 {
-    Timer::Timer() : duration(0)
-    {
-        Init();
-    }
+    std::chrono::high_resolution_clock::time_point Timer::startTime;
+    std::chrono::high_resolution_clock Timer::clock;
+    std::chrono::duration<float> Timer::duration;
+
+    float Timer::myDeltaTime;
+    float Timer::myTotalTime;
+    float Timer::myTimeScale;
 
     void Timer::Init()
     {
+        duration = {};
         startTime = clock.now();
     }
 

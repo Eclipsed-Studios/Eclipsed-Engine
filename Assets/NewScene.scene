@@ -1,0 +1,56 @@
+{
+    "SpriteRenderer2D": [
+        {
+            "owner": 10168217,
+            "id": 1675508676,
+            "IsReplicated": false,
+            "ZIndex": "AAAAAA==",
+            "material": "304024b18cd756152dee092f1a43738d"
+        }
+    ],
+    "Transform2D": [
+        {
+            "owner": 10168217,
+            "id": 2786714945,
+            "IsReplicated": false,
+            "position": "AAAAAAAAAAA=",
+            "rotation": "AAAAAA==",
+            "scale": "AACgQQAAoEE="
+        },
+        {
+            "owner": 12221554,
+            "id": 997217079,
+            "IsReplicated": false,
+            "position": "AAAAAAAAAAA=",
+            "rotation": "AAAAAA==",
+            "scale": "AACAPwAAgD8="
+        }
+    ],
+    "Camera": [
+        {
+            "owner": 12221554,
+            "id": 3713215875,
+            "IsReplicated": false,
+            "CameraZoom": "AACAPw=="
+        }
+    ],
+    "TestGameComponent": [
+        {
+            "owner": 12221554,
+            "id": 3814332279,
+            "IsReplicated": false,
+            "values": "AAAAAA==",
+            "totalTime": "AAAAAA=="
+        }
+    ],
+    "GameObjects": [
+        {
+            "id": 10168217,
+            "name": "New Sprite"
+        },
+        {
+            "id": 12221554,
+            "name": "New GameObject"
+        }
+    ]
+}

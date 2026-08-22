@@ -35,7 +35,7 @@ std::string GetName() {
 	return typeid(T).name();
 }
 
-void Eclipse::ComponentForcelink::LinkComponents()
+void Eclipse::EngineComponentForcelink::LinkComponents()
 {
 	
 	COMP_REG(Transform2D);

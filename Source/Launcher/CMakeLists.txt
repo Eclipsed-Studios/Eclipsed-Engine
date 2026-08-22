@@ -5,5 +5,5 @@ SetProjectKey(Launcher)
 GenerateExecutable()
 
 target_link_libraries(Launcher PRIVATE 
-    EclipsedEngine
+    Game
 )
