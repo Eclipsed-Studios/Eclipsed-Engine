@@ -59,8 +59,7 @@ namespace Eclipse
 	void EclipsedRuntime::StartEngine()
 #endif
 	{
-		Core::Timer& time = MainSingleton::GetInstance<Core::Timer>();
-		time.Init();
+		Core::Timer::Init();
 
 #ifndef ECL_EDITOR
 	#ifdef STEAMSDK_PRESENT
@@ -78,8 +77,6 @@ namespace Eclipse
 
 		AudioManager::Init();
 
-		ComponentForcelink::LinkComponents();
-		//Resources::Init();
 
 #ifdef ECL_EDITOR
 		Editor::AssetWindow::CreateGameobjectFunc = [](char* data) { return InternalSpawnObjectClass::CreateObjectFromJsonString(data)->GetID(); };

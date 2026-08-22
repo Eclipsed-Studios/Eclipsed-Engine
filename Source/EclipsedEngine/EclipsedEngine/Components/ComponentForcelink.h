@@ -1,8 +1,10 @@
 #pragma once
 
+#include "EclipsedEngine.Core.hpp"
+
 namespace Eclipse
 {
-	class ComponentForcelink final
+	class ECL_API EngineComponentForcelink final
 	{
 	public:
 		static void LinkComponents();

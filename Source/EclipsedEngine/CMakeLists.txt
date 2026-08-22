@@ -3,7 +3,7 @@ include("${CMAKE_SOURCE_DIR}/CMake/common.cmake")
 SetProjectKey(EclipsedEngine)
 GenerateCoreApiFile(ECL_API)
 
-CreateSharedProject()
+CreateStaticProject()
 
 target_link_libraries(EclipsedEngine
     PUBLIC
@@ -15,7 +15,5 @@ target_link_libraries(EclipsedEngine
         Renderer
         Physics
         Networking
-
-    PRIVATE
         ImGui
 )
