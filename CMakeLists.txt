@@ -58,6 +58,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/ECS)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Renderer)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Physics)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Networking)
+add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Game)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/EclipsedEngine)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Launcher)
 

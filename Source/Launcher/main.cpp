@@ -11,6 +11,8 @@
 
 #include <fstream>
 
+#include "Game/ComponentForcelink.h"
+
 
 #ifdef _WIN32
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -43,6 +45,8 @@ int main(int argc, char* argv[])
             file.read(projectPath.data(), size);
         }
     }
+
+    ComponentForcelink::LinkComponents();
 
 #ifdef ECL_EDITOR
     Eclipse::Editor::EditorApplication editorApplication;
