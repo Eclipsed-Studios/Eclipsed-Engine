@@ -27,6 +27,23 @@ namespace Eclipse::Assets
 	inline AssetData* AssetLoader::Load(const GUID& guid)
 	{
 		AssetData* data = AssetCache::Get(guid);
+
+#ifdef ECL_EDITOR
+		AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
+		if (data != nullptr && std::filesystem::last_write_time(meta.fullPath) < std::filesystem::last_write_time(meta.exportedPath))
+		{
+			BinaryReader reader(guid);
+
+			const AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
+
+			IAssetType* type = AssetTypeRegistry::GetType(meta.type);
+
+			type->Load(reader, meta, data);
+
+			return data;
+		}
+#endif
+
 		if (data == nullptr)
 		{
 #ifdef ECL_EDITOR
