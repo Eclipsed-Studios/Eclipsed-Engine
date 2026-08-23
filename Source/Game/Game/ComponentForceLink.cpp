@@ -4,7 +4,8 @@
 #include "EclipsedEngine/Components/ComponentForcelink.h"
 #include "EclipsedEngine/Components/Audio/AudioListener.h"
 
-#include "TestGameComponent.h"
+#include "PlayerMovement.h"
+#include "SmoothCameraMover.h"
 
 //#ifndef ECL_EDITOR
 //#include "Forcelink.h"
@@ -19,6 +20,7 @@ void ComponentForcelink::LinkComponents()
 {
 	Eclipse::EngineComponentForcelink::LinkComponents();
 
-	COMP_REG(TestGameComponent);
+	COMP_REG(PlayerMovement);
+	COMP_REG(SmoothCameraMover);
 
 }

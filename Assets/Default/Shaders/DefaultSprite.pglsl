@@ -39,7 +39,7 @@ void main()
    else
    {
       vec4 textureAlbedo = texture(material.albedo, modifiedUV);
-      colorAlbedo = textureAlbedo;
+      colorAlbedo = textureAlbedo * color;
    }
 
    frag_colour = colorAlbedo;
