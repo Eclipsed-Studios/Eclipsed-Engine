@@ -127,8 +127,8 @@ namespace Eclipse
 	{
 		b2AABB aabb;
 
-		Math::Vector2f lowerBoundAABB = aPositon - aHalfExent;
-		Math::Vector2f upperBoundAABB = aPositon + aHalfExent;
+		Math::Vector2f lowerBoundAABB = aHalfExent * -1.f;
+		Math::Vector2f upperBoundAABB = aHalfExent;
 
 		aabb.lowerBound = b2Vec2(lowerBoundAABB.x, lowerBoundAABB.y);
 		aabb.upperBound = b2Vec2(upperBoundAABB.x, upperBoundAABB.y);
@@ -137,7 +137,7 @@ namespace Eclipse
 		filter.maskBits = static_cast<uint64_t>(aLayerMask);
 		filter.categoryBits = static_cast<uint64_t>(Layer::All);
 
-		b2World_OverlapAABB(myWorld, aabb, filter, MyShapeOverlapCallback, &aHitResults);
+		b2World_OverlapAABB(myWorld, b2Vec2(aPositon.x, aPositon.y), aabb, filter, MyShapeOverlapCallback, &aHitResults);
 		if (!aHitResults.results.empty())
 			return true;
 
@@ -153,7 +153,7 @@ namespace Eclipse
 		filter.maskBits = static_cast<uint64_t>(aLayerMask);
 		filter.categoryBits = static_cast<uint64_t>(Layer::All);
 
-		b2World_OverlapShape(myWorld, &proxy, filter, MyShapeOverlapCallback, &aHitResults);
+		b2World_OverlapShape(myWorld, b2Vec2(aPositon.x, aPositon.y), &proxy, filter, MyShapeOverlapCallback, &aHitResults);
 
 		if (myDrawDebugShapes && myDrawQueries)
 			myDebugDraw.DrawCircleFcn(b2Vec2(aPositon.x, aPositon.y), aRadius, b2HexColor::b2_colorBlack, nullptr);
