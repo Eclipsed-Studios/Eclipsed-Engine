@@ -21,8 +21,8 @@ namespace Eclipse
 		UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
 		UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataB);
 
-		PhysicsEngine::myBeginContactCallback(userDataA);
-		PhysicsEngine::myBeginContactCallback(userDataB);
+		PhysicsEngine::myBeginContactCallback(userDataA, userDataB);
+		PhysicsEngine::myBeginContactCallback(userDataB, userDataA);
 	}
 
 	void HandleEndContacts(b2ContactEndTouchEvent& aEvent)
@@ -42,8 +42,8 @@ namespace Eclipse
 		UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
 		UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataB);
 
-		PhysicsEngine::myEndContactCallback(userDataA);
-		PhysicsEngine::myEndContactCallback(userDataB);
+		PhysicsEngine::myEndContactCallback(userDataA, userDataB);
+		PhysicsEngine::myEndContactCallback(userDataB, userDataA);
 	}
 
 	void PhysicsEngine::CheckCollisions()

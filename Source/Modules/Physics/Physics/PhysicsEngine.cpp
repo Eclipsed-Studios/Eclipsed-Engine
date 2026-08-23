@@ -7,8 +7,8 @@
 #undef min
 namespace Eclipse
 {
-    std::function<void(UserData&)> PhysicsEngine::myBeginContactCallback;
-    std::function<void(UserData&)> PhysicsEngine::myEndContactCallback;
+    std::function<void(UserData&, UserData&)> PhysicsEngine::myBeginContactCallback;
+    std::function<void(UserData&, UserData&)> PhysicsEngine::myEndContactCallback;
 
     std::array<uint64_t, MAX_LAYERS> PhysicsEngine::myCollisionLayers = {};
 
