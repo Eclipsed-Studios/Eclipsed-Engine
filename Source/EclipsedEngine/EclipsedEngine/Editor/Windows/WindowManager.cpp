@@ -351,7 +351,7 @@ namespace Eclipse::Editor
 		using namespace rapidjson;
 
 
-		GameModuleManager::CompileAndLoad();
+		//GameModuleManager::CompileAndLoad();
 		//const std::vector<Settings::OpenEditorWindows>& openWindows = Settings::EditorSettings::GetCurrentlyOpenEditorWindows();
 
 		//for (const Settings::OpenEditorWindows& openWindow : Settings::EditorSettings::GetCurrentlyOpenEditorWindows())

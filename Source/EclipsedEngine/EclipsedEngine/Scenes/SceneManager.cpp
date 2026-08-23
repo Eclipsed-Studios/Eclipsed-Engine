@@ -16,6 +16,7 @@
 #include "EclipsedEngine/DebugLogger.h"
 
 #include "Assets/AssetManager.h"
+#include "Assets/Core/AssetDatabase.h"
 
 #include "EclipsedEngine/Reflection/Reflection.h"
 
@@ -43,6 +44,9 @@ namespace Eclipse
 	{
 		if (!scene.IsValid())
 			throw std::runtime_error("The scene is not valid.");
+
+		std::string name = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(scene.GetAssetID()).fileName;
+		SetActiveScene(name.c_str());
 
 		activeScene = scene;
 		SceneManager::SetActiveSceneType(SceneManager::Default);
@@ -165,6 +169,7 @@ namespace Eclipse
 	void SceneManager::SetActiveScene(const char* anActiveScene)
 	{
 		myActiveScene = anActiveScene;
+		Settings::EditorSettings::SetLastActiveScene(myActiveScene);
 	}
 
 	SceneManager::SceneType SceneManager::GetActiveSceneType()
