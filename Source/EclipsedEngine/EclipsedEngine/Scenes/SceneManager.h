@@ -73,7 +73,7 @@ namespace Eclipse
 
 
 
-
+		static inline Assets::GUID activeSceneGuid;
 		static inline Assets::Scene activeScene;
 	};
 }
