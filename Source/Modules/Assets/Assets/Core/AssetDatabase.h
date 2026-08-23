@@ -19,7 +19,7 @@ namespace Eclipse::Assets
     class ASSET_API AssetDatabase
     {
     public:
-        AssetDatabase() = default;
+        AssetDatabase();
 
         AssetDatabase(const AssetDatabase&) = delete;
         AssetDatabase& operator=(const AssetDatabase&) = delete;
