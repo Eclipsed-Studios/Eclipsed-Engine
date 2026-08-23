@@ -32,7 +32,7 @@ namespace Eclipse::Assets
 #ifdef ECL_EDITOR
 			BinaryReader reader(guid);
 #else
-			BinaryReader reader("packed_file.bundle");
+			BinaryReader reader("assets.bundle");
 			//BinaryReader reader("C:/MyFiles/Projects/Project-Nova/Build/packed_file.bundle");
 #endif
 

@@ -34,7 +34,7 @@ cd "%PROJECT_PATH%"
 @REM call %PROJECT_PATH%/Tools/generate-game-build.bat %PROJECT_PATH%  %CURRENT_PATH%
 
 
-cmake --build "%PROJECT_PATH%/Library/Game-Building-Binary" --config %CONFIG%
+cmake --build "%PROJECT_PATH%/Library/Game-Game-Building" --config %CONFIG%
 
 @REM copy /Y "%ENGINE_PATH%\Thirdparty\DLLs\*.*" "%PROJECT_PATH%\Build\"
 
