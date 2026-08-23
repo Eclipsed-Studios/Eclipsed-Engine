@@ -17,6 +17,8 @@ namespace Eclipse
 
     bool& PhysicsEngine::GetDebugDrawShapes(DebugDrawTypes aType)
     {
+        // Jail
+
         switch (aType)
         {
         case DebugDrawTypes::drawShapes: return myDebugDraw.drawShapes;
@@ -28,9 +30,9 @@ namespace Eclipse
         case DebugDrawTypes::drawContacts: return myDebugDraw.drawContacts;
         case DebugDrawTypes::drawGraphColors: return myDebugDraw.drawGraphColors;
         case DebugDrawTypes::drawContactNormals: return myDebugDraw.drawContactNormals;
-        case DebugDrawTypes::drawContactImpulses: return myDebugDraw.drawContactImpulses;
+        //case DebugDrawTypes::drawContactImpulses: return myDebugDraw.drawContactImpulses;
         case DebugDrawTypes::drawContactFeatures: return myDebugDraw.drawContactFeatures;
-        case DebugDrawTypes::drawFrictionImpulses: return myDebugDraw.drawFrictionImpulses;
+        //case DebugDrawTypes::drawFrictionImpulses: return myDebugDraw.drawFrictionImpulses;
         case DebugDrawTypes::drawIslands: return myDebugDraw.drawIslands;
 
         case DebugDrawTypes::drawQueries: return myDrawQueries;
