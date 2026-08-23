@@ -97,8 +97,8 @@ namespace Eclipse
 
         static void LoadLayers();
 
-        static std::function<void(UserData&)> myBeginContactCallback;
-        static std::function<void(UserData&)> myEndContactCallback;
+        static std::function<void(UserData&, UserData&)> myBeginContactCallback;
+        static std::function<void(UserData&, UserData&)> myEndContactCallback;
 
     private:
         static std::array<uint64_t, MAX_LAYERS> myCollisionLayers;
