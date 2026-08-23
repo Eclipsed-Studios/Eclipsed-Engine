@@ -550,19 +550,23 @@ namespace Eclipse
 	}
 
 
-	void ComponentManager::BeginCollisions(GameObjectID aGOID)
+	void ComponentManager::BeginCollisions(GameObjectID aGOID, GameObjectID aGOID1)
 	{
 		auto& allComponents = myEntityIDToVectorOfComponentIDs[aGOID];
 
+		GameObject* Other = myEntityIdToEntity[aGOID1];
+
 		for (int i = 0; i < allComponents.size(); i++)
-			allComponents[i]->OnCollisionEnter();
+			allComponents[i]->OnCollisionEnter(Other);
 	}
 
-	void ComponentManager::EndCollisions(GameObjectID aGOID)
+	void ComponentManager::EndCollisions(GameObjectID aGOID, GameObjectID aGOID1)
 	{
 		auto& allComponents = myEntityIDToVectorOfComponentIDs[aGOID];
 
+		GameObject* Other = myEntityIdToEntity[aGOID1];
+
 		for (int i = 0; i < allComponents.size(); i++)
-			allComponents[i]->OnCollisionExit();
+			allComponents[i]->OnCollisionExit(Other);
 	}
 }
