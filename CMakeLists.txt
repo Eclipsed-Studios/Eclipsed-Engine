@@ -5,29 +5,21 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_PCH_INSTANTIATE_TEMPLATES ON)
 set(CMAKE_UNITY_BUILD ON)
 
-option(BUILD_EDITOR "If enabled, then builds the editor." ON)
+option(ECLIPSED_EDITOR "If enabled, then builds the editor." ON)
 
 add_compile_definitions(
     WIN32_LEAN_AND_MEAN
 )
 
-if(BUILD_EDITOR)
+if(${ECLIPSED_EDITOR})
     include(CMake/generate/editor.cmake)
 else()
     include(CMake/generate/game.cmake)
+    message("The game is calling.")
 endif()
 
-project(${PROJ_NAME} LANGUAGES C CXX)
 
-option(ENABLE_NETWORKING "Includes the network engine in game build." ON)
-if(${ENABLE_NETWORKING})
-    add_compile_definitions(ECLIPSED_NETWORKING)
-endif()
-
-option(ENABLE_STEAM_SDK "Enables the steam sdk." ON)
-if(${ENABLE_STEAM_SDK})
-    add_compile_definitions(ENABLE_STEAM_SDK)
-endif()
+project(G LANGUAGES C CXX)
 
 option(ENABLE_DISCORD_SDK "Enables the discord sdk." ON)
 if(${ENABLE_DISCORD_SDK})
@@ -53,6 +45,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Input)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/ECS)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Renderer)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Modules/Physics)
+
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Game)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/EclipsedEngine)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Source/Launcher)

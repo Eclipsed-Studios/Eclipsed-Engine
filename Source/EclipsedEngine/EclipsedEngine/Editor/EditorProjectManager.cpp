@@ -8,42 +8,39 @@ namespace Eclipse::Editor
 {
 	std::string EditorProjectManager::LoadOrSelectProject()
 	{
-		//namespace fs = std::filesystem;
+		namespace fs = std::filesystem;
 
-		//std::string path;
-		//if (fs::exists(".ini"))
-		//{
-		//	path = LoadProjectFromFile();
-		//}
+		std::string path;
+		if (fs::exists(".ini"))
+		{
+			path = LoadProjectFromFile();
+		}
 
-		//if (path.empty())
-		//{
-		//	path = Files::SelectFolderDialog();
-		//}
-		//else return path;
+		if (path.empty())
+		{
+			path = Files::SelectFolderDialog();
+		}
+		else return path;
 
 
-		//SaveProjectPath(path);
-		//return path;
-
-		return "";
+		SaveProjectPath(path);
+		return path;
 	}
 
 	std::string EditorProjectManager::LoadProjectFromFile()
 	{
-		//std::ifstream in(".ini");
-		//std::string path;
-		//std::getline(in, path);
+		std::ifstream in(".ini");
+		std::string path;
+		std::getline(in, path);
 
-		//in.close();
-		//return path;
-		return "";
+		in.close();
+		return path;
 	}
 
 	void EditorProjectManager::SaveProjectPath(const std::string& path)
 	{
-		//std::ofstream out(".ini", std::ios::trunc);
-		//out.write(path.c_str(), path.size());
-		//out.close();
+		std::ofstream out(".ini", std::ios::trunc);
+		out.write(path.c_str(), path.size());
+		out.close();
 	}
 }
