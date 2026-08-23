@@ -28,6 +28,7 @@
 
 #include "EclipsedEngine/Editor/Windows/WindowTypes/HierarchyWindow.h"
 
+#include "Windows/WindowTypes/Settings/BuildSettingsWindow.h"
 #include "EclipsedEngine/ECS/ObjectManager.h"
 
 #include "Physics/PhysicsEngine.h"
@@ -49,7 +50,7 @@ namespace Eclipse::Editor
 
 
 		{ 
-			//Assets::AssetImporter::ImportAssets(PathManager::GetEngineAssetsPath(), "Engine/");
+			Assets::AssetImporter::ImportAssets(PathManager::GetEngineAssetsPath(), "Engine/");
 			Assets::AssetImporter::ImportAssets(PathManager::GetAssetsPath(), "Assets/");
 		}
 		eclipseRuntime.LateStart();

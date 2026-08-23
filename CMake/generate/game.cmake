@@ -1,3 +1,1 @@
-function(Generate)
-    message("Hello from game!")
-endfunction()
+set(OutputName "Game")

@@ -1,5 +1,7 @@
 [Bb]in/
 [Tt]emp/
+[Bb]uild/
+[Ll]ibrary/
 
 *.slnx
 .vs/
