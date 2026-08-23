@@ -98,11 +98,16 @@ namespace Eclipse
 		{
 			material->BindShader();
 			sprite->Bind();
+
+			material->dataPtr->color = Albedo;
 			material->BindColor();
 		}
 		else
 		{
 			material->Use();
+
+			material->dataPtr->color = Albedo;
+			material->BindColor();
 		}
 		
 		myTransformBuffer.Position = gameObject->transform->GetPosition();

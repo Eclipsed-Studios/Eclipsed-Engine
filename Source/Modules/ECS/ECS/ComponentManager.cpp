@@ -268,18 +268,10 @@ namespace Eclipse
 		if (myEntityIdToEntity.find(aGOID) == myEntityIdToEntity.end())
 			myEntityIdToEntity[aGOID] = CreateGameObject(aGOID);
 
-#ifdef ECLIPSED_NETWORKING
-		BeforeComponentConstruction();
-#endif
-
 		Eclipse::Component* component = createFunc(ptrToComponent);
 		component->componentSize = size;
 
 		component->SetComponentID(aComponentID);
-
-#ifdef ECLIPSED_NETWORKING
-		AfterComponentConstruction();
-#endif
 
 		component->gameObject = myEntityIdToEntity.at(aGOID);
 		component->myComponentComponentID = typeIndex;
@@ -351,8 +343,6 @@ namespace Eclipse
 
 			component->IsDeleted = true;
 
-			DeleteReplicatedComponent(aComponentID);
-
 			indexToDelete = i;
 
 			DeletedAComponent = true;
@@ -368,27 +358,28 @@ namespace Eclipse
 
 		bool FoundDeleted = false;
 
-		UpdatePriority* vectorPtr;
-		for (auto& renderLayer : myComponents)
-		{
-			for (auto& component : renderLayer.vector)
-			{
-				if (component->IsDeleted)
-				{
-					component = renderLayer.vector.back();
-					FoundDeleted = true;
+		//UpdatePriority* vectorPtr;
+		//for (auto& renderLayer : myComponents)
+		//{
+		//	for (auto& component : renderLayer.vector)
+		//	{
+		//		if (component->IsDeleted)
+		//		{
+		//			component = renderLayer.vector.back();
+		//			FoundDeleted = true;
 
-					vectorPtr = &renderLayer;
+		//			vectorPtr = &renderLayer;
 
-					break;
-				}
-			}
+		//			break;
+		//		}
+		//	}
 
-			if (FoundDeleted)
-				renderLayer.vector.pop_back();
-		}
+		//	if (FoundDeleted)
+		//		renderLayer.vector.pop_back();
 
-		SortZIndexComponents(*vectorPtr);
+		//}
+
+		//SortZIndexComponents(*vectorPtr);
 	}
 
 	GameObject* ComponentManager::FindObjectByName(const char* aName)
@@ -450,9 +441,6 @@ namespace Eclipse
 				if (!component)
 					continue;
 
-#ifdef ECLIPSED_NETWORKING
-				DeleteReplicatedComponent(component->myInstanceComponentID);
-#endif
 				component->IsDeleted = true;
 
 				component->OnDestroy();
@@ -535,10 +523,6 @@ namespace Eclipse
 
 	void ComponentManager::Destroy(GameObjectID aGOID)
 	{
-#ifdef ECLIPSED_NETWORKING
-		DestroyGameObjectReplicated(aGOID);
-#endif
-
 		GameObject* gameobject = myEntityIdToEntity.at(aGOID);
 		if (gameobject)
 			gameobjectsToRemove.emplace_back(aGOID);
