@@ -29,12 +29,13 @@ void SmoothCameraMover::Update()
 	Eclipse::Math::Vector2f PlayerPosition = PlayerObject->transform->GetPosition();
 	Eclipse::Math::Vector2f PlayerVelocity = PlayerRigidBody->GetVelocity();
 	
-	Eclipse::Math::Vector2f TargetPosition = PlayerPosition + PlayerVelocity * SmoothDistance;
+	float TargetPositionX = PlayerPosition.x + PlayerVelocity.x * SmoothDistance;
+	float TargetPositionY = PlayerPosition.y + PlayerVelocity.y * SmoothDistance * 0.3f;
 
 	float SmoothTime = deltatime * SmoothSpeed;
 	Eclipse::Math::Vector2f CameraPosition = gameObject->transform->GetPosition();
-	float xPos = Eclipse::Math::Lerp(CameraPosition.x, TargetPosition.x, SmoothTime);
-	float yPos = Eclipse::Math::Lerp(CameraPosition.y, TargetPosition.y, SmoothTime);
+	float xPos = Eclipse::Math::Lerp(CameraPosition.x, TargetPositionX, SmoothTime);
+	float yPos = Eclipse::Math::Lerp(CameraPosition.y, TargetPositionY, SmoothTime * 3);
 
 	Eclipse::Math::Vector2f FinalPosition(xPos, yPos);
 
