@@ -72,6 +72,7 @@ namespace Eclipse::Settings
 	{
 		static inline void Save()
 		{
+			auto t = PathManager::GetSettingsPath() / Derived::Name;
 			std::ofstream out(PathManager::GetSettingsPath() / Derived::Name);
 
 			cereal::JSONOutputArchive archive(out);

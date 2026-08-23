@@ -57,7 +57,7 @@ namespace Eclipse::Editor
 
 
 
-		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
+		//if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
 
 		try
 		{
