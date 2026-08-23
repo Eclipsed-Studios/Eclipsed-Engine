@@ -1,4 +1,4 @@
-function(GenerateExecutable)
+function(GenerateExecutable _OutputName)
     get_filename_component(TARGET_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
     set(ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -59,5 +59,7 @@ function(GenerateExecutable)
         RUNTIME_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_SOURCE_DIR}/Bin"
         RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}/Bin"
         RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_SOURCE_DIR}/Bin"
+
+        OUTPUT_NAME "${_OutputName}"
     )
 endfunction()

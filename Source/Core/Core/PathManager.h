@@ -18,11 +18,11 @@ namespace Eclipse
 		static std::filesystem::path GetProjectRoot() { return projectRoot; }
 		static std::filesystem::path GetEngineRoot() { return engineSourceRoot; }
 
-		static std::filesystem::path GetProjectPath() { return GetProjectRoot(); }
+		static std::filesystem::path GetProjectPath() { return GetProjectRoot() / "Project"; }
 		
 		static std::filesystem::path GetEditorPath() { return GetProjectPath() / "Editor"; }
 		static std::filesystem::path GetAssetsPath() { return GetProjectPath() / "Assets"; }
-		static std::filesystem::path GetEngineAssetsPath() { return GetEngineRoot().parent_path() / "Assets/EngineAssets"; }
+		static std::filesystem::path GetEngineAssetsPath() { return GetEngineRoot().parent_path() / "Assets"; }
 		static std::filesystem::path GetProjectLocalPath() { return GetProjectRoot() / "Temp"; }
 		static std::filesystem::path GetArtifactsPath() { return GetProjectLocalPath() / "Artifacts"; }
 		static std::filesystem::path GetGameDllBuildPath() { return GetProjectLocalPath(); }
