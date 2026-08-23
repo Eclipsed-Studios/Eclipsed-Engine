@@ -1,7 +1,0 @@
-{
-    "build": {
-        "enableSteamSdk": false,
-        "enableNetworking": false,
-        "enableDiscordSdk": false
-    }
-}

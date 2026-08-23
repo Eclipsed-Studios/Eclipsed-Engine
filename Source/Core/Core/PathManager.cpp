@@ -8,7 +8,7 @@ namespace Eclipse
 		namespace fs = std::filesystem;
 
 		engineSourceRoot = fs::current_path();
-		projectRoot = fs::absolute(engineSourceRoot.parent_path());
+		projectRoot = projectPath;
 	}
 
 	bool PathManager::ProjectSet()
