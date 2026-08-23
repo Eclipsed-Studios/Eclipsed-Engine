@@ -54,6 +54,7 @@ namespace Eclipse
 
     void PhysicsEngine::InitWorld()
     {
+
         b2WorldDef worldDef;
         worldDef = b2DefaultWorldDef();
         worldDef.gravity = b2Vec2(myGravity.x, myGravity.y);
