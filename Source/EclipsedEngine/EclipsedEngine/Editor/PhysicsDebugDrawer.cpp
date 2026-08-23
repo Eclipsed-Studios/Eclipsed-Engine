@@ -130,15 +130,17 @@ void PhysicsDebugDrawer::Init(b2DebugDraw* aDebugDraw)
 
     derefDebugDraw.drawingBounds = aabb;
 
-    derefDebugDraw.DrawPolygonFcn = &PhysicsDebugDrawer::DrawPolygon;
+    // Jail
+
+    //derefDebugDraw.DrawPolygonFcn = &PhysicsDebugDrawer::DrawPolygon;
     derefDebugDraw.DrawSolidPolygonFcn = &PhysicsDebugDrawer::DrawSolidPolygon;
 
     derefDebugDraw.DrawSolidCapsuleFcn = &PhysicsDebugDrawer::DrawSolidCapsule;
 
     derefDebugDraw.DrawCircleFcn = &PhysicsDebugDrawer::DrawCircle;
-    derefDebugDraw.DrawSolidCircleFcn = &PhysicsDebugDrawer::DrawSolidCircle;
+    //derefDebugDraw.DrawSolidCircleFcn = &PhysicsDebugDrawer::DrawSolidCircle;
 
-    derefDebugDraw.DrawSegmentFcn = &PhysicsDebugDrawer::DrawSegment;
+    //derefDebugDraw.DrawSegmentFcn = &PhysicsDebugDrawer::DrawSegment;
     derefDebugDraw.DrawTransformFcn = &PhysicsDebugDrawer::DrawTransform;
 
     derefDebugDraw.context = nullptr;
