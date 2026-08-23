@@ -83,8 +83,8 @@ namespace Eclipse
 		
 		//void SortRenderComponents();
 
-		static void BeginCollisions(unsigned aGOID);
-		static void EndCollisions(unsigned aGOID);
+		static void BeginCollisions(unsigned aGOID, unsigned aGOID1);
+		static void EndCollisions(unsigned aGOID, unsigned aGOID1);
 
 		template <typename T>
 		static void GetAllComponentsOfTypePtr(std::vector<int>& aComponents);
