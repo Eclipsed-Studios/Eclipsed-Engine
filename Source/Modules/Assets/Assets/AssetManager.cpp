@@ -208,6 +208,14 @@ namespace Eclipse::Assets
 	template<typename T>
 	inline T AssetManager::Load(const GUID& guid)
 	{
+#ifdef ECL_EDITOR
+		AssetMeta& meta = MainSingleton::GetInstance<AssetDatabase>().GetProcessedFile(guid);
+		if (FileWasChanged(meta))
+		{
+			AssetImporter::ImportFile(meta);
+		}
+#endif
+
 		return AssetFactory::ConstructAsset<T>(AssetLoader::Load<T>(guid));
 	}
 	template<typename T>
