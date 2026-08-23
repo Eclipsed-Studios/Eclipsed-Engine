@@ -6,6 +6,11 @@
 
 namespace Eclipse::Assets
 {
+	AssetDatabase::AssetDatabase()
+	{
+		return;
+	}
+
 	void AssetDatabase::ProcessSource(const std::filesystem::path& path, const std::string& key)
 	{
 		std::vector<AssetCandidate> candidates = AssetScanner::Scan(path);

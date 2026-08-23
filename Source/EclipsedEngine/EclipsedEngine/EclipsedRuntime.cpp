@@ -108,7 +108,7 @@ namespace Eclipse
 		SceneManager::LoadSceneData();
 
 #ifndef ECL_EDITOR
-		SceneManager::LoadScene("NewScene");
+		SceneManager::LoadScene("MainScene");
 #endif
 	}
 
