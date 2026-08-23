@@ -40,4 +40,9 @@ namespace Eclipse::Math
     inline T DirectionToAngle(Vector2<T> direction) {
         return std::atan2(direction);
     }
+
+    inline float Lerp(float Min, float Max, float t)
+    {
+        return Min + (Max - Min) * t;
+    }
 }
