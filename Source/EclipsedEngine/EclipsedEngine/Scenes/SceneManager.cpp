@@ -56,40 +56,9 @@ namespace Eclipse
 	void SceneManager::LoadScene(Assets::GUID guid)
 	{
 		Assets::Scene scene = Assets::AssetManager::Load<Assets::Scene>(guid);
+		activeSceneGuid = guid;
 		LoadScene(scene);
 	}
-
-	//void SceneManager::LoadScene(const std::string& name)
-	//{
-	//	if (nameOrPath.empty()) return;
-	//	
-	//	SetActiveSceneType(Default);
-	//	
-	//	std::string path = nameOrPath;
-	//	if (!std::filesystem::path(nameOrPath).has_extension()) {
-	//		path += ".scene";
-	//	}
-
-	//	std::string fullPath = (PathManager::GetAssetsPath() / path).generic_string();
-	//	if (std::filesystem::exists(path) || std::filesystem::exists(fullPath))
-	//	{
-	//		myActiveScene = nameOrPath;
-	//		SceneLoader::Load(fullPath.c_str());
-	//	}
-	//	else
-	//	{
-	//		LOG_WARNING("Scene dont exist at asset root path. | " + nameOrPath);
-	//	}
-	//}
-
-	//void SceneManager::LoadScene(unsigned idx)
-	//{
-	//	if (myScenePaths.empty()) return;
-
-	//	SceneLoader::Load((PathManager::GetAssetsPath() / myScenePaths[idx]).generic_string().c_str());
-
-	//	myActiveScene = std::filesystem::path(myScenePaths[idx]).filename().stem().string();
-	//}
 
 	void SceneManager::UnloadScene()
 	{
@@ -98,18 +67,24 @@ namespace Eclipse
 
 	void SceneManager::ReloadActiveScene()
 	{
-		//activeScene = Assets::AssetManager::Load<Assets::Scene>(activeScene.GetAssetID());
+		activeSceneGuid = activeScene.GetAssetID();
+		activeScene = Assets::AssetManager::Load<Assets::Scene>(activeScene.GetAssetID());
 		LoadScene(activeScene);
 	}
 
 	void SceneManager::SaveScenes()
-	{}
+	{
+	}
 
 	void SceneManager::SaveActiveScene()
 	{
 		if (!activeScene.IsValid()) return;
+		if (activeScene.GetAssetID() == Assets::GUID())
+		{
+			return;
+		}
 
-		SceneLoader::Save(activeScene);
+			SceneLoader::Save(activeScene);
 	}
 
 	void SceneManager::AddScene(const std::string& aPath)
@@ -123,16 +98,16 @@ namespace Eclipse
 
 	void SceneManager::LoadSceneData()
 	{
-	//	using namespace rapidjson;
+		//	using namespace rapidjson;
 
-	//	const std::vector<std::string>& sceneIndex = Settings::BuildSettings::GetSceneIndex();
-	//	if (sceneIndex.empty()) return;
+		//	const std::vector<std::string>& sceneIndex = Settings::BuildSettings::GetSceneIndex();
+		//	if (sceneIndex.empty()) return;
 
-	//	for (int i = 0; i < sceneIndex.size(); i++)
-	//	{
-	//		myNameToIdx[std::filesystem::path(sceneIndex[i]).filename().stem().generic_string()] = i;
-	//		myScenePaths.push_back(sceneIndex[i]);
-	//	}
+		//	for (int i = 0; i < sceneIndex.size(); i++)
+		//	{
+		//		myNameToIdx[std::filesystem::path(sceneIndex[i]).filename().stem().generic_string()] = i;
+		//		myScenePaths.push_back(sceneIndex[i]);
+		//	}
 	}
 
 	void SceneManager::SaveSceneData()
