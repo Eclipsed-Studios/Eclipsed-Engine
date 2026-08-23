@@ -63,5 +63,6 @@ namespace Eclipse
         SERIALIZED_FIELD(Assets::Texture, sprite);
         SERIALIZED_FIELD(Assets::Material, material);
 
+        SERIALIZED_FIELD(Math::Color, Albedo);
     };
 }
