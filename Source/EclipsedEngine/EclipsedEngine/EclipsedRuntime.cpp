@@ -88,13 +88,13 @@ namespace Eclipse
 			PhysicsDebugDrawer::Init(&debugDraw);
 
 			PhysicsEngine::Init(8, { 0.f, -9.82f }, debugDraw);
-			PhysicsEngine::myBeginContactCallback = [this](UserData& aUserData)
+			PhysicsEngine::myBeginContactCallback = [this](UserData& aUserData, UserData& aUserData1)
 				{
-					ComponentManager::BeginCollisions(aUserData.gameobject);
+					ComponentManager::BeginCollisions(aUserData.gameobject, aUserData1.gameobject);
 				};
-			PhysicsEngine::myEndContactCallback = [this](UserData& aUserData)
+			PhysicsEngine::myEndContactCallback = [this](UserData& aUserData, UserData& aUserData1)
 				{
-					ComponentManager::EndCollisions(aUserData.gameobject);
+					ComponentManager::EndCollisions(aUserData.gameobject, aUserData1.gameobject);
 				};
 		}
 
