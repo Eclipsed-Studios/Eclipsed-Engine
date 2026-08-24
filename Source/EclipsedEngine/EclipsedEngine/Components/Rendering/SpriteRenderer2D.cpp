@@ -14,6 +14,16 @@
 
 namespace Eclipse
 {
+	void SpriteRenderer2D::SetColor(Math::Color color)
+	{
+		Albedo = color;
+	}
+
+	Math::Color SpriteRenderer2D::GetColor()
+	{
+		return Albedo.Get();
+	}
+
 	void SpriteRenderer2D::SetSpriteRect(const Math::Vector2f& aMin, const Math::Vector2f& aMax)
 	{
 		spriteRectMin = aMin * sprite->GetDimDivOne();
