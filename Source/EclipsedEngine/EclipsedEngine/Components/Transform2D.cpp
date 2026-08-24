@@ -50,6 +50,7 @@ namespace Eclipse
     {
         Math::Mat3x3f mat = Math::Mat3x3f::CreateTranslation(GetLocalPosition());
         mat *= Math::Mat3x3f::CreateRotation(-GetLocalRotation());
+        //mat *= Math::Mat3x3f::CreateScale(GetLocalScale());
 
         return mat;
     }
