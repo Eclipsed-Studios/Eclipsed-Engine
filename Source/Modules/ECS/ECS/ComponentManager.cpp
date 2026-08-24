@@ -18,14 +18,14 @@ namespace Eclipse
 	 size_t ComponentManager::myComponentMemoryTracker = 0;
 	 uint8_t* ComponentManager::myComponentData;
 
-	//std::vector<Component*> myRenderComponents;
+	 //std::vector<Component*> myRenderComponents;
 
 	 ComponentManager::RenderLayers ComponentManager::myComponents;
 
 	 std::vector<Component*> ComponentManager::myComponentsToStartBuffer;
 	 std::vector<Component*> ComponentManager::myComponentsToStart;
 
-	// Gameobject to components
+	 // Gameobject to components
 	 std::unordered_map<unsigned, GameObject*> ComponentManager::myEntityIdToEntity;
 	 std::unordered_map<unsigned, std::vector<Component*>> ComponentManager::myEntityIDToVectorOfComponentIDs;
 
@@ -194,7 +194,7 @@ namespace Eclipse
 #ifdef ECL_EDITOR
 		SortUpdatePrioComponents();
 		for(auto& compList : myComponents)
-			if(compList.vector.size() && compList.vector.front()->GetZIndex() >= 0)
+			if(compList.vector.size())
 				SortZIndexComponents(compList);
 #endif
 		for (auto& renderLayer : myComponents)
@@ -358,28 +358,28 @@ namespace Eclipse
 
 		bool FoundDeleted = false;
 
-		//UpdatePriority* vectorPtr;
-		//for (auto& renderLayer : myComponents)
-		//{
-		//	for (auto& component : renderLayer.vector)
-		//	{
-		//		if (component->IsDeleted)
-		//		{
-		//			component = renderLayer.vector.back();
-		//			FoundDeleted = true;
+		UpdatePriority* vectorPtr;
+		for (auto& renderLayer : myComponents)
+		{
+			for (auto& component : renderLayer.vector)
+			{
+				if (component->IsDeleted)
+				{
+					component = renderLayer.vector.back();
+					FoundDeleted = true;
 
-		//			vectorPtr = &renderLayer;
+					vectorPtr = &renderLayer;
 
-		//			break;
-		//		}
-		//	}
+					break;
+				}
+			}
 
-		//	if (FoundDeleted)
-		//		renderLayer.vector.pop_back();
+			if (FoundDeleted)
+				renderLayer.vector.pop_back();
 
-		//}
+		}
 
-		//SortZIndexComponents(*vectorPtr);
+		SortZIndexComponents(*vectorPtr);
 	}
 
 	GameObject* ComponentManager::FindObjectByName(const char* aName)
