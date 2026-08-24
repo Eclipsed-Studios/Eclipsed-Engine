@@ -15,10 +15,18 @@ public:
 	void CollisionStart();
 
 private:
+	bool WasOnGround = false;
+
 	SERIALIZED_FIELD_DEFAULT(float, SquishTime, 1.f);
 	SERIALIZED_FIELD_DEFAULT(float, SquishAmount, 1.f);
+
+	float CurrentSquish = 0;
 
 	bool IsSquishing = false;
 
 	bool RayWasHit = true;
+
+	int SquishOut = 1;
+
+	Eclipse::Math::Vector2f OriginalScale;
 };
