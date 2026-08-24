@@ -50,6 +50,9 @@ namespace Eclipse
         Math::Vector2f spriteRectMin = { 0.f, 0.f };
         Math::Vector2f spriteRectMax = { 1.f, 1.f };
 
+        void SetColor(Math::Color color);
+        Math::Color GetColor();
+
     private:
         bool hasSprite = false;
         bool hasMaterial = false;
