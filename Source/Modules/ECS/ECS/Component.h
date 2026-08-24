@@ -99,8 +99,8 @@ namespace Eclipse
 
 		virtual void Render() {}
 
-		virtual void OnCollisionEnter() {}
-		virtual void OnCollisionExit() {}
+		virtual void OnCollisionEnter(Eclipse::GameObject* Other) {}
+		virtual void OnCollisionExit(Eclipse::GameObject* Other) {}
 
 		virtual void OnDrawGizmos() {}
 

@@ -1,18 +1,13 @@
 #include "SmoothCameraMover.h"
 
-#include "Input/Input.h"
-
-#include "Core/Math/Vector/Vector2.h"
-
 #include "EclipsedEngine/ECS/ECS_Component.h"
-
-#include "EclipsedEngine/Components/Transform2D.h"
-
 #include "ECS/ComponentManager.h"
 
+#include "Core/Math/Vector/Vector2.h"
 #include "Core/Math/CommonMath.h"
 #include "Core/Timer.h"
 
+#include "EclipsedEngine/Components/Transform2D.h"
 #include "EclipsedEngine/Components/Physics/RigidBody2D.h"
 
 void SmoothCameraMover::Start()
