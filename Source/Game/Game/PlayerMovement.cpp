@@ -37,8 +37,11 @@ void PlayerMovement::Update()
 		Eclipse::Math::Vector2f force = { 0.f, JumpForce };
 		rb->AddForce(force);
 
-		gameObject->GetComponent<SquishAnimator>()->StartSquish();
+		if (auto anim = gameObject->GetComponent<SquishAnimator>())
+		{
+			anim->StartSquish();
+		}
 	}
 
-	PosX = gameObject->transform->GetPosition().x;
+	Pos = gameObject->transform->GetPosition();
 }
