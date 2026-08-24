@@ -22,7 +22,7 @@ void PlayerMovement::Update()
 	bool InputLeft = Eclipse::Input::GetKey(Eclipse::Keycode::D);
 
 	int HorizontalMovement = static_cast<int>(InputLeft) - static_cast<int>(InputRight);
-	float HorizontalMovementFloat = static_cast<float>(HorizontalMovement) * MaxMovespeed * deltatime;
+	float HorizontalMovementFloat = static_cast<float>(HorizontalMovement) * MaxMovespeed;
 
 	float CurrentVelocityY = rb->GetVelocity().y;
 
