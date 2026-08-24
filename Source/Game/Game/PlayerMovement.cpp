@@ -8,6 +8,8 @@
 #include "EclipsedEngine/Components/Physics/RigidBody2D.h"
 #include "EclipsedEngine/Components/Transform2D.h"
 
+#include "SquishAnimator.h"
+
 
 void PlayerMovement::Start()
 {
@@ -34,6 +36,8 @@ void PlayerMovement::Update()
 	{
 		Eclipse::Math::Vector2f force = { 0.f, JumpForce };
 		rb->AddForce(force);
+
+		gameObject->GetComponent<SquishAnimator>()->StartSquish();
 	}
 
 	PosX = gameObject->transform->GetPosition().x;
