@@ -17,22 +17,46 @@ void SquishAnimator::Update()
 
 	Eclipse::PhysicsEngine::RayCast(ray, Hitresults, 0.1f);
 
+	bool IsOnGround = false;
+
 	for (Eclipse::HitResult& hitResult : Hitresults.results)
 	{
 		if (gameObject->GetID() == hitResult.gameobject)
 			continue;
 
-		IsSquishing = true;
+		IsOnGround = true;
+
+		break;
 	}
+
+	//if (!WasOnGround && IsOnGround)
+	//	StartSquish();
+
+	WasOnGround = IsOnGround;
 
 	if (IsSquishing)
 	{
+		if (CurrentSquish < 0)
+		{
+			IsSquishing = false;
+			CurrentSquish = 0;
+			SquishOut = 1;
+
+			gameObject->transform->SetScale(OriginalScale);
+		}
+		else if (CurrentSquish >= SquishAmount)
+		{
+			SquishOut = -1;
+		}
+
+
 		float deltatime = Eclipse::Core::Timer::GetDeltaTime();
+		CurrentSquish += SquishTime * deltatime * SquishOut;
 
 		Eclipse::Math::Vector2f CurrentScale = gameObject->transform->GetScale();
 
-		CurrentScale.y -= SquishTime * deltatime;
-		CurrentScale.x += SquishTime * deltatime * 2;
+		CurrentScale.y = OriginalScale.y + CurrentSquish;
+		CurrentScale.x = OriginalScale.x - CurrentSquish * 2;
 
 		gameObject->transform->SetScale(CurrentScale);
 	}
@@ -40,7 +64,7 @@ void SquishAnimator::Update()
 
 void SquishAnimator::Start()
 {
-
+	OriginalScale = gameObject->transform->GetScale();
 }
 
 void SquishAnimator::StartSquish()

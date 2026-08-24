@@ -80,6 +80,8 @@ namespace Eclipse
 
 		static void SortUpdatePrioComponents();
 		static void SortZIndexComponents(UpdatePriority& aVec);
+
+		static void CheckDeletedStartComponents(std::vector<Component*>& ComponentsToStartBuffer);
 		
 		//void SortRenderComponents();
 
