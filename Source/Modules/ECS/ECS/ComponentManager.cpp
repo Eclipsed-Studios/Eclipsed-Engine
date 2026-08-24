@@ -6,32 +6,32 @@
 
 namespace Eclipse
 {
-	 std::function<void(Component*)> ComponentManager::CreateComponentReplicated;
+	std::function<void(Component*)> ComponentManager::CreateComponentReplicated;
 
-	 std::function<void()> ComponentManager::BeforeComponentConstruction;
-	 std::function<void()> ComponentManager::AfterComponentConstruction;
+	std::function<void()> ComponentManager::BeforeComponentConstruction;
+	std::function<void()> ComponentManager::AfterComponentConstruction;
 
-	 std::function<void(unsigned)> ComponentManager::DestroyGameObjectReplicated;
-	 std::function<void(unsigned)> ComponentManager::DeleteReplicatedComponent;
+	std::function<void(unsigned)> ComponentManager::DestroyGameObjectReplicated;
+	std::function<void(unsigned)> ComponentManager::DeleteReplicatedComponent;
 
 
-	 size_t ComponentManager::myComponentMemoryTracker = 0;
-	 uint8_t* ComponentManager::myComponentData;
+	size_t ComponentManager::myComponentMemoryTracker = 0;
+	uint8_t* ComponentManager::myComponentData;
 
-	 //std::vector<Component*> myRenderComponents;
+	//std::vector<Component*> myRenderComponents;
 
-	 ComponentManager::RenderLayers ComponentManager::myComponents;
+	ComponentManager::RenderLayers ComponentManager::myComponents;
 
-	 std::vector<Component*> ComponentManager::myComponentsToStartBuffer;
-	 std::vector<Component*> ComponentManager::myComponentsToStart;
+	std::vector<Component*> ComponentManager::myComponentsToStartBuffer;
+	std::vector<Component*> ComponentManager::myComponentsToStart;
 
-	 // Gameobject to components
-	 std::unordered_map<unsigned, GameObject*> ComponentManager::myEntityIdToEntity;
-	 std::unordered_map<unsigned, std::vector<Component*>> ComponentManager::myEntityIDToVectorOfComponentIDs;
+	// Gameobject to components
+	std::unordered_map<unsigned, GameObject*> ComponentManager::myEntityIdToEntity;
+	std::unordered_map<unsigned, std::vector<Component*>> ComponentManager::myEntityIDToVectorOfComponentIDs;
 
-	 std::vector<unsigned> ComponentManager::gameobjectsToRemove;
+	std::vector<unsigned> ComponentManager::gameobjectsToRemove;
 
-	 std::vector<ComponentManager::Graveyard> ComponentManager::graveyard;
+	std::vector<ComponentManager::Graveyard> ComponentManager::graveyard;
 
 
 
@@ -46,7 +46,7 @@ namespace Eclipse
 
 		for (auto& compList : myComponents)
 			SortZIndexComponents(compList);
-		
+
 
 		for (auto& renderLayer : myComponents)
 		{
@@ -193,8 +193,8 @@ namespace Eclipse
 	{
 #ifdef ECL_EDITOR
 		SortUpdatePrioComponents();
-		for(auto& compList : myComponents)
-			if(compList.vector.size())
+		for (auto& compList : myComponents)
+			if (compList.vector.size())
 				SortZIndexComponents(compList);
 #endif
 		for (auto& renderLayer : myComponents)
@@ -206,12 +206,12 @@ namespace Eclipse
 	{
 		// this is a work around so render components does not need to exist should be a separate list
 		std::sort(myComponents.begin(), myComponents.end(), [](UpdatePriority& aComp0, UpdatePriority& aComp1)
-		{
-		    unsigned UpdatePriorityD0 = aComp0.Value;
-			unsigned UpdatePriorityD1 = aComp1.Value;
+			{
+				unsigned UpdatePriorityD0 = aComp0.Value;
+				unsigned UpdatePriorityD1 = aComp1.Value;
 
-		    return UpdatePriorityD0 > UpdatePriorityD1;
-		});
+				return UpdatePriorityD0 > UpdatePriorityD1;
+			});
 	}
 
 	void ComponentManager::SortZIndexComponents(UpdatePriority& aVec)
@@ -319,6 +319,21 @@ namespace Eclipse
 		return component;
 	}
 
+	void ComponentManager::CheckDeletedStartComponents(std::vector<Component*>& ComponentsToStartBuffer)
+	{
+		int componentToStartSize = 0;
+		for (int i = ComponentsToStartBuffer.size() - 1; i >= 0; i--)
+		{
+			auto& component = ComponentsToStartBuffer[i];
+			if (component->IsDeleted)
+			{
+				std::swap(component, ComponentsToStartBuffer[ComponentsToStartBuffer.size() - componentToStartSize - 1]);
+				componentToStartSize++;
+			}
+		}
+		ComponentsToStartBuffer.resize(ComponentsToStartBuffer.size() - componentToStartSize);
+	}
+
 	void ComponentManager::DeleteComponent(unsigned aGOID, unsigned aUniqueComponentID, unsigned aComponentID)
 	{
 		if (myEntityIDToVectorOfComponentIDs.find(aGOID) == myEntityIDToVectorOfComponentIDs.end())
@@ -379,7 +394,10 @@ namespace Eclipse
 
 		}
 
-		SortZIndexComponents(*vectorPtr);
+		CheckDeletedStartComponents(myComponentsToStartBuffer);
+		CheckDeletedStartComponents(myComponentsToStart);
+
+		//SortZIndexComponents(*vectorPtr);
 	}
 
 	GameObject* ComponentManager::FindObjectByName(const char* aName)
@@ -478,35 +496,10 @@ namespace Eclipse
 			}
 		}
 
-		{
-			int componentToStartSize = 0;
-			for (int i = myComponentsToStart.size() - 1; i >= 0; i--)
-			{
-				auto& component = myComponentsToStart[i];
-				if (component->IsDeleted)
-				{
-					std::swap(component, myComponentsToStart[myComponentsToStart.size() - componentToStartSize - 1]);
-					componentToStartSize++;
-				}
-			}
-			myComponentsToStart.resize(myComponentsToStart.size() - componentToStartSize);
-		}
+		CheckDeletedStartComponents(myComponentsToStartBuffer);
+		CheckDeletedStartComponents(myComponentsToStart);
 
-		{
-			int componentToStartSize = 0;
-			for (int i = myComponentsToStartBuffer.size() - 1; i >= 0; i--)
-			{
-				auto& component = myComponentsToStartBuffer[i];
-				if (component->IsDeleted)
-				{
-					std::swap(component, myComponentsToStartBuffer[myComponentsToStartBuffer.size() - componentToStartSize - 1]);
-					componentToStartSize++;
-				}
-			}
-			myComponentsToStartBuffer.resize(myComponentsToStartBuffer.size() - componentToStartSize);
-		}
-
-		for(auto& components : componentListsToSort)
+		for (auto& components : componentListsToSort)
 			SortZIndexComponents(*components);
 
 		for (int goID : gameobjectsToRemove)
