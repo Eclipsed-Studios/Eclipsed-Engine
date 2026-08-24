@@ -25,4 +25,7 @@ private:
 	float Movespeed;
 
 	SERIALIZED_FIELD(float, JumpForce);
+
+public:
+	static inline float PosX = 0.f;
 };

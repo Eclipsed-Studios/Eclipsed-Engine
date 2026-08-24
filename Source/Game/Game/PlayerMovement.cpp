@@ -6,6 +6,7 @@
 #include "Input/Input.h"
 
 #include "EclipsedEngine/Components/Physics/RigidBody2D.h"
+#include "EclipsedEngine/Components/Transform2D.h"
 
 
 void PlayerMovement::Start()
@@ -34,4 +35,6 @@ void PlayerMovement::Update()
 		Eclipse::Math::Vector2f force = { 0.f, JumpForce };
 		rb->AddForce(force);
 	}
+
+	PosX = gameObject->transform->GetPosition().x;
 }
