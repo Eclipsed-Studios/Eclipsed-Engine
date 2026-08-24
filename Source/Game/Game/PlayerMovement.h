@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EclipsedEngine/Components/Component.h"
+#include "Core/Math/Vector/Vector2.h"
 
 namespace Eclipse
 {
@@ -27,5 +28,5 @@ private:
 	SERIALIZED_FIELD(float, JumpForce);
 
 public:
-	static inline float PosX = 0.f;
+	static inline Eclipse::Math::Vector2f Pos = {};
 };

@@ -7,6 +7,7 @@
 #include "SmoothCameraMover.h"
 #include "SquishAnimator.h"
 #include "ParallaxBackground.h"
+#include "ParallaxBackgroundObject.h"
 
 //#ifndef ECL_EDITOR
 //#include "Forcelink.h"
