@@ -270,7 +270,7 @@ namespace Eclipse
 			BaseGraphicsBuffer* graphicsBuffer = GraphicsEngine::Get()->GetGraphicsBuffer();
 
 			graphicsBuffer->SetOrCreateBuffer(3, myTextBuffer);
-			//textOffset.x += characterAdvance * myCharacterSpacing;
+			textOffset.x += characterAdvance * myCharacterSpacing;
 
 			CanvasBuffer* canvasBuffer;
 			graphicsBuffer->GetBuffer<CanvasBuffer>(canvasBuffer);
