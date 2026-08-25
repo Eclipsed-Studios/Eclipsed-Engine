@@ -40,6 +40,7 @@
 #include "Physics/PhysicsEngine.h"
 
 #include "Assets/AssetImporter.h"
+#include "Assets/Helper/TextManager.h"
 
 namespace Eclipse
 {
@@ -73,7 +74,7 @@ namespace Eclipse
 
 
 		//MainSingleton::RegisterInstance<EngineSettings>();
-		//MainSingleton::RegisterInstance<TextManager>();
+		MainSingleton::RegisterInstance<TextManager>();
 
 		GraphicsEngine::InitSpecifiedAPI<OpenGLGraphicsEngine>();
 		GraphicsEngine::Get()->Init();
