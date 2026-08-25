@@ -308,8 +308,8 @@ namespace Eclipse::Editor
 				(ImTextureID)data.textureID,
 				imageMin,
 				imageMax,
-				ImVec2(0, 0),
-				ImVec2(1, 1),
+				ImVec2(0, 1),
+				ImVec2(1, 0),
 				col
 			);
 
