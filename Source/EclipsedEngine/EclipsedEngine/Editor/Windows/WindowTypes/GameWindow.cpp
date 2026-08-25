@@ -8,6 +8,7 @@
 #include "Renderer/RenderCommands/CommandList.h"
 
 #include "EclipsedEngine/Components/Rendering/Camera.h"
+#include "EclipsedEngine/Components/Rendering/BaseRendercomponent.h"
 
 #include "Input/Input.h"
 
@@ -84,8 +85,8 @@ namespace Eclipse::Editor
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->BindFrameBuffer(myGameFrameBuffer);
 		GraphicsEngine::Get<OpenGLGraphicsEngine>()->ClearCurrentSceneBuffer();
 		
-		//BaseRenderComponent::IsScene = false;
-		//Canvas::IsScene = false;
+		BaseRenderComponent::IsScene = false;
+		Canvas::IsScene = false;
 		
 		if (myCurrentWindowMode != FreeAspect)
 			UpdateSpecifiedRes();

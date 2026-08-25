@@ -61,9 +61,7 @@ namespace Eclipse
 #ifdef ECL_EDITOR
 		if (IsScene)
 			myTransformBuffer.Position *= canvasCameraTransform.ScaleMultiplier;
-		else
 #endif
-			myTransformBuffer.Position *= Math::Vector2f(2, 2);
 
 
 
@@ -73,12 +71,8 @@ namespace Eclipse
 
 		Math::Vector2f multiplier;
 
-#ifdef ECL_EDITOR
-		if (IsScene)
-			multiplier = canvasCameraTransform.ScaleMultiplier;
-		else
+
 		{
-#endif
 			if (!tranform->ScaleWithCanvasX)
 				multiplier.x = canvasCameraTransform.ScaleMultiplier.x;
 			else
@@ -87,9 +81,8 @@ namespace Eclipse
 				multiplier.y = canvasCameraTransform.ScaleMultiplier.y;
 			else
 				multiplier.y = 2;
-#ifdef ECL_EDITOR
 		}
-#endif
+
 		myTransformBuffer.Scale *= multiplier;
 
 
