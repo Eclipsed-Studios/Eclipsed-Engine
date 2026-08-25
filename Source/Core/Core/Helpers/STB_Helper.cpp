@@ -14,7 +14,7 @@ namespace Eclipse
 {
 	unsigned char* STB_Helper::Load_Texture_STB(const char* aPath, int& width, int& height, int& channels, int reqChannels, bool flipVertically)
 	{
-		stbi_set_flip_vertically_on_load(flipVertically);
+		stbi_set_flip_vertically_on_load(true);
 		return stbi_load(aPath, &width, &height, &channels, 0);
 	}
 
