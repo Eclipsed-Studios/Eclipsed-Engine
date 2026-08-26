@@ -8,6 +8,7 @@
 #include "SquishAnimator.h"
 #include "ParallaxBackground.h"
 #include "ParallaxBackgroundObject.h"
+#include "Door.h"
 
 //#ifndef ECL_EDITOR
 //#include "Forcelink.h"
@@ -27,5 +28,5 @@ void ComponentForcelink::LinkComponents()
 	COMP_REG(SquishAnimator);
 	COMP_REG(ParallaxBackground);
 	COMP_REG(ParallaxBackgroundObject);
-
+	COMP_REG(Door);
 }
