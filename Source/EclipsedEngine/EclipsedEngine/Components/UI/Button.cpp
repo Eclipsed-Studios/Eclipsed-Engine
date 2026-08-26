@@ -4,6 +4,7 @@
 #include "EclipsedEngine/Components/UI/RectTransform.h"
 #include "EclipsedEngine/Components/UI/Canvas.h"
 
+#include "EclipsedEngine/Editor/Windows/WindowTypes/ConsoleWindow.h"
 #include "EclipsedEngine/Editor/Windows/WindowTypes/GameWindow.h"
 #include "Scenes/SceneManager.h"
 

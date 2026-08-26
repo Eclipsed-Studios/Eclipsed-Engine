@@ -75,6 +75,8 @@ namespace Eclipse
         myGravity = aGravity;
         myDebugDraw = std::move(aDebugdraw);
 
+        myDebugDraw.drawShapes = true;
+
         InitWorld();
     }
 

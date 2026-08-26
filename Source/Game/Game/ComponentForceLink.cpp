@@ -8,7 +8,13 @@
 #include "SquishAnimator.h"
 #include "ParallaxBackground.h"
 #include "ParallaxBackgroundObject.h"
+
 #include "Door.h"
+
+#include "WorldModifier.h"
+#include "InteractableKey.h"
+#include "InteractableButton.h"
+#include "PlayerInteract.h"
 
 //#ifndef ECL_EDITOR
 //#include "Forcelink.h"
@@ -29,4 +35,10 @@ void ComponentForcelink::LinkComponents()
 	COMP_REG(ParallaxBackground);
 	COMP_REG(ParallaxBackgroundObject);
 	COMP_REG(Door);
+
+	COMP_REG(WorldModifier);
+	COMP_REG(InteractableKey);
+	COMP_REG(InteractableButton);
+	COMP_REG(PlayerInteract);
+
 }

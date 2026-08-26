@@ -146,7 +146,7 @@ namespace Eclipse
 
 	bool PhysicsEngine::OverlapSphere(const Math::Vector2f& aPositon, float aRadius, HitResults& aHitResults, Layer aLayerMask)
 	{
-		b2Circle circle({ aPositon.x, aPositon.y }, aRadius);
+		b2Circle circle({ 0.f, 0.f }, aRadius);
 		b2ShapeProxy proxy = b2MakeProxy(&circle.center, 1, circle.radius);
 
 		b2QueryFilter filter = b2DefaultQueryFilter();
@@ -155,7 +155,7 @@ namespace Eclipse
 
 		b2World_OverlapShape(myWorld, b2Vec2(aPositon.x, aPositon.y), &proxy, filter, MyShapeOverlapCallback, &aHitResults);
 
-		if (myDrawDebugShapes && myDrawQueries)
+		if (myDrawQueries)
 			myDebugDraw.DrawCircleFcn(b2Vec2(aPositon.x, aPositon.y), aRadius, b2HexColor::b2_colorBlack, nullptr);
 
 		if (!aHitResults.results.empty())

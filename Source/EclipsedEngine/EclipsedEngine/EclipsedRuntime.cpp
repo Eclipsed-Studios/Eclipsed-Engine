@@ -41,6 +41,7 @@
 
 #include "Assets/AssetImporter.h"
 #include "Assets/Helper/TextManager.h"
+#include <DebugDrawer.h>
 
 namespace Eclipse
 {
@@ -149,10 +150,13 @@ namespace Eclipse
 		CORE_PROFILE_SCOPED;
 		SortComponents();
 
-#ifdef ECL_EDITOR
-		//PhysicsEngine::DrawPhysicsObjects();
-#endif
 		ComponentManager::RenderComponents();
+
+#ifdef ECL_EDITOR
+		PhysicsEngine::DrawPhysicsObjects();
+#endif
+		DebugDrawer::Get().Render();
+
 		ComponentManager::EditorLateUpdateComponents();
 		ComponentManager::LateUpdateComponents();
 		GraphicsEngine::Get()->Render();

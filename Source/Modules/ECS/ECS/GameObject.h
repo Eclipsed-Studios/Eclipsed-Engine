@@ -29,10 +29,11 @@ namespace Eclipse
 
 		template<typename T>
 		T* GetComponent();
+
 		std::vector<Component*> GetComponents();
 
 		template <typename T>
-		std::vector<T*> GetComponents();
+		void GetComponents(std::vector<T*>& aVector);
 
 		GameObject* GetTopParent();
 
@@ -90,6 +91,12 @@ namespace Eclipse
 	template<typename T>
 	inline T* GameObject::GetComponent()
 	{
-		return  ComponentManager::template GetComponent<T>(myID);
+		return ComponentManager::template GetComponent<T>(myID);
+	}
+
+	template <typename T>
+	void GameObject::GetComponents(std::vector<T*>& aVector)
+	{
+		ComponentManager::template GetAllComponentsOfType<T>(myID, aVector);
 	}
 }
