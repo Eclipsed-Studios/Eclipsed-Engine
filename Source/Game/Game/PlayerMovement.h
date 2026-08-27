@@ -16,6 +16,9 @@ public:
 	void Start() override;
 	void Update() override;
 
+	bool IsGrounded();
+	void JumpLogic();
+
 public:
 	SERIALIZED_FIELD(float, MaxMovespeed);
 
@@ -29,4 +32,6 @@ private:
 
 public:
 	static inline Eclipse::Math::Vector2f Pos = {};
+
+	SERIALIZED_FIELD(Eclipse::Math::Vector2f, GroundcheckOffset);
 };

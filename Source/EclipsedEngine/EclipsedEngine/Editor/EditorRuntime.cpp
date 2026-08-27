@@ -43,7 +43,6 @@ namespace Eclipse::Editor
 		editorEntry.IsPlaying = &isPlaying;
 		editorEntry.IsPaused = &isPaused;
 
-
 		PathManager::Init(path);
 
 		eclipseRuntime.StartEngine(path);

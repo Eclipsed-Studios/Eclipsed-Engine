@@ -43,7 +43,7 @@ namespace Eclipse
 
     void PhysicsEngine::CreateBoxCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer)
     {
-        b2Polygon polygon = b2MakeBox(aHalfExtents.x + Math::epsilon, aHalfExtents.y + Math::epsilon);
+        b2Polygon polygon = b2MakeBox(fabs(aHalfExtents.x) + Math::epsilon, fabs(aHalfExtents.y) + Math::epsilon);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
 
         shapeDef.enableCustomFiltering = true;

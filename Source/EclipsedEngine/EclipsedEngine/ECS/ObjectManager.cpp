@@ -72,7 +72,14 @@ namespace Eclipse
                 SceneLoader::LoadType(reflectedVariable, coIt->value);
             }
 
-            if (componentJson.HasMember("IsReplicated"))
+            if (Transform2D* transform = dynamic_cast<Transform2D*>(component))
+            {
+                float LocalRotation = transform->GetLocalRotation();
+
+                transform->SetRotation(LocalRotation * Math::rad2Deg);
+            }
+
+            if (component && componentJson.HasMember("IsReplicated"))
                 component->IsReplicated = componentJson["IsReplicated"].GetBool();
         }
 

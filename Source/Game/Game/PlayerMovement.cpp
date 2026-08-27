@@ -10,6 +10,8 @@
 
 #include "SquishAnimator.h"
 
+#include "Physics/PhysicsEngine.h"
+
 
 void PlayerMovement::Start()
 {
@@ -32,7 +34,34 @@ void PlayerMovement::Update()
 
 	rb->SetVelocity(velocity);
 
-	if (Eclipse::Input::GetKeyDown(Eclipse::Keycode::SPACE))
+	Pos = gameObject->transform->GetPosition();
+
+	JumpLogic();
+}
+
+bool PlayerMovement::IsGrounded()
+{
+	Eclipse::HitResults HitResults;
+	Eclipse::PhysicsEngine::OverlapSphere(Pos - GroundcheckOffset, 0.0475f, HitResults);
+
+	for (auto& Result : HitResults.results)
+	{
+		Eclipse::GameObject* otherGameObjects = Eclipse::ComponentManager::GetGameObject(Result.gameobject);
+		PlayerMovement* IsPlayerMovement = otherGameObjects->GetComponent<PlayerMovement>();
+		if (IsPlayerMovement)
+			continue;
+
+		return true;
+	}
+
+	return false;
+}
+
+void PlayerMovement::JumpLogic()
+{
+	bool isgrounded = IsGrounded();
+
+	if (isgrounded && Eclipse::Input::GetKeyDown(Eclipse::Keycode::SPACE))
 	{
 		Eclipse::Math::Vector2f force = { 0.f, JumpForce };
 		rb->AddForce(force);
@@ -42,6 +71,4 @@ void PlayerMovement::Update()
 			anim->StartSquish();
 		}
 	}
-
-	Pos = gameObject->transform->GetPosition();
 }

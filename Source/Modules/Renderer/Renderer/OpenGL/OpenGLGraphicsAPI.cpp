@@ -151,9 +151,9 @@ namespace Eclipse
         EnableOpenGLSettings();
         DebugDrawer::Get().Init();
 
-        myClearColor.r = 0.4314f;
-        myClearColor.g = 0.1804f;
-        myClearColor.b = 0.6f;
+        myClearColor.r = 0.129f;
+        myClearColor.g = 0.05f;
+        myClearColor.b = 0.353f;
         myClearColor.a = 1.0f;
 
         myMouseCursors.emplace_back(glfwCreateStandardCursor(GLFW_HAND_CURSOR));

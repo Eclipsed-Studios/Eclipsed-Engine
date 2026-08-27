@@ -59,6 +59,10 @@ namespace Eclipse
         worldDef = b2DefaultWorldDef();
         worldDef.gravity = b2Vec2(myGravity.x, myGravity.y);
 
+        worldDef.contactHertz = 240.f;
+
+        b2SetLengthUnitsPerMeter(0.01f);
+
         myWorld = b2CreateWorld(&worldDef);
 
         b2World_SetCustomFilterCallback(myWorld, CustomFilterFunction, (void*)0);
