@@ -5,6 +5,8 @@
 #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 #include "EclipsedEngine/Components/Transform2D.h"
 
+#include "Core/EventSystem/EventSystem.h"
+
 void Door::Start()
 {
 	for (auto child : gameObject->GetChildren())
@@ -33,24 +35,30 @@ void Door::Start()
 
 void Door::Update()
 {
-	if (targetState != DoorState::Open && Eclipse::Input::GetKeyDown(Eclipse::Keycode::J))
-	{
-		targetState = DoorState::Open;
-
-		startY = moverTransform->GetPosition().y;
-		targetY = maxMoverY;
-		moveTimer = 0.0f;
-	}
-	else if (targetState != DoorState::Closed &&  Eclipse::Input::GetKeyDown(Eclipse::Keycode::K))
-	{
-		targetState = DoorState::Closed;
-
-		startY = moverTransform->GetPosition().y;
-		targetY = minMoverY;
-		moveTimer = 0.0f;
-	}
-
 	UpdateDoorState();
+}
+
+void Door::Open()
+{
+	targetState = DoorState::Open;
+
+	startY = moverTransform->GetPosition().y;
+	targetY = maxMoverY;
+	moveTimer = 0.0f;
+}
+
+void Door::Close()
+{
+	targetState = DoorState::Closed;
+
+	startY = moverTransform->GetPosition().y;
+	targetY = minMoverY;
+	moveTimer = 0.0f;
+}
+
+bool Door::IsOpen() const
+{
+	return doorState == DoorState::Open;
 }
 
 void Door::UpdateDoorState()
@@ -84,4 +92,9 @@ void Door::UpdateDoorState()
 		lightRenderer->SetColor(lightOffColor);
 		colliderTransform->SetPosition({ 0, 0 });
 	}
+}
+
+void Door::OpenDoor(const std::string& doorName)
+{
+
 }

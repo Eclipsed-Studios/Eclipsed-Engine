@@ -10,6 +10,9 @@ namespace Eclipse
     std::function<void(UserData&, UserData&)> PhysicsEngine::myBeginContactCallback;
     std::function<void(UserData&, UserData&)> PhysicsEngine::myEndContactCallback;
 
+    std::function<void(UserData&, UserData&)> PhysicsEngine::myBeginTriggerCallback;
+    std::function<void(UserData&, UserData&)> PhysicsEngine::myEndTriggerCallback;
+
     std::array<uint64_t, MAX_LAYERS> PhysicsEngine::myCollisionLayers = {};
 
     b2WorldId PhysicsEngine::myWorld;
@@ -21,6 +24,11 @@ namespace Eclipse
     bool PhysicsEngine::myDrawQueries = false;
 
     bool PhysicsEngine::myHasCreatedWorld;
+
+    void Eclipse::PhysicsEngine::ProcessContactEvents()
+    {
+
+    }
 
     void PhysicsEngine::SetGravity(const Math::Vector2f& aGravity)
     {

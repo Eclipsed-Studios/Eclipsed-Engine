@@ -51,9 +51,11 @@ namespace Eclipse
             const Math::Vector2f& aStartPosition = { 0.f, 0.f });
 
         // Simple
-        static void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer);
-        static void CreateCircleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float radius, Layer aLayer);
-        static void CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float aHalfHeight, float aRadius, Layer aLayer);
+        static void CreateBoxCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, bool isTrigger, const Math::Vector2f& aHalfExtents, Layer aLayer);
+        static void CreateCircleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, bool isTrigger, float radius, Layer aLayer);
+        static void CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, bool isTrigger, float aHalfHeight, float aRadius, Layer aLayer);
+
+        static void ProcessContactEvents();
 
         // Complex
         static bool CreatePolygonCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const std::vector<Math::Vector2f>& aPolygonPoints, Layer aLayer);
@@ -99,6 +101,8 @@ namespace Eclipse
 
         static std::function<void(UserData&, UserData&)> myBeginContactCallback;
         static std::function<void(UserData&, UserData&)> myEndContactCallback;
+        static std::function<void(UserData&, UserData&)> myBeginTriggerCallback;
+        static std::function<void(UserData&, UserData&)> myEndTriggerCallback;
 
     private:
         static std::array<uint64_t, MAX_LAYERS> myCollisionLayers;

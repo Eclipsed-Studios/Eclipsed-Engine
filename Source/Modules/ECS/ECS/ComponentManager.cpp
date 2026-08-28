@@ -1138,4 +1138,24 @@ namespace Eclipse
 		for (int i = 0; i < allComponents.size(); i++)
 			allComponents[i]->OnCollisionExit(Other);
 	}
+
+	void ComponentManager::BeginTrigger(unsigned aGOID, unsigned aGOID1)
+	{
+		auto& allComponents = myEntityIDToVectorOfComponentIDs[aGOID];
+
+		GameObject* Other = myEntityIdToEntity[aGOID1];
+
+		for (int i = 0; i < allComponents.size(); i++)
+			allComponents[i]->OnTriggerEnter(Other);
+	}
+
+	void ComponentManager::EndTrigger(unsigned aGOID, unsigned aGOID1)
+	{
+		auto& allComponents = myEntityIDToVectorOfComponentIDs[aGOID];
+
+		GameObject* Other = myEntityIdToEntity[aGOID1];
+
+		for (int i = 0; i < allComponents.size(); i++)
+			allComponents[i]->OnTriggerExit(Other);
+	}
 }

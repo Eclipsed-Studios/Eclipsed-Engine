@@ -24,5 +24,6 @@ namespace Eclipse
         float myInternalRadius = 1.f;
 
         SERIALIZED_FIELD_DEFAULT(float, Radius, 1.f);
+        SERIALIZED_FIELD_DEFAULT(bool, isTrigger, false);
     };
 }

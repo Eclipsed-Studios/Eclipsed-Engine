@@ -24,7 +24,7 @@ namespace Eclipse
 
 	void Button::Awake()
 	{
-		OnClickEvent = Event<>(&Button::Print); 
+		//OnClickEvent = Event<>(&Button::Print); 
 
 		UpdateRectProperties();
 	}

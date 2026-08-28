@@ -16,6 +16,7 @@
 #include "InteractableKey.h"
 #include "InteractableButton.h"
 #include "PlayerInteract.h"
+#include "WalkableButton.h"
 
 //#ifndef ECL_EDITOR
 //#include "Forcelink.h"
@@ -35,6 +36,7 @@ void ComponentForcelink::LinkComponents()
 	COMP_REG(SmoothCameraMover);
 	COMP_REG(SquishAnimator);
 	COMP_REG(ParallaxBackground);
+	COMP_REG(WalkableButton);
 	COMP_REG(ParallaxBackgroundObject);
 	COMP_REG(Door);
 

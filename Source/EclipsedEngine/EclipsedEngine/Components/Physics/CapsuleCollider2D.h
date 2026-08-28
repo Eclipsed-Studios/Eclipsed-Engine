@@ -24,6 +24,7 @@ namespace Eclipse
     private:
         SERIALIZED_FIELD_DEFAULT(float, Radius, 0.5f);
         SERIALIZED_FIELD_DEFAULT(float, HalfHeight, 1.f);
+        SERIALIZED_FIELD_DEFAULT(bool, isTrigger, false);
 
         float myLastRadius;
         float myLastHalfHeight;

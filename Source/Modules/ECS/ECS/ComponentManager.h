@@ -88,6 +88,9 @@ namespace Eclipse
 		static void BeginCollisions(unsigned aGOID, unsigned aGOID1);
 		static void EndCollisions(unsigned aGOID, unsigned aGOID1);
 
+		static void BeginTrigger(unsigned aGOID, unsigned aGOID1);
+		static void EndTrigger(unsigned aGOID, unsigned aGOID1);
+
 		template <typename T>
 		static void GetAllComponentsOfTypePtr(std::vector<int>& aComponents);
 		

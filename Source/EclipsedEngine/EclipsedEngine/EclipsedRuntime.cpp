@@ -43,6 +43,8 @@
 #include "Assets/Helper/TextManager.h"
 #include <DebugDrawer.h>
 
+#include "Core/Logger/DebugLogger.h"
+
 namespace Eclipse
 {
 #ifdef ECL_EDITOR
@@ -98,6 +100,17 @@ namespace Eclipse
 				{
 					ComponentManager::EndCollisions(aUserData.gameobject, aUserData1.gameobject);
 				};
+
+
+			PhysicsEngine::myBeginTriggerCallback = [this](UserData& aUserData, UserData& aUserData1)
+				{
+					ComponentManager::BeginTrigger(aUserData.gameobject, aUserData1.gameobject);
+				};
+
+			PhysicsEngine::myEndTriggerCallback = [this](UserData& aUserData, UserData& aUserData1)
+				{
+					ComponentManager::EndTrigger(aUserData.gameobject, aUserData1.gameobject);
+				};
 		}
 
 
@@ -109,9 +122,9 @@ namespace Eclipse
 
 		SceneManager::LoadSceneData();
 
-#ifndef ECL_EDITOR
+//#ifndef ECL_EDITOR
 		SceneManager::LoadScene("MainScene");
-#endif
+//#endif
 	}
 
 	void EclipsedRuntime::UpdateGame()

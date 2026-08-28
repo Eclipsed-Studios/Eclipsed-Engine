@@ -41,24 +41,40 @@ namespace Eclipse
         SetBodyMass(aBody, 1.f);
     }
 
-    void PhysicsEngine::CreateBoxCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, const Math::Vector2f& aHalfExtents, Layer aLayer)
+    void PhysicsEngine::CreateBoxCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, bool isTrigger, const Math::Vector2f& aHalfExtents, Layer aLayer)
     {
         b2Polygon polygon = b2MakeBox(fabs(aHalfExtents.x) + Math::epsilon, fabs(aHalfExtents.y) + Math::epsilon);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
 
+        shapeDef.isSensor = isTrigger;
+
         shapeDef.enableCustomFiltering = true;
         shapeDef.enableHitEvents = true;
         shapeDef.enableContactEvents = true;
+        shapeDef.enableSensorEvents = true;
 
         shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
 
-        int layerIndex = std::countr_zero(static_cast<uint32_t>(aLayer));
-        shapeDef.filter.maskBits = myCollisionLayers[layerIndex];
+            shapeDef.filter.maskBits =
+                static_cast<uint64_t>(Layer::All);
+
+
+        //if (true)
+        //{
+        //}
+        //else
+        //{
+        //    int layerIndex =
+        //        std::countr_zero(static_cast<uint32_t>(aLayer));
+
+        //    shapeDef.filter.maskBits =
+        //        myCollisionLayers[layerIndex];
+        //}
 
         *aShape = b2CreatePolygonShape(*aBodyID, &shapeDef, &polygon);
     }
 
-    void PhysicsEngine::CreateCircleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float radius, Layer aLayer)
+    void PhysicsEngine::CreateCircleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, bool isTrigger, float radius, Layer aLayer)
     {
         b2Circle cicle({ 0, 0 }, radius);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
@@ -66,6 +82,8 @@ namespace Eclipse
         shapeDef.enableCustomFiltering = true;
         shapeDef.enableHitEvents = true;
         shapeDef.enableContactEvents = true;
+
+        shapeDef.isSensor = isTrigger;
 
         shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
 
@@ -75,7 +93,7 @@ namespace Eclipse
         *aShape = b2CreateCircleShape(*aBodyID, &shapeDef, &cicle);
     }
 
-    void PhysicsEngine::CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, float aHalfHeight, float aRadius, Layer aLayer)
+    void PhysicsEngine::CreateCapsuleCollider(b2ShapeId* aShape, const b2BodyId* aBodyID, bool isTrigger, float aHalfHeight, float aRadius, Layer aLayer)
     {
         b2Capsule capsule({ 0, -aHalfHeight * 0.5f }, { 0, aHalfHeight * 0.5f }, aRadius);
         b2ShapeDef shapeDef = b2DefaultShapeDef();
@@ -83,6 +101,8 @@ namespace Eclipse
         shapeDef.enableCustomFiltering = true;
         shapeDef.enableHitEvents = true;
         shapeDef.enableContactEvents = true;
+
+        shapeDef.isSensor = isTrigger;
 
         shapeDef.filter.categoryBits = static_cast<uint64_t>(aLayer);
 

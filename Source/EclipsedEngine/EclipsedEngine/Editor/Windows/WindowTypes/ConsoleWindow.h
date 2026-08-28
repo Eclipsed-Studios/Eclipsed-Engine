@@ -3,9 +3,11 @@
 #include "EclipsedEngine/Editor/Windows/WindowBase.h"
 #include "Core/Logger/DebugLogger.h"
 
+namespace Eclipse { struct DebugMessage; }
+
 namespace Eclipse::Editor
 {
-	class ConsoleWindow final : public AbstractWindow 
+	class ConsoleWindow final : public AbstractWindow
 	{
 		EDITOR_WINDOW_BASE_2(ConsoleWindow, "Console")
 

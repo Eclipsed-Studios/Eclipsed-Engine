@@ -15,17 +15,26 @@ public:
 	void Start() override;
 	void Update() override;
 
+	void Open();
+	void Close();
+
+	bool IsOpen() const;
+
 private:
 	void UpdateDoorState();
+
+	static void OpenDoor(const std::string& doorName);
 
 private:
 	SERIALIZED_FIELD(Eclipse::Math::Color, lightOnColor);
 	SERIALIZED_FIELD(Eclipse::Math::Color, lightOffColor);
 	SERIALIZED_FIELD_DEFAULT(float, moveDuration, 0.05f);
 
+
+
 	enum class DoorState
 	{
-		Open,Closed
+		Open, Closed
 	} targetState = DoorState::Closed, doorState;
 
 	Eclipse::Transform2D* moverTransform;
