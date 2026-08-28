@@ -16,14 +16,28 @@ public:
 	void Update() override;
 
 private:
-	SERIALIZED_FIELD(Eclipse::Math::Color, lightOnColor);
+	void UpdateDoorState();
 
-	bool isOpen = false;
+private:
+	SERIALIZED_FIELD(Eclipse::Math::Color, lightOnColor);
+	SERIALIZED_FIELD(Eclipse::Math::Color, lightOffColor);
+	SERIALIZED_FIELD_DEFAULT(float, moveDuration, 0.05f);
+
+	enum class DoorState
+	{
+		Open,Closed
+	} targetState = DoorState::Closed, doorState;
 
 	Eclipse::Transform2D* moverTransform;
 	Eclipse::Transform2D* colliderTransform;
 
 	Eclipse::SpriteRenderer2D* lightRenderer;
 
-	float maxMoverY = 0.207f;
+	float moveTimer = 0.f;
+
+	float startY = -0.175f;
+	float targetY = 0.0f;
+
+	float maxMoverY = 0.135f;
+	float minMoverY = -0.175f;
 };
