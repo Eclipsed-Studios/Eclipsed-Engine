@@ -9,6 +9,7 @@
 #include "ParallaxBackground.h"
 #include "ParallaxBackgroundObject.h"
 
+#include "Companion.h"
 #include "Door.h"
 
 #include "WorldModifier.h"
@@ -29,6 +30,7 @@ void ComponentForcelink::LinkComponents()
 {
 	Eclipse::EngineComponentForcelink::LinkComponents();
 
+	COMP_REG(Companion);
 	COMP_REG(PlayerMovement);
 	COMP_REG(SmoothCameraMover);
 	COMP_REG(SquishAnimator);
