@@ -43,6 +43,7 @@ namespace Eclipse
 
     void Canvas::EditorUpdate()
     {
+#ifdef ECL_EDITOR
         if (drawCanvasGizmos)
         {
             float sizeX = ReferenceResolution->x / 1080;
@@ -54,6 +55,7 @@ namespace Eclipse
 
             DebugDrawer::DrawSquare(sqrPosition, sqrRotation, sqrSize, Math::Color(0.9f, 0.9f, 0.9f, 1.f));
         }
+#endif
     }
 
     void Canvas::OnComponentAdded()

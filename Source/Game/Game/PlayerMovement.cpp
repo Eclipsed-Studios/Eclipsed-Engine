@@ -16,6 +16,7 @@
 void PlayerMovement::Start()
 {
 	rb = gameObject->GetComponent<Eclipse::RigidBody2D>();
+	AudioEmitter = gameObject->GetComponent<Eclipse::AudioEmitter>();
 }
 
 void PlayerMovement::Update()
@@ -63,8 +64,12 @@ void PlayerMovement::JumpLogic()
 
 	if (isgrounded && Eclipse::Input::GetKeyDown(Eclipse::Keycode::SPACE))
 	{
-		Eclipse::Math::Vector2f force = { 0.f, JumpForce };
-		rb->AddForce(force);
+		float CurrentVelocityY = rb->GetVelocity().x;
+
+		Eclipse::Math::Vector2f force = { CurrentVelocityY, JumpForce };
+		rb->SetVelocity(force);
+
+		AudioEmitter->Play();
 
 		if (auto anim = gameObject->GetComponent<SquishAnimator>())
 		{

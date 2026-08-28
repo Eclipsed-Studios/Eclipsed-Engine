@@ -3,6 +3,9 @@
 #include "EclipsedEngine/Components/Component.h"
 #include "Core/Math/Vector/Vector2.h"
 
+#include "Assets/Assets/AudioAsset.h"
+#include "EclipsedEngine/Components/Audio/AudioEmitter.h"
+
 namespace Eclipse
 {
 	class RigidBody2D;
@@ -30,8 +33,13 @@ private:
 
 	SERIALIZED_FIELD(float, JumpForce);
 
+	Eclipse::AudioEmitter* AudioEmitter;
+
 public:
 	static inline Eclipse::Math::Vector2f Pos = {};
 
 	SERIALIZED_FIELD(Eclipse::Math::Vector2f, GroundcheckOffset);
+
+
+	SERIALIZED_FIELD(Eclipse::Assets::AudioClip, JumpSFX);
 };

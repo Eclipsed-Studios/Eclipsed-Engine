@@ -13,11 +13,11 @@ namespace Eclipse
 {
 	void AudioEmitter::Awake()
 	{
+		InitAudio();
+
 		if (playOnAwake) {
 			Play();
 		}
-
-		InitAudio();
 
 		Transform2D* trans = gameObject->transform;
 		trans->AddFunctionToRunOnDirtyUpdate(this,
@@ -43,10 +43,17 @@ namespace Eclipse
 	}
 
 	void AudioEmitter::Play() {
+		AudioManager::PlayAudio(audioClip->dataPtr->sound, &channel);
+
+		InitAudio();
+
 		isPlaying = true;
-		channel->setPaused(isPlaying);
 
 		UpdateAudioPosition();
+		SetSpatialMode(EnableSpatial);
+		SetVolume(volume);
+
+		channel->setPaused(false);
 	}
 
 	void AudioEmitter::Resume() {
@@ -115,8 +122,6 @@ namespace Eclipse
 
 	void AudioEmitter::InitAudio()
 	{
-		AudioManager::PlayAudio(audioClip->dataPtr->sound, &channel);
-
 		channel->setChannelGroup(AudioManager::GetBus(AudioBus::Master));
 
 		channel->setMode(
@@ -187,6 +192,6 @@ namespace Eclipse::Editor
 		ImGui::Text("Look here this is the way.");
 	}
 
-	REGISTER_INSPECTOR(AudioEmitter);
+	//REGISTER_INSPECTOR(AudioEmitter);
 }
 #endif

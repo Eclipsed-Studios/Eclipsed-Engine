@@ -44,7 +44,7 @@ namespace Eclipse
             return;
         }
 
-        result = mySystem->setSoftwareFormat(48000, FMOD_SPEAKERMODE_STEREO, 0);
+        result = mySystem->setSoftwareFormat(44100, FMOD_SPEAKERMODE_STEREO, 0);
         if (result != FMOD_OK) {
             return;
         }
@@ -108,7 +108,7 @@ namespace Eclipse
             *aChannel = nullptr;
         }
 
-		mySystem->playSound(aSound, nullptr, false, aChannel);
+		mySystem->playSound(aSound, nullptr, true, aChannel);
 	}
 
     FMOD::ChannelGroup* AudioManager::GetBus(AudioBus bus)

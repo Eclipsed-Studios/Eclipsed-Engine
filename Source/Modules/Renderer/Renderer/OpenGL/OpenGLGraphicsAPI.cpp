@@ -158,14 +158,14 @@ namespace Eclipse
 
         myMouseCursors.emplace_back(glfwCreateStandardCursor(GLFW_HAND_CURSOR));
 
-//#ifdef ECL_EDITOR
-//        GLFWimage cursor;
-//
-//        int nrChannels = 0;
-//        STB_Helper::SetFlipVerticalOnLoad_STB(false);
-//        cursor.pixels = STB_Helper::Load_Texture_STB((PathManager::GetEngineAssetsPath() / "GrabbyHand.png").generic_string().c_str(), cursor.width, cursor.height, nrChannels, 0);
-//        myMouseCursors.emplace_back(glfwCreateCursor(&cursor, 8.f, 8.f));
-//#endif
+#ifdef ECL_EDITOR
+        GLFWimage cursor;
+
+        int nrChannels = 0;
+        STB_Helper::SetFlipVerticalOnLoad_STB(false);
+        cursor.pixels = STB_Helper::Load_Texture_STB((PathManager::GetEngineAssetsPath() / "GrabbyHand.png").generic_string().c_str(), cursor.width, cursor.height, nrChannels, 0, false);
+        myMouseCursors.emplace_back(glfwCreateCursor(&cursor, 8.f, 8.f));
+#endif
 
         CommandListManager::InitAllCommandLists();
 

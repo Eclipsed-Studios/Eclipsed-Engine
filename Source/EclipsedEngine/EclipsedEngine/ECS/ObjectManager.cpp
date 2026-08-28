@@ -232,6 +232,13 @@ namespace Eclipse
 
             auto& reflectedVars = reflectedList.at(component);
 
+            if (Transform2D* transform = dynamic_cast<Transform2D*>(component))
+            {
+                float LocalRotation = transform->GetLocalRotation();
+
+                transform->SetRotation(LocalRotation * Math::rad2Deg);
+            }
+
             int refIndex = 0;
 
             for (auto varIt = coIt->value.MemberBegin(); varIt != coIt->value.MemberEnd(); varIt++)

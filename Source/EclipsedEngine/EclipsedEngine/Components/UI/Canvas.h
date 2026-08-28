@@ -28,7 +28,9 @@ namespace Eclipse
             Math::Vector2f ScaleMultiplier = { 1, 1 };
         } canvasCameraTransform;
 
+#ifdef ECL_EDITOR
         static inline bool drawCanvasGizmos = true;
+#endif
 
         CanvasBuffer myCanvasBuffer;
 
