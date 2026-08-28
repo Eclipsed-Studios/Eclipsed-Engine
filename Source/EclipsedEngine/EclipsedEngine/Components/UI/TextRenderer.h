@@ -20,7 +20,7 @@ namespace Eclipse
 {
     class ECL_API TextRenderer : public BaseRenderComponent
     {
-        COMPONENT_BASE_2(TextRenderer, 0)
+        COMPONENT_BASE_2(TextRenderer, 20)
 
     public:
 #ifdef ECL_EDITOR

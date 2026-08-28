@@ -21,7 +21,7 @@
 #include "Renderer/OpenGL/DebugDrawers/DebugDrawer.h"
 
 #ifdef ECL_EDITOR
-	#include <Core/GraphicsBuffers/EditorBuffer.h>
+#include <Core/GraphicsBuffers/EditorBuffer.h>
 
 #endif
 
@@ -134,7 +134,13 @@ namespace Eclipse
 
 	void TextRenderer::Render()
 	{
-		CommandListManager::GetUICommandList().Enqueue([&]() {
+		CommandList* ActiveCommandlist = &CommandListManager::GetUICommandList();
+
+		auto transform = gameObject->GetComponent<RectTransform>();
+		if (transform->myCanvas && transform->myCanvas->WorldSpace)
+			ActiveCommandlist = &CommandListManager::GetSpriteCommandList();
+
+		ActiveCommandlist->Enqueue([&]() {
 			this->Draw();
 			});
 	}
