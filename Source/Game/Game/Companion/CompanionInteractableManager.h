@@ -6,6 +6,7 @@ class CompanionInteractableManager
 {
 public:
 	static void AddInteractable(CompanionInteractable* interactable);
+	static void RemoveTarget(CompanionInteractable* interactable);
 
 	static CompanionInteractable* GetClosestInteractable(const Eclipse::Math::Vector2f& playerPos);
 

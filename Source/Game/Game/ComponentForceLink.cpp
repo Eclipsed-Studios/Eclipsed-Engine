@@ -28,6 +28,8 @@
 
 #include "ChangePlayerValuesOnTrigger.h"
 
+#include "BroadcastEventTrigger.h"
+
 //#ifndef ECL_EDITOR
 //#include "Forcelink.h"
 //#endif
@@ -58,6 +60,7 @@ void ComponentForcelink::LinkComponents()
 	COMP_REG(TutorialComp);
 
 	COMP_REG(DeathBarrier);
+	COMP_REG(BroadcastEventTrigger);
 	COMP_REG(InteractableKey);
 	COMP_REG(InteractableButton);
 	COMP_REG(PlayerInteract);

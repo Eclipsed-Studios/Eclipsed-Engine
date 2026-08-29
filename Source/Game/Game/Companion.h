@@ -38,4 +38,7 @@ private:
 	SERIALIZED_FIELD_DEFAULT(float, verticalSecondarySpeed, 3.1f);
 
 	SERIALIZED_FIELD_DEFAULT(float, toInteractableThreshhold, 3.1f);
+
+	bool returningToPlayer = false;
+	bool canInteract = false;
 };

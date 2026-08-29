@@ -10,11 +10,55 @@ void MoveBridge::Interact()
 
 void MoveBridge::Update()
 {
-	if (!interacted) return;
+    if (!interacted)
+        return;
 
-	auto pos = gameObject->transform->GetPosition();
-	float x = std::lerp(pos.x, targetPos->x, Eclipse::Core::Timer::GetDeltaTime());
-	float y = std::lerp(pos.y, targetPos->y, Eclipse::Core::Timer::GetDeltaTime());
+    float dt = Eclipse::Core::Timer::GetDeltaTime();
 
-	gameObject->transform->SetPosition({ x, y });
+    if (!reachedTarget)
+    {
+        elapsed += dt;
+
+        float t = std::clamp(elapsed / moveDuration, 0.0f, 1.0f);
+
+        float x = std::lerp(startPos->x, targetPos->x, t);
+        float y = std::lerp(startPos->y, targetPos->y, t);
+
+        gameObject->transform->SetPosition({ x, y });
+
+        if (t >= 1.0f)
+        {
+            reachedTarget = true;
+            stayElapsed = 0.0f;
+        }
+    }
+    else if (reachedTarget && !moveBack)
+    {
+        stayElapsed += dt;
+
+        if (stayElapsed >= stayDuration)
+        {
+            //moveBack = true;
+            elapsed = moveDuration;
+        }
+    }
+    else if (reachedTarget && moveBack)
+    {
+        elapsed -= dt;
+
+        float t = std::clamp(elapsed / moveDuration, 0.0f, 1.0f);
+
+        float x = std::lerp(startPos->x, targetPos->x, t);
+        float y = std::lerp(startPos->y, targetPos->y, t);
+
+        gameObject->transform->SetPosition({ x, y });
+
+        if (t <= 0.0f)
+        {
+            interacted = false;
+            reachedTarget = false;
+            moveBack = false;
+            elapsed = 0.0f;
+        }
+    }
 }

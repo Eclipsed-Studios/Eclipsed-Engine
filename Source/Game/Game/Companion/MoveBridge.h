@@ -13,8 +13,13 @@ public:
 private:
 	SERIALIZED_FIELD(Eclipse::Math::Vector2f, startPos);
 	SERIALIZED_FIELD(Eclipse::Math::Vector2f, targetPos);
+	SERIALIZED_FIELD(bool, moveBack);
 
 	SERIALIZED_FIELD(float, moveDuration);
+	SERIALIZED_FIELD(float, stayDuration);
 
+	bool reachedTarget = false;
+	float elapsed = 0.f;
+	float stayElapsed = 0.f;
 	bool interacted = false;
 };

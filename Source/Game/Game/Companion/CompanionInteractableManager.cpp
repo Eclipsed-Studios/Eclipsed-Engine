@@ -6,11 +6,22 @@ void CompanionInteractableManager::AddInteractable(CompanionInteractable* intera
     interactables.push_back(interactable);
 }
 
+void CompanionInteractableManager::RemoveTarget(CompanionInteractable* interactable)
+{
+	for (auto it = interactables.begin(); it != interactables.end(); it++)
+		if (*it == interactable)
+		{
+			interactables.erase(it);
+			break;
+		}
+}
 
 CompanionInteractable* CompanionInteractableManager::GetClosestInteractable(const Eclipse::Math::Vector2f& playerPos)
 {
+	if (interactables.empty()) return nullptr;
+
 	float dst = FLT_MAX;
-	CompanionInteractable* companion;
+	CompanionInteractable* companion = nullptr;
 
 	for (auto comp : interactables)
 	{

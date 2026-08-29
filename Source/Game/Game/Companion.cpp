@@ -9,35 +9,103 @@
 
 #include "Companion/CompanionInteractableManager.h"
 
+#include "EventBroadcaster.h"
+
 void Companion::Start()
 {
-	targetInteractable = CompanionInteractableManager::GetClosestInteractable(PlayerMovement::Pos);
+	EventBroadcaster::Clear();
+	targetInteractable = nullptr;
+	returningToPlayer = false;
+	TargetingInteractable = false;
 }
 
 void Companion::Update()
 {
-	if (targetInteractable == nullptr)
+	// ---------------------------------------------------------
+	// Going to an interactable
+	// ---------------------------------------------------------
+	if (targetInteractable != nullptr)
 	{
-		targetPos = PlayerMovement::Pos;
-		TargetingInteractable = false;
+		TargetingInteractable = true;
+
+		targetPos = targetInteractable->gameObject->transform->GetPosition();
+
+		float distance =
+			targetPos.Distance(gameObject->transform->GetPosition());
+
+		if (distance < 0.1f)
+		{
+			if (targetInteractable->waitForEvent)
+			{
+				if (EventBroadcaster::Listen(targetInteractable->waitForEventName))
+				{
+					canInteract = true;
+				}
+			}
+			else
+			{
+				canInteract = true;
+			}
+
+			if (canInteract)
+			{
+				targetInteractable->Enable();
+				CompanionInteractableManager::RemoveTarget(targetInteractable);
+
+				targetInteractable = nullptr;
+
+				// Now go back to the player.
+				returningToPlayer = true;
+				TargetingInteractable = false;
+				canInteract = false;
+			}
+		}
 	}
+	// ---------------------------------------------------------
+	// Returning to player
+	// ---------------------------------------------------------
+	else if (returningToPlayer)
+	{
+		TargetingInteractable = false;
+		targetPos = PlayerMovement::Pos;
+
+		float distance =
+			targetPos.Distance(gameObject->transform->GetPosition());
+
+		if (distance < 0.5f)
+		{
+			returningToPlayer = false;
+		}
+	}
+	// ---------------------------------------------------------
+	// Following player / looking for an interactable
+	// ---------------------------------------------------------
 	else
 	{
-		auto interactable = CompanionInteractableManager::GetClosestInteractable(PlayerMovement::Pos);
-		if (interactable->gameObject->transform->GetPosition().Distance(PlayerMovement::Pos) < toInteractableThreshhold)
-		{
-			targetInteractable = interactable;
-			targetPos = targetInteractable->gameObject->transform->GetPosition();
-			TargetingInteractable = true;
-		}
+		TargetingInteractable = false;
+		targetPos = PlayerMovement::Pos;
 
-		if (interactable->gameObject->transform->GetPosition().Distance(gameObject->transform->GetPosition()) < 0.1f && interactable->interactWhenClose)
+		auto interactable =
+			CompanionInteractableManager::GetClosestInteractable(PlayerMovement::Pos);
+
+		if (interactable != nullptr)
 		{
-			interactable->Enable();
-			targetInteractable = nullptr;
+			float distance =
+				interactable->gameObject->transform->GetPosition()
+				.Distance(PlayerMovement::Pos);
+
+			if (distance < toInteractableThreshhold)
+			{
+				targetInteractable = interactable;
+				TargetingInteractable = true;
+				targetPos = targetInteractable->gameObject->transform->GetPosition();
+			}
 		}
 	}
 
+	// ---------------------------------------------------------
+	// Movement
+	// ---------------------------------------------------------
 	float dt = Eclipse::Core::Timer::GetDeltaTime();
 	time += dt;
 
@@ -53,8 +121,6 @@ void Companion::Update()
 		std::sin(time * verticalSecondarySpeed) * verticalSecondaryAmplitude;
 
 	float xTarget = px + xOffset;
-
-
 	float yTarget = py + yOffset;
 
 	if (!TargetingInteractable)

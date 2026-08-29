@@ -12,6 +12,9 @@ public:
 	void OnDestroy() override;
 
 	SERIALIZED_FIELD_DEFAULT(bool, interactWhenClose, false);
+	SERIALIZED_FIELD_DEFAULT(bool, waitForEvent, false);
+	SERIALIZED_FIELD_DEFAULT(std::string, waitForEventName, "");
+
 private:
 	SERIALIZED_FIELD_DEFAULT(std::string, objectInteractName, "");
 };
