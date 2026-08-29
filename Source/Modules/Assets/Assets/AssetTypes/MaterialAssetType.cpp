@@ -120,12 +120,14 @@ namespace Eclipse::Assets
 
 		if (!_data->pixelShader.IsValid())
 		{
-			// Fallback to error shader
+			pixelShaderID.FromString("50055d2dfc01fed4ad91cdf4e8ea27d4");
+			_data->pixelShader = AssetManager::Load<PixelShader>(pixelShaderID);
 		}
 
 		if (!_data->vertexShader.IsValid())
 		{
-			// Fallback to error shader
+			vertexShaderID.FromString("7c399081a3d29145ade85e4254e6a381");
+			_data->vertexShader = AssetManager::Load<VertexShader>(vertexShaderID);
 		}
 
 		_data->programID = glCreateProgram();
