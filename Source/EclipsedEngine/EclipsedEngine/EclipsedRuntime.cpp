@@ -201,6 +201,8 @@ namespace Eclipse
 		GraphicsEngine::Get()->EndFrame();
 		Assets::AssetManager::EndFrame();
 		PerformanceProfilerManager::Clear();
+
+		ComponentManager::CommitDestroy();
 	}
 
 	void EclipsedRuntime::Shutdown()

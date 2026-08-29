@@ -141,8 +141,6 @@ namespace Eclipse::Editor
 		// else SaveOnce = false;
 
 		eclipseRuntime.EndFrame();
-
-		ComponentManager::CommitDestroy();
 	}
 
 
