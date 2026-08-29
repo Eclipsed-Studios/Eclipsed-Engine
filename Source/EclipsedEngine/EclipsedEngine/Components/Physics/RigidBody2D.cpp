@@ -67,6 +67,11 @@ namespace Eclipse
         Physics::SetLinearVelocity(myBody, myVelocity);
     }
 
+    void RigidBody2D::SetBodyPosition(const Math::Vector2f& aPosition)
+    {
+        PhysicsEngine::SetTransform(myBody, aPosition, myTransform->GetRotation());
+    }
+
     void RigidBody2D::AddForce(const Math::Vector2f& aVelocity)
     {
         SetVelocity(myVelocity + aVelocity);

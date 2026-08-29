@@ -18,11 +18,11 @@ namespace Eclipse
 
         void SetScale(const Math::Vector2f& aHalfExtents);
 
+        SERIALIZED_FIELD_DEFAULT(bool, isTrigger, false);
     private:
         Math::Vector2f myHalfExtents;
         SERIALIZED_FIELD_DEFAULT_MIN_MAX(Math::Vector2f, HalfExtents, Math::Vector2f(0.5f, 0.5f), Math::Vector2f(0.f, 0.f), Math::Vector2f(FLT_MAX, FLT_MAX));
 
         Math::Vector2f myLastHalfExtents;
-        SERIALIZED_FIELD_DEFAULT(bool, isTrigger, false);
     };
 }

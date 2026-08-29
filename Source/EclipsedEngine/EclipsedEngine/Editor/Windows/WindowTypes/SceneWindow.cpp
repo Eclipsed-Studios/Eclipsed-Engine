@@ -226,7 +226,7 @@ void Eclipse::Editor::SceneWindow::SpriteSelector()
 
 			char* data = (char*)ClipBoard::GetClipboardData();
 			GameObject* gameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(data);
-			SelectionContext::SetActiveContext(GameObjectTarget{ gameobject->GetID() });
+			//SelectionContext::SetActiveContext(GameObjectTarget{ gameobject->GetID() });
 
 
 			GameObject* pickedGameobject = ComponentManager::GetGameObject(pickedID);

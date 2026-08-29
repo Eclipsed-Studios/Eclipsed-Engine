@@ -27,15 +27,15 @@ public:
 
 private:
 	Eclipse::RigidBody2D* rb = nullptr;
+	Eclipse::AudioEmitter* AudioEmitter = nullptr;
 
-	SERIALIZED_FIELD(float, Acceleration);
+
 	float Movespeed;
+public:
+	SERIALIZED_FIELD(float, Acceleration);
 
 	SERIALIZED_FIELD(float, JumpForce);
 
-	Eclipse::AudioEmitter* AudioEmitter;
-
-public:
 	static inline Eclipse::Math::Vector2f Pos = {};
 
 	SERIALIZED_FIELD(Eclipse::Math::Vector2f, GroundcheckOffset);

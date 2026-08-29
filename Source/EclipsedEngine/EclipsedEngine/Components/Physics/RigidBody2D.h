@@ -24,6 +24,8 @@ namespace Eclipse
         void SetVelocity(const Math::Vector2f& aVelocity);
         const Math::Vector2f& GetVelocity();
 
+        void SetBodyPosition(const Math::Vector2f& aPosition);
+
         void SetAngularVelocity(float aAngularVelocity);
         const float GetAngularVelocity();
 

@@ -12,6 +12,8 @@
 
 #include "Physics/PhysicsEngine.h"
 
+#include "EclipsedEngine/Components/Physics/BoxCollider2D.h"
+
 
 void PlayerMovement::Start()
 {
@@ -50,6 +52,10 @@ bool PlayerMovement::IsGrounded()
 		Eclipse::GameObject* otherGameObjects = Eclipse::ComponentManager::GetGameObject(Result.gameobject);
 		PlayerMovement* IsPlayerMovement = otherGameObjects->GetComponent<PlayerMovement>();
 		if (IsPlayerMovement)
+			continue;
+
+		Eclipse::BoxCollider2D* BoxCollider = otherGameObjects->GetComponent<Eclipse::BoxCollider2D>();
+		if (BoxCollider && BoxCollider->isTrigger)
 			continue;
 
 		return true;
