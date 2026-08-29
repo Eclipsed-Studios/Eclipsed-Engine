@@ -14,6 +14,7 @@
 #include "Companion.h"
 #include "Door.h"
 
+#include "TutorialStarter.h"
 #include "DeathBarrier.h"
 #include "InteractableKey.h"
 #include "InteractableButton.h"
@@ -54,6 +55,7 @@ void ComponentForcelink::LinkComponents()
 	COMP_REG(Door);
 	COMP_REG(MoveBridge);
 	COMP_REG(PlayerHatController);
+	COMP_REG(TutorialComp);
 
 	COMP_REG(DeathBarrier);
 	COMP_REG(InteractableKey);

@@ -8,6 +8,20 @@
 
 #include "HatManager.h"
 
+#include "Tutorial.h"
+
+void HatInteractable::OnTriggerEnter(Eclipse::GameObject* Other)
+{
+	if (Other->GetName() != "Player")  return;
+	Tutorial::StartTutorial("tutorial-interact");
+}
+
+void HatInteractable::OnTriggerExit(Eclipse::GameObject* Other)
+{
+	if (Other->GetName() != "Player")  return;
+	Tutorial::DisableTempTutorial();
+}
+
 void HatInteractable::Interact()
 {
 	Eclipse::SpriteRenderer2D* rend = gameObject->GetComponent<Eclipse::SpriteRenderer2D>();

@@ -7,6 +7,9 @@ class HatInteractable : public Interactable
 	COMPONENT_BASE_2(HatInteractable, 0);
 
 public:
+	void OnTriggerEnter(Eclipse::GameObject* Other) override;
+	void OnTriggerExit(Eclipse::GameObject* Other) override;
+
 	void Interact() override;
 	void Update() override;
 
