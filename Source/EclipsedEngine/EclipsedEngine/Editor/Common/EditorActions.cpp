@@ -86,10 +86,6 @@ namespace Eclipse::Editor
 
 			component.AddMember(rapidjson::Value(compName.c_str(), anAllocator).Move(), componentVars, anAllocator);
 
-			if (pComp->IsReplicated)
-			{
-				int huiads = 89;
-			}
 			component.AddMember("IsReplicated", isReplicatedValue, anAllocator);
 
 			componentArray.PushBack(component, anAllocator);
@@ -209,7 +205,6 @@ namespace Eclipse::Editor
 			if (!data)
 				return;
 			GameObject* newGameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(data);
-			HierarchyWindow::CurrentGameObjectID = newGameobject->GetID();
 		}
 		else if (false)
 		{
