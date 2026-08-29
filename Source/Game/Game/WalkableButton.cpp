@@ -6,6 +6,8 @@
 #include <EclipsedEngine/DebugLogger.h>
 #include "Core/Timer.h"
 
+#include "EclipsedEngine/Components/Transform2D.h"
+
 #include "Door.h"
 
 #include "Core/EventSystem/EventSystem.h"
@@ -19,8 +21,20 @@ void WalkableButton::Update()
 	{
 		wasPressed = false;
 
-		Eclipse::SpriteRenderer2D* rend = gameObject->GetChild(0)->GetComponent<Eclipse::SpriteRenderer2D>();
-		rend->SetSprite(buttonUpTexture);
+		for (auto child : gameObject->GetChildren())
+		{
+			if (child->GetName() == "Button On")
+			{
+				Eclipse::SpriteRenderer2D* rend = child->GetComponent<Eclipse::SpriteRenderer2D>();
+				rend->gameObject->transform->SetPosition({ 1000000.f, 0 });
+			}
+
+			if (child->GetName() == "Button Off")
+			{
+				Eclipse::SpriteRenderer2D* rend = child->GetComponent<Eclipse::SpriteRenderer2D>();
+				rend->gameObject->transform->SetPosition({ 0, 0.002f });
+			}
+		}
 	}
 }
 
@@ -28,8 +42,20 @@ void WalkableButton::OnTriggerEnter(Eclipse::GameObject* Other)
 {
 	if (Other->GetName() != "Player")  return;
 
-	Eclipse::SpriteRenderer2D* rend = gameObject->GetChild(0)->GetComponent<Eclipse::SpriteRenderer2D>();
-	rend->SetSprite(buttonPressedTexture);
+	for (auto child : gameObject->GetChildren())
+	{
+		if (child->GetName() == "Button On")
+		{
+			Eclipse::SpriteRenderer2D* rend = child->GetComponent<Eclipse::SpriteRenderer2D>();
+			rend->gameObject->transform->SetPosition({ 0, 0 });
+		}
+
+		if (child->GetName() == "Button Off")
+		{
+			Eclipse::SpriteRenderer2D* rend = child->GetComponent<Eclipse::SpriteRenderer2D>();
+			rend->gameObject->transform->SetPosition({ 1000000.f,  });
+		}
+	}
 
 	Eclipse::GameObject* door = Eclipse::ComponentManager::FindObjectByName(doorName->c_str());
 	if (door == nullptr) return;

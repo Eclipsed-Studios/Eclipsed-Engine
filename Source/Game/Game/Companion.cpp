@@ -7,13 +7,42 @@
 
 #include "PlayerMovement.h"
 
+#include "Companion/CompanionInteractableManager.h"
+
+void Companion::Start()
+{
+	targetInteractable = CompanionInteractableManager::GetClosestInteractable(PlayerMovement::Pos);
+}
+
 void Companion::Update()
 {
+	if (targetInteractable == nullptr)
+	{
+		targetPos = PlayerMovement::Pos;
+		TargetingInteractable = false;
+	}
+	else
+	{
+		auto interactable = CompanionInteractableManager::GetClosestInteractable(PlayerMovement::Pos);
+		if (interactable->gameObject->transform->GetPosition().Distance(PlayerMovement::Pos) < toInteractableThreshhold)
+		{
+			targetInteractable = interactable;
+			targetPos = targetInteractable->gameObject->transform->GetPosition();
+			TargetingInteractable = true;
+		}
+
+		if (interactable->gameObject->transform->GetPosition().Distance(gameObject->transform->GetPosition()) < 0.1f && interactable->interactWhenClose)
+		{
+			interactable->Enable();
+			targetInteractable = nullptr;
+		}
+	}
+
 	float dt = Eclipse::Core::Timer::GetDeltaTime();
 	time += dt;
 
-	float px = PlayerMovement::Pos.x;
-	float py = PlayerMovement::Pos.y;
+	float px = targetPos.x;
+	float py = targetPos.y;
 
 	float xOffset =
 		std::sin(time * horizontalSpeed) * horizontalAmplitude +
@@ -24,7 +53,12 @@ void Companion::Update()
 		std::sin(time * verticalSecondarySpeed) * verticalSecondaryAmplitude;
 
 	float xTarget = px + xOffset;
-	float yTarget = py + headOffset + yOffset;
+
+
+	float yTarget = py + yOffset;
+
+	if (!TargetingInteractable)
+		yTarget += headOffset;
 
 	float cx = gameObject->transform->GetPosition().x;
 	float cy = gameObject->transform->GetPosition().y;

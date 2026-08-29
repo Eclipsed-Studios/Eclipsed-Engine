@@ -44,9 +44,9 @@ private:
 
 	float moveTimer = 0.f;
 
-	float startY = -0.175f;
+	float startY = -0.137f;
 	float targetY = 0.0f;
 
-	float maxMoverY = 0.135f;
-	float minMoverY = -0.175f;
+	float maxMoverY = 0.017f;
+	float minMoverY = -0.137f;
 };

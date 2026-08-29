@@ -23,8 +23,8 @@ void Door::Start()
 			auto pos = moverTransform->GetPosition();
 			moverTransform->SetPosition({ pos.x, -0.175f });
 
-			startY = -0.175f;
-			targetY = -0.175f;
+			startY = -0.137f;
+			targetY = -0.137f;
 		}
 		else if (name == "Collider")
 		{
