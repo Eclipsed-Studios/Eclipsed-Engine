@@ -30,7 +30,7 @@ namespace Eclipse
 		template<typename T>
 		T* GetComponent();
 
-		std::vector<Component*> GetComponents();
+		std::vector<Component*> GetAllComponents();
 
 		template <typename T>
 		void GetComponents(std::vector<T*>& aVector);

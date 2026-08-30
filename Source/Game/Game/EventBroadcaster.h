@@ -8,8 +8,9 @@
 class EventBroadcaster
 {
 public:
-	static void Broadcast(std::string evetnName);
-	static bool Listen(std::string eventName);
+	static void Broadcast(const std::string& evetnName);
+	static bool Listen(const std::string& eventName);
+	static void DeleteEvent(const std::string& eventName);
 	static void Clear();
 
 private:

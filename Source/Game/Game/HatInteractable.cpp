@@ -39,10 +39,15 @@ void HatInteractable::Interact()
 	Eclipse::ComponentManager::Destroy(gameObject->GetID());
 }
 
+void HatInteractable::Start()
+{
+	StartPositionY = gameObject->transform->GetLocalPosition().y;
+}
+
 void HatInteractable::Update()
 {
 	timer += Eclipse::Core::Timer::GetDeltaTime();
 	float y = std::cos(timer * floatForce) * floatSpeed;
 
-	gameObject->transform->SetPosition({ gameObject->transform->GetPosition().x, y });
+	gameObject->transform->SetPosition({ gameObject->transform->GetPosition().x, y + StartPositionY });
 }

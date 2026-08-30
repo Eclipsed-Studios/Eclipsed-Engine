@@ -69,6 +69,8 @@ namespace Eclipse
 
         worldDef.contactHertz = 240.f;
 
+        worldDef.enableContinuous = true;
+
         b2SetLengthUnitsPerMeter(0.01f);
 
         myWorld = b2CreateWorld(&worldDef);
@@ -95,7 +97,7 @@ namespace Eclipse
     void PhysicsEngine::LoadLayers()
     {
         LoadLayersFromJSON(myCollisionLayers);
-    }
+    } 
 
     void PhysicsEngine::CleanUp()
     {

@@ -132,7 +132,7 @@ namespace Eclipse
 		return myName;
 	}
 
-	std::vector<Component*> GameObject::GetComponents()
+	std::vector<Component*> GameObject::GetAllComponents()
 	{
 		return ComponentManager::GetComponents(myID);
 	}

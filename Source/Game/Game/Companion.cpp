@@ -19,19 +19,31 @@ void Companion::Start()
 	TargetingInteractable = false;
 }
 
-void Companion::Update()
+void Companion::CheckInteractables()
 {
 	// ---------------------------------------------------------
-	// Going to an interactable
-	// ---------------------------------------------------------
+// Going to an interactable
+// ---------------------------------------------------------
 	if (targetInteractable != nullptr)
 	{
 		TargetingInteractable = true;
 
 		targetPos = targetInteractable->gameObject->transform->GetPosition();
 
-		float distance =
-			targetPos.Distance(gameObject->transform->GetPosition());
+		float distancePlayer = PlayerMovement::Pos.Distance(gameObject->transform->GetPosition());
+
+		if (distancePlayer > toInteractableThreshhold)
+		{
+			targetInteractable = nullptr;
+
+			returningToPlayer = true;
+			TargetingInteractable = false;
+			canInteract = false;
+
+			return;
+		}
+
+		float distance = targetPos.Distance(gameObject->transform->GetPosition());
 
 		if (distance < 0.1f)
 		{
@@ -50,7 +62,8 @@ void Companion::Update()
 			if (canInteract)
 			{
 				targetInteractable->Enable();
-				CompanionInteractableManager::RemoveTarget(targetInteractable);
+				if (!targetInteractable->ActivatedMultipleTimes)
+					CompanionInteractableManager::RemoveTarget(targetInteractable);
 
 				targetInteractable = nullptr;
 
@@ -69,8 +82,7 @@ void Companion::Update()
 		TargetingInteractable = false;
 		targetPos = PlayerMovement::Pos;
 
-		float distance =
-			targetPos.Distance(gameObject->transform->GetPosition());
+		float distance = targetPos.Distance(gameObject->transform->GetPosition());
 
 		if (distance < 0.5f)
 		{
@@ -85,14 +97,11 @@ void Companion::Update()
 		TargetingInteractable = false;
 		targetPos = PlayerMovement::Pos;
 
-		auto interactable =
-			CompanionInteractableManager::GetClosestInteractable(PlayerMovement::Pos);
+		auto interactable = CompanionInteractableManager::GetClosestInteractable(PlayerMovement::Pos);
 
 		if (interactable != nullptr)
 		{
-			float distance =
-				interactable->gameObject->transform->GetPosition()
-				.Distance(PlayerMovement::Pos);
+			float distance = interactable->gameObject->transform->GetPosition().Distance(PlayerMovement::Pos);
 
 			if (distance < toInteractableThreshhold)
 			{
@@ -102,12 +111,19 @@ void Companion::Update()
 			}
 		}
 	}
+}
+
+void Companion::Update()
+{
+	CheckInteractables();
 
 	// ---------------------------------------------------------
 	// Movement
 	// ---------------------------------------------------------
 	float dt = Eclipse::Core::Timer::GetDeltaTime();
 	time += dt;
+
+	float Calculatedspeed = dt * Speed;
 
 	float px = targetPos.x;
 	float py = targetPos.y;
@@ -129,8 +145,8 @@ void Companion::Update()
 	float cx = gameObject->transform->GetPosition().x;
 	float cy = gameObject->transform->GetPosition().y;
 
-	float x = std::lerp(cx, xTarget, dt);
-	float y = std::lerp(cy, yTarget, dt);
+	float x = std::lerp(cx, xTarget, Calculatedspeed);
+	float y = std::lerp(cy, yTarget, Calculatedspeed);
 
 	gameObject->transform->SetPosition({ x, y });
 }

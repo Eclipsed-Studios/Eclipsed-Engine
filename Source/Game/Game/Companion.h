@@ -16,6 +16,8 @@ public:
 	void Start() override;
 	void Update() override;
 
+	void CheckInteractables();
+
 private:
 
 private:
@@ -27,6 +29,7 @@ private:
 	bool TargetingInteractable = false;
 	float time = 0.0f;
 
+	SERIALIZED_FIELD_DEFAULT(float, Speed, 1.f);
 	SERIALIZED_FIELD_DEFAULT(float, horizontalAmplitude, 0.08f);
 	SERIALIZED_FIELD_DEFAULT(float, horizontalSecondaryAmplitude, 0.03f);
 	SERIALIZED_FIELD_DEFAULT(float, horizontalSpeed, 1.3f);

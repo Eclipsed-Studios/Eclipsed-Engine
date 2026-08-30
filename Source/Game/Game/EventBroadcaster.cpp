@@ -12,13 +12,13 @@
 
 #include "Core/EventSystem/EventSystem.h"
 
-void EventBroadcaster::Broadcast(std::string evetnName)
+void EventBroadcaster::Broadcast(const std::string& evetnName)
 {
 	events.push_back(evetnName);
 }
-bool EventBroadcaster::Listen(std::string eventName)
+bool EventBroadcaster::Listen(const std::string& eventName)
 {
-	for (auto event : events)
+	for (auto& event : events)
 	{
 		if (event == eventName)
 		{
@@ -27,6 +27,20 @@ bool EventBroadcaster::Listen(std::string eventName)
 	}
 
 	return false;
+}
+
+void EventBroadcaster::DeleteEvent(const std::string& eventName)
+{
+	for (int i = 0; i < events.size(); i++)
+	{
+		auto& event = events[i];
+
+		if (event == eventName)
+		{
+			events.back() = events[i];
+			events.pop_back();
+		}
+	}
 }
 
 void EventBroadcaster::Clear()

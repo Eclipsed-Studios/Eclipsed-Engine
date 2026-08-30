@@ -23,12 +23,15 @@
 #include "Companion/EnableCompanionArea.h"
 #include "WalkableButton.h"
 
+#include "Companion/ChangeColor.h"
+#include "Companion/ChangeSprite.h"
 #include "Companion/MoveBridge.h"
 #include "Companion/CompanionInteractable.h"
 
 #include "ChangePlayerValuesOnTrigger.h"
 
 #include "BroadcastEventTrigger.h"
+
 
 //#ifndef ECL_EDITOR
 //#include "Forcelink.h"
@@ -56,6 +59,10 @@ void ComponentForcelink::LinkComponents()
 	COMP_REG(ParallaxBackgroundObject);
 	COMP_REG(Door);
 	COMP_REG(MoveBridge);
+
+	COMP_REG(ChangeColor);
+	COMP_REG(ChangeSprite);
+
 	COMP_REG(PlayerHatController);
 	COMP_REG(TutorialComp);
 

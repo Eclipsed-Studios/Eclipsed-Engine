@@ -6,7 +6,7 @@
 
 class Player : public Eclipse::Component
 {
-	COMPONENT_BASE_2(Player, 0)
+	COMPONENT_BASE_2(Player, 999)
 
 public:
 	void Start() override;

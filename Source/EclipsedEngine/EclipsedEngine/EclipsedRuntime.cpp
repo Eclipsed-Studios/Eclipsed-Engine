@@ -44,6 +44,7 @@
 #include <DebugDrawer.h>
 
 #include "Core/Logger/DebugLogger.h"
+#include "../../Game/Game/EventBroadcaster.h"
 
 namespace Eclipse
 {
@@ -203,6 +204,8 @@ namespace Eclipse
 		PerformanceProfilerManager::Clear();
 
 		ComponentManager::CommitDestroy();
+
+		EventBroadcaster::Clear();
 	}
 
 	void EclipsedRuntime::Shutdown()

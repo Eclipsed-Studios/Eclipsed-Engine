@@ -13,7 +13,11 @@ public:
 	void Interact() override;
 	void Update() override;
 
+	void Start() override;
+
 private:
+	float StartPositionY;
+
 	float timer;
 
 	SERIALIZED_FIELD_DEFAULT(float, floatSpeed, 0.3f);

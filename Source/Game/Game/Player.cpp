@@ -7,6 +7,8 @@
 
 #include "EclipsedEngine/Components/Audio/AudioEmitter.h"
 
+#include "EventBroadcaster.h"
+
 void Player::Start()
 {
 	CurrentCheckpointPosition = gameObject->transform->GetPosition();
@@ -14,6 +16,8 @@ void Player::Start()
 
 void Player::Reset()
 {
+	EventBroadcaster::Broadcast("Death");
+
 	Eclipse::RigidBody2D* rb = gameObject->GetComponent<Eclipse::RigidBody2D>();
 	gameObject->transform->SetPosition(CurrentCheckpointPosition);
 
@@ -27,4 +31,6 @@ void Player::Reset()
 			child->GetComponent<Eclipse::AudioEmitter>()->Play();
 		}
 	}
+
+
 }
