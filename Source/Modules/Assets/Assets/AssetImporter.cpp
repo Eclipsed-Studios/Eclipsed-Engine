@@ -31,6 +31,8 @@ namespace Eclipse::Assets
 
 	void AssetImporter::ImportFile(const AssetMeta& meta)
 	{
+		if (meta.fullPath.empty()) return;
+
 		AssetType assetType = GetAssetTypeFromExtension(meta.fullPath.extension().string());
 		IAssetType* type = AssetTypeRegistry::GetType(assetType);
 		if (type == nullptr) return; // Type is not supported.

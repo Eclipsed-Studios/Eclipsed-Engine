@@ -61,15 +61,19 @@ namespace Eclipse::Assets
 		AssetMeta file = MetaSerializer::LoadOrCreateMeta(path);
 		file.fileName = path.filename().stem().string();
 
-		guidToAsset[file.guid] = std::move(file);
-		fullpathToGuid[path] = file.guid; // Used in editor
-		pathToGuid[std::filesystem::relative(path, root)] = file.guid; // dont use
+		const auto guid = file.guid;
+
+		guidToAsset[guid] = std::move(file);
+
+		fullpathToGuid[path] = guid;
+		pathToGuid[std::filesystem::relative(path, root)] = guid;
+
 		const AssetType type = GetAssetTypeFromExtension(path.extension().string());
 
-		typeToAssets[type].push_back(file.guid);
-		sourceToAssets[sourcePathToKey[path.generic_string()]].push_back(file.guid);
+		typeToAssets[type].push_back(guid);
+		sourceToAssets[sourcePathToKey[path.generic_string()]].push_back(guid);
 
-		return guidToAsset[file.guid];
+		return guidToAsset.at(guid);
 	}
 
 	const AssetMeta& AssetDatabase::GetProcessedFile(const std::filesystem::path& path) const
@@ -108,8 +112,9 @@ namespace Eclipse::Assets
 
 	AssetMeta& AssetDatabase::GetProcessedFile(const GUID& guid)
 	{
+		static AssetMeta meta;
 		const auto it = guidToAsset.find(guid);
-		if (it == guidToAsset.end()) throw std::runtime_error("The guid cant be found in the map.");
+		if (it == guidToAsset.end())  return meta;
 
 		return it->second;
 	}

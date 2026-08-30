@@ -58,14 +58,8 @@ namespace Eclipse::Editor
 
 		//if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
 
-		try
-		{
 			SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
-		}
-		catch (std::exception e)
-		{
-			// The scene has been removed.
-		}
+		
 
 		//ComponentManager::Get().Init();
 	}

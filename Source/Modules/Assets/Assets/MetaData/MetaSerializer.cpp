@@ -4,7 +4,7 @@
 #include <fstream>
 
 #include "Assets/MetaData/Data/TextureMeta.h"
-#include "Assets/MetaData/Data/AudioMeta.h"
+//#include "Assets/MetaData/Data/AudioMeta.h"
 
 #include "Core/PathManager.h"
 
@@ -51,7 +51,6 @@ namespace Eclipse::Assets
 
 		case AssetType::AudioClip:
 		{
-			meta.AddMetaComponent<AudioMeta>();
 			break;
 		}
 

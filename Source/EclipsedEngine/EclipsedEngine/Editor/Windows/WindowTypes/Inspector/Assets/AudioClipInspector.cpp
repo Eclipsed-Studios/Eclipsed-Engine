@@ -4,7 +4,7 @@
 #include "ImGui/ImGui.h"
 
 #include "Assets/Core/AssetDatabase.h"
-#include "Assets/Metadata/Data/AudioMeta.h"
+//#include "Assets/Metadata/Data/AudioMeta.h"
 #include "Core/MainSingleton.h"
 
 namespace Eclipse::Editor
@@ -25,7 +25,6 @@ namespace Eclipse::Editor
 		Assets::GUID guid = database.GetGUIDFromFullPath(asset);
 
 		Assets::AssetMeta& meta = database.GetProcessedFile(guid);
-		Assets::AudioMeta* audioMeta = meta.GetMetaComponent<Assets::AudioMeta>();
 
 		ImGui::Text(meta.guid.ToString().c_str());
 	}

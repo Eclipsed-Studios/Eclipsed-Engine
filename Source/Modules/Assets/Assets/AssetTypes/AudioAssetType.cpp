@@ -3,7 +3,6 @@
 #include "fmod/fmod.hpp"
 #include "Core/MainSingleton.h"
 
-#include "MetaData/Data/AudioMeta.h"
 
 namespace Eclipse::Assets
 {
