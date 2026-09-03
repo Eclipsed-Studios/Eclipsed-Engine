@@ -17,6 +17,8 @@ namespace Eclipse::Assets
 	class AssetManager
 	{
 	public:
+		static void Init();
+
 		static void CookAndPackageAssets();
 
 		static void EndFrame();

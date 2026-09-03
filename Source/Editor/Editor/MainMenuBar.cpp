@@ -22,7 +22,7 @@ namespace Eclipse::Editor
 	{
 		if (ImGui::BeginMenu("Views"))
 		{
-
+			ImGui::EndMenu();
 		}
 	}
 }

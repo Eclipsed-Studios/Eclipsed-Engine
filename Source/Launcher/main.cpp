@@ -9,13 +9,11 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	Eclipse::Engine t;
-	t.Test();
+	t.Init();
 
 	while (!t.ShouldClose())
 	{
 		t.BeginFrame();
-		ImGui::Begin("Testing");
-		ImGui::End();
 		t.Render();
 		t.EndFrame();
 	}

@@ -57,6 +57,13 @@ namespace Eclipse::Assets
 
 
 
+	void AssetManager::Init()
+	{
+		MainSingleton::RegisterInstance<AssetDatabase>();
+		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();
+		database.ProcessSource(PathManager::GetEngineAssetsPath(), "Engine/");
+	}
+
 	void AssetManager::CookAndPackageAssets()
 	{
 		AssetDatabase& database = MainSingleton::GetInstance<AssetDatabase>();

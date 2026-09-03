@@ -13,6 +13,7 @@ namespace Eclipse
 		BatchScript() = default;
 		BatchScript(const std::filesystem::path& aWorkingDir, const std::string& aCommand, const std::vector<std::string>& args);
 		BatchScript(const std::filesystem::path& aWorkingDir, const std::string& aCommand);
+		BatchScript(const std::string& aCommand, const std::vector<std::string>& args);
 
 		void SetWorkingDirectory(const std::filesystem::path& aWorkingDir);
 		void SetCommand(const std::string& aCommand);

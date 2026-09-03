@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 include("${CMAKE_SOURCE_DIR}/CMake/packaging.cmake")
 include("${CMAKE_SOURCE_DIR}/CMake/project.cmake")
 include("${CMAKE_SOURCE_DIR}/CMake/external_project.cmake")

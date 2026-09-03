@@ -20,6 +20,11 @@ namespace Eclipse
 
 	}
 
+    BatchScript::BatchScript(const std::string& aCommand, const std::vector<std::string>& args)
+        : command(aCommand), arguments(args)
+    {
+    }
+
 	void BatchScript::SetWorkingDirectory(const std::filesystem::path& aWorkingDir)
 	{
 		workingDir = aWorkingDir;

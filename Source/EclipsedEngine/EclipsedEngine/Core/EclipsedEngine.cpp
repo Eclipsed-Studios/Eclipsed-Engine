@@ -9,23 +9,21 @@
 #include "EclipsedEngine/Core/Timer.h"
 #include "EclipsedEngine/Assets/AssetManager.h"
 #include "EclipsedEngine/Assets/AssetImporter.h"
-
+#include "EclipsedEngine/Plugin/PluginManager.h"
 #include "EclipsedEngine/Components/Transform2D.h"
 
 namespace Eclipse
 {
 	void Engine::Init()
 	{
+		PathManager::Init();
+		PathManager::SetProjectPath("C:/Users/zulto/Desktop/MyFiles/Projects/Project-Nova");
+
 		ComponentManager::Init();
-
-
-
+		Assets::AssetManager::Init();
 		Timer::Init();
 
-		PathManager::Init();
-
 		renderer = &Graphics::RendererManager::LoadRenderer(Graphics::RendererAPI::OpenGL);
-
 		MainSingleton::AddInstance(renderer);
 
 		renderer->Init();
@@ -33,10 +31,12 @@ namespace Eclipse
 		input = renderer->CreateInput();
 		input->Init();
 
-		GameObject* gameobject = ComponentManager::CreateGameObject();
+		PluginManager::Compile("C:/Users/zulto/Desktop/GamePlugin");
 
-		gameobject->AddComponent<Transform2D>();
-		gameobject->AddComponent<SpriteRenderer2D>();
+		//GameObject* gameobject = ComponentManager::CreateGameObject();
+
+		//gameobject->AddComponent<Transform2D>();
+		//gameobject->AddComponent<SpriteRenderer2D>();
 
 		ImGui_Init();
 	}
