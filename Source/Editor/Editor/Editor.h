@@ -10,7 +10,5 @@ namespace Eclipse::Editor
 		void BeginFrame();
 		void Render();
 		void EndFrame();
-
-		void Test();
 	};
 }

@@ -6,7 +6,7 @@ namespace Eclipse::Editor
 	{
 	public:
 		static void Init();
-		static void Update();
+		static void Draw();
 
 	private:
 		static void DrawViews();

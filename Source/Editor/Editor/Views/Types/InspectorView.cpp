@@ -1,4 +1,4 @@
-#include "AssetBrowserView.h"
+#include "InspectorView.h"
 
 namespace Eclipse::Editor
 {

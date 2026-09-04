@@ -1,7 +1,7 @@
 #include "Editor.h"
 
 #include "Views/ViewManager.h"
-#include "Views/AbstractView.h"
+#include "Views/EditorViewRegistry.h"
 
 #include "ImGui/imgui.h"
 
@@ -12,16 +12,19 @@
 
 #include "EclipsedEngine/Assets/AssetImporter.h"
 #include "EclipsedEngine/Core/PathManager.h"
+#include "EditorLayout.h"
 
 namespace Eclipse::Editor
 {
 	void Editor::Init(void* imguiCtx)
 	{
 		ImGui::SetCurrentContext((ImGuiContext*)imguiCtx);
-		ViewManager::Init();
+		//ViewManager::Init();
 		ProjectManager::LoadOrSelectProject();
 
 		Assets::AssetImporter::ImportAssets(PathManager::GetEngineAssetsPath(), "Engine Assets");
+
+		EditorLayout::Init();
 	}
 
 	void Editor::BeginFrame()
@@ -31,13 +34,13 @@ namespace Eclipse::Editor
 	
 	void Editor::Render()
 	{
-		MainMenuBar::Update();
-
-		ViewManager::Update();
+		MainMenuBar::Draw();
+		EditorLayout::Draw();
+		//ViewManager::Update();
 	}
 	
 	void Editor::EndFrame()
 	{
-
+		EditorLayout::EndFrame();
 	}
 }

@@ -31,7 +31,7 @@ namespace Eclipse
 		input = renderer->CreateInput();
 		input->Init();
 
-		PluginManager::Compile("C:/Users/zulto/Desktop/GamePlugin");
+		//PluginManager::Compile("C:/Users/zulto/Desktop/GamePlugin");
 
 		//GameObject* gameobject = ComponentManager::CreateGameObject();
 
@@ -95,6 +95,7 @@ namespace Eclipse
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
+		io.IniFilename = nullptr;
 
 		ImGuiStyle& style = ImGui::GetStyle();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -193,8 +194,6 @@ namespace Eclipse
 		Graphics::IRenderer& r = Graphics::RendererManager::GetRenderer();
 		r.ImGui_NewFrame();
 		ImGui::NewFrame();
-
-		ImGui::DockSpaceOverViewport(1, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 	}
 
 	void Engine::ImGui_Render()
