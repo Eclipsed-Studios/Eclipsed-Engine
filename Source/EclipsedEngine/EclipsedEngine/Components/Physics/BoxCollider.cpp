@@ -22,7 +22,7 @@ namespace Eclipse
 	void BoxCollider2D::CreateCollider()
 	{
 		SetScale(HalfExtents);
-		PhysicsEngine::CreateBoxCollider(myInternalCollider, myBodyRef, myHalfExtents, myLayer);
+		PhysicsEngine::CreateBoxCollider(myInternalCollider, myBodyRef, isTrigger, myHalfExtents, myLayer);
 
 		OnShapeDirty();
 	}

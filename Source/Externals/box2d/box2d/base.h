@@ -3,15 +3,30 @@
 
 #pragma once
 
+#include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
+
+// Compile-time options. Edit box2d/config.h, or define BOX2D_USER_CONFIG to
+// point at your own copy.
+#ifdef BOX2D_USER_CONFIG
+#include BOX2D_USER_CONFIG
+#endif
+#include "config.h"
+
+/// Used to indicate an unset or invalid index value.
+#define B2_NULL_INDEX ( -1 )
 
 // clang-format off
 // 
 // Shared library macros
-#if defined( _MSC_VER ) && defined( box2d_EXPORTS )
+// Predefine BOX2D_EXPORT to reuse an existing export/import scheme, for example
+// when compiling Box2D into another shared library.
+#ifndef BOX2D_EXPORT
+#if defined( _WIN32 ) && defined( box2d_EXPORTS )
 	// build the Windows DLL
 	#define BOX2D_EXPORT __declspec( dllexport )
-#elif defined( _MSC_VER ) && defined( BOX2D_DLL )
+#elif defined( _WIN32 ) && defined( BOX2D_DLL )
 	// using the Windows DLL
 	#define BOX2D_EXPORT __declspec( dllimport )
 #elif defined( box2d_EXPORTS )
@@ -20,6 +35,7 @@
 #else
 	// static library
 	#define BOX2D_EXPORT
+#endif
 #endif
 
 // C++ macros
@@ -37,6 +53,12 @@
 #endif
 // clang-format on
 
+#if defined( BOX2D_VALIDATE ) && !defined( NDEBUG )
+#define B2_ENABLE_VALIDATION 1
+#else
+#define B2_ENABLE_VALIDATION 0
+#endif
+
 /**
  * @defgroup base Base
  * Base functionality
@@ -46,25 +68,33 @@
 /// Prototype for user allocation function
 /// @param size the allocation size in bytes
 /// @param alignment the required alignment, guaranteed to be a power of 2
-typedef void* b2AllocFcn( unsigned int size, int alignment );
+typedef void* b2AllocFcn( size_t size, int alignment );
 
 /// Prototype for user free function
 /// @param mem the memory previously allocated through `b2AllocFcn`
-typedef void b2FreeFcn( void* mem );
+/// @param size the allocation size in bytes
+typedef void b2FreeFcn( void* mem, size_t size );
 
 /// Prototype for the user assert callback. Return 0 to skip the debugger break.
 typedef int b2AssertFcn( const char* condition, const char* fileName, int lineNumber );
+
+/// Prototype for user log callback. Used to log warnings.
+typedef void b2LogFcn( const char* message );
 
 /// This allows the user to override the allocation functions. These should be
 /// set during application startup.
 B2_API void b2SetAllocator( b2AllocFcn* allocFcn, b2FreeFcn* freeFcn );
 
 /// @return the total bytes allocated by Box2D
-B2_API int b2GetByteCount( void );
+B2_API int64_t b2GetByteCount( void );
 
-/// Override the default assert callback
+/// Override the default assert function
 /// @param assertFcn a non-null assert callback
 B2_API void b2SetAssertFcn( b2AssertFcn* assertFcn );
+
+/// Override the default log function
+/// @param logFcn a non-null log callback
+B2_API void b2SetLogFcn( b2LogFcn* logFcn );
 
 /// Version numbering scheme.
 /// See https://semver.org/
@@ -83,6 +113,9 @@ typedef struct b2Version
 /// Get the current version of Box2D
 B2_API b2Version b2GetVersion( void );
 
+/// @return true if the library was built with BOX2D_DOUBLE_PRECISION (large world mode)
+B2_API bool b2IsDoublePrecision( void );
+
 /**@}*/
 
 //! @cond
@@ -99,16 +132,18 @@ B2_API b2Version b2GetVersion( void );
 #endif
 
 #if !defined( NDEBUG ) || defined( B2_ENABLE_ASSERT )
-B2_API int b2InternalAssertFcn( const char* condition, const char* fileName, int lineNumber );
+B2_API int b2InternalAssert( const char* condition, const char* fileName, int lineNumber );
 #define B2_ASSERT( condition )                                                                                                   \
-	do                                                                                                                           \
-	{                                                                                                                            \
-		if ( !( condition ) && b2InternalAssertFcn( #condition, __FILE__, (int)__LINE__ ) )                                          \
-			B2_BREAKPOINT;                                                                                                       \
-	}                                                                                                                            \
-	while ( 0 )
+	( (void)( ( !!( condition ) ) || ( b2InternalAssert( #condition, __FILE__, (int)( __LINE__ ) ), 0 ) ) )
 #else
 #define B2_ASSERT( ... ) ( (void)0 )
+#endif
+
+// Validation is used in debug builds
+#if B2_ENABLE_VALIDATION
+#define B2_VALIDATE( condition ) B2_ASSERT( condition )
+#else
+#define B2_VALIDATE( ... ) ( (void)0 )
 #endif
 
 /// Get the absolute number of system ticks. The value is platform specific.

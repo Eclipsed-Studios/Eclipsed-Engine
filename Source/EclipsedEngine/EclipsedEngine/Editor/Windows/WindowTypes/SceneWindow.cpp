@@ -231,15 +231,6 @@ void Eclipse::Editor::SceneWindow::SpriteSelector()
 
 			GameObject* pickedGameobject = ComponentManager::GetGameObject(pickedID);
 
-			Transform2D* transform = pickedGameobject->transform;
-			Math::Vector2f globalPosition = transform->GetPosition();
-			float globalRotation = transform->GetRotation();
-			Math::Vector2f globalScale = transform->GetScale();
-
-			Transform2D* childTransform = gameobject->transform;
-			childTransform->SetPosition(globalPosition);
-			childTransform->SetRotation(globalRotation);
-			childTransform->SetScale(globalScale);
 
 			gameobject->SetParent(nullptr);
 		}

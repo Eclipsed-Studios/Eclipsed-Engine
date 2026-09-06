@@ -5,12 +5,31 @@
 
 namespace Eclipse
 {
+	std::bitset<MAX_KEYS> Input::currentKeys;
+	std::bitset<MAX_KEYS> Input::lastKeys;
+
+	std::bitset<MAX_KEYS> Input::pressedThisFrame;
+	std::bitset<MAX_KEYS> Input::releasedThisFrame;
+
+	Math::Vector2f Input::currentGamePos;
+
+	Math::Vector2i Input::currentPos;
+	Math::Vector2i Input::lastPos;
+	Math::Vector2i Input::mouseDeltaPos;
+
+	Math::Vector2i Input::mouseScrollDelta;
+	Math::Vector2i Input::normalizedMouseScrollDelta;
+
+	bool Input::mouseIsInside;
+	bool Input::windowFocused;
+
 	Input* GetInputPtrFromGlfwPtr(GLFWwindow* w) {
 		return (Input*)glfwGetWindowUserPointer(w);
 	}
 
 	void Input::Update()
 	{
+
 		// Mouse delta
 		//mouseScrollDelta = Math::Vector2i(0, 0);
 		normalizedMouseScrollDelta = Math::Vector2i(0, 0);
@@ -24,6 +43,11 @@ namespace Eclipse
 		releasedThisFrame = ~currentKeys & lastKeys;
 
 		lastKeys = currentKeys;
+
+		if (pressedThisFrame[Keycode::SPACE])
+		{
+			return;
+		}
 	}
 
 	void Input::Init()
@@ -32,33 +56,27 @@ namespace Eclipse
 		//glfwSetWindowUserPointer(window, this);
 
 		glfwSetKeyCallback(window, [](GLFWwindow* w, int key, int scancode, int action, int mods) {
-			Input* input = GetInputPtrFromGlfwPtr(w);
-			if (input) input->OnKey_Callback(w, key, scancode, action, mods);
+			Input::OnKey_Callback(w, key, scancode, action, mods);
 			});
 
 		glfwSetCursorPosCallback(window, [](GLFWwindow* w, double x, double y) {
-			Input* input = GetInputPtrFromGlfwPtr(w);
-			if (input) input->OnMousePos_Callback(w, x, y);
+			Input::OnMousePos_Callback(w, x, y);
 			});
 
 		glfwSetCursorEnterCallback(window, [](GLFWwindow* w, int entered) {
-			Input* input = GetInputPtrFromGlfwPtr(w);
-			if (input) input->OnMouseEnter_Callback(w, entered);
+			Input::OnMouseEnter_Callback(w, entered);
 			});
 
 		glfwSetMouseButtonCallback(window, [](GLFWwindow* w, int button, int action, int mods) {
-			Input* input = GetInputPtrFromGlfwPtr(w);
-			if (input) input->OnMouseButton_Callback(w, button, action, mods);
+			Input::OnMouseButton_Callback(w, button, action, mods);
 			});
 
 		glfwSetWindowFocusCallback(window, [](GLFWwindow* w, int focused) {
-			Input* input = GetInputPtrFromGlfwPtr(w);
-			if (input) input->OnWindowFocus_Callback(w, focused);
+			Input::OnWindowFocus_Callback(w, focused);
 			});
 
 		glfwSetScrollCallback(window, [](GLFWwindow* w, double xOffset, double yOffset) {
-			Input* input = GetInputPtrFromGlfwPtr(w);
-			if (input) input->OnMouseScroll_Callback(w, xOffset, yOffset);
+			Input::OnMouseScroll_Callback(w, xOffset, yOffset);
 			});
 	}
 }

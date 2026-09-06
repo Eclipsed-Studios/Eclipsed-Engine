@@ -23,12 +23,7 @@ namespace Eclipse
 			ParentChildren.pop_back();
 		}
 	}
-	
-	template <typename T>
-	std::vector<T*> GameObject::GetComponents()
-	{
-		return ComponentManager::Get().GetComponent<T>(myID);
-	}
+
 
 
 	GameObject::GameObject(GameObjectID aId)
@@ -137,7 +132,7 @@ namespace Eclipse
 		return myName;
 	}
 
-	std::vector<Component*> GameObject::GetComponents()
+	std::vector<Component*> GameObject::GetAllComponents()
 	{
 		return ComponentManager::GetComponents(myID);
 	}

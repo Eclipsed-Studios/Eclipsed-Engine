@@ -38,7 +38,7 @@ namespace Eclipse::Editor
 		ImGui::BeginChild(
 			"ConsoleScrollRegion",
 			ImVec2(0, 0),
-			false,
+			0,
 			ImGuiWindowFlags_AlwaysVerticalScrollbar
 		);
 

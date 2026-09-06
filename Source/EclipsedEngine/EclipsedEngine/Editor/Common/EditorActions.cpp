@@ -28,6 +28,8 @@ namespace Eclipse::Editor
 {
 	void EditorActions::SaveScene()
 	{
+		
+
 		switch (SceneManager::GetActiveSceneType())
 		{
 		case SceneManager::Default:
@@ -84,10 +86,6 @@ namespace Eclipse::Editor
 
 			component.AddMember(rapidjson::Value(compName.c_str(), anAllocator).Move(), componentVars, anAllocator);
 
-			if (pComp->IsReplicated)
-			{
-				int huiads = 89;
-			}
 			component.AddMember("IsReplicated", isReplicatedValue, anAllocator);
 
 			componentArray.PushBack(component, anAllocator);
@@ -207,7 +205,6 @@ namespace Eclipse::Editor
 			if (!data)
 				return;
 			GameObject* newGameobject = InternalSpawnObjectClass::CreateObjectFromJsonString(data);
-			HierarchyWindow::CurrentGameObjectID = newGameobject->GetID();
 		}
 		else if (false)
 		{
@@ -222,11 +219,15 @@ namespace Eclipse::Editor
 
 		EditorActions::Action action = A_NONE;
 
+		bool IsPlaymode = *MainSingleton::GetInstance<EditorEntry>().IsPlaying;
+
 		bool ctrl = ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl);
 		if (ctrl)
 		{
 			bool shift = ImGui::IsKeyDown(ImGuiKey_LeftShift) || ImGui::IsKeyDown(ImGuiKey_RightShift);
-			if (ImGui::IsKeyPressed(ImGuiKey_S, false)) action = EditorActions::Action::A_Save;
+
+			if (!IsPlaymode && ImGui::IsKeyPressed(ImGuiKey_S, false)) action = EditorActions::Action::A_Save;
+			if (IsPlaymode && ImGui::IsKeyPressed(ImGuiKey_F9, false)) action = EditorActions::Action::A_Save;
 
 			else if (ImGui::IsKeyPressed(ImGuiKey_C, false)) action = EditorActions::Action::A_Copy;
 			else if (ImGui::IsKeyPressed(ImGuiKey_V, false)) action = EditorActions::Action::A_Paste;

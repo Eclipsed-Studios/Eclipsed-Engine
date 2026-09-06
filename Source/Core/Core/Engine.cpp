@@ -12,14 +12,14 @@ namespace Eclipse
 	void Engine::Init()
 	{
 		EventSystem::Trigger("Engine-Load");
-		//Time::Init();
+		Core::Timer::Init();
 	}
 
 	void Engine::Update()
 	{
 		//PlatformIntegration::IntegrationManager::Update();
 
-		//Time::Update();
+		Core::Timer::Update();
 	}
 
 	void Engine::End()

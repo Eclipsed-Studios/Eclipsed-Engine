@@ -2,8 +2,84 @@
 
 #include "box2d/box2d.h"
 
+#include "Core/Logger/DebugLogger.h"
+
 namespace Eclipse
 {
+	void HandleBeginSensor(b2SensorBeginTouchEvent& aEvent)
+	{
+		const b2ShapeId sensorShape = aEvent.sensorShapeId;
+		const b2ShapeId visitorShape = aEvent.visitorShapeId;
+
+		if (!b2Shape_IsValid(sensorShape) ||
+			!b2Shape_IsValid(visitorShape))
+		{
+			return;
+		}
+
+		const b2BodyId sensorBody = b2Shape_GetBody(sensorShape);
+		const b2BodyId visitorBody = b2Shape_GetBody(visitorShape);
+
+		void* sensorData = b2Body_GetUserData(sensorBody);
+		void* visitorData = b2Body_GetUserData(visitorBody);
+
+		if (!sensorData || !visitorData)
+			return;
+
+		UserData& sensorUserData =
+			*static_cast<UserData*>(sensorData);
+
+		UserData& visitorUserData =
+			*static_cast<UserData*>(visitorData);
+
+		if (PhysicsEngine::myBeginTriggerCallback)
+		{
+			PhysicsEngine::myBeginTriggerCallback(
+				sensorUserData,
+				visitorUserData
+			);
+		}
+	}
+
+	void HandleEndSensor(b2SensorEndTouchEvent& aEvent)
+	{
+		const b2ShapeId sensorShape = aEvent.sensorShapeId;
+		const b2ShapeId visitorShape = aEvent.visitorShapeId;
+
+		if (!b2Shape_IsValid(sensorShape) ||
+			!b2Shape_IsValid(visitorShape))
+			return;
+
+		const b2BodyId sensorBody =
+			b2Shape_GetBody(sensorShape);
+
+		const b2BodyId visitorBody =
+			b2Shape_GetBody(visitorShape);
+
+		void* sensorData =
+			b2Body_GetUserData(sensorBody);
+
+		void* visitorData =
+			b2Body_GetUserData(visitorBody);
+
+		if (!sensorData || !visitorData)
+			return;
+
+		UserData& sensorUserData =
+			*reinterpret_cast<UserData*>(sensorData);
+
+		UserData& visitorUserData =
+			*reinterpret_cast<UserData*>(visitorData);
+
+		if (PhysicsEngine::myEndTriggerCallback)
+		{
+			PhysicsEngine::myEndTriggerCallback(
+				sensorUserData,
+				visitorUserData
+			);
+		}
+	}
+
 	void HandleBeginContacts(b2ContactBeginTouchEvent& aEvent)
 	{
 		const b2ShapeId shapeIdA = aEvent.shapeIdA;
@@ -12,17 +88,24 @@ namespace Eclipse
 		if (!b2Shape_IsValid(shapeIdA) || !b2Shape_IsValid(shapeIdB))
 			return;
 
+		const bool isTriggerA = b2Shape_IsSensor(shapeIdA);
+		const bool isTriggerB = b2Shape_IsSensor(shapeIdB);
+
 		const b2BodyId bodyIdA = b2Shape_GetBody(shapeIdA);
 		const b2BodyId bodyIdB = b2Shape_GetBody(shapeIdB);
 
 		void* userInternalDataA = b2Body_GetUserData(bodyIdA);
 		void* userInternalDataB = b2Body_GetUserData(bodyIdB);
 
-		UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
-		UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataB);
+		if (!userInternalDataA || !userInternalDataB)
+			return;
 
-		PhysicsEngine::myBeginContactCallback(userDataA);
-		PhysicsEngine::myBeginContactCallback(userDataB);
+		UserData& userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
+
+		UserData& userDataB = *reinterpret_cast<UserData*>(userInternalDataB);
+
+		PhysicsEngine::myBeginContactCallback(userDataA, userDataB);
+		PhysicsEngine::myBeginContactCallback(userDataB, userDataA);
 	}
 
 	void HandleEndContacts(b2ContactEndTouchEvent& aEvent)
@@ -42,28 +125,33 @@ namespace Eclipse
 		UserData userDataA = *reinterpret_cast<UserData*>(userInternalDataA);
 		UserData userDataB = *reinterpret_cast<UserData*>(userInternalDataB);
 
-		PhysicsEngine::myEndContactCallback(userDataA);
-		PhysicsEngine::myEndContactCallback(userDataB);
+		PhysicsEngine::myEndContactCallback(userDataA, userDataB);
+		PhysicsEngine::myEndContactCallback(userDataB, userDataA);
 	}
 
 	void PhysicsEngine::CheckCollisions()
 	{
 		b2ContactEvents contactEvents = b2World_GetContactEvents(myWorld);
-
 		for (int i = 0; i < contactEvents.beginCount; ++i)
 		{
-			b2ContactBeginTouchEvent event = contactEvents.beginEvents[i];
-			HandleBeginContacts(event);
+			HandleBeginContacts(contactEvents.beginEvents[i]);
 		}
-		// for (int i = 0; i < contactEvents.hitCount; ++i)
-		// {
-		//     b2ContactBeginTouchEvent event = contactEvents.beginEvents[i];
-		//     HandleBeginContacts(event);
-		// }
+
 		for (int i = 0; i < contactEvents.endCount; ++i)
 		{
-			b2ContactEndTouchEvent event = contactEvents.endEvents[i];
-			HandleEndContacts(event);
+			HandleEndContacts(contactEvents.endEvents[i]);
+		}
+
+
+		b2SensorEvents triggerEvents = b2World_GetSensorEvents(myWorld);
+		for (int i = 0; i < triggerEvents.beginCount; ++i)
+		{
+			HandleBeginSensor(triggerEvents.beginEvents[i]);
+		}
+
+		for (int i = 0; i < triggerEvents.endCount; ++i)
+		{
+			HandleEndSensor(triggerEvents.endEvents[i]);
 		}
 	}
 
@@ -127,8 +215,8 @@ namespace Eclipse
 	{
 		b2AABB aabb;
 
-		Math::Vector2f lowerBoundAABB = aPositon - aHalfExent;
-		Math::Vector2f upperBoundAABB = aPositon + aHalfExent;
+		Math::Vector2f lowerBoundAABB = aHalfExent * -1.f;
+		Math::Vector2f upperBoundAABB = aHalfExent;
 
 		aabb.lowerBound = b2Vec2(lowerBoundAABB.x, lowerBoundAABB.y);
 		aabb.upperBound = b2Vec2(upperBoundAABB.x, upperBoundAABB.y);
@@ -137,7 +225,7 @@ namespace Eclipse
 		filter.maskBits = static_cast<uint64_t>(aLayerMask);
 		filter.categoryBits = static_cast<uint64_t>(Layer::All);
 
-		b2World_OverlapAABB(myWorld, aabb, filter, MyShapeOverlapCallback, &aHitResults);
+		b2World_OverlapAABB(myWorld, b2Vec2(aPositon.x, aPositon.y), aabb, filter, MyShapeOverlapCallback, &aHitResults);
 		if (!aHitResults.results.empty())
 			return true;
 
@@ -146,16 +234,16 @@ namespace Eclipse
 
 	bool PhysicsEngine::OverlapSphere(const Math::Vector2f& aPositon, float aRadius, HitResults& aHitResults, Layer aLayerMask)
 	{
-		b2Circle circle({ aPositon.x, aPositon.y }, aRadius);
+		b2Circle circle({ 0.f, 0.f }, aRadius);
 		b2ShapeProxy proxy = b2MakeProxy(&circle.center, 1, circle.radius);
 
 		b2QueryFilter filter = b2DefaultQueryFilter();
 		filter.maskBits = static_cast<uint64_t>(aLayerMask);
 		filter.categoryBits = static_cast<uint64_t>(Layer::All);
 
-		b2World_OverlapShape(myWorld, &proxy, filter, MyShapeOverlapCallback, &aHitResults);
+		b2World_OverlapShape(myWorld, b2Vec2(aPositon.x, aPositon.y), &proxy, filter, MyShapeOverlapCallback, &aHitResults);
 
-		if (myDrawDebugShapes && myDrawQueries)
+		if (myDrawQueries)
 			myDebugDraw.DrawCircleFcn(b2Vec2(aPositon.x, aPositon.y), aRadius, b2HexColor::b2_colorBlack, nullptr);
 
 		if (!aHitResults.results.empty())

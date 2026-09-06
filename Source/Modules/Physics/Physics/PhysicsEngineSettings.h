@@ -78,8 +78,8 @@ namespace Eclipse
 
 	struct PhysMaterial
 	{
-		float friction = 0.6f;
-		float restitusion = 0.3f;
+		float friction = 0.f;
+		float restitusion = 0.f;
 	};
 
 	struct UserData

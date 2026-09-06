@@ -58,7 +58,7 @@ namespace Eclipse
 
 
 	private:
-		FMOD::Channel* channel;
+		FMOD::Channel* channel = nullptr;
 		bool isPlaying = false;
 	};
 

@@ -151,19 +151,21 @@ namespace Eclipse
         EnableOpenGLSettings();
         DebugDrawer::Get().Init();
 
-        myClearColor.r = 0.4314f;
-        myClearColor.g = 0.1804f;
-        myClearColor.b = 0.6f;
+        myClearColor.r = 0.129f;
+        myClearColor.g = 0.05f;
+        myClearColor.b = 0.353f;
         myClearColor.a = 1.0f;
 
         myMouseCursors.emplace_back(glfwCreateStandardCursor(GLFW_HAND_CURSOR));
 
+#ifdef ECL_EDITOR
         GLFWimage cursor;
 
         int nrChannels = 0;
         STB_Helper::SetFlipVerticalOnLoad_STB(false);
-        cursor.pixels = STB_Helper::Load_Texture_STB((PathManager::GetEngineAssetsPath() / "GrabbyHand.png").generic_string().c_str(), cursor.width, cursor.height, nrChannels, 0);
+        cursor.pixels = STB_Helper::Load_Texture_STB((PathManager::GetEngineAssetsPath() / "GrabbyHand.png").generic_string().c_str(), cursor.width, cursor.height, nrChannels, 0, false);
         myMouseCursors.emplace_back(glfwCreateCursor(&cursor, 8.f, 8.f));
+#endif
 
         CommandListManager::InitAllCommandLists();
 
@@ -179,11 +181,11 @@ namespace Eclipse
         glGenTextures(1, &textureID);
         glBindTexture(GL_TEXTURE_2D, textureID);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, 0x2901);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, 0x2901);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_LINEAR);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 0x2601);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 0x2601);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         int rgbTypeOffset = 3 - channels;
 
@@ -300,7 +302,7 @@ namespace Eclipse
 
     int OpenGLGraphicsEngine::ShouldWindowClose()
     {
-        return glfwWindowShouldClose(MainSingleton::GetInstance<GLFWwindow*>());
+        return glfwWindowShouldClose(MainSingleton::GetInstance<GLFWwindow*>());;
     }
 
     ErrorCode OpenGLGraphicsEngine::CheckErrorCodes(ErrorCode aErrorCode)

@@ -666,7 +666,7 @@ namespace Eclipse::Editor
 
 		if (!holdingRect && !ImGui::IsAnyItemActive())
 		{
-			if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
+			if (mySelectedRectPtr && ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
 			{
 				if (ImGui::IsKeyPressed(ImGuiKey_C, false))
 				{

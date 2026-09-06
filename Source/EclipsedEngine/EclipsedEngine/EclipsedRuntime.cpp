@@ -19,10 +19,6 @@
 #include "EclipsedEngine/Components/Transform2D.h"
 #include "EclipsedEngine/Components/Rendering/SpriteRenderer2D.h"
 
-#include "Replication/ReplicationManager.h"
-
-#include "Steam/SteamGeneral.h"
-
 #include "Core/Settings/GraphicsSettings.h"
 
 #include "EclipsedEngine/Editor/PhysicsDebugDrawer.h"
@@ -30,12 +26,6 @@
 #include "EclipsedEngine/Components/ComponentForcelink.h"
 
 #include "Networking.h"
-
-
-#ifdef ECLIPSED_NETWORKING
-	#include "Networking/Client/SteamP2PNetworkingClient.h"
-	#include "Networking/Server/SteamP2PNetworkingServer.h"
-#endif
 
 #include "Core/Profiling/PerformanceProfilerManager.h"
 
@@ -50,6 +40,11 @@
 #include "Physics/PhysicsEngine.h"
 
 #include "Assets/AssetImporter.h"
+#include "Assets/Helper/TextManager.h"
+#include <DebugDrawer.h>
+
+#include "Core/Logger/DebugLogger.h"
+#include "../../Game/Game/EventBroadcaster.h"
 
 namespace Eclipse
 {
@@ -59,8 +54,7 @@ namespace Eclipse
 	void EclipsedRuntime::StartEngine()
 #endif
 	{
-		Core::Timer& time = MainSingleton::GetInstance<Core::Timer>();
-		time.Init();
+		Core::Timer::Init();
 
 #ifndef ECL_EDITOR
 	#ifdef STEAMSDK_PRESENT
@@ -72,14 +66,8 @@ namespace Eclipse
 		Assets::AssetImporter::ImportBundle();
 #endif
 
-#ifdef ECLIPSED_NETWORKING
-		Replication::ReplicationManager::Init();
-#endif // ECLIPSED_NETWORKING
-
 		AudioManager::Init();
 
-		ComponentForcelink::LinkComponents();
-		//Resources::Init();
 
 #ifdef ECL_EDITOR
 		Editor::AssetWindow::CreateGameobjectFunc = [](char* data) { return InternalSpawnObjectClass::CreateObjectFromJsonString(data)->GetID(); };
@@ -90,7 +78,7 @@ namespace Eclipse
 
 
 		//MainSingleton::RegisterInstance<EngineSettings>();
-		//MainSingleton::RegisterInstance<TextManager>();
+		MainSingleton::RegisterInstance<TextManager>();
 
 		GraphicsEngine::InitSpecifiedAPI<OpenGLGraphicsEngine>();
 		GraphicsEngine::Get()->Init();
@@ -105,13 +93,24 @@ namespace Eclipse
 			PhysicsDebugDrawer::Init(&debugDraw);
 
 			PhysicsEngine::Init(8, { 0.f, -9.82f }, debugDraw);
-			PhysicsEngine::myBeginContactCallback = [this](UserData& aUserData)
+			PhysicsEngine::myBeginContactCallback = [this](UserData& aUserData, UserData& aUserData1)
 				{
-					ComponentManager::BeginCollisions(aUserData.gameobject);
+					ComponentManager::BeginCollisions(aUserData.gameobject, aUserData1.gameobject);
 				};
-			PhysicsEngine::myEndContactCallback = [this](UserData& aUserData)
+			PhysicsEngine::myEndContactCallback = [this](UserData& aUserData, UserData& aUserData1)
 				{
-					ComponentManager::EndCollisions(aUserData.gameobject);
+					ComponentManager::EndCollisions(aUserData.gameobject, aUserData1.gameobject);
+				};
+
+
+			PhysicsEngine::myBeginTriggerCallback = [this](UserData& aUserData, UserData& aUserData1)
+				{
+					ComponentManager::BeginTrigger(aUserData.gameobject, aUserData1.gameobject);
+				};
+
+			PhysicsEngine::myEndTriggerCallback = [this](UserData& aUserData, UserData& aUserData1)
+				{
+					ComponentManager::EndTrigger(aUserData.gameobject, aUserData1.gameobject);
 				};
 		}
 
@@ -124,16 +123,14 @@ namespace Eclipse
 
 		SceneManager::LoadSceneData();
 
-#ifndef ECL_EDITOR
-		SceneManager::LoadScene("NewScene");
-#endif
+//#ifndef ECL_EDITOR
+		SceneManager::LoadScene("MainScene");
+//#endif
 	}
 
 	void EclipsedRuntime::UpdateGame()
 	{
 		CORE_PROFILE_SCOPED;
-		//TODO: Might not want to call every frame but it does now
-		SteamGeneral::Get().Update();
 
 		PhysicsEngine::Update();
 
@@ -143,10 +140,6 @@ namespace Eclipse
 		ComponentManager::UpdateComponents();
 
 		AudioManager::Update();
-
-#ifdef ECLIPSED_NETWORKING
-		Replication::ReplicationManager::Update();
-#endif
 	}
 
 	void SortComponents()
@@ -171,10 +164,13 @@ namespace Eclipse
 		CORE_PROFILE_SCOPED;
 		SortComponents();
 
-#ifdef ECL_EDITOR
-		//PhysicsEngine::DrawPhysicsObjects();
-#endif
 		ComponentManager::RenderComponents();
+
+#ifdef ECL_EDITOR
+		PhysicsEngine::DrawPhysicsObjects();
+#endif
+		DebugDrawer::Get().Render();
+
 		ComponentManager::EditorLateUpdateComponents();
 		ComponentManager::LateUpdateComponents();
 		GraphicsEngine::Get()->Render();
@@ -206,14 +202,16 @@ namespace Eclipse
 		GraphicsEngine::Get()->EndFrame();
 		Assets::AssetManager::EndFrame();
 		PerformanceProfilerManager::Clear();
+
+		ComponentManager::CommitDestroy();
+
+		EventBroadcaster::Clear();
 	}
 
 	void EclipsedRuntime::Shutdown()
 	{
 		MainSingleton::Destroy();
 		engine.End();
-
-		SHUT_DOWN_NETWORK_ENGINE();
 	}
 
 	bool EclipsedRuntime::BeginFrame()

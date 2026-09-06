@@ -114,6 +114,9 @@ namespace Eclipse::Editor
 
 	void IconManager::LoadAllTextureIcons()
 	{
+		if (!std::filesystem::exists(PathManager::GetAssetsPath()))
+			return;
+
 		namespace fs = std::filesystem;
 
 		std::vector<std::string> texturesPathsToLoad;

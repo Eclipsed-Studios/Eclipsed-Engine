@@ -4,57 +4,101 @@
 #include "EclipsedEngine/Components/Transform2D.h"
 #include "EclipsedEngine/Components/Audio/AudioListener.h"
 
-
-
 #include "EclipsedEngine/Editor/ComponentInspectorDrawer.h"
-
 
 namespace Eclipse
 {
 	void AudioEmitter::Awake()
 	{
-		if (playOnAwake) {
+		if (playOnAwake)
 			Play();
-		}
-
-		InitAudio();
 
 		Transform2D* trans = gameObject->transform;
+
 		trans->AddFunctionToRunOnDirtyUpdate(this,
-			[this]() {
+			[this]()
+			{
 				this->UpdateAudioPosition();
 			}
 		);
 	}
 
-	void AudioEmitter::OnDestroy() {
-		channel->stop();
+	void AudioEmitter::OnDestroy()
+	{
+		if (channel)
+		{
+			channel->stop();
+			channel = nullptr;
+		}
 	}
 
 	void AudioEmitter::Update()
 	{
+		if (!channel)
+			return;
+
 		SetVolume(volume);
-		SetSpatialMode(EnableSpatial);
 	}
 
 	void AudioEmitter::SetSpatialMode(bool is3D)
 	{
-		channel->setMode(is3D ? FMOD_3D : FMOD_2D);
+		if (!channel)
+			return;
+
+		if (is3D)
+		{
+			channel->setMode(
+				FMOD_3D |
+				FMOD_3D_WORLDRELATIVE |
+				FMOD_3D_INVERSEROLLOFF
+			);
+		}
+		else
+		{
+			channel->setMode(FMOD_2D);
+		}
 	}
 
-	void AudioEmitter::Play() {
+	void AudioEmitter::Play()
+	{
+		if (!audioClip.IsValid())
+			return;
+
+		AudioManager::PlayAudio(
+			audioClip->dataPtr->sound,
+			&channel
+		);
+
+		if (!channel)
+			return;
+
+		InitAudio();
+
+		channel->setPosition(0, FMOD_TIMEUNIT_MS);
+
 		isPlaying = true;
-		channel->setPaused(isPlaying);
 
 		UpdateAudioPosition();
+		SetSpatialMode(EnableSpatial);
+		SetVolume(volume);
+
+		channel->setPaused(false);
 	}
 
-	void AudioEmitter::Resume() {
+	void AudioEmitter::Resume()
+	{
+		if (!channel)
+			return;
+
 		isPlaying = true;
 		channel->setPaused(false);
 	}
 
-	void AudioEmitter::Pause() {
+	void AudioEmitter::Pause()
+	{
+		if (!channel)
+			return;
+
 		isPlaying = false;
 		channel->setPaused(true);
 	}
@@ -62,31 +106,35 @@ namespace Eclipse
 	void AudioEmitter::SetAudioClip(Assets::AudioClip clip)
 	{
 		audioClip = clip;
-
-		InitAudio();
 	}
 
-	void AudioEmitter::Stop() {
+	void AudioEmitter::Stop()
+	{
+		if (!channel)
+			return;
+
 		channel->stop();
+		channel = nullptr;
+
+		isPlaying = false;
 	}
 
 	void AudioEmitter::SetVolume(float aVolume)
 	{
-		AudioListener* listener = AudioListener::GetListener();
-		if (!listener)
+		if (!channel)
 			return;
 
-		float audioAttenuation = 1.f;
-		if (EnableSpatial && listener != nullptr)
-		{
-			channel->setMode(
-				FMOD_3D |
-				FMOD_3D_WORLDRELATIVE |
-				FMOD_3D_INVERSEROLLOFF
-			);
+		AudioListener* listener = AudioListener::GetListener();
 
-			Math::Vector2f p = gameObject->transform->GetPosition();
-			Math::Vector2f l = listener->gameObject->transform->GetPosition();
+		float audioAttenuation = 1.f;
+
+		if (EnableSpatial && listener)
+		{
+			Math::Vector2f p =
+				gameObject->transform->GetPosition();
+
+			Math::Vector2f l =
+				listener->gameObject->transform->GetPosition();
 
 			float dx = p.x - l.x;
 			float dy = p.y - l.y;
@@ -96,97 +144,56 @@ namespace Eclipse
 			float t = dist / 20.f;
 			t = std::clamp(t, 0.0f, 1.0f);
 
-			audioAttenuation = 1.0f - (t * t * (3.0f - 2.0f * t));
-		}
-		else
-		{
-			channel->setMode(
-				FMOD_2D
-			);
+			audioAttenuation =
+				1.0f - (t * t * (3.0f - 2.0f * t));
 		}
 
 		volume = aVolume;
 		channel->setVolume(audioAttenuation * volume);
 	}
 
-	float AudioEmitter::GetVolume() const {
+	float AudioEmitter::GetVolume() const
+	{
 		return volume;
 	}
 
 	void AudioEmitter::InitAudio()
 	{
-		AudioManager::PlayAudio(audioClip->dataPtr->sound, &channel);
+		if (!channel)
+			return;
 
-		channel->setChannelGroup(AudioManager::GetBus(AudioBus::Master));
-
-		channel->setMode(
-			FMOD_3D |
-			FMOD_3D_WORLDRELATIVE |
-			FMOD_3D_INVERSEROLLOFF
+		channel->setChannelGroup(
+			AudioManager::GetBus(AudioBus::Master)
 		);
 
-		channel->set3DMinMaxDistance(2.0f, 5.f);
+		SetSpatialMode(EnableSpatial);
+
+		channel->set3DMinMaxDistance(2.0f, 20.0f);
 	}
 
 	void AudioEmitter::UpdateAudioPosition()
 	{
+		if (!channel)
+			return;
+
 		Transform2D* trans = gameObject->transform;
+
 		Math::Vector2f ePos = trans->GetPosition();
 
-		FMOD_VECTOR pos = { ePos.x, ePos.y, 1.f };
-		FMOD_VECTOR vel = { 0.f, 0.f, 0.f };
+		FMOD_VECTOR pos =
+		{
+			ePos.x,
+			ePos.y,
+			1.f
+		};
+
+		FMOD_VECTOR vel =
+		{
+			0.f,
+			0.f,
+			0.f
+		};
 
 		channel->set3DAttributes(&pos, &vel);
 	}
 }
-
-
-#ifdef ECL_EDITOR
-
-#include "Assets/Core/AssetDatabase.h"
-#include "Core/Files/FileInfo.h"
-#include "EclipsedEngine/Editor/Common/DragAndDrop.h"
-
-namespace Eclipse::Editor
-{
-	void DrawInspector(AudioEmitter* comp)
-	{
-		ImGui::Text("Volume");
-		ImGui::SameLine();
-		float volume = comp->GetVolume() * 100.f;
-		if (ImGui::SliderFloat(("##audio_volume" + std::to_string(comp->myInstanceComponentID)).c_str(), &volume, 0.f, 100.f))
-		{
-			volume /= 100.f;
-			comp->SetVolume(volume);
-		}
-
-		ImGui::Text("Clip");
-		ImGui::SameLine();
-
-		std::string name = "No material.";
-
-		Assets::AudioClip& audio = comp->audioClip.Get();
-		if (audio.IsValid())
-		{
-			name = MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(audio.GetAssetID()).fileName;
-		}
-
-		if (Editor::DragAndDrop::BeginTarget(name.c_str(), Utilities::FileInfo::FileType_Audio))
-		{
-			comp->SetAudioClip(Assets::AssetManager::Load<Assets::AudioClip>(
-				MainSingleton::GetInstance<Assets::AssetDatabase>().GetProcessedFile(Editor::DragAndDrop::payloadBuffer).guid)
-			);
-		}
-
-
-
-
-
-
-
-		ImGui::Text("Look here this is the way.");
-	}
-
-	REGISTER_INSPECTOR(AudioEmitter);
-}
-#endif

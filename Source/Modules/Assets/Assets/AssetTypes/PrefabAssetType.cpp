@@ -37,13 +37,14 @@ namespace Eclipse::Assets
     {
         PrefabData* _data = reinterpret_cast<PrefabData*>(data);
 
-
         size_t strSize = 0;
         reader.Read(DATA_SIZE_PAIR(strSize));
 
-        _data->data = reinterpret_cast<char*>(malloc(strSize));
+        _data->data = reinterpret_cast<char*>(malloc(strSize + 1));
+
         reader.Read(_data->data, strSize);
-        memset(_data->data + strSize, 0, 1);
+
+        _data->data[strSize] = '\0';
 
         _data->guid = meta.guid;
     }

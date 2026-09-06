@@ -115,6 +115,8 @@ namespace Eclipse::Editor
 
             }
 
+            auto it = PathManager::GetEngineAssetsPath();
+
             //io.FontDefault = io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "Fonts/Quicksand-Medium.ttf", 16);
             io.FontDefault = io.Fonts->AddFontFromFileTTF((PathManager::GetEngineAssetsPath() / "Fonts/ARIAL.TTF").generic_string().c_str(), 16);
 

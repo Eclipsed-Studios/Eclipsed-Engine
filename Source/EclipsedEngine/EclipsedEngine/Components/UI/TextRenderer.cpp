@@ -21,7 +21,7 @@
 #include "Renderer/OpenGL/DebugDrawers/DebugDrawer.h"
 
 #ifdef ECL_EDITOR
-	#include <Core/GraphicsBuffers/EditorBuffer.h>
+#include <Core/GraphicsBuffers/EditorBuffer.h>
 
 #endif
 
@@ -61,9 +61,7 @@ namespace Eclipse
 #ifdef ECL_EDITOR
 		if (IsScene)
 			myTransformBuffer.Position *= canvasCameraTransform.ScaleMultiplier;
-		else
 #endif
-			myTransformBuffer.Position *= Math::Vector2f(2, 2);
 
 
 
@@ -73,12 +71,8 @@ namespace Eclipse
 
 		Math::Vector2f multiplier;
 
-#ifdef ECL_EDITOR
-		if (IsScene)
-			multiplier = canvasCameraTransform.ScaleMultiplier;
-		else
+
 		{
-#endif
 			if (!tranform->ScaleWithCanvasX)
 				multiplier.x = canvasCameraTransform.ScaleMultiplier.x;
 			else
@@ -87,9 +81,8 @@ namespace Eclipse
 				multiplier.y = canvasCameraTransform.ScaleMultiplier.y;
 			else
 				multiplier.y = 2;
-#ifdef ECL_EDITOR
 		}
-#endif
+
 		myTransformBuffer.Scale *= multiplier;
 
 
@@ -141,7 +134,13 @@ namespace Eclipse
 
 	void TextRenderer::Render()
 	{
-		CommandListManager::GetUICommandList().Enqueue([&]() {
+		CommandList* ActiveCommandlist = &CommandListManager::GetUICommandList();
+
+		auto transform = gameObject->GetComponent<RectTransform>();
+		if (transform->myCanvas && transform->myCanvas->WorldSpace)
+			ActiveCommandlist = &CommandListManager::GetSpriteCommandList();
+
+		ActiveCommandlist->Enqueue([&]() {
 			this->Draw();
 			});
 	}
@@ -270,7 +269,7 @@ namespace Eclipse
 			BaseGraphicsBuffer* graphicsBuffer = GraphicsEngine::Get()->GetGraphicsBuffer();
 
 			graphicsBuffer->SetOrCreateBuffer(3, myTextBuffer);
-			//textOffset.x += characterAdvance * myCharacterSpacing;
+			textOffset.x += characterAdvance * myCharacterSpacing;
 
 			CanvasBuffer* canvasBuffer;
 			graphicsBuffer->GetBuffer<CanvasBuffer>(canvasBuffer);

@@ -26,10 +26,9 @@
 #include "EclipsedEngine/Components/ComponentForcelink.h"
 #include "ECS/ComponentManager.h"
 
-#include "EclipsedEngine/Steam/SteamGeneral.h"
-
 #include "EclipsedEngine/Editor/Windows/WindowTypes/HierarchyWindow.h"
 
+#include "Windows/WindowTypes/Settings/BuildSettingsWindow.h"
 #include "EclipsedEngine/ECS/ObjectManager.h"
 
 #include "Physics/PhysicsEngine.h"
@@ -44,32 +43,23 @@ namespace Eclipse::Editor
 		editorEntry.IsPlaying = &isPlaying;
 		editorEntry.IsPaused = &isPaused;
 
-
 		PathManager::Init(path);
-
-		ComponentForcelink::LinkComponents();
 
 		eclipseRuntime.StartEngine(path);
 
 
 		{ 
 			Assets::AssetImporter::ImportAssets(PathManager::GetEngineAssetsPath(), "Engine/");
-			Assets::AssetImporter::ImportAssets(PathManager::GetAssetsPath(), "Project/");
+			Assets::AssetImporter::ImportAssets(PathManager::GetAssetsPath(), "Assets/");
 		}
 		eclipseRuntime.LateStart();
 
 
 
-		if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
+		//if (std::filesystem::exists(PathManager::GetGameDllBuildPath() / "Game.dll")) GameLoader::LoadGameDLL();
 
-		try
-		{
 			SceneManager::LoadScene(Settings::EditorSettings::GetLastActiveScene());
-		}
-		catch (std::exception e)
-		{
-			// The scene has been removed.
-		}
+		
 
 		//ComponentManager::Get().Init();
 	}
@@ -145,8 +135,6 @@ namespace Eclipse::Editor
 		// else SaveOnce = false;
 
 		eclipseRuntime.EndFrame();
-
-		ComponentManager::CommitDestroy();
 	}
 
 
@@ -176,8 +164,6 @@ namespace Eclipse::Editor
 				isPlaying = true;
 				isPaused = false;
 
-				SteamGeneral::Get().Init();
-
 				if (SceneManager::GetActiveSceneType() == SceneManager::Default)
 					SceneManager::SaveActiveScene();
 				else if (SceneManager::GetActiveSceneType() == SceneManager::Prefab)
@@ -206,12 +192,6 @@ namespace Eclipse::Editor
 			{
 				isPlaying = false;
 				isPaused = false;
-
-#ifdef ECLIPSED_NETWORKING
-				Replication::ReplicationManager::CloseConnection("Disconnect : Quit Game");
-#endif
-
-				SteamGeneral::Get().ShutDown();
 
 				if (SceneManager::GetActiveSceneType() == SceneManager::Default)
 					SceneManager::ReloadActiveScene();

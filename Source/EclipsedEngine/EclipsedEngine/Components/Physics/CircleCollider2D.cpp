@@ -10,7 +10,7 @@ namespace Eclipse
 {
 	void CircleCollider2D::CreateCollider()
 	{
-		PhysicsEngine::CreateCircleCollider(myInternalCollider, myBodyRef, myInternalRadius, myLayer);
+		PhysicsEngine::CreateCircleCollider(myInternalCollider, myBodyRef, isTrigger, myInternalRadius, myLayer);
 
 		OnTransformDirty();
 	}

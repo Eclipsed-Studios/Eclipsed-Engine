@@ -10,7 +10,7 @@ namespace Eclipse
 {
 	void CapsuleCollider2D::CreateCollider()
 	{
-		PhysicsEngine::CreateCapsuleCollider(myInternalCollider, myBodyRef, Radius, HalfHeight, myLayer);
+		PhysicsEngine::CreateCapsuleCollider(myInternalCollider, myBodyRef, isTrigger, Radius, HalfHeight, myLayer);
 
 		OnTransformDirty();
 	}

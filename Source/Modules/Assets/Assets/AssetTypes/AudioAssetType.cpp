@@ -3,7 +3,6 @@
 #include "fmod/fmod.hpp"
 #include "Core/MainSingleton.h"
 
-#include "MetaData/Data/AudioMeta.h"
 
 namespace Eclipse::Assets
 {
@@ -36,25 +35,6 @@ namespace Eclipse::Assets
 		float frequency;
 		sound->getDefaults(&frequency, nullptr);
 
-		switch (format)
-		{
-		case FMOD_SOUND_FORMAT_PCM16:
-			audio.Format = AudioFormat::PCM16;
-			audio.Storage = AudioStorage::PCM;
-			break;
-
-		case FMOD_SOUND_FORMAT_PCMFLOAT:
-			audio.Format = AudioFormat::PCM32F;
-			audio.Storage = AudioStorage::PCM;
-			break;
-
-		default:
-			audio.Storage = AudioStorage::Compressed;
-			break;
-		}
-
-
-
 		audio.SampleRate = static_cast<uint32_t>(frequency);
 		audio.Channels = static_cast<uint16_t>(channels);
 
@@ -70,21 +50,105 @@ namespace Eclipse::Assets
 			&len1, &len2
 		);
 
-		audio.FrameCount = (len1 + len2) / (audio.Channels * sizeof(short));
-
-		audio.Data.resize(len1 + len2);
-
-		memcpy(audio.Data.data(), ptr1, len1);
+		std::vector<unsigned char> rawData(len1 + len2);
+		memcpy(rawData.data(), ptr1, len1);
 
 		if (ptr2 && len2 > 0)
 		{
-			memcpy(audio.Data.data() + len1, ptr2, len2);
+			memcpy(rawData.data() + len1, ptr2, len2);
 		}
 
 		sound->unlock(ptr1, ptr2, len1, len2);
-
 		sound->release();
 
+		// FMOD_CREATESAMPLE always decodes to raw PCM, never to a compressed
+		// buffer, so every branch below must produce PCM16 or PCM32F data -
+		// anything stored with a mismatched Format/bit-depth pair gets
+		// misread by exinfo.format on load (e.g. 8-bit samples read back as
+		// 16-bit halves the apparent sample count and doubles playback speed).
+		switch (format)
+		{
+		case FMOD_SOUND_FORMAT_PCM16:
+		{
+			audio.Format = AudioFormat::PCM16;
+			audio.Storage = AudioStorage::PCM;
+			audio.Data = std::move(rawData);
+			break;
+		}
+
+		case FMOD_SOUND_FORMAT_PCMFLOAT:
+		{
+			audio.Format = AudioFormat::PCM32F;
+			audio.Storage = AudioStorage::PCM;
+			audio.Data = std::move(rawData);
+			break;
+		}
+
+		case FMOD_SOUND_FORMAT_PCM8:
+		{
+			// Unsigned 8-bit, silence = 128.
+			audio.Format = AudioFormat::PCM16;
+			audio.Storage = AudioStorage::PCM;
+
+			size_t sampleCount = rawData.size();
+			audio.Data.resize(sampleCount * sizeof(int16_t));
+			int16_t* out = reinterpret_cast<int16_t*>(audio.Data.data());
+			for (size_t i = 0; i < sampleCount; ++i)
+			{
+				out[i] = static_cast<int16_t>((static_cast<int>(rawData[i]) - 128) << 8);
+			}
+			break;
+		}
+
+		case FMOD_SOUND_FORMAT_PCM24:
+		{
+			// Signed 24-bit little-endian, 3 bytes per sample.
+			audio.Format = AudioFormat::PCM16;
+			audio.Storage = AudioStorage::PCM;
+
+			size_t sampleCount = rawData.size() / 3;
+			audio.Data.resize(sampleCount * sizeof(int16_t));
+			int16_t* out = reinterpret_cast<int16_t*>(audio.Data.data());
+			for (size_t i = 0; i < sampleCount; ++i)
+			{
+				int32_t sample24 = (rawData[i * 3 + 0]) |
+					(rawData[i * 3 + 1] << 8) |
+					(rawData[i * 3 + 2] << 16);
+				if (sample24 & 0x800000)
+					sample24 |= ~0xFFFFFF;
+
+				out[i] = static_cast<int16_t>(sample24 >> 8);
+			}
+			break;
+		}
+
+		case FMOD_SOUND_FORMAT_PCM32:
+		{
+			// Signed 32-bit little-endian.
+			audio.Format = AudioFormat::PCM16;
+			audio.Storage = AudioStorage::PCM;
+
+			size_t sampleCount = rawData.size() / sizeof(int32_t);
+			audio.Data.resize(sampleCount * sizeof(int16_t));
+			const int32_t* in = reinterpret_cast<const int32_t*>(rawData.data());
+			int16_t* out = reinterpret_cast<int16_t*>(audio.Data.data());
+			for (size_t i = 0; i < sampleCount; ++i)
+			{
+				out[i] = static_cast<int16_t>(in[i] >> 16);
+			}
+			break;
+		}
+
+		default:
+			audio.Storage = AudioStorage::Compressed;
+			audio.Data = std::move(rawData);
+			break;
+		}
+
+		size_t bytesPerSample = (audio.Format == AudioFormat::PCM32F) ? sizeof(float) : sizeof(int16_t);
+		audio.FrameCount = audio.Channels > 0
+			? static_cast<unsigned int>(audio.Data.size() / (audio.Channels * bytesPerSample))
+			: 0;
 
 		return audio;
 	}

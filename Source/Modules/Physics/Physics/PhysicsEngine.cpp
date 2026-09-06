@@ -7,8 +7,11 @@
 #undef min
 namespace Eclipse
 {
-    std::function<void(UserData&)> PhysicsEngine::myBeginContactCallback;
-    std::function<void(UserData&)> PhysicsEngine::myEndContactCallback;
+    std::function<void(UserData&, UserData&)> PhysicsEngine::myBeginContactCallback;
+    std::function<void(UserData&, UserData&)> PhysicsEngine::myEndContactCallback;
+
+    std::function<void(UserData&, UserData&)> PhysicsEngine::myBeginTriggerCallback;
+    std::function<void(UserData&, UserData&)> PhysicsEngine::myEndTriggerCallback;
 
     std::array<uint64_t, MAX_LAYERS> PhysicsEngine::myCollisionLayers = {};
 
@@ -21,6 +24,11 @@ namespace Eclipse
     bool PhysicsEngine::myDrawQueries = false;
 
     bool PhysicsEngine::myHasCreatedWorld;
+
+    void Eclipse::PhysicsEngine::ProcessContactEvents()
+    {
+
+    }
 
     void PhysicsEngine::SetGravity(const Math::Vector2f& aGravity)
     {
@@ -54,9 +62,16 @@ namespace Eclipse
 
     void PhysicsEngine::InitWorld()
     {
+
         b2WorldDef worldDef;
         worldDef = b2DefaultWorldDef();
         worldDef.gravity = b2Vec2(myGravity.x, myGravity.y);
+
+        worldDef.contactHertz = 240.f;
+
+        worldDef.enableContinuous = true;
+
+        b2SetLengthUnitsPerMeter(0.01f);
 
         myWorld = b2CreateWorld(&worldDef);
 
@@ -74,13 +89,15 @@ namespace Eclipse
         myGravity = aGravity;
         myDebugDraw = std::move(aDebugdraw);
 
+        myDebugDraw.drawShapes = true;
+
         InitWorld();
     }
 
     void PhysicsEngine::LoadLayers()
     {
         LoadLayersFromJSON(myCollisionLayers);
-    }
+    } 
 
     void PhysicsEngine::CleanUp()
     {
@@ -92,8 +109,7 @@ namespace Eclipse
 
     void PhysicsEngine::Update()
     {
-        const float deltaTime = 0.f;
-        //const float deltaTime = Time::GetDeltaTime();
+        const float deltaTime = Core::Timer::GetDeltaTime();
 
         b2World_Step(myWorld, deltaTime, mySubstepCount);
 
