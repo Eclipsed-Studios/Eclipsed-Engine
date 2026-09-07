@@ -27,7 +27,7 @@ namespace Eclipse::Assets
         bool IsEmpty() const;
     };
 
-    struct GUIDHash
+    struct ECL_API GUIDHash
     {
         std::size_t operator()(const GUID& guid) const
         {

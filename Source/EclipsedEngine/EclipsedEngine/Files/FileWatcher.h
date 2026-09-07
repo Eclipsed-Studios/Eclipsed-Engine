@@ -8,6 +8,8 @@
 #include <mutex>
 #include <filesystem>
 
+#include "EclipsedEngine.Core.hpp"
+
 namespace Eclipse::Editor
 {
 	enum class EventType : unsigned
@@ -41,7 +43,7 @@ namespace Eclipse::Editor
 		}
 	};
 
-	class FileWatcher final
+	class ECL_API FileWatcher final
 	{
 	public:
 		FileWatcher() = delete;

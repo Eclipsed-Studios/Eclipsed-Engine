@@ -33,10 +33,10 @@ namespace Eclipse
 
 		//PluginManager::Compile("C:/Users/zulto/Desktop/GamePlugin");
 
-		//GameObject* gameobject = ComponentManager::CreateGameObject();
+		GameObject* gameobject = ComponentManager::CreateGameObject();
 
-		//gameobject->AddComponent<Transform2D>();
-		//gameobject->AddComponent<SpriteRenderer2D>();
+		gameobject->AddComponent<Transform2D>();
+		gameobject->AddComponent<SpriteRenderer2D>();
 
 		ImGui_Init();
 	}

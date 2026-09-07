@@ -3,12 +3,13 @@
 #include "Vector/Vector4.h"
 
 #include "cereal/cereal.hpp"
+#include "EclipsedEngine.Core.hpp"
 
 namespace Eclipse::Math
 {
 	constexpr float oneOver255 = 1.f / 255.f;
 
-	class Color final
+	class ECL_API Color final
 	{
 	public:
 		Color() = default;

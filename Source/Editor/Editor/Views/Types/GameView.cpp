@@ -1,4 +1,4 @@
-#include "InspectorView.h"
+#include "GameView.h"
 
 namespace Eclipse::Editor
 {

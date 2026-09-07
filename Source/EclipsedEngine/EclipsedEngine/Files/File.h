@@ -3,9 +3,11 @@
 #include <string>
 #include <fstream>
 
+#include "EclipsedEngine.Core.hpp"
+
 namespace Eclipse::Utilities
 {
-	class File final
+	class ECL_API File final
 	{
 	public:
 		File() = default;

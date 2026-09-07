@@ -14,7 +14,7 @@ namespace Eclipse::Assets
     /// <summary>
     /// Editor class stores the source files and tracks changes in them.
     /// </summary>
-    class AssetDatabase
+    class ECL_API AssetDatabase
     {
     public:
         AssetDatabase() = default;

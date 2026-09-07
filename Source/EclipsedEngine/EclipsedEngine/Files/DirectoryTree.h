@@ -4,10 +4,11 @@
 #include <vector>
 
 #include "FileInfo.h"
+#include "EclipsedEngine.Core.hpp"
 
 namespace Eclipse::Utilities
 {
-	struct FileNode
+	struct ECL_API FileNode
 	{
 		FileInfo info;
 		std::vector<FileNode*> children;
@@ -16,7 +17,7 @@ namespace Eclipse::Utilities
 		bool isOpen = false;
 	};
 
-	class DirectoryTree final
+	class ECL_API DirectoryTree final
 	{
 	public:
 		DirectoryTree() = default;

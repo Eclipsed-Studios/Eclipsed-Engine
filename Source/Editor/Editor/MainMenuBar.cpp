@@ -69,9 +69,14 @@ namespace Eclipse::Editor
 
 		ImGui::Dummy({ 100, 0 });
 
-		if (ImGui::Button("Save New"))
+		if (ImGui::Button("Save New 1"))
 		{
-			EditorLayout::SaveNewLayout("Simon");
+			EditorLayout::SaveNewLayout("1");
+		}
+
+		if (ImGui::Button("Save New 2"))
+		{
+			EditorLayout::SaveNewLayout("2");
 		}
 	}
 }

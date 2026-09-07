@@ -32,12 +32,6 @@ namespace Eclipse
 	class Component;
 	class ECL_API ComponentManager
 	{
-		friend class Editor::EditorActions;
-		friend class Editor::HierarchyWindow;
-		friend class Editor::GameObjectInspector;
-		friend class Editor::InspectorWindow;
-		friend class SceneLoader;
-
 	public:
 		template<typename T>
 		struct FloatVectorContainer
@@ -133,6 +127,12 @@ namespace Eclipse
 		static GameObject* CreateGameObject();
 
 		static void Clear();
+
+	public:
+		static const std::unordered_map<unsigned, GameObject*>& GetIDToGameObject()
+		{
+			return myEntityIdToEntity;
+		}
 
 	private:
 		static std::function<void(Component*)> CreateComponentReplicated;

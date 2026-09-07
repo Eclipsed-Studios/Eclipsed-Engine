@@ -11,6 +11,7 @@ namespace Eclipse::Editor
 	{
 		~EditorViewInstance()  
 		{
+			view->OnClose();
 			delete view;
 		}
 

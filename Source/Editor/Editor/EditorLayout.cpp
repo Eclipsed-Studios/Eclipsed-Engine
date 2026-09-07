@@ -1,7 +1,10 @@
 #include "EditorLayout.h"
 
 #include "Views/Types/AssetBrowserView.h"
-#include "Views/Types/InspectorView.h"
+#include "Views/Types/Inspector/InspectorView.h"
+#include "Views/Types/GameView.h"
+#include "Views/Types/SceneView.h"
+#include "Views/Types/HierarchyView.h"
 
 #include <regex>
 #include "ImGui/imgui.h"
@@ -13,10 +16,33 @@
 
 namespace Eclipse::Editor
 {
+	void EditorLayout::RegisterViewTypes()
+	{
+		registry.RegisterView<AssetBrowserView>();
+		registry.RegisterView<InspectorView>();
+		registry.RegisterView<GameView>();
+		registry.RegisterView<SceneView>();
+		registry.RegisterView<HierarchyView>();
+	}
+
+
 	void EditorLayout::Init()
 	{
 		EditorLayout::RegisterViewTypes();
 
+		if (std::filesystem::exists("CurrentLayout.layout"))
+		{
+			LoadLayout("CurrentLayout.layout");
+		}
+		else
+		{
+			LoadLayoutFromMemory(DefaultLayout);
+		}
+	}
+
+	void EditorLayout::Shutdown()
+	{
+		SaveLayout("CurrentLayout.layout");
 	}
 
 	void EditorLayout::EndFrame()
@@ -26,7 +52,6 @@ namespace Eclipse::Editor
 
 	void EditorLayout::Draw()
 	{
-		// Clear views to close.
 		for (auto it = activeViews.begin(); it < activeViews.end();)
 		{
 			EditorViewInstance* instance = *it;
@@ -43,7 +68,8 @@ namespace Eclipse::Editor
 			++it;
 		}
 
-		Internal_OpenLayout();
+		if (!layoutToOpen.empty())
+			LoadLayout(layoutToOpen.c_str());
 
 		ImGui::DockSpaceOverViewport(
 			1,
@@ -65,13 +91,7 @@ namespace Eclipse::Editor
 
 	void EditorLayout::OpenLayout(std::string_view layoutName)
 	{
-		layoutNameToopen = layoutName;
-	}
-
-	void EditorLayout::RegisterViewTypes()
-	{
-		registry.RegisterView<AssetBrowserView>();
-		registry.RegisterView<InspectorView>();
+		layoutName = layoutName;
 	}
 
 	void EditorLayout::OpenView(std::string_view viewName, int id)
@@ -81,6 +101,8 @@ namespace Eclipse::Editor
 
 		EditorViewInstance* instance = type->create(id);
 		activeViews.push_back(instance);
+
+		instance->view->OnOpen();
 	}
 
 	EditorViewRegistry& EditorLayout::GetViewRegistry()
@@ -88,54 +110,83 @@ namespace Eclipse::Editor
 		return registry;
 	}
 
-	
-
-	void EditorLayout::Internal_OpenLayout()
+	bool EditorLayout::LoadLayout(const char* layout)
 	{
-		if (!layoutNameToopen.empty())
+		if (LoadLayoutFromMemory(layout)) return true;
+		else if (LoadLayoutFromDisk(layout)) return true;
+		else if (LoadLayoutFromProject(layout)) return true;
+		else return false;
+	}
+
+	bool EditorLayout::LoadLayoutFromMemory(const char* layout)
+	{
+		rapidjson::Document doc;
+		if (doc.Parse(layout).HasParseError())
+			return false;
+
+		if (!doc.HasMember("ini") || !doc["ini"].IsString())
+			return false;
+
+		const std::string ini = doc["ini"].GetString();
+
+		if (!doc.HasMember("views") && !doc["views"].IsArray())
+			return false;
+
+		const rapidjson::Value& views = doc["views"];
+
+		for (rapidjson::SizeType i = 0; i < views.Size(); ++i)
 		{
-			for (EditorViewInstance* instance : activeViews)
-			{
-				ImGui::ClearWindowSettings(instance->idString.c_str());
-				delete instance;
-			}
+			const rapidjson::Value& view = views[i];
 
-			activeViews.clear();
+			if (!view.IsObject())
+				return false;
 
-			std::string path = (PathManager::GetProjectPath() / "Editor/Layouts" / layoutNameToopen).generic_string() + ".layout";
+			if (!view.HasMember("name") || !view["name"].IsString())
+				return false;
+
+			if (!view.HasMember("id") || !view["id"].IsInt())
+				return false;
+
+			const int id = view["id"].GetInt();
+			const std::string name = view["name"].GetString();
+
+			OpenView(name, id);
+		}
+
+		ImGui::LoadIniSettingsFromMemory(ini.c_str(), ini.size());
+		return true;
+	}
+
+	bool EditorLayout::LoadLayoutFromDisk(const char* path)
+	{
+		if (!path || !std::filesystem::exists(path))
+			return false;
+
+		if (strcmp(path, "CurrentLayout.layout"))
+		{
 			std::filesystem::copy_file(
 				path,
 				"CurrentLayout.layout",
 				std::filesystem::copy_options::overwrite_existing
 			);
-
-			std::ifstream file("CurrentLayout.layout", std::ios::binary);
-			std::string content = {
-				std::istreambuf_iterator<char>(file),
-				std::istreambuf_iterator<char>()
-			};
-
-			std::regex pattern(R"(\[Window\]\[([^#]*)(?:##(.*))?\])");
-			for (std::sregex_iterator it(content.begin(), content.end(), pattern);
-				it != std::sregex_iterator();
-				++it)
-			{
-				std::string id = (*it)[2].str();
-				std::string name = (*it)[1].str();
-
-				int idValue = 0;
-				auto [ptr, ec] = std::from_chars(
-					id.data(),
-					id.data() + id.size(),
-					idValue
-				);
-
-				OpenView(name, idValue);
-			}
-
-			ImGui::LoadIniSettingsFromDisk("CurrentLayout.layout");
-			layoutNameToopen.clear();
 		}
+
+		std::ifstream file("CurrentLayout.layout", std::ios::binary);
+		std::string content = {
+			std::istreambuf_iterator<char>(file),
+			std::istreambuf_iterator<char>()
+		};
+
+		return LoadLayoutFromMemory(content.c_str());
+	}
+
+	bool EditorLayout::LoadLayoutFromProject(const char* layoutName)
+	{
+		const std::filesystem::path path = PathManager::GetProjectPath() / "Editor" / "Layouts" / (std::string(layoutName) + ".layout");
+		if (std::filesystem::exists(path))
+			return false;
+
+		return LoadLayoutFromDisk(path.generic_string().c_str());
 	}
 
 
@@ -145,24 +196,51 @@ namespace Eclipse::Editor
 
 
 
-	void EditorLayout::SaveNewLayout(std::string_view layoutName)
+	void EditorLayout::SaveLayout(const char* layoutPath)
 	{
 		rapidjson::Document doc;
 		doc.SetObject();
 
 		auto& alloc = doc.GetAllocator();
 
+		const char* ini = ImGui::SaveIniSettingsToMemory();
+
 		doc.AddMember(
-			"name",
-			rapidjson::Value(layoutName.data(), alloc),
+			"ini",
+			rapidjson::Value(ini, alloc),
 			alloc
 		);
+
+		rapidjson::Value openViews(rapidjson::kArrayType);
+
+		rapidjson::Value views(rapidjson::kArrayType);
+
+		for (auto* view : activeViews)
+		{
+			rapidjson::Value obj(rapidjson::kObjectType);
+
+			obj.AddMember("name",
+				rapidjson::Value(view->view->GetName(), alloc),
+				alloc);
+
+			obj.AddMember("id", view->id, alloc);
+
+			views.PushBack(obj, alloc);
+		}
+
+		doc.AddMember("views", views, alloc);
 
 		rapidjson::StringBuffer buffer;
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
 		doc.Accept(writer);
 
-		std::ofstream file((PathManager::GetProjectPath() / "Editor/Layouts" / layoutNameToopen).generic_string() + ".layout");
+		std::ofstream file(layoutPath);
 		file << buffer.GetString();
+	}
+
+	void EditorLayout::SaveNewLayout(std::string_view layoutName)
+	{
+		const std::string path = (PathManager::GetProjectPath() / "Editor/Layouts" / layoutName).generic_string() + ".layout";
+		SaveLayout(path.c_str());
 	}
 }

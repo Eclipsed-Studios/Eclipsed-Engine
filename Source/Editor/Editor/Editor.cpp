@@ -27,6 +27,11 @@ namespace Eclipse::Editor
 		EditorLayout::Init();
 	}
 
+	void Editor::Shutdown()
+	{
+		EditorLayout::Shutdown();
+	}
+
 	void Editor::BeginFrame()
 	{
 

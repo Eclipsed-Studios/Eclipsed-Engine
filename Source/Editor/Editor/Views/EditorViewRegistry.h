@@ -40,12 +40,12 @@ namespace Eclipse::Editor
 				if (id == -1)  instance->id = Random::Rand<int>();
 				else instance->id = id;
 
+				instance->view = new T;
 				instance->idString =
 					std::string(instance->view->GetName()) +
 					"##" +
 					std::to_string(instance->id);
 
-				instance->view = new T;
 				return instance;
 			};
 

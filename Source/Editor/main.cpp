@@ -31,6 +31,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		editor.EndFrame();
 		engine.EndFrame();
 	}
+
+	editor.Shutdown();
 }
 
 // Write imgui stuff to test here.

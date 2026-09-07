@@ -1,10 +1,11 @@
 #pragma once
 
 #include <filesystem>
+#include "EclipsedEngine.Core.hpp"
 
 namespace Eclipse::Utilities
 {
-	struct FileInfo
+	struct ECL_API FileInfo
 	{
 		enum FileType_
 		{

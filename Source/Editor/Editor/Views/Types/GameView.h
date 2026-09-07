@@ -4,9 +4,9 @@
 
 namespace Eclipse::Editor
 {
-	class InspectorView : public EditorView<InspectorView>
+	class GameView : public EditorView<GameView>
 	{
-		BASIC_VIEW("Inspector")
+		BASIC_VIEW("Game")
 
 	public:
 		void Draw() override {}

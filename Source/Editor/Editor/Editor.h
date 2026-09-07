@@ -6,6 +6,7 @@ namespace Eclipse::Editor
 	{
 	public:
 		void Init(void* imguiCtx);
+		void Shutdown();
 
 		void BeginFrame();
 		void Render();
